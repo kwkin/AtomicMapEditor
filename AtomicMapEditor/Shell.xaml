@@ -9,14 +9,33 @@
         Title="MainWindow"
         Height="350"
         Width="525">
-    <ItemsControl x:Name="DockRegion"
-                  Grid.Row="0"
-                  Grid.Column="0"
-                  prism:RegionManager.RegionName="{x:Static inf:RegionNames.EditorRegion}">
-        <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-                <Grid />
-            </ItemsPanelTemplate>
-        </ItemsControl.ItemsPanel>
-    </ItemsControl>
+    <Grid HorizontalAlignment="Stretch"
+          VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <ItemsControl x:Name="MenuRegion"
+                      Grid.Row="0"
+                      Grid.Column="0"
+                      prism:RegionManager.RegionName="{x:Static inf:RegionNames.MenuRegion}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+        
+        <ItemsControl x:Name="DockRegion"
+                      Grid.Row="1"
+                      Grid.Column="0"
+                      prism:RegionManager.RegionName="{x:Static inf:RegionNames.EditorRegion}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+    </Grid>
 </Window>

@@ -2,6 +2,8 @@
 using System.Windows;
 using AtomicMapEditor.Modules.MapEditor;
 using AtomicMapEditor.Modules.MapEditor.Editor;
+using AtomicMapEditor.Modules.Menu;
+using AtomicMapEditor.Modules.Menu.Options;
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
 using Prism.Mvvm;
@@ -16,6 +18,8 @@ namespace AtomicMapEditor
             Type canvasEditorModule = typeof(MapEditorModules);
             this.ModuleCatalog.AddModule(new ModuleInfo(canvasEditorModule.Name, canvasEditorModule.AssemblyQualifiedName));
 
+            Type menuModule = typeof(MenuModule);
+            this.ModuleCatalog.AddModule(new ModuleInfo(menuModule.Name, menuModule.AssemblyQualifiedName));
         }
 
         protected override DependencyObject CreateShell()
@@ -35,6 +39,7 @@ namespace AtomicMapEditor
         {
             base.ConfigureViewModelLocator();
 
+            ViewModelLocationProvider.Register<MenuOptions, MenuOptionsViewModel>();
             ViewModelLocationProvider.Register<MainEditor, MainEditorViewModel>();
         }
     }

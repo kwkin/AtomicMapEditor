@@ -88,3 +88,7 @@ AtomicMapEditor\.Docks/obj/Debug/
 AtomicMapEditor\.Components/obj/Debug/
 
 AtomicMapEditor\.Components/bin/Debug/
+
+AtomicMapEditor\.Modules\.Menu/obj/Debug/
+
+AtomicMapEditor\.Modules\.Menu/bin/Debug/

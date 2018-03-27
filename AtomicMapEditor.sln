@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtomicMapEditor.Modules.Doc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtomicMapEditor.Components", "AtomicMapEditor.Components\AtomicMapEditor.Components.csproj", "{AE7E3265-B5CF-464A-80B2-415FF1CF9C6C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtomicMapEditor.Modules.Menu", "AtomicMapEditor.Modules.Menu\AtomicMapEditor.Modules.Menu.csproj", "{8CBB4913-30EE-404D-AF70-7ED0F565CB63}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{AE7E3265-B5CF-464A-80B2-415FF1CF9C6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE7E3265-B5CF-464A-80B2-415FF1CF9C6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE7E3265-B5CF-464A-80B2-415FF1CF9C6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CBB4913-30EE-404D-AF70-7ED0F565CB63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CBB4913-30EE-404D-AF70-7ED0F565CB63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CBB4913-30EE-404D-AF70-7ED0F565CB63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CBB4913-30EE-404D-AF70-7ED0F565CB63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -54,5 +60,6 @@ Global
 		{B0CAEBFF-8493-4D50-85F0-5A2D48396359} = {25A04702-6B3E-45B8-8707-835FFD9227EF}
 		{47031565-69B8-4C7B-8077-B2FC0D9966D1} = {25A04702-6B3E-45B8-8707-835FFD9227EF}
 		{AE7E3265-B5CF-464A-80B2-415FF1CF9C6C} = {F8EA4AED-188B-4439-ACD1-9C3E6EE81112}
+		{8CBB4913-30EE-404D-AF70-7ED0F565CB63} = {25A04702-6B3E-45B8-8707-835FFD9227EF}
 	EndGlobalSection
 EndGlobal
