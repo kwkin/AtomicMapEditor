@@ -13,6 +13,7 @@
           VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         
@@ -26,9 +27,20 @@
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
         </ItemsControl>
-        
-        <ItemsControl x:Name="DockRegion"
+
+        <ItemsControl x:Name="RibbonRegion"
                       Grid.Row="1"
+                      Grid.Column="0"
+                      prism:RegionManager.RegionName="{x:Static inf:RegionNames.RibbonRegion}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+
+        <ItemsControl x:Name="DockRegion"
+                      Grid.Row="2"
                       Grid.Column="0"
                       prism:RegionManager.RegionName="{x:Static inf:RegionNames.EditorRegion}">
             <ItemsControl.ItemsPanel>
