@@ -3,10 +3,20 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:AtomicMapEditor"
+        xmlns:prism="http://prismlibrary.com/"
+        xmlns:inf="clr-namespace:AtomicMapEditor.Infrastructure.Core;assembly=AtomicMapEditor.Infrastructure"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        Title="MainWindow"
+        Height="350"
+        Width="525">
+    <ItemsControl x:Name="DockRegion"
+                  Grid.Row="0"
+                  Grid.Column="0"
+                  prism:RegionManager.RegionName="{x:Static inf:RegionNames.EditorRegion}">
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <Grid />
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+    </ItemsControl>
 </Window>
