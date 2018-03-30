@@ -83,6 +83,7 @@
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\MouseEventToPointConverter.cs" />
     <Compile Include="Core\RegionNames.cs" />
+    <Compile Include="Events\OpenDockEvent.cs" />
     <Compile Include="Models\ScaleType.cs" />
     <Compile Include="Models\ZoomLevel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

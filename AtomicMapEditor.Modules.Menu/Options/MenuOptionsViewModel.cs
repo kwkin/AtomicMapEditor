@@ -2,7 +2,9 @@
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Windows.Input;
+using AtomicMapEditor.Infrastructure.Events;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 
 namespace AtomicMapEditor.Modules.Menu.Options
@@ -11,6 +13,7 @@ namespace AtomicMapEditor.Modules.Menu.Options
     {
         #region fields
 
+        private IEventAggregator ea;
         private ObservableCollection<MenuItem> _recentlyClosedDockItems = new ObservableCollection<MenuItem>();
         private ObservableCollection<MenuItem> _recentFileItems = new ObservableCollection<MenuItem>();
 
@@ -19,8 +22,14 @@ namespace AtomicMapEditor.Modules.Menu.Options
 
         #region constructor & destructer
 
-        public MenuOptionsViewModel()
+        public MenuOptionsViewModel(IEventAggregator eventAggregator)
         {
+            if (eventAggregator == null)
+            {
+                throw new ArgumentNullException("eventAggregator");
+            }
+            this.ea = eventAggregator;
+
             // File bindings
             this.NewFileCommand = new DelegateCommand(() => NewFile());
             this.OpenFileCommand = new DelegateCommand(() => OpenFile());
@@ -471,7 +480,8 @@ namespace AtomicMapEditor.Modules.Menu.Options
 
         public void OpenItemEditorDock()
         {
-            Console.WriteLine("Item Editor Dock");
+            OpenDockMessage dock = new OpenDockMessage(DockType.ItemEditor);
+            this.ea.GetEvent<OpenDockEvent>().Publish(dock);
         }
 
         public void OpenItemListDock()
