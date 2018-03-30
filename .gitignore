@@ -94,3 +94,11 @@ AtomicMapEditor\.Modules\.Menu/obj/Debug/
 AtomicMapEditor\.Modules\.Menu/bin/Debug/
 
 AtomicMapEditor\.Resources/obj/Debug/
+
+AtomicMapEditor\.Modules\.Docks/bin/Debug/
+
+AtomicMapEditor\.Infrastructure/bin/Debug/
+
+packages/Extended\.Wpf\.Toolkit\.3\.3\.0/Extended\.Wpf\.Toolkit\.3\.3\.0\.nupkg
+
+packages/Extended\.Wpf\.Toolkit\.3\.3\.0/tools/install\.ps1

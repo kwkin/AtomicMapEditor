@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows;
+using AtomicMapEditor.Modules.Docks;
+using AtomicMapEditor.Modules.Docks.Core;
 using AtomicMapEditor.Modules.MapEditor;
 using AtomicMapEditor.Modules.MapEditor.Editor;
 using AtomicMapEditor.Modules.Menu;
@@ -20,6 +22,9 @@ namespace AtomicMapEditor
 
             Type menuModule = typeof(MenuModule);
             this.ModuleCatalog.AddModule(new ModuleInfo(menuModule.Name, menuModule.AssemblyQualifiedName));
+
+            Type dockModule = typeof(DocksModule);
+            this.ModuleCatalog.AddModule(new ModuleInfo(dockModule.Name, dockModule.AssemblyQualifiedName));
         }
 
         protected override DependencyObject CreateShell()
@@ -41,6 +46,7 @@ namespace AtomicMapEditor
 
             ViewModelLocationProvider.Register<MenuOptions, MenuOptionsViewModel>();
             ViewModelLocationProvider.Register<MainEditor, MainEditorViewModel>();
+            ViewModelLocationProvider.Register<DockManager, DockManagerViewModel>();
         }
     }
 }

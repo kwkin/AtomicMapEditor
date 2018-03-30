@@ -42,7 +42,7 @@
         <ItemsControl x:Name="DockRegion"
                       Grid.Row="2"
                       Grid.Column="0"
-                      prism:RegionManager.RegionName="{x:Static inf:RegionNames.EditorRegion}">
+                      prism:RegionManager.RegionName="{x:Static inf:RegionNames.DockRegion}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid />

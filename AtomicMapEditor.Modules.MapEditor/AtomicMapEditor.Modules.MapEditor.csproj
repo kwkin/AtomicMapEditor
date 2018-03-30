@@ -112,10 +112,6 @@
       <Project>{9d27d8dc-5cd8-46d9-b702-efeb6d66f236}</Project>
       <Name>AtomicMapEditor.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AtomicMapEditor.Modules.Docks\AtomicMapEditor.Modules.Docks.csproj">
-      <Project>{47031565-69b8-4c7b-8077-b2fc0d9966d1}</Project>
-      <Name>AtomicMapEditor.Modules.Docks</Name>
-    </ProjectReference>
     <ProjectReference Include="..\AtomicMapEditor.Resources\AtomicMapEditor.Resources.csproj">
       <Project>{cbcd8c26-e73d-4c60-829c-f573edf4cceb}</Project>
       <Name>AtomicMapEditor.Resources</Name>

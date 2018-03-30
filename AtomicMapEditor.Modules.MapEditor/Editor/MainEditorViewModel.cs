@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using AtomicMapEditor.Infrastructure.BaseTypes;
 using AtomicMapEditor.Infrastructure.Models;
-using Prism.Mvvm;
 
 namespace AtomicMapEditor.Modules.MapEditor.Editor
 {
-    public class MainEditorViewModel : BindableBase
+    public class MainEditorViewModel : EditorViewModelTemplate
     {
         #region Constructor & destructor
 
         public MainEditorViewModel()
         {
+            this.Title = "Main Editor";
+
             this.ZoomLevels = new List<ZoomLevel>();
             this.ZoomLevels.Add(new ZoomLevel("12.5%", 0.125));
             this.ZoomLevels.Add(new ZoomLevel("25%", 0.25));
