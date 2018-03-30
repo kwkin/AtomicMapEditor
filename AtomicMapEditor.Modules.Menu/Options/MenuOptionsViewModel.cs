@@ -504,7 +504,8 @@ namespace AtomicMapEditor.Modules.Menu.Options
 
         public void OpenToolboxDock()
         {
-            Console.WriteLine("Toolbox Dock");
+            OpenDockMessage dock = new OpenDockMessage(DockType.Toolbox);
+            this.ea.GetEvent<OpenDockEvent>().Publish(dock);
         }
 
         public void OpenMinimapDock()

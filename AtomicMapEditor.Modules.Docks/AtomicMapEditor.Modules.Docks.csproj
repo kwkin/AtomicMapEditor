@@ -145,6 +145,40 @@
     </Compile>
     <Compile Include="LayerListDock\LayerListViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ToolboxDock\Toolbox.xaml.cs">
+      <DependentUpon>Toolbox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ToolboxDock\ToolboxBrushPanel.xaml.cs">
+      <DependentUpon>ToolboxBrushPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ToolboxDock\ToolboxCircleSelectionPanel.xaml.cs">
+      <DependentUpon>ToolboxCircleSelectionPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ToolboxDock\ToolboxFillPanel.xaml.cs">
+      <DependentUpon>ToolboxFillPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ToolboxDock\ToolboxFreeSelection.xaml.cs">
+      <DependentUpon>ToolboxFreeSelection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ToolboxDock\ToolboxPickerPanel.xaml.cs">
+      <DependentUpon>ToolboxPickerPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ToolboxDock\ToolboxRectangularSelectionPanel.xaml.cs">
+      <DependentUpon>ToolboxRectangularSelectionPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ToolboxDock\ToolboxSelectPanel.xaml.cs">
+      <DependentUpon>ToolboxSelectPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ToolboxDock\ToolboxStampPanel.xaml.cs">
+      <DependentUpon>ToolboxStampPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ToolboxDock\ToolboxTileCollisionPanel.xaml.cs">
+      <DependentUpon>ToolboxTileCollisionPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ToolboxDock\ToolboxTileSelectionPanel.xaml.cs">
+      <DependentUpon>ToolboxTileSelectionPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ToolboxDock\ToolboxViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -211,6 +245,50 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="LayerListDock\LayerListGroup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ToolboxDock\Toolbox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ToolboxDock\ToolboxBrushPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ToolboxDock\ToolboxCircleSelectionPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ToolboxDock\ToolboxFillPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ToolboxDock\ToolboxFreeSelection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ToolboxDock\ToolboxPickerPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ToolboxDock\ToolboxRectangularSelectionPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ToolboxDock\ToolboxSelectPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ToolboxDock\ToolboxStampPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ToolboxDock\ToolboxTileCollisionPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ToolboxDock\ToolboxTileSelectionPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

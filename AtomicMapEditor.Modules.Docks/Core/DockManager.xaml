@@ -10,6 +10,7 @@
              xmlns:itemlist="clr-namespace:AtomicMapEditor.Modules.Docks.ItemListDock"
              xmlns:clipboard="clr-namespace:AtomicMapEditor.Modules.Docks.ClipboardDock"
              xmlns:layerlist="clr-namespace:AtomicMapEditor.Modules.Docks.LayerListDock"
+             xmlns:toolbox="clr-namespace:AtomicMapEditor.Modules.Docks.ToolboxDock"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
@@ -47,6 +48,11 @@
                         <layerlist:LayerList />
                     </DataTemplate>
                 </basetype:DockTemplateSelector.LayerListDataTemplate>
+                <basetype:DockTemplateSelector.ToolboxDataTemplate>
+                    <DataTemplate>
+                        <toolbox:Toolbox />
+                    </DataTemplate>
+                </basetype:DockTemplateSelector.ToolboxDataTemplate>
             </basetype:DockTemplateSelector>
         </xcad:DockingManager.LayoutItemTemplateSelector>
 

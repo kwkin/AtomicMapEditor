@@ -5,6 +5,7 @@ using AtomicMapEditor.Modules.Docks.ClipboardDock;
 using AtomicMapEditor.Modules.Docks.ItemEditorDock;
 using AtomicMapEditor.Modules.Docks.ItemListDock;
 using AtomicMapEditor.Modules.Docks.LayerListDock;
+using AtomicMapEditor.Modules.Docks.ToolboxDock;
 using AtomicMapEditor.Modules.MapEditor.Editor;
 using Prism.Events;
 using Prism.Mvvm;
@@ -70,6 +71,10 @@ namespace AtomicMapEditor.Modules.Docks.Core
 
                 case DockType.LayerList:
                     dockViewModel = new LayerListViewModel();
+                    break;
+
+                case DockType.Toolbox:
+                    dockViewModel = new ToolboxViewModel();
                     break;
 
                 default:

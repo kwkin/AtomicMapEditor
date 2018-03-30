@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="AtomicMapEditor.Modules.Docks.ToolboxDock.ToolboxFillPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:extcomp="clr-namespace:AtomicMapEditor.Components.Extended;assembly=AtomicMapEditor.Components"
+             xmlns:conv="clr-namespace:AtomicMapEditor.Infrastructure.Converters;assembly=AtomicMapEditor.Infrastructure"
+             xmlns:local="clr-namespace:AtomicMapEditor.Modules.Docks.ToolboxDock"
+             mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <WrapPanel Grid.Row="0">
+            <extcomp:IconButton x:Name="eraserButton"
+                                ToolTip="Eraser: Erase tiles using the brush settings"
+                                ImageSource="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                ImageStretch="None">
+            </extcomp:IconButton>
+            <extcomp:IconButton x:Name="snapToGridButton"
+                                ToolTip="Snap to Grid: Snaps the tile to the grid"
+                                ImageSource="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                ImageStretch="None">
+            </extcomp:IconButton>
+            <extcomp:IconButton x:Name="editAllLayersButton"
+                                ToolTip="Edit All Layers: Affect all visible layers"
+                                ImageSource="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                ImageStretch="None">
+            </extcomp:IconButton>
+        </WrapPanel>
+
+        <Grid Grid.Row="1"
+              VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Label x:Name="fillAffectedLabel"
+                   Grid.Row="0"
+                   Grid.Column="0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   Content="Fill Affected:" />
+            <RadioButton x:Name="similarFillRadioButton"
+                         Grid.Row="0"
+                         Grid.Column="1"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Center"
+                         Content="Similar"
+                         GroupName="FillAffectedGroupName" />
+            <RadioButton x:Name="selectionFillRadioButton"
+                         Grid.Row="0"
+                         Grid.Column="2"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Center"
+                         Content="Selection"
+                         GroupName="SelectionAffectedGroupName" />
+        </Grid>
+    </Grid>
+</UserControl>

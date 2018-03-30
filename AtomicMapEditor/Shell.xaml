@@ -7,8 +7,8 @@
         xmlns:inf="clr-namespace:AtomicMapEditor.Infrastructure.Core;assembly=AtomicMapEditor.Infrastructure"
         mc:Ignorable="d"
         Title="MainWindow"
-        Height="350"
-        Width="525">
+        Height="800"
+        Width="1280">
     <Grid HorizontalAlignment="Stretch"
           VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
