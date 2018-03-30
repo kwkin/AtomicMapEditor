@@ -6,6 +6,8 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:extcomp="clr-namespace:AtomicMapEditor.Components.Extended;assembly=AtomicMapEditor.Components"
+             xmlns:basetype="clr-namespace:AtomicMapEditor.Infrastructure.BaseTypes;assembly=AtomicMapEditor.Infrastructure"
+             xmlns:models="clr-namespace:AtomicMapEditor.Infrastructure.Models;assembly=AtomicMapEditor.Infrastructure"
              mc:Ignorable="d" 
              d:DesignHeight="300" 
              d:DesignWidth="300">
@@ -83,7 +85,8 @@
                       Width="65"
                       VerticalAlignment="Center"
                       IsSynchronizedWithCurrentItem="True"
-                      SelectedItem="{Binding Scale, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                      SelectedItem="{Binding Scale, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      ItemsSource="{Binding Source={basetype:EnumBindingSourceExtension {x:Type models:ScaleType}}}">
             </ComboBox>
             <ComboBox x:Name="zoomComboBox"
                       Width="65"

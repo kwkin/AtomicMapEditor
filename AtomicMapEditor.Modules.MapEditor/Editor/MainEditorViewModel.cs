@@ -26,6 +26,7 @@ namespace AtomicMapEditor.Modules.MapEditor.Editor
             this.ZoomLevels.Add(new ZoomLevel("3200%", 32));
             this.ZoomLevels = this.ZoomLevels.OrderBy(f => f.zoom).ToList();
             this.ZoomIndex = 3;
+            this.Scale = ScaleType.Tile;
             this.PositionText = "0, 0";
         }
 
@@ -34,6 +35,7 @@ namespace AtomicMapEditor.Modules.MapEditor.Editor
 
         #region properties
 
+        public ScaleType Scale { get; set; }
         public String PositionText { get; set; }
         public List<ZoomLevel> ZoomLevels { get; set; }
         private int _ZoomIndex;
