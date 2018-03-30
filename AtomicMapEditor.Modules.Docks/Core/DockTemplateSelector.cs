@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using AtomicMapEditor.Modules.Docks.ClipboardDock;
 using AtomicMapEditor.Modules.Docks.ItemEditorDock;
 using AtomicMapEditor.Modules.Docks.ItemListDock;
+using AtomicMapEditor.Modules.Docks.LayerListDock;
 using AtomicMapEditor.Modules.MapEditor.Editor;
 using Xceed.Wpf.AvalonDock.Layout;
 
@@ -29,6 +30,7 @@ namespace AtomicMapEditor.Modules.Docks.Core
         public DataTemplate ClipboardDataTemplate { get; set; }
         public DataTemplate ItemEditorDataTemplate { get; set; }
         public DataTemplate ItemListDataTemplate { get; set; }
+        public DataTemplate LayerListDataTemplate { get; set; }
 
         public DataTemplate MainEditorTemplate { get; set; }
 
@@ -39,11 +41,12 @@ namespace AtomicMapEditor.Modules.Docks.Core
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
+            // TODO: add dock factory class for templates and styles.
             var itemAsLayoutContent = item as LayoutContent;
 
             if (item is ClipboardViewModel)
             {
-                return ItemEditorDataTemplate;
+                return ClipboardDataTemplate;
             }
             else if (item is ItemEditorViewModel)
             {
@@ -52,6 +55,10 @@ namespace AtomicMapEditor.Modules.Docks.Core
             else if (item is ItemListViewModel)
             {
                 return ItemListDataTemplate;
+            }
+            else if (item is LayerListViewModel)
+            {
+                return LayerListDataTemplate;
             }
             else if (item is MainEditorViewModel)
             {

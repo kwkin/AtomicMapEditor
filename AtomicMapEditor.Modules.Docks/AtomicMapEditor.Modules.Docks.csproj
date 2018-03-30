@@ -134,6 +134,16 @@
       <DependentUpon>ItemListGroup.xaml</DependentUpon>
     </Compile>
     <Compile Include="ItemListDock\ItemListViewModel.cs" />
+    <Compile Include="LayerListDock\LayerList.xaml.cs">
+      <DependentUpon>LayerList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LayerListDock\LayerListEntry.xaml.cs">
+      <DependentUpon>LayerListEntry.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LayerListDock\LayerListGroup.xaml.cs">
+      <DependentUpon>LayerListGroup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LayerListDock\LayerListViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -185,6 +195,22 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ItemListDock\ItemListGroup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LayerListDock\LayerList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LayerListDock\LayerListContextMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LayerListDock\LayerListEntry.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LayerListDock\LayerListGroup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

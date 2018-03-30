@@ -498,7 +498,8 @@ namespace AtomicMapEditor.Modules.Menu.Options
 
         public void OpenLayerListDock()
         {
-            Console.WriteLine("Layer List Dock");
+            OpenDockMessage dock = new OpenDockMessage(DockType.LayerList);
+            this.ea.GetEvent<OpenDockEvent>().Publish(dock);
         }
 
         public void OpenToolboxDock()
