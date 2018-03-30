@@ -125,14 +125,6 @@
                                       ZoomIndex="{Binding ZoomIndex}"
                                       ZoomLevels="{Binding ZoomLevels}">
             <Grid x:Name="scrollViewerGrid">
-                <i:Interaction.Triggers>
-                    <!--<i:EventTrigger EventName="MouseMove">
-                        <cmd:EventToCommand Command="{Binding UpdatePositionCommand, Mode=OneWay}"
-                                            EventArgsConverter="{StaticResource MouseEventToPointConverter}"
-                                            EventArgsConverterParameter="{Binding ElementName=itemImage}"
-                                            PassEventArgsToCommand="True" />
-                    </i:EventTrigger>-->
-                </i:Interaction.Triggers>
                 
                 <Grid.ContextMenu>
                     <ContextMenu>

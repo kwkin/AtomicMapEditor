@@ -79,6 +79,7 @@
     <Compile Include="BaseTypes\DockViewModelTemplate.cs" />
     <Compile Include="BaseTypes\EditorViewModelTemplate.cs" />
     <Compile Include="BaseTypes\EnumBindingSourceExtension.cs" />
+    <Compile Include="BaseTypes\EventToCommand.cs" />
     <Compile Include="Converters\EnumDescriptionTypeConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\MouseEventToPointConverter.cs" />

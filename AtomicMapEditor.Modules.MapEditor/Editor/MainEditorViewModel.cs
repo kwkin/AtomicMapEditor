@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
+using System.Windows.Input;
 using AtomicMapEditor.Infrastructure.BaseTypes;
 using AtomicMapEditor.Infrastructure.Models;
+using Prism.Commands;
 
 namespace AtomicMapEditor.Modules.MapEditor.Editor
 {
@@ -28,12 +31,16 @@ namespace AtomicMapEditor.Modules.MapEditor.Editor
             this.ZoomIndex = 3;
             this.Scale = ScaleType.Tile;
             this.PositionText = "0, 0";
+
+            this.UpdatePositionCommand = new DelegateCommand<object>(point => UpdatePosition((Point)point));
         }
 
         #endregion Constructor & destructor
 
 
         #region properties
+
+        public ICommand UpdatePositionCommand { get; private set; }
 
         public ScaleType Scale { get; set; }
         public String PositionText { get; set; }
@@ -46,5 +53,27 @@ namespace AtomicMapEditor.Modules.MapEditor.Editor
         }
 
         #endregion properties
+
+
+        #region methods
+
+        private void UpdatePosition(Point position)
+        {
+            Point transformedPosition = new Point(0, 0);
+            switch (Scale)
+            {
+                case ScaleType.Pixel:
+                    transformedPosition = position;
+                    break;
+
+                case ScaleType.Tile:
+                    transformedPosition = position;
+                    break;
+            }
+            this.PositionText = (Math.Floor(transformedPosition.X) + ", " + Math.Floor(transformedPosition.Y));
+            RaisePropertyChanged(nameof(this.PositionText));
+        }
+
+        #endregion methods
     }
 }
