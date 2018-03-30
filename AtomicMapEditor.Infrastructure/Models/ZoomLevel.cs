@@ -15,6 +15,12 @@ namespace AtomicMapEditor.Infrastructure.Models
 
         #region constructor & destructer
 
+        public ZoomLevel(double zoom)
+        {
+            this.description = String.Format("{0}%", zoom * 100);
+            this.zoom = zoom;
+        }
+
         public ZoomLevel(string description, double zoom)
         {
             this.description = description;

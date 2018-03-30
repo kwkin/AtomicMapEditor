@@ -16,6 +16,9 @@
     
     <UserControl.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/AtomicMApEditor.Modules.MapEditor;component/Editor/MainEditorContextMenu.xaml" />
+            </ResourceDictionary.MergedDictionaries>
             <conv:MouseEventToPointConverter x:Key="MouseEventToPointConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
@@ -41,6 +44,16 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
 
+                <Grid.ContextMenu>
+                    <ContextMenu>
+                        <ContextMenu.ItemsSource>
+                            <CompositeCollection>
+                                <CollectionContainer Collection="{StaticResource MainEditorContextMenu}" />
+                            </CompositeCollection>
+                        </ContextMenu.ItemsSource>
+                    </ContextMenu>
+                </Grid.ContextMenu>
+                
                 <Rectangle x:Name="selectionHitBox"
                            Stretch="Fill"
                            Fill="Transparent" />

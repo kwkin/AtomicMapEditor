@@ -82,7 +82,9 @@
     <Compile Include="BaseTypes\EventToCommand.cs" />
     <Compile Include="Converters\EnumDescriptionTypeConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\DoubleToZoomLevelConverter.cs" />
     <Compile Include="Converters\MouseEventToPointConverter.cs" />
+    <Compile Include="Converters\NullableValueConverter.cs" />
     <Compile Include="Core\RegionNames.cs" />
     <Compile Include="Events\OpenDockEvent.cs" />
     <Compile Include="Models\ScaleType.cs" />

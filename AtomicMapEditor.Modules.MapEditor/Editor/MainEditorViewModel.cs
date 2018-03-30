@@ -18,21 +18,24 @@ namespace AtomicMapEditor.Modules.MapEditor.Editor
             this.Title = "Main Editor";
 
             this.ZoomLevels = new List<ZoomLevel>();
-            this.ZoomLevels.Add(new ZoomLevel("12.5%", 0.125));
-            this.ZoomLevels.Add(new ZoomLevel("25%", 0.25));
-            this.ZoomLevels.Add(new ZoomLevel("50%", 0.5));
-            this.ZoomLevels.Add(new ZoomLevel("100%", 1));
-            this.ZoomLevels.Add(new ZoomLevel("200%", 2));
-            this.ZoomLevels.Add(new ZoomLevel("400%", 4));
-            this.ZoomLevels.Add(new ZoomLevel("800%", 8));
-            this.ZoomLevels.Add(new ZoomLevel("1600%", 16));
-            this.ZoomLevels.Add(new ZoomLevel("3200%", 32));
+            this.ZoomLevels.Add(new ZoomLevel(0.125));
+            this.ZoomLevels.Add(new ZoomLevel(0.25));
+            this.ZoomLevels.Add(new ZoomLevel(0.5));
+            this.ZoomLevels.Add(new ZoomLevel(1));
+            this.ZoomLevels.Add(new ZoomLevel(2));
+            this.ZoomLevels.Add(new ZoomLevel(4));
+            this.ZoomLevels.Add(new ZoomLevel(8));
+            this.ZoomLevels.Add(new ZoomLevel(16));
+            this.ZoomLevels.Add(new ZoomLevel(32));
             this.ZoomLevels = this.ZoomLevels.OrderBy(f => f.zoom).ToList();
             this.ZoomIndex = 3;
             this.Scale = ScaleType.Tile;
             this.PositionText = "0, 0";
 
             this.UpdatePositionCommand = new DelegateCommand<object>(point => UpdatePosition((Point)point));
+            this.ZoomInCommand = new DelegateCommand(() => ZoomIn());
+            this.ZoomOutCommand = new DelegateCommand(() => ZoomOut());
+            this.SetZoomCommand = new DelegateCommand<ZoomLevel>(zoomIndex => SetZoom(zoomIndex));
         }
 
         #endregion Constructor & destructor
@@ -41,6 +44,9 @@ namespace AtomicMapEditor.Modules.MapEditor.Editor
         #region properties
 
         public ICommand UpdatePositionCommand { get; private set; }
+        public ICommand ZoomInCommand { get; private set; }
+        public ICommand ZoomOutCommand { get; private set; }
+        public ICommand SetZoomCommand { get; private set; }
 
         public ScaleType Scale { get; set; }
         public String PositionText { get; set; }
@@ -53,9 +59,47 @@ namespace AtomicMapEditor.Modules.MapEditor.Editor
         }
 
         #endregion properties
-
-
+        
         #region methods
+
+
+        public void ZoomIn()
+        {
+            if (this.ZoomIndex < this.ZoomLevels.Count - 1)
+            {
+                this.ZoomIndex += 1;
+                RaisePropertyChanged(nameof(this.ZoomIndex));
+            }
+        }
+
+        public void ZoomOut()
+        {
+            if (this.ZoomIndex > 0)
+            {
+                this.ZoomIndex -= 1;
+                RaisePropertyChanged(nameof(this.ZoomIndex));
+            }
+        }
+
+        public void SetZoom(ZoomLevel selectedZoomLevel)
+        {
+            int zoomIndex = this.ZoomLevels.FindIndex(r => r.zoom == selectedZoomLevel.zoom);
+            if (zoomIndex == -1)
+            {
+                this.ZoomLevels.Add(selectedZoomLevel);
+                zoomIndex = this.ZoomLevels.FindIndex(r => r.zoom == selectedZoomLevel.zoom);
+            }
+            if (zoomIndex > ZoomLevels.Count - 1)
+            {
+                zoomIndex = ZoomLevels.Count - 1;
+            }
+            else if (zoomIndex < 0)
+            {
+                zoomIndex = 0;
+            }
+            this.ZoomIndex = zoomIndex;
+            RaisePropertyChanged(nameof(this.ZoomIndex));
+        }
 
         private void UpdatePosition(Point position)
         {
