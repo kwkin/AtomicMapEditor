@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using AtomicMapEditor.Modules.Docks.ItemEditorDock;
 using AtomicMapEditor.Modules.MapEditor.Editor;
 using Xceed.Wpf.AvalonDock.Layout;
 
@@ -23,6 +24,8 @@ namespace AtomicMapEditor.Modules.Docks.Core
 
         #region properties
 
+        public DataTemplate ItemEditorDataTemplate { get; set; }
+
         public DataTemplate MainEditorTemplate { get; set; }
 
         #endregion properties
@@ -34,7 +37,11 @@ namespace AtomicMapEditor.Modules.Docks.Core
         {
             var itemAsLayoutContent = item as LayoutContent;
 
-            if (item is MainEditorViewModel)
+            if (item is ItemEditorViewModel)
+            {
+                return ItemEditorDataTemplate;
+            }
+            else if (item is MainEditorViewModel)
             {
                 return MainEditorTemplate;
             }

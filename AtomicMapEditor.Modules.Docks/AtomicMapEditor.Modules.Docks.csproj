@@ -107,6 +107,16 @@
     <Compile Include="Core\DockStyleSelector.cs" />
     <Compile Include="Core\DockTemplateSelector.cs" />
     <Compile Include="DocksModule.cs" />
+    <Compile Include="ItemEditorDock\ItemEditor.xaml.cs">
+      <DependentUpon>ItemEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ItemEditorDock\ItemEditorImageAdvanced.xaml.cs">
+      <DependentUpon>ItemEditorImageAdvanced.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ItemEditorDock\ItemEditorTilesetAdvanced.xaml.cs">
+      <DependentUpon>ItemEditorTilesetAdvanced.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ItemEditorDock\ItemEditorViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -117,8 +127,24 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ItemEditorDock\ItemEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ItemEditorDock\ItemEditorImageAdvanced.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ItemEditorDock\ItemEditorTilesetAdvanced.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AtomicMapEditor.Components\AtomicMapEditor.Components.csproj">
+      <Project>{ae7e3265-b5cf-464a-80b2-415ff1cf9c6c}</Project>
+      <Name>AtomicMapEditor.Components</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AtomicMapEditor.Infrastructure\AtomicMapEditor.Infrastructure.csproj">
       <Project>{9D27D8DC-5CD8-46D9-B702-EFEB6D66F236}</Project>
       <Name>AtomicMapEditor.Infrastructure</Name>

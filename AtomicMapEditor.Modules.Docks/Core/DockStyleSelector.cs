@@ -7,7 +7,8 @@ namespace AtomicMapEditor.Modules.Docks.Core
     internal class DockStyleSelector : StyleSelector
     {
         #region properties
-        
+
+        public Style DockWindowStyle { get; set; }
         public Style DocumentStyle { get; set; }
 
         #endregion properties
@@ -17,7 +18,11 @@ namespace AtomicMapEditor.Modules.Docks.Core
 
         public override Style SelectStyle(object item, DependencyObject container)
         {
-            if (item is EditorViewModelTemplate)
+            if (item is DockViewModelTemplate)
+            {
+                return DockWindowStyle;
+            }
+            else if (item is EditorViewModelTemplate)
             {
                 return DocumentStyle;
             }

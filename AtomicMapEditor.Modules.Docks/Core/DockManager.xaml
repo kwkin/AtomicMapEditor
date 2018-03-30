@@ -6,6 +6,7 @@
              xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
              xmlns:basetype="clr-namespace:AtomicMapEditor.Modules.Docks.Core"
              xmlns:maineditor="clr-namespace:AtomicMapEditor.Modules.MapEditor.Editor;assembly=AtomicMapEditor.Modules.MapEditor"
+             xmlns:itemeditor="clr-namespace:AtomicMapEditor.Modules.Docks.ItemEditorDock"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
@@ -23,11 +24,28 @@
                         <maineditor:MainEditor />
                     </DataTemplate>
                 </basetype:DockTemplateSelector.MainEditorTemplate>
+                <basetype:DockTemplateSelector.ItemEditorDataTemplate>
+                    <DataTemplate>
+                        <itemeditor:ItemEditor />
+                    </DataTemplate>
+                </basetype:DockTemplateSelector.ItemEditorDataTemplate>
             </basetype:DockTemplateSelector>
         </xcad:DockingManager.LayoutItemTemplateSelector>
 
         <xcad:DockingManager.LayoutItemContainerStyleSelector>
             <basetype:DockStyleSelector>
+                <basetype:DockStyleSelector.DockWindowStyle>
+                    <Style TargetType="{x:Type xcad:LayoutAnchorableItem}">
+                        <Setter Property="Title"
+                                Value="{Binding Model.Title}" />
+                        <Setter Property="IsSelected"
+                                Value="{Binding Model.IsSelected, Mode=TwoWay}" />
+                        <Setter Property="IsActive"
+                                Value="{Binding Model.IsActive, Mode=TwoWay}" />
+                        <Setter Property="ContentId"
+                                Value="{Binding Model.ContentId}" />
+                    </Style>
+                </basetype:DockStyleSelector.DockWindowStyle>
                 <basetype:DockStyleSelector.DocumentStyle>
                     <Style TargetType="{x:Type xcad:LayoutItem}">
                         <Setter Property="Title"

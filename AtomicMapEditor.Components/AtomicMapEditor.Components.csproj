@@ -77,6 +77,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extended\ExtendedScrollViewer.cs" />
+    <Compile Include="Extended\IconButton.cs" />
+    <Compile Include="Extended\IconRadioButton.cs" />
+    <Compile Include="Extended\IconToggleButton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
