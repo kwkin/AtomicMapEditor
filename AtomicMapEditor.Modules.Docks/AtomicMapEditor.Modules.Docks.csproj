@@ -100,6 +100,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClipboardDock\Clipboard.xaml.cs">
+      <DependentUpon>Clipboard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ClipboardDock\ClipboardItemEntry.xaml.cs">
+      <DependentUpon>ClipboardItemEntry.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ClipboardDock\ClipboardViewModel.cs" />
     <Compile Include="Core\DockManager.xaml.cs">
       <DependentUpon>DockManager.xaml</DependentUpon>
     </Compile>
@@ -133,6 +140,18 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="ClipboardDock\Clipboard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ClipboardDock\ClipboardContextMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ClipboardDock\ClipboardItemEntry.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Core\DockManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using AtomicMapEditor.Infrastructure.BaseTypes;
 using AtomicMapEditor.Infrastructure.Events;
+using AtomicMapEditor.Modules.Docks.ClipboardDock;
 using AtomicMapEditor.Modules.Docks.ItemEditorDock;
 using AtomicMapEditor.Modules.Docks.ItemListDock;
 using AtomicMapEditor.Modules.MapEditor.Editor;
@@ -54,6 +55,10 @@ namespace AtomicMapEditor.Modules.Docks.Core
             DockViewModelTemplate dockViewModel = null;
             switch (message.DockType)
             {
+                case DockType.Clipboard:
+                    dockViewModel = new ClipboardViewModel();
+                    break;
+
                 case DockType.ItemEditor:
                     dockViewModel = new ItemEditorViewModel();
                     break;

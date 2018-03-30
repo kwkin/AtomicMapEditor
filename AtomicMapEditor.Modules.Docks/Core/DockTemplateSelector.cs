@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using AtomicMapEditor.Modules.Docks.ClipboardDock;
 using AtomicMapEditor.Modules.Docks.ItemEditorDock;
 using AtomicMapEditor.Modules.Docks.ItemListDock;
 using AtomicMapEditor.Modules.MapEditor.Editor;
@@ -25,6 +26,7 @@ namespace AtomicMapEditor.Modules.Docks.Core
 
         #region properties
 
+        public DataTemplate ClipboardDataTemplate { get; set; }
         public DataTemplate ItemEditorDataTemplate { get; set; }
         public DataTemplate ItemListDataTemplate { get; set; }
 
@@ -39,7 +41,11 @@ namespace AtomicMapEditor.Modules.Docks.Core
         {
             var itemAsLayoutContent = item as LayoutContent;
 
-            if (item is ItemEditorViewModel)
+            if (item is ClipboardViewModel)
+            {
+                return ItemEditorDataTemplate;
+            }
+            else if (item is ItemEditorViewModel)
             {
                 return ItemEditorDataTemplate;
             }

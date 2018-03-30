@@ -478,6 +478,12 @@ namespace AtomicMapEditor.Modules.Menu.Options
 
         #region window methods
 
+        public void OpenClipboardDock()
+        {
+            OpenDockMessage dock = new OpenDockMessage(DockType.Clipboard);
+            this.ea.GetEvent<OpenDockEvent>().Publish(dock);
+        }
+
         public void OpenItemEditorDock()
         {
             OpenDockMessage dock = new OpenDockMessage(DockType.ItemEditor);
@@ -503,11 +509,6 @@ namespace AtomicMapEditor.Modules.Menu.Options
         public void OpenMinimapDock()
         {
             Console.WriteLine("Minimap Dock");
-        }
-
-        public void OpenClipboardDock()
-        {
-            Console.WriteLine("Clipboard Dock");
         }
 
         public void OpenSelectedBrushDock()
