@@ -1,0 +1,109 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <x:Array Type="{x:Type sys:Object}"
+             x:Key="ItemEditorContextMenu">
+        <MenuItem Header="View Properties..."
+                  Command="{Binding ViewPropertiesCommand}" />
+        <MenuItem Header="Edit Collisions..."
+                  Command="{Binding EditCollisionsCommand}" />
+        <MenuItem Header="Crop..."
+                  Command="{Binding CropCommand}" />
+        <Separator />
+        <MenuItem Header="Add Tileset..."
+                  Command="{Binding AddTilesetCommand}" />
+        <MenuItem Header="Add Image..."
+                  Command="{Binding AddImageCommand}" />
+        <MenuItem Header="Remove Item"
+                  Command="{Binding RemoveItemCommand}" />
+        <Separator />
+        <MenuItem Header="Show Grid"
+                  IsChecked="{Binding IsGridOn}"
+                  IsCheckable="True"
+                  Command="{Binding ShowGridCommand}" />
+        <MenuItem Header="Show Ruler"
+                  IsCheckable="True"
+                  Command="{Binding ShowRulerCommand}" />
+        <Separator />
+        <MenuItem x:Name="zoomInMenuItem"
+                  Header="Zoom In"
+                  InputGestureText="Ctrl++"
+                  Command="{Binding ZoomInCommand}" />
+        <MenuItem x:Name="zoomOutMenuItem"
+                  Header="Zoom Out"
+                  InputGestureText="Ctrl+-"
+                  Command="{Binding ZoomOutCommand}" />
+        <MenuItem Header="Set Zoom">
+            <MenuItem x:Name="setZoom3200"
+                      Header="32:1 (3200%)"
+                      InputGestureText="1"
+                      Command="{Binding SetZoomCommand}">
+                <MenuItem.CommandParameter>
+                    <sys:Int32>7</sys:Int32>
+                </MenuItem.CommandParameter>
+            </MenuItem>
+            <MenuItem x:Name="setZoom1600"
+                      Header="16:1 (1600%)"
+                      InputGestureText="2"
+                      Command="{Binding SetZoomCommand}">
+                <MenuItem.CommandParameter>
+                    <sys:Int32>6</sys:Int32>
+                </MenuItem.CommandParameter>
+            </MenuItem>
+            <MenuItem x:Name="setZoom800"
+                      Header="8:1 (800%)"
+                      InputGestureText="3"
+                      Command="{Binding SetZoomCommand}">
+                <MenuItem.CommandParameter>
+                    <sys:Int32>5</sys:Int32>
+                </MenuItem.CommandParameter>
+            </MenuItem>
+            <MenuItem x:Name="setZoom400"
+                      Header="4:1 (400%)"
+                      InputGestureText="4"
+                      Command="{Binding SetZoomCommand}">
+                <MenuItem.CommandParameter>
+                    <sys:Int32>4</sys:Int32>
+                </MenuItem.CommandParameter>
+            </MenuItem>
+            <MenuItem x:Name="setZoom200"
+                      Header="2:1 (200%)"
+                      InputGestureText="5"
+                      Command="{Binding SetZoomCommand}">
+                <MenuItem.CommandParameter>
+                    <sys:Int32>3</sys:Int32>
+                </MenuItem.CommandParameter>
+            </MenuItem>
+            <MenuItem x:Name="setZoom100"
+                      Header="1:1 (100%)"
+                      InputGestureText="6"
+                      Command="{Binding SetZoomCommand}">
+                <MenuItem.CommandParameter>
+                    <sys:Int32>2</sys:Int32>
+                </MenuItem.CommandParameter>
+            </MenuItem>
+            <MenuItem x:Name="setZoom50"
+                      Header="1:2 (50%)"
+                      InputGestureText="7"
+                      Command="{Binding SetZoomCommand}">
+                <MenuItem.CommandParameter>
+                    <sys:Int32>1</sys:Int32>
+                </MenuItem.CommandParameter>
+            </MenuItem>
+            <MenuItem x:Name="setZoom25"
+                      Header="1:4 (25%)"
+                      InputGestureText="8"
+                      Command="{Binding SetZoomCommand}"
+                      CommandParameter="7" />
+            <MenuItem x:Name="setZoom12_5"
+                      Header="1:8 (12.5%)"
+                      InputGestureText="9"
+                      Command="{Binding SetZoomCommand}">
+                <MenuItem.CommandParameter>
+                    <sys:Int32>0</sys:Int32>
+                </MenuItem.CommandParameter>
+            </MenuItem>
+        </MenuItem>
+    </x:Array>
+</ResourceDictionary>

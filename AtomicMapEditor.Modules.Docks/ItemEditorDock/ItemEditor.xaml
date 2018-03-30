@@ -15,6 +15,9 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/AtomicMApEditor.Modules.Docks;component/ItemEditorDock/ItemEditorContextMenu.xaml" />
+            </ResourceDictionary.MergedDictionaries>
             <conv:MouseEventToPointConverter x:Key="MouseEventToPointConverter" />
             <conv:BooleanToVisiblityConverter x:Key="BoolToVisConverter"
                                               Collapse="True" />
@@ -130,6 +133,16 @@
                                             PassEventArgsToCommand="True" />
                     </i:EventTrigger>-->
                 </i:Interaction.Triggers>
+                
+                <Grid.ContextMenu>
+                    <ContextMenu>
+                        <ContextMenu.ItemsSource>
+                            <CompositeCollection>
+                                <CollectionContainer Collection="{StaticResource ItemEditorContextMenu}" />
+                            </CompositeCollection>
+                        </ContextMenu.ItemsSource>
+                    </ContextMenu>
+                </Grid.ContextMenu>
 
                 <Rectangle x:Name="selectHitBox"
                            Stretch="Fill"

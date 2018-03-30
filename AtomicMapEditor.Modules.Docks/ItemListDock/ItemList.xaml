@@ -8,6 +8,10 @@
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary Source="pack://application:,,,/AtomicMApEditor.Modules.Docks;component/ItemListDock/ItemListContextMenu.xaml" />
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -75,6 +79,16 @@
                       Grid.Column="0"
                       Grid.Row="2">
             <StackPanel Orientation="Vertical">
+                <StackPanel.ContextMenu>
+                    <ContextMenu>
+                        <ContextMenu.ItemsSource>
+                            <CompositeCollection>
+                                <CollectionContainer Collection="{StaticResource ItemListContextMenu}" />
+                            </CompositeCollection>
+                        </ContextMenu.ItemsSource>
+                    </ContextMenu>
+                </StackPanel.ContextMenu>
+                
                 <local:ItemListGroup />
                 <local:ItemListGroup />
                 <local:ItemListGroup />
