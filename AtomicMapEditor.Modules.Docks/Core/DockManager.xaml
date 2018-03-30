@@ -7,6 +7,7 @@
              xmlns:basetype="clr-namespace:AtomicMapEditor.Modules.Docks.Core"
              xmlns:maineditor="clr-namespace:AtomicMapEditor.Modules.MapEditor.Editor;assembly=AtomicMapEditor.Modules.MapEditor"
              xmlns:itemeditor="clr-namespace:AtomicMapEditor.Modules.Docks.ItemEditorDock"
+             xmlns:itemlist="clr-namespace:AtomicMapEditor.Modules.Docks.ItemListDock"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
@@ -29,6 +30,11 @@
                         <itemeditor:ItemEditor />
                     </DataTemplate>
                 </basetype:DockTemplateSelector.ItemEditorDataTemplate>
+                <basetype:DockTemplateSelector.ItemListDataTemplate>
+                    <DataTemplate>
+                        <itemlist:ItemList />
+                    </DataTemplate>
+                </basetype:DockTemplateSelector.ItemListDataTemplate>
             </basetype:DockTemplateSelector>
         </xcad:DockingManager.LayoutItemTemplateSelector>
 

@@ -117,6 +117,16 @@
       <DependentUpon>ItemEditorTilesetAdvanced.xaml</DependentUpon>
     </Compile>
     <Compile Include="ItemEditorDock\ItemEditorViewModel.cs" />
+    <Compile Include="ItemListDock\ItemList.xaml.cs">
+      <DependentUpon>ItemList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ItemListDock\ItemListEntry.xaml.cs">
+      <DependentUpon>ItemListEntry.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ItemListDock\ItemListGroup.xaml.cs">
+      <DependentUpon>ItemListGroup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ItemListDock\ItemListViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +146,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ItemEditorDock\ItemEditorTilesetAdvanced.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ItemListDock\ItemList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ItemListDock\ItemListEntry.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ItemListDock\ItemListGroup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

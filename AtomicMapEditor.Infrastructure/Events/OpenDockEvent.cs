@@ -5,7 +5,7 @@ namespace AtomicMapEditor.Infrastructure.Events
 {
     public enum DockType
     {
-        ItemEditor
+        Clipboard, ItemEditor, ItemList, LayerList, Minimap, SelectedBrush, Toolbox
     }
 
     public class OpenDockMessage

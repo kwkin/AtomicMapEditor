@@ -2,6 +2,7 @@
 using AtomicMapEditor.Infrastructure.BaseTypes;
 using AtomicMapEditor.Infrastructure.Events;
 using AtomicMapEditor.Modules.Docks.ItemEditorDock;
+using AtomicMapEditor.Modules.Docks.ItemListDock;
 using AtomicMapEditor.Modules.MapEditor.Editor;
 using Prism.Events;
 using Prism.Mvvm;
@@ -56,7 +57,11 @@ namespace AtomicMapEditor.Modules.Docks.Core
                 case DockType.ItemEditor:
                     dockViewModel = new ItemEditorViewModel();
                     break;
-                    
+
+                case DockType.ItemList:
+                    dockViewModel = new ItemListViewModel();
+                    break;
+
                 default:
                     break;
             }
