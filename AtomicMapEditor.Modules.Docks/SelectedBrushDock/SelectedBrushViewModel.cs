@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -9,6 +8,7 @@ using System.Windows.Media.Imaging;
 using AtomicMapEditor.Infrastructure.BaseTypes;
 using AtomicMapEditor.Infrastructure.Events;
 using AtomicMapEditor.Infrastructure.Models;
+using AtomicMapEditor.Infrastructure.Utils;
 using Prism.Commands;
 using Prism.Events;
 
@@ -47,7 +47,7 @@ namespace AtomicMapEditor.Modules.Docks.SelectedBrushDock
             this.Scale = ScaleType.Pixel;
             this.PositionText = "0, 0";
 
-            this.UpdatePositionCommand = new DelegateCommand<object>(point => UpdatePosition((System.Windows.Point)point));
+            this.UpdatePositionCommand = new DelegateCommand<object>(point => UpdatePosition((Point)point));
             this.ZoomInCommand = new DelegateCommand(() => ZoomIn());
             this.ZoomOutCommand = new DelegateCommand(() => ZoomOut());
             this.SetZoomCommand = new DelegateCommand<object>(zoomLevel => SetZoom((int)zoomLevel));
@@ -64,41 +64,27 @@ namespace AtomicMapEditor.Modules.Docks.SelectedBrushDock
         public ICommand ZoomInCommand { get; private set; }
         public ICommand ZoomOutCommand { get; private set; }
         public ICommand SetZoomCommand { get; private set; }
-
-        public BitmapImage BrushImage { get; set; }
-
-        private String _PositionText;
-        public String PositionText
-        {
-            get { return _PositionText; }
-            set { SetProperty(ref _PositionText, value); }
-        }
-
+                
+        public String PositionText { get; set; }
         public ScaleType Scale { get; set; }
         public List<ZoomLevel> ZoomLevels { get; set; }
+        public int ZoomIndex { get; set; }
 
-        private int _ZoomIndex;
-        public int ZoomIndex
-        {
-            get { return _ZoomIndex; }
-            set { SetProperty(ref _ZoomIndex, value); }
-        }
+        public BitmapImage BrushImage { get; set; }
 
         #endregion properties
 
 
         #region methods
-
-
+        
         private void UpdateBrushImage(UpdateBrushMessage message)
         {
+            // TODO add this into a processing class/utils
             BrushModel brushModel = message.BrushModel;
-            System.Drawing.Image croppedImage = brushModel.image.Bitmap;
-
             BitmapImage croppedBitmap = new BitmapImage();
             using (MemoryStream ms = new MemoryStream())
             {
-                croppedImage.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
+                brushModel.image.Bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
                 croppedBitmap.BeginInit();
                 croppedBitmap.StreamSource = ms;
                 croppedBitmap.CacheOption = BitmapCacheOption.OnLoad;
@@ -108,11 +94,14 @@ namespace AtomicMapEditor.Modules.Docks.SelectedBrushDock
             RaisePropertyChanged(nameof(this.BrushImage));
         }
 
+        // TODO delegate the zoom in/out/set command to another class
+        // Maybe have a infobar class in the extended/custom components
         public void ZoomIn()
         {
             if (this.ZoomIndex < this.ZoomLevels.Count - 1)
             {
                 this.ZoomIndex += 1;
+                RaisePropertyChanged(nameof(this.ZoomIndex));
             }
         }
 
@@ -121,29 +110,30 @@ namespace AtomicMapEditor.Modules.Docks.SelectedBrushDock
             if (this.ZoomIndex > 0)
             {
                 this.ZoomIndex -= 1;
+                RaisePropertyChanged(nameof(this.ZoomIndex));
             }
         }
 
         public void SetZoom(int zoomIndex)
         {
-            int zoom = zoomIndex;
-            if (zoom > ZoomLevels.Count - 1)
+            if (zoomIndex > this.ZoomLevels.Count - 1)
             {
-                zoom = ZoomLevels.Count - 1;
+                zoomIndex = this.ZoomLevels.Count - 1;
             }
-            else if (zoom < 0)
+            else if (zoomIndex < 0)
             {
-                zoom = 0;
+                zoomIndex = 0;
             }
-            this.ZoomIndex = zoom;
+            this.ZoomIndex = zoomIndex;
+            RaisePropertyChanged(nameof(this.ZoomIndex));
         }
 
-        private void UpdatePosition(System.Windows.Point position)
+        private void UpdatePosition(Point position)
         {
-            System.Windows.Point transformedPosition = new System.Windows.Point(0, 0);
+            Point transformedPosition = new Point(0, 0);
             if (this.BrushImage != null)
             {
-                switch (Scale)
+                switch (this.Scale)
                 {
                     case ScaleType.Pixel:
                         transformedPosition = position;
@@ -153,7 +143,8 @@ namespace AtomicMapEditor.Modules.Docks.SelectedBrushDock
                         break;
                 }
             }
-            this.PositionText = (Math.Floor(transformedPosition.X) + ", " + Math.Floor(transformedPosition.Y));
+            transformedPosition = PointUtils.IntPoint(transformedPosition);
+            this.PositionText = (transformedPosition.X + ", " + transformedPosition.Y);
             RaisePropertyChanged(nameof(this.PositionText));
         }
 

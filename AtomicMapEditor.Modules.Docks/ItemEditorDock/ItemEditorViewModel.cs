@@ -305,7 +305,8 @@ namespace AtomicMapEditor.Modules.Docks.ItemEditorDock
                         break;
                 }
             }
-            this.PositionText = (Math.Floor(transformedPosition.X) + ", " + Math.Floor(transformedPosition.Y));
+            transformedPosition = PointUtils.IntPoint(transformedPosition);
+            this.PositionText = (transformedPosition.X + ", " + transformedPosition.Y);
             RaisePropertyChanged(nameof(this.PositionText));
         }
 

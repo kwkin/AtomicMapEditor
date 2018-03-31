@@ -21,6 +21,11 @@ namespace AtomicMapEditor.Infrastructure.Utils
             return size;
         }
 
+        public static Point IntPoint(Point point)
+        {
+            return new Point((int)point.X, (int)point.Y);
+        }
+
         public static System.Drawing.Point WindowsToDrawingPoint(Point point)
         {
             return new System.Drawing.Point((int)point.X, (int)point.Y);

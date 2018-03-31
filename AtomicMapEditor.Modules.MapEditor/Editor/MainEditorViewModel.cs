@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Input;
 using AtomicMapEditor.Infrastructure.BaseTypes;
 using AtomicMapEditor.Infrastructure.Models;
+using AtomicMapEditor.Infrastructure.Utils;
 using Prism.Commands;
 
 namespace AtomicMapEditor.Modules.MapEditor.Editor
@@ -115,7 +116,8 @@ namespace AtomicMapEditor.Modules.MapEditor.Editor
                     transformedPosition = position;
                     break;
             }
-            this.PositionText = (Math.Floor(transformedPosition.X) + ", " + Math.Floor(transformedPosition.Y));
+            transformedPosition = PointUtils.IntPoint(transformedPosition);
+            this.PositionText = (transformedPosition.X + ", " + transformedPosition.Y);
             RaisePropertyChanged(nameof(this.PositionText));
         }
 
