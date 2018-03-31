@@ -38,7 +38,7 @@
                   VerticalAlignment="Center">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseMove">
-                        <basetype:EventToCommand Command="{Binding OnMouseMoveCommand, Mode=OneWay}"
+                        <basetype:EventToCommand Command="{Binding UpdatePositionCommand, Mode=OneWay}"
                                                  EventArgsConverter="{StaticResource MouseEventToPointConverter}"
                                                  EventArgsConverterParameter="{Binding ElementName=itemImage}"
                                                  PassEventArgsToCommand="True" />

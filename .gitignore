@@ -108,3 +108,13 @@ packages/AvalonEdit\.5\.0\.4/AvalonEdit\.5\.0\.4\.nupkg
 packages/AvalonEdit\.5\.0\.4/lib/Net35/ICSharpCode\.AvalonEdit\.xml
 
 packages/AvalonEdit\.5\.0\.4/lib/Net40/ICSharpCode\.AvalonEdit\.xml
+
+packages/ZedGraph\.5\.1\.5/
+
+packages/EMGU\.CV\.3\.3\.0\.2824/build/Emgu\.CV\.targets
+
+packages/EMGU\.CV\.3\.3\.0\.2824/EMGU\.CV\.3\.3\.0\.2824\.nupkg
+
+packages/EMGU\.CV\.3\.3\.0\.2824/lib/net35/Emgu\.CV\.UI\.xml
+
+packages/EMGU\.CV\.3\.3\.0\.2824/lib/net35/Emgu\.CV\.World\.xml

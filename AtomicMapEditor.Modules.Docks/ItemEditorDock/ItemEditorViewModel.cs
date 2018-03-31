@@ -8,32 +8,41 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using AtomicMapEditor.Infrastructure.BaseTypes;
+using AtomicMapEditor.Infrastructure.Events;
 using AtomicMapEditor.Infrastructure.Models;
 using AtomicMapEditor.Infrastructure.Utils;
+using Emgu.CV;
 using Microsoft.Win32;
 using Prism.Commands;
+using Prism.Events;
 
 namespace AtomicMapEditor.Modules.Docks.ItemEditorDock
 {
     public class ItemEditorViewModel : DockViewModelTemplate
     {
+        // TODO: look into switching all system.windows shapes to drawing
+
         #region fields
 
         private CoordinateTransform itemTransform;
         private Point lastSelectPoint;
+
+        private Mat itemImage;
+        private IEventAggregator eventAggregator;
 
         #endregion fields
 
 
         #region constructor & destructer
 
-        public ItemEditorViewModel() : this(new TilesetModel())
+        public ItemEditorViewModel(IEventAggregator eventAggregator) : this(new TilesetModel(), eventAggregator)
         {
         }
 
-        public ItemEditorViewModel(TilesetModel tilesetModel)
+        public ItemEditorViewModel(TilesetModel tilesetModel, IEventAggregator eventAggregator)
         {
             this.TilesetModel = tilesetModel;
+            this.eventAggregator = eventAggregator;
             this.Title = "Item - " + Path.GetFileNameWithoutExtension(tilesetModel.SourcePath);
             this.ContentId = "Item";
 
@@ -137,8 +146,11 @@ namespace AtomicMapEditor.Modules.Docks.ItemEditorDock
         public void Select(Point topLeftPixel, Size pixelSize)
         {
             DrawTileSelect(topLeftPixel, pixelSize);
-            Console.WriteLine("Top Left Pixel: " + topLeftPixel);
-            Console.WriteLine("Pixel Size: " + pixelSize);
+            Mat croppedImage = BrushUtils.CropImage(this.itemImage, topLeftPixel, pixelSize);
+            BrushModel brushModel = new BrushModel();
+            brushModel.image = croppedImage;
+            UpdateBrushMessage message = new UpdateBrushMessage(brushModel);
+            this.eventAggregator.GetEvent<UpdateBrushEvent>().Publish(message);
         }
 
         public void updateTilesetModel()
@@ -231,6 +243,7 @@ namespace AtomicMapEditor.Modules.Docks.ItemEditorDock
                 {
                     this.Title = "Item - " + Path.GetFileNameWithoutExtension(tileFilePath);
                     this.TilesetModel.SourcePath = tileFilePath;
+                    this.itemImage = CvInvoke.Imread(tileFilePath, Emgu.CV.CvEnum.ImreadModes.AnyColor);
 
                     this.itemTransform = new CoordinateTransform();
                     this.itemTransform.SetPixelToTile(this.TilesetModel.Width, this.TilesetModel.Height);

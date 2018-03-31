@@ -132,7 +132,7 @@ namespace AtomicMapEditor.Modules.Docks.Core
                     break;
 
                 case DockType.ItemEditor:
-                    dockViewModel = new ItemEditorViewModel();
+                    dockViewModel = new ItemEditorViewModel(this.ea);
                     break;
 
                 case DockType.ItemList:
@@ -148,7 +148,7 @@ namespace AtomicMapEditor.Modules.Docks.Core
                     break;
 
                 case DockType.SelectedBrush:
-                    dockViewModel = new SelectedBrushViewModel();
+                    dockViewModel = new SelectedBrushViewModel(this.ea);
                     break;
 
                 case DockType.Toolbox:
@@ -182,7 +182,7 @@ namespace AtomicMapEditor.Modules.Docks.Core
             }
             else if (contentId == "Item")
             {
-                viewModel = new ItemEditorViewModel();
+                viewModel = new ItemEditorViewModel(this.ea);
             }
             else if (contentId == "Item List")
             {
@@ -198,7 +198,7 @@ namespace AtomicMapEditor.Modules.Docks.Core
             }
             else if (contentId == "Selected Brush")
             {
-                viewModel = new SelectedBrushViewModel();
+                viewModel = new SelectedBrushViewModel(this.ea);
             }
             else if (contentId == "Tools")
             {

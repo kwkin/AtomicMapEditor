@@ -20,5 +20,15 @@ namespace AtomicMapEditor.Infrastructure.Utils
             size.Height = Math.Abs(size.Height) + 1;
             return size;
         }
+
+        public static System.Drawing.Point WindowsToDrawingPoint(Point point)
+        {
+            return new System.Drawing.Point((int)point.X, (int)point.Y);
+        }
+
+        public static Point DrawingToWindowPoint(System.Drawing.Point point)
+        {
+            return new Point(point.X, point.Y);
+        }
     }
 }
