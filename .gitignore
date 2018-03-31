@@ -102,3 +102,9 @@ AtomicMapEditor\.Infrastructure/bin/Debug/
 packages/Extended\.Wpf\.Toolkit\.3\.3\.0/Extended\.Wpf\.Toolkit\.3\.3\.0\.nupkg
 
 packages/Extended\.Wpf\.Toolkit\.3\.3\.0/tools/install\.ps1
+
+packages/AvalonEdit\.5\.0\.4/AvalonEdit\.5\.0\.4\.nupkg
+
+packages/AvalonEdit\.5\.0\.4/lib/Net35/ICSharpCode\.AvalonEdit\.xml
+
+packages/AvalonEdit\.5\.0\.4/lib/Net40/ICSharpCode\.AvalonEdit\.xml

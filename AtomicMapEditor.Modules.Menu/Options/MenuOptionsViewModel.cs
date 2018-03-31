@@ -510,12 +510,14 @@ namespace AtomicMapEditor.Modules.Menu.Options
 
         public void OpenMinimapDock()
         {
-            Console.WriteLine("Minimap Dock");
+            OpenDockMessage dock = new OpenDockMessage(DockType.Minimap);
+            this.ea.GetEvent<OpenDockEvent>().Publish(dock);
         }
 
         public void OpenSelectedBrushDock()
         {
-            Console.WriteLine("Selected Brush Dock");
+            OpenDockMessage dock = new OpenDockMessage(DockType.SelectedBrush);
+            this.ea.GetEvent<OpenDockEvent>().Publish(dock);
         }
 
         public void OpenUndoHistoryDock()

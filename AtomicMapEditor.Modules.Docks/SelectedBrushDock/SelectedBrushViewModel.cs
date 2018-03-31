@@ -1,19 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
+using System.Windows.Media.Imaging;
 using AtomicMapEditor.Infrastructure.BaseTypes;
 using AtomicMapEditor.Infrastructure.Models;
 
-namespace AtomicMapEditor.Modules.Docks.ItemEditorDock
+namespace AtomicMapEditor.Modules.Docks.SelectedBrushDock
 {
-    public class ItemEditorViewModel : DockViewModelTemplate
+    public class SelectedBrushViewModel : DockViewModelTemplate
     {
-        #region constructor & destructer
+        #region fields
 
-        public ItemEditorViewModel()
+        #endregion fields
+
+
+        #region Constructor & destructor
+
+        public SelectedBrushViewModel()
         {
-            this.Title = "Item - *";
-            this.ContentId = "Item";
+            this.Title = "Selected Brush";
+            this.ContentId = "Selected Brush";
 
             this.ZoomLevels = new List<ZoomLevel>();
             this.ZoomLevels.Add(new ZoomLevel("12.5%", 0.125));
@@ -26,19 +33,29 @@ namespace AtomicMapEditor.Modules.Docks.ItemEditorDock
             this.ZoomLevels.Add(new ZoomLevel("1600%", 16));
             this.ZoomLevels.Add(new ZoomLevel("3200%", 32));
             this.ZoomLevels = this.ZoomLevels.OrderBy(f => f.zoom).ToList();
+
             this.ZoomIndex = 3;
             this.Scale = ScaleType.Tile;
             this.PositionText = "0, 0";
         }
 
-        #endregion constructor & destructer
+        #endregion Constructor & destructor
 
 
         #region properties
 
+        public BitmapImage BrushImage { get; set; }
+
+        private String _PositionText;
+        public String PositionText
+        {
+            get { return _PositionText; }
+            set { SetProperty(ref _PositionText, value); }
+        }
+
         public ScaleType Scale { get; set; }
-        public String PositionText { get; set; }
         public List<ZoomLevel> ZoomLevels { get; set; }
+
         private int _ZoomIndex;
         public int ZoomIndex
         {
@@ -47,5 +64,24 @@ namespace AtomicMapEditor.Modules.Docks.ItemEditorDock
         }
 
         #endregion properties
+
+
+        #region methods
+
+
+        private void UpdateBrushImage(BitmapImage BrushImage)
+        {
+            this.BrushImage = BrushImage;
+            RaisePropertyChanged(nameof(this.BrushImage));
+        }
+
+        public Point PositionToTile(Point point)
+        {
+            int positionX = (int)Math.Floor(point.X / 32);
+            int positionY = (int)Math.Floor(point.Y / (32));
+            return new Point(positionX, positionY);
+        }
+
+        #endregion methods
     }
 }

@@ -10,15 +10,25 @@
              xmlns:itemlist="clr-namespace:AtomicMapEditor.Modules.Docks.ItemListDock"
              xmlns:clipboard="clr-namespace:AtomicMapEditor.Modules.Docks.ClipboardDock"
              xmlns:layerlist="clr-namespace:AtomicMapEditor.Modules.Docks.LayerListDock"
+             xmlns:minimap="clr-namespace:AtomicMapEditor.Modules.Docks.MinimapDock"
              xmlns:toolbox="clr-namespace:AtomicMapEditor.Modules.Docks.ToolboxDock"
+             xmlns:selectedbrush="clr-namespace:AtomicMapEditor.Modules.Docks.SelectedBrushDock"
+             xmlns:conv="clr-namespace:AtomicMapEditor.Infrastructure.Converters;assembly=AtomicMapEditor.Infrastructure"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
+    <UserControl.Resources>
+        <conv:BooleanToVisiblityConverter x:Key="BoolToVisConverter"
+                                          Collapse="True" />
+    </UserControl.Resources>
+    
     <xcad:DockingManager x:Name="dockManager"
                          DocumentsSource="{Binding Documents}"
                          AnchorablesSource="{Binding Anchorables}"
+                         basetype:DockLayoutSerializer.LoadLayoutCommand="{Binding DockLayout.LoadLayoutCommand}"
+                         basetype:DockLayoutSerializer.SaveLayoutCommand="{Binding DockLayout.SaveLayoutCommand}"
                          Grid.Row="2">
 
         <xcad:DockingManager.LayoutItemTemplateSelector>
@@ -48,6 +58,16 @@
                         <layerlist:LayerList />
                     </DataTemplate>
                 </basetype:DockTemplateSelector.LayerListDataTemplate>
+                <basetype:DockTemplateSelector.MinimapDataTemplate>
+                    <DataTemplate>
+                        <minimap:Minimap />
+                    </DataTemplate>
+                </basetype:DockTemplateSelector.MinimapDataTemplate>
+                <basetype:DockTemplateSelector.SelectedBrushDataTemplate>
+                    <DataTemplate>
+                        <selectedbrush:SelectedBrush />
+                    </DataTemplate>
+                </basetype:DockTemplateSelector.SelectedBrushDataTemplate>
                 <basetype:DockTemplateSelector.ToolboxDataTemplate>
                     <DataTemplate>
                         <toolbox:Toolbox />
@@ -62,6 +82,8 @@
                     <Style TargetType="{x:Type xcad:LayoutAnchorableItem}">
                         <Setter Property="Title"
                                 Value="{Binding Model.Title}" />
+                        <Setter Property="Visibility"
+                                Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BoolToVisConverter}, ConverterParameter={x:Static Visibility.Hidden}}" />
                         <Setter Property="IsSelected"
                                 Value="{Binding Model.IsSelected, Mode=TwoWay}" />
                         <Setter Property="IsActive"
@@ -74,6 +96,8 @@
                     <Style TargetType="{x:Type xcad:LayoutItem}">
                         <Setter Property="Title"
                                 Value="{Binding Model.Title}" />
+                        <Setter Property="Visibility"
+                                Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BoolToVisConverter}, ConverterParameter={x:Static Visibility.Hidden}}" />
                         <Setter Property="IsSelected"
                                 Value="{Binding Model.IsSelected, Mode=TwoWay}" />
                         <Setter Property="IsActive"

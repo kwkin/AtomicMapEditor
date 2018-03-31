@@ -4,6 +4,8 @@ using AtomicMapEditor.Modules.Docks.ClipboardDock;
 using AtomicMapEditor.Modules.Docks.ItemEditorDock;
 using AtomicMapEditor.Modules.Docks.ItemListDock;
 using AtomicMapEditor.Modules.Docks.LayerListDock;
+using AtomicMapEditor.Modules.Docks.MinimapDock;
+using AtomicMapEditor.Modules.Docks.SelectedBrushDock;
 using AtomicMapEditor.Modules.Docks.ToolboxDock;
 using AtomicMapEditor.Modules.MapEditor.Editor;
 using Xceed.Wpf.AvalonDock.Layout;
@@ -32,7 +34,9 @@ namespace AtomicMapEditor.Modules.Docks.Core
         public DataTemplate ItemEditorDataTemplate { get; set; }
         public DataTemplate ItemListDataTemplate { get; set; }
         public DataTemplate LayerListDataTemplate { get; set; }
+        public DataTemplate MinimapDataTemplate { get; set; }
         public DataTemplate ToolboxDataTemplate { get; set; }
+        public DataTemplate SelectedBrushDataTemplate { get; set; }
 
         public DataTemplate MainEditorTemplate { get; set; }
 
@@ -62,9 +66,17 @@ namespace AtomicMapEditor.Modules.Docks.Core
             {
                 return LayerListDataTemplate;
             }
+            else if (item is MinimapViewModel)
+            {
+                return MinimapDataTemplate;
+            }
             else if (item is ToolboxViewModel)
             {
                 return ToolboxDataTemplate;
+            }
+            else if (item is SelectedBrushViewModel)
+            {
+                return SelectedBrushDataTemplate;
             }
             else if (item is MainEditorViewModel)
             {

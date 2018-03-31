@@ -85,8 +85,14 @@
     <Compile Include="Converters\DoubleToZoomLevelConverter.cs" />
     <Compile Include="Converters\MouseEventToPointConverter.cs" />
     <Compile Include="Converters\NullableValueConverter.cs" />
+    <Compile Include="Core\MessageIds.cs" />
     <Compile Include="Core\RegionNames.cs" />
+    <Compile Include="Events\NotificationActionEvent.cs" />
+    <Compile Include="Events\NotificationActionMessage.cs" />
+    <Compile Include="Events\NotificationEvent.cs" />
+    <Compile Include="Events\NotificationMessage.cs" />
     <Compile Include="Events\OpenDockEvent.cs" />
+    <Compile Include="Events\OpenDockMessage.cs" />
     <Compile Include="Models\ScaleType.cs" />
     <Compile Include="Models\ZoomLevel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

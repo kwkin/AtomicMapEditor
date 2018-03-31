@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ICSharpCode.AvalonEdit, Version=5.0.3.0, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
+      <HintPath>..\packages\AvalonEdit.5.0.4\lib\Net40\ICSharpCode.AvalonEdit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
@@ -107,12 +111,15 @@
       <DependentUpon>ClipboardItemEntry.xaml</DependentUpon>
     </Compile>
     <Compile Include="ClipboardDock\ClipboardViewModel.cs" />
+    <Compile Include="Core\DockLayoutSerializer.cs" />
+    <Compile Include="Core\DockLayoutViewModel.cs" />
     <Compile Include="Core\DockManager.xaml.cs">
       <DependentUpon>DockManager.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\DockManagerViewModel.cs" />
     <Compile Include="Core\DockStyleSelector.cs" />
     <Compile Include="Core\DockTemplateSelector.cs" />
+    <Compile Include="Core\ILayoutViewModel.cs" />
     <Compile Include="DocksModule.cs" />
     <Compile Include="ItemEditorDock\ItemEditor.xaml.cs">
       <DependentUpon>ItemEditor.xaml</DependentUpon>
@@ -144,7 +151,15 @@
       <DependentUpon>LayerListGroup.xaml</DependentUpon>
     </Compile>
     <Compile Include="LayerListDock\LayerListViewModel.cs" />
+    <Compile Include="MinimapDock\Minimap.xaml.cs">
+      <DependentUpon>Minimap.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MinimapDock\MinimapViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SelectedBrushDock\SelectedBrush.xaml.cs">
+      <DependentUpon>SelectedBrush.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SelectedBrushDock\SelectedBrushViewModel.cs" />
     <Compile Include="ToolboxDock\Toolbox.xaml.cs">
       <DependentUpon>Toolbox.xaml</DependentUpon>
     </Compile>
@@ -245,6 +260,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="LayerListDock\LayerListGroup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MinimapDock\Minimap.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MinimapDock\MinimapContextMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SelectedBrushDock\SelectedBrush.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

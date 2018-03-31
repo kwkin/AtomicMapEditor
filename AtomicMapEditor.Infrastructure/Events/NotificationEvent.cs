@@ -2,7 +2,7 @@
 
 namespace AtomicMapEditor.Infrastructure.Events
 {
-    public class OpenDockEvent : PubSubEvent<OpenDockMessage>
+    public class NotificationEvent<T> : PubSubEvent<NotificationMessage<T>>
     {
     }
 }

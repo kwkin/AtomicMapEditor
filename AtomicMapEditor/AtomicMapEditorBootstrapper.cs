@@ -2,7 +2,6 @@
 using System.Windows;
 using AtomicMapEditor.Modules.Docks;
 using AtomicMapEditor.Modules.Docks.Core;
-using AtomicMapEditor.Modules.Docks.ItemEditorDock;
 using AtomicMapEditor.Modules.MapEditor;
 using AtomicMapEditor.Modules.MapEditor.Editor;
 using AtomicMapEditor.Modules.Menu;

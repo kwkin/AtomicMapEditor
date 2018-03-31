@@ -1,0 +1,50 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <x:Array Type="{x:Type sys:Object}"
+             x:Key="MinimapContextMenu">
+        <MenuItem Header="Center on Point"
+                  Command="{Binding CenterOnPointCommand}" />
+        <Separator />
+        <MenuItem Header="Show Collisions"
+                  IsCheckable="True"
+                  Command="{Binding ShowCollisionsCommand}" />
+        <MenuItem Header="Show Grid"
+                  IsCheckable="True"
+                  Command="{Binding ShowGridCommand}" />
+        <Separator />
+        <MenuItem Header="Zoom In"
+                  Command="{Binding ZoomInCommand}"
+                  InputGestureText="Ctrl++" />
+        <MenuItem Header="Zoom Out"
+                  Command="{Binding ZoomOutCommand}"
+                  InputGestureText="Ctrl+-" />
+        <MenuItem Header="Fit to Window"
+                  Command="{Binding ZoomOutCommand}"
+                  InputGestureText="Ctrl+J" />
+        <MenuItem Header="Set Zoom">
+            <MenuItem Header="1:2"
+                      Command="{Binding SetZoomCommand}"
+                      InputGestureText="1" />
+            <MenuItem Header="1:4"
+                      Command="{Binding SetZoomCommand}"
+                      InputGestureText="2" />
+            <MenuItem Header="1:8"
+                      Command="{Binding SetZoomCommand}"
+                      InputGestureText="3" />
+            <MenuItem Header="1:16"
+                      Command="{Binding SetZoomCommand}"
+                      InputGestureText="4" />
+            <MenuItem Header="1:32"
+                      Command="{Binding SetZoomCommand}"
+                      InputGestureText="5" />
+            <MenuItem Header="1:64"
+                      Command="{Binding SetZoomCommand}"
+                      InputGestureText="6" />
+            <MenuItem Header="1:128"
+                      Command="{Binding SetZoomCommand}"
+                      InputGestureText="7" />
+        </MenuItem>
+    </x:Array>
+</ResourceDictionary>

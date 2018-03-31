@@ -16,6 +16,7 @@ namespace AtomicMapEditor.Modules.MapEditor.Editor
         public MainEditorViewModel()
         {
             this.Title = "Main Editor";
+            this.ContentId = "Map Editor";
 
             this.ZoomLevels = new List<ZoomLevel>();
             this.ZoomLevels.Add(new ZoomLevel(0.125));
