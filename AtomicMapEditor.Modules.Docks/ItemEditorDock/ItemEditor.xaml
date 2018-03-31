@@ -125,7 +125,15 @@
                                       ZoomIndex="{Binding ZoomIndex}"
                                       ZoomLevels="{Binding ZoomLevels}">
             <Grid x:Name="scrollViewerGrid">
-                
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseMove">
+                        <basetype:EventToCommand Command="{Binding UpdatePositionCommand, Mode=OneWay}"
+                                                 EventArgsConverter="{StaticResource MouseEventToPointConverter}"
+                                                 EventArgsConverterParameter="{Binding ElementName=itemImage}"
+                                                 PassEventArgsToCommand="True" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
                 <Grid.ContextMenu>
                     <ContextMenu>
                         <ContextMenu.ItemsSource>
@@ -146,18 +154,18 @@
                        RenderOptions.BitmapScalingMode="NearestNeighbor"
                        Stretch="None">
                     <i:Interaction.Triggers>
-                        <!--<i:EventTrigger EventName="MouseLeftButtonDown">
-                            <cmd:EventToCommand Command="{Binding SetSelectPointCommand, Mode=OneWay}"
-                                                EventArgsConverter="{StaticResource MouseEventToPointConverter}"
-                                                EventArgsConverterParameter="{Binding ElementName=itemImage}"
-                                                PassEventArgsToCommand="True" />
+                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                            <basetype:EventToCommand Command="{Binding SetSelectPointCommand, Mode=OneWay}"
+                                                     EventArgsConverter="{StaticResource MouseEventToPointConverter}"
+                                                     EventArgsConverterParameter="{Binding ElementName=itemImage}"
+                                                     PassEventArgsToCommand="True" />
                         </i:EventTrigger>
                         <i:EventTrigger EventName="MouseLeftButtonUp">
-                            <cmd:EventToCommand Command="{Binding SelectTilesCommand, Mode=OneWay}"
-                                                EventArgsConverter="{StaticResource MouseEventToPointConverter}"
-                                                EventArgsConverterParameter="{Binding ElementName=itemImage}"
-                                                PassEventArgsToCommand="True" />
-                        </i:EventTrigger>-->
+                            <basetype:EventToCommand Command="{Binding SelectTilesCommand, Mode=OneWay}"
+                                                     EventArgsConverter="{StaticResource MouseEventToPointConverter}"
+                                                     EventArgsConverterParameter="{Binding ElementName=itemImage}"
+                                                     PassEventArgsToCommand="True" />
+                        </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Image>
 
