@@ -348,6 +348,10 @@
       <Project>{b0caebff-8493-4d50-85f0-5a2d48396359}</Project>
       <Name>AtomicMapEditor.Modules.MapEditor</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AtomicMapEditor.Modules.Windows\AtomicMapEditor.Modules.Windows.csproj">
+      <Project>{69dae486-6e5a-4936-bc41-04719a925ced}</Project>
+      <Name>AtomicMapEditor.Modules.Windows</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\EMGU.CV.3.3.0.2824\build\Emgu.CV.targets" Condition="Exists('..\packages\EMGU.CV.3.3.0.2824\build\Emgu.CV.targets')" />

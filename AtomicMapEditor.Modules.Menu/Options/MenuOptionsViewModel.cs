@@ -309,7 +309,9 @@ namespace AtomicMapEditor.Modules.Menu.Options
 
         public void NewMap()
         {
-            Console.WriteLine("New Map");
+            OpenWindowMessage window = new OpenWindowMessage(WindowType.Map);
+            window.WindowTitle = "New Map";
+            this.ea.GetEvent<OpenWindowEvent>().Publish(window);
         }
 
         public void DuplicateMap()

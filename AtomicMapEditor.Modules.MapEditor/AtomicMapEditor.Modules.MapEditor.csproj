@@ -87,9 +87,7 @@
     </Compile>
     <Compile Include="Ribbon\MapEditorRibbonViewModel.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Windows\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Page Include="Editor\MainEditor.xaml">
       <SubType>Designer</SubType>

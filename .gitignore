@@ -118,3 +118,7 @@ packages/EMGU\.CV\.3\.3\.0\.2824/EMGU\.CV\.3\.3\.0\.2824\.nupkg
 packages/EMGU\.CV\.3\.3\.0\.2824/lib/net35/Emgu\.CV\.UI\.xml
 
 packages/EMGU\.CV\.3\.3\.0\.2824/lib/net35/Emgu\.CV\.World\.xml
+
+AtomicMapEditor\.Modules\.Windows/obj/Debug/
+
+AtomicMapEditor\.Modules\.Windows/bin/Debug/

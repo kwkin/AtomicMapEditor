@@ -2,11 +2,13 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using AtomicMapEditor.Infrastructure.BaseTypes;
 using AtomicMapEditor.Infrastructure.Core;
 using AtomicMapEditor.Infrastructure.Events;
+using AtomicMapEditor.Infrastructure.Requests;
 using AtomicMapEditor.Modules.Docks.ClipboardDock;
 using AtomicMapEditor.Modules.Docks.ItemEditorDock;
 using AtomicMapEditor.Modules.Docks.ItemListDock;
@@ -16,6 +18,7 @@ using AtomicMapEditor.Modules.Docks.SelectedBrushDock;
 using AtomicMapEditor.Modules.Docks.ToolboxDock;
 using AtomicMapEditor.Modules.MapEditor.Editor;
 using Prism.Events;
+using Prism.Interactivity.InteractionRequest;
 using Prism.Mvvm;
 using Xceed.Wpf.AvalonDock;
 using Xceed.Wpf.AvalonDock.Layout.Serialization;
@@ -25,7 +28,7 @@ namespace AtomicMapEditor.Modules.Docks.Core
     public class DockManagerViewModel : BindableBase, ILayoutViewModel
     {
         #region fields
-        
+
         // TODO add this in a config file
         public static string applicationName = "AtomicMapEditor";
 
@@ -35,7 +38,7 @@ namespace AtomicMapEditor.Modules.Docks.Core
 
 
         #region constructor & destructer
-        
+
         public DockManagerViewModel(DockingManager dockManager, IEventAggregator eventAggregator)
         {
             this.DockManager = dockManager;
@@ -44,19 +47,25 @@ namespace AtomicMapEditor.Modules.Docks.Core
 
             this.Documents = new ObservableCollection<EditorViewModelTemplate>();
             this.Anchorables = new ObservableCollection<DockViewModelTemplate>();
-            
+
+            this._MapWindowInteraction = new InteractionRequest<INotification>();
+
+            // TODO add filter to dock and window open messages
             this.ea.GetEvent<OpenDockEvent>().Subscribe(
-                OpenDock, 
+                OpenDock,
+                ThreadOption.PublisherThread);
+            this.ea.GetEvent<OpenWindowEvent>().Subscribe(
+                OpenWindow,
                 ThreadOption.PublisherThread);
             this.ea.GetEvent<NotificationActionEvent<string>>().Subscribe(
-                SaveLayoutMessageReceived, 
-                ThreadOption.PublisherThread, 
-                false, 
+                SaveLayoutMessageReceived,
+                ThreadOption.PublisherThread,
+                false,
                 (filter) => filter.Notification.Contains(MessageIds.SaveWorkspaceLayout));
             this.ea.GetEvent<NotificationEvent<string>>().Subscribe(
-                LoadLayoutMessageReceived, 
-                ThreadOption.PublisherThread, 
-                false, 
+                LoadLayoutMessageReceived,
+                ThreadOption.PublisherThread,
+                false,
                 (filter) => filter.Notification.Contains(MessageIds.LoadWorkspaceLayout));
         }
 
@@ -94,7 +103,7 @@ namespace AtomicMapEditor.Modules.Docks.Core
                 }
             }
         }
-        
+
         public string AppDataDirectory
         {
             get
@@ -116,14 +125,22 @@ namespace AtomicMapEditor.Modules.Docks.Core
             }
         }
 
+        private InteractionRequest<INotification> _MapWindowInteraction;
+        public IInteractionRequest MapWindowInteraction
+        {
+            get { return _MapWindowInteraction; }
+        }
+
+        public ContentControl MapWindowView { get; set; }
+
         #endregion properties
 
 
         #region methods
 
-        
         private void OpenDock(OpenDockMessage message)
         {
+            // TODO: use prism to resolve view models
             DockViewModelTemplate dockViewModel = null;
             switch (message.DockType)
             {
@@ -170,6 +187,47 @@ namespace AtomicMapEditor.Modules.Docks.Core
             this.Anchorables.Add(dockViewModel);
 
             // TODO: add active document
+        }
+        
+        private void OpenWindow(OpenWindowMessage message)
+        {
+            INotification notification = null;
+            string notificationTitle = string.Empty;
+            if (!string.IsNullOrEmpty(message.WindowTitle))
+            {
+                notificationTitle = message.WindowTitle;
+            }
+            
+            switch (message.WindowType)
+            {
+                case WindowType.Map:
+                    notification = NewMapWindow();
+                    notification.Title = notificationTitle;
+                    this._MapWindowInteraction.Raise(notification, OnMapWindowClosed);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        private INotification NewMapWindow()
+        {
+            this.MapWindowView = new Windows.MapEditorWindow.MapEditor();
+            RaisePropertyChanged(nameof(this.MapWindowView));
+
+            MapWindowConfirmation mapWindowConfirmation = new MapWindowConfirmation();
+            mapWindowConfirmation.Map = new Infrastructure.Models.MapModel("Map #1");
+            return mapWindowConfirmation;
+        }
+
+        private void OnMapWindowClosed(INotification notification)
+        {
+            IConfirmation confirmation = notification as IConfirmation;
+            if (confirmation.Confirmed)
+            {
+                Console.WriteLine("Map Updated");
+            }
         }
 
         // TODO update content id parameter type

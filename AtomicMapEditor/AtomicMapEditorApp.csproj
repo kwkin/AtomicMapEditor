@@ -150,6 +150,10 @@
       <Project>{8cbb4913-30ee-404d-af70-7ed0f565cb63}</Project>
       <Name>AtomicMapEditor.Modules.Menu</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AtomicMapEditor.Modules.Windows\AtomicMapEditor.Modules.Windows.csproj">
+      <Project>{69dae486-6e5a-4936-bc41-04719a925ced}</Project>
+      <Name>AtomicMapEditor.Modules.Windows</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AtomicMapEditor.Resources\AtomicMapEditor.Resources.csproj">
       <Project>{cbcd8c26-e73d-4c60-829c-f573edf4cceb}</Project>
       <Name>AtomicMapEditor.Resources</Name>
