@@ -12,10 +12,10 @@ using Ame.Modules.Docks.MinimapDock;
 using Ame.Modules.Docks.SelectedBrushDock;
 using Ame.Modules.Docks.ToolboxDock;
 using Ame.Modules.MapEditor.Editor;
-using AtomicMapEditor.Infrastructure.BaseTypes;
+using Ame.Infrastructure.BaseTypes;
 using Microsoft.Practices.Unity;
 
-namespace AtomicMapEditor.Modules.Docks.Core
+namespace Ame.Modules.Docks.Core
 {
     public static class DockViewModelSelector
     {

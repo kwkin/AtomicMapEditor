@@ -6,7 +6,7 @@ using System.Windows.Input;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Utils;
-using AtomicMapEditor.Infrastructure.BaseTypes;
+using Ame.Infrastructure.BaseTypes;
 using Prism.Commands;
 
 namespace Ame.Modules.MapEditor.Editor

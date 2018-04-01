@@ -9,7 +9,7 @@ using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Utils;
-using AtomicMapEditor.Infrastructure.BaseTypes;
+using Ame.Infrastructure.BaseTypes;
 using Prism.Commands;
 using Prism.Events;
 
@@ -64,7 +64,7 @@ namespace Ame.Modules.Docks.SelectedBrushDock
         public ICommand ZoomInCommand { get; private set; }
         public ICommand ZoomOutCommand { get; private set; }
         public ICommand SetZoomCommand { get; private set; }
-                
+
         public String PositionText { get; set; }
         public ScaleType Scale { get; set; }
         public List<ZoomLevel> ZoomLevels { get; set; }
@@ -102,8 +102,8 @@ namespace Ame.Modules.Docks.SelectedBrushDock
             RaisePropertyChanged(nameof(this.BrushImage));
         }
 
-        // TODO delegate the zoom in/out/set command to another class
-        // Maybe have a infobar class in the extended/custom components
+        // TODO delegate the zoom in/out/set command to another class Maybe have a infobar class in
+        // the extended/custom components
         public void ZoomIn()
         {
             if (this.ZoomIndex < this.ZoomLevels.Count - 1)

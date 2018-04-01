@@ -1,17 +1,17 @@
 ﻿<UserControl x:Class="Ame.Modules.Docks.SelectedBrushDock.SelectedBrush"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-             xmlns:conv="clr-namespace:Ame.Infrastructure.Converters;assembly=AtomicMapEditor.Infrastructure"
-             xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=AtomicMapEditor.Components"
              xmlns:basetype="clr-namespace:Ame.Infrastructure.BaseTypes;assembly=AtomicMapEditor.Infrastructure"
-             xmlns:models="clr-namespace:Ame.Infrastructure.Models;assembly=AtomicMapEditor.Infrastructure"
+             xmlns:conv="clr-namespace:Ame.Infrastructure.Converters;assembly=AtomicMapEditor.Infrastructure"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=AtomicMapEditor.Components"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:local="clr-namespace:Ame.Modules.Docks.SelectedBrushDock"
-             mc:Ignorable="d"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:Ame.Infrastructure.Models;assembly=AtomicMapEditor.Infrastructure"
              d:DesignHeight="300"
-             d:DesignWidth="300">
+             d:DesignWidth="300"
+             mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -28,15 +28,13 @@
         </Grid.RowDefinitions>
 
         <extcomp:ExtendedScrollViewer x:Name="itemScrollViewer"
-                                      Grid.Column="0"
                                       Grid.Row="0"
+                                      Grid.Column="0"
                                       HorizontalScrollBarVisibility="Visible"
                                       VerticalScrollBarVisibility="Visible"
                                       ZoomIndex="{Binding ZoomIndex}"
                                       ZoomLevels="{Binding ZoomLevels}">
-            <Grid x:Name="scrollViewerGrid"
-                  HorizontalAlignment="Center"
-                  VerticalAlignment="Center">
+            <Grid x:Name="scrollViewerGrid" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Grid.ContextMenu>
                     <ContextMenu>
                         <ContextMenu.ItemsSource>
@@ -46,26 +44,21 @@
                         </ContextMenu.ItemsSource>
                     </ContextMenu>
                 </Grid.ContextMenu>
-                
+
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseMove">
-                        <basetype:EventToCommand Command="{Binding UpdatePositionCommand, Mode=OneWay}"
-                                                 EventArgsConverter="{StaticResource MouseEventToPointConverter}"
-                                                 EventArgsConverterParameter="{Binding ElementName=itemImage}"
-                                                 PassEventArgsToCommand="True" />
+                        <basetype:EventToCommand Command="{Binding UpdatePositionCommand, Mode=OneWay}" EventArgsConverter="{StaticResource MouseEventToPointConverter}" EventArgsConverterParameter="{Binding ElementName=itemImage}" PassEventArgsToCommand="True" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
 
-                <Rectangle Stretch="Fill"
-                           Fill="Transparent" />
+                <Rectangle Fill="Transparent" Stretch="Fill" />
 
                 <Image x:Name="itemImage"
-                       Stretch="None"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
                        RenderOptions.BitmapScalingMode="NearestNeighbor"
-                       Source="{Binding BrushImage}">
-                </Image>
+                       Source="{Binding BrushImage}"
+                       Stretch="None" />
 
                 <Grid.LayoutTransform>
                     <TransformGroup>
@@ -82,28 +75,19 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <Label x:Name="mousePositionLabel"
-                   Content="{Binding PositionText}"
-                   Grid.Column="0"
-                   Width="65">
-            </Label>
+            <Label x:Name="mousePositionLabel" Grid.Column="0" Width="65" Content="{Binding PositionText}" />
             <ComboBox x:Name="coordinateComboBox"
-                      SelectedItem="{Binding Scale, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       Grid.Column="1"
                       Width="65"
                       VerticalAlignment="Center"
-                      IsSynchronizedWithCurrentItem="True"
-                      ItemsSource="{Binding Source={basetype:EnumBindingSourceExtension {x:Type models:ScaleType}}}">
-            </ComboBox>
+                      ItemsSource="{Binding Source={basetype:EnumBindingSourceExtension {x:Type models:ScaleType}}}"
+                      SelectedItem="{Binding Scale, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <ComboBox x:Name="zoomComboBox"
+                      Grid.Column="2"
                       Width="65"
                       VerticalAlignment="Center"
-                      Grid.Column="2"
                       ItemsSource="{Binding ZoomLevels}"
-                      SelectedIndex="{Binding ZoomIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                      DisplayMemberPath="description"
-                      SelectedValuePath="zoom">
-            </ComboBox>
+                      SelectedIndex="{Binding ZoomIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
     </Grid>
 </UserControl>

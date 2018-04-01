@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 using Ame.Infrastructure.BaseTypes;
-using AtomicMapEditor.Infrastructure.BaseTypes;
+using Ame.Infrastructure.BaseTypes;
 using Prism.Commands;
 
 namespace Ame.Modules.Docks.ItemListDock

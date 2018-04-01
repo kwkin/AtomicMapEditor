@@ -1,5 +1,5 @@
 ﻿using System;
-using AtomicMapEditor.Infrastructure.BaseTypes;
+using Ame.Infrastructure.BaseTypes;
 
 namespace Ame.Infrastructure.Events
 {

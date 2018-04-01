@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace AtomicMapEditor.Infrastructure.BaseTypes
+namespace Ame.Infrastructure.BaseTypes
 {
     public enum DockType
     {

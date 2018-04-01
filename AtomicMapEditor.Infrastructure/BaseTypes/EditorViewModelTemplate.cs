@@ -1,4 +1,4 @@
-﻿using AtomicMapEditor.Infrastructure.BaseTypes;
+﻿using Ame.Infrastructure.BaseTypes;
 
 namespace Ame.Infrastructure.BaseTypes
 {
