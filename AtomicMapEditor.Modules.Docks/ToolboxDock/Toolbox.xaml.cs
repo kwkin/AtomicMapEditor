@@ -23,6 +23,7 @@ namespace Ame.Modules.Docks.ToolboxDock
         public Toolbox()
         {
             InitializeComponent();
+            System.Diagnostics.PresentationTraceSources.DataBindingSource.Switch.Level = System.Diagnostics.SourceLevels.Critical;
         }
     }
 }

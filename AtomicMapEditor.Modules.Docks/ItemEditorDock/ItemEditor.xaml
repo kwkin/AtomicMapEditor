@@ -219,7 +219,6 @@
                       Grid.Column="1"
                       Width="65"
                       VerticalAlignment="Center"
-                      IsSynchronizedWithCurrentItem="True"
                       ItemsSource="{Binding Source={basetype:EnumBindingSourceExtension {x:Type models:ScaleType}}}">
             </ComboBox>
             <ComboBox x:Name="zoomComboBox"
@@ -227,9 +226,7 @@
                       VerticalAlignment="Center"
                       Grid.Column="2"
                       ItemsSource="{Binding ZoomLevels}"
-                      SelectedIndex="{Binding ZoomIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                      DisplayMemberPath="description"
-                      SelectedValuePath="zoom">
+                      SelectedIndex="{Binding ZoomIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             </ComboBox>
         </Grid>
     </Grid>

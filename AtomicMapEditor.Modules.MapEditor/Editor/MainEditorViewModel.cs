@@ -6,7 +6,6 @@ using System.Windows.Input;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Utils;
-using Ame.Infrastructure.BaseTypes;
 using Prism.Commands;
 
 namespace Ame.Modules.MapEditor.Editor
@@ -65,8 +64,9 @@ namespace Ame.Modules.MapEditor.Editor
 
         #endregion properties
 
+
         #region methods
-        
+
         public void ZoomIn()
         {
             if (this.ZoomIndex < this.ZoomLevels.Count - 1)

@@ -23,6 +23,7 @@ namespace Ame.Modules.Docks.MinimapDock
         public Minimap()
         {
             InitializeComponent();
+            System.Diagnostics.PresentationTraceSources.DataBindingSource.Switch.Level = System.Diagnostics.SourceLevels.Critical;
         }
     }
 }

@@ -23,6 +23,7 @@ namespace Ame.Modules.Docks.ItemListDock
         public ItemList()
         {
             InitializeComponent();
+            System.Diagnostics.PresentationTraceSources.DataBindingSource.Switch.Level = System.Diagnostics.SourceLevels.Critical;
         }
     }
 }

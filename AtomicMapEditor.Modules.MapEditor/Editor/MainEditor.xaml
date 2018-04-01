@@ -32,7 +32,9 @@
                                       VerticalScrollBarVisibility="Visible"
                                       ZoomIndex="{Binding ZoomIndex}"
                                       ZoomLevels="{Binding ZoomLevels}">
-            <Grid x:Name="scrollViewerGrid" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid x:Name="scrollViewerGrid"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center">
                 <Grid.ContextMenu>
                     <ContextMenu>
                         <ContextMenu.ItemsSource>
@@ -45,22 +47,31 @@
 
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseMove">
-                        <basetype:EventToCommand Command="{Binding UpdatePositionCommand, Mode=OneWay}" 
-                                                 EventArgsConverter="{StaticResource MouseEventToPointConverter}" 
-                                                 EventArgsConverterParameter="{Binding ElementName=CanvasMapImage}" 
+                        <basetype:EventToCommand Command="{Binding UpdatePositionCommand, Mode=OneWay}"
+                                                 EventArgsConverter="{StaticResource MouseEventToPointConverter}"
+                                                 EventArgsConverterParameter="{Binding ElementName=CanvasMapImage}"
                                                  PassEventArgsToCommand="True" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
 
-                <Rectangle x:Name="selectionHitBox" Fill="Transparent" Stretch="Fill" />
+                <Rectangle x:Name="selectionHitBox"
+                           Fill="Transparent"
+                           Stretch="Fill" />
 
-                <Canvas x:Name="CanvasMapImage" Width="1024" Height="1024">
+                <Canvas x:Name="CanvasMapImage"
+                        Width="1024"
+                        Height="1024">
                     <Canvas.Background>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                            <GradientStop Offset="0.0" Color="Yellow" />
-                            <GradientStop Offset="0.25" Color="Red" />
-                            <GradientStop Offset="0.75" Color="Blue" />
-                            <GradientStop Offset="1.0" Color="Green" />
+                        <LinearGradientBrush StartPoint="0,0"
+                                             EndPoint="1,1">
+                            <GradientStop Offset="0.0"
+                                          Color="Yellow" />
+                            <GradientStop Offset="0.25"
+                                          Color="Red" />
+                            <GradientStop Offset="0.75"
+                                          Color="Blue" />
+                            <GradientStop Offset="1.0"
+                                          Color="Green" />
                         </LinearGradientBrush>
                     </Canvas.Background>
                 </Canvas>
@@ -93,24 +104,25 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Label x:Name="mousePositionLabel" Grid.Column="0" Width="65" Content="{Binding PositionText}" />
+            <Label x:Name="mousePositionLabel"
+                   Grid.Column="0"
+                   Width="65"
+                   Content="{Binding PositionText}" />
             <ComboBox x:Name="coordinateComboBox"
                       Grid.Column="1"
                       Width="65"
                       VerticalAlignment="Center"
-                      IsSynchronizedWithCurrentItem="True"
                       ItemsSource="{Binding Source={basetype:EnumBindingSourceExtension {x:Type models:ScaleType}}}"
                       SelectedItem="{Binding Scale, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <ComboBox x:Name="zoomComboBox"
                       Grid.Column="2"
                       Width="65"
                       VerticalAlignment="Center"
-                      DisplayMemberPath="description"
                       ItemsSource="{Binding ZoomLevels}"
-                      SelectedIndex="{Binding ZoomIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                      SelectedValuePath="zoom" />
+                      SelectedIndex="{Binding ZoomIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <Label Grid.Column="3">
-                <TextBlock Text="Dynamically Updating Help Text" TextTrimming="CharacterEllipsis" />
+                <TextBlock Text="Dynamically Updating Help Text"
+                           TextTrimming="CharacterEllipsis" />
             </Label>
         </Grid>
     </Grid>
