@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 using Ame.Infrastructure.BaseTypes;
+using AtomicMapEditor.Infrastructure.BaseTypes;
 using Prism.Commands;
 
 namespace Ame.Modules.Docks.MinimapDock
@@ -16,7 +17,6 @@ namespace Ame.Modules.Docks.MinimapDock
         public MinimapViewModel()
         {
             this.Title = "Minimap";
-            this.ContentId = "Minimap";
 
             this.FitMinimapCommand = new DelegateCommand(() => FitMinimap());
             this.ToggleGridCommand = new DelegateCommand(() => ToggleGrid());
@@ -33,6 +33,14 @@ namespace Ame.Modules.Docks.MinimapDock
         public ICommand ToggleGridCommand { get; private set; }
         public ICommand ToggleCollisionCommand { get; private set; }
         public ICommand CenterOnPointCommand { get; private set; }
+
+        public override DockType DockType
+        {
+            get
+            {
+                return DockType.Minimap;
+            }
+        }
 
         #endregion properties
 

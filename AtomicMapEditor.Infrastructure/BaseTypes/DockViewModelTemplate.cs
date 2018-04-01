@@ -2,7 +2,7 @@
 
 namespace AtomicMapEditor.Infrastructure.BaseTypes
 {
-    public class DockViewModelTemplate : BindableBase
+    public abstract class DockViewModelTemplate : BindableBase
     {
         #region fields
 
@@ -17,7 +17,6 @@ namespace AtomicMapEditor.Infrastructure.BaseTypes
         #region properties
 
         private bool _IsActive = false;
-
         public bool IsActive
         {
             get { return _IsActive; }
@@ -25,28 +24,26 @@ namespace AtomicMapEditor.Infrastructure.BaseTypes
         }
 
         private bool _IsSelected = false;
-
         public bool IsSelected
         {
             get { return _IsSelected; }
             set { SetProperty(ref _IsSelected, value); }
         }
 
-        private string _ContentId = null;
-
-        public string ContentId
-        {
-            get { return _ContentId; }
-            set { SetProperty(ref _ContentId, value); }
-        }
-
         private string _Title;
-
         public string Title
         {
             get { return _Title; }
             set { SetProperty(ref _Title, value); }
         }
+
+        public abstract DockType DockType { get; }
+
+        public string ContentId
+        {
+            get { return DockTypeUtils.GetId(this.DockType); }
+        }
+
 
         #endregion properties
 

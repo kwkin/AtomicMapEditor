@@ -9,6 +9,7 @@ using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Utils;
+using AtomicMapEditor.Infrastructure.BaseTypes;
 using Prism.Commands;
 using Prism.Events;
 
@@ -29,7 +30,6 @@ namespace Ame.Modules.Docks.SelectedBrushDock
         {
             this.eventAggregator = eventAggregator;
             this.Title = "Selected Brush";
-            this.ContentId = "Selected Brush";
 
             this.ZoomLevels = new List<ZoomLevel>();
             this.ZoomLevels.Add(new ZoomLevel("12.5%", 0.125));
@@ -72,11 +72,19 @@ namespace Ame.Modules.Docks.SelectedBrushDock
 
         public BitmapImage BrushImage { get; set; }
 
+        public override DockType DockType
+        {
+            get
+            {
+                return DockType.SelectedBrush;
+            }
+        }
+
         #endregion properties
 
 
         #region methods
-        
+
         private void UpdateBrushImage(UpdateBrushMessage message)
         {
             // TODO add this into a processing class/utils

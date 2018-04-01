@@ -2,7 +2,7 @@
 
 namespace Ame.Infrastructure.BaseTypes
 {
-    public class DockToolViewModelTemplate : DockViewModelTemplate
+    public abstract class DockToolViewModelTemplate : DockViewModelTemplate
     {
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 using Ame.Infrastructure.BaseTypes;
+using AtomicMapEditor.Infrastructure.BaseTypes;
 using Prism.Commands;
 
 namespace Ame.Modules.Docks.ItemListDock
@@ -17,13 +18,28 @@ namespace Ame.Modules.Docks.ItemListDock
         public ItemListViewModel()
         {
             this.Title = "Item List";
-            this.ContentId = "Item List";
 
             this.AddTilesetCommand = new DelegateCommand(() => AddTileset());
             this.ViewPropertiesCommand = new DelegateCommand(() => ViewProperties());
         }
 
         #endregion constructor & destructer
+
+
+        #region properties
+
+        public ICommand ViewPropertiesCommand { get; private set; }
+        public ICommand AddTilesetCommand { get; private set; }
+
+        public override DockType DockType
+        {
+            get
+            {
+                return DockType.ItemList;
+            }
+        }
+
+        #endregion properties
 
 
         #region methods
@@ -39,13 +55,5 @@ namespace Ame.Modules.Docks.ItemListDock
         }
 
         #endregion methods
-
-
-        #region properties
-
-        public ICommand ViewPropertiesCommand { get; private set; }
-        public ICommand AddTilesetCommand { get; private set; }
-
-        #endregion properties
     }
 }

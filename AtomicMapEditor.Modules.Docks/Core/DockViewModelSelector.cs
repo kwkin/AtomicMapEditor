@@ -17,7 +17,7 @@ using Microsoft.Practices.Unity;
 
 namespace AtomicMapEditor.Modules.Docks.Core
 {
-    public static class DockSelector
+    public static class DockViewModelSelector
     {
         public static DockViewModelTemplate GetViewModel(DockType type, IUnityContainer container)
         {

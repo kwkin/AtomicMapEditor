@@ -6,6 +6,7 @@ using System.Windows.Input;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Utils;
+using AtomicMapEditor.Infrastructure.BaseTypes;
 using Prism.Commands;
 
 namespace Ame.Modules.MapEditor.Editor
@@ -17,7 +18,6 @@ namespace Ame.Modules.MapEditor.Editor
         public MainEditorViewModel()
         {
             this.Title = "Main Editor";
-            this.ContentId = "Map Editor";
 
             this.ZoomLevels = new List<ZoomLevel>();
             this.ZoomLevels.Add(new ZoomLevel(0.125));
@@ -50,21 +50,23 @@ namespace Ame.Modules.MapEditor.Editor
         public ICommand ZoomOutCommand { get; private set; }
         public ICommand SetZoomCommand { get; private set; }
 
-        public ScaleType Scale { get; set; }
         public String PositionText { get; set; }
+        public ScaleType Scale { get; set; }
         public List<ZoomLevel> ZoomLevels { get; set; }
-        private int _ZoomIndex;
-        public int ZoomIndex
+        public int ZoomIndex { get; set; }
+
+        public override DockType DockType
         {
-            get { return _ZoomIndex; }
-            set { SetProperty(ref _ZoomIndex, value); }
+            get
+            {
+                return DockType.MapEditor;
+            }
         }
 
         #endregion properties
-        
+
         #region methods
-
-
+        
         public void ZoomIn()
         {
             if (this.ZoomIndex < this.ZoomLevels.Count - 1)

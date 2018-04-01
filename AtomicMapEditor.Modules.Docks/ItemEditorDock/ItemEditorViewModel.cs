@@ -11,6 +11,7 @@ using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Utils;
+using AtomicMapEditor.Infrastructure.BaseTypes;
 using Emgu.CV;
 using Microsoft.Win32;
 using Prism.Commands;
@@ -44,7 +45,6 @@ namespace Ame.Modules.Docks.ItemEditorDock
             this.TilesetModel = tilesetModel;
             this.eventAggregator = eventAggregator;
             this.Title = "Item - " + Path.GetFileNameWithoutExtension(tilesetModel.SourcePath);
-            this.ContentId = "Item";
 
             this.CanvasGridItems = new ObservableCollection<Visual>();
             this.CanvasSelectItems = new ObservableCollection<Visual>();
@@ -108,18 +108,21 @@ namespace Ame.Modules.Docks.ItemEditorDock
         public ScaleType Scale { get; set; }
         public String PositionText { get; set; }
         public List<ZoomLevel> ZoomLevels { get; set; }
-        private int _ZoomIndex;
-        public int ZoomIndex
-        {
-            get { return _ZoomIndex; }
-            set { SetProperty(ref _ZoomIndex, value); }
-        }
+        public int ZoomIndex { get; set; }
         public bool IsGridOn { get; set; }
         public ObservableCollection<Visual> CanvasGridItems { get; set; }
         public ObservableCollection<Visual> CanvasSelectItems { get; set; }
 
         public TilesetModel TilesetModel { get; set; }
         public DrawingImage ItemImage { get; set; }
+        
+        public override DockType DockType
+        {
+            get
+            {
+                return DockType.ItemEditor;
+            }
+        }
 
         #endregion properties
 
@@ -185,6 +188,7 @@ namespace Ame.Modules.Docks.ItemEditorDock
             if (this.ZoomIndex < this.ZoomLevels.Count - 1)
             {
                 this.ZoomIndex += 1;
+                RaisePropertyChanged(nameof(this.ZoomIndex));
             }
         }
 
@@ -193,6 +197,7 @@ namespace Ame.Modules.Docks.ItemEditorDock
             if (this.ZoomIndex > 0)
             {
                 this.ZoomIndex -= 1;
+                RaisePropertyChanged(nameof(this.ZoomIndex));
             }
         }
 
@@ -208,6 +213,7 @@ namespace Ame.Modules.Docks.ItemEditorDock
                 zoom = 0;
             }
             this.ZoomIndex = zoom;
+            RaisePropertyChanged(nameof(this.ZoomIndex));
         }
 
         /// <summary>

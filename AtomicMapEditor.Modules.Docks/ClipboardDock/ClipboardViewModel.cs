@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 using Ame.Infrastructure.BaseTypes;
+using AtomicMapEditor.Infrastructure.BaseTypes;
 using Prism.Commands;
 
 namespace Ame.Modules.Docks.ClipboardDock
@@ -17,7 +18,6 @@ namespace Ame.Modules.Docks.ClipboardDock
         public ClipboardViewModel()
         {
             this.Title = "Clipboard";
-            this.ContentId = "Clipboard";
 
             this.RemoveItemCommand = new DelegateCommand(() => RemoveItem());
             this.SortCommand = new DelegateCommand(() => Sort());
@@ -50,6 +50,14 @@ namespace Ame.Modules.Docks.ClipboardDock
         public ICommand ExpandAllCommand { get; private set; }
         public ICommand CollapseAllCommand { get; private set; }
         public ICommand ShowGroupsCommand { get; private set; }
+
+        public override DockType DockType
+        {
+            get
+            {
+                return DockType.Clipboard;
+            }
+        }
 
         #endregion properties
 

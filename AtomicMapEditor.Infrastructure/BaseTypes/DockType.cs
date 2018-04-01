@@ -37,7 +37,7 @@ namespace AtomicMapEditor.Infrastructure.BaseTypes
     {
         #region methods
 
-        public static string GetName(DockType contentId)
+        public static string GetId(DockType contentId)
         {
             DockContentIdAttribute attr = GetAttr(contentId);
             return attr.Id;

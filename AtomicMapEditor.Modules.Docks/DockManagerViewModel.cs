@@ -84,6 +84,8 @@ namespace Ame.Modules.Docks
         public DockLayoutViewModel DockLayout { get; private set; }
         public ObservableCollection<DockViewModelTemplate> Documents { get; private set; }
         public ObservableCollection<DockViewModelTemplate> Anchorables { get; private set; }
+        
+        public ContentControl MapWindowView { get; set; }
 
         private bool _IsBusy;
         public bool IsBusy
@@ -110,6 +112,25 @@ namespace Ame.Modules.Docks
             }
         }
 
+        private DockViewModelTemplate _ActiveDocument = null;
+        public DockViewModelTemplate ActiveDocument
+        {
+            get { return _ActiveDocument; }
+            set
+            {
+                if (SetProperty(ref _ActiveDocument, value))
+                {
+                    ActiveDocumentChanged?.Invoke(this, EventArgs.Empty);
+                }
+            }
+        }
+
+        private InteractionRequest<INotification> _MapWindowInteraction;
+        public IInteractionRequest MapWindowInteraction
+        {
+            get { return _MapWindowInteraction; }
+        }
+
         public string AppDataDirectory
         {
             get
@@ -131,27 +152,6 @@ namespace Ame.Modules.Docks
             }
         }
 
-        private DockViewModelTemplate _ActiveDocument = null;
-        public DockViewModelTemplate ActiveDocument
-        {
-            get { return _ActiveDocument; }
-            set
-            {
-                if (SetProperty(ref _ActiveDocument, value))
-                {
-                    ActiveDocumentChanged?.Invoke(this, EventArgs.Empty);
-                }
-            }
-        }
-
-        private InteractionRequest<INotification> _MapWindowInteraction;
-        public IInteractionRequest MapWindowInteraction
-        {
-            get { return _MapWindowInteraction; }
-        }
-
-        public ContentControl MapWindowView { get; set; }
-
         #endregion properties
 
 
@@ -162,12 +162,7 @@ namespace Ame.Modules.Docks
             IUnityContainer unityContainer = new UnityContainer();
             unityContainer.RegisterInstance<IEventAggregator>(this.ea);
 
-            DockViewModelTemplate dockViewModel = DockSelector.GetViewModel(message.DockType, unityContainer);
-
-            if (dockViewModel == null)
-            {
-                return;
-            }
+            DockViewModelTemplate dockViewModel = DockViewModelSelector.GetViewModel(message.DockType, unityContainer);
             if (!string.IsNullOrEmpty(message.DockTitle))
             {
                 dockViewModel.Title = message.DockTitle;
@@ -243,7 +238,7 @@ namespace Ame.Modules.Docks
             unityContainer.RegisterInstance<IEventAggregator>(this.ea);
 
             DockType dockType = DockTypeUtils.GetById(args.Model.ContentId);
-            DockViewModelTemplate contentViewModel = DockSelector.GetViewModel(dockType, unityContainer);
+            DockViewModelTemplate contentViewModel = DockViewModelSelector.GetViewModel(dockType, unityContainer);
             if (contentViewModel == null)
             {
                 args.Cancel = true;

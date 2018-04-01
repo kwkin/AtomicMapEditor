@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 using Ame.Infrastructure.BaseTypes;
+using AtomicMapEditor.Infrastructure.BaseTypes;
 using Prism.Commands;
 
 namespace Ame.Modules.Docks.LayerListDock
@@ -17,7 +18,6 @@ namespace Ame.Modules.Docks.LayerListDock
         public LayerListViewModel()
         {
             this.Title = "Layer List";
-            this.ContentId = "Layer List";
 
             this.AddTilesetLayerCommand = new DelegateCommand(() => AddTilesetLayer());
             this.AddLayerGroupCommand = new DelegateCommand(() => AddLayerGroup());
@@ -55,6 +55,14 @@ namespace Ame.Modules.Docks.LayerListDock
         public ICommand EditCollisionsCommand { get; private set; }
         public ICommand LayerToMapSizeCommand { get; private set; }
         public ICommand NewLayerCommand { get; private set; }
+
+        public override DockType DockType
+        {
+            get
+            {
+                return DockType.LayerList;
+            }
+        }
 
         #endregion properties
 

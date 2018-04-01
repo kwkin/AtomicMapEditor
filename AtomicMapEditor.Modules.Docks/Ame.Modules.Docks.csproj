@@ -128,7 +128,7 @@
     <Compile Include="ClipboardDock\ClipboardViewModel.cs" />
     <Compile Include="Core\DockLayoutSerializer.cs" />
     <Compile Include="Core\DockLayoutViewModel.cs" />
-    <Compile Include="Core\DockSelector.cs" />
+    <Compile Include="Core\DockViewModelSelector.cs" />
     <Compile Include="DockManager.xaml.cs">
       <DependentUpon>DockManager.xaml</DependentUpon>
     </Compile>
