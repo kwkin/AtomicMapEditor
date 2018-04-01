@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace AtomicMapEditor.Infrastructure.Utils
+namespace Ame.Infrastructure.Utils
 {
     public static class SizeUtils
     {

@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AtomicMapEditor.Modules.Windows.MapEditorWindow
+namespace Ame.Modules.Windows.MapEditorWindow
 {
     /// <summary>
     /// Interaction logic for MapEditor.xaml

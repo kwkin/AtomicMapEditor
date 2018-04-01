@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
-using AtomicMapEditor.Infrastructure.Models;
+using Ame.Infrastructure.Models;
 
-namespace AtomicMapEditor.Infrastructure.Converters
+namespace Ame.Infrastructure.Converters
 {
     public class DoubleToZoomLevelConverter : IValueConverter
     {

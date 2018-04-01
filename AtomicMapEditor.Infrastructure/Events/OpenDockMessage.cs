@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AtomicMapEditor.Infrastructure.Events
+namespace Ame.Infrastructure.Events
 {
     public enum DockType
     {

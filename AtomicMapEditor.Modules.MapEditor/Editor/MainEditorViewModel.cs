@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
-using AtomicMapEditor.Infrastructure.BaseTypes;
-using AtomicMapEditor.Infrastructure.Models;
-using AtomicMapEditor.Infrastructure.Utils;
+using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Models;
+using Ame.Infrastructure.Utils;
 using Prism.Commands;
 
-namespace AtomicMapEditor.Modules.MapEditor.Editor
+namespace Ame.Modules.MapEditor.Editor
 {
     public class MainEditorViewModel : EditorViewModelTemplate
     {

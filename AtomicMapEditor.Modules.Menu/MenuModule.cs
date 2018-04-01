@@ -1,9 +1,9 @@
-﻿using AtomicMapEditor.Infrastructure.Core;
-using AtomicMapEditor.Modules.Menu.Options;
+﻿using Ame.Infrastructure.Core;
+using Ame.Modules.Menu.Options;
 using Prism.Modularity;
 using Prism.Regions;
 
-namespace AtomicMapEditor.Modules.Menu
+namespace Ame.Modules.Menu
 {
     public class MenuModule : IModule
     {

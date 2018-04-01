@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Windows.Input;
-using AtomicMapEditor.Infrastructure.Models;
-using AtomicMapEditor.Infrastructure.Requests;
+using Ame.Infrastructure.Models;
+using Ame.Infrastructure.Requests;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
 using Prism.Mvvm;
 
-namespace AtomicMapEditor.Modules.Windows.MapEditorWindow
+namespace Ame.Modules.Windows.MapEditorWindow
 {
     public class MapEditorViewModel : BindableBase, IInteractionRequestAware
     {

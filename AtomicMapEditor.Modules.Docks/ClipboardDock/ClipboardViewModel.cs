@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Input;
-using AtomicMapEditor.Infrastructure.BaseTypes;
+using Ame.Infrastructure.BaseTypes;
 using Prism.Commands;
 
-namespace AtomicMapEditor.Modules.Docks.ClipboardDock
+namespace Ame.Modules.Docks.ClipboardDock
 {
     public class ClipboardViewModel : DockViewModelTemplate
     {

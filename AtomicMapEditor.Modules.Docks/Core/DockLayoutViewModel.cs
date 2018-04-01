@@ -5,14 +5,14 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
-using AtomicMapEditor.Infrastructure.Core;
-using AtomicMapEditor.Infrastructure.Events;
+using Ame.Infrastructure.Core;
+using Ame.Infrastructure.Events;
 using ICSharpCode.AvalonEdit.Utils;
 using Prism.Commands;
 using Prism.Events;
 using Xceed.Wpf.AvalonDock;
 
-namespace AtomicMapEditor.Modules.Docks.Core
+namespace Ame.Modules.Docks.Core
 {
     public class DockLayoutViewModel
     {

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AE7E3265-B5CF-464A-80B2-415FF1CF9C6C}</ProjectGuid>
+    <ProjectGuid>{8CBB4913-30EE-404D-AF70-7ED0F565CB63}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AtomicMapEditor.Components</RootNamespace>
-    <AssemblyName>AtomicMapEditor.Components</AssemblyName>
+    <RootNamespace>AtomicMapEditor.Modules.Menu</RootNamespace>
+    <AssemblyName>AtomicMapEditor.Modules.Menu</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -62,7 +62,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
@@ -77,20 +76,31 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extended\ExtendedScrollViewer.cs" />
-    <Compile Include="Extended\IconButton.cs" />
-    <Compile Include="Extended\IconRadioButton.cs" />
-    <Compile Include="Extended\IconToggleButton.cs" />
+    <Compile Include="MenuModule.cs" />
+    <Compile Include="Options\MenuOptions.xaml.cs">
+      <DependentUpon>MenuOptions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Options\MenuOptionsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AtomicMapEditor.Infrastructure\AtomicMapEditor.Infrastructure.csproj">
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AtomicMapEditor.Infrastructure\Ame.Infrastructure.csproj">
       <Project>{9d27d8dc-5cd8-46d9-b702-efeb6d66f236}</Project>
-      <Name>AtomicMapEditor.Infrastructure</Name>
+      <Name>Ame.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AtomicMapEditor.Resources\Ame.Resources.csproj">
+      <Project>{cbcd8c26-e73d-4c60-829c-f573edf4cceb}</Project>
+      <Name>Ame.Resources</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <Page Include="Options\MenuOptions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Windows;
-using AtomicMapEditor.Modules.Docks;
-using AtomicMapEditor.Modules.Docks.Core;
-using AtomicMapEditor.Modules.MapEditor;
-using AtomicMapEditor.Modules.MapEditor.Editor;
-using AtomicMapEditor.Modules.Menu;
-using AtomicMapEditor.Modules.Menu.Options;
-using AtomicMapEditor.Modules.Windows;
-using AtomicMapEditor.Modules.Windows.MapEditorWindow;
+using Ame.Modules.Docks;
+using Ame.Modules.Docks.Core;
+using Ame.Modules.MapEditor;
+using Ame.Modules.MapEditor.Editor;
+using Ame.Modules.Menu;
+using Ame.Modules.Menu.Options;
+using Ame.Modules.Windows;
+using Ame.Modules.Windows.MapEditorWindow;
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Unity;
 
-namespace AtomicMapEditor
+namespace Ame
 {
     internal class AtomicMapEditorBootstrapper : UnityBootstrapper
     {

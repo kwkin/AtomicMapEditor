@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AtomicMapEditor.Modules.Docks.ItemListDock
+namespace Ame.Modules.Docks.ItemListDock
 {
     /// <summary>
     /// Interaction logic for ItemListEntry.xaml

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AtomicMapEditor.Infrastructure.Models
+namespace Ame.Infrastructure.Models
 {
     public class MapModel
     {

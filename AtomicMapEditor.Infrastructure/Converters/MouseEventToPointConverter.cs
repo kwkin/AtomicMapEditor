@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace AtomicMapEditor.Infrastructure.Converters
+namespace Ame.Infrastructure.Converters
 {
     public class MouseEventToPointConverter : IValueConverter
     {

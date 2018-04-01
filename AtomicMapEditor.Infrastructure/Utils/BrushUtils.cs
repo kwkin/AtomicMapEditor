@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Emgu.CV;
 
-namespace AtomicMapEditor.Infrastructure.Utils
+namespace Ame.Infrastructure.Utils
 {
     public static class BrushUtils
     {

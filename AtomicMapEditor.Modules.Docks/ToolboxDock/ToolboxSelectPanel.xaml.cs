@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AtomicMapEditor.Modules.Docks.ToolboxDock
+namespace Ame.Modules.Docks.ToolboxDock
 {
     /// <summary>
     /// Interaction logic for ToolboxSelectPanel.xaml

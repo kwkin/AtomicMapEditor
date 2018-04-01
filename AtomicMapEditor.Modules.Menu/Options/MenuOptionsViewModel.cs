@@ -2,12 +2,12 @@
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Windows.Input;
-using AtomicMapEditor.Infrastructure.Events;
+using Ame.Infrastructure.Events;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 
-namespace AtomicMapEditor.Modules.Menu.Options
+namespace Ame.Modules.Menu.Options
 {
     public class MenuOptionsViewModel : BindableBase
     {

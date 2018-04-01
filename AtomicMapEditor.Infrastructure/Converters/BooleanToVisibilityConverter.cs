@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Data;
 
-namespace AtomicMapEditor.Infrastructure.Converters
+namespace Ame.Infrastructure.Converters
 {
     public class BooleanToVisiblityConverter : IValueConverter
     {

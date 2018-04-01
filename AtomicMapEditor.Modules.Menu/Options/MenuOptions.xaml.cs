@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AtomicMapEditor.Modules.Menu.Options
+namespace Ame.Modules.Menu.Options
 {
     /// <summary>
     /// Interaction logic for MenuOptions.xaml

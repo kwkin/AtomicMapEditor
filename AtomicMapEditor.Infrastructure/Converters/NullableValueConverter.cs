@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace AtomicMapEditor.Infrastructure.Converters
+namespace Ame.Infrastructure.Converters
 {
     public class NullableValueConverter : IValueConverter
     {

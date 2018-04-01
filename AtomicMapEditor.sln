@@ -5,25 +5,25 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtomicMapEditorApp", "AtomicMapEditor\AtomicMapEditorApp.csproj", "{C0A08449-4750-4CF5-A66F-C12D6948678E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AtomicMapEditor.Common", "AtomicMapEditor.Common", "{F8EA4AED-188B-4439-ACD1-9C3E6EE81112}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ame.Common", "Ame.Common", "{F8EA4AED-188B-4439-ACD1-9C3E6EE81112}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AtomicMapEditor.UnitTests", "AtomicMapEditor.UnitTests", "{905A50A7-306B-4A55-A6D5-4EA51A7585C8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ame.UnitTests", "Ame.UnitTests", "{905A50A7-306B-4A55-A6D5-4EA51A7585C8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AtomicMapEditor.Modules", "AtomicMapEditor.Modules", "{25A04702-6B3E-45B8-8707-835FFD9227EF}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ame.Modules", "Ame.Modules", "{25A04702-6B3E-45B8-8707-835FFD9227EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtomicMapEditor.Infrastructure", "AtomicMapEditor.Infrastructure\AtomicMapEditor.Infrastructure.csproj", "{9D27D8DC-5CD8-46D9-B702-EFEB6D66F236}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ame.Infrastructure", "AtomicMapEditor.Infrastructure\Ame.Infrastructure.csproj", "{9D27D8DC-5CD8-46D9-B702-EFEB6D66F236}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtomicMapEditor.Modules.MapEditor", "AtomicMapEditor.Modules.MapEditor\AtomicMapEditor.Modules.MapEditor.csproj", "{B0CAEBFF-8493-4D50-85F0-5A2D48396359}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ame.Modules.MapEditor", "AtomicMapEditor.Modules.MapEditor\Ame.Modules.MapEditor.csproj", "{B0CAEBFF-8493-4D50-85F0-5A2D48396359}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtomicMapEditor.Modules.Docks", "AtomicMapEditor.Modules.Docks\AtomicMapEditor.Modules.Docks.csproj", "{47031565-69B8-4C7B-8077-B2FC0D9966D1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ame.Modules.Docks", "AtomicMapEditor.Modules.Docks\Ame.Modules.Docks.csproj", "{47031565-69B8-4C7B-8077-B2FC0D9966D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtomicMapEditor.Components", "AtomicMapEditor.Components\AtomicMapEditor.Components.csproj", "{AE7E3265-B5CF-464A-80B2-415FF1CF9C6C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ame.Components", "AtomicMapEditor.Components\Ame.Components.csproj", "{AE7E3265-B5CF-464A-80B2-415FF1CF9C6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtomicMapEditor.Modules.Menu", "AtomicMapEditor.Modules.Menu\AtomicMapEditor.Modules.Menu.csproj", "{8CBB4913-30EE-404D-AF70-7ED0F565CB63}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ame.Modules.Menu", "AtomicMapEditor.Modules.Menu\Ame.Modules.Menu.csproj", "{8CBB4913-30EE-404D-AF70-7ED0F565CB63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtomicMapEditor.Resources", "AtomicMapEditor.Resources\AtomicMapEditor.Resources.csproj", "{CBCD8C26-E73D-4C60-829C-F573EDF4CCEB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ame.Resources", "AtomicMapEditor.Resources\Ame.Resources.csproj", "{CBCD8C26-E73D-4C60-829C-F573EDF4CCEB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtomicMapEditor.Modules.Windows", "AtomicMapEditor.Modules.Windows\AtomicMapEditor.Modules.Windows.csproj", "{69DAE486-6E5A-4936-BC41-04719A925CED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ame.Modules.Windows", "AtomicMapEditor.Modules.Windows\Ame.Modules.Windows.csproj", "{69DAE486-6E5A-4936-BC41-04719A925CED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

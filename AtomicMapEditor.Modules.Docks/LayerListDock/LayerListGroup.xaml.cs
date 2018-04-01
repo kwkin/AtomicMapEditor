@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls.Primitives;
 
-namespace AtomicMapEditor.Modules.Docks.LayerListDock
+namespace Ame.Modules.Docks.LayerListDock
 {
     /// <summary>
     /// Interaction logic for LayerListGroup.xaml

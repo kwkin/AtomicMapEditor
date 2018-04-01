@@ -4,7 +4,7 @@ using System.Windows.Input;
 using Xceed.Wpf.AvalonDock;
 using Xceed.Wpf.AvalonDock.Layout.Serialization;
 
-namespace AtomicMapEditor.Modules.Docks.Core
+namespace Ame.Modules.Docks.Core
 {
     public static class DockLayoutSerializer
     {

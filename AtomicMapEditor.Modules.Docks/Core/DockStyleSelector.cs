@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using AtomicMapEditor.Infrastructure.BaseTypes;
+using Ame.Infrastructure.BaseTypes;
 
-namespace AtomicMapEditor.Modules.Docks.Core
+namespace Ame.Modules.Docks.Core
 {
     internal class DockStyleSelector : StyleSelector
     {

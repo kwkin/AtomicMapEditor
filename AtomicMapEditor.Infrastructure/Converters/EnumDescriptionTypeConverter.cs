@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Reflection;
 
-namespace AtomicMapEditor.Infrastructure.Converters
+namespace Ame.Infrastructure.Converters
 {
     public class EnumDescriptionTypeConverter : EnumConverter
     {

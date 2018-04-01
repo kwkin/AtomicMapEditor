@@ -1,4 +1,4 @@
-﻿namespace AtomicMapEditor.Infrastructure.Core
+﻿namespace Ame.Infrastructure.Core
 {
     public static class RegionNames
     {

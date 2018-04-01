@@ -1,6 +1,6 @@
 ﻿using Prism.Mvvm;
 
-namespace AtomicMapEditor.Infrastructure.BaseTypes
+namespace Ame.Infrastructure.BaseTypes
 {
     public class EditorViewModelTemplate : BindableBase
     {

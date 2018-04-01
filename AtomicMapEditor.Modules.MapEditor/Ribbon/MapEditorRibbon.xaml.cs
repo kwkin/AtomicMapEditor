@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AtomicMapEditor.Modules.MapEditor.Ribbon
+namespace Ame.Modules.MapEditor.Ribbon
 {
     /// <summary>
     /// Interaction logic for MapEditorRibbon.xaml

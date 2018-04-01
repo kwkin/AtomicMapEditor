@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Prism.Modularity;
 
-namespace AtomicMapEditor.Modules.Windows
+namespace Ame.Modules.Windows
 {
     public class WindowsModule : IModule
     {

@@ -1,10 +1,10 @@
-﻿using AtomicMapEditor.Infrastructure.Core;
-using AtomicMapEditor.Modules.MapEditor.Editor;
-using AtomicMapEditor.Modules.MapEditor.Ribbon;
+﻿using Ame.Infrastructure.Core;
+using Ame.Modules.MapEditor.Editor;
+using Ame.Modules.MapEditor.Ribbon;
 using Prism.Modularity;
 using Prism.Regions;
 
-namespace AtomicMapEditor.Modules.MapEditor
+namespace Ame.Modules.MapEditor
 {
     public class MapEditorModules : IModule
     {

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media;
 
-namespace AtomicMapEditor.Infrastructure.Models
+namespace Ame.Infrastructure.Models
 {
     public class TilesetModel
     {

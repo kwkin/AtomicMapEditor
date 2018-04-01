@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Shapes;
 
-namespace AtomicMapEditor.Infrastructure.Utils
+namespace Ame.Infrastructure.Utils
 {
     public static class LineUtils
     {

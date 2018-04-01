@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AtomicMapEditor.Modules.Docks.MinimapDock
+namespace Ame.Modules.Docks.MinimapDock
 {
     /// <summary>
     /// Interaction logic for Minimap.xaml

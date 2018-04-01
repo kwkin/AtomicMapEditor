@@ -1,9 +1,9 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using AtomicMapEditor.Infrastructure.BaseTypes;
+using Ame.Infrastructure.BaseTypes;
 
-namespace AtomicMapEditor.Infrastructure.Utils
+namespace Ame.Infrastructure.Utils
 {
     public class CoordinateTransform
     {

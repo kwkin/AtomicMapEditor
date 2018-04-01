@@ -130,33 +130,33 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AtomicMapEditor.Components\AtomicMapEditor.Components.csproj">
+    <ProjectReference Include="..\AtomicMapEditor.Components\Ame.Components.csproj">
       <Project>{ae7e3265-b5cf-464a-80b2-415ff1cf9c6c}</Project>
-      <Name>AtomicMapEditor.Components</Name>
+      <Name>Ame.Components</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AtomicMapEditor.Infrastructure\AtomicMapEditor.Infrastructure.csproj">
+    <ProjectReference Include="..\AtomicMapEditor.Infrastructure\Ame.Infrastructure.csproj">
       <Project>{9d27d8dc-5cd8-46d9-b702-efeb6d66f236}</Project>
-      <Name>AtomicMapEditor.Infrastructure</Name>
+      <Name>Ame.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AtomicMapEditor.Modules.Docks\AtomicMapEditor.Modules.Docks.csproj">
+    <ProjectReference Include="..\AtomicMapEditor.Modules.Docks\Ame.Modules.Docks.csproj">
       <Project>{47031565-69b8-4c7b-8077-b2fc0d9966d1}</Project>
-      <Name>AtomicMapEditor.Modules.Docks</Name>
+      <Name>Ame.Modules.Docks</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AtomicMapEditor.Modules.MapEditor\AtomicMapEditor.Modules.MapEditor.csproj">
+    <ProjectReference Include="..\AtomicMapEditor.Modules.MapEditor\Ame.Modules.MapEditor.csproj">
       <Project>{B0CAEBFF-8493-4D50-85F0-5A2D48396359}</Project>
-      <Name>AtomicMapEditor.Modules.MapEditor</Name>
+      <Name>Ame.Modules.MapEditor</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AtomicMapEditor.Modules.Menu\AtomicMapEditor.Modules.Menu.csproj">
+    <ProjectReference Include="..\AtomicMapEditor.Modules.Menu\Ame.Modules.Menu.csproj">
       <Project>{8cbb4913-30ee-404d-af70-7ed0f565cb63}</Project>
-      <Name>AtomicMapEditor.Modules.Menu</Name>
+      <Name>Ame.Modules.Menu</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AtomicMapEditor.Modules.Windows\AtomicMapEditor.Modules.Windows.csproj">
+    <ProjectReference Include="..\AtomicMapEditor.Modules.Windows\Ame.Modules.Windows.csproj">
       <Project>{69dae486-6e5a-4936-bc41-04719a925ced}</Project>
-      <Name>AtomicMapEditor.Modules.Windows</Name>
+      <Name>Ame.Modules.Windows</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AtomicMapEditor.Resources\AtomicMapEditor.Resources.csproj">
+    <ProjectReference Include="..\AtomicMapEditor.Resources\Ame.Resources.csproj">
       <Project>{cbcd8c26-e73d-4c60-829c-f573edf4cceb}</Project>
-      <Name>AtomicMapEditor.Resources</Name>
+      <Name>Ame.Resources</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

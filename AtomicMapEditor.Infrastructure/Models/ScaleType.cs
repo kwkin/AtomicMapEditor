@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
-using AtomicMapEditor.Infrastructure.Converters;
+using Ame.Infrastructure.Converters;
 
-namespace AtomicMapEditor.Infrastructure.Models
+namespace Ame.Infrastructure.Models
 {
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
     public enum ScaleType

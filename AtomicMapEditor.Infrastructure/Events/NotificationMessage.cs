@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AtomicMapEditor.Infrastructure.Events
+namespace Ame.Infrastructure.Events
 {
     public class NotificationMessage<T>
     {

@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Text;
 
-namespace AtomicMapEditor.Infrastructure.Utils
+namespace Ame.Infrastructure.Utils
 {
     public enum OpenFileExtensions
     {

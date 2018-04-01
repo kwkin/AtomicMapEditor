@@ -7,16 +7,16 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using AtomicMapEditor.Infrastructure.BaseTypes;
-using AtomicMapEditor.Infrastructure.Events;
-using AtomicMapEditor.Infrastructure.Models;
-using AtomicMapEditor.Infrastructure.Utils;
+using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Events;
+using Ame.Infrastructure.Models;
+using Ame.Infrastructure.Utils;
 using Emgu.CV;
 using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Events;
 
-namespace AtomicMapEditor.Modules.Docks.ItemEditorDock
+namespace Ame.Modules.Docks.ItemEditorDock
 {
     public class ItemEditorViewModel : DockViewModelTemplate
     {

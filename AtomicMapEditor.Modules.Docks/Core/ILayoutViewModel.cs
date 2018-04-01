@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AtomicMapEditor.Modules.Docks.Core
+namespace Ame.Modules.Docks.Core
 {
     public interface ILayoutViewModel
     {

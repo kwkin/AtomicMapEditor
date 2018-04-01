@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AtomicMapEditor.Modules.Docks.LayerListDock
+namespace Ame.Modules.Docks.LayerListDock
 {
     /// <summary>
     /// Interaction logic for LayerList.xaml

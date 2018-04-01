@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AtomicMapEditor.Modules.Docks.ItemEditorDock
+namespace Ame.Modules.Docks.ItemEditorDock
 {
     /// <summary>
     /// Interaction logic for ItemEditorTilesetAdvanced.xaml

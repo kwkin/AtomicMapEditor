@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Emgu.CV;
 
-namespace AtomicMapEditor.Infrastructure.Models
+namespace Ame.Infrastructure.Models
 {
     public class BrushModel
     {

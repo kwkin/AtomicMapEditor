@@ -6,7 +6,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interactivity;
 
-namespace AtomicMapEditor.Infrastructure.BaseTypes
+namespace Ame.Infrastructure.BaseTypes
 {
 
     public class EventToCommand : TriggerAction<DependencyObject>

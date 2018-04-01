@@ -3,7 +3,7 @@ using System.Windows.Input;
 using Prism.Commands;
 using Prism.Mvvm;
 
-namespace AtomicMapEditor.Modules.MapEditor.Ribbon
+namespace Ame.Modules.MapEditor.Ribbon
 {
     public class MapEditorRibbonViewModel : BindableBase
     {

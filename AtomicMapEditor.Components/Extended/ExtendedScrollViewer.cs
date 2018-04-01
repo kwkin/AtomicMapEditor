@@ -4,10 +4,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using AtomicMapEditor.Infrastructure.Models;
+using Ame.Infrastructure.Models;
 using Prism.Commands;
 
-namespace AtomicMapEditor.Components.Extended
+namespace Ame.Components.Extended
 {
     public class ExtendedScrollViewer : ScrollViewer
     {

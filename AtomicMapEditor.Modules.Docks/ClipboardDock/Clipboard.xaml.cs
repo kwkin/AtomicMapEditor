@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AtomicMapEditor.Modules.Docks.ClipboardDock
+namespace Ame.Modules.Docks.ClipboardDock
 {
     /// <summary>
     /// Interaction logic for Clipboard.xaml

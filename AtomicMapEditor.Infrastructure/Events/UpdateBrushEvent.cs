@@ -1,6 +1,6 @@
 ﻿using Prism.Events;
 
-namespace AtomicMapEditor.Infrastructure.Events
+namespace Ame.Infrastructure.Events
 {
     public class UpdateBrushEvent : PubSubEvent<UpdateBrushMessage>
     {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Prism.Events;
 
-namespace AtomicMapEditor.Infrastructure.Events
+namespace Ame.Infrastructure.Events
 {
     public class NotificationActionEvent<TCallbackParameter> : PubSubEvent<NotificationActionMessage<TCallbackParameter>>
     {

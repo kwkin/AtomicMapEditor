@@ -1,7 +1,7 @@
-﻿using AtomicMapEditor.Infrastructure.Models;
+﻿using Ame.Infrastructure.Models;
 using Prism.Interactivity.InteractionRequest;
 
-namespace AtomicMapEditor.Infrastructure.Requests
+namespace Ame.Infrastructure.Requests
 {
     public class MapWindowConfirmation : Confirmation
     {

@@ -2,7 +2,7 @@
 using Microsoft.Practices.Unity;
 using Xceed.Wpf.AvalonDock;
 
-namespace AtomicMapEditor.Modules.Docks.Core
+namespace Ame.Modules.Docks.Core
 {
     /// <summary>
     /// Interaction logic for DockManager.xaml

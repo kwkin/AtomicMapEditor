@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AtomicMapEditor.Infrastructure.Core;
-using AtomicMapEditor.Modules.Docks.Core;
+using Ame.Infrastructure.Core;
+using Ame.Modules.Docks.Core;
 using Prism.Modularity;
 using Prism.Regions;
 
-namespace AtomicMapEditor.Modules.Docks
+namespace Ame.Modules.Docks
 {
     public class DocksModule : IModule
     {

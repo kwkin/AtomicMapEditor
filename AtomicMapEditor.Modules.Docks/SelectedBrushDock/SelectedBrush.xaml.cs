@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AtomicMapEditor.Modules.Docks.SelectedBrushDock
+namespace Ame.Modules.Docks.SelectedBrushDock
 {
     /// <summary>
     /// Interaction logic for SelectedBrush.xaml

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AtomicMapEditor.Properties {
+namespace Ame.Properties {
     using System;
     
     

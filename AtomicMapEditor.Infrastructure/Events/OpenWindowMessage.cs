@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace AtomicMapEditor.Infrastructure.Events
+namespace Ame.Infrastructure.Events
 {
     public enum WindowType
     {

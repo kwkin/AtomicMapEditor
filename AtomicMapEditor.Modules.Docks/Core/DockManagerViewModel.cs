@@ -5,25 +5,25 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
-using AtomicMapEditor.Infrastructure.BaseTypes;
-using AtomicMapEditor.Infrastructure.Core;
-using AtomicMapEditor.Infrastructure.Events;
-using AtomicMapEditor.Infrastructure.Requests;
-using AtomicMapEditor.Modules.Docks.ClipboardDock;
-using AtomicMapEditor.Modules.Docks.ItemEditorDock;
-using AtomicMapEditor.Modules.Docks.ItemListDock;
-using AtomicMapEditor.Modules.Docks.LayerListDock;
-using AtomicMapEditor.Modules.Docks.MinimapDock;
-using AtomicMapEditor.Modules.Docks.SelectedBrushDock;
-using AtomicMapEditor.Modules.Docks.ToolboxDock;
-using AtomicMapEditor.Modules.MapEditor.Editor;
+using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Core;
+using Ame.Infrastructure.Events;
+using Ame.Infrastructure.Requests;
+using Ame.Modules.Docks.ClipboardDock;
+using Ame.Modules.Docks.ItemEditorDock;
+using Ame.Modules.Docks.ItemListDock;
+using Ame.Modules.Docks.LayerListDock;
+using Ame.Modules.Docks.MinimapDock;
+using Ame.Modules.Docks.SelectedBrushDock;
+using Ame.Modules.Docks.ToolboxDock;
+using Ame.Modules.MapEditor.Editor;
 using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
 using Prism.Mvvm;
 using Xceed.Wpf.AvalonDock;
 using Xceed.Wpf.AvalonDock.Layout.Serialization;
 
-namespace AtomicMapEditor.Modules.Docks.Core
+namespace Ame.Modules.Docks.Core
 {
     public class DockManagerViewModel : BindableBase, ILayoutViewModel
     {

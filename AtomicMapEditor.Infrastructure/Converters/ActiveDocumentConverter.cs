@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows.Data;
-using AtomicMapEditor.Infrastructure.BaseTypes;
+using Ame.Infrastructure.BaseTypes;
 
-namespace AtomicMapEditor.Infrastructure.Converters
+namespace Ame.Infrastructure.Converters
 {
     public class ActiveDocumentConverter : IValueConverter
     {

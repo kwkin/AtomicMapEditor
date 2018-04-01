@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace AtomicMapEditor.Components.Extended
+namespace Ame.Components.Extended
 {
     public class IconRadioButton : RadioButton
     {

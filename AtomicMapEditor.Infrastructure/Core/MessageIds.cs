@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AtomicMapEditor.Infrastructure.Core
+namespace Ame.Infrastructure.Core
 {
     public class MessageIds
     {

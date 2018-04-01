@@ -1,16 +1,16 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using AtomicMapEditor.Modules.Docks.ClipboardDock;
-using AtomicMapEditor.Modules.Docks.ItemEditorDock;
-using AtomicMapEditor.Modules.Docks.ItemListDock;
-using AtomicMapEditor.Modules.Docks.LayerListDock;
-using AtomicMapEditor.Modules.Docks.MinimapDock;
-using AtomicMapEditor.Modules.Docks.SelectedBrushDock;
-using AtomicMapEditor.Modules.Docks.ToolboxDock;
-using AtomicMapEditor.Modules.MapEditor.Editor;
+using Ame.Modules.Docks.ClipboardDock;
+using Ame.Modules.Docks.ItemEditorDock;
+using Ame.Modules.Docks.ItemListDock;
+using Ame.Modules.Docks.LayerListDock;
+using Ame.Modules.Docks.MinimapDock;
+using Ame.Modules.Docks.SelectedBrushDock;
+using Ame.Modules.Docks.ToolboxDock;
+using Ame.Modules.MapEditor.Editor;
 using Xceed.Wpf.AvalonDock.Layout;
 
-namespace AtomicMapEditor.Modules.Docks.Core
+namespace Ame.Modules.Docks.Core
 {
     internal class DockTemplateSelector : DataTemplateSelector
     {
