@@ -14,7 +14,7 @@ using Prism.Events;
 
 namespace Ame.Modules.Docks.SelectedBrushDock
 {
-    public class SelectedBrushViewModel : DockViewModelTemplate
+    public class SelectedBrushViewModel : DockToolViewModelTemplate
     {
         #region fields
 

@@ -1,6 +1,6 @@
 ﻿using Prism.Mvvm;
 
-namespace Ame.Infrastructure.BaseTypes
+namespace AtomicMapEditor.Infrastructure.BaseTypes
 {
     public class DockViewModelTemplate : BindableBase
     {

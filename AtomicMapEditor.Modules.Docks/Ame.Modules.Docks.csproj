@@ -128,10 +128,11 @@
     <Compile Include="ClipboardDock\ClipboardViewModel.cs" />
     <Compile Include="Core\DockLayoutSerializer.cs" />
     <Compile Include="Core\DockLayoutViewModel.cs" />
-    <Compile Include="Core\DockManager.xaml.cs">
+    <Compile Include="Core\DockSelector.cs" />
+    <Compile Include="DockManager.xaml.cs">
       <DependentUpon>DockManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Core\DockManagerViewModel.cs" />
+    <Compile Include="DockManagerViewModel.cs" />
     <Compile Include="Core\DockStyleSelector.cs" />
     <Compile Include="Core\DockTemplateSelector.cs" />
     <Compile Include="Core\ILayoutViewModel.cs" />
@@ -226,7 +227,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Core\DockManager.xaml">
+    <Page Include="DockManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

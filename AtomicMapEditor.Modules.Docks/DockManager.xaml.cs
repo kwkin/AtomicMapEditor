@@ -1,8 +1,6 @@
 ﻿using System.Windows.Controls;
-using Microsoft.Practices.Unity;
-using Xceed.Wpf.AvalonDock;
 
-namespace Ame.Modules.Docks.Core
+namespace Ame.Modules.Docks
 {
     /// <summary>
     /// Interaction logic for DockManager.xaml

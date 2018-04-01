@@ -18,7 +18,7 @@ namespace Ame.Modules.Docks.Core
 
         public override Style SelectStyle(object item, DependencyObject container)
         {
-            if (item is DockViewModelTemplate)
+            if (item is DockToolViewModelTemplate)
             {
                 return DockWindowStyle;
             }

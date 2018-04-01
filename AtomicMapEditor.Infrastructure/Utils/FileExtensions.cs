@@ -27,21 +27,6 @@ namespace Ame.Infrastructure.Utils
 
     public static class ImageExtension
     {
-        #region fields
-
-        #endregion fields
-
-
-        #region Constructor & destructer
-
-        #endregion Constructor & destructer
-
-
-        #region properties
-
-        #endregion properties
-
-
         #region methods
 
         public static string GetOpenFileImageExtensions()
@@ -60,55 +45,8 @@ namespace Ame.Infrastructure.Utils
         #endregion methods
     }
 
-
-    internal class FileExtensionAttribute : Attribute
-    {
-        #region fields
-
-        #endregion fields
-
-
-        #region constructor & destructer
-
-        internal FileExtensionAttribute(string name, params string[] extensions)
-        {
-            this.Name = name;
-            this.Extensions = extensions;
-        }
-
-        #endregion constructor & destructer
-
-
-        #region properties
-
-        public string Name { get; private set; }
-        public string[] Extensions { get; private set; }
-
-        #endregion properties
-
-
-        #region methods
-
-        #endregion methods
-    }
-
     public static class FileExtensionMethods
     {
-        #region fields
-
-        #endregion fields
-
-
-        #region Constructor & destructer
-
-        #endregion Constructor & destructer
-
-
-        #region properties
-
-        #endregion properties
-
-
         #region methods
 
         public static string GetNameAndExtensions(this OpenFileExtensions extension)
@@ -149,5 +87,27 @@ namespace Ame.Infrastructure.Utils
         }
 
         #endregion methods
+    }
+
+
+    internal class FileExtensionAttribute : Attribute
+    {
+        #region constructor & destructer
+
+        internal FileExtensionAttribute(string name, params string[] extensions)
+        {
+            this.Name = name;
+            this.Extensions = extensions;
+        }
+
+        #endregion constructor & destructer
+
+
+        #region properties
+
+        public string Name { get; private set; }
+        public string[] Extensions { get; private set; }
+
+        #endregion properties
     }
 }

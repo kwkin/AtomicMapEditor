@@ -91,6 +91,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseTypes\DockType.cs" />
+    <Compile Include="BaseTypes\DockViewModelTemplate.cs" />
     <Compile Include="BaseTypes\GridModel.cs" />
     <Compile Include="Converters\ActiveDocumentConverter.cs" />
     <Compile Include="Events\OpenWindowEvent.cs" />
@@ -102,7 +104,7 @@
     <Compile Include="Requests\MapWindowConfirmation.cs" />
     <Compile Include="Utils\BrushUtils.cs" />
     <Compile Include="Utils\CoordinateTransform.cs" />
-    <Compile Include="BaseTypes\DockViewModelTemplate.cs" />
+    <Compile Include="BaseTypes\DockToolViewModelTemplate.cs" />
     <Compile Include="BaseTypes\EditorViewModelTemplate.cs" />
     <Compile Include="BaseTypes\EnumBindingSourceExtension.cs" />
     <Compile Include="BaseTypes\EventToCommand.cs" />

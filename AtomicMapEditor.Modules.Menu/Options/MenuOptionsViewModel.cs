@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Ame.Infrastructure.Events;
+using AtomicMapEditor.Infrastructure.BaseTypes;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;

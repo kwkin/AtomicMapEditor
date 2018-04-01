@@ -1,12 +1,8 @@
 ﻿using System;
+using AtomicMapEditor.Infrastructure.BaseTypes;
 
 namespace Ame.Infrastructure.Events
 {
-    public enum DockType
-    {
-        Clipboard, ItemEditor, ItemList, LayerList, Minimap, SelectedBrush, Toolbox
-    }
-
     public class OpenDockMessage
     {
         #region fields

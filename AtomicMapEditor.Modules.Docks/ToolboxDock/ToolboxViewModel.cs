@@ -5,7 +5,7 @@ using Prism.Commands;
 
 namespace Ame.Modules.Docks.ToolboxDock
 {
-    internal class ToolboxViewModel : DockViewModelTemplate
+    internal class ToolboxViewModel : DockToolViewModelTemplate
     {
         #region fields
 

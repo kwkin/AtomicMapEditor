@@ -18,7 +18,7 @@ using Prism.Events;
 
 namespace Ame.Modules.Docks.ItemEditorDock
 {
-    public class ItemEditorViewModel : DockViewModelTemplate
+    public class ItemEditorViewModel : DockToolViewModelTemplate
     {
         // TODO: look into switching all system.windows shapes to drawing
 

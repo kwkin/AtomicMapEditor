@@ -5,7 +5,7 @@ using Prism.Commands;
 
 namespace Ame.Modules.Docks.ClipboardDock
 {
-    public class ClipboardViewModel : DockViewModelTemplate
+    public class ClipboardViewModel : DockToolViewModelTemplate
     {
         #region fields
 

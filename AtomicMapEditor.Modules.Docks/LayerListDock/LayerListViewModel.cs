@@ -5,7 +5,7 @@ using Prism.Commands;
 
 namespace Ame.Modules.Docks.LayerListDock
 {
-    public class LayerListViewModel : DockViewModelTemplate
+    public class LayerListViewModel : DockToolViewModelTemplate
     {
         #region fields
 

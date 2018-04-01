@@ -5,7 +5,7 @@ using Prism.Commands;
 
 namespace Ame.Modules.Docks.MinimapDock
 {
-    public class MinimapViewModel : DockViewModelTemplate
+    public class MinimapViewModel : DockToolViewModelTemplate
     {
         #region fields
 

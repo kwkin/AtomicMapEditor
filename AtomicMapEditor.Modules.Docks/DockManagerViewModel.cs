@@ -10,6 +10,7 @@ using Ame.Infrastructure.Core;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Requests;
 using Ame.Modules.Docks.ClipboardDock;
+using Ame.Modules.Docks.Core;
 using Ame.Modules.Docks.ItemEditorDock;
 using Ame.Modules.Docks.ItemListDock;
 using Ame.Modules.Docks.LayerListDock;
@@ -17,13 +18,16 @@ using Ame.Modules.Docks.MinimapDock;
 using Ame.Modules.Docks.SelectedBrushDock;
 using Ame.Modules.Docks.ToolboxDock;
 using Ame.Modules.MapEditor.Editor;
+using AtomicMapEditor.Infrastructure.BaseTypes;
+using AtomicMapEditor.Modules.Docks.Core;
+using Microsoft.Practices.Unity;
 using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
 using Prism.Mvvm;
 using Xceed.Wpf.AvalonDock;
 using Xceed.Wpf.AvalonDock.Layout.Serialization;
 
-namespace Ame.Modules.Docks.Core
+namespace Ame.Modules.Docks
 {
     public class DockManagerViewModel : BindableBase, ILayoutViewModel
     {
@@ -31,7 +35,9 @@ namespace Ame.Modules.Docks.Core
 
         // TODO add this in a config file
         public static string applicationName = "AtomicMapEditor";
+
         private IEventAggregator ea;
+
         public event EventHandler ActiveDocumentChanged;
 
         #endregion fields
@@ -45,7 +51,7 @@ namespace Ame.Modules.Docks.Core
             this.DockLayout = new DockLayoutViewModel(this, eventAggregator);
             this.ea = eventAggregator;
 
-            this.Documents = new ObservableCollection<EditorViewModelTemplate>();
+            this.Documents = new ObservableCollection<DockViewModelTemplate>();
             this.Anchorables = new ObservableCollection<DockViewModelTemplate>();
 
             this._MapWindowInteraction = new InteractionRequest<INotification>();
@@ -76,7 +82,7 @@ namespace Ame.Modules.Docks.Core
 
         public DockingManager DockManager { get; set; }
         public DockLayoutViewModel DockLayout { get; private set; }
-        public ObservableCollection<EditorViewModelTemplate> Documents { get; private set; }
+        public ObservableCollection<DockViewModelTemplate> Documents { get; private set; }
         public ObservableCollection<DockViewModelTemplate> Anchorables { get; private set; }
 
         private bool _IsBusy;
@@ -153,41 +159,10 @@ namespace Ame.Modules.Docks.Core
 
         private void OpenDock(OpenDockMessage message)
         {
-            // TODO: use prism to resolve view models
-            DockViewModelTemplate dockViewModel = null;
-            switch (message.DockType)
-            {
-                case DockType.Clipboard:
-                    dockViewModel = new ClipboardViewModel();
-                    break;
+            IUnityContainer unityContainer = new UnityContainer();
+            unityContainer.RegisterInstance<IEventAggregator>(this.ea);
 
-                case DockType.ItemEditor:
-                    dockViewModel = new ItemEditorViewModel(this.ea);
-                    break;
-
-                case DockType.ItemList:
-                    dockViewModel = new ItemListViewModel();
-                    break;
-
-                case DockType.LayerList:
-                    dockViewModel = new LayerListViewModel();
-                    break;
-
-                case DockType.Minimap:
-                    dockViewModel = new MinimapViewModel();
-                    break;
-
-                case DockType.SelectedBrush:
-                    dockViewModel = new SelectedBrushViewModel(this.ea);
-                    break;
-
-                case DockType.Toolbox:
-                    dockViewModel = new ToolboxViewModel();
-                    break;
-
-                default:
-                    break;
-            }
+            DockViewModelTemplate dockViewModel = DockSelector.GetViewModel(message.DockType, unityContainer);
 
             if (dockViewModel == null)
             {
@@ -200,7 +175,7 @@ namespace Ame.Modules.Docks.Core
             this.Anchorables.Add(dockViewModel);
             this.ActiveDocument = dockViewModel;
         }
-        
+
         private void OpenWindow(OpenWindowMessage message)
         {
             INotification notification = null;
@@ -209,7 +184,7 @@ namespace Ame.Modules.Docks.Core
             {
                 notificationTitle = message.WindowTitle;
             }
-            
+
             switch (message.WindowType)
             {
                 case WindowType.Map:
@@ -242,45 +217,6 @@ namespace Ame.Modules.Docks.Core
             }
         }
 
-        // TODO update content id parameter type
-        private BindableBase ContentViewModelFromID(string contentId)
-        {
-            BindableBase viewModel = null;
-            if (contentId == "Clipboard")
-            {
-                viewModel = new ClipboardViewModel();
-            }
-            else if (contentId == "Item")
-            {
-                viewModel = new ItemEditorViewModel(this.ea);
-            }
-            else if (contentId == "Item List")
-            {
-                viewModel = new ItemListViewModel();
-            }
-            else if (contentId == "Layer List")
-            {
-                viewModel = new LayerListViewModel();
-            }
-            else if (contentId == "Minimap")
-            {
-                viewModel = new MinimapViewModel();
-            }
-            else if (contentId == "Selected Brush")
-            {
-                viewModel = new SelectedBrushViewModel(this.ea);
-            }
-            else if (contentId == "Tools")
-            {
-                viewModel = new ToolboxViewModel();
-            }
-            else if (contentId == "Map Editor")
-            {
-                viewModel = new MainEditorViewModel();
-            }
-            return viewModel;
-        }
-
         private void SaveLayoutMessageReceived(NotificationActionMessage<string> message)
         {
             string xmlLayoutString = string.Empty;
@@ -303,7 +239,11 @@ namespace Ame.Modules.Docks.Core
 
         private void UpdateLayout(object sender, LayoutSerializationCallbackEventArgs args)
         {
-            BindableBase contentViewModel = ContentViewModelFromID(args.Model.ContentId);
+            IUnityContainer unityContainer = new UnityContainer();
+            unityContainer.RegisterInstance<IEventAggregator>(this.ea);
+
+            DockType dockType = DockTypeUtils.GetById(args.Model.ContentId);
+            DockViewModelTemplate contentViewModel = DockSelector.GetViewModel(dockType, unityContainer);
             if (contentViewModel == null)
             {
                 args.Cancel = true;

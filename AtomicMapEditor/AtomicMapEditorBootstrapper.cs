@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows;
 using Ame.Modules.Docks;
-using Ame.Modules.Docks.Core;
 using Ame.Modules.MapEditor;
 using Ame.Modules.MapEditor.Editor;
 using Ame.Modules.Menu;
