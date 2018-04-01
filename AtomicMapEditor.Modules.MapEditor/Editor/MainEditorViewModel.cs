@@ -37,7 +37,7 @@ namespace Ame.Modules.MapEditor.Editor
             this.UpdatePositionCommand = new DelegateCommand<object>(point => UpdatePosition((Point)point));
             this.ZoomInCommand = new DelegateCommand(() => ZoomIn());
             this.ZoomOutCommand = new DelegateCommand(() => ZoomOut());
-            this.SetZoomCommand = new DelegateCommand<ZoomLevel>(zoomIndex => SetZoom(zoomIndex));
+            this.SetZoomCommand = new DelegateCommand<ZoomLevel>(zoomLevel => SetZoom(zoomLevel));
         }
 
         #endregion Constructor & destructor

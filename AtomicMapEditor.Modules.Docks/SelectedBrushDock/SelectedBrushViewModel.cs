@@ -50,7 +50,7 @@ namespace Ame.Modules.Docks.SelectedBrushDock
             this.UpdatePositionCommand = new DelegateCommand<object>(point => UpdatePosition((Point)point));
             this.ZoomInCommand = new DelegateCommand(() => ZoomIn());
             this.ZoomOutCommand = new DelegateCommand(() => ZoomOut());
-            this.SetZoomCommand = new DelegateCommand<object>(zoomLevel => SetZoom((int)zoomLevel));
+            this.SetZoomCommand = new DelegateCommand<ZoomLevel>(zoomLevel => SetZoom(zoomLevel));
 
             this.eventAggregator.GetEvent<UpdateBrushEvent>().Subscribe(UpdateBrushImage);
         }
@@ -122,11 +122,17 @@ namespace Ame.Modules.Docks.SelectedBrushDock
             }
         }
 
-        public void SetZoom(int zoomIndex)
+        public void SetZoom(ZoomLevel selectedZoomLevel)
         {
-            if (zoomIndex > this.ZoomLevels.Count - 1)
+            int zoomIndex = this.ZoomLevels.FindIndex(r => r.zoom == selectedZoomLevel.zoom);
+            if (zoomIndex == -1)
             {
-                zoomIndex = this.ZoomLevels.Count - 1;
+                this.ZoomLevels.Add(selectedZoomLevel);
+                zoomIndex = this.ZoomLevels.FindIndex(r => r.zoom == selectedZoomLevel.zoom);
+            }
+            if (zoomIndex > ZoomLevels.Count - 1)
+            {
+                zoomIndex = ZoomLevels.Count - 1;
             }
             else if (zoomIndex < 0)
             {

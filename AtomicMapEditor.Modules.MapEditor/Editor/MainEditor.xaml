@@ -32,16 +32,9 @@
                                       VerticalScrollBarVisibility="Visible"
                                       ZoomIndex="{Binding ZoomIndex}"
                                       ZoomLevels="{Binding ZoomLevels}">
-            <Grid x:Name="scrollViewerGrid">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseMove">
-                        <basetype:EventToCommand Command="{Binding UpdatePositionCommand, Mode=OneWay}"
-                                                 EventArgsConverter="{StaticResource MouseEventToPointConverter}"
-                                                 EventArgsConverterParameter="{Binding ElementName=CanvasMapImage}"
-                                                 PassEventArgsToCommand="True" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-
+            <Grid x:Name="scrollViewerGrid"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center">
                 <Grid.ContextMenu>
                     <ContextMenu>
                         <ContextMenu.ItemsSource>
@@ -51,14 +44,23 @@
                         </ContextMenu.ItemsSource>
                     </ContextMenu>
                 </Grid.ContextMenu>
+                
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseMove">
+                        <basetype:EventToCommand Command="{Binding UpdatePositionCommand, Mode=OneWay}"
+                                                 EventArgsConverter="{StaticResource MouseEventToPointConverter}"
+                                                 EventArgsConverterParameter="{Binding ElementName=CanvasMapImage}"
+                                                 PassEventArgsToCommand="True" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
 
                 <Rectangle x:Name="selectionHitBox"
                            Stretch="Fill"
                            Fill="Transparent" />
 
                 <Canvas x:Name="CanvasMapImage"
-                        Width="256"
-                        Height="256">
+                        Width="1024"
+                        Height="1024">
                     <Canvas.Background>
                         <LinearGradientBrush StartPoint="0,0"
                                              EndPoint="1,1">

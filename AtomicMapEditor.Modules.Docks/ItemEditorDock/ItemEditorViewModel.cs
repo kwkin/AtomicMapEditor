@@ -76,8 +76,7 @@ namespace Ame.Modules.Docks.ItemEditorDock
             this.ShowRulerCommand = new DelegateCommand(() => DrawRuler());
             this.ZoomInCommand = new DelegateCommand(() => ZoomIn());
             this.ZoomOutCommand = new DelegateCommand(() => ZoomOut());
-            // TODO: use nullable converters
-            this.SetZoomCommand = new DelegateCommand<object>(zoomLevel => SetZoom((int)zoomLevel));
+            this.SetZoomCommand = new DelegateCommand<ZoomLevel>(zoomLevel => SetZoom(zoomLevel));
             this.SetSelectPointCommand = new DelegateCommand<object>(point => SetLastSelectPoint((Point)point));
             this.SelectTilesCommand = new DelegateCommand<object>(point => SelectTiles(this.lastSelectPoint, (Point)point));
             this.UpdatePositionCommand = new DelegateCommand<object>(point => UpdatePosition((Point)point));
@@ -201,18 +200,23 @@ namespace Ame.Modules.Docks.ItemEditorDock
             }
         }
 
-        public void SetZoom(int zoomIndex)
+        public void SetZoom(ZoomLevel selectedZoomLevel)
         {
-            int zoom = zoomIndex;
-            if (zoom > ZoomLevels.Count - 1)
+            int zoomIndex = this.ZoomLevels.FindIndex(r => r.zoom == selectedZoomLevel.zoom);
+            if (zoomIndex == -1)
             {
-                zoom = ZoomLevels.Count - 1;
+                this.ZoomLevels.Add(selectedZoomLevel);
+                zoomIndex = this.ZoomLevels.FindIndex(r => r.zoom == selectedZoomLevel.zoom);
             }
-            else if (zoom < 0)
+            if (zoomIndex > ZoomLevels.Count - 1)
             {
-                zoom = 0;
+                zoomIndex = ZoomLevels.Count - 1;
             }
-            this.ZoomIndex = zoom;
+            else if (zoomIndex < 0)
+            {
+                zoomIndex = 0;
+            }
+            this.ZoomIndex = zoomIndex;
             RaisePropertyChanged(nameof(this.ZoomIndex));
         }
 

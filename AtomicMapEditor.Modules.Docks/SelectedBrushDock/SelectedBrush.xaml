@@ -15,6 +15,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/AtomicMApEditor.Modules.Docks;component/SelectedBrushDock/SelectedBrushContextMenu.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <conv:MouseEventToPointConverter x:Key="MouseEventToPointConverter" />
         </ResourceDictionary>
@@ -36,6 +37,16 @@
             <Grid x:Name="scrollViewerGrid"
                   HorizontalAlignment="Center"
                   VerticalAlignment="Center">
+                <Grid.ContextMenu>
+                    <ContextMenu>
+                        <ContextMenu.ItemsSource>
+                            <CompositeCollection>
+                                <CollectionContainer Collection="{StaticResource SelectedBrushContextMenu}" />
+                            </CompositeCollection>
+                        </ContextMenu.ItemsSource>
+                    </ContextMenu>
+                </Grid.ContextMenu>
+                
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseMove">
                         <basetype:EventToCommand Command="{Binding UpdatePositionCommand, Mode=OneWay}"
