@@ -28,8 +28,9 @@
             </prism:PopupWindowAction>
         </prism:InteractionRequestTrigger>
     </i:Interaction.Triggers>
-    
+
     <UserControl.Resources>
+        <conv:ActiveDocumentConverter x:Key="ActiveDocumentConverter" />
         <conv:BooleanToVisiblityConverter x:Key="BoolToVisConverter"
                                           Collapse="True" />
     </UserControl.Resources>
@@ -37,6 +38,7 @@
     <xcad:DockingManager x:Name="dockManager"
                          DocumentsSource="{Binding Documents}"
                          AnchorablesSource="{Binding Anchorables}"
+                         ActiveContent="{Binding ActiveDocument, Mode=TwoWay, Converter={StaticResource ActiveDocumentConverter}}"
                          basetype:DockLayoutSerializer.LoadLayoutCommand="{Binding DockLayout.LoadLayoutCommand}"
                          basetype:DockLayoutSerializer.SaveLayoutCommand="{Binding DockLayout.SaveLayoutCommand}"
                          Grid.Row="2">

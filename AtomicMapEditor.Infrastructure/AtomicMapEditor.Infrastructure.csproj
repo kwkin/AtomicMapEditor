@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseTypes\GridModel.cs" />
+    <Compile Include="Converters\ActiveDocumentConverter.cs" />
     <Compile Include="Events\OpenWindowEvent.cs" />
     <Compile Include="Events\OpenWindowMessage.cs" />
     <Compile Include="Events\UpdateBrushEvent.cs" />

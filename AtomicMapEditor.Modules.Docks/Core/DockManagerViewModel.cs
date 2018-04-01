@@ -31,8 +31,8 @@ namespace AtomicMapEditor.Modules.Docks.Core
 
         // TODO add this in a config file
         public static string applicationName = "AtomicMapEditor";
-
         private IEventAggregator ea;
+        public event EventHandler ActiveDocumentChanged;
 
         #endregion fields
 
@@ -125,6 +125,19 @@ namespace AtomicMapEditor.Modules.Docks.Core
             }
         }
 
+        private DockViewModelTemplate _ActiveDocument = null;
+        public DockViewModelTemplate ActiveDocument
+        {
+            get { return _ActiveDocument; }
+            set
+            {
+                if (SetProperty(ref _ActiveDocument, value))
+                {
+                    ActiveDocumentChanged?.Invoke(this, EventArgs.Empty);
+                }
+            }
+        }
+
         private InteractionRequest<INotification> _MapWindowInteraction;
         public IInteractionRequest MapWindowInteraction
         {
@@ -185,8 +198,7 @@ namespace AtomicMapEditor.Modules.Docks.Core
                 dockViewModel.Title = message.DockTitle;
             }
             this.Anchorables.Add(dockViewModel);
-
-            // TODO: add active document
+            this.ActiveDocument = dockViewModel;
         }
         
         private void OpenWindow(OpenWindowMessage message)
