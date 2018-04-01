@@ -69,7 +69,6 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
             <Label x:Name="mousePositionLabel"
@@ -94,10 +93,6 @@
                       DisplayMemberPath="description"
                       SelectedValuePath="zoom">
             </ComboBox>
-            <Label x:Name="helpLabel"
-                   Content="Dynamically Updating Help text"
-                   Grid.Column="3">
-            </Label>
         </Grid>
     </Grid>
 </UserControl>
