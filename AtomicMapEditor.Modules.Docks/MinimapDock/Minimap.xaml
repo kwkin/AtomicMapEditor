@@ -3,13 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=AtomicMapEditor.Components"
+             xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=Ame.Components"
              xmlns:local="clr-namespace:Ame.Modules.Docks.MinimapDock"
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300">
     <UserControl.Resources>
-        <ResourceDictionary Source="pack://application:,,,/AtomicMApEditor.Modules.Docks;component/MinimapDock/MinimapContextMenu.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Ame.Modules.Docks;component/MinimapDock/MinimapContextMenu.xaml" />
     </UserControl.Resources>
 
     <Grid>
@@ -33,21 +33,21 @@
                                 Grid.Column="0"
                                 ToolTip="Fit the minimap to the dock size"
                                 Command="{Binding FitMinimapCommand}"
-                                ImageSource="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png">
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
             </extcomp:IconButton>
 
             <extcomp:IconButton x:Name="toggleGridButton"
                                 Grid.Column="1"
                                 ToolTip="Toggle the grid overlay on the minimap"
                                 Command="{Binding ToggleGridCommand}"
-                                ImageSource="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png">
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
             </extcomp:IconButton>
 
             <extcomp:IconButton x:Name="toggleCollisionButton"
                                 Grid.Column="2"
                                 ToolTip="Toggle the collision overlay on the minimap"
                                 Command="{Binding ToggleCollisionCommand}"
-                                ImageSource="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png">
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
             </extcomp:IconButton>
 
             <Label x:Name="zoomRatioLabel"

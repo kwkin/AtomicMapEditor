@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=AtomicMapEditor.Components"
+             xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=Ame.Components"
              xmlns:local="clr-namespace:Ame.Modules.Docks.ClipboardDock"
              mc:Ignorable="d"
              d:DesignHeight="300"
@@ -11,7 +11,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/AtomicMApEditor.Modules.Docks;component/ClipboardDock/ClipboardContextMenu.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.Modules.Docks;component/ClipboardDock/ClipboardContextMenu.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -39,35 +39,35 @@
                                 Grid.Column="0"
                                 ToolTip="Paste the current selection"
                                 Command="{Binding PasteCommand}"
-                                ImageSource="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png">
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
             </extcomp:IconButton>
 
             <extcomp:IconButton x:Name="filterMapsButton"
                                 Grid.Column="1"
                                 ToolTip="Toggle maps from displaying in the clipboard"
                                 Command="{Binding FilterMapsButton}"
-                                ImageSource="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png">
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
             </extcomp:IconButton>
 
             <extcomp:IconButton x:Name="filterTilesButton"
                                 Grid.Column="2"
                                 ToolTip="Toggle tiles from displaying in the clipboard"
                                 Command="{Binding FilterTilesButton}"
-                                ImageSource="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png">
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
             </extcomp:IconButton>
 
             <extcomp:IconButton x:Name="filterImagesButton"
                                 Grid.Column="3"
                                 ToolTip="Toggle images from displaying in the clipboard"
                                 Command="{Binding FilterImagesButton}"
-                                ImageSource="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png">
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
             </extcomp:IconButton>
 
             <extcomp:IconButton x:Name="sortClipboardButton"
                                 Grid.Column="4"
                                 ToolTip="Sorts the items in the clipboard"
                                 Command="{Binding SortButton}"
-                                ImageSource="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png">
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
             </extcomp:IconButton>
 
             <TextBox x:Name="searchClipboardTextbox"
@@ -79,7 +79,7 @@
                                 Grid.Column="6"
                                 ToolTip="Removes the current selection from the clipboard"
                                 Command="{Binding SortButton}"
-                                ImageSource="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png">
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
             </extcomp:IconButton>
         </Grid>
 

@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-             xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=AtomicMapEditor.Components"
+             xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=Ame.Components"
              xmlns:local="clr-namespace:Ame.Modules.Docks.ToolboxDock"
              mc:Ignorable="d"
              d:DesignHeight="300"
@@ -14,12 +14,12 @@
         <WrapPanel Grid.Row="0">
             <extcomp:IconButton x:Name="snapToGridButton"
                                 ToolTip="Snap to Grid: Snaps the tile to the grid"
-                                ImageSource="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
                                 ImageStretch="None">
             </extcomp:IconButton>
             <extcomp:IconButton x:Name="editAllLayersButton"
                                 ToolTip="Edit All Layers: Affect all visible layers"
-                                ImageSource="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
                                 ImageStretch="None">
             </extcomp:IconButton>
         </WrapPanel>

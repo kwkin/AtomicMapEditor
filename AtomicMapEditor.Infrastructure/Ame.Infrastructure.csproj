@@ -7,8 +7,8 @@
     <ProjectGuid>{9D27D8DC-5CD8-46D9-B702-EFEB6D66F236}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AtomicMapEditor.Infrastructure</RootNamespace>
-    <AssemblyName>AtomicMapEditor.Infrastructure</AssemblyName>
+    <RootNamespace>Ame.Infrastructure</RootNamespace>
+    <AssemblyName>Ame.Infrastructure</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>

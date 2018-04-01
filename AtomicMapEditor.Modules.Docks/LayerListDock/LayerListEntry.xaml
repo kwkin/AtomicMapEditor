@@ -8,7 +8,7 @@
              Style="{StaticResource {x:Type ToggleButton}}">
 
     <RadioButton.Resources>
-        <ResourceDictionary Source="pack://application:,,,/AtomicMApEditor.Modules.Docks;component/LayerListDock/LayerListContextMenu.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Ame.Modules.Docks;component/LayerListDock/LayerListContextMenu.xaml" />
     </RadioButton.Resources>
 
     <RadioButton.ContextMenu>
@@ -35,7 +35,7 @@
                           BorderBrush="Transparent"
                           ToolTip="Show: Toggles the layer display"
                           Command="{Binding AddTilesetLayerCommand}">
-                <Image Source="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
                        Stretch="None" />
             </ToggleButton>
 
@@ -44,7 +44,7 @@
                           BorderBrush="Transparent"
                           ToolTip="Lock: Prevents the layer from being moved and edited"
                           Command="{Binding AddTilesetLayerCommand}">
-                <Image Source="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
                        Stretch="None" />
             </ToggleButton>
 

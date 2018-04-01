@@ -59,7 +59,7 @@
                         ToolTip="New Map: Adds a new map"
                         Command="{Binding NewMapCommand}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png" />
+                        <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png" />
                         <Label Padding="0"
                                Content="New" />
                     </StackPanel>
@@ -70,7 +70,7 @@
                         ToolTip="Copy Map: Adds a duplicate map of the current map"
                         Command="{Binding DuplicateMapCommand}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png" />
+                        <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png" />
                         <Label Padding="0"
                                Content="Copy" />
                     </StackPanel>
@@ -81,7 +81,7 @@
                         ToolTip="Properties: Open the map properties"
                         Command="{Binding EditMapPropertiesCommand}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png" />
+                        <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png" />
                         <Label Padding="0"
                                Content="Properties" />
                     </StackPanel>
@@ -116,7 +116,7 @@
                         ToolTip="New Layer: Adds a new layer"
                         Command="{Binding NewLayerCommand}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png" />
+                        <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png" />
                         <Label Padding="0"
                                Content="New" />
                     </StackPanel>
@@ -127,7 +127,7 @@
                         ToolTip="Copy Layer: Duplicates the current layer"
                         Command="{Binding DuplicateLayerCommand}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png" />
+                        <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png" />
                         <Label Padding="0"
                                Content="Copy" />
                     </StackPanel>
@@ -138,7 +138,7 @@
                         ToolTip="Properties: Open the layer properties"
                         Command="{Binding EditLayerPropertiesCommand}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png" />
+                        <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png" />
                         <Label Padding="0"
                                Content="Properties" />
                     </StackPanel>
@@ -173,7 +173,7 @@
                         ToolTip="Add Tileset: Adds a new tileset"
                         Command="{Binding AddTilesetCommand}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png" />
+                        <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png" />
                         <Label Padding="0"
                                Content="Add Tileset" />
                     </StackPanel>
@@ -184,7 +184,7 @@
                         ToolTip="Add Image: Adds a new image"
                         Command="{Binding AddImageCommand}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png" />
+                        <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png" />
                         <Label Padding="0"
                                Content="Add Image" />
                     </StackPanel>
@@ -195,7 +195,7 @@
                         ToolTip="Open List: Open dock containing a list of active tileset and images"
                         Command="{Binding OpenItemListCommand}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png" />
+                        <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png" />
                         <Label Padding="0"
                                Content="Open List" />
                     </StackPanel>
@@ -230,7 +230,7 @@
                         ToolTip="Zoom Out: Zooms out on the map editor"
                         Command="{Binding ZoomOutCommand}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png" />
+                        <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png" />
                         <Label Padding="0"
                                Content="" />
                     </StackPanel>
@@ -241,7 +241,7 @@
                         ToolTip="Set Zoom: Sets the zoom on the map editor"
                         Command="{Binding SetZoomCommand}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png" />
+                        <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png" />
                         <Label Padding="0"
                                Content="" />
                     </StackPanel>
@@ -252,7 +252,7 @@
                         ToolTip="Zoom In: Zooms in on the map editor"
                         Command="{Binding ZoomInCommand}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png" />
+                        <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png" />
                         <Label Padding="0"
                                Content="" />
                     </StackPanel>
@@ -287,7 +287,7 @@
                         ToolTip="Sample: Display the animated map in fullscreen"
                         Command="{Binding SampleViewCommand}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png" />
+                        <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png" />
                         <Label Padding="0"
                                Content="Sample" />
                     </StackPanel>
@@ -298,7 +298,7 @@
                         ToolTip="Collisions: Overlay the collision highlights on the map"
                         Command="{Binding CollisionsViewCommand}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png" />
+                        <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png" />
                         <Label Padding="0"
                                Content="Collisions" />
                     </StackPanel>
@@ -333,7 +333,7 @@
                         ToolTip="Add Dock: Adds a new instance of the selected dock"
                         Command="{Binding OpenDockCommand}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png" />
+                        <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png" />
                         <Label Padding="0"
                                Content="Add" />
                     </StackPanel>
@@ -344,7 +344,7 @@
                         ToolTip="Recently Closed Dock: Open a recently closed dock"
                         Command="{Binding RecentlyClosedDockCommand}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png" />
+                        <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png" />
                         <Label Padding="0"
                                Content="Closed" />
                     </StackPanel>
@@ -355,7 +355,7 @@
                         ToolTip="Dock Preset: Sets dock placement to a preset configuration"
                         Command="{Binding DockPresetCommand}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png" />
+                        <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png" />
                         <Label Padding="0"
                                Content="Preset" />
                     </StackPanel>
@@ -366,7 +366,7 @@
                         ToolTip="Snap Docks: Snaps all seperated docks to the main window"
                         Command="{Binding SnapDockCommand}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png" />
+                        <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png" />
                         <Label Padding="0"
                                Content="Snap" />
                     </StackPanel>
@@ -377,7 +377,7 @@
                         ToolTip="Hide Docks: Hide all docks"
                         Command="{Binding HideDocksCommand}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png" />
+                        <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png" />
                         <Label Padding="0"
                                Content="Hide" />
                     </StackPanel>
@@ -412,7 +412,7 @@
                         ToolTip="Save: Save this map"
                         Command="{Binding SaveFileCommand}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png" />
+                        <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png" />
                         <Label Padding="0"
                                Content="Save" />
                     </StackPanel>
@@ -423,7 +423,7 @@
                         ToolTip="Export: Export this map"
                         Command="{Binding ExportFileCommand}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png" />
+                        <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png" />
                         <Label Padding="0"
                                Content="Export" />
                     </StackPanel>

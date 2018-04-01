@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-             xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=AtomicMapEditor.Components"
+             xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=Ame.Components"
              xmlns:local="clr-namespace:Ame.Modules.Docks.ToolboxDock"
              mc:Ignorable="d"
              d:DesignHeight="300"
@@ -25,7 +25,7 @@
         </Grid.RowDefinitions>
 
         <!-- Brush Type -->
-        <Image Source="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png"
+        <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
                Grid.Row="0"
                Grid.Column="0"
                Stretch="None" />

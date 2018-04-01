@@ -5,7 +5,7 @@
               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
               xmlns:local="clr-namespace:Ame.Modules.Docks.LayerListDock"
-              xmlns:conv="clr-namespace:Ame.Infrastructure.Converters;assembly=AtomicMapEditor.Infrastructure"
+              xmlns:conv="clr-namespace:Ame.Infrastructure.Converters;assembly=Ame.Infrastructure"
               mc:Ignorable="d"
               HorizontalContentAlignment="Stretch"
               IsChecked="True"
@@ -34,7 +34,7 @@
                           BorderBrush="Transparent"
                           ToolTip="Show: Toggles the layer display"
                           Command="{Binding AddTilesetLayerCommand}">
-                <Image Source="pack://application:,,,/AtomicMapEditor;component/resource/icons/ic_add_circle_black_24dp.png"
+                <Image Source="pack://application:,,,/Ame;component/resource/icons/ic_add_circle_black_24dp.png"
                        Stretch="None" />
             </ToggleButton>
 
@@ -43,7 +43,7 @@
                           BorderBrush="Transparent"
                           ToolTip="Lock: Prevents the layer from being moved and edited"
                           Command="{Binding AddTilesetLayerCommand}">
-                <Image Source="pack://application:,,,/AtomicMapEditor;component/resource/icons/ic_add_circle_black_24dp.png"
+                <Image Source="pack://application:,,,/Ame;component/resource/icons/ic_add_circle_black_24dp.png"
                        Stretch="None" />
             </ToggleButton>
         </StackPanel>

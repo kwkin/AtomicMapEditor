@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-             xmlns:conv="clr-namespace:Ame.Infrastructure.Converters;assembly=AtomicMapEditor.Infrastructure"
-             xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=AtomicMapEditor.Components"
+             xmlns:conv="clr-namespace:Ame.Infrastructure.Converters;assembly=Ame.Infrastructure"
+             xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=Ame.Components"
              xmlns:local="clr-namespace:Ame.Modules.Docks.ToolboxDock"
              mc:Ignorable="d"
              d:DesignHeight="300"
@@ -26,22 +26,22 @@
         <WrapPanel Grid.Row="0">
             <extcomp:IconButton x:Name="eraserButton"
                                 ToolTip="Eraser: Erase tiles using the brush settings"
-                                ImageSource="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
                                 ImageStretch="None">
             </extcomp:IconButton>
             <extcomp:IconButton x:Name="snapToGridButton"
                                 ToolTip="Snap to Grid: Snaps the tile to the grid"
-                                ImageSource="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
                                 ImageStretch="None">
             </extcomp:IconButton>
             <extcomp:IconButton x:Name="editAllLayersButton"
                                 ToolTip="Edit All Layers: Affect all visible layers"
-                                ImageSource="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
                                 ImageStretch="None">
             </extcomp:IconButton>
             <extcomp:IconButton x:Name="repeaterButton"
                                 ToolTip="Repeater: Repeats the selected tiles rather than resetting when moving the tool"
-                                ImageSource="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
                                 ImageStretch="None">
             </extcomp:IconButton>
         </WrapPanel>
@@ -66,7 +66,7 @@
             </Grid.RowDefinitions>
 
             <!-- Brush Type -->
-            <Image Source="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png"
+            <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
                    Grid.Row="0"
                    Grid.Column="0"
                    Stretch="None" />
@@ -141,7 +141,7 @@
                                       Grid.Row="4"
                                       HorizontalAlignment="Right"
                                       Grid.Column="5"
-                                      ImageSource="pack://application:,,,/AtomicMapEditor.Resources;component/Icons/ic_add_circle_black_24dp.png">
+                                      ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
             </extcomp:IconToggleButton>
         </Grid>
 

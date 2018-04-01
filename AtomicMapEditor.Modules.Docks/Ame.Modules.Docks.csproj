@@ -7,8 +7,8 @@
     <ProjectGuid>{47031565-69B8-4C7B-8077-B2FC0D9966D1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AtomicMapEditor.Modules.Docks</RootNamespace>
-    <AssemblyName>AtomicMapEditor.Modules.Docks</AssemblyName>
+    <RootNamespace>Ame.Modules.Docks</RootNamespace>
+    <AssemblyName>Ame.Modules.Docks</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>

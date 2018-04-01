@@ -7,8 +7,8 @@
     <ProjectGuid>{CBCD8C26-E73D-4C60-829C-F573EDF4CCEB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AtomicMapEditor.Resources</RootNamespace>
-    <AssemblyName>AtomicMapEditor.Resources</AssemblyName>
+    <RootNamespace>Ame.Resources</RootNamespace>
+    <AssemblyName>Ame.Resources</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
