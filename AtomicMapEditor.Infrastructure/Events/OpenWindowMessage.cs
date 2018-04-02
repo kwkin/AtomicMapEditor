@@ -5,7 +5,7 @@ namespace Ame.Infrastructure.Events
 {
     public enum WindowType
     {
-        Map
+        Map, Layer
     }
 
     public class OpenWindowMessage

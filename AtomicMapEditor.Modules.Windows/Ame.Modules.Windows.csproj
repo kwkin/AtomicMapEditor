@@ -101,6 +101,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LayerEditorWindow\LayerEditor.xaml.cs">
+      <DependentUpon>LayerEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LayerEditorWindow\LayerEditorGeneral.xaml.cs">
+      <DependentUpon>LayerEditorGeneral.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LayerEditorWindow\LayerEditorViewModel.cs" />
     <Compile Include="MapEditorWindow\MapEditor.xaml.cs">
       <DependentUpon>MapEditor.xaml</DependentUpon>
     </Compile>
@@ -125,6 +132,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="LayerEditorWindow\LayerEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LayerEditorWindow\LayerEditorGeneral.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MapEditorWindow\MapEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

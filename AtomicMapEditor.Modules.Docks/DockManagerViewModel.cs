@@ -10,6 +10,7 @@ using Ame.Infrastructure.Core;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Requests;
 using Ame.Modules.Docks.Core;
+using Ame.Modules.Windows.LayerEditorWindow;
 using Microsoft.Practices.Unity;
 using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
@@ -45,6 +46,7 @@ namespace Ame.Modules.Docks
             this.Anchorables = new ObservableCollection<DockViewModelTemplate>();
 
             this._MapWindowInteraction = new InteractionRequest<INotification>();
+            this._LayerWindowInteraction = new InteractionRequest<INotification>();
 
             // TODO add filter to dock and window open messages
             this.ea.GetEvent<OpenDockEvent>().Subscribe(
@@ -76,6 +78,7 @@ namespace Ame.Modules.Docks
         public ObservableCollection<DockViewModelTemplate> Anchorables { get; private set; }
 
         public ContentControl MapWindowView { get; set; }
+        public ContentControl LayerWindowView { get; set; }
 
         private bool _IsBusy;
         public bool IsBusy
@@ -119,6 +122,12 @@ namespace Ame.Modules.Docks
         public IInteractionRequest MapWindowInteraction
         {
             get { return _MapWindowInteraction; }
+        }
+
+        private InteractionRequest<INotification> _LayerWindowInteraction;
+        public IInteractionRequest LayerWindowInteraction
+        {
+            get { return _LayerWindowInteraction; }
         }
 
         public string AppDataDirectory
@@ -170,6 +179,7 @@ namespace Ame.Modules.Docks
                 notificationTitle = message.WindowTitle;
             }
 
+            // TODO move this to another class
             switch (message.WindowType)
             {
                 case WindowType.Map:
@@ -178,11 +188,18 @@ namespace Ame.Modules.Docks
                     this._MapWindowInteraction.Raise(notification, OnMapWindowClosed);
                     break;
 
+                case WindowType.Layer:
+                    notification = NewLayerWindow();
+                    notification.Title = notificationTitle;
+                    this._LayerWindowInteraction.Raise(notification, OnLayerWindowClosed);
+                    break;
+
                 default:
                     break;
             }
         }
 
+        // TODO, move this into another class, or the appropriate view model class (Static function)
         private INotification NewMapWindow()
         {
             this.MapWindowView = new Windows.MapEditorWindow.MapEditor();
@@ -193,12 +210,30 @@ namespace Ame.Modules.Docks
             return mapWindowConfirmation;
         }
 
+        private INotification NewLayerWindow()
+        {
+            this.LayerWindowView = new LayerEditor();
+            RaisePropertyChanged(nameof(this.LayerWindowView));
+
+            LayerWindowConfirmation layerWindowConfirmation = new LayerWindowConfirmation();
+            return layerWindowConfirmation;
+        }
+
         private void OnMapWindowClosed(INotification notification)
         {
             IConfirmation confirmation = notification as IConfirmation;
             if (confirmation.Confirmed)
             {
                 Console.WriteLine("Map Updated");
+            }
+        }
+
+        private void OnLayerWindowClosed(INotification notification)
+        {
+            IConfirmation confirmation = notification as IConfirmation;
+            if (confirmation.Confirmed)
+            {
+                Console.WriteLine("Layer Updated");
             }
         }
 

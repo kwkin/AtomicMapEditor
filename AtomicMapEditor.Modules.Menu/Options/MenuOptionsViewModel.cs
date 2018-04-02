@@ -346,7 +346,9 @@ namespace Ame.Modules.Menu.Options
 
         public void NewLayer()
         {
-            Console.WriteLine("New Layer");
+            OpenWindowMessage window = new OpenWindowMessage(WindowType.Layer);
+            window.WindowTitle = "New Layer";
+            this.ea.GetEvent<OpenWindowEvent>().Publish(window);
         }
 
         public void NewGroup()

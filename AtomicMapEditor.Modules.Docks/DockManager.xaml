@@ -27,6 +27,12 @@
                                      WindowContent="{Binding MapWindowView}">
             </prism:PopupWindowAction>
         </prism:InteractionRequestTrigger>
+        <prism:InteractionRequestTrigger SourceObject="{Binding LayerWindowInteraction}">
+            <prism:PopupWindowAction IsModal="True"
+                                     CenterOverAssociatedObject="True"
+                                     WindowContent="{Binding LayerWindowView}">
+            </prism:PopupWindowAction>
+        </prism:InteractionRequestTrigger>
     </i:Interaction.Triggers>
 
     <UserControl.Resources>

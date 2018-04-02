@@ -101,6 +101,7 @@
     <Compile Include="Events\UpdateBrushMessage.cs" />
     <Compile Include="Models\BrushModel.cs" />
     <Compile Include="Models\MapModel.cs" />
+    <Compile Include="Requests\LayerWindowConfirmation.cs" />
     <Compile Include="Requests\MapWindowConfirmation.cs" />
     <Compile Include="Utils\BrushUtils.cs" />
     <Compile Include="Utils\CoordinateTransform.cs" />

@@ -22,16 +22,16 @@ namespace Ame.Modules.Windows.MapEditorWindow
 
         public MapEditorViewModel(IEventAggregator eventAggregator)
         {
+            // TODO add null statement to other view models
             if (eventAggregator == null)
             {
                 throw new ArgumentNullException("eventAggregator");
             }
-
             this.ea = eventAggregator;
             this.WindowTitle = "New Map";
 
-            this.ApplyMapPropertiesCommand = new DelegateCommand(ApplyMapProperties);
             this.SetMapPropertiesCommand = new DelegateCommand(SetMapProperties);
+            this.ApplyMapPropertiesCommand = new DelegateCommand(ApplyMapProperties);
             this.CloseWindowCommand = new DelegateCommand(CloseWindow);
         }
 
