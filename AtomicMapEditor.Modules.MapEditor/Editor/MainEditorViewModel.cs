@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Models;
@@ -102,7 +103,18 @@ namespace Ame.Modules.MapEditor.Editor
         public int ZoomIndex
         {
             get { return this._ZoomIndex; }
-            set { SetProperty(ref this._ZoomIndex, value); }
+            set
+            {
+                if (SetProperty(ref this._ZoomIndex, value))
+                {
+                    this.CanvasGridItems.Clear();
+                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        DrawGrid();
+                    }),
+                    DispatcherPriority.Background);
+                }
+            }
         }
 
         public override DockType DockType
@@ -143,7 +155,6 @@ namespace Ame.Modules.MapEditor.Editor
                 croppedBitmap.CacheOption = BitmapCacheOption.OnLoad;
                 croppedBitmap.EndInit();
             }
-
             Rect rect = new Rect(point.X, point.Y, this.brush.image.Width, this.brush.image.Height);
             ImageDrawing tileImage = new ImageDrawing(croppedBitmap, rect);
             this.imageDrawings.Children.Add(tileImage);
@@ -156,12 +167,18 @@ namespace Ame.Modules.MapEditor.Editor
             Console.WriteLine("Up: " + point);
         }
 
+        public void DrawGrid()
+        {
+            DrawGrid(this.IsGridOn);
+        }
+
         public void DrawGrid(bool drawGrid)
         {
             this.IsGridOn = drawGrid;
             if (this.IsGridOn)
             {
                 GridModel gridParameters = new GridModel(this.Map.Width, this.Map.Height, this.Map.TileWidth, this.Map.TileHeight);
+                GridFactory.StrokeThickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
                 this.CanvasGridItems = GridFactory.CreateGrid(gridParameters);
             }
             else

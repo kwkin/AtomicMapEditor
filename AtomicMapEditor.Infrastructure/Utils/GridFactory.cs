@@ -23,7 +23,7 @@ namespace Ame.Infrastructure.Utils
         #region properties
 
         public static Brush Stroke { get; set; } = Brushes.Black;
-        public static int StrokeThickness { get; set; } = 1;
+        public static double StrokeThickness { get; set; } = 1;
 
         #endregion properties
 
