@@ -99,6 +99,7 @@ namespace Ame.Modules.MapEditor.Editor
         public ScaleType Scale { get; set; }
         public List<ZoomLevel> ZoomLevels { get; set; }
 
+        // TODO add dynamic grid thickness to other grids.
         public int _ZoomIndex;
         public int ZoomIndex
         {
@@ -155,7 +156,10 @@ namespace Ame.Modules.MapEditor.Editor
                 croppedBitmap.CacheOption = BitmapCacheOption.OnLoad;
                 croppedBitmap.EndInit();
             }
-            Rect rect = new Rect(point.X, point.Y, this.brush.image.Width, this.brush.image.Height);
+            Point tilePoint = this.imageTransform.PixelToTileInt(point);
+            Point finalPoint = this.imageTransform.TileToPixel(tilePoint);
+
+            Rect rect = new Rect(finalPoint.X, finalPoint.Y, this.brush.image.Width, this.brush.image.Height);
             ImageDrawing tileImage = new ImageDrawing(croppedBitmap, rect);
             this.imageDrawings.Children.Add(tileImage);
 
