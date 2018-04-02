@@ -1,22 +1,55 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Utils;
 using Prism.Commands;
+using Prism.Events;
 
 namespace Ame.Modules.MapEditor.Editor
 {
     public class MainEditorViewModel : EditorViewModelTemplate
     {
+        #region fields
+
+        private IEventAggregator eventAggregator;
+
+        public BrushModel brush;
+        private CoordinateTransform imageTransform;
+        private DrawingGroup imageDrawings;
+
+        #endregion fields
+
+
         #region Constructor & destructor
 
-        public MainEditorViewModel()
+        public MainEditorViewModel(IEventAggregator eventAggregator)
         {
+            this.eventAggregator = eventAggregator;
             this.Title = "Main Editor";
+            
+            this.imageTransform = new CoordinateTransform();
+
+            // TODO pass MapModel
+            this.Map = new MapModel();
+            this.imageTransform.SetPixelToTile(this.Map.TileWidth, this.Map.TileHeight);
+
+            // Draw map background
+            GeometryGroup rectangles = new GeometryGroup();
+            rectangles.Children.Add(new RectangleGeometry(new Rect(0, 0, this.Map.Width, this.Map.Height)));
+            GeometryDrawing aGeometryDrawing = new GeometryDrawing();
+            aGeometryDrawing.Geometry = rectangles;
+            aGeometryDrawing.Brush = new SolidColorBrush(Colors.AliceBlue);
+            this.imageDrawings = new DrawingGroup();
+            this.imageDrawings.Children.Add(aGeometryDrawing);
+            this.MapItems = new DrawingImage(this.imageDrawings);
 
             this.ZoomLevels = new List<ZoomLevel>();
             this.ZoomLevels.Add(new ZoomLevel(0.125));
@@ -37,6 +70,10 @@ namespace Ame.Modules.MapEditor.Editor
             this.ZoomInCommand = new DelegateCommand(() => ZoomIn());
             this.ZoomOutCommand = new DelegateCommand(() => ZoomOut());
             this.SetZoomCommand = new DelegateCommand<ZoomLevel>(zoomLevel => SetZoom(zoomLevel));
+            this.DrawCommand = new DelegateCommand<object>(point => Draw((Point)point));
+            this.DrawReleaseCommand = new DelegateCommand<object>(point => DrawRelease((Point)point));
+
+            this.eventAggregator.GetEvent<UpdateBrushEvent>().Subscribe(UpdateBrushImage);
         }
 
         #endregion Constructor & destructor
@@ -48,11 +85,19 @@ namespace Ame.Modules.MapEditor.Editor
         public ICommand ZoomInCommand { get; private set; }
         public ICommand ZoomOutCommand { get; private set; }
         public ICommand SetZoomCommand { get; private set; }
+        public ICommand DrawCommand { get; private set; }
+        public ICommand DrawReleaseCommand { get; private set; }
 
         public String PositionText { get; set; }
         public ScaleType Scale { get; set; }
         public List<ZoomLevel> ZoomLevels { get; set; }
-        public int ZoomIndex { get; set; }
+
+        public int _ZoomIndex;
+        public int ZoomIndex
+        {
+            get { return this._ZoomIndex; }
+            set { SetProperty(ref this._ZoomIndex, value); }
+        }
 
         public override DockType DockType
         {
@@ -62,17 +107,54 @@ namespace Ame.Modules.MapEditor.Editor
             }
         }
 
+        // TODO determine a better name for map model
+        public MapModel Map { get; set; }
+
+        public DrawingImage MapItems { get; set; }
+
         #endregion properties
 
 
         #region methods
+
+        public void UpdateBrushImage(UpdateBrushMessage brushMessage)
+        {
+            this.brush = brushMessage.BrushModel;
+        }
+
+        public void Draw(Point point)
+        {
+            if (this.brush == null)
+            {
+                return;
+            }
+            BitmapImage croppedBitmap = new BitmapImage();
+            using (MemoryStream ms = new MemoryStream())
+            {
+                this.brush.image.Bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
+                croppedBitmap.BeginInit();
+                croppedBitmap.StreamSource = ms;
+                croppedBitmap.CacheOption = BitmapCacheOption.OnLoad;
+                croppedBitmap.EndInit();
+            }
+
+            Rect rect = new Rect(point.X, point.Y, this.brush.image.Width, this.brush.image.Height);
+            ImageDrawing tileImage = new ImageDrawing(croppedBitmap, rect);
+            this.imageDrawings.Children.Add(tileImage);
+
+            this.MapItems = new DrawingImage(this.imageDrawings);
+        }
+
+        public void DrawRelease(Point point)
+        {
+            Console.WriteLine("Up: " + point);
+        }
 
         public void ZoomIn()
         {
             if (this.ZoomIndex < this.ZoomLevels.Count - 1)
             {
                 this.ZoomIndex += 1;
-                RaisePropertyChanged(nameof(this.ZoomIndex));
             }
         }
 
@@ -81,7 +163,6 @@ namespace Ame.Modules.MapEditor.Editor
             if (this.ZoomIndex > 0)
             {
                 this.ZoomIndex -= 1;
-                RaisePropertyChanged(nameof(this.ZoomIndex));
             }
         }
 
@@ -102,7 +183,6 @@ namespace Ame.Modules.MapEditor.Editor
                 zoomIndex = 0;
             }
             this.ZoomIndex = zoomIndex;
-            RaisePropertyChanged(nameof(this.ZoomIndex));
         }
 
         private void UpdatePosition(Point position)

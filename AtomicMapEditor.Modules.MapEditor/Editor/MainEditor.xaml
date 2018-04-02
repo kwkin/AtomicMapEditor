@@ -52,29 +52,29 @@
                                                  EventArgsConverterParameter="{Binding ElementName=CanvasMapImage}"
                                                  PassEventArgsToCommand="True" />
                     </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeftButtonDown">
+                        <basetype:EventToCommand Command="{Binding DrawCommand, Mode=OneWay}"
+                                                 EventArgsConverter="{StaticResource MouseEventToPointConverter}"
+                                                 EventArgsConverterParameter="{Binding ElementName=CanvasMapImage}"
+                                                 PassEventArgsToCommand="True" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeftButtonUp">
+                        <basetype:EventToCommand Command="{Binding DrawReleaseCommand, Mode=OneWay}"
+                                                 EventArgsConverter="{StaticResource MouseEventToPointConverter}"
+                                                 EventArgsConverterParameter="{Binding ElementName=CanvasMapImage}"
+                                                 PassEventArgsToCommand="True" />
+                    </i:EventTrigger>
                 </i:Interaction.Triggers>
 
                 <Rectangle x:Name="selectionHitBox"
                            Fill="Transparent"
                            Stretch="Fill" />
 
-                <Canvas x:Name="CanvasMapImage"
-                        Width="1024"
-                        Height="1024">
-                    <Canvas.Background>
-                        <LinearGradientBrush StartPoint="0,0"
-                                             EndPoint="1,1">
-                            <GradientStop Offset="0.0"
-                                          Color="Yellow" />
-                            <GradientStop Offset="0.25"
-                                          Color="Red" />
-                            <GradientStop Offset="0.75"
-                                          Color="Blue" />
-                            <GradientStop Offset="1.0"
-                                          Color="Green" />
-                        </LinearGradientBrush>
-                    </Canvas.Background>
-                </Canvas>
+                <Image x:Name="CanvasMapImage"
+                       Stretch="None"
+                       Source="{Binding MapItems}"
+                       RenderOptions.BitmapScalingMode="NearestNeighbor">
+                </Image>
 
                 <ItemsControl ItemsSource="{Binding CanvasGridItems}">
                     <ItemsControl.ItemsPanel>
@@ -119,7 +119,8 @@
                       Width="65"
                       VerticalAlignment="Center"
                       ItemsSource="{Binding ZoomLevels}"
-                      SelectedIndex="{Binding ZoomIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                      SelectedIndex="{Binding ZoomIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      DisplayMemberPath="description" />
             <Label Grid.Column="3">
                 <TextBlock Text="Dynamically Updating Help Text"
                            TextTrimming="CharacterEllipsis" />

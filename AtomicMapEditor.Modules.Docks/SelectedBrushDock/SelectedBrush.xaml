@@ -87,7 +87,8 @@
                       Width="65"
                       VerticalAlignment="Center"
                       ItemsSource="{Binding ZoomLevels}"
-                      SelectedIndex="{Binding ZoomIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                      SelectedIndex="{Binding ZoomIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      DisplayMemberPath="description" />
         </Grid>
     </Grid>
 </UserControl>

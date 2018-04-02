@@ -11,7 +11,6 @@ using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Utils;
-using Ame.Infrastructure.BaseTypes;
 using Emgu.CV;
 using Microsoft.Win32;
 using Prism.Commands;

@@ -9,16 +9,6 @@ using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Core;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Requests;
-using Ame.Modules.Docks.ClipboardDock;
-using Ame.Modules.Docks.Core;
-using Ame.Modules.Docks.ItemEditorDock;
-using Ame.Modules.Docks.ItemListDock;
-using Ame.Modules.Docks.LayerListDock;
-using Ame.Modules.Docks.MinimapDock;
-using Ame.Modules.Docks.SelectedBrushDock;
-using Ame.Modules.Docks.ToolboxDock;
-using Ame.Modules.MapEditor.Editor;
-using Ame.Infrastructure.BaseTypes;
 using Ame.Modules.Docks.Core;
 using Microsoft.Practices.Unity;
 using Prism.Events;
@@ -84,7 +74,7 @@ namespace Ame.Modules.Docks
         public DockLayoutViewModel DockLayout { get; private set; }
         public ObservableCollection<DockViewModelTemplate> Documents { get; private set; }
         public ObservableCollection<DockViewModelTemplate> Anchorables { get; private set; }
-        
+
         public ContentControl MapWindowView { get; set; }
 
         private bool _IsBusy;

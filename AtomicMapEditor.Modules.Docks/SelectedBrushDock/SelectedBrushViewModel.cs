@@ -9,7 +9,6 @@ using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Utils;
-using Ame.Infrastructure.BaseTypes;
 using Prism.Commands;
 using Prism.Events;
 
@@ -68,7 +67,13 @@ namespace Ame.Modules.Docks.SelectedBrushDock
         public String PositionText { get; set; }
         public ScaleType Scale { get; set; }
         public List<ZoomLevel> ZoomLevels { get; set; }
-        public int ZoomIndex { get; set; }
+
+        public int _ZoomIndex;
+        public int ZoomIndex
+        {
+            get { return this._ZoomIndex; }
+            set { SetProperty(ref this._ZoomIndex, value); }
+        }
 
         public BitmapImage BrushImage { get; set; }
 
@@ -109,7 +114,6 @@ namespace Ame.Modules.Docks.SelectedBrushDock
             if (this.ZoomIndex < this.ZoomLevels.Count - 1)
             {
                 this.ZoomIndex += 1;
-                RaisePropertyChanged(nameof(this.ZoomIndex));
             }
         }
 
@@ -118,7 +122,6 @@ namespace Ame.Modules.Docks.SelectedBrushDock
             if (this.ZoomIndex > 0)
             {
                 this.ZoomIndex -= 1;
-                RaisePropertyChanged(nameof(this.ZoomIndex));
             }
         }
 
@@ -139,7 +142,6 @@ namespace Ame.Modules.Docks.SelectedBrushDock
                 zoomIndex = 0;
             }
             this.ZoomIndex = zoomIndex;
-            RaisePropertyChanged(nameof(this.ZoomIndex));
         }
 
         private void UpdatePosition(Point position)
