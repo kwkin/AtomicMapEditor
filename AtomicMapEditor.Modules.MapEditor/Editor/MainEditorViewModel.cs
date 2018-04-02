@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -32,13 +33,14 @@ namespace Ame.Modules.MapEditor.Editor
 
         public MainEditorViewModel(IEventAggregator eventAggregator)
         {
+            this.Map = new MapModel();
             this.eventAggregator = eventAggregator;
             this.Title = "Main Editor";
             
             this.imageTransform = new CoordinateTransform();
 
             // TODO pass MapModel
-            this.Map = new MapModel();
+            this.CanvasGridItems = new ObservableCollection<Visual>();
             this.imageTransform.SetPixelToTile(this.Map.TileWidth, this.Map.TileHeight);
 
             // Draw map background
@@ -66,6 +68,7 @@ namespace Ame.Modules.MapEditor.Editor
             this.Scale = ScaleType.Tile;
             this.PositionText = "0, 0";
 
+            this.ShowGridCommand = new DelegateCommand(() => DrawGrid(this.IsGridOn));
             this.UpdatePositionCommand = new DelegateCommand<object>(point => UpdatePosition((Point)point));
             this.ZoomInCommand = new DelegateCommand(() => ZoomIn());
             this.ZoomOutCommand = new DelegateCommand(() => ZoomOut());
@@ -81,6 +84,7 @@ namespace Ame.Modules.MapEditor.Editor
 
         #region properties
 
+        public ICommand ShowGridCommand { get; private set; }
         public ICommand UpdatePositionCommand { get; private set; }
         public ICommand ZoomInCommand { get; private set; }
         public ICommand ZoomOutCommand { get; private set; }
@@ -88,6 +92,8 @@ namespace Ame.Modules.MapEditor.Editor
         public ICommand DrawCommand { get; private set; }
         public ICommand DrawReleaseCommand { get; private set; }
 
+        public bool IsGridOn { get; set; }
+        public ObservableCollection<Visual> CanvasGridItems { get; set; }
         public String PositionText { get; set; }
         public ScaleType Scale { get; set; }
         public List<ZoomLevel> ZoomLevels { get; set; }
@@ -148,6 +154,22 @@ namespace Ame.Modules.MapEditor.Editor
         public void DrawRelease(Point point)
         {
             Console.WriteLine("Up: " + point);
+        }
+
+        public void DrawGrid(bool drawGrid)
+        {
+            this.IsGridOn = drawGrid;
+            if (this.IsGridOn)
+            {
+                GridModel gridParameters = new GridModel(this.Map.Width, this.Map.Height, this.Map.TileWidth, this.Map.TileHeight);
+                this.CanvasGridItems = GridFactory.CreateGrid(gridParameters);
+            }
+            else
+            {
+                this.CanvasGridItems.Clear();
+            }
+            RaisePropertyChanged(nameof(this.IsGridOn));
+            RaisePropertyChanged(nameof(this.CanvasGridItems));
         }
 
         public void ZoomIn()

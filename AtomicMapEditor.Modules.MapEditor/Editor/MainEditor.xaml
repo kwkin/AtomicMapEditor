@@ -79,11 +79,12 @@
                 <ItemsControl ItemsSource="{Binding CanvasGridItems}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <Canvas Width="256"
-                                    Height="256"
-                                    HorizontalAlignment="Center"
+                            <Canvas IsItemsHost="True"
                                     VerticalAlignment="Center"
-                                    IsItemsHost="True" />
+                                    HorizontalAlignment="Center"
+                                    Height="1024"
+                                    Width="1024">
+                            </Canvas>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
