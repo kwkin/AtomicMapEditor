@@ -49,19 +49,19 @@
                     <i:EventTrigger EventName="MouseMove">
                         <basetype:EventToCommand Command="{Binding UpdatePositionCommand, Mode=OneWay}"
                                                  EventArgsConverter="{StaticResource MouseEventToPointConverter}"
-                                                 EventArgsConverterParameter="{Binding ElementName=CanvasMapImage}"
+                                                 EventArgsConverterParameter="{Binding ElementName=canvasMapImage}"
                                                  PassEventArgsToCommand="True" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseLeftButtonDown">
                         <basetype:EventToCommand Command="{Binding DrawCommand, Mode=OneWay}"
                                                  EventArgsConverter="{StaticResource MouseEventToPointConverter}"
-                                                 EventArgsConverterParameter="{Binding ElementName=CanvasMapImage}"
+                                                 EventArgsConverterParameter="{Binding ElementName=canvasMapImage}"
                                                  PassEventArgsToCommand="True" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
                         <basetype:EventToCommand Command="{Binding DrawReleaseCommand, Mode=OneWay}"
                                                  EventArgsConverter="{StaticResource MouseEventToPointConverter}"
-                                                 EventArgsConverterParameter="{Binding ElementName=CanvasMapImage}"
+                                                 EventArgsConverterParameter="{Binding ElementName=canvasMapImage}"
                                                  PassEventArgsToCommand="True" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
@@ -70,7 +70,9 @@
                            Fill="Transparent"
                            Stretch="Fill" />
 
-                <Image x:Name="CanvasMapImage"
+                <Image x:Name="canvasMapImage"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
                        Stretch="None"
                        Source="{Binding MapItems}"
                        RenderOptions.BitmapScalingMode="NearestNeighbor">
@@ -82,8 +84,8 @@
                             <Canvas IsItemsHost="True"
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center"
-                                    Height="1024"
-                                    Width="1024">
+                                    Height="{Binding ActualHeight, ElementName=canvasMapImage}"
+                                    Width="{Binding ActualWidth, ElementName=canvasMapImage}">
                             </Canvas>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>

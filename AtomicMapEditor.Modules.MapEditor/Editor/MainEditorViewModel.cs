@@ -181,7 +181,13 @@ namespace Ame.Modules.MapEditor.Editor
             this.IsGridOn = drawGrid;
             if (this.IsGridOn)
             {
-                GridModel gridParameters = new GridModel(this.Map.Width, this.Map.Height, this.Map.TileWidth, this.Map.TileHeight);
+                GridModel gridParameters = new GridModel()
+                {
+                    width = this.Map.Width,
+                    height = this.Map.Height,
+                    cellWidth = this.Map.TileWidth,
+                    cellHeight = this.Map.TileHeight,
+                };
                 GridFactory.StrokeThickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
                 this.CanvasGridItems = GridFactory.CreateGrid(gridParameters);
             }

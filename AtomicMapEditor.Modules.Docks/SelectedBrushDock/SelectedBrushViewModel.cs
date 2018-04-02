@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Models;
@@ -30,6 +33,8 @@ namespace Ame.Modules.Docks.SelectedBrushDock
             this.eventAggregator = eventAggregator;
             this.Title = "Selected Brush";
 
+            this.CanvasGridItems = new ObservableCollection<Visual>();
+
             this.ZoomLevels = new List<ZoomLevel>();
             this.ZoomLevels.Add(new ZoomLevel("12.5%", 0.125));
             this.ZoomLevels.Add(new ZoomLevel("25%", 0.25));
@@ -46,6 +51,7 @@ namespace Ame.Modules.Docks.SelectedBrushDock
             this.Scale = ScaleType.Pixel;
             this.PositionText = "0, 0";
 
+            this.ShowGridCommand = new DelegateCommand(() => DrawGrid(this.IsGridOn));
             this.UpdatePositionCommand = new DelegateCommand<object>(point => UpdatePosition((Point)point));
             this.ZoomInCommand = new DelegateCommand(() => ZoomIn());
             this.ZoomOutCommand = new DelegateCommand(() => ZoomOut());
@@ -59,6 +65,7 @@ namespace Ame.Modules.Docks.SelectedBrushDock
 
         #region properties
 
+        public ICommand ShowGridCommand { get; private set; }
         public ICommand UpdatePositionCommand { get; private set; }
         public ICommand ZoomInCommand { get; private set; }
         public ICommand ZoomOutCommand { get; private set; }
@@ -67,12 +74,25 @@ namespace Ame.Modules.Docks.SelectedBrushDock
         public String PositionText { get; set; }
         public ScaleType Scale { get; set; }
         public List<ZoomLevel> ZoomLevels { get; set; }
+        public bool IsGridOn { get; set; }
+        public ObservableCollection<Visual> CanvasGridItems { get; set; }
 
         public int _ZoomIndex;
         public int ZoomIndex
         {
             get { return this._ZoomIndex; }
-            set { SetProperty(ref this._ZoomIndex, value); }
+            set
+            {
+                if (SetProperty(ref this._ZoomIndex, value))
+                {
+                    this.CanvasGridItems.Clear();
+                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        DrawGrid();
+                    }),
+                    DispatcherPriority.Background);
+                }
+            }
         }
 
         public BitmapImage BrushImage { get; set; }
@@ -105,6 +125,35 @@ namespace Ame.Modules.Docks.SelectedBrushDock
             }
             this.BrushImage = croppedBitmap;
             RaisePropertyChanged(nameof(this.BrushImage));
+        }
+        
+        public void DrawGrid()
+        {
+            DrawGrid(this.IsGridOn);
+        }
+
+        public void DrawGrid(bool drawGrid)
+        {
+            this.IsGridOn = drawGrid;
+            if (this.IsGridOn)
+            {
+                // TODO find a way to get tile width and height
+                GridModel gridParameters = new GridModel()
+                {
+                    width = this.BrushImage.PixelWidth,
+                    height = this.BrushImage.PixelHeight,
+                    cellWidth = 32,
+                    cellHeight = 32
+                };
+                GridFactory.StrokeThickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
+                this.CanvasGridItems = GridFactory.CreateGrid(gridParameters);
+            }
+            else
+            {
+                this.CanvasGridItems.Clear();
+            }
+            RaisePropertyChanged(nameof(this.IsGridOn));
+            RaisePropertyChanged(nameof(this.CanvasGridItems));
         }
 
         // TODO delegate the zoom in/out/set command to another class Maybe have a infobar class in

@@ -60,6 +60,19 @@
                        Source="{Binding BrushImage}"
                        Stretch="None" />
 
+                <ItemsControl ItemsSource="{Binding CanvasGridItems}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Canvas IsItemsHost="True"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    Height="{Binding ActualHeight, ElementName=itemImage}"
+                                    Width="{Binding ActualWidth, ElementName=itemImage}">
+                            </Canvas>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+
                 <Grid.LayoutTransform>
                     <TransformGroup>
                         <ScaleTransform x:Name="itemScaleTransform" />

@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Models;
@@ -106,7 +107,23 @@ namespace Ame.Modules.Docks.ItemEditorDock
         public ScaleType Scale { get; set; }
         public String PositionText { get; set; }
         public List<ZoomLevel> ZoomLevels { get; set; }
-        public int ZoomIndex { get; set; }
+        public int _ZoomIndex;
+        public int ZoomIndex
+        {
+            get { return this._ZoomIndex; }
+            set
+            {
+                if (SetProperty(ref this._ZoomIndex, value))
+                {
+                    this.CanvasGridItems.Clear();
+                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        DrawGrid();
+                    }),
+                    DispatcherPriority.Background);
+                }
+            }
+        }
         public bool IsGridOn { get; set; }
         public ObservableCollection<Visual> CanvasGridItems { get; set; }
         public ObservableCollection<Visual> CanvasSelectItems { get; set; }
@@ -146,6 +163,7 @@ namespace Ame.Modules.Docks.ItemEditorDock
 
         public void Select(Point topLeftPixel, Size pixelSize)
         {
+            // TODO set image transparency
             DrawTileSelect(topLeftPixel, pixelSize);
             Mat croppedImage = BrushUtils.CropImage(this.itemImage, topLeftPixel, pixelSize);
             BrushModel brushModel = new BrushModel();
@@ -160,12 +178,29 @@ namespace Ame.Modules.Docks.ItemEditorDock
             DrawGrid(this.IsGridOn);
         }
 
+        // TODO have a common grid class
+        public void DrawGrid()
+        {
+            DrawGrid(this.IsGridOn);
+        }
+
         public void DrawGrid(bool drawGrid)
         {
             this.IsGridOn = drawGrid;
             if (this.IsGridOn)
             {
-                GridModel gridParameters = new GridModel(ItemImage.Width, ItemImage.Height, this.TilesetModel.Width, this.TilesetModel.Height, this.TilesetModel.OffsetX, this.TilesetModel.OffsetY, this.TilesetModel.PaddingX, this.TilesetModel.PaddingY);
+                GridModel gridParameters = new GridModel()
+                {
+                    width = this.ItemImage.Width,
+                    height = this.ItemImage.Height,
+                    cellWidth = this.TilesetModel.Width,
+                    cellHeight = this.TilesetModel.Height,
+                    offsetX = this.TilesetModel.OffsetX,
+                    offsetY = this.TilesetModel.OffsetY,
+                    paddingX = this.TilesetModel.PaddingX,
+                    paddingY = this.TilesetModel.PaddingY
+                };
+                GridFactory.StrokeThickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
                 this.CanvasGridItems = GridFactory.CreateGrid(gridParameters);
             }
             else
