@@ -49,8 +49,8 @@ namespace Ame.Modules.Docks
             this.Documents = new ObservableCollection<DockViewModelTemplate>();
             this.Anchorables = new ObservableCollection<DockViewModelTemplate>();
 
-            this._MapWindowInteraction = new InteractionRequest<INotification>();
-            this._LayerWindowInteraction = new InteractionRequest<INotification>();
+            this.mapWindowInteraction = new InteractionRequest<INotification>();
+            this.layerWindowInteraction = new InteractionRequest<INotification>();
 
             // TODO add filter to dock and window open messages
             this.eventAggregator.GetEvent<OpenDockEvent>().Subscribe(
@@ -84,13 +84,13 @@ namespace Ame.Modules.Docks
         public ContentControl MapWindowView { get; set; }
         public ContentControl LayerWindowView { get; set; }
 
-        private bool _IsBusy;
+        private bool isBusy;
         public bool IsBusy
         {
-            get { return this._IsBusy; }
+            get { return this.isBusy; }
             set
             {
-                if (SetProperty(ref _IsBusy, value))
+                if (SetProperty(ref isBusy, value))
                 {
                     CommandManager.InvalidateRequerySuggested();
                     Application.Current.Dispatcher.BeginInvoke(new Action(() =>
@@ -109,29 +109,29 @@ namespace Ame.Modules.Docks
             }
         }
 
-        private DockViewModelTemplate _ActiveDocument = null;
+        private DockViewModelTemplate activeDocument = null;
         public DockViewModelTemplate ActiveDocument
         {
-            get { return _ActiveDocument; }
+            get { return activeDocument; }
             set
             {
-                if (SetProperty(ref _ActiveDocument, value))
+                if (SetProperty(ref activeDocument, value))
                 {
                     ActiveDocumentChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
 
-        private InteractionRequest<INotification> _MapWindowInteraction;
+        private InteractionRequest<INotification> mapWindowInteraction;
         public IInteractionRequest MapWindowInteraction
         {
-            get { return _MapWindowInteraction; }
+            get { return mapWindowInteraction; }
         }
 
-        private InteractionRequest<INotification> _LayerWindowInteraction;
+        private InteractionRequest<INotification> layerWindowInteraction;
         public IInteractionRequest LayerWindowInteraction
         {
-            get { return _LayerWindowInteraction; }
+            get { return layerWindowInteraction; }
         }
 
         public string AppDataDirectory
@@ -189,13 +189,13 @@ namespace Ame.Modules.Docks
                 case WindowType.Map:
                     notification = NewMapWindow();
                     notification.Title = notificationTitle;
-                    this._MapWindowInteraction.Raise(notification, OnMapWindowClosed);
+                    this.mapWindowInteraction.Raise(notification, OnMapWindowClosed);
                     break;
 
                 case WindowType.Layer:
                     notification = NewLayerWindow();
                     notification.Title = notificationTitle;
-                    this._LayerWindowInteraction.Raise(notification, OnLayerWindowClosed);
+                    this.layerWindowInteraction.Raise(notification, OnLayerWindowClosed);
                     break;
 
                 default:

@@ -44,44 +44,44 @@ namespace Ame.Modules.Docks.Core
 
         public string CurrentLayout { get; private set; }
 
-        private DelegateCommand _SaveLayoutToStringCommand = null;
+        private DelegateCommand saveLayoutToStringCommand = null;
         public ICommand SaveLayoutToStringCommand
         {
             get
             {
-                if (this._SaveLayoutToStringCommand == null)
+                if (this.saveLayoutToStringCommand == null)
                 {
-                    this._SaveLayoutToStringCommand = new DelegateCommand(
+                    this.saveLayoutToStringCommand = new DelegateCommand(
                         this.SaveLayoutToString,
                         () => !this.layoutParent.IsBusy);
                 }
-                return this._SaveLayoutToStringCommand;
+                return this.saveLayoutToStringCommand;
             }
         }
 
-        private DelegateCommand _LoadLayoutFromStringCommand = null;
+        private DelegateCommand loadLayoutFromStringCommand = null;
         public ICommand LoadLayoutFromStringCommand
         {
             get
             {
-                if (this._LoadLayoutFromStringCommand == null)
+                if (this.loadLayoutFromStringCommand == null)
                 {
-                    this._LoadLayoutFromStringCommand = new DelegateCommand(
+                    this.loadLayoutFromStringCommand = new DelegateCommand(
                         this.LoadLayoutFromString,
                         () => !this.layoutParent.IsBusy && !string.IsNullOrEmpty(this.CurrentLayout));
                 }
-                return this._LoadLayoutFromStringCommand;
+                return this.loadLayoutFromStringCommand;
             }
         }
 
-        private DelegateCommand<object> _LoadLayoutCommand = null;
+        private DelegateCommand<object> loadLayoutCommand = null;
         public ICommand LoadLayoutCommand
         {
             get
             {
-                if (this._LoadLayoutCommand == null)
+                if (this.loadLayoutCommand == null)
                 {
-                    this._LoadLayoutCommand = new DelegateCommand<object>((p) =>
+                    this.loadLayoutCommand = new DelegateCommand<object>((p) =>
                     {
                         DockingManager docManager = p as DockingManager;
                         if (docManager == null)
@@ -99,18 +99,18 @@ namespace Ame.Modules.Docks.Core
                         this.layoutParent.IsBusy = false;
                     });
                 }
-                return this._LoadLayoutCommand;
+                return this.loadLayoutCommand;
             }
         }
 
-        private DelegateCommand<object> _SaveLayoutCommand = null;
+        private DelegateCommand<object> saveLayoutCommand = null;
         public ICommand SaveLayoutCommand
         {
             get
             {
-                if (this._SaveLayoutCommand == null)
+                if (this.saveLayoutCommand == null)
                 {
-                    this._SaveLayoutCommand = new DelegateCommand<object>((p) =>
+                    this.saveLayoutCommand = new DelegateCommand<object>((p) =>
                     {
                         string xmlLayout = p as string;
                         if (xmlLayout == null)
@@ -122,7 +122,7 @@ namespace Ame.Modules.Docks.Core
                     });
                 }
 
-                return this._SaveLayoutCommand;
+                return this.saveLayoutCommand;
             }
         }
 

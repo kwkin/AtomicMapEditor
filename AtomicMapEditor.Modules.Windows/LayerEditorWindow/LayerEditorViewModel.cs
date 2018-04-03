@@ -35,13 +35,13 @@ namespace Ame.Modules.Windows.LayerEditorWindow
 
         public string WindowTitle { get; set; }
 
-        public Confirmation _Notification { get; set; }
+        public Confirmation notification { get; set; }
         public INotification Notification
         {
-            get { return _Notification; }
+            get { return this.notification; }
             set
             {
-                this._Notification = value as Confirmation;
+                this.notification = value as Confirmation;
                 RaisePropertyChanged(nameof(this.Notification));
             }
         }
@@ -56,9 +56,9 @@ namespace Ame.Modules.Windows.LayerEditorWindow
         private void SetLayerProperties()
         {
             ApplyLayerProperties();
-            if (_Notification != null)
+            if (this.notification != null)
             {
-                _Notification.Confirmed = true;
+                this.notification.Confirmed = true;
             }
             FinishInteraction();
         }
@@ -70,9 +70,9 @@ namespace Ame.Modules.Windows.LayerEditorWindow
 
         private void CloseWindow()
         {
-            if (_Notification != null)
+            if (this.notification != null)
             {
-                _Notification.Confirmed = false;
+                this.notification.Confirmed = false;
             }
             FinishInteraction();
         }

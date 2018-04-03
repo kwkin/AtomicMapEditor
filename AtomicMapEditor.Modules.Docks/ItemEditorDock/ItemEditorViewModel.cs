@@ -111,13 +111,13 @@ namespace Ame.Modules.Docks.ItemEditorDock
         public ScaleType Scale { get; set; }
         public String PositionText { get; set; }
         public List<ZoomLevel> ZoomLevels { get; set; }
-        public int _ZoomIndex;
+        public int zoomIndex;
         public int ZoomIndex
         {
-            get { return this._ZoomIndex; }
+            get { return this.zoomIndex; }
             set
             {
-                if (SetProperty(ref this._ZoomIndex, value))
+                if (SetProperty(ref this.zoomIndex, value))
                 {
                     this.CanvasGridItems.Clear();
                     Application.Current.Dispatcher.BeginInvoke(new Action(() =>

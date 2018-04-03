@@ -43,14 +43,14 @@ namespace Ame.Modules.Windows.MapEditorWindow
         public int PixelScale { get; set; }
         public string Description { get; set; }
 
-        public Confirmation _Notification { get; set; }
+        public Confirmation notification { get; set; }
         public INotification Notification
         {
-            get { return _Notification; }
+            get { return this.notification; }
             set
             {
-                this._Notification = value as Confirmation;
-                this.Map = this._Notification.Content as MapModel;
+                this.notification = value as Confirmation;
+                this.Map = this.notification.Content as MapModel;
                 updateUIusingMap();
                 RaisePropertyChanged(nameof(this.Notification));
             }
@@ -67,18 +67,18 @@ namespace Ame.Modules.Windows.MapEditorWindow
         private void SetMapProperties()
         {
             UpdateMapProperties(this.Map);
-            if (_Notification != null)
+            if (this.notification != null)
             {
-                _Notification.Confirmed = true;
+                this.notification.Confirmed = true;
             }
             FinishInteraction();
         }
 
         private void CloseWindow()
         {
-            if (_Notification != null)
+            if (this.notification != null)
             {
-                _Notification.Confirmed = false;
+                this.notification.Confirmed = false;
             }
             FinishInteraction();
         }

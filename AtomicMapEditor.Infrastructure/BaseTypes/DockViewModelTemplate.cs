@@ -16,25 +16,25 @@ namespace Ame.Infrastructure.BaseTypes
 
         #region properties
 
-        private bool _IsActive = false;
+        private bool isActive = false;
         public bool IsActive
         {
-            get { return _IsActive; }
-            set { SetProperty(ref _IsActive, value); }
+            get { return this.isActive; }
+            set { SetProperty(ref this.isActive, value); }
         }
 
-        private bool _IsSelected = false;
+        private bool isSelected = false;
         public bool IsSelected
         {
-            get { return _IsSelected; }
-            set { SetProperty(ref _IsSelected, value); }
+            get { return this.isSelected; }
+            set { SetProperty(ref this.isSelected, value); }
         }
 
-        private string _Title;
+        private string title;
         public string Title
         {
-            get { return _Title; }
-            set { SetProperty(ref _Title, value); }
+            get { return this.title; }
+            set { SetProperty(ref this.title, value); }
         }
 
         public abstract DockType DockType { get; }

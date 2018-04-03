@@ -104,13 +104,13 @@ namespace Ame.Modules.MapEditor.Editor
         public List<ZoomLevel> ZoomLevels { get; set; }
 
         // TODO add dynamic grid thickness to other grids.
-        public int _ZoomIndex;
+        public int zoomIndex;
         public int ZoomIndex
         {
-            get { return this._ZoomIndex; }
+            get { return this.zoomIndex; }
             set
             {
-                if (SetProperty(ref this._ZoomIndex, value))
+                if (SetProperty(ref this.zoomIndex, value))
                 {
                     this.CanvasGridItems.Clear();
                     Application.Current.Dispatcher.BeginInvoke(new Action(() =>

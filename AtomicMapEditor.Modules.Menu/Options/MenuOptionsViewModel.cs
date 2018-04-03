@@ -15,8 +15,8 @@ namespace Ame.Modules.Menu.Options
         #region fields
 
         private IEventAggregator eventAggregator;
-        private ObservableCollection<MenuItem> _recentlyClosedDockItems = new ObservableCollection<MenuItem>();
-        private ObservableCollection<MenuItem> _recentFileItems = new ObservableCollection<MenuItem>();
+        private ObservableCollection<MenuItem> recentlyClosedDockItems = new ObservableCollection<MenuItem>();
+        private ObservableCollection<MenuItem> recentFileItems = new ObservableCollection<MenuItem>();
 
         #endregion fields
 
@@ -118,14 +118,14 @@ namespace Ame.Modules.Menu.Options
 
         public ObservableCollection<MenuItem> RecentlyClosedDockItems
         {
-            get { return _recentlyClosedDockItems; }
-            set { _recentlyClosedDockItems = value; }
+            get { return recentlyClosedDockItems; }
+            set { recentlyClosedDockItems = value; }
         }
 
         public ObservableCollection<MenuItem> RecentlFileItems
         {
-            get { return _recentFileItems; }
-            set { _recentFileItems = value; }
+            get { return recentFileItems; }
+            set { recentFileItems = value; }
         }
 
         public bool IsShowGrid { get; set; }

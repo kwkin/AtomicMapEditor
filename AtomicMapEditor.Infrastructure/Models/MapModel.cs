@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ame.Infrastructure.Models
+﻿namespace Ame.Infrastructure.Models
 {
     public class MapModel
     {
@@ -57,115 +51,23 @@ namespace Ame.Infrastructure.Models
         /// <summary>
         /// Name of the map
         /// </summary>
-        private string _Name;
-        public string Name
-        {
-            get
-            {
-                return _Name;
-            }
-            set
-            {
-                _Name = value;
-            }
-        }
+        public string Name { get; set; }
 
         /// <summary>
         /// Pixel width of the map
         /// </summary>
-        private int _Width;
-        public int Width
-        {
-            get
-            {
-                return this._Width;
-            }
-            private set
-            {
-                this._Width = value;
-            }
-        }
+        public int Width { get; set; }
 
         /// <summary>
         /// Pixel height of the map
         /// </summary>
-        private int _Height;
-        public int Height
-        {
-            get
-            {
-                return this._Height;
-            }
-            set
-            {
-                this._Height = value;
-            }
-        }
+        public int Height { get; set; }
 
-        private int _TileWidth;
-        public int TileWidth
-        {
-            get
-            {
-                return _TileWidth;
-            }
-            set
-            {
-                _TileWidth = value;
-            }
-        }
-
-        private int _TileHeight;
-        public int TileHeight
-        {
-            get
-            {
-                return _TileHeight;
-            }
-            set
-            {
-                _TileHeight = value;
-            }
-        }
-
-        private int _PixelScale;
-        public int PixelScale
-        {
-            get
-            {
-                return _PixelScale;
-            }
-            set
-            {
-                _PixelScale = value;
-            }
-        }
-
-        private ScaleType _Scale;
-        public ScaleType Scale
-        {
-            get
-            {
-                return _Scale;
-            }
-            set
-            {
-                _Scale = value;
-            }
-        }
-
-        private string _Description;
-        public string Description
-        {
-            get
-            {
-                return _Description;
-            }
-            set
-            {
-                _Description = value;
-            }
-        }
+        public int TileWidth { get; set; }
+        public int TileHeight { get; set; }
+        public int PixelScale { get; set; }
+        public ScaleType Scale { get; set; }
+        public string Description { get; set; }
 
         #endregion properties
 
@@ -183,14 +85,15 @@ namespace Ame.Infrastructure.Models
 
         public int getTileWidth()
         {
-            int width = this._Width;
+            int width = this.Width;
             switch (this.Scale)
             {
                 case ScaleType.Pixel:
-                    width = this._Width;
+                    width = this.Width;
                     break;
+
                 case ScaleType.Tile:
-                    width = this._Width / this.TileWidth;
+                    width = this.Width / this.TileWidth;
                     break;
             }
             return width;
@@ -198,14 +101,15 @@ namespace Ame.Infrastructure.Models
 
         public int getTileHeight()
         {
-            int height = this._Height;
+            int height = this.Height;
             switch (this.Scale)
             {
                 case ScaleType.Pixel:
-                    height = this._Height;
+                    height = this.Height;
                     break;
+
                 case ScaleType.Tile:
-                    height = this._Height / this.TileHeight;
+                    height = this.Height / this.TileHeight;
                     break;
             }
             return height;

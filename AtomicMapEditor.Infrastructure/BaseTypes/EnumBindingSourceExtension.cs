@@ -30,14 +30,13 @@ namespace Ame.Infrastructure.BaseTypes
 
         #region properties
 
-        private Type _EnumType;
-
+        private Type enumType;
         public Type EnumType
         {
-            get { return this._EnumType; }
+            get { return this.enumType; }
             set
             {
-                if (value != this._EnumType)
+                if (value != this.enumType)
                 {
                     if (null != value)
                     {
@@ -47,7 +46,7 @@ namespace Ame.Infrastructure.BaseTypes
                             throw new ArgumentException("Type must be an Enum.");
                         }
                     }
-                    this._EnumType = value;
+                    this.enumType = value;
                 }
             }
         }
@@ -59,13 +58,13 @@ namespace Ame.Infrastructure.BaseTypes
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            if (null == this._EnumType)
+            if (null == this.enumType)
             {
                 throw new InvalidOperationException("The EnumType must be specified.");
             }
-            Type actualEnumType = Nullable.GetUnderlyingType(this._EnumType) ?? this._EnumType;
+            Type actualEnumType = Nullable.GetUnderlyingType(this.enumType) ?? this.enumType;
             Array enumValues = Enum.GetValues(actualEnumType);
-            if (actualEnumType == this._EnumType)
+            if (actualEnumType == this.enumType)
             {
                 return enumValues;
             }

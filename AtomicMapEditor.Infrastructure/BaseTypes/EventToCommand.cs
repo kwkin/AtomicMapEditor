@@ -8,15 +8,22 @@ using System.Windows.Interactivity;
 
 namespace Ame.Infrastructure.BaseTypes
 {
-
     public class EventToCommand : TriggerAction<DependencyObject>
     {
+        #region properties
+
         public static readonly DependencyProperty EventNameProperty =
             DependencyProperty.Register(
                 nameof(EventName),
                 typeof(string),
                 typeof(EventToCommand),
                 new PropertyMetadata(default(string)));
+
+        public string EventName
+        {
+            get { return (string)GetValue(EventNameProperty); }
+            set { SetValue(EventNameProperty, value); }
+        }
 
         public static readonly DependencyProperty CommandProperty =
             DependencyProperty.Register(
@@ -25,12 +32,24 @@ namespace Ame.Infrastructure.BaseTypes
                 typeof(EventToCommand),
                 new PropertyMetadata(default(ICommand)));
 
+        public ICommand Command
+        {
+            get { return (ICommand)GetValue(CommandProperty); }
+            set { SetValue(CommandProperty, value); }
+        }
+
         public static readonly DependencyProperty CommandParameterProperty =
             DependencyProperty.Register(
                 nameof(CommandParameter),
                 typeof(object),
                 typeof(EventToCommand),
                 new PropertyMetadata(default(object)));
+
+        public object CommandParameter
+        {
+            get { return GetValue(CommandParameterProperty); }
+            set { SetValue(CommandParameterProperty, value); }
+        }
 
         public static readonly DependencyProperty EventArgsConverterProperty =
             DependencyProperty.Register(
@@ -39,12 +58,24 @@ namespace Ame.Infrastructure.BaseTypes
                 typeof(EventToCommand),
                 new PropertyMetadata(default(IValueConverter)));
 
+        public IValueConverter EventArgsConverter
+        {
+            get { return (IValueConverter)GetValue(EventArgsConverterProperty); }
+            set { SetValue(EventArgsConverterProperty, value); }
+        }
+
         public static readonly DependencyProperty EventArgsConverterParameterProperty =
             DependencyProperty.Register(
                 nameof(EventArgsConverterParameter),
                 typeof(object),
                 typeof(EventToCommand),
                 new PropertyMetadata(default(object)));
+
+        public object EventArgsConverterParameter
+        {
+            get { return GetValue(EventArgsConverterParameterProperty); }
+            set { SetValue(EventArgsConverterParameterProperty, value); }
+        }
 
         public static readonly DependencyProperty EventArgsParameterPathProperty =
             DependencyProperty.Register(
@@ -53,44 +84,27 @@ namespace Ame.Infrastructure.BaseTypes
                 typeof(EventToCommand),
                 new PropertyMetadata(default(string)));
 
-        protected EventInfo _eventInfo;
-        protected Delegate _handler;
-
-
         public string EventArgsParameterPath
         {
             get { return (string)GetValue(EventArgsParameterPathProperty); }
             set { SetValue(EventArgsParameterPathProperty, value); }
         }
 
-        public string EventName
+        private object commandParameterValue;
+        public object CommandParameterValue
         {
-            get { return (string)GetValue(EventNameProperty); }
-            set { SetValue(EventNameProperty, value); }
+            get { return commandParameterValue ?? CommandParameter; }
+            set { commandParameterValue = value; }
         }
 
-        public ICommand Command
-        {
-            get { return (ICommand)GetValue(CommandProperty); }
-            set { SetValue(CommandProperty, value); }
-        }
+        #endregion properties
 
-        public object CommandParameter
-        {
-            get { return GetValue(CommandParameterProperty); }
-            set { SetValue(CommandParameterProperty, value); }
-        }
 
-        public IValueConverter EventArgsConverter
-        {
-            get { return (IValueConverter)GetValue(EventArgsConverterProperty); }
-            set { SetValue(EventArgsConverterProperty, value); }
-        }
+        #region methods
 
-        public object EventArgsConverterParameter
+        private ICommand GetCommand()
         {
-            get { return GetValue(EventArgsConverterParameterProperty); }
-            set { SetValue(EventArgsConverterParameterProperty, value); }
+            return Command;
         }
 
         protected override void Invoke(object parameter)
@@ -98,45 +112,17 @@ namespace Ame.Infrastructure.BaseTypes
             var command = GetCommand();
             var commandParameter = CommandParameterValue;
 
-            if (commandParameter == null
-                && PassEventArgsToCommand)
+            if (commandParameter == null)
             {
                 commandParameter = EventArgsConverter == null
                     ? parameter
                     : EventArgsConverter.Convert(parameter, typeof(object), EventArgsConverterParameter, CultureInfo.CurrentUICulture);
             }
 
-            if (command != null
-                && command.CanExecute(commandParameter))
+            if (command != null && command.CanExecute(commandParameter))
             {
                 command.Execute(commandParameter);
             }
-        }
-
-        private ICommand GetCommand()
-        {
-            return Command;
-        }
-
-
-        private object _commandParameterValue;
-        public object CommandParameterValue
-        {
-            get
-            {
-                return _commandParameterValue ?? CommandParameter;
-            }
-
-            set
-            {
-                _commandParameterValue = value;
-            }
-        }
-
-        public bool PassEventArgsToCommand
-        {
-            get;
-            set;
         }
 
         protected virtual void OnEventRaised(object sender, EventArgs eventArgs)
@@ -176,5 +162,7 @@ namespace Ame.Infrastructure.BaseTypes
                 Command.Execute(parameter);
             }
         }
+
+        #endregion methods
     }
 }
