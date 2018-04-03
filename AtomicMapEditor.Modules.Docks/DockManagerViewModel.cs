@@ -8,7 +8,7 @@ using System.Windows.Threading;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Core;
 using Ame.Infrastructure.Events;
-using Ame.Infrastructure.Requests;
+using Ame.Infrastructure.Models;
 using Ame.Modules.Docks.Core;
 using Ame.Modules.Windows.LayerEditorWindow;
 using Microsoft.Practices.Unity;
@@ -49,7 +49,7 @@ namespace Ame.Modules.Docks
             this.Documents = new ObservableCollection<DockViewModelTemplate>();
             this.Anchorables = new ObservableCollection<DockViewModelTemplate>();
 
-            this._MapWindowInteraction = new InteractionRequest<MapWindowConfirmation>();
+            this._MapWindowInteraction = new InteractionRequest<INotification>();
             this._LayerWindowInteraction = new InteractionRequest<INotification>();
 
             // TODO add filter to dock and window open messages
@@ -122,7 +122,7 @@ namespace Ame.Modules.Docks
             }
         }
 
-        private InteractionRequest<MapWindowConfirmation> _MapWindowInteraction;
+        private InteractionRequest<INotification> _MapWindowInteraction;
         public IInteractionRequest MapWindowInteraction
         {
             get { return _MapWindowInteraction; }
@@ -187,9 +187,9 @@ namespace Ame.Modules.Docks
             switch (message.WindowType)
             {
                 case WindowType.Map:
-                    MapWindowConfirmation notification2 = NewMapWindow();
-                    notification2.Title = notificationTitle;
-                    this._MapWindowInteraction.Raise(notification2, OnMapWindowClosed);
+                    notification = NewMapWindow();
+                    notification.Title = notificationTitle;
+                    this._MapWindowInteraction.Raise(notification, OnMapWindowClosed);
                     break;
 
                 case WindowType.Layer:
@@ -204,14 +204,14 @@ namespace Ame.Modules.Docks
         }
 
         // TODO, move this into another class, or the appropriate view model class (Static function)
-        private MapWindowConfirmation NewMapWindow()
+        private INotification NewMapWindow()
         {
             this.MapWindowView = new Windows.MapEditorWindow.MapEditor();
             RaisePropertyChanged(nameof(this.MapWindowView));
 
-            MapWindowConfirmation mapWindowConfirmation = new MapWindowConfirmation();
-            mapWindowConfirmation.Map = new Infrastructure.Models.MapModel("Map #1");
-            return mapWindowConfirmation;
+            Confirmation mapConfirmation = new Confirmation();
+            mapConfirmation.Content = new Infrastructure.Models.MapModel("Map #1");
+            return mapConfirmation;
         }
 
         private INotification NewLayerWindow()
@@ -219,15 +219,19 @@ namespace Ame.Modules.Docks
             this.LayerWindowView = new LayerEditor();
             RaisePropertyChanged(nameof(this.LayerWindowView));
 
-            LayerWindowConfirmation layerWindowConfirmation = new LayerWindowConfirmation();
+            Confirmation layerWindowConfirmation = new Confirmation();
             return layerWindowConfirmation;
         }
 
-        private void OnMapWindowClosed(MapWindowConfirmation notification)
+        private void OnMapWindowClosed(INotification notification)
         {
-            if (notification.Confirmed)
+            Confirmation confirmation = notification as Confirmation;
+            if (confirmation.Confirmed)
             {
-                Console.WriteLine("Map Updated");
+                MapModel mapModel = confirmation.Content as MapModel;
+                Console.WriteLine("Map Updated: ");
+                Console.WriteLine("Name: " + mapModel.Name);
+
             }
         }
 

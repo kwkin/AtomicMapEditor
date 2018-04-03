@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
-using Ame.Infrastructure.Requests;
 using Prism.Commands;
-using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
 using Prism.Mvvm;
 
@@ -11,7 +9,7 @@ namespace Ame.Modules.Windows.LayerEditorWindow
     public class LayerEditorViewModel : BindableBase, IInteractionRequestAware
     {
         #region fields
-        
+
         #endregion fields
 
 
@@ -37,13 +35,13 @@ namespace Ame.Modules.Windows.LayerEditorWindow
 
         public string WindowTitle { get; set; }
 
-        public LayerWindowConfirmation _Notification { get; set; }
+        public Confirmation _Notification { get; set; }
         public INotification Notification
         {
             get { return _Notification; }
             set
             {
-                this._Notification = value as LayerWindowConfirmation;
+                this._Notification = value as Confirmation;
                 RaisePropertyChanged(nameof(this.Notification));
             }
         }

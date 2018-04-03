@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
 using Ame.Infrastructure.Models;
-using Ame.Infrastructure.Requests;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
@@ -44,14 +43,14 @@ namespace Ame.Modules.Windows.MapEditorWindow
         public int PixelScale { get; set; }
         public string Description { get; set; }
 
-        public MapWindowConfirmation _Notification { get; set; }
+        public Confirmation _Notification { get; set; }
         public INotification Notification
         {
             get { return _Notification; }
             set
             {
-                this._Notification = value as MapWindowConfirmation;
-                this.Map = this._Notification.Map;
+                this._Notification = value as Confirmation;
+                this.Map = this._Notification.Content as MapModel;
                 updateUIusingMap();
                 RaisePropertyChanged(nameof(this.Notification));
             }
