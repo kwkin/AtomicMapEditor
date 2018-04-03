@@ -14,7 +14,7 @@ namespace Ame.Modules.Menu.Options
     {
         #region fields
 
-        private IEventAggregator ea;
+        private IEventAggregator eventAggregator;
         private ObservableCollection<MenuItem> _recentlyClosedDockItems = new ObservableCollection<MenuItem>();
         private ObservableCollection<MenuItem> _recentFileItems = new ObservableCollection<MenuItem>();
 
@@ -29,7 +29,7 @@ namespace Ame.Modules.Menu.Options
             {
                 throw new ArgumentNullException("eventAggregator");
             }
-            this.ea = eventAggregator;
+            this.eventAggregator = eventAggregator;
 
             // File bindings
             this.NewFileCommand = new DelegateCommand(() => NewFile());
@@ -312,7 +312,7 @@ namespace Ame.Modules.Menu.Options
         {
             OpenWindowMessage window = new OpenWindowMessage(WindowType.Map);
             window.WindowTitle = "New Map";
-            this.ea.GetEvent<OpenWindowEvent>().Publish(window);
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(window);
         }
 
         public void DuplicateMap()
@@ -348,7 +348,7 @@ namespace Ame.Modules.Menu.Options
         {
             OpenWindowMessage window = new OpenWindowMessage(WindowType.Layer);
             window.WindowTitle = "New Layer";
-            this.ea.GetEvent<OpenWindowEvent>().Publish(window);
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(window);
         }
 
         public void NewGroup()
@@ -486,43 +486,43 @@ namespace Ame.Modules.Menu.Options
         public void OpenClipboardDock()
         {
             OpenDockMessage dock = new OpenDockMessage(DockType.Clipboard);
-            this.ea.GetEvent<OpenDockEvent>().Publish(dock);
+            this.eventAggregator.GetEvent<OpenDockEvent>().Publish(dock);
         }
 
         public void OpenItemEditorDock()
         {
             OpenDockMessage dock = new OpenDockMessage(DockType.ItemEditor);
-            this.ea.GetEvent<OpenDockEvent>().Publish(dock);
+            this.eventAggregator.GetEvent<OpenDockEvent>().Publish(dock);
         }
 
         public void OpenItemListDock()
         {
             OpenDockMessage dock = new OpenDockMessage(DockType.ItemList);
-            this.ea.GetEvent<OpenDockEvent>().Publish(dock);
+            this.eventAggregator.GetEvent<OpenDockEvent>().Publish(dock);
         }
 
         public void OpenLayerListDock()
         {
             OpenDockMessage dock = new OpenDockMessage(DockType.LayerList);
-            this.ea.GetEvent<OpenDockEvent>().Publish(dock);
+            this.eventAggregator.GetEvent<OpenDockEvent>().Publish(dock);
         }
 
         public void OpenToolboxDock()
         {
             OpenDockMessage dock = new OpenDockMessage(DockType.Toolbox);
-            this.ea.GetEvent<OpenDockEvent>().Publish(dock);
+            this.eventAggregator.GetEvent<OpenDockEvent>().Publish(dock);
         }
 
         public void OpenMinimapDock()
         {
             OpenDockMessage dock = new OpenDockMessage(DockType.Minimap);
-            this.ea.GetEvent<OpenDockEvent>().Publish(dock);
+            this.eventAggregator.GetEvent<OpenDockEvent>().Publish(dock);
         }
 
         public void OpenSelectedBrushDock()
         {
             OpenDockMessage dock = new OpenDockMessage(DockType.SelectedBrush);
-            this.ea.GetEvent<OpenDockEvent>().Publish(dock);
+            this.eventAggregator.GetEvent<OpenDockEvent>().Publish(dock);
         }
 
         public void OpenUndoHistoryDock()

@@ -42,6 +42,10 @@ namespace Ame.Modules.Docks.ItemEditorDock
 
         public ItemEditorViewModel(TilesetModel tilesetModel, IEventAggregator eventAggregator)
         {
+            if (eventAggregator == null)
+            {
+                throw new ArgumentNullException("eventAggregator");
+            }
             this.TilesetModel = tilesetModel;
             this.eventAggregator = eventAggregator;
             this.Title = "Item - " + Path.GetFileNameWithoutExtension(tilesetModel.SourcePath);

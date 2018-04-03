@@ -34,6 +34,10 @@ namespace Ame.Modules.MapEditor.Editor
 
         public MainEditorViewModel(IEventAggregator eventAggregator)
         {
+            if (eventAggregator == null)
+            {
+                throw new ArgumentNullException("eventAggregator");
+            }
             this.Map = new MapModel();
             this.eventAggregator = eventAggregator;
             this.Title = "Main Editor";

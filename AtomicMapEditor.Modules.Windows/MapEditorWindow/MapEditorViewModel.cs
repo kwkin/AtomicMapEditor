@@ -12,9 +12,7 @@ namespace Ame.Modules.Windows.MapEditorWindow
     public class MapEditorViewModel : BindableBase, IInteractionRequestAware
     {
         #region fields
-
-        private IEventAggregator ea;
-
+        
         #endregion fields
 
 
@@ -22,13 +20,6 @@ namespace Ame.Modules.Windows.MapEditorWindow
 
         public MapEditorViewModel(IEventAggregator eventAggregator)
         {
-            // TODO add null statement to other view models
-            if (eventAggregator == null)
-            {
-                throw new ArgumentNullException("eventAggregator");
-            }
-            Console.WriteLine("Map Editor");
-            this.ea = eventAggregator;
             this.WindowTitle = "New Map";
 
             this.SetMapPropertiesCommand = new DelegateCommand(SetMapProperties);

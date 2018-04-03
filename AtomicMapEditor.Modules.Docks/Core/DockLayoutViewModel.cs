@@ -29,6 +29,10 @@ namespace Ame.Modules.Docks.Core
 
         public DockLayoutViewModel(ILayoutViewModel parent, IEventAggregator eventAggregator)
         {
+            if (eventAggregator == null)
+            {
+                throw new ArgumentNullException("eventAggregator");
+            }
             this.layoutParent = parent;
             this.ea = eventAggregator;
         }

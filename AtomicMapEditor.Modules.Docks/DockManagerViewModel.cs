@@ -27,7 +27,7 @@ namespace Ame.Modules.Docks
         // TODO add this in a config file
         public static string applicationName = "AtomicMapEditor";
 
-        private IEventAggregator ea;
+        private IEventAggregator eventAggregator;
 
         public event EventHandler ActiveDocumentChanged;
 
@@ -38,9 +38,13 @@ namespace Ame.Modules.Docks
 
         public DockManagerViewModel(DockingManager dockManager, IEventAggregator eventAggregator)
         {
+            if (eventAggregator == null)
+            {
+                throw new ArgumentNullException("eventAggregator");
+            }
             this.DockManager = dockManager;
             this.DockLayout = new DockLayoutViewModel(this, eventAggregator);
-            this.ea = eventAggregator;
+            this.eventAggregator = eventAggregator;
 
             this.Documents = new ObservableCollection<DockViewModelTemplate>();
             this.Anchorables = new ObservableCollection<DockViewModelTemplate>();
@@ -49,18 +53,18 @@ namespace Ame.Modules.Docks
             this._LayerWindowInteraction = new InteractionRequest<INotification>();
 
             // TODO add filter to dock and window open messages
-            this.ea.GetEvent<OpenDockEvent>().Subscribe(
+            this.eventAggregator.GetEvent<OpenDockEvent>().Subscribe(
                 OpenDock,
                 ThreadOption.PublisherThread);
-            this.ea.GetEvent<OpenWindowEvent>().Subscribe(
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Subscribe(
                 OpenWindow,
                 ThreadOption.PublisherThread);
-            this.ea.GetEvent<NotificationActionEvent<string>>().Subscribe(
+            this.eventAggregator.GetEvent<NotificationActionEvent<string>>().Subscribe(
                 SaveLayoutMessageReceived,
                 ThreadOption.PublisherThread,
                 false,
                 (filter) => filter.Notification.Contains(MessageIds.SaveWorkspaceLayout));
-            this.ea.GetEvent<NotificationEvent<string>>().Subscribe(
+            this.eventAggregator.GetEvent<NotificationEvent<string>>().Subscribe(
                 LoadLayoutMessageReceived,
                 ThreadOption.PublisherThread,
                 false,
@@ -159,7 +163,7 @@ namespace Ame.Modules.Docks
         private void OpenDock(OpenDockMessage message)
         {
             IUnityContainer unityContainer = new UnityContainer();
-            unityContainer.RegisterInstance<IEventAggregator>(this.ea);
+            unityContainer.RegisterInstance<IEventAggregator>(this.eventAggregator);
 
             DockViewModelTemplate dockViewModel = DockViewModelSelector.GetViewModel(message.DockType, unityContainer);
             if (!string.IsNullOrEmpty(message.DockTitle))
@@ -259,7 +263,7 @@ namespace Ame.Modules.Docks
         private void UpdateLayout(object sender, LayoutSerializationCallbackEventArgs args)
         {
             IUnityContainer unityContainer = new UnityContainer();
-            unityContainer.RegisterInstance<IEventAggregator>(this.ea);
+            unityContainer.RegisterInstance<IEventAggregator>(this.eventAggregator);
 
             DockType dockType = DockTypeUtils.GetById(args.Model.ContentId);
             DockViewModelTemplate contentViewModel = DockViewModelSelector.GetViewModel(dockType, unityContainer);

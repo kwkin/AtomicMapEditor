@@ -30,6 +30,10 @@ namespace Ame.Modules.Docks.SelectedBrushDock
 
         public SelectedBrushViewModel(IEventAggregator eventAggregator)
         {
+            if (eventAggregator == null)
+            {
+                throw new ArgumentNullException("eventAggregator");
+            }
             this.eventAggregator = eventAggregator;
             this.Title = "Selected Brush";
 

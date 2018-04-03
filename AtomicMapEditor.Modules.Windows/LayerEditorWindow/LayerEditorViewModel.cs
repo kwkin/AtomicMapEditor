@@ -11,20 +11,14 @@ namespace Ame.Modules.Windows.LayerEditorWindow
     public class LayerEditorViewModel : BindableBase, IInteractionRequestAware
     {
         #region fields
-
-        private IEventAggregator ea;
-
+        
         #endregion fields
 
 
         #region constructor & destructer
 
-        public LayerEditorViewModel(IEventAggregator eventAggregator)
+        public LayerEditorViewModel()
         {
-            if (eventAggregator == null)
-            {
-                throw new ArgumentNullException("eventAggregator");
-            }
             this.WindowTitle = "Layer Editor";
 
             this.SetLayerPropertiesCommand = new DelegateCommand(SetLayerProperties);
