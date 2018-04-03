@@ -8,6 +8,7 @@ namespace Ame.Infrastructure.Utils
     public class CoordinateTransform
     {
         // TODO add size to the conversion
+        // TODO add "module" point to tiled point conversion
 
         #region fields
 
@@ -35,9 +36,7 @@ namespace Ame.Infrastructure.Utils
 
 
         #region methods
-
-        //TODO add parameter for passing into pixelToTile
-
+        
         /// <summary>
         /// Sets the tile to pixel transform
         /// </summary>

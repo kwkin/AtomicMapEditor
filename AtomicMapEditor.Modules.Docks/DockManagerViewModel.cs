@@ -210,7 +210,7 @@ namespace Ame.Modules.Docks
             RaisePropertyChanged(nameof(this.MapWindowView));
 
             Confirmation mapConfirmation = new Confirmation();
-            mapConfirmation.Content = new Infrastructure.Models.MapModel("Map #1");
+            mapConfirmation.Content = new Infrastructure.Models.Map("Map #1");
             return mapConfirmation;
         }
 
@@ -228,7 +228,7 @@ namespace Ame.Modules.Docks
             Confirmation confirmation = notification as Confirmation;
             if (confirmation.Confirmed)
             {
-                MapModel mapModel = confirmation.Content as MapModel;
+                Map mapModel = confirmation.Content as Map;
                 Console.WriteLine("Map Updated: ");
                 Console.WriteLine("Name: " + mapModel.Name);
 

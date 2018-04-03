@@ -50,14 +50,14 @@ namespace Ame.Modules.Windows.MapEditorWindow
             set
             {
                 this.notification = value as Confirmation;
-                this.Map = this.notification.Content as MapModel;
+                this.Map = this.notification.Content as Map;
                 updateUIusingMap();
                 RaisePropertyChanged(nameof(this.Notification));
             }
         }
         public Action FinishInteraction { get; set; }
 
-        private MapModel Map { get; set; }
+        private Map Map { get; set; }
 
         #endregion properties
 
@@ -83,7 +83,7 @@ namespace Ame.Modules.Windows.MapEditorWindow
             FinishInteraction();
         }
 
-        private void UpdateMapProperties(MapModel map)
+        private void UpdateMapProperties(Map map)
         {
             map.Name = this.Name;
             map.Scale = this.Scale;
@@ -121,7 +121,7 @@ namespace Ame.Modules.Windows.MapEditorWindow
             this.Description = this.Map.Description;
         }
 
-        private void updateUIusingMap(MapModel map)
+        private void updateUIusingMap(Map map)
         {
             this.Name = map.Name;
             this.BaseWidth = map.getTileWidth();

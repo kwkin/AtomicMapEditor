@@ -1,6 +1,6 @@
 ﻿namespace Ame.Infrastructure.Models
 {
-    public class MapModel
+    public class Map
     {
         #region fields
 
@@ -8,7 +8,7 @@
 
         #region constructor & destructer
 
-        public MapModel()
+        public Map()
         {
             this.Name = "";
             this.Width = 1024;
@@ -20,7 +20,7 @@
             this.Description = "";
         }
 
-        public MapModel(string name)
+        public Map(string name)
         {
             this.Name = name;
             this.Width = 1024;
@@ -32,7 +32,7 @@
             this.Description = "";
         }
 
-        public MapModel(string name, int width, int height)
+        public Map(string name, int width, int height)
         {
             this.Name = name;
             this.Width = width;

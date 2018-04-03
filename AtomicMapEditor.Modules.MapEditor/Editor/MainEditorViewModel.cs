@@ -38,7 +38,7 @@ namespace Ame.Modules.MapEditor.Editor
             {
                 throw new ArgumentNullException("eventAggregator");
             }
-            this.Map = new MapModel();
+            this.Map = new Map();
             this.eventAggregator = eventAggregator;
             this.Title = "Main Editor";
             
@@ -131,7 +131,7 @@ namespace Ame.Modules.MapEditor.Editor
         }
 
         // TODO determine a better name for map model
-        public MapModel Map { get; set; }
+        public Map Map { get; set; }
 
         public DrawingImage MapItems { get; set; }
 

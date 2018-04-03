@@ -97,6 +97,8 @@ namespace Ame.Infrastructure.BaseTypes
             set { commandParameterValue = value; }
         }
 
+        public bool PassEventArgsToCommand { get; set; }
+        
         #endregion properties
 
 
