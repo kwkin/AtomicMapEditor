@@ -27,11 +27,11 @@ namespace Ame.Modules.Windows.MapEditorWindow
             {
                 throw new ArgumentNullException("eventAggregator");
             }
+            Console.WriteLine("Map Editor");
             this.ea = eventAggregator;
             this.WindowTitle = "New Map";
 
             this.SetMapPropertiesCommand = new DelegateCommand(SetMapProperties);
-            this.ApplyMapPropertiesCommand = new DelegateCommand(ApplyMapProperties);
             this.CloseWindowCommand = new DelegateCommand(CloseWindow);
         }
 
@@ -40,8 +40,6 @@ namespace Ame.Modules.Windows.MapEditorWindow
 
         #region properties
 
-        public ICommand ApplyMapPropertiesCommand { get; set; }
-        public ICommand CancelCommand { get; set; }
         public ICommand SetMapPropertiesCommand { get; private set; }
         public ICommand CloseWindowCommand { get; private set; }
 
@@ -86,11 +84,6 @@ namespace Ame.Modules.Windows.MapEditorWindow
             FinishInteraction();
         }
 
-        private void ApplyMapProperties()
-        {
-            UpdateMapProperties(this.Map);
-        }
-
         private void CloseWindow()
         {
             if (_Notification != null)
@@ -119,13 +112,11 @@ namespace Ame.Modules.Windows.MapEditorWindow
 
                 default:
                     map.setWidth(this.BaseWidth);
-                    this.Map.setHeight(this.BaseHeight);
+                    map.setHeight(this.BaseHeight);
                     break;
             }
             this.Map.PixelScale = this.PixelScale;
             this.Map.Description = this.Description;
-
-            // TODO send map message
         }
 
         private void updateUIusingMap()

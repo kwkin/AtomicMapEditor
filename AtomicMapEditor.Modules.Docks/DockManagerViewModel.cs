@@ -45,7 +45,7 @@ namespace Ame.Modules.Docks
             this.Documents = new ObservableCollection<DockViewModelTemplate>();
             this.Anchorables = new ObservableCollection<DockViewModelTemplate>();
 
-            this._MapWindowInteraction = new InteractionRequest<INotification>();
+            this._MapWindowInteraction = new InteractionRequest<MapWindowConfirmation>();
             this._LayerWindowInteraction = new InteractionRequest<INotification>();
 
             // TODO add filter to dock and window open messages
@@ -118,7 +118,7 @@ namespace Ame.Modules.Docks
             }
         }
 
-        private InteractionRequest<INotification> _MapWindowInteraction;
+        private InteractionRequest<MapWindowConfirmation> _MapWindowInteraction;
         public IInteractionRequest MapWindowInteraction
         {
             get { return _MapWindowInteraction; }
@@ -183,9 +183,9 @@ namespace Ame.Modules.Docks
             switch (message.WindowType)
             {
                 case WindowType.Map:
-                    notification = NewMapWindow();
-                    notification.Title = notificationTitle;
-                    this._MapWindowInteraction.Raise(notification, OnMapWindowClosed);
+                    MapWindowConfirmation notification2 = NewMapWindow();
+                    notification2.Title = notificationTitle;
+                    this._MapWindowInteraction.Raise(notification2, OnMapWindowClosed);
                     break;
 
                 case WindowType.Layer:
@@ -200,7 +200,7 @@ namespace Ame.Modules.Docks
         }
 
         // TODO, move this into another class, or the appropriate view model class (Static function)
-        private INotification NewMapWindow()
+        private MapWindowConfirmation NewMapWindow()
         {
             this.MapWindowView = new Windows.MapEditorWindow.MapEditor();
             RaisePropertyChanged(nameof(this.MapWindowView));
@@ -219,10 +219,9 @@ namespace Ame.Modules.Docks
             return layerWindowConfirmation;
         }
 
-        private void OnMapWindowClosed(INotification notification)
+        private void OnMapWindowClosed(MapWindowConfirmation notification)
         {
-            IConfirmation confirmation = notification as IConfirmation;
-            if (confirmation.Confirmed)
+            if (notification.Confirmed)
             {
                 Console.WriteLine("Map Updated");
             }
