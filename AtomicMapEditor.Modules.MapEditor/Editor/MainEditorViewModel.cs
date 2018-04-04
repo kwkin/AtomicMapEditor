@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using Ame.Components.Behaviors;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Models;
@@ -22,6 +23,7 @@ namespace Ame.Modules.MapEditor.Editor
         #region fields
 
         private IEventAggregator eventAggregator;
+        private IScrollModel scrollModel;
 
         public BrushModel brush;
         private CoordinateTransform imageTransform;
@@ -32,21 +34,25 @@ namespace Ame.Modules.MapEditor.Editor
 
         #region Constructor & destructor
 
-        public MainEditorViewModel(IEventAggregator eventAggregator)
+        public MainEditorViewModel(IEventAggregator eventAggregator, IScrollModel scrollModel)
         {
             if (eventAggregator == null)
             {
                 throw new ArgumentNullException("eventAggregator");
             }
+            if (scrollModel == null)
+            {
+                throw new ArgumentNullException("scrollModel");
+            }
+            // TODO pass MapModel
             this.Map = new Map();
             this.eventAggregator = eventAggregator;
+            this.scrollModel = scrollModel;
             this.Title = "Main Editor";
             
             this.imageTransform = new CoordinateTransform();
-
-            // TODO pass MapModel
-            this.CanvasGridItems = new ObservableCollection<Visual>();
             this.imageTransform.SetPixelToTile(this.Map.TileWidth, this.Map.TileHeight);
+            this.CanvasGridItems = new ObservableCollection<Visual>();
 
             // Draw map background
             GeometryGroup rectangles = new GeometryGroup();
@@ -58,28 +64,41 @@ namespace Ame.Modules.MapEditor.Editor
             this.imageDrawings.Children.Add(aGeometryDrawing);
             this.MapItems = new DrawingImage(this.imageDrawings);
 
-            this.ZoomLevels = new List<ZoomLevel>();
-            this.ZoomLevels.Add(new ZoomLevel(0.125));
-            this.ZoomLevels.Add(new ZoomLevel(0.25));
-            this.ZoomLevels.Add(new ZoomLevel(0.5));
-            this.ZoomLevels.Add(new ZoomLevel(1));
-            this.ZoomLevels.Add(new ZoomLevel(2));
-            this.ZoomLevels.Add(new ZoomLevel(4));
-            this.ZoomLevels.Add(new ZoomLevel(8));
-            this.ZoomLevels.Add(new ZoomLevel(16));
-            this.ZoomLevels.Add(new ZoomLevel(32));
-            this.ZoomLevels = this.ZoomLevels.OrderBy(f => f.zoom).ToList();
-            this.ZoomIndex = 3;
+            if (this.scrollModel.ZoomLevels == null)
+            {
+                this.ZoomLevels = new List<ZoomLevel>();
+                this.ZoomLevels.Add(new ZoomLevel(0.125));
+                this.ZoomLevels.Add(new ZoomLevel(0.25));
+                this.ZoomLevels.Add(new ZoomLevel(0.5));
+                this.ZoomLevels.Add(new ZoomLevel(1));
+                this.ZoomLevels.Add(new ZoomLevel(2));
+                this.ZoomLevels.Add(new ZoomLevel(4));
+                this.ZoomLevels.Add(new ZoomLevel(8));
+                this.ZoomLevels.Add(new ZoomLevel(16));
+                this.ZoomLevels.Add(new ZoomLevel(32));
+                this.ZoomLevels = this.ZoomLevels.OrderBy(f => f.zoom).ToList();
+                this.scrollModel.ZoomLevels = this.ZoomLevels;
+            }
+            if (this.scrollModel.ZoomIndex < 0 || this.scrollModel.ZoomIndex >= this.ZoomLevels.Count)
+            {
+                this.ZoomIndex = 3;
+                this.scrollModel.ZoomIndex = this.ZoomIndex;
+            }
             this.Scale = ScaleType.Tile;
             this.PositionText = "0, 0";
 
             this.ShowGridCommand = new DelegateCommand(() => DrawGrid(this.IsGridOn));
             this.UpdatePositionCommand = new DelegateCommand<object>(point => UpdatePosition((Point)point));
-            this.ZoomInCommand = new DelegateCommand(() => ZoomIn());
-            this.ZoomOutCommand = new DelegateCommand(() => ZoomOut());
-            this.SetZoomCommand = new DelegateCommand<ZoomLevel>(zoomLevel => SetZoom(zoomLevel));
-            this.DrawCommand = new DelegateCommand<object>(point => Draw((Point)point));
-            this.DrawReleaseCommand = new DelegateCommand<object>(point => DrawRelease((Point)point));
+            this.ZoomInCommand = new DelegateCommand(
+                () => this.ZoomIndex = this.scrollModel.ZoomIn());
+            this.ZoomOutCommand = new DelegateCommand(
+                () => this.ZoomIndex = this.scrollModel.ZoomOut());
+            this.SetZoomCommand = new DelegateCommand<ZoomLevel>(
+                (zoomLevel) => this.ZoomIndex = this.scrollModel.SetZoom(zoomLevel));
+            this.DrawCommand = new DelegateCommand<object>(
+                (point) => Draw((Point)point));
+            this.DrawReleaseCommand = new DelegateCommand<object>(
+                (point) => DrawRelease((Point)point));
 
             this.eventAggregator.GetEvent<UpdateBrushEvent>().Subscribe(UpdateBrushImage);
         }
@@ -128,8 +147,7 @@ namespace Ame.Modules.MapEditor.Editor
                 return DockType.MapEditor;
             }
         }
-
-        // TODO determine a better name for map model
+        
         public Map Map { get; set; }
 
         public DrawingImage MapItems { get; set; }
@@ -199,41 +217,6 @@ namespace Ame.Modules.MapEditor.Editor
             }
             RaisePropertyChanged(nameof(this.IsGridOn));
             RaisePropertyChanged(nameof(this.CanvasGridItems));
-        }
-
-        public void ZoomIn()
-        {
-            if (this.ZoomIndex < this.ZoomLevels.Count - 1)
-            {
-                this.ZoomIndex += 1;
-            }
-        }
-
-        public void ZoomOut()
-        {
-            if (this.ZoomIndex > 0)
-            {
-                this.ZoomIndex -= 1;
-            }
-        }
-
-        public void SetZoom(ZoomLevel selectedZoomLevel)
-        {
-            int zoomIndex = this.ZoomLevels.FindIndex(r => r.zoom == selectedZoomLevel.zoom);
-            if (zoomIndex == -1)
-            {
-                this.ZoomLevels.Add(selectedZoomLevel);
-                zoomIndex = this.ZoomLevels.FindIndex(r => r.zoom == selectedZoomLevel.zoom);
-            }
-            if (zoomIndex > ZoomLevels.Count - 1)
-            {
-                zoomIndex = ZoomLevels.Count - 1;
-            }
-            else if (zoomIndex < 0)
-            {
-                zoomIndex = 0;
-            }
-            this.ZoomIndex = zoomIndex;
         }
 
         private void UpdatePosition(Point position)

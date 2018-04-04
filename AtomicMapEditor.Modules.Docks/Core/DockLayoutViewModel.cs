@@ -20,7 +20,7 @@ namespace Ame.Modules.Docks.Core
 
         private const string LayoutFileName = "Layout.config";
         private ILayoutViewModel layoutParent = null;
-        private IEventAggregator ea;
+        private IEventAggregator eventAggregator;
 
         #endregion fields
 
@@ -34,7 +34,7 @@ namespace Ame.Modules.Docks.Core
                 throw new ArgumentNullException("eventAggregator");
             }
             this.layoutParent = parent;
-            this.ea = eventAggregator;
+            this.eventAggregator = eventAggregator;
         }
 
         #endregion constructor & destructer
@@ -143,7 +143,7 @@ namespace Ame.Modules.Docks.Core
             NotificationMessage<string> notification = new NotificationMessage<string>(
                 this.CurrentLayout,
                 MessageIds.LoadWorkspaceLayout);
-            this.ea.GetEvent<NotificationEvent<string>>().Publish(notification);
+            this.eventAggregator.GetEvent<NotificationEvent<string>>().Publish(notification);
         }
 
         private void LoadLayoutFromFile()
@@ -186,7 +186,7 @@ namespace Ame.Modules.Docks.Core
                         Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                         {
                             NotificationMessage<string> notification = new NotificationMessage<string>(ant.Result, MessageIds.LoadWorkspaceLayout);
-                            this.ea.GetEvent<NotificationEvent<string>>().Publish(notification);
+                            this.eventAggregator.GetEvent<NotificationEvent<string>>().Publish(notification);
                         }),
                         DispatcherPriority.Background);
                     }
@@ -225,7 +225,7 @@ namespace Ame.Modules.Docks.Core
                     this.CurrentLayout = result;
                     this.layoutParent.IsBusy = false;
                 });
-            this.ea.GetEvent<NotificationActionEvent<string>>().Publish(notification);
+            this.eventAggregator.GetEvent<NotificationActionEvent<string>>().Publish(notification);
         }
 
         private void SaveLayoutToFile(string xmlLayout)

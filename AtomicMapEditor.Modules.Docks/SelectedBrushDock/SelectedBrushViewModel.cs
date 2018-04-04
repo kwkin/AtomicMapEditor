@@ -8,6 +8,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using Ame.Components.Behaviors;
+using Ame.Components.Extended;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Models;
@@ -22,44 +24,60 @@ namespace Ame.Modules.Docks.SelectedBrushDock
         #region fields
 
         private IEventAggregator eventAggregator;
+        private IScrollModel scrollModel;
 
         #endregion fields
 
 
         #region Constructor & destructor
 
-        public SelectedBrushViewModel(IEventAggregator eventAggregator)
+        public SelectedBrushViewModel(IEventAggregator eventAggregator, IScrollModel scrollModel)
         {
             if (eventAggregator == null)
             {
                 throw new ArgumentNullException("eventAggregator");
             }
+            if (scrollModel == null)
+            {
+                throw new ArgumentNullException("scrollModel");
+            }
             this.eventAggregator = eventAggregator;
+            this.scrollModel = scrollModel;
             this.Title = "Selected Brush";
 
             this.CanvasGridItems = new ObservableCollection<Visual>();
-
-            this.ZoomLevels = new List<ZoomLevel>();
-            this.ZoomLevels.Add(new ZoomLevel("12.5%", 0.125));
-            this.ZoomLevels.Add(new ZoomLevel("25%", 0.25));
-            this.ZoomLevels.Add(new ZoomLevel("50%", 0.5));
-            this.ZoomLevels.Add(new ZoomLevel("100%", 1));
-            this.ZoomLevels.Add(new ZoomLevel("200%", 2));
-            this.ZoomLevels.Add(new ZoomLevel("400%", 4));
-            this.ZoomLevels.Add(new ZoomLevel("800%", 8));
-            this.ZoomLevels.Add(new ZoomLevel("1600%", 16));
-            this.ZoomLevels.Add(new ZoomLevel("3200%", 32));
-            this.ZoomLevels = this.ZoomLevels.OrderBy(f => f.zoom).ToList();
-
-            this.ZoomIndex = 3;
+            
+            if (this.scrollModel.ZoomLevels == null)
+            {
+                this.ZoomLevels = new List<ZoomLevel>();
+                this.ZoomLevels.Add(new ZoomLevel(0.125));
+                this.ZoomLevels.Add(new ZoomLevel(0.25));
+                this.ZoomLevels.Add(new ZoomLevel(0.5));
+                this.ZoomLevels.Add(new ZoomLevel(1));
+                this.ZoomLevels.Add(new ZoomLevel(2));
+                this.ZoomLevels.Add(new ZoomLevel(4));
+                this.ZoomLevels.Add(new ZoomLevel(8));
+                this.ZoomLevels.Add(new ZoomLevel(16));
+                this.ZoomLevels.Add(new ZoomLevel(32));
+                this.ZoomLevels = this.ZoomLevels.OrderBy(f => f.zoom).ToList();
+                this.scrollModel.ZoomLevels = this.ZoomLevels;
+            }
+            if (this.scrollModel.ZoomIndex < 0 || this.scrollModel.ZoomIndex >= this.ZoomLevels.Count)
+            {
+                this.ZoomIndex = 3;
+                this.scrollModel.ZoomIndex = this.ZoomIndex;
+            }
             this.Scale = ScaleType.Pixel;
             this.PositionText = "0, 0";
 
             this.ShowGridCommand = new DelegateCommand(() => DrawGrid(this.IsGridOn));
             this.UpdatePositionCommand = new DelegateCommand<object>(point => UpdatePosition((Point)point));
-            this.ZoomInCommand = new DelegateCommand(() => ZoomIn());
-            this.ZoomOutCommand = new DelegateCommand(() => ZoomOut());
-            this.SetZoomCommand = new DelegateCommand<ZoomLevel>(zoomLevel => SetZoom(zoomLevel));
+            this.ZoomInCommand = new DelegateCommand(
+                () => this.ZoomIndex = this.scrollModel.ZoomIn());
+            this.ZoomOutCommand = new DelegateCommand(
+                () => this.ZoomIndex = this.scrollModel.ZoomOut());
+            this.SetZoomCommand = new DelegateCommand<ZoomLevel>(
+                (zoomLevel) => this.ZoomIndex = this.scrollModel.SetZoom(zoomLevel));
 
             this.eventAggregator.GetEvent<UpdateBrushEvent>().Subscribe(UpdateBrushImage);
         }
@@ -77,6 +95,8 @@ namespace Ame.Modules.Docks.SelectedBrushDock
 
         public String PositionText { get; set; }
         public ScaleType Scale { get; set; }
+
+        // TODO change use of list to IList
         public List<ZoomLevel> ZoomLevels { get; set; }
         public bool IsGridOn { get; set; }
         public ObservableCollection<Visual> CanvasGridItems { get; set; }
@@ -159,43 +179,22 @@ namespace Ame.Modules.Docks.SelectedBrushDock
             }
             RaisePropertyChanged(nameof(this.IsGridOn));
             RaisePropertyChanged(nameof(this.CanvasGridItems));
-        }
+        } 
 
-        // TODO delegate the zoom in/out/set command to another class Maybe have a infobar class in
-        // the extended/custom components
+        // TODO maybe replace this with a model or viewmodel class (decouple from view)
         public void ZoomIn()
         {
-            if (this.ZoomIndex < this.ZoomLevels.Count - 1)
-            {
-                this.ZoomIndex += 1;
-            }
+            this.ZoomIndex = ExtendedScrollViewer.ZoomIn(this.ZoomIndex, this.ZoomLevels);
         }
 
         public void ZoomOut()
         {
-            if (this.ZoomIndex > 0)
-            {
-                this.ZoomIndex -= 1;
-            }
+            this.ZoomIndex = ExtendedScrollViewer.ZoomOut(this.ZoomIndex, this.ZoomLevels);
         }
 
         public void SetZoom(ZoomLevel selectedZoomLevel)
         {
-            int zoomIndex = this.ZoomLevels.FindIndex(r => r.zoom == selectedZoomLevel.zoom);
-            if (zoomIndex == -1)
-            {
-                this.ZoomLevels.Add(selectedZoomLevel);
-                zoomIndex = this.ZoomLevels.FindIndex(r => r.zoom == selectedZoomLevel.zoom);
-            }
-            if (zoomIndex > ZoomLevels.Count - 1)
-            {
-                zoomIndex = ZoomLevels.Count - 1;
-            }
-            else if (zoomIndex < 0)
-            {
-                zoomIndex = 0;
-            }
-            this.ZoomIndex = zoomIndex;
+            this.ZoomIndex = ExtendedScrollViewer.SetZoom(selectedZoomLevel, this.ZoomLevels);
         }
 
         private void UpdatePosition(Point position)

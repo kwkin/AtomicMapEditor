@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using Ame.Components.Behaviors;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Models;
@@ -30,43 +31,57 @@ namespace Ame.Modules.Docks.ItemEditorDock
 
         private Mat itemImage;
         private IEventAggregator eventAggregator;
+        private IScrollModel scrollModel;
 
         #endregion fields
 
 
         #region constructor & destructer
 
-        public ItemEditorViewModel(IEventAggregator eventAggregator) : this(new TilesetModel(), eventAggregator)
+        public ItemEditorViewModel(IEventAggregator eventAggregator, IScrollModel scrollModel) : this(new TilesetModel(), eventAggregator, scrollModel)
         {
         }
 
-        public ItemEditorViewModel(TilesetModel tilesetModel, IEventAggregator eventAggregator)
+        public ItemEditorViewModel(TilesetModel tilesetModel, IEventAggregator eventAggregator, IScrollModel scrollModel)
         {
             if (eventAggregator == null)
             {
                 throw new ArgumentNullException("eventAggregator");
             }
+            if (scrollModel == null)
+            {
+                throw new ArgumentNullException("scrollModel");
+            }
             this.TilesetModel = tilesetModel;
             this.eventAggregator = eventAggregator;
+            this.scrollModel = scrollModel;
             this.Title = "Item - " + Path.GetFileNameWithoutExtension(tilesetModel.SourcePath);
 
             this.CanvasGridItems = new ObservableCollection<Visual>();
             this.CanvasSelectItems = new ObservableCollection<Visual>();
             this.itemTransform = new CoordinateTransform();
             this.itemTransform.SetPixelToTile(this.TilesetModel.Width, this.TilesetModel.Height);
-
-            this.ZoomLevels = new List<ZoomLevel>();
-            this.ZoomLevels.Add(new ZoomLevel("12.5%", 0.125));
-            this.ZoomLevels.Add(new ZoomLevel("25%", 0.25));
-            this.ZoomLevels.Add(new ZoomLevel("50%", 0.5));
-            this.ZoomLevels.Add(new ZoomLevel("100%", 1));
-            this.ZoomLevels.Add(new ZoomLevel("200%", 2));
-            this.ZoomLevels.Add(new ZoomLevel("400%", 4));
-            this.ZoomLevels.Add(new ZoomLevel("800%", 8));
-            this.ZoomLevels.Add(new ZoomLevel("1600%", 16));
-            this.ZoomLevels.Add(new ZoomLevel("3200%", 32));
-            this.ZoomLevels = this.ZoomLevels.OrderBy(f => f.zoom).ToList();
-            this.ZoomIndex = 3;
+            
+            if (this.scrollModel.ZoomLevels == null)
+            {
+                this.ZoomLevels = new List<ZoomLevel>();
+                this.ZoomLevels.Add(new ZoomLevel(0.125));
+                this.ZoomLevels.Add(new ZoomLevel(0.25));
+                this.ZoomLevels.Add(new ZoomLevel(0.5));
+                this.ZoomLevels.Add(new ZoomLevel(1));
+                this.ZoomLevels.Add(new ZoomLevel(2));
+                this.ZoomLevels.Add(new ZoomLevel(4));
+                this.ZoomLevels.Add(new ZoomLevel(8));
+                this.ZoomLevels.Add(new ZoomLevel(16));
+                this.ZoomLevels.Add(new ZoomLevel(32));
+                this.ZoomLevels = this.ZoomLevels.OrderBy(f => f.zoom).ToList();
+                this.scrollModel.ZoomLevels = this.ZoomLevels;
+            }
+            if (this.scrollModel.ZoomIndex < 0 || this.scrollModel.ZoomIndex >= this.ZoomLevels.Count)
+            {
+                this.ZoomIndex = 3;
+                this.scrollModel.ZoomIndex = this.ZoomIndex;
+            }
             this.Scale = ScaleType.Tile;
             this.PositionText = "0, 0";
 
@@ -78,9 +93,12 @@ namespace Ame.Modules.Docks.ItemEditorDock
             this.RemoveItemCommand = new DelegateCommand(() => RemoveItem());
             this.ShowGridCommand = new DelegateCommand(() => DrawGrid(this.IsGridOn));
             this.ShowRulerCommand = new DelegateCommand(() => DrawRuler());
-            this.ZoomInCommand = new DelegateCommand(() => ZoomIn());
-            this.ZoomOutCommand = new DelegateCommand(() => ZoomOut());
-            this.SetZoomCommand = new DelegateCommand<ZoomLevel>(zoomLevel => SetZoom(zoomLevel));
+            this.ZoomInCommand = new DelegateCommand(
+                () => this.ZoomIndex = this.scrollModel.ZoomIn());
+            this.ZoomOutCommand = new DelegateCommand(
+                () => this.ZoomIndex = this.scrollModel.ZoomOut());
+            this.SetZoomCommand = new DelegateCommand<ZoomLevel>(
+                (zoomLevel) => this.ZoomIndex = this.scrollModel.SetZoom(zoomLevel));
             this.SetSelectPointCommand = new DelegateCommand<object>(point => SetLastSelectPoint((Point)point));
             this.SelectTilesCommand = new DelegateCommand<object>(point => SelectTiles(this.lastSelectPoint, (Point)point));
             this.UpdatePositionCommand = new DelegateCommand<object>(point => UpdatePosition((Point)point));
@@ -181,8 +199,7 @@ namespace Ame.Modules.Docks.ItemEditorDock
             itemTransform.SetPixelToTile(this.TilesetModel.Width, this.TilesetModel.Height, this.TilesetModel.OffsetX, this.TilesetModel.OffsetY, this.TilesetModel.PaddingX, this.TilesetModel.PaddingY);
             DrawGrid(this.IsGridOn);
         }
-
-        // TODO have a common grid class
+        
         public void DrawGrid()
         {
             DrawGrid(this.IsGridOn);

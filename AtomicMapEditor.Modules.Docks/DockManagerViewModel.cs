@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
+using Ame.Components.Behaviors;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Core;
 using Ame.Infrastructure.Events;
@@ -164,6 +165,7 @@ namespace Ame.Modules.Docks
         {
             IUnityContainer unityContainer = new UnityContainer();
             unityContainer.RegisterInstance<IEventAggregator>(this.eventAggregator);
+            unityContainer.RegisterInstance<IScrollModel>(new ScrollModel());
 
             DockViewModelTemplate dockViewModel = DockViewModelSelector.GetViewModel(message.DockType, unityContainer);
             if (!string.IsNullOrEmpty(message.DockTitle))
@@ -268,6 +270,7 @@ namespace Ame.Modules.Docks
         {
             IUnityContainer unityContainer = new UnityContainer();
             unityContainer.RegisterInstance<IEventAggregator>(this.eventAggregator);
+            unityContainer.RegisterInstance<IScrollModel>(new ScrollModel());
 
             DockType dockType = DockTypeUtils.GetById(args.Model.ContentId);
             DockViewModelTemplate contentViewModel = DockViewModelSelector.GetViewModel(dockType, unityContainer);

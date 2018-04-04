@@ -106,6 +106,43 @@ namespace Ame.Components.Extended
 
         #region methods
 
+        public static int ZoomIn(int currentZoom, List<ZoomLevel> zoomLevels)
+        {
+            if (currentZoom < zoomLevels.Count - 1)
+            {
+                currentZoom += 1;
+            }
+            return currentZoom;
+        }
+
+        public static int ZoomOut(int currentZoom, List<ZoomLevel> zoomLevels)
+        {
+            if (currentZoom > 0)
+            {
+                currentZoom -= 1;
+            }
+            return currentZoom;
+        }
+
+        public static int SetZoom(ZoomLevel selectedZoomLevel, List<ZoomLevel> zoomLevels)
+        {
+            int zoomIndex = zoomLevels.FindIndex(r => r.zoom == selectedZoomLevel.zoom);
+            if (zoomIndex == -1)
+            {
+                zoomLevels.Add(selectedZoomLevel);
+                zoomIndex = zoomLevels.FindIndex(r => r.zoom == selectedZoomLevel.zoom);
+            }
+            if (zoomIndex > zoomLevels.Count - 1)
+            {
+                zoomIndex = zoomLevels.Count - 1;
+            }
+            else if (zoomIndex < 0)
+            {
+                zoomIndex = 0;
+            }
+            return zoomIndex;
+        }
+
         private static void OnZoomIndexChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ExtendedScrollViewer s = (ExtendedScrollViewer)d;

@@ -78,6 +78,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviors\IScrollModel.cs" />
+    <Compile Include="Behaviors\ScrollModel.cs" />
     <Compile Include="Extended\ExtendedScrollViewer.cs" />
     <Compile Include="Extended\IconButton.cs" />
     <Compile Include="Extended\IconRadioButton.cs" />
