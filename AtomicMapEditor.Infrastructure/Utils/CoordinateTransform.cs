@@ -7,9 +7,6 @@ namespace Ame.Infrastructure.Utils
 {
     public class CoordinateTransform
     {
-        // TODO add size to the conversion
-        // TODO add "module" point to tiled point conversion
-
         #region fields
 
         private ScaleTransform pixelToRenderScale = new ScaleTransform();
@@ -36,7 +33,9 @@ namespace Ame.Infrastructure.Utils
 
 
         #region methods
-        
+
+        #region configure transforms
+
         /// <summary>
         /// Sets the tile to pixel transform
         /// </summary>
@@ -105,6 +104,10 @@ namespace Ame.Infrastructure.Utils
             pixelToRender.Children.Add(this.pixelToRenderScale);
         }
 
+        #endregion configure transforms
+
+        #region pixel to render
+
         public Point PixelToRender(Point point)
         {
             return pixelToRender.Transform(point);
@@ -123,22 +126,16 @@ namespace Ame.Infrastructure.Utils
             return LineUtils.CreateLine(p1, p2);
         }
 
-        public Point RenderToPixel(Point point)
-        {
-            return pixelToRender.Inverse.Transform(point);
-        }
-
-        public Line RenderToPixel(Line line)
-        {
-            Point p1 = RenderToPixel(new Point(line.X1, line.Y1));
-            Point p2 = RenderToPixel(new Point(line.X2, line.Y2));
-            return LineUtils.CreateLine(p1, p2);
-        }
-
         public Point PixelToRenderInt(Point point)
         {
             Point pixelToRender = PixelToRender(point);
             return new Point((int)pixelToRender.X, (int)pixelToRender.Y);
+        }
+
+        public Size PixelToRenderInt(Size size)
+        {
+            Size pixelToRender = PixelToRender(size);
+            return new Size((int)pixelToRender.Width, (int)pixelToRender.Height);
         }
 
         public Line PixelToRenderInt(Line line)
@@ -148,10 +145,38 @@ namespace Ame.Infrastructure.Utils
             return LineUtils.CreateLine(p1, p2);
         }
 
+        #endregion pixel to render
+
+        #region render to pixel
+
+        public Point RenderToPixel(Point point)
+        {
+            return pixelToRender.Inverse.Transform(point);
+        }
+
+        public Size RenderToPixel(Size size)
+        {
+            Point pointSize = pixelToRender.Inverse.Transform(new Point(size.Width, size.Height));
+            return new Size(pointSize.X, pointSize.Y);
+        }
+
+        public Line RenderToPixel(Line line)
+        {
+            Point p1 = RenderToPixel(new Point(line.X1, line.Y1));
+            Point p2 = RenderToPixel(new Point(line.X2, line.Y2));
+            return LineUtils.CreateLine(p1, p2);
+        }
+
         public Point RenderToPixelInt(Point point)
         {
             Point renderToPixel = RenderToPixel(point);
             return new Point((int)renderToPixel.X, (int)renderToPixel.Y);
+        }
+
+        public Size RenderToPixelInt(Size size)
+        {
+            Size renderToPixel = RenderToPixel(size);
+            return new Size((int)renderToPixel.Width, (int)renderToPixel.Height);
         }
 
         public Line RenderToPixelInt(Line line)
@@ -161,10 +186,19 @@ namespace Ame.Infrastructure.Utils
             return LineUtils.CreateLine(p1, p2);
         }
 
+        #endregion render to pixel
+
+        #region pixel to tile
 
         public Point PixelToTile(Point point)
         {
             return pixelToTile.Transform(point);
+        }
+
+        public Size PixelToTile(Size size)
+        {
+            Point pointSize = pixelToTile.Transform(new Point(size.Width, size.Height));
+            return new Size(pointSize.X, pointSize.Y);
         }
 
         public Line PixelToTile(Line line)
@@ -180,12 +214,22 @@ namespace Ame.Infrastructure.Utils
             return new Point((int)pixelToTile.X, (int)pixelToTile.Y);
         }
 
+        public Size PixelToTileInt(Size size)
+        {
+            Size pixelToTile = PixelToTile(size);
+            return new Size((int)pixelToTile.Width, (int)pixelToTile.Height);
+        }
+
         public Line PixelToTileInt(Line line)
         {
             Point p1 = PixelToTileInt(new Point(line.X1, line.Y1));
             Point p2 = PixelToTileInt(new Point(line.X2, line.Y2));
             return LineUtils.CreateLine(p1, p2);
         }
+
+        #endregion pixel to tile
+
+        #region tile to pixel
 
         public Point TileToPixel(Point point)
         {
@@ -211,6 +255,12 @@ namespace Ame.Infrastructure.Utils
             return new Point((int)tileToPixel.X, (int)tileToPixel.Y);
         }
 
+        public Point TileToPixelInt(Size size)
+        {
+            Size tileToPixel = TileToPixel(size);
+            return new Point((int)tileToPixel.Width, (int)tileToPixel.Height);
+        }
+
         public Line TileToPixelInt(Line line)
         {
             Point p1 = TileToPixelInt(new Point(line.X1, line.Y1));
@@ -218,9 +268,19 @@ namespace Ame.Infrastructure.Utils
             return LineUtils.CreateLine(p1, p2);
         }
 
+        #endregion tile to pixel
+
+        #region render to tile
+
         public Point RenderToTile(Point point)
         {
             return pixelToTile.Transform(pixelToRender.Inverse.Transform(point));
+        }
+
+        public Size RenderToTile(Size size)
+        {
+            Point pointSize = pixelToTile.Transform(new Point(size.Width, size.Height));
+            return new Size(pointSize.X, pointSize.Y);
         }
 
         public Line RenderToTile(Line line)
@@ -236,6 +296,12 @@ namespace Ame.Infrastructure.Utils
             return new Point((int)renderToTile.X, (int)renderToTile.Y);
         }
 
+        public Point RenderToTileInt(Size size)
+        {
+            Size renderToTile = RenderToTile(size);
+            return new Point((int)renderToTile.Width, (int)renderToTile.Height);
+        }
+
         public Line RenderToTileInt(Line line)
         {
             Point p1 = RenderToTileInt(new Point(line.X1, line.Y1));
@@ -243,9 +309,19 @@ namespace Ame.Infrastructure.Utils
             return LineUtils.CreateLine(p1, p2);
         }
 
+        #endregion render to tile
+
+        #region tile to render
+
         public Point TileToRender(Point point)
         {
             return pixelToRender.Transform(pixelToTile.Inverse.Transform(point));
+        }
+
+        public Size TileToRender(Size size)
+        {
+            Point pointSize = pixelToTile.Transform(new Point(size.Width, size.Height));
+            return new Size(pointSize.X, pointSize.Y);
         }
 
         public Line TileToRender(Line line)
@@ -261,12 +337,30 @@ namespace Ame.Infrastructure.Utils
             return new Point((int)tileToRender.X, (int)tileToRender.Y);
         }
 
+        public Point TileToRenderInt(Size size)
+        {
+            Size tileToRender = TileToRender(size);
+            return new Point((int)tileToRender.Width, (int)tileToRender.Height);
+        }
+
         public Line TileToRenderInt(Line line)
         {
             Point p1 = TileToRenderInt(new Point(line.X1, line.Y1));
             Point p2 = TileToRenderInt(new Point(line.X2, line.Y2));
             return LineUtils.CreateLine(p1, p2);
         }
+
+        #endregion tile to render
+
+        #region util functions
+
+        public Point PixelToTileEdge(Point point)
+        {
+            Point edgePoint = pixelToTile.Transform(point);
+            return pixelToTile.Inverse.Transform(new Point((int)edgePoint.X, (int)edgePoint.Y));
+        }
+
+        #endregion util functions
 
         #endregion methods
     }
