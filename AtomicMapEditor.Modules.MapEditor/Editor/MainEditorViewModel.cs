@@ -102,8 +102,7 @@ namespace Ame.Modules.MapEditor.Editor
         public String PositionText { get; set; }
         public ScaleType Scale { get; set; }
         public List<ZoomLevel> ZoomLevels { get; set; }
-
-        // TODO add dynamic grid thickness to other grids.
+        
         public int zoomIndex;
         public int ZoomIndex
         {

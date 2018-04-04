@@ -128,6 +128,7 @@ namespace Ame.Modules.Docks.SelectedBrushDock
                 croppedBitmap.EndInit();
             }
             this.BrushImage = croppedBitmap;
+            DrawGrid();
             RaisePropertyChanged(nameof(this.BrushImage));
         }
         

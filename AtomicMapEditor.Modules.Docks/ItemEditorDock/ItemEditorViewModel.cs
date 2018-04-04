@@ -301,6 +301,7 @@ namespace Ame.Modules.Docks.ItemEditorDock
                     ImageDrawing tileImage = new ImageDrawing(bitmapSource, tileRectangle);
                     this.ItemImage = new DrawingImage(tileImage);
 
+                    DrawGrid();
                     RaisePropertyChanged(nameof(this.TilesetModel));
                     RaisePropertyChanged(nameof(this.ItemImage));
                 }
