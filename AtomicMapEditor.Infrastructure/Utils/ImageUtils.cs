@@ -11,7 +11,8 @@ namespace Ame.Infrastructure.Utils
             BitmapImage croppedBitmap = new BitmapImage();
             using (MemoryStream ms = new MemoryStream())
             {
-                image.Bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
+                //image.Bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
+                image.Bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
                 croppedBitmap.BeginInit();
                 croppedBitmap.StreamSource = ms;
                 croppedBitmap.CacheOption = BitmapCacheOption.OnLoad;

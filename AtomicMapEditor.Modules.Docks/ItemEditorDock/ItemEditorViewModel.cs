@@ -14,6 +14,7 @@ using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Utils;
 using Emgu.CV;
+using Emgu.CV.Structure;
 using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Events;
@@ -186,10 +187,49 @@ namespace Ame.Modules.Docks.ItemEditorDock
             // TODO set image transparency
             DrawTileSelect(topLeftPixel, pixelSize);
             Mat croppedImage = BrushUtils.CropImage(this.itemImage, topLeftPixel, pixelSize);
+
+
+            Mat trasparentMask = new Mat();
+            Mat croppedTransparentImage = new Mat((int)pixelSize.Height, (int)pixelSize.Width, Emgu.CV.CvEnum.DepthType.Cv8U, -1);
+            ScalarArray transparentColorLower = new ScalarArray(new MCvScalar(255, 255, 255, 0));
+            ScalarArray transparentColorHigher = new ScalarArray(new MCvScalar(255, 255, 255, 255));
+            CvInvoke.InRange(croppedImage, transparentColorLower, transparentColorHigher, trasparentMask);
+            
+            CvInvoke.BitwiseNot(trasparentMask, trasparentMask);
+            croppedImage.CopyTo(croppedTransparentImage, trasparentMask);
+
+            //byte[] pixelValue = croppedTransparentImage.GetData(0, 0);
+            //Console.WriteLine("Cropped Image");
+            //foreach (byte channel in pixelValue)
+            //{
+            //    Console.Write(channel + " ");
+            //}
+            //Console.WriteLine();
+
+            //pixelValue = croppedTransparentImage.GetData(0, 0);
+            //Console.WriteLine("Cropped Transparent Image");
+            //foreach (byte channel in pixelValue)
+            //{
+            //    Console.Write(channel + " ");
+            //}
+            //Console.WriteLine();
+
+            //Console.WriteLine("Transparent Image");
+            //pixelValue = trasparentMask.GetData(0, 0);
+            //foreach (byte channel in pixelValue)
+            //{
+            //    Console.Write(channel + " ");
+            //}
+            //Console.WriteLine();
+
             BrushModel brushModel = new BrushModel();
-            brushModel.Image = ImageUtils.MatToBitmap(croppedImage);
+            brushModel.Image = ImageUtils.MatToBitmap(croppedTransparentImage);
             UpdateBrushMessage message = new UpdateBrushMessage(brushModel);
             this.eventAggregator.GetEvent<UpdateBrushEvent>().Publish(message);
+
+            IInputArray transparencyMask = new Mat();
+
+
         }
 
         public void updateTilesetModel()
@@ -268,7 +308,7 @@ namespace Ame.Modules.Docks.ItemEditorDock
                 {
                     this.Title = "Item - " + Path.GetFileNameWithoutExtension(tileFilePath);
                     this.TilesetModel.SourcePath = tileFilePath;
-                    this.itemImage = CvInvoke.Imread(tileFilePath, Emgu.CV.CvEnum.ImreadModes.AnyColor);
+                    this.itemImage = CvInvoke.Imread(tileFilePath, Emgu.CV.CvEnum.ImreadModes.Unchanged);
 
                     this.itemTransform = new CoordinateTransform();
                     this.itemTransform.SetPixelToTile(this.TilesetModel.Width, this.TilesetModel.Height);
