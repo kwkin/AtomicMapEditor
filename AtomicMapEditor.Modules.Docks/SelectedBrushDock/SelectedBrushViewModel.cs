@@ -138,16 +138,7 @@ namespace Ame.Modules.Docks.SelectedBrushDock
         {
             // TODO add this into a processing class/utils
             BrushModel brushModel = message.BrushModel;
-            BitmapImage croppedBitmap = new BitmapImage();
-            using (MemoryStream ms = new MemoryStream())
-            {
-                brushModel.image.Bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
-                croppedBitmap.BeginInit();
-                croppedBitmap.StreamSource = ms;
-                croppedBitmap.CacheOption = BitmapCacheOption.OnLoad;
-                croppedBitmap.EndInit();
-            }
-            this.BrushImage = croppedBitmap;
+            this.BrushImage = brushModel.Image;
             DrawGrid();
             RaisePropertyChanged(nameof(this.BrushImage));
         }
@@ -179,22 +170,6 @@ namespace Ame.Modules.Docks.SelectedBrushDock
             }
             RaisePropertyChanged(nameof(this.IsGridOn));
             RaisePropertyChanged(nameof(this.CanvasGridItems));
-        } 
-
-        // TODO maybe replace this with a model or viewmodel class (decouple from view)
-        public void ZoomIn()
-        {
-            this.ZoomIndex = ExtendedScrollViewer.ZoomIn(this.ZoomIndex, this.ZoomLevels);
-        }
-
-        public void ZoomOut()
-        {
-            this.ZoomIndex = ExtendedScrollViewer.ZoomOut(this.ZoomIndex, this.ZoomLevels);
-        }
-
-        public void SetZoom(ZoomLevel selectedZoomLevel)
-        {
-            this.ZoomIndex = ExtendedScrollViewer.SetZoom(selectedZoomLevel, this.ZoomLevels);
         }
 
         private void UpdatePosition(Point position)

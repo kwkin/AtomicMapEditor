@@ -22,8 +22,6 @@ namespace Ame.Modules.Docks.ItemEditorDock
 {
     public class ItemEditorViewModel : DockToolViewModelTemplate
     {
-        // TODO: look into switching all system.windows shapes to drawing
-
         #region fields
 
         private CoordinateTransform itemTransform;
@@ -189,7 +187,7 @@ namespace Ame.Modules.Docks.ItemEditorDock
             DrawTileSelect(topLeftPixel, pixelSize);
             Mat croppedImage = BrushUtils.CropImage(this.itemImage, topLeftPixel, pixelSize);
             BrushModel brushModel = new BrushModel();
-            brushModel.image = croppedImage;
+            brushModel.Image = ImageUtils.MatToBitmap(croppedImage);
             UpdateBrushMessage message = new UpdateBrushMessage(brushModel);
             this.eventAggregator.GetEvent<UpdateBrushEvent>().Publish(message);
         }
@@ -237,44 +235,6 @@ namespace Ame.Modules.Docks.ItemEditorDock
             Console.WriteLine("DrawRuler");
         }
 
-        public void ZoomIn()
-        {
-            if (this.ZoomIndex < this.ZoomLevels.Count - 1)
-            {
-                this.ZoomIndex += 1;
-                RaisePropertyChanged(nameof(this.ZoomIndex));
-            }
-        }
-
-        public void ZoomOut()
-        {
-            if (this.ZoomIndex > 0)
-            {
-                this.ZoomIndex -= 1;
-                RaisePropertyChanged(nameof(this.ZoomIndex));
-            }
-        }
-
-        public void SetZoom(ZoomLevel selectedZoomLevel)
-        {
-            int zoomIndex = this.ZoomLevels.FindIndex(r => r.zoom == selectedZoomLevel.zoom);
-            if (zoomIndex == -1)
-            {
-                this.ZoomLevels.Add(selectedZoomLevel);
-                zoomIndex = this.ZoomLevels.FindIndex(r => r.zoom == selectedZoomLevel.zoom);
-            }
-            if (zoomIndex > ZoomLevels.Count - 1)
-            {
-                zoomIndex = ZoomLevels.Count - 1;
-            }
-            else if (zoomIndex < 0)
-            {
-                zoomIndex = 0;
-            }
-            this.ZoomIndex = zoomIndex;
-            RaisePropertyChanged(nameof(this.ZoomIndex));
-        }
-
         /// <summary>
         /// </summary>
         /// <param name="topLeftPixel">Top left pixel in the selection</param>
@@ -290,8 +250,8 @@ namespace Ame.Modules.Docks.ItemEditorDock
             rectPath.StrokeThickness = 1;
             rectPath.Data = tileGeometry;
 
-            CanvasSelectItems.Clear();
-            CanvasSelectItems.Add(rectPath);
+            this.CanvasSelectItems.Clear();
+            this.CanvasSelectItems.Add(rectPath);
 
             RaisePropertyChanged(nameof(this.CanvasSelectItems));
         }

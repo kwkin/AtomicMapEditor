@@ -29,8 +29,7 @@ namespace Ame.Modules.Docks
         public static string applicationName = "AtomicMapEditor";
 
         private IEventAggregator eventAggregator;
-
-        public event EventHandler ActiveDocumentChanged;
+        private event EventHandler ActiveDocumentChanged;
 
         #endregion fields
 
@@ -212,7 +211,7 @@ namespace Ame.Modules.Docks
             RaisePropertyChanged(nameof(this.MapWindowView));
 
             Confirmation mapConfirmation = new Confirmation();
-            mapConfirmation.Content = new Infrastructure.Models.Map("Map #1");
+            mapConfirmation.Content = new Map("Map #1");
             return mapConfirmation;
         }
 

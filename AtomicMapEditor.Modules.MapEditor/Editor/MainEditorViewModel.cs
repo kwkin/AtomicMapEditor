@@ -168,18 +168,10 @@ namespace Ame.Modules.MapEditor.Editor
             {
                 return;
             }
-            BitmapImage croppedBitmap = new BitmapImage();
-            using (MemoryStream ms = new MemoryStream())
-            {
-                this.brush.image.Bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
-                croppedBitmap.BeginInit();
-                croppedBitmap.StreamSource = ms;
-                croppedBitmap.CacheOption = BitmapCacheOption.OnLoad;
-                croppedBitmap.EndInit();
-            }
+            BitmapImage croppedBitmap = this.brush.Image;
             Point tilePoint = this.imageTransform.PixelToTileEdge(point);
 
-            Rect rect = new Rect(tilePoint.X, tilePoint.Y, this.brush.image.Width, this.brush.image.Height);
+            Rect rect = new Rect(tilePoint.X, tilePoint.Y, this.brush.Image.Width, this.brush.Image.Height);
             ImageDrawing tileImage = new ImageDrawing(croppedBitmap, rect);
             this.imageDrawings.Children.Add(tileImage);
 
