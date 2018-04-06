@@ -184,11 +184,9 @@ namespace Ame.Modules.Docks.ItemEditorDock
 
         public void Select(Point topLeftPixel, Size pixelSize)
         {
-            // TODO set image transparency
             DrawTileSelect(topLeftPixel, pixelSize);
             Mat croppedImage = BrushUtils.CropImage(this.itemImage, topLeftPixel, pixelSize);
-
-
+            
             Mat trasparentMask = new Mat();
             Mat croppedTransparentImage = new Mat((int)pixelSize.Height, (int)pixelSize.Width, Emgu.CV.CvEnum.DepthType.Cv8U, -1);
             ScalarArray transparentColorLower = new ScalarArray(new MCvScalar(255, 255, 255, 0));
@@ -200,22 +198,6 @@ namespace Ame.Modules.Docks.ItemEditorDock
 
             //byte[] pixelValue = croppedTransparentImage.GetData(0, 0);
             //Console.WriteLine("Cropped Image");
-            //foreach (byte channel in pixelValue)
-            //{
-            //    Console.Write(channel + " ");
-            //}
-            //Console.WriteLine();
-
-            //pixelValue = croppedTransparentImage.GetData(0, 0);
-            //Console.WriteLine("Cropped Transparent Image");
-            //foreach (byte channel in pixelValue)
-            //{
-            //    Console.Write(channel + " ");
-            //}
-            //Console.WriteLine();
-
-            //Console.WriteLine("Transparent Image");
-            //pixelValue = trasparentMask.GetData(0, 0);
             //foreach (byte channel in pixelValue)
             //{
             //    Console.Write(channel + " ");

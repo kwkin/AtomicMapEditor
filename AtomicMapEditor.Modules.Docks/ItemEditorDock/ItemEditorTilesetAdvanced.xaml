@@ -1,11 +1,13 @@
 ﻿<UserControl x:Class="Ame.Modules.Docks.ItemEditorDock.ItemEditorTilesetAdvanced"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Ame.Modules.Docks.ItemEditorDock"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=Ame.Components"
+             xmlns:basetype="clr-namespace:Ame.Infrastructure.BaseTypes;assembly=Ame.Infrastructure"
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300">
@@ -101,11 +103,11 @@
                             Maximum="2048"
                             Minimum="1"
                             Value="{Binding TilesetModel.Width, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            <!--<i:Interaction.Triggers>
+            <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ValueChanged">
-                    <cmd:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
+                    <basetype:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
                 </i:EventTrigger>
-            </i:Interaction.Triggers>-->
+            </i:Interaction.Triggers>
         </xctk:IntegerUpDown>
         <Label x:Name="heightLabel"
                Grid.Row="3"
@@ -121,11 +123,11 @@
                             Maximum="2048"
                             Minimum="1"
                             Value="{Binding TilesetModel.Height, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            <!--<i:Interaction.Triggers>
+            <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ValueChanged">
-                    <cmd:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
+                    <basetype:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
                 </i:EventTrigger>
-            </i:Interaction.Triggers>-->
+            </i:Interaction.Triggers>
         </xctk:IntegerUpDown>
 
         <Label x:Name="offsetLabel"
@@ -149,11 +151,11 @@
                             Maximum="2048"
                             Minimum="0"
                             Value="{Binding TilesetModel.OffsetX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            <!--<i:Interaction.Triggers>
+            <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ValueChanged">
-                    <cmd:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
+                    <basetype:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
                 </i:EventTrigger>
-            </i:Interaction.Triggers>-->
+            </i:Interaction.Triggers>
         </xctk:IntegerUpDown>
         <Label x:Name="offsetYLabel"
                Grid.Row="4"
@@ -169,11 +171,11 @@
                             Maximum="2048"
                             Minimum="0"
                             Value="{Binding TilesetModel.OffsetY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            <!--<i:Interaction.Triggers>
+            <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ValueChanged">
-                    <cmd:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
+                    <basetype:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
                 </i:EventTrigger>
-            </i:Interaction.Triggers>-->
+            </i:Interaction.Triggers>
         </xctk:IntegerUpDown>
 
         <Label x:Name="paddingLabel"
@@ -197,11 +199,11 @@
                             Maximum="2048"
                             Minimum="0"
                             Value="{Binding TilesetModel.PaddingX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            <!--<i:Interaction.Triggers>
+            <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ValueChanged">
-                    <cmd:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
+                    <basetype:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
                 </i:EventTrigger>
-            </i:Interaction.Triggers>-->
+            </i:Interaction.Triggers>
         </xctk:IntegerUpDown>
         <Label x:Name="paddingYLabel"
                Grid.Row="5"
@@ -217,11 +219,11 @@
                             Maximum="2048"
                             Minimum="0"
                             Value="{Binding TilesetModel.PaddingY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            <!--<i:Interaction.Triggers>
+            <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ValueChanged">
-                    <cmd:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
+                    <basetype:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
                 </i:EventTrigger>
-            </i:Interaction.Triggers>-->
+            </i:Interaction.Triggers>
         </xctk:IntegerUpDown>
     </Grid>
 </UserControl>
