@@ -8,9 +8,7 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=Ame.Components"
              xmlns:basetype="clr-namespace:Ame.Infrastructure.BaseTypes;assembly=Ame.Infrastructure"
-             mc:Ignorable="d"
-             d:DesignHeight="300"
-             d:DesignWidth="300">
+             mc:Ignorable="d">
 
     <Grid VerticalAlignment="Top"
           MinHeight="210">
@@ -75,13 +73,27 @@
                   VerticalAlignment="Center"
                   Content="Use Transparent"
                   IsChecked="{Binding TilesetModel.IsTransparent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-        <xctk:ColorPicker x:Name="transparencyColorPicker"
-                          Grid.Row="2"
-                          Grid.Column="6"
-                          VerticalAlignment="Center"
-                          ColorMode="ColorCanvas"
-                          SelectedColor="{Binding TilesetModel.TransparentColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <Grid Grid.Row="2"
+              Grid.Column="6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
+            <extcomp:IconToggleButton x:Name="pickerButton"
+                                      ToolTip="Select a transparency color"
+                                      IsChecked="{Binding IsSelectingTransparency}"
+                                      ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                      ImageStretch="None">
+            </extcomp:IconToggleButton>
+            <xctk:ColorPicker x:Name="transparencyColorPicker"
+                              Grid.Row="0"
+                              Grid.Column="1"
+                              VerticalAlignment="Center"
+                              ColorMode="ColorCanvas"
+                              SelectedColor="{Binding TilesetModel.TransparentColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+        </Grid>
         <Label x:Name="sizeLabel"
                Grid.Row="3"
                Grid.Column="0"

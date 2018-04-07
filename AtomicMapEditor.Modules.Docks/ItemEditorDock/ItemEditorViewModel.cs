@@ -125,6 +125,28 @@ namespace Ame.Modules.Docks.ItemEditorDock
         public ICommand SelectTilesCommand { get; private set; }
         public ICommand UpdateModelCommand { get; private set; }
 
+        public bool isSelectingTransparency;
+        public bool IsSelectingTransparency
+        {
+            get
+            {
+                return this.isSelectingTransparency;
+            }
+            set
+            {
+                if (SetProperty(ref this.isSelectingTransparency, value))
+                {
+                    if (this.isSelectingTransparency)
+                    {
+                        Mouse.OverrideCursor = Cursors.Pen;
+                    }
+                    else
+                    {
+                        Mouse.OverrideCursor = null;
+                    }
+                }
+            }
+        }
         public ScaleType Scale { get; set; }
         public String PositionText { get; set; }
         public List<ZoomLevel> ZoomLevels { get; set; }
@@ -172,14 +194,23 @@ namespace Ame.Modules.Docks.ItemEditorDock
         /// <param name="point2">Second corner pixel point in the selection</param>
         public void SelectTiles(Point point1, Point point2)
         {
-            Point tile1 = itemTransform.PixelToTileInt(point1);
-            Point tile2 = itemTransform.PixelToTileInt(point2);
-            Point topLeftTile = PointUtils.TopLeft(tile1, tile2);
-            Point topLeftPixel = itemTransform.TileToPixel(topLeftTile);
-            Size tileSize = PointUtils.SelectionSize(tile1, tile2);
-            Size pixelSize = itemTransform.TileToPixel(tileSize);
+            if (!this.IsSelectingTransparency)
+            {
+                Point tile1 = itemTransform.PixelToTileInt(point1);
+                Point tile2 = itemTransform.PixelToTileInt(point2);
+                Point topLeftTile = PointUtils.TopLeft(tile1, tile2);
+                Point topLeftPixel = itemTransform.TileToPixel(topLeftTile);
+                Size tileSize = PointUtils.SelectionSize(tile1, tile2);
+                Size pixelSize = itemTransform.TileToPixel(tileSize);
 
-            Select(topLeftPixel, pixelSize);
+                Select(topLeftPixel, pixelSize);
+            }
+            else
+            {
+                this.IsSelectingTransparency = false;
+                RaisePropertyChanged(nameof(this.IsSelectingTransparency));
+                RaisePropertyChanged(nameof(this.TilesetModel));
+            }
         }
 
         public void Select(Point topLeftPixel, Size pixelSize)
@@ -189,29 +220,22 @@ namespace Ame.Modules.Docks.ItemEditorDock
             
             Mat trasparentMask = new Mat();
             Mat croppedTransparentImage = new Mat((int)pixelSize.Height, (int)pixelSize.Width, Emgu.CV.CvEnum.DepthType.Cv8U, -1);
-            ScalarArray transparentColorLower = new ScalarArray(new MCvScalar(255, 255, 255, 0));
-            ScalarArray transparentColorHigher = new ScalarArray(new MCvScalar(255, 255, 255, 255));
+
+            // R=255, G=150, B=246
+            Color color =  this.TilesetModel.TransparentColor;
+            ScalarArray transparentColorLower = new ScalarArray(new MCvScalar(color.B, color.G, color.R, 0));
+            ScalarArray transparentColorHigher = new ScalarArray(new MCvScalar(color.B, color.G, color.R, 255));
             CvInvoke.InRange(croppedImage, transparentColorLower, transparentColorHigher, trasparentMask);
             
             CvInvoke.BitwiseNot(trasparentMask, trasparentMask);
             croppedImage.CopyTo(croppedTransparentImage, trasparentMask);
-
-            //byte[] pixelValue = croppedTransparentImage.GetData(0, 0);
-            //Console.WriteLine("Cropped Image");
-            //foreach (byte channel in pixelValue)
-            //{
-            //    Console.Write(channel + " ");
-            //}
-            //Console.WriteLine();
-
+            
             BrushModel brushModel = new BrushModel();
             brushModel.Image = ImageUtils.MatToBitmap(croppedTransparentImage);
             UpdateBrushMessage message = new UpdateBrushMessage(brushModel);
             this.eventAggregator.GetEvent<UpdateBrushEvent>().Publish(message);
 
             IInputArray transparencyMask = new Mat();
-
-
         }
 
         public void updateTilesetModel()
@@ -334,7 +358,17 @@ namespace Ame.Modules.Docks.ItemEditorDock
 
         private void SetLastSelectPoint(Point point)
         {
-            this.lastSelectPoint = point;
+            if (this.IsSelectingTransparency)
+            {
+                byte[] colorsBGR = this.itemImage.GetData((int)point.Y, (int)point.X);
+                this.TilesetModel.TransparentColor = Color.FromRgb(colorsBGR[2], colorsBGR[1], colorsBGR[0]);
+                Console.WriteLine(this.TilesetModel.TransparentColor);
+            }
+            else
+            {
+                this.lastSelectPoint = point;
+            }
+            
         }
 
         private void UpdatePosition(Point position)
