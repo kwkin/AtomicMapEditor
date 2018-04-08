@@ -1,17 +1,19 @@
-﻿<RadioButton x:Class="Ame.Modules.Docks.LayerListDock.LayerListEntry"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:Ame.Modules.Docks.LayerListDock"
-             mc:Ignorable="d"
-             Style="{StaticResource {x:Type ToggleButton}}">
+﻿<UserControl x:Class="Ame.Modules.Docks.LayerListDock.LayerListEntry"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+              xmlns:local="clr-namespace:Ame.Modules.Docks.LayerListDock"
+              xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=Ame.Components"
+              mc:Ignorable="d"
+              HorizontalContentAlignment="Stretch"
+              d:DesignWidth="300">
 
-    <RadioButton.Resources>
+    <UserControl.Resources>
         <ResourceDictionary Source="pack://application:,,,/Ame.Modules.Docks;component/LayerListDock/LayerListContextMenu.xaml" />
-    </RadioButton.Resources>
+    </UserControl.Resources>
 
-    <RadioButton.ContextMenu>
+    <UserControl.ContextMenu>
         <ContextMenu>
             <ContextMenu.ItemsSource>
                 <CompositeCollection>
@@ -19,63 +21,63 @@
                 </CompositeCollection>
             </ContextMenu.ItemsSource>
         </ContextMenu>
-    </RadioButton.ContextMenu>
+    </UserControl.ContextMenu>
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
+    <ToggleButton Background="Transparent"
+                  BorderThickness="0"
+                  Margin="0"
+                  Padding="0"
+                  HorizontalContentAlignment="Stretch">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
 
-        <StackPanel Orientation="Horizontal"
-                    Grid.Column="0">
-            <ToggleButton x:Name="showLayerToggleButton"
-                          Background="Transparent"
-                          BorderBrush="Transparent"
-                          ToolTip="Show: Toggles the layer display"
-                          Command="{Binding AddTilesetLayerCommand}">
-                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
-                       Stretch="None" />
-            </ToggleButton>
+            <StackPanel Orientation="Horizontal"
+                        Grid.Column="0">
+                <extcomp:IconToggleButton x:Name="showLayerToggleButton"
+                                          ToolTip="Show: Toggles the layer display"
+                                          Command="{Binding AddTilesetLayerCommand}"
+                                          ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
+                </extcomp:IconToggleButton>
 
-            <ToggleButton x:Name="lockLayerToggleButton"
-                          Background="Transparent"
-                          BorderBrush="Transparent"
-                          ToolTip="Lock: Prevents the layer from being moved and edited"
-                          Command="{Binding AddTilesetLayerCommand}">
-                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
-                       Stretch="None" />
-            </ToggleButton>
+                <extcomp:IconToggleButton x:Name="lockLayerToggleButton"
+                                          ToolTip="Lock: Prevents the layer from being moved and edited"
+                                          Command="{Binding AddTilesetLayerCommand}"
+                                          ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
+                </extcomp:IconToggleButton>
 
-            <Canvas x:Name="tilesetImage"
-                    Height="32"
-                    Width="32"
-                    VerticalAlignment="Top">
-                <Canvas.Background>
-                    <LinearGradientBrush StartPoint="0,0"
-                                         EndPoint="1,1">
-                        <GradientStop Color="Yellow"
-                                      Offset="0.0" />
-                        <GradientStop Color="Red"
-                                      Offset="0.25" />
-                        <GradientStop Color="Blue"
-                                      Offset="0.75" />
-                        <GradientStop Color="Green"
-                                      Offset="1.0" />
-                    </LinearGradientBrush>
-                </Canvas.Background>
-            </Canvas>
-        </StackPanel>
+                <Canvas x:Name="tilesetImage"
+                        Height="32"
+                        Width="32"
+                        VerticalAlignment="Top">
+                    <Canvas.Background>
+                        <LinearGradientBrush StartPoint="0,0"
+                                             EndPoint="1,1">
+                            <GradientStop Color="Yellow"
+                                          Offset="0.0" />
+                            <GradientStop Color="Red"
+                                          Offset="0.25" />
+                            <GradientStop Color="Blue"
+                                          Offset="0.75" />
+                            <GradientStop Color="Green"
+                                          Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Canvas.Background>
+                </Canvas>
+            </StackPanel>
 
-        <Label x:Name="layerNameLabel"
-               Content="Tiles #1"
-               HorizontalAlignment="Left"
-               Grid.Column="1" />
+            <Label x:Name="layerNameLabel"
+                   Content="{Binding LayerName}"
+                   HorizontalAlignment="Left"
+                   Grid.Column="1" />
 
-        <Label x:Name="layerPositionLabel"
-               Content="Front"
-               HorizontalAlignment="Right"
-               Grid.Column="2" />
-    </Grid>
-</RadioButton>
+            <Label x:Name="layerPositionLabel"
+                   Content="{Binding Position}"
+                   HorizontalAlignment="Right"
+                   Grid.Column="2" />
+        </Grid>
+    </ToggleButton>
+</UserControl>

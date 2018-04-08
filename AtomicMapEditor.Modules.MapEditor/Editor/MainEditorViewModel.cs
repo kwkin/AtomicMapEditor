@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -174,7 +175,6 @@ namespace Ame.Modules.MapEditor.Editor
             Rect rect = new Rect(tilePoint.X, tilePoint.Y, this.brush.Image.Width, this.brush.Image.Height);
             ImageDrawing tileImage = new ImageDrawing(croppedBitmap, rect);
             this.imageDrawings.Children.Add(tileImage);
-
             this.MapItems = new DrawingImage(this.imageDrawings);
         }
 

@@ -67,7 +67,7 @@
                 <Rectangle x:Name="selectionHitBox"
                            Fill="Transparent"
                            Stretch="Fill" />
-
+  
                 <Image x:Name="canvasMapImage"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"

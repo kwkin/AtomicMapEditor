@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Input;
+using System.Windows.Media;
 using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Models;
 using Prism.Commands;
 
 namespace Ame.Modules.Docks.LayerListDock
@@ -32,6 +35,23 @@ namespace Ame.Modules.Docks.LayerListDock
             this.EditCollisionsCommand = new DelegateCommand(() => EditCollisions());
             this.LayerToMapSizeCommand = new DelegateCommand(() => LayerToMapSize());
             this.NewLayerCommand = new DelegateCommand(() => NewLayer());
+
+            this.LayerList = new List<object>();
+            this.LayerList.Add(new Layer("Layer #1", 32, 32));
+            this.LayerList.Add(new Layer("Layer #2", 32, 32));
+
+            IList<ILayer> layerGroupLayers = new List<ILayer>();
+            layerGroupLayers.Add(new Layer("Layer #3", 32, 32));
+
+            IList<ILayer> layerGroupLayers2 = new List<ILayer>();
+            layerGroupLayers2.Add(new Layer("Layer #4", 32, 32));
+            layerGroupLayers2.Add(new Layer("Layer #5", 32, 32));
+            layerGroupLayers.Add(new LayerGroup("Layer Group #2", layerGroupLayers2));
+
+            layerGroupLayers.Add(new Layer("Layer #6", 32, 32));
+            this.LayerList.Add(new LayerGroup("Layer Group #1", layerGroupLayers));
+            
+            this.LayerList.Add(new Layer("Layer #7", 32, 32));
         }
 
         #endregion constructor & destructer
@@ -62,6 +82,8 @@ namespace Ame.Modules.Docks.LayerListDock
                 return DockType.LayerList;
             }
         }
+
+        public IList<object> LayerList { get; set; }
 
         #endregion properties
 

@@ -5,9 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=Ame.Components"
              xmlns:local="clr-namespace:Ame.Modules.Docks.LayerListDock"
+             xmlns:models="clr-namespace:Ame.Infrastructure.Models;assembly=Ame.Infrastructure"
              mc:Ignorable="d"
-             d:DesignHeight="300"
-             d:DesignWidth="300">
+             d:DesignHeight="300">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -73,12 +73,20 @@
         </WrapPanel>
 
         <ScrollViewer Grid.Row="1">
-            <StackPanel Orientation="Vertical">
-                <local:LayerListEntry GroupName="LayersGroup" />
-                <local:LayerListEntry GroupName="LayersGroup" />
-                <local:LayerListGroup />
-                <local:LayerListEntry GroupName="LayersGroup" />
-            </StackPanel>
+            <extcomp:StretchingTreeView ItemsSource="{Binding LayerList}"
+                                        HorizontalContentAlignment="Stretch"
+                                        BorderThickness="0">
+                <TreeView.Resources>
+                    <HierarchicalDataTemplate DataType="{x:Type models:LayerGroup}"
+                                              ItemsSource="{Binding Path=Layers}">
+                        <local:LayerListGroup />
+                    </HierarchicalDataTemplate>
+
+                    <DataTemplate DataType="{x:Type models:Layer}">
+                        <local:LayerListEntry />
+                    </DataTemplate>
+                </TreeView.Resources>
+            </extcomp:StretchingTreeView>
         </ScrollViewer>
     </Grid>
 </UserControl>

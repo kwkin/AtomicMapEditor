@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Ame.Infrastructure.BaseTypes;
 using Ame.Modules.Docks.ClipboardDock;
 using Ame.Modules.Docks.ItemEditorDock;
 using Ame.Modules.Docks.ItemListDock;
@@ -12,7 +9,6 @@ using Ame.Modules.Docks.MinimapDock;
 using Ame.Modules.Docks.SelectedBrushDock;
 using Ame.Modules.Docks.ToolboxDock;
 using Ame.Modules.MapEditor.Editor;
-using Ame.Infrastructure.BaseTypes;
 using Microsoft.Practices.Unity;
 
 namespace Ame.Modules.Docks.Core
@@ -21,7 +17,7 @@ namespace Ame.Modules.Docks.Core
     {
         public static DockViewModelTemplate GetViewModel(DockType type, IUnityContainer container)
         {
-            Type viewModelType = null;            
+            Type viewModelType = null;
             switch (type)
             {
                 case DockType.Clipboard:

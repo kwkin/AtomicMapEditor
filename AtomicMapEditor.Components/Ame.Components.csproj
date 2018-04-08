@@ -84,6 +84,7 @@
     <Compile Include="Extended\IconButton.cs" />
     <Compile Include="Extended\IconRadioButton.cs" />
     <Compile Include="Extended\IconToggleButton.cs" />
+    <Compile Include="Extended\StretchingTreeView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
