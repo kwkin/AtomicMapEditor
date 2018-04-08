@@ -50,7 +50,8 @@ namespace Ame.Modules.MapEditor.Editor
             this.eventAggregator = eventAggregator;
             this.scrollModel = scrollModel;
             this.Title = "Main Editor";
-            
+            this.CurrentLayer = this.Map.LayerList[0];
+
             this.imageTransform = new CoordinateTransform();
             this.imageTransform.SetPixelToTile(this.Map.TileWidth, this.Map.TileHeight);
             this.CanvasGridItems = new ObservableCollection<Visual>();
@@ -150,8 +151,16 @@ namespace Ame.Modules.MapEditor.Editor
         }
         
         public Map Map { get; set; }
+        public Layer CurrentLayer { get; set; }
 
+        // TODO rename to map background
         public DrawingImage MapItems { get; set; }
+
+        // TODO switch between layers
+        // TODO add new layers and update the layers list
+        // TODO add new map, edit map properties
+        // TODO add drawing images to a canvas, set the z index of the individual drawing images to its position in the list
+        public DrawingImage LayerItems { get; set; }
 
         #endregion properties
 
@@ -169,13 +178,13 @@ namespace Ame.Modules.MapEditor.Editor
             {
                 return;
             }
+            // TODO force images into tiles
             BitmapImage croppedBitmap = this.brush.Image;
             Point tilePoint = this.imageTransform.PixelToTileEdge(point);
 
-            Rect rect = new Rect(tilePoint.X, tilePoint.Y, this.brush.Image.Width, this.brush.Image.Height);
-            ImageDrawing tileImage = new ImageDrawing(croppedBitmap, rect);
-            this.imageDrawings.Children.Add(tileImage);
-            this.MapItems = new DrawingImage(this.imageDrawings);
+            this.CurrentLayer.SetTile(croppedBitmap, tilePoint);
+            this.LayerItems = this.CurrentLayer.LayerItems;
+            RaisePropertyChanged(nameof(this.LayerItems));
         }
 
         public void DrawRelease(Point point)

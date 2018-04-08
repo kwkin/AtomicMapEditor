@@ -105,6 +105,7 @@
     <Compile Include="Events\UpdateBrushMessage.cs" />
     <Compile Include="Models\BrushModel.cs" />
     <Compile Include="Models\Map.cs" />
+    <Compile Include="Models\Tile.cs" />
     <Compile Include="Utils\BrushUtils.cs" />
     <Compile Include="Utils\CoordinateTransform.cs" />
     <Compile Include="BaseTypes\DockToolViewModelTemplate.cs" />

@@ -1,4 +1,8 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace Ame.Infrastructure.Models
@@ -6,6 +10,9 @@ namespace Ame.Infrastructure.Models
     public class Layer : ILayer
     {
         #region fields
+
+        private List<Tile> occupiedTiles;
+        private DrawingGroup imageDrawings;
 
         #endregion fields
 
@@ -18,6 +25,8 @@ namespace Ame.Infrastructure.Models
             this.TileWidth = tileWidth;
             this.TileHeight = tileHeight;
             this.Position = LayerPosition.Base;
+
+            this.occupiedTiles = new List<Tile>();
         }
 
         public Layer(int tileWidth, int tileHeight, int rows, int columns)
@@ -28,6 +37,9 @@ namespace Ame.Infrastructure.Models
             this.Rows = rows;
             this.Columns = columns;
             this.Position = LayerPosition.Base;
+
+            this.occupiedTiles = new List<Tile>();
+            ResetLayerItems();
         }
 
         public Layer(string layerName, int tileWidth, int tileHeight)
@@ -36,6 +48,8 @@ namespace Ame.Infrastructure.Models
             this.TileWidth = tileWidth;
             this.TileHeight = tileHeight;
             this.Position = LayerPosition.Base;
+
+            this.occupiedTiles = new List<Tile>();
         }
 
         public Layer(string layerName, int tileWidth, int tileHeight, int rows, int columns)
@@ -46,6 +60,9 @@ namespace Ame.Infrastructure.Models
             this.Rows = rows;
             this.Columns = columns;
             this.Position = LayerPosition.Base;
+
+            this.occupiedTiles = new List<Tile>();
+            ResetLayerItems();
         }
 
         #endregion constructor & destructer
@@ -61,34 +78,56 @@ namespace Ame.Infrastructure.Models
         public bool IsImmutable { get; set; }
         public LayerPosition Position { get; set; }
 
+        public DrawingImage LayerItems { get; set; }
+
         #endregion properties
 
 
         #region methods
 
-        public void SetTile(BitmapImage imageBitmap, int row, int column)
+        public int GetPixelWidth()
         {
-            Image image = new Image();
-            image.Source = imageBitmap;
-            Grid.SetRow(image, row);
-            Grid.SetColumn(image, column);
-            //this.Children.Add(image);
+            return this.TileWidth * this.Columns;
         }
 
-        public void UpdateGrid()
+        public int GetPixelHeight()
         {
-            //for (int rowIndex = 0; rowIndex < this.Rows; ++rowIndex)
-            //{
-            //    RowDefinition row = new RowDefinition();
-            //    row.Height = new System.Windows.GridLength(this.TileHeight, System.Windows.GridUnitType.Pixel);
-            //    this.RowDefinitions.Add(row);
-            //}
-            //for (int colIndex = 0; colIndex < this.Columns; ++colIndex)
-            //{
-            //    RowDefinition column = new RowDefinition();
-            //    column.Height = new System.Windows.GridLength(this.TileWidth, System.Windows.GridUnitType.Pixel);
-            //    this.RowDefinitions.Add(column);
-            //}
+            return this.TileHeight * this.Rows;
+        }
+
+        public void SetTile(BitmapImage image, Point tilePoint)
+        {
+            // TODO improve this
+            // TODO look into rendering using an array
+            Rect rect = new Rect(tilePoint.X, tilePoint.Y, image.Width, image.Height);
+            ImageDrawing tileImage = new ImageDrawing(image, rect);
+            foreach (Tile tile in occupiedTiles)
+            {
+                if (tile.Position == tilePoint)
+                {
+                    this.occupiedTiles.Remove(tile);
+                    this.imageDrawings.Children.Remove(tile.TileImage);
+                    break;
+                }
+            }
+            this.occupiedTiles.Add(new Models.Tile(tilePoint, tileImage));
+            this.imageDrawings.Children.Add(tileImage);
+            this.LayerItems = new DrawingImage(this.imageDrawings);
+        }
+
+        private void ResetLayerItems()
+        {
+            int pixelWidth = GetPixelWidth();
+            int pixelHeight = GetPixelHeight();
+
+            GeometryGroup rectangles = new GeometryGroup();
+            rectangles.Children.Add(new RectangleGeometry(new Rect(0, 0, pixelWidth, pixelHeight)));
+            GeometryDrawing aGeometryDrawing = new GeometryDrawing();
+            aGeometryDrawing.Geometry = rectangles;
+            aGeometryDrawing.Brush = new SolidColorBrush(Colors.Transparent);
+            this.imageDrawings = new DrawingGroup();
+            this.imageDrawings.Children.Add(aGeometryDrawing);
+            this.LayerItems = new DrawingImage(this.imageDrawings);
         }
 
         #endregion methods

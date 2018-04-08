@@ -1,10 +1,13 @@
-﻿namespace Ame.Infrastructure.Models
+﻿using System.Collections.Generic;
+
+namespace Ame.Infrastructure.Models
 {
     public class Map
     {
         #region fields
 
         #endregion fields
+
 
         #region constructor & destructer
 
@@ -18,6 +21,8 @@
             this.Scale = ScaleType.Tile;
             this.PixelScale = 1;
             this.Description = "";
+            this.LayerList = new List<Layer>();
+            this.LayerList.Add(new Layer("Layer #1", 32, 32, 32, 32));
         }
 
         public Map(string name)
@@ -30,6 +35,8 @@
             this.Scale = ScaleType.Tile;
             this.PixelScale = 1;
             this.Description = "";
+            this.LayerList = new List<Layer>();
+            this.LayerList.Add(new Layer("Layer #1", 32, 32, 32, 32));
         }
 
         public Map(string name, int width, int height)
@@ -42,9 +49,12 @@
             this.Scale = ScaleType.Tile;
             this.PixelScale = 1;
             this.Description = "";
+            this.LayerList = new List<Layer>();
+            this.LayerList.Add(new Layer("Layer #1", 32, 32, 32, 32));
         }
 
         #endregion constructor & destructer
+
 
         #region properties
 
@@ -69,7 +79,11 @@
         public ScaleType Scale { get; set; }
         public string Description { get; set; }
 
+        // TODO use only layers for this
+        public IList<Layer> LayerList { get; set; }
+
         #endregion properties
+
 
         #region methods
 

@@ -76,6 +76,14 @@
                        RenderOptions.BitmapScalingMode="NearestNeighbor">
                 </Image>
 
+                <Image x:Name="layerImage"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Stretch="None"
+                       Source="{Binding LayerItems}"
+                       RenderOptions.BitmapScalingMode="NearestNeighbor">
+                </Image>
+
                 <ItemsControl ItemsSource="{Binding CanvasGridItems}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
