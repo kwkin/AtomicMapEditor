@@ -22,7 +22,7 @@ namespace Ame.Infrastructure.Models
             this.PixelScale = 1;
             this.Description = "";
             this.LayerList = new List<Layer>();
-            this.LayerList.Add(new Layer("Layer #1", 32, 32, 32, 32));
+            this.LayerList.Add(new Layer("Layer #1", this.TileWidth, this.TileHeight, 32, 32));
         }
 
         public Map(string name)
@@ -36,7 +36,7 @@ namespace Ame.Infrastructure.Models
             this.PixelScale = 1;
             this.Description = "";
             this.LayerList = new List<Layer>();
-            this.LayerList.Add(new Layer("Layer #1", 32, 32, 32, 32));
+            this.LayerList.Add(new Layer("Layer #1", this.TileWidth, this.TileHeight, 32, 32));
         }
 
         public Map(string name, int width, int height)
@@ -50,7 +50,7 @@ namespace Ame.Infrastructure.Models
             this.PixelScale = 1;
             this.Description = "";
             this.LayerList = new List<Layer>();
-            this.LayerList.Add(new Layer("Layer #1", 32, 32, 32, 32));
+            this.LayerList.Add(new Layer("Layer #1", this.TileWidth, this.TileHeight, 32, 32));
         }
 
         #endregion constructor & destructer

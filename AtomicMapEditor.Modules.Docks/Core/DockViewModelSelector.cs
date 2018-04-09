@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Models;
 using Ame.Modules.Docks.ClipboardDock;
 using Ame.Modules.Docks.ItemEditorDock;
 using Ame.Modules.Docks.ItemListDock;
@@ -49,6 +50,10 @@ namespace Ame.Modules.Docks.Core
                     break;
 
                 case DockType.MapEditor:
+                    if (!container.IsRegistered(typeof(Map)))
+                    {
+                        container.RegisterInstance<Map>(new Map("Map #1"));
+                    }
                     viewModelType = typeof(MainEditorViewModel);
                     break;
 

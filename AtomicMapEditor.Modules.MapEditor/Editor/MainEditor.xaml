@@ -72,7 +72,7 @@
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        Stretch="None"
-                       Source="{Binding MapItems}"
+                       Source="{Binding MapBackground}"
                        RenderOptions.BitmapScalingMode="NearestNeighbor">
                 </Image>
 

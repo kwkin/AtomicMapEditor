@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -35,7 +33,7 @@ namespace Ame.Modules.MapEditor.Editor
 
         #region Constructor & destructor
 
-        public MainEditorViewModel(IEventAggregator eventAggregator, IScrollModel scrollModel)
+        public MainEditorViewModel(IEventAggregator eventAggregator, IScrollModel scrollModel, Map map)
         {
             if (eventAggregator == null)
             {
@@ -45,8 +43,9 @@ namespace Ame.Modules.MapEditor.Editor
             {
                 throw new ArgumentNullException("scrollModel");
             }
+
             // TODO pass MapModel
-            this.Map = new Map();
+            this.Map = map;
             this.eventAggregator = eventAggregator;
             this.scrollModel = scrollModel;
             this.Title = "Main Editor";
@@ -64,7 +63,7 @@ namespace Ame.Modules.MapEditor.Editor
             aGeometryDrawing.Brush = new SolidColorBrush(Colors.AliceBlue);
             this.imageDrawings = new DrawingGroup();
             this.imageDrawings.Children.Add(aGeometryDrawing);
-            this.MapItems = new DrawingImage(this.imageDrawings);
+            this.MapBackground = new DrawingImage(this.imageDrawings);
 
             if (this.scrollModel.ZoomLevels == null)
             {
@@ -123,7 +122,7 @@ namespace Ame.Modules.MapEditor.Editor
         public String PositionText { get; set; }
         public ScaleType Scale { get; set; }
         public List<ZoomLevel> ZoomLevels { get; set; }
-        
+
         public int zoomIndex;
         public int ZoomIndex
         {
@@ -149,17 +148,16 @@ namespace Ame.Modules.MapEditor.Editor
                 return DockType.MapEditor;
             }
         }
-        
+
         public Map Map { get; set; }
         public Layer CurrentLayer { get; set; }
 
         // TODO rename to map background
-        public DrawingImage MapItems { get; set; }
+        public DrawingImage MapBackground { get; set; }
 
-        // TODO switch between layers
-        // TODO add new layers and update the layers list
-        // TODO add new map, edit map properties
-        // TODO add drawing images to a canvas, set the z index of the individual drawing images to its position in the list
+        // TODO switch between layers TODO add new layers and update the layers list TODO add new
+        // map, edit map properties TODO add drawing images to a canvas, set the z index of the
+        // individual drawing images to its position in the list
         public DrawingImage LayerItems { get; set; }
 
         #endregion properties
@@ -178,6 +176,7 @@ namespace Ame.Modules.MapEditor.Editor
             {
                 return;
             }
+
             // TODO force images into tiles
             BitmapImage croppedBitmap = this.brush.Image;
             Point tilePoint = this.imageTransform.PixelToTileEdge(point);

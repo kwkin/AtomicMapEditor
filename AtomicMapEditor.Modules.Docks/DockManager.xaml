@@ -51,11 +51,11 @@
 
         <xcad:DockingManager.LayoutItemTemplateSelector>
             <basetype:DockTemplateSelector>
-                <!--<basetype:DockTemplateSelector.ClipboardDataTemplate>
+                <basetype:DockTemplateSelector.ClipboardDataTemplate>
                     <DataTemplate>
                         <clipboard:Clipboard />
                     </DataTemplate>
-                </basetype:DockTemplateSelector.ClipboardDataTemplate>-->
+                </basetype:DockTemplateSelector.ClipboardDataTemplate>
                 <basetype:DockTemplateSelector.MainEditorTemplate>
                     <DataTemplate>
                         <maineditor:MainEditor />

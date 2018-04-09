@@ -162,16 +162,24 @@ namespace Ame.Modules.Docks
 
         private void OpenDock(OpenDockMessage message)
         {
-            IUnityContainer unityContainer = new UnityContainer();
-            unityContainer.RegisterInstance<IEventAggregator>(this.eventAggregator);
-            unityContainer.RegisterInstance<IScrollModel>(new ScrollModel());
+            IUnityContainer container;
+            if (message.Container == null)
+            {
+                container = new UnityContainer();
+                container.RegisterInstance<IEventAggregator>(this.eventAggregator);
+                container.RegisterInstance<IScrollModel>(new ScrollModel());
+            }
+            else
+            {
+                container = message.Container;
+            }
 
-            DockViewModelTemplate dockViewModel = DockViewModelSelector.GetViewModel(message.DockType, unityContainer);
+            DockViewModelTemplate dockViewModel = DockViewModelSelector.GetViewModel(message.DockType, container);
             if (!string.IsNullOrEmpty(message.DockTitle))
             {
                 dockViewModel.Title = message.DockTitle;
             }
-            this.Anchorables.Add(dockViewModel);
+            AddDockViewModel(dockViewModel);
             this.ActiveDocument = dockViewModel;
         }
 
@@ -229,10 +237,15 @@ namespace Ame.Modules.Docks
             Confirmation confirmation = notification as Confirmation;
             if (confirmation.Confirmed)
             {
-                Map mapModel = confirmation.Content as Map;
-                Console.WriteLine("Map Updated: ");
-                Console.WriteLine("Name: " + mapModel.Name);
+                Map mapModel = confirmation.Content as Map;                
+                
+                IUnityContainer container = new UnityContainer();
+                container.RegisterInstance<IEventAggregator>(this.eventAggregator);
+                container.RegisterInstance<IScrollModel>(new ScrollModel());
+                container.RegisterInstance<Map>(mapModel);
 
+                OpenDockMessage openEditorMessage = new OpenDockMessage(DockType.MapEditor, container);
+                OpenDock(openEditorMessage);
             }
         }
 
@@ -277,7 +290,23 @@ namespace Ame.Modules.Docks
             {
                 args.Cancel = true;
             }
+            else
+            {
+                AddDockViewModel(contentViewModel);
+            }
             args.Content = contentViewModel;
+        }
+
+        private void AddDockViewModel(DockViewModelTemplate dockViewModel)
+        {
+            if (dockViewModel is DockToolViewModelTemplate)
+            {
+                this.Anchorables.Add(dockViewModel);
+            }
+            else if (dockViewModel is EditorViewModelTemplate)
+            {
+                this.Documents.Add(dockViewModel);
+            }
         }
 
         #endregion methods

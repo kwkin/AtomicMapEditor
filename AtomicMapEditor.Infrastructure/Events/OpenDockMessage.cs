@@ -1,5 +1,6 @@
 ﻿using System;
 using Ame.Infrastructure.BaseTypes;
+using Microsoft.Practices.Unity;
 
 namespace Ame.Infrastructure.Events
 {
@@ -18,9 +19,17 @@ namespace Ame.Infrastructure.Events
             this.DockTitle = "";
         }
 
-        public OpenDockMessage(DockType dockType, String dockTitle)
+        public OpenDockMessage(DockType dockType, IUnityContainer container)
         {
             this.DockType = dockType;
+            this.Container = container;
+            this.DockTitle = "";
+        }
+
+        public OpenDockMessage(DockType dockType, IUnityContainer container, String dockTitle)
+        {
+            this.DockType = dockType;
+            this.Container = container;
             this.DockTitle = dockTitle;
         }
 
@@ -30,6 +39,7 @@ namespace Ame.Infrastructure.Events
         #region Properties
 
         public DockType DockType { get; set; }
+        public IUnityContainer Container { get; set; }
         public String DockTitle { get; set; }
 
         #endregion Properties
