@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:Ame.Modules.Windows.LayerEditorWindow"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d">
-    <Grid MinHeight="315"
-          MaxHeight="315"
+    <Grid MinHeight="280"
+          MaxHeight="280"
           VerticalAlignment="Top">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="25" />
@@ -28,9 +28,9 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
+        <!-- Look into replacing with data template layer -->
         <Label x:Name="nameLabel"
                Grid.Row="0"
                Grid.Column="1"
@@ -39,6 +39,7 @@
                VerticalAlignment="Center"
                Content="Name:" />
         <TextBox x:Name="nameTextBox"
+                 Text="{Binding Name}"
                  Grid.Row="0"
                  Grid.Column="3"
                  Grid.ColumnSpan="3"
@@ -58,6 +59,7 @@
                VerticalAlignment="Center"
                Content="W:" />
         <xctk:IntegerUpDown x:Name="widthIntStepper"
+                            Value="{Binding BaseWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Grid.Row="1"
                             Grid.Column="3"
                             VerticalAlignment="Center"
@@ -71,6 +73,7 @@
                VerticalAlignment="Center"
                Content="H:" />
         <xctk:IntegerUpDown x:Name="heightIntStepper"
+                            Value="{Binding BaseHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Grid.Row="1"
                             Grid.Column="6"
                             VerticalAlignment="Center"
@@ -78,7 +81,7 @@
                             Maximum="2048"
                             Minimum="1" />
 
-
+        <!-- TODO either remove this or swap with next row-->
         <Label x:Name="offsetLabel"
                Grid.Row="2"
                Grid.Column="0"
@@ -93,6 +96,7 @@
                VerticalAlignment="Center"
                Content="X:" />
         <xctk:IntegerUpDown x:Name="offsetXIntStepper"
+                            Value="{Binding OffsetX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Grid.Row="2"
                             Grid.Column="3"
                             VerticalAlignment="Center"
@@ -106,6 +110,7 @@
                VerticalAlignment="Center"
                Content="H:" />
         <xctk:IntegerUpDown x:Name="offsetYIntStepper"
+                            Value="{Binding OffsetY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Grid.Row="2"
                             Grid.Column="6"
                             VerticalAlignment="Center"
@@ -117,7 +122,8 @@
                   Grid.Row="3"
                   Grid.Column="5"
                   VerticalAlignment="Center"
-                  SelectedIndex="0" />
+                  SelectedIndex="0"
+                  SelectedItem="{Binding Scale}" />
 
         <Label x:Name="tileSizeLabel"
                Grid.Row="4"
@@ -133,6 +139,7 @@
                VerticalAlignment="Center"
                Content="W:" />
         <xctk:IntegerUpDown x:Name="tileWidthIntStepper"
+                            Value="{Binding TileWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Grid.Row="4"
                             Grid.Column="3"
                             VerticalAlignment="Center"
@@ -146,6 +153,7 @@
                VerticalAlignment="Center"
                Content="H:" />
         <xctk:IntegerUpDown x:Name="tileHeightIntStepper"
+                            Value="{Binding TileHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Grid.Row="4"
                             Grid.Column="6"
                             VerticalAlignment="Center"
@@ -165,8 +173,10 @@
                   Grid.Column="3"
                   Grid.ColumnSpan="3"
                   VerticalAlignment="Center"
-                  SelectedIndex="0" />
+                  SelectedIndex="0"
+                  SelectedItem="{Binding LayerPosition}" />
 
+        <!-- TODO look into replacing both steppers with a single double -->
         <Label x:Name="scrollRateLabel"
                Grid.Row="6"
                Grid.Column="0"
@@ -182,6 +192,7 @@
                VerticalAlignment="Center"
                Content="From:" />
         <xctk:IntegerUpDown x:Name="scrollRateFromStepper"
+                            Value="{Binding ScrollRateFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Grid.Row="6"
                             Grid.Column="3"
                             VerticalAlignment="Center"
@@ -195,6 +206,7 @@
                VerticalAlignment="Center"
                Content="To:" />
         <xctk:IntegerUpDown x:Name="scrollRateToStepper"
+                            Value="{Binding ScrollRateTo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Grid.Row="6"
                             Grid.Column="6"
                             VerticalAlignment="Center"
@@ -202,50 +214,15 @@
                             Maximum="2048"
                             Minimum="1" />
 
-        <Label x:Name="pixelRatioLabel"
-               Grid.Row="7"
-               Grid.Column="0"
-               Grid.ColumnSpan="2"
-               HorizontalAlignment="Left"
-               VerticalAlignment="Center"
-               Content="Pixel To Pixel Ratio" />
-        <Label x:Name="pixelRatioFromLabel"
-               Grid.Row="7"
-               Grid.Column="1"
-               Grid.ColumnSpan="2"
-               HorizontalAlignment="Right"
-               VerticalAlignment="Center"
-               Content="From:" />
-        <xctk:IntegerUpDown x:Name="pixelRatioFromStepper"
-                            Grid.Row="7"
-                            Grid.Column="3"
-                            VerticalAlignment="Center"
-                            Increment="1"
-                            Maximum="2048"
-                            Minimum="1" />
-        <Label x:Name="pixelRationToLabel"
-               Grid.Row="7"
-               Grid.Column="4"
-               HorizontalAlignment="Right"
-               VerticalAlignment="Center"
-               Content="To:" />
-        <xctk:IntegerUpDown x:Name="pixelRationToStepper"
-                            Grid.Row="7"
-                            Grid.Column="6"
-                            VerticalAlignment="Center"
-                            Increment="1"
-                            Maximum="2048"
-                            Minimum="1" />
-
         <Label x:Name="desciptionLabel"
-               Grid.Row="8"
+               Grid.Row="7"
                Grid.Column="1"
                Grid.ColumnSpan="2"
                HorizontalAlignment="Right"
                VerticalAlignment="Center"
                Content="Description:" />
         <TextBox x:Name="descriptionTextBox"
-                 Grid.Row="8"
+                 Grid.Row="7"
                  Grid.RowSpan="3"
                  Grid.Column="3"
                  Grid.ColumnSpan="3"

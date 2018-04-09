@@ -51,8 +51,7 @@ namespace Ame.Modules.Docks
 
             this.mapWindowInteraction = new InteractionRequest<INotification>();
             this.layerWindowInteraction = new InteractionRequest<INotification>();
-
-            // TODO add filter to dock and window open messages
+            
             this.eventAggregator.GetEvent<OpenDockEvent>().Subscribe(
                 OpenDock,
                 ThreadOption.PublisherThread);
@@ -229,12 +228,13 @@ namespace Ame.Modules.Docks
             RaisePropertyChanged(nameof(this.LayerWindowView));
 
             Confirmation layerWindowConfirmation = new Confirmation();
+            layerWindowConfirmation.Content = new Layer("Layer #1", 32, 32, 32, 32);
             return layerWindowConfirmation;
         }
 
         private void OnMapWindowClosed(INotification notification)
         {
-            Confirmation confirmation = notification as Confirmation;
+            IConfirmation confirmation = notification as IConfirmation;
             if (confirmation.Confirmed)
             {
                 Map mapModel = confirmation.Content as Map;                
@@ -254,7 +254,10 @@ namespace Ame.Modules.Docks
             IConfirmation confirmation = notification as IConfirmation;
             if (confirmation.Confirmed)
             {
-                Console.WriteLine("Layer Updated");
+                Layer layerModel = confirmation.Content as Layer;
+
+                NewLayerMessage openEditorMessage = new NewLayerMessage(layerModel);
+                this.eventAggregator.GetEvent<NewLayerEvent>().Publish(openEditorMessage);
             }
         }
 

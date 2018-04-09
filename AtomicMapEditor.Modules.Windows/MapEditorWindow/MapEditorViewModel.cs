@@ -19,6 +19,10 @@ namespace Ame.Modules.Windows.MapEditorWindow
 
         public MapEditorViewModel(IEventAggregator eventAggregator)
         {
+            if (eventAggregator == null)
+            {
+                throw new ArgumentNullException("eventAggregator");
+            }
             this.WindowTitle = "New Map";
 
             this.SetMapPropertiesCommand = new DelegateCommand(SetMapProperties);
@@ -105,20 +109,13 @@ namespace Ame.Modules.Windows.MapEditorWindow
                     map.setHeight(this.BaseHeight);
                     break;
             }
-            this.Map.PixelScale = this.PixelScale;
-            this.Map.Description = this.Description;
+            map.PixelScale = this.PixelScale;
+            map.Description = this.Description;
         }
 
         private void updateUIusingMap()
         {
-            this.Name = this.Map.Name;
-            this.BaseWidth = this.Map.getTileWidth();
-            this.BaseHeight = this.Map.getTileHeight();
-            this.TileWidth = this.Map.TileWidth;
-            this.TileHeight = this.Map.TileHeight;
-            this.Scale = this.Map.Scale;
-            this.PixelScale = this.Map.PixelScale;
-            this.Description = this.Map.Description;
+            updateUIusingMap(this.Map);
         }
 
         private void updateUIusingMap(Map map)

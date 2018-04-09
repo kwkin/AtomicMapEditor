@@ -1,8 +1,13 @@
-﻿using Ame.Infrastructure.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Ame.Infrastructure.Models;
 
 namespace Ame.Infrastructure.Events
 {
-    public class UpdateBrushMessage
+    public class NewLayerMessage
     {
         #region fields
 
@@ -11,9 +16,9 @@ namespace Ame.Infrastructure.Events
 
         #region Constructor & destructer
 
-        public UpdateBrushMessage(BrushModel brushModel)
+        public NewLayerMessage(Layer layer)
         {
-            this.BrushModel = brushModel;
+            this.Layer = layer;
         }
 
         #endregion Constructor & destructer
@@ -21,7 +26,7 @@ namespace Ame.Infrastructure.Events
 
         #region Properties
 
-        public BrushModel BrushModel { get; set; }
+        public Layer Layer { get; set; }
 
         #endregion Properties
 

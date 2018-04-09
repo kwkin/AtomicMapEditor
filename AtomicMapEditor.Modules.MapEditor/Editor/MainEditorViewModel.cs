@@ -43,8 +43,6 @@ namespace Ame.Modules.MapEditor.Editor
             {
                 throw new ArgumentNullException("scrollModel");
             }
-
-            // TODO pass MapModel
             this.Map = map;
             this.eventAggregator = eventAggregator;
             this.scrollModel = scrollModel;
@@ -101,7 +99,9 @@ namespace Ame.Modules.MapEditor.Editor
             this.DrawReleaseCommand = new DelegateCommand<object>(
                 (point) => DrawRelease((Point)point));
 
-            this.eventAggregator.GetEvent<UpdateBrushEvent>().Subscribe(UpdateBrushImage);
+            this.eventAggregator.GetEvent<UpdateBrushEvent>().Subscribe(
+                UpdateBrushImage,
+                ThreadOption.PublisherThread);
         }
 
         #endregion Constructor & destructor
@@ -151,13 +151,13 @@ namespace Ame.Modules.MapEditor.Editor
 
         public Map Map { get; set; }
         public Layer CurrentLayer { get; set; }
-
-        // TODO rename to map background
+        
         public DrawingImage MapBackground { get; set; }
 
-        // TODO switch between layers TODO add new layers and update the layers list TODO add new
-        // map, edit map properties TODO add drawing images to a canvas, set the z index of the
-        // individual drawing images to its position in the list
+        // TODO switch between layers 
+        // TODO add new layers and update the layers list 
+        // TODO add new map, edit map properties 
+        // TODO add drawing images to a canvas, set the z index of the individual drawing images to its position in the list
         public DrawingImage LayerItems { get; set; }
 
         #endregion properties

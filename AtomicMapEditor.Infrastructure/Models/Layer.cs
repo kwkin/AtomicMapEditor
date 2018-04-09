@@ -73,10 +73,16 @@ namespace Ame.Infrastructure.Models
         public string LayerName { get; set; }
         public int TileWidth { get; set; }
         public int TileHeight { get; set; }
+        public int OffsetX { get; set; }
+        public int OffsetY { get; set; }
         public int Rows { get; set; }
         public int Columns { get; set; }
         public bool IsImmutable { get; set; }
         public LayerPosition Position { get; set; }
+        public ScaleType Scale { get; set; }
+        public int ScrollRateFrom { get; set; }
+        public int ScrollRateTo { get; set; }
+        public string Description { get; set; }
 
         public DrawingImage LayerItems { get; set; }
 

@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Windows.Media;
 using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Models;
 using Prism.Commands;
+using Prism.Events;
 
 namespace Ame.Modules.Docks.LayerListDock
 {
@@ -12,16 +15,23 @@ namespace Ame.Modules.Docks.LayerListDock
     {
         #region fields
 
+        private IEventAggregator eventAggregator;
+
         #endregion fields
 
 
         #region constructor & destructer
 
-        public LayerListViewModel()
+        public LayerListViewModel(IEventAggregator eventAggregator)
         {
+            if (eventAggregator == null)
+            {
+                throw new ArgumentNullException("eventAggregator");
+            }
             this.Title = "Layer List";
+            this.eventAggregator = eventAggregator;
 
-            this.AddTilesetLayerCommand = new DelegateCommand(() => AddTilesetLayer());
+            this.AddTilesetLayerCommand = new DelegateCommand(() => NewTilesetLayer());
             this.AddLayerGroupCommand = new DelegateCommand(() => AddLayerGroup());
             this.MergeLayerDownCommand = new DelegateCommand(() => MergeLayerDown());
             this.MergeLayerUpCommand = new DelegateCommand(() => MergeLayerUp());
@@ -36,22 +46,24 @@ namespace Ame.Modules.Docks.LayerListDock
             this.LayerToMapSizeCommand = new DelegateCommand(() => LayerToMapSize());
             this.NewLayerCommand = new DelegateCommand(() => NewLayer());
 
-            this.LayerList = new List<object>();
-            this.LayerList.Add(new Layer("Layer #1", 32, 32));
-            this.LayerList.Add(new Layer("Layer #2", 32, 32));
+            this.LayerList = new ObservableCollection<object>();
+            //this.LayerList.Add(new Layer("Layer #1", 32, 32));
+            //this.LayerList.Add(new Layer("Layer #2", 32, 32));
 
-            IList<ILayer> layerGroupLayers = new List<ILayer>();
-            layerGroupLayers.Add(new Layer("Layer #3", 32, 32));
+            //IList<ILayer> layerGroupLayers = new List<ILayer>();
+            //layerGroupLayers.Add(new Layer("Layer #3", 32, 32));
 
-            IList<ILayer> layerGroupLayers2 = new List<ILayer>();
-            layerGroupLayers2.Add(new Layer("Layer #4", 32, 32));
-            layerGroupLayers2.Add(new Layer("Layer #5", 32, 32));
-            layerGroupLayers.Add(new LayerGroup("Layer Group #2", layerGroupLayers2));
+            //IList<ILayer> layerGroupLayers2 = new List<ILayer>();
+            //layerGroupLayers2.Add(new Layer("Layer #4", 32, 32));
+            //layerGroupLayers2.Add(new Layer("Layer #5", 32, 32));
+            //layerGroupLayers.Add(new LayerGroup("Layer Group #2", layerGroupLayers2));
 
-            layerGroupLayers.Add(new Layer("Layer #6", 32, 32));
-            this.LayerList.Add(new LayerGroup("Layer Group #1", layerGroupLayers));
-            
-            this.LayerList.Add(new Layer("Layer #7", 32, 32));
+            //layerGroupLayers.Add(new Layer("Layer #6", 32, 32));
+            //this.LayerList.Add(new LayerGroup("Layer Group #1", layerGroupLayers));
+
+            //this.LayerList.Add(new Layer("Layer #7", 32, 32));
+
+            this.eventAggregator.GetEvent<NewLayerEvent>().Subscribe(AddTilesetLayerMessage);
         }
 
         #endregion constructor & destructer
@@ -83,16 +95,29 @@ namespace Ame.Modules.Docks.LayerListDock
             }
         }
 
-        public IList<object> LayerList { get; set; }
+        public ObservableCollection<object> LayerList { get; set; }
 
         #endregion properties
 
 
         #region methods
-
-        public void AddTilesetLayer()
+        
+        public void AddTilesetLayerMessage(NewLayerMessage message)
         {
-            Console.WriteLine("Add tileset layer");
+            AddTilesetLayer(message.Layer);
+        }
+
+        public void AddTilesetLayer(Layer layer)
+        {
+            this.LayerList.Add(layer);
+            RaisePropertyChanged(nameof(this.LayerList));
+        }
+
+        public void NewTilesetLayer()
+        {
+            OpenWindowMessage window = new OpenWindowMessage(WindowType.Layer);
+            window.WindowTitle = "New Layer";
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(window);
         }
 
         public void AddLayerGroup()
