@@ -11,134 +11,115 @@ namespace Ame.Infrastructure.Models
 
         #region constructor & destructer
 
+        // TODO fix width and height to be scaled
         public Map()
         {
             this.Name = "";
-            this.Width = 1024;
-            this.Height = 1024;
+            this.Columns = 32;
+            this.Rows = 32;
             this.TileWidth = 32;
             this.TileHeight = 32;
             this.Scale = ScaleType.Tile;
             this.PixelScale = 1;
             this.Description = "";
             this.LayerList = new List<Layer>();
-            this.LayerList.Add(new Layer("Layer #1", this.TileWidth, this.TileHeight, 32, 32));
+            this.LayerList.Add(new Layer("Layer #1", this.TileWidth, this.TileHeight, this.Rows, this.Columns));
         }
 
         public Map(string name)
         {
             this.Name = name;
-            this.Width = 1024;
-            this.Height = 1024;
+            this.Columns = 32;
+            this.Rows = 32;
             this.TileWidth = 32;
             this.TileHeight = 32;
             this.Scale = ScaleType.Tile;
             this.PixelScale = 1;
             this.Description = "";
             this.LayerList = new List<Layer>();
-            this.LayerList.Add(new Layer("Layer #1", this.TileWidth, this.TileHeight, 32, 32));
+            this.LayerList.Add(new Layer("Layer #1", this.TileWidth, this.TileHeight, this.Rows, this.Columns));
         }
 
         public Map(string name, int width, int height)
         {
             this.Name = name;
-            this.Width = width;
-            this.Height = height;
+            this.Columns = width;
+            this.Rows = height;
             this.TileWidth = 32;
             this.TileHeight = 32;
             this.Scale = ScaleType.Tile;
             this.PixelScale = 1;
             this.Description = "";
             this.LayerList = new List<Layer>();
-            this.LayerList.Add(new Layer("Layer #1", this.TileWidth, this.TileHeight, 32, 32));
+            this.LayerList.Add(new Layer("Layer #1", this.TileWidth, this.TileHeight, this.Rows, this.Columns));
         }
 
         #endregion constructor & destructer
 
 
         #region properties
-
-        /// <summary>
-        /// Name of the map
-        /// </summary>
+        
         public string Name { get; set; }
-
-        /// <summary>
-        /// Pixel width of the map
-        /// </summary>
-        public int Width { get; set; }
-
-        /// <summary>
-        /// Pixel height of the map
-        /// </summary>
-        public int Height { get; set; }
+        public int Columns { get; set; }
+        public int Rows { get; set; }
 
         public int TileWidth { get; set; }
         public int TileHeight { get; set; }
         public int PixelScale { get; set; }
         public ScaleType Scale { get; set; }
+        public int PixelRatio { get; set; }
         public string Description { get; set; }
 
-        // TODO use only layers for this
+        // TODO replace all standard variables and properties with interfaces
+        // TODO replace all custom variables and properties with interfaces
         public IList<Layer> LayerList { get; set; }
 
         #endregion properties
 
 
         #region methods
-
-        public void setWidth(int width)
+        
+        // TODO add additional size functions
+        public void SetWidth(int width)
         {
-            this.Width = width;
+            this.Columns = width;
         }
 
-        public void setHeight(int height)
+        public void SetHeight(int height)
         {
-            this.Height = height;
+            this.Rows = height;
         }
 
-        public int getTileWidth()
+        public int GetPixelWidth()
         {
-            int width = this.Width;
+            int width = this.Columns;
             switch (this.Scale)
             {
-                case ScaleType.Pixel:
-                    width = this.Width;
+                case ScaleType.Tile:
+                    width *= this.TileWidth;
                     break;
 
-                case ScaleType.Tile:
-                    width = this.Width / this.TileWidth;
+                case ScaleType.Pixel:
+                default:
                     break;
             }
             return width;
         }
 
-        public int getTileHeight()
+        public int GetPixelHeight()
         {
-            int height = this.Height;
+            int height = this.Rows;
             switch (this.Scale)
             {
-                case ScaleType.Pixel:
-                    height = this.Height;
-                    break;
-
                 case ScaleType.Tile:
-                    height = this.Height / this.TileHeight;
+                    height *= this.TileHeight;
+                    break;
+            
+                case ScaleType.Pixel:
+                default:
                     break;
             }
             return height;
-        }
-
-        public void setWidthTiles(int xTiles, int tileWidth)
-        {
-            this.TileWidth = this.TileWidth;
-            this.Width = xTiles * tileWidth;
-        }
-
-        public void setHeightTiles(int yTiles, int tileHeight)
-        {
-            this.TileHeight = this.TileHeight;
-            this.Height = yTiles * tileHeight;
         }
 
         #endregion methods

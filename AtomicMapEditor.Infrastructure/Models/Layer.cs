@@ -18,17 +18,7 @@ namespace Ame.Infrastructure.Models
 
 
         #region constructor & destructer
-
-        public Layer(int tileWidth, int tileHeight)
-        {
-            this.LayerName = "";
-            this.TileWidth = tileWidth;
-            this.TileHeight = tileHeight;
-            this.Position = LayerPosition.Base;
-
-            this.occupiedTiles = new List<Tile>();
-        }
-
+        
         public Layer(int tileWidth, int tileHeight, int rows, int columns)
         {
             this.LayerName = "";
@@ -40,16 +30,6 @@ namespace Ame.Infrastructure.Models
 
             this.occupiedTiles = new List<Tile>();
             ResetLayerItems();
-        }
-
-        public Layer(string layerName, int tileWidth, int tileHeight)
-        {
-            this.LayerName = layerName;
-            this.TileWidth = tileWidth;
-            this.TileHeight = tileHeight;
-            this.Position = LayerPosition.Base;
-
-            this.occupiedTiles = new List<Tile>();
         }
 
         public Layer(string layerName, int tileWidth, int tileHeight, int rows, int columns)

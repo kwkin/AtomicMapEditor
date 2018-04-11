@@ -55,7 +55,7 @@ namespace Ame.Modules.MapEditor.Editor
 
             // Draw map background
             GeometryGroup rectangles = new GeometryGroup();
-            rectangles.Children.Add(new RectangleGeometry(new Rect(0, 0, this.Map.Width, this.Map.Height)));
+            rectangles.Children.Add(new RectangleGeometry(new Rect(0, 0, this.Map.GetPixelWidth(), this.Map.GetPixelHeight())));
             GeometryDrawing aGeometryDrawing = new GeometryDrawing();
             aGeometryDrawing.Geometry = rectangles;
             aGeometryDrawing.Brush = new SolidColorBrush(Colors.AliceBlue);
@@ -155,8 +155,6 @@ namespace Ame.Modules.MapEditor.Editor
         public DrawingImage MapBackground { get; set; }
 
         // TODO switch between layers 
-        // TODO add new layers and update the layers list 
-        // TODO add new map, edit map properties 
         // TODO add drawing images to a canvas, set the z index of the individual drawing images to its position in the list
         public DrawingImage LayerItems { get; set; }
 
@@ -201,10 +199,11 @@ namespace Ame.Modules.MapEditor.Editor
             this.IsGridOn = drawGrid;
             if (this.IsGridOn)
             {
+                // TODO, update the grid model with columns and rows instead of pixel width and height
                 GridModel gridParameters = new GridModel()
                 {
-                    width = this.Map.Width,
-                    height = this.Map.Height,
+                    width = this.Map.GetPixelWidth(),
+                    height = this.Map.GetPixelHeight(),
                     cellWidth = this.Map.TileWidth,
                     cellHeight = this.Map.TileHeight,
                 };

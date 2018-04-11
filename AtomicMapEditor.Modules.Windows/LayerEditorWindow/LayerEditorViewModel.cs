@@ -34,8 +34,8 @@ namespace Ame.Modules.Windows.LayerEditorWindow
         public ICommand ApplyLayerPropertiesCommand { get; private set; }
         
         public string Name { get; set; }
-        public int BaseWidth { get; set; }
-        public int BaseHeight { get; set; }
+        public int Rows { get; set; }
+        public int Columns { get; set; }
         public int OffsetX { get; set; }
         public int OffsetY { get; set; }
         public int TileWidth { get; set; }
@@ -92,11 +92,8 @@ namespace Ame.Modules.Windows.LayerEditorWindow
         private void UpdateLayerProperties(Layer layer)
         {
             layer.LayerName = this.Name;
-
-            // TODO fix the scaling
-            // TODO look into using the datatemplate for displaying and modifying
-            layer.Columns = this.BaseWidth;
-            layer.Rows = this.BaseHeight;
+            layer.Columns = this.Columns;
+            layer.Rows = this.Rows;
             layer.OffsetX = this.OffsetX;
             layer.OffsetY = this.OffsetY;
             layer.TileWidth = this.TileWidth;
@@ -111,8 +108,8 @@ namespace Ame.Modules.Windows.LayerEditorWindow
         private void updateUI()
         {
             this.Name = this.Layer.LayerName;
-            this.BaseWidth = this.Layer.Columns;
-            this.BaseHeight = this.Layer.Rows;
+            this.Columns = this.Layer.Columns;
+            this.Rows = this.Layer.Rows;
             this.OffsetX = this.Layer.OffsetX;
             this.OffsetY = this.Layer.OffsetY;
             this.TileWidth = this.Layer.TileWidth;

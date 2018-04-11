@@ -22,6 +22,8 @@ namespace Ame.Modules.Docks.LayerListDock
 
         #region constructor & destructer
 
+        // TODO add layer editing properties
+        // TODO add layer renaming by double clicking/right click option
         public LayerListViewModel(IEventAggregator eventAggregator)
         {
             if (eventAggregator == null)

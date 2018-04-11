@@ -30,14 +30,13 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <!-- Look into replacing with data template layer -->
         <Label x:Name="nameLabel"
                Grid.Row="0"
                Grid.Column="1"
                Grid.ColumnSpan="2"
                HorizontalAlignment="Right"
                VerticalAlignment="Center"
-               Content="Name:" />
+               Content="Dimensions:" />
         <TextBox x:Name="nameTextBox"
                  Text="{Binding Name}"
                  Grid.Row="0"
@@ -52,28 +51,28 @@
                HorizontalAlignment="Left"
                VerticalAlignment="Center"
                Content="Size" />
-        <Label x:Name="widthLabel"
+        <Label x:Name="rowLabel"
                Grid.Row="1"
                Grid.Column="2"
                HorizontalAlignment="Right"
                VerticalAlignment="Center"
-               Content="W:" />
-        <xctk:IntegerUpDown x:Name="widthIntStepper"
-                            Value="{Binding BaseWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+               Content="R:" />
+        <xctk:IntegerUpDown x:Name="rowIntStepper"
+                            Value="{Binding Rows, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Grid.Row="1"
                             Grid.Column="3"
                             VerticalAlignment="Center"
                             Increment="1"
                             Maximum="2048"
                             Minimum="1" />
-        <Label x:Name="heightLabel"
+        <Label x:Name="columnLabel"
                Grid.Row="1"
                Grid.Column="4"
                HorizontalAlignment="Right"
                VerticalAlignment="Center"
-               Content="H:" />
-        <xctk:IntegerUpDown x:Name="heightIntStepper"
-                            Value="{Binding BaseHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+               Content="C:" />
+        <xctk:IntegerUpDown x:Name="columnIntStepper"
+                            Value="{Binding Columns, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Grid.Row="1"
                             Grid.Column="6"
                             VerticalAlignment="Center"

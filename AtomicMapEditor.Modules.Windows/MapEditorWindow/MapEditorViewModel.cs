@@ -39,30 +39,30 @@ namespace Ame.Modules.Windows.MapEditorWindow
 
         public string WindowTitle { get; set; }
         public string Name { get; set; }
-        public int BaseWidth { get; set; }
-        public int BaseHeight { get; set; }
+        public int Columns { get; set; }
+        public int Rows { get; set; }
         public int TileWidth { get; set; }
         public int TileHeight { get; set; }
         public ScaleType Scale { get; set; }
         public int PixelScale { get; set; }
         public string Description { get; set; }
 
-        public Confirmation notification { get; set; }
+        private Map Map { get; set; }
+
+        public IConfirmation notification { get; set; }
         public INotification Notification
         {
             get { return this.notification; }
             set
             {
-                this.notification = value as Confirmation;
+                this.notification = value as IConfirmation;
                 this.Map = this.notification.Content as Map;
                 updateUIusingMap();
                 RaisePropertyChanged(nameof(this.Notification));
             }
         }
         public Action FinishInteraction { get; set; }
-
-        private Map Map { get; set; }
-
+        
         #endregion properties
 
 
@@ -91,22 +91,19 @@ namespace Ame.Modules.Windows.MapEditorWindow
         {
             map.Name = this.Name;
             map.Scale = this.Scale;
-
             switch (this.Scale)
             {
-                case ScaleType.Pixel:
-                    map.setWidth(this.BaseWidth);
-                    map.setHeight(this.BaseHeight);
-                    break;
-
                 case ScaleType.Tile:
-                    map.setWidthTiles(this.BaseWidth, this.TileWidth);
-                    map.setHeightTiles(this.BaseHeight, this.TileHeight);
+                    map.Columns = this.Columns;
+                    map.Rows = this.Rows;
+                    map.TileHeight = this.TileHeight;
+                    map.TileWidth = this.TileWidth;
                     break;
-
+            
+                case ScaleType.Pixel:
                 default:
-                    map.setWidth(this.BaseWidth);
-                    map.setHeight(this.BaseHeight);
+                    map.Columns = this.Columns;
+                    map.Rows = this.Rows;
                     break;
             }
             map.PixelScale = this.PixelScale;
@@ -121,8 +118,8 @@ namespace Ame.Modules.Windows.MapEditorWindow
         private void updateUIusingMap(Map map)
         {
             this.Name = map.Name;
-            this.BaseWidth = map.getTileWidth();
-            this.BaseHeight = map.getTileHeight();
+            this.Columns = map.Columns;
+            this.Rows = map.Rows;
             this.TileWidth = map.TileWidth;
             this.TileHeight = map.TileHeight;
             this.Scale = map.Scale;
