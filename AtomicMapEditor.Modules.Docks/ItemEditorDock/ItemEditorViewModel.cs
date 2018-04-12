@@ -63,7 +63,7 @@ namespace Ame.Modules.Docks.ItemEditorDock
             
             if (this.scrollModel.ZoomLevels == null)
             {
-                this.ZoomLevels = new List<ZoomLevel>();
+                this.ZoomLevels = new ObservableCollection<ZoomLevel>();
                 this.ZoomLevels.Add(new ZoomLevel(0.125));
                 this.ZoomLevels.Add(new ZoomLevel(0.25));
                 this.ZoomLevels.Add(new ZoomLevel(0.5));
@@ -73,7 +73,7 @@ namespace Ame.Modules.Docks.ItemEditorDock
                 this.ZoomLevels.Add(new ZoomLevel(8));
                 this.ZoomLevels.Add(new ZoomLevel(16));
                 this.ZoomLevels.Add(new ZoomLevel(32));
-                this.ZoomLevels = this.ZoomLevels.OrderBy(f => f.zoom).ToList();
+                this.ZoomLevels.OrderBy(f => f.zoom);
                 this.scrollModel.ZoomLevels = this.ZoomLevels;
             }
             if (this.scrollModel.ZoomIndex < 0 || this.scrollModel.ZoomIndex >= this.ZoomLevels.Count)
@@ -149,7 +149,7 @@ namespace Ame.Modules.Docks.ItemEditorDock
         }
         public ScaleType Scale { get; set; }
         public String PositionText { get; set; }
-        public List<ZoomLevel> ZoomLevels { get; set; }
+        public ObservableCollection<ZoomLevel> ZoomLevels { get; set; }
         public int zoomIndex;
         public int ZoomIndex
         {

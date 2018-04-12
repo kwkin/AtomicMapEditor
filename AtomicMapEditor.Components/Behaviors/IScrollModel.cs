@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using Ame.Infrastructure.Models;
 
 namespace Ame.Components.Behaviors
@@ -17,7 +17,7 @@ namespace Ame.Components.Behaviors
 
         #region properties
 
-        List<ZoomLevel> ZoomLevels { get; set; }
+        ObservableCollection<ZoomLevel> ZoomLevels { get; set; }
         int ZoomIndex { get; set; }
 
         #endregion properties

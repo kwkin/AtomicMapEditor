@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -36,7 +37,7 @@ namespace Ame.Components.Extended
             this.MouseMove += OnMouseMove;
         }
 
-        public ExtendedScrollViewer(List<ZoomLevel> ZoomLevels)
+        public ExtendedScrollViewer(ObservableCollection<ZoomLevel> ZoomLevels)
         {
             this.ZoomLevels = ZoomLevels;
 
@@ -63,15 +64,15 @@ namespace Ame.Components.Extended
         public static readonly DependencyProperty ZoomLevelsProperty =
             DependencyProperty.Register(
                 "ZoomLevels",
-                typeof(List<ZoomLevel>),
+                typeof(ObservableCollection<ZoomLevel>),
                 typeof(ExtendedScrollViewer),
-                new PropertyMetadata(default(List<ZoomLevel>)));
+                new PropertyMetadata(default(ObservableCollection<ZoomLevel>)));
 
-        public List<ZoomLevel> ZoomLevels
+        public ObservableCollection<ZoomLevel> ZoomLevels
         {
             get
             {
-                return GetValue(ZoomLevelsProperty) as List<ZoomLevel>;
+                return GetValue(ZoomLevelsProperty) as ObservableCollection<ZoomLevel>;
             }
             set
             {
@@ -106,7 +107,7 @@ namespace Ame.Components.Extended
 
         #region methods
 
-        public static int ZoomIn(int currentZoom, List<ZoomLevel> zoomLevels)
+        public static int ZoomIn(int currentZoom, ObservableCollection<ZoomLevel> zoomLevels)
         {
             if (currentZoom < zoomLevels.Count - 1)
             {
@@ -115,7 +116,7 @@ namespace Ame.Components.Extended
             return currentZoom;
         }
 
-        public static int ZoomOut(int currentZoom, List<ZoomLevel> zoomLevels)
+        public static int ZoomOut(int currentZoom, ObservableCollection<ZoomLevel> zoomLevels)
         {
             if (currentZoom > 0)
             {
@@ -124,13 +125,13 @@ namespace Ame.Components.Extended
             return currentZoom;
         }
 
-        public static int SetZoom(ZoomLevel selectedZoomLevel, List<ZoomLevel> zoomLevels)
+        public static int SetZoom(ZoomLevel selectedZoomLevel, ObservableCollection<ZoomLevel> zoomLevels)
         {
-            int zoomIndex = zoomLevels.FindIndex(r => r.zoom == selectedZoomLevel.zoom);
+            int zoomIndex = zoomLevels.IndexOf(selectedZoomLevel);
             if (zoomIndex == -1)
             {
                 zoomLevels.Add(selectedZoomLevel);
-                zoomIndex = zoomLevels.FindIndex(r => r.zoom == selectedZoomLevel.zoom);
+                zoomIndex = zoomLevels.IndexOf(selectedZoomLevel);
             }
             if (zoomIndex > zoomLevels.Count - 1)
             {

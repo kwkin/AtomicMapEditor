@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +22,7 @@ namespace Ame.Components.Behaviors
 
         #region properties
 
-        public List<ZoomLevel> ZoomLevels { get; set; }
+        public ObservableCollection<ZoomLevel> ZoomLevels { get; set; }
 
         public int ZoomIndex { get; set; } = -1;
 
@@ -65,11 +66,11 @@ namespace Ame.Components.Behaviors
 
         public int SetZoom(ZoomLevel selectedZoomLevel)
         {
-            int zoomIndex = this.ZoomLevels.FindIndex(r => r.zoom == selectedZoomLevel.zoom);
+            int zoomIndex = this.ZoomLevels.IndexOf(selectedZoomLevel);
             if (zoomIndex == -1)
             {
                 this.ZoomLevels.Add(selectedZoomLevel);
-                zoomIndex = this.ZoomLevels.FindIndex(r => r.zoom == selectedZoomLevel.zoom);
+                zoomIndex = this.ZoomLevels.IndexOf(selectedZoomLevel);
             }
             if (zoomIndex > ZoomLevels.Count - 1)
             {

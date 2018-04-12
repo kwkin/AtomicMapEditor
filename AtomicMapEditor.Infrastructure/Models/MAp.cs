@@ -10,8 +10,7 @@ namespace Ame.Infrastructure.Models
 
 
         #region constructor & destructer
-
-        // TODO fix width and height to be scaled
+        
         public Map()
         {
             this.Name = "";
