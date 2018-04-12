@@ -39,7 +39,10 @@ namespace Ame.Infrastructure.Utils
                 {
                     gridItems = CreateGridDefault(gridParameters);
                 }
-                gridItems = CreateGridPadding(gridParameters);
+                else
+                {
+                    gridItems = CreateGridPadding(gridParameters);
+                }
             }
             else if (gridParameters.paddingX == 0 && gridParameters.paddingY == 0)
             {
@@ -56,15 +59,17 @@ namespace Ame.Infrastructure.Utils
         {
             ObservableCollection<Visual> CanvasGridItems = new ObservableCollection<Visual>();
 
-            int numTilesX = (int)(gridParameters.width / gridParameters.cellWidth);
-            int numTilesY = (int)(gridParameters.height / gridParameters.cellHeight);
+            int numTilesX = (int)(gridParameters.rows);
+            int numTilesY = (int)(gridParameters.columns);
+            int gridWidth = (int)(numTilesX * gridParameters.cellWidth);
+            int gridHeight = (int)(numTilesY * gridParameters.cellHeight);
 
             Path rectPath = new Path();
             Rect tile = new Rect();
             RectangleGeometry tileGeometry = new RectangleGeometry();
             rectPath.Stroke = GridFactory.Stroke;
             rectPath.StrokeThickness = GridFactory.StrokeThickness;
-            tile.Size = new Size(gridParameters.width, gridParameters.height);
+            tile.Size = new Size(numTilesX * gridParameters.cellWidth, gridParameters.columns * gridParameters.cellHeight);
             tile.Location = new Point(0, 0);
             tileGeometry.Rect = tile;
             rectPath.Data = tileGeometry;
@@ -78,7 +83,7 @@ namespace Ame.Infrastructure.Utils
                 horizontal.StrokeThickness = GridFactory.StrokeThickness;
                 horizontal.X1 = 0;
                 horizontal.Y1 = gridParameters.cellHeight * index;
-                horizontal.X2 = gridParameters.width;
+                horizontal.X2 = gridWidth;
                 horizontal.Y2 = gridParameters.cellHeight * index;
                 CanvasGridItems.Add(horizontal);
             }
@@ -91,7 +96,7 @@ namespace Ame.Infrastructure.Utils
                 vertical.X1 = gridParameters.cellWidth * index;
                 vertical.Y1 = 0;
                 vertical.X2 = gridParameters.cellWidth * index;
-                vertical.Y2 = gridParameters.height;
+                vertical.Y2 = gridHeight;
                 CanvasGridItems.Add(vertical);
             }
             return CanvasGridItems;
@@ -101,8 +106,8 @@ namespace Ame.Infrastructure.Utils
         {
             ObservableCollection<Visual> CanvasGridItems = new ObservableCollection<Visual>();
 
-            int numTilesX = (int)((gridParameters.width - gridParameters.offsetX) / gridParameters.cellWidth);
-            int numTilesY = (int)((gridParameters.height - gridParameters.offsetY) / gridParameters.cellHeight);
+            int numTilesX = (int)((gridParameters.rows * gridParameters.cellWidth - gridParameters.offsetX) / gridParameters.cellWidth);
+            int numTilesY = (int)((gridParameters.columns * gridParameters.cellHeight - gridParameters.offsetY) / gridParameters.cellHeight);
 
             Path rectPath = new Path();
             Rect tile = new Rect();
@@ -143,8 +148,8 @@ namespace Ame.Infrastructure.Utils
 
         private static ObservableCollection<Visual> CreateGridPadding(GridModel gridParameters)
         {
-            int numTilesX = (int)((gridParameters.width) / (gridParameters.cellWidth + 2 * gridParameters.paddingX));
-            int numTilesY = (int)((gridParameters.height) / (gridParameters.cellHeight + 2 * gridParameters.paddingY));
+            int numTilesX = (int)((gridParameters.rows * gridParameters.cellWidth) / (gridParameters.cellWidth + 2 * gridParameters.paddingX));
+            int numTilesY = (int)((gridParameters.columns * gridParameters.cellHeight) / (gridParameters.cellHeight + 2 * gridParameters.paddingY));
 
             ObservableCollection<Visual> CanvasGridItems = new ObservableCollection<Visual>();
 
@@ -177,8 +182,8 @@ namespace Ame.Infrastructure.Utils
 
         private static ObservableCollection<Visual> CreateGridOffsetPadding(GridModel gridParameters)
         {
-            int numTilesX = (int)((gridParameters.width - gridParameters.offsetX) / (gridParameters.cellWidth + 2 * gridParameters.paddingX));
-            int numTilesY = (int)((gridParameters.height - gridParameters.offsetY) / (gridParameters.cellHeight + 2 * gridParameters.paddingY));
+            int numTilesX = (int)((gridParameters.rows * gridParameters.cellWidth - gridParameters.offsetX) / (gridParameters.cellWidth + 2 * gridParameters.paddingX));
+            int numTilesY = (int)((gridParameters.columns * gridParameters.cellHeight - gridParameters.offsetY) / (gridParameters.cellHeight + 2 * gridParameters.paddingY));
 
             ObservableCollection<Visual> CanvasGridItems = new ObservableCollection<Visual>();
 

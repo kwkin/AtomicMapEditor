@@ -156,8 +156,8 @@ namespace Ame.Modules.Docks.SelectedBrushDock
                 // TODO find a way to get tile width and height
                 GridModel gridParameters = new GridModel()
                 {
-                    width = this.BrushImage.PixelWidth,
-                    height = this.BrushImage.PixelHeight,
+                    rows = this.BrushImage.PixelWidth / 32,
+                    columns = this.BrushImage.PixelHeight / 32,
                     cellWidth = 32,
                     cellHeight = 32
                 };

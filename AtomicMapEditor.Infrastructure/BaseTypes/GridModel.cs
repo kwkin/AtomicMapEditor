@@ -8,8 +8,8 @@ namespace Ame.Infrastructure.BaseTypes
 {
     public struct GridModel
     {
-        public double width;
-        public double height;
+        public double rows;
+        public double columns;
         public double cellWidth;
         public double cellHeight;
         public double offsetX;
@@ -17,10 +17,10 @@ namespace Ame.Infrastructure.BaseTypes
         public double paddingX;
         public double paddingY;
 
-        public GridModel(double width, double height, double cellWidth, double cellHeight)
+        public GridModel(double rows, double columns, double cellWidth, double cellHeight)
         {
-            this.width = width;
-            this.height = height;
+            this.rows = rows;
+            this.columns = columns;
             this.cellWidth = cellWidth;
             this.cellHeight = cellHeight;
             this.offsetX = 0;
@@ -29,10 +29,10 @@ namespace Ame.Infrastructure.BaseTypes
             this.paddingY = 0;
         }
 
-        public GridModel(double width, double height, double cellWidth, double cellHeight, double offsetX, double offsetY)
+        public GridModel(double rows, double columns, double cellWidth, double cellHeight, double offsetX, double offsetY)
         {
-            this.width = width;
-            this.height = height;
+            this.rows = rows;
+            this.columns = columns;
             this.cellWidth = cellWidth;
             this.cellHeight = cellHeight;
             this.offsetX = offsetX;
@@ -41,10 +41,10 @@ namespace Ame.Infrastructure.BaseTypes
             this.paddingY = 0;
         }
 
-        public GridModel(double width, double height, double cellWidth, double cellHeight, double offsetX, double offsetY, double paddingX, double paddingY)
+        public GridModel(double rows, double columns, double cellWidth, double cellHeight, double offsetX, double offsetY, double paddingX, double paddingY)
         {
-            this.width = width;
-            this.height = height;
+            this.rows = rows;
+            this.columns = columns;
             this.cellWidth = cellWidth;
             this.cellHeight = cellHeight;
             this.offsetX = offsetX;

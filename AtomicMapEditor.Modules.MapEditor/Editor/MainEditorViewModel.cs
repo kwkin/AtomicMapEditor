@@ -199,11 +199,10 @@ namespace Ame.Modules.MapEditor.Editor
             this.IsGridOn = drawGrid;
             if (this.IsGridOn)
             {
-                // TODO, update the grid model with columns and rows instead of pixel width and height
                 GridModel gridParameters = new GridModel()
                 {
-                    width = this.Map.GetPixelWidth(),
-                    height = this.Map.GetPixelHeight(),
+                    rows = this.Map.Rows,
+                    columns = this.Map.Columns,
                     cellWidth = this.Map.TileWidth,
                     cellHeight = this.Map.TileHeight,
                 };

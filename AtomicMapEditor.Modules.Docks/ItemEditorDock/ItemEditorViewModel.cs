@@ -256,8 +256,8 @@ namespace Ame.Modules.Docks.ItemEditorDock
             {
                 GridModel gridParameters = new GridModel()
                 {
-                    width = this.ItemImage.Width,
-                    height = this.ItemImage.Height,
+                    rows = this.ItemImage.Width / this.TilesetModel.Width,
+                    columns = this.ItemImage.Height / this.TilesetModel.Height,
                     cellWidth = this.TilesetModel.Width,
                     cellHeight = this.TilesetModel.Height,
                     offsetX = this.TilesetModel.OffsetX,
