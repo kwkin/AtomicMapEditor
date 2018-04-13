@@ -30,6 +30,13 @@ namespace Ame.Infrastructure.BaseTypes
             set { SetProperty(ref this.isSelected, value); }
         }
 
+        private bool isVisible = false;
+        public bool IsVisible
+        {
+            get { return this.isVisible; }
+            set { SetProperty(ref this.isVisible, value); }
+        }
+
         private string title;
         public string Title
         {

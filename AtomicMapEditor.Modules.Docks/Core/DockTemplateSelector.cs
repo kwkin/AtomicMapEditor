@@ -32,17 +32,7 @@ namespace Ame.Modules.Docks.Core
 
 
         #region properties
-
-        public DataTemplate ClipboardDataTemplate { get; set; }
-        public DataTemplate ItemEditorDataTemplate { get; set; }
-        public DataTemplate ItemListDataTemplate { get; set; }
-        public DataTemplate LayerListDataTemplate { get; set; }
-        public DataTemplate MinimapDataTemplate { get; set; }
-        public DataTemplate ToolboxDataTemplate { get; set; }
-        public DataTemplate SelectedBrushDataTemplate { get; set; }
-
-        public DataTemplate MainEditorTemplate { get; set; }
-
+        
         #endregion properties
 
 
@@ -89,7 +79,6 @@ namespace Ame.Modules.Docks.Core
                 return base.SelectTemplate(item, container);
             }
             frameworkElementFactory.SetValue(UserControl.DataContextProperty, item);
-            frameworkElementFactory.SetValue(UserControl.BackgroundProperty, Brushes.Black);
             template.VisualTree = frameworkElementFactory;
             return template;
         }

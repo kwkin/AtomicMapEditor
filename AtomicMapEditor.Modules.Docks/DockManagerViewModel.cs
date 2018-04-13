@@ -11,6 +11,7 @@ using Ame.Infrastructure.Core;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Models;
 using Ame.Modules.Docks.Core;
+using Ame.Modules.MapEditor.Editor;
 using Ame.Modules.Windows.LayerEditorWindow;
 using Microsoft.Practices.Unity;
 using Prism.Events;
@@ -187,8 +188,7 @@ namespace Ame.Modules.Docks
             {
                 notificationTitle = message.WindowTitle;
             }
-
-            // TODO move this to another class
+            
             switch (message.WindowType)
             {
                 case WindowType.Map:
@@ -207,8 +207,7 @@ namespace Ame.Modules.Docks
                     break;
             }
         }
-
-        // TODO, move this into another class, or the appropriate view model class (Static function)
+        
         private INotification NewMapWindow()
         {
             this.MapWindowView = new Windows.MapEditorWindow.MapEditor();
@@ -299,6 +298,7 @@ namespace Ame.Modules.Docks
 
         private void AddDockViewModel(DockViewModelTemplate dockViewModel)
         {
+            dockViewModel.IsVisible = true;
             if (dockViewModel is DockToolViewModelTemplate)
             {
                 this.Anchorables.Add(dockViewModel);

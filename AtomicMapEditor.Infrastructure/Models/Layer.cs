@@ -59,8 +59,7 @@ namespace Ame.Infrastructure.Models
         public int Columns { get; set; }
         public LayerPosition Position { get; set; }
         public ScaleType Scale { get; set; }
-        public int ScrollRateFrom { get; set; }
-        public int ScrollRateTo { get; set; }
+        public double ScrollRate { get; set; }
         public string Description { get; set; }
 
         public DrawingImage LayerItems { get; set; }

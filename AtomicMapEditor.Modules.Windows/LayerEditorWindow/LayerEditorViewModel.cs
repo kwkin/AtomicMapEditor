@@ -42,8 +42,7 @@ namespace Ame.Modules.Windows.LayerEditorWindow
         public int TileHeight { get; set; }
         public ScaleType Scale { get; set; }
         public LayerPosition Position { get; set; }
-        public int ScrollRateFrom { get; set; }
-        public int ScrollRateTo { get; set; }
+        public double ScrollRate { get; set; }
         public string Description { get; set; }
 
         public string WindowTitle { get; set; }
@@ -100,8 +99,7 @@ namespace Ame.Modules.Windows.LayerEditorWindow
             layer.TileHeight = this.TileHeight;
             layer.Scale = this.Scale;
             layer.Position = this.Position;
-            layer.ScrollRateFrom = this.ScrollRateFrom;
-            layer.ScrollRateTo = this.ScrollRateTo;
+            layer.ScrollRate = this.ScrollRate;
             layer.Description = this.Description;
         }
 
@@ -116,8 +114,7 @@ namespace Ame.Modules.Windows.LayerEditorWindow
             this.TileHeight = this.Layer.TileHeight;
             this.Scale = this.Layer.Scale;
             this.Position = this.Layer.Position;
-            this.ScrollRateFrom = this.Layer.ScrollRateFrom;
-            this.ScrollRateTo = this.Layer.ScrollRateTo;
+            this.ScrollRate = this.Layer.ScrollRate;
             this.Description = this.Layer.Description;
         }
 
