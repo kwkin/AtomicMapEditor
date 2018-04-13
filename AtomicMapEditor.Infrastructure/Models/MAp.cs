@@ -73,17 +73,6 @@ namespace Ame.Infrastructure.Models
 
 
         #region methods
-        
-        // TODO add additional size functions
-        public void SetWidth(int width)
-        {
-            this.Columns = width;
-        }
-
-        public void SetHeight(int height)
-        {
-            this.Rows = height;
-        }
 
         public int GetPixelWidth()
         {

@@ -24,10 +24,7 @@ namespace Ame.Modules.Docks
     public class DockManagerViewModel : BindableBase, ILayoutViewModel
     {
         #region fields
-
-        // TODO add this in a config file
-        public static string applicationName = "AtomicMapEditor";
-
+        
         private IEventAggregator eventAggregator;
         private event EventHandler ActiveDocumentChanged;
 
@@ -138,7 +135,7 @@ namespace Ame.Modules.Docks
             get
             {
                 string documentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                string directoryPath = Path.Combine(documentPath, applicationName);
+                string directoryPath = Path.Combine(documentPath, Global.applicationName);
                 try
                 {
                     if (Directory.Exists(directoryPath) == false)

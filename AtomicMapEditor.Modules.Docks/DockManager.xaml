@@ -50,48 +50,7 @@
                          Grid.Row="2">
 
         <xcad:DockingManager.LayoutItemTemplateSelector>
-            <basetype:DockTemplateSelector>
-                <basetype:DockTemplateSelector.ClipboardDataTemplate>
-                    <DataTemplate>
-                        <clipboard:Clipboard />
-                    </DataTemplate>
-                </basetype:DockTemplateSelector.ClipboardDataTemplate>
-                <basetype:DockTemplateSelector.MainEditorTemplate>
-                    <DataTemplate>
-                        <maineditor:MainEditor />
-                    </DataTemplate>
-                </basetype:DockTemplateSelector.MainEditorTemplate>
-                <basetype:DockTemplateSelector.ItemEditorDataTemplate>
-                    <DataTemplate>
-                        <itemeditor:ItemEditor />
-                    </DataTemplate>
-                </basetype:DockTemplateSelector.ItemEditorDataTemplate>
-                <basetype:DockTemplateSelector.ItemListDataTemplate>
-                    <DataTemplate>
-                        <itemlist:ItemList />
-                    </DataTemplate>
-                </basetype:DockTemplateSelector.ItemListDataTemplate>
-                <basetype:DockTemplateSelector.LayerListDataTemplate>
-                    <DataTemplate>
-                        <layerlist:LayerList />
-                    </DataTemplate>
-                </basetype:DockTemplateSelector.LayerListDataTemplate>
-                <basetype:DockTemplateSelector.MinimapDataTemplate>
-                    <DataTemplate>
-                        <minimap:Minimap />
-                    </DataTemplate>
-                </basetype:DockTemplateSelector.MinimapDataTemplate>
-                <basetype:DockTemplateSelector.SelectedBrushDataTemplate>
-                    <DataTemplate>
-                        <selectedbrush:SelectedBrush />
-                    </DataTemplate>
-                </basetype:DockTemplateSelector.SelectedBrushDataTemplate>
-                <basetype:DockTemplateSelector.ToolboxDataTemplate>
-                    <DataTemplate>
-                        <toolbox:Toolbox />
-                    </DataTemplate>
-                </basetype:DockTemplateSelector.ToolboxDataTemplate>
-            </basetype:DockTemplateSelector>
+            <basetype:DockTemplateSelector />
         </xcad:DockingManager.LayoutItemTemplateSelector>
 
         <xcad:DockingManager.LayoutItemContainerStyleSelector>

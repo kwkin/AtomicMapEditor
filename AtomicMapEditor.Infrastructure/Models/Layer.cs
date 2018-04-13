@@ -82,7 +82,8 @@ namespace Ame.Infrastructure.Models
 
         public void SetTile(BitmapImage image, Point tilePoint)
         {
-            // TODO improve this TODO look into rendering using an array
+            // TODO improve this 
+            // TODO look into rendering using an array
             Rect rect = new Rect(tilePoint.X, tilePoint.Y, image.Width, image.Height);
             ImageDrawing tileImage = new ImageDrawing(image, rect);
             foreach (Tile tile in occupiedTiles)

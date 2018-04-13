@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Markup;
+using System.Windows.Media;
 using Ame.Modules.Docks.ClipboardDock;
 using Ame.Modules.Docks.ItemEditorDock;
 using Ame.Modules.Docks.ItemListDock;
@@ -11,8 +11,6 @@ using Ame.Modules.Docks.MinimapDock;
 using Ame.Modules.Docks.SelectedBrushDock;
 using Ame.Modules.Docks.ToolboxDock;
 using Ame.Modules.MapEditor.Editor;
-using Prism.Mvvm;
-using Xceed.Wpf.AvalonDock.Layout;
 
 namespace Ame.Modules.Docks.Core
 {
@@ -27,6 +25,7 @@ namespace Ame.Modules.Docks.Core
 
         public DockTemplateSelector()
         {
+
         }
 
         #endregion constructor & destructer
@@ -48,44 +47,51 @@ namespace Ame.Modules.Docks.Core
 
 
         #region methods
-        
+
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
-            // TODO: add dock factory class for templates and styles.
+            DataTemplate template = new DataTemplate(typeof(UserControl));
+            FrameworkElementFactory frameworkElementFactory;
             if (item is ClipboardViewModel)
             {
-                return ClipboardDataTemplate;
+                frameworkElementFactory = new FrameworkElementFactory(typeof(ClipboardDock.Clipboard));
             }
             else if (item is ItemEditorViewModel)
             {
-                return ItemEditorDataTemplate;
+                frameworkElementFactory = new FrameworkElementFactory(typeof(ItemEditor));
             }
             else if (item is ItemListViewModel)
             {
-                return ItemListDataTemplate;
+                frameworkElementFactory = new FrameworkElementFactory(typeof(ItemList));
             }
             else if (item is LayerListViewModel)
             {
-                return LayerListDataTemplate;
+                frameworkElementFactory = new FrameworkElementFactory(typeof(LayerList));
             }
             else if (item is MinimapViewModel)
             {
-                return MinimapDataTemplate;
+                frameworkElementFactory = new FrameworkElementFactory(typeof(Minimap));
             }
             else if (item is ToolboxViewModel)
             {
-                return ToolboxDataTemplate;
+                frameworkElementFactory = new FrameworkElementFactory(typeof(Toolbox));
             }
             else if (item is SelectedBrushViewModel)
             {
-                return SelectedBrushDataTemplate;
+                frameworkElementFactory = new FrameworkElementFactory(typeof(SelectedBrush));
             }
             else if (item is MainEditorViewModel)
             {
-                return MainEditorTemplate;
+                frameworkElementFactory = new FrameworkElementFactory(typeof(MainEditor));
             }
-
-            return base.SelectTemplate(item, container);
+            else
+            {
+                return base.SelectTemplate(item, container);
+            }
+            frameworkElementFactory.SetValue(UserControl.DataContextProperty, item);
+            frameworkElementFactory.SetValue(UserControl.BackgroundProperty, Brushes.Black);
+            template.VisualTree = frameworkElementFactory;
+            return template;
         }
 
         #endregion methods

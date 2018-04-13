@@ -282,11 +282,7 @@ namespace Ame.Modules.Docks.ItemEditorDock
         {
             Console.WriteLine("DrawRuler");
         }
-        /// <summary>
 
-        /// </summary>
-        /// <param name="topLeftPixel">Top left pixel in the selection</param>
-        /// <param name="pixelSize">Size of the selection in pixels</param>
         private void DrawTileSelect(Point topLeftPixel, Size pixelSize)
         {
             Rect selectionBorder = new Rect(topLeftPixel, pixelSize);

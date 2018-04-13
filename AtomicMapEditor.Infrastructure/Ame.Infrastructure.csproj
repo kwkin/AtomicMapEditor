@@ -95,6 +95,7 @@
     <Compile Include="BaseTypes\DockViewModelTemplate.cs" />
     <Compile Include="BaseTypes\GridModel.cs" />
     <Compile Include="BaseTypes\SetPropertyAction.cs" />
+    <Compile Include="Core\Global.cs" />
     <Compile Include="Events\NewLayerEvent.cs" />
     <Compile Include="Events\NewLayerMessage.cs" />
     <Compile Include="Models\ILayer.cs" />
