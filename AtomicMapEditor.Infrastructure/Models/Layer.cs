@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -18,7 +16,7 @@ namespace Ame.Infrastructure.Models
 
 
         #region constructor & destructer
-        
+
         public Layer(int tileWidth, int tileHeight, int rows, int columns)
         {
             this.LayerName = "";
@@ -49,15 +47,16 @@ namespace Ame.Infrastructure.Models
 
 
         #region properties
-        
+
         public string LayerName { get; set; }
+        public bool IsImmutable { get; set; }
+        public bool IsVisible { get; set; }
         public int TileWidth { get; set; }
         public int TileHeight { get; set; }
         public int OffsetX { get; set; }
         public int OffsetY { get; set; }
         public int Rows { get; set; }
         public int Columns { get; set; }
-        public bool IsImmutable { get; set; }
         public LayerPosition Position { get; set; }
         public ScaleType Scale { get; set; }
         public int ScrollRateFrom { get; set; }
@@ -83,8 +82,7 @@ namespace Ame.Infrastructure.Models
 
         public void SetTile(BitmapImage image, Point tilePoint)
         {
-            // TODO improve this
-            // TODO look into rendering using an array
+            // TODO improve this TODO look into rendering using an array
             Rect rect = new Rect(tilePoint.X, tilePoint.Y, image.Width, image.Height);
             ImageDrawing tileImage = new ImageDrawing(image, rect);
             foreach (Tile tile in occupiedTiles)

@@ -83,6 +83,7 @@ namespace Ame.Modules.Docks.ItemEditorDock
             }
             this.Scale = ScaleType.Tile;
             this.PositionText = "0, 0";
+            this.GridBrush = Brushes.Orange;
 
             this.ViewPropertiesCommand = new DelegateCommand(() => SetMapProperties());
             this.EditCollisionsCommand = new DelegateCommand(() => EditCollisions());
@@ -170,6 +171,7 @@ namespace Ame.Modules.Docks.ItemEditorDock
         public bool IsGridOn { get; set; }
         public ObservableCollection<Visual> CanvasGridItems { get; set; }
         public ObservableCollection<Visual> CanvasSelectItems { get; set; }
+        public Brush GridBrush { get; set; }
 
         public TilesetModel TilesetModel { get; set; }
         public DrawingImage ItemImage { get; set; }
@@ -280,8 +282,8 @@ namespace Ame.Modules.Docks.ItemEditorDock
         {
             Console.WriteLine("DrawRuler");
         }
-
         /// <summary>
+
         /// </summary>
         /// <param name="topLeftPixel">Top left pixel in the selection</param>
         /// <param name="pixelSize">Size of the selection in pixels</param>
@@ -289,10 +291,9 @@ namespace Ame.Modules.Docks.ItemEditorDock
         {
             Rect selectionBorder = new Rect(topLeftPixel, pixelSize);
             RectangleGeometry tileGeometry = new RectangleGeometry(selectionBorder);
-
-            // TODO have getters/setters for the stroke brush and thickness
+            
             System.Windows.Shapes.Path rectPath = new System.Windows.Shapes.Path();
-            rectPath.Stroke = Brushes.Orange;
+            rectPath.Stroke = GridBrush;
             rectPath.StrokeThickness = 1;
             rectPath.Data = tileGeometry;
 

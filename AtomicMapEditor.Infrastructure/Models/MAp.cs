@@ -61,16 +61,12 @@ namespace Ame.Infrastructure.Models
         public string Name { get; set; }
         public int Columns { get; set; }
         public int Rows { get; set; }
-
         public int TileWidth { get; set; }
         public int TileHeight { get; set; }
         public int PixelScale { get; set; }
         public ScaleType Scale { get; set; }
         public int PixelRatio { get; set; }
         public string Description { get; set; }
-
-        // TODO replace all standard variables and properties with interfaces
-        // TODO replace all custom variables and properties with interfaces
         public IList<Layer> LayerList { get; set; }
 
         #endregion properties

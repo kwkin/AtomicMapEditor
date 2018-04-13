@@ -8,5 +8,21 @@ namespace Ame.Infrastructure.Models
 {
     public interface ILayer
     {
+        #region fields
+
+        #endregion fields
+                
+        #region properties
+
+        string LayerName { get; set; }
+        bool IsImmutable { get; set; }
+        bool IsVisible { get; set; }
+
+        #endregion properties
+
+
+        #region methods
+
+        #endregion methods
     }
 }

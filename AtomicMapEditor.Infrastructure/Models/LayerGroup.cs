@@ -13,12 +13,12 @@ namespace Ame.Infrastructure.Models
 
         public LayerGroup(string layerGroupName)
         {
-            this.LayerGroupName = layerGroupName;
+            this.LayerName = layerGroupName;
         }
 
         public LayerGroup(string layerGroupName, IList<ILayer> layers)
         {
-            this.LayerGroupName = layerGroupName;
+            this.LayerName = layerGroupName;
             this.Layers = layers;
         }
 
@@ -27,7 +27,7 @@ namespace Ame.Infrastructure.Models
 
         #region properties
 
-        public string LayerGroupName { get; set; }
+        public string LayerName { get; set; }
         public bool IsImmutable { get; set; }
         public bool IsVisible { get; set; }
         public IList<ILayer> Layers { get; set; }

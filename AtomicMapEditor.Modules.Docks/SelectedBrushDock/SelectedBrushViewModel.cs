@@ -95,11 +95,9 @@ namespace Ame.Modules.Docks.SelectedBrushDock
 
         public String PositionText { get; set; }
         public ScaleType Scale { get; set; }
-
-        // TODO change use of list to IList
-        public ObservableCollection<ZoomLevel> ZoomLevels { get; set; }
         public bool IsGridOn { get; set; }
         public ObservableCollection<Visual> CanvasGridItems { get; set; }
+        public ObservableCollection<ZoomLevel> ZoomLevels { get; set; }
 
         public int zoomIndex;
         public int ZoomIndex
@@ -136,7 +134,6 @@ namespace Ame.Modules.Docks.SelectedBrushDock
 
         private void UpdateBrushImage(UpdateBrushMessage message)
         {
-            // TODO add this into a processing class/utils
             BrushModel brushModel = message.BrushModel;
             this.BrushImage = brushModel.Image;
             DrawGrid();
