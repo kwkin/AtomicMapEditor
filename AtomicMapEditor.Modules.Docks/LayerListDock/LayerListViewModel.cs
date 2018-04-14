@@ -61,10 +61,10 @@ namespace Ame.Modules.Docks.LayerListDock
             this.LayerList.Add(new LayerGroup("Layer Group #1", layerGroupLayers));
             this.LayerList.Add(new Layer("Layer #7", 32, 32, 32, 32));
 
-            this.LayerList.Add(new Layer("Layer #3", 32, 32, 32, 32));
-            this.LayerList.Add(new Layer("Layer #4", 32, 32, 32, 32));
-            this.LayerList.Add(new Layer("Layer #5", 32, 32, 32, 32));
-            this.LayerList.Add(new Layer("Layer #6", 32, 32, 32, 32));
+            //this.LayerList.Add(new Layer("Layer #3", 32, 32, 32, 32));
+            //this.LayerList.Add(new Layer("Layer #4", 32, 32, 32, 32));
+            //this.LayerList.Add(new Layer("Layer #5", 32, 32, 32, 32));
+            //this.LayerList.Add(new Layer("Layer #6", 32, 32, 32, 32));
 
             this.eventAggregator.GetEvent<NewLayerEvent>().Subscribe(AddTilesetLayerMessage);
             this.eventAggregator.GetEvent<EditLayerEvent>().Subscribe(EditLayerMessageRecieved);

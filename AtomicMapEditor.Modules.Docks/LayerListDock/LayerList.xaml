@@ -115,21 +115,21 @@
                     </HierarchicalDataTemplate>
 
                     <DataTemplate DataType="{x:Type models:Layer}">
-                        <local:LayerListEntry>
-                            <local:LayerListEntry.ContextMenu>
-                                <ContextMenu>
-                                    <ContextMenu.ItemsSource>
-                                        <CompositeCollection>
-                                            <CollectionContainer Collection="{StaticResource LayerContextMenu}" />
-                                            <Separator />
-                                            <CollectionContainer Collection="{StaticResource LayerListContextMenu}" />
-                                        </CompositeCollection>
-                                    </ContextMenu.ItemsSource>
-                                </ContextMenu>
-                            </local:LayerListEntry.ContextMenu>
-                        </local:LayerListEntry>
+                        <local:LayerListEntry />
                     </DataTemplate>
                 </TreeView.Resources>
+
+                <extcomp:StretchingTreeView.ContextMenu>
+                    <ContextMenu>
+                        <ContextMenu.ItemsSource>
+                            <CompositeCollection>
+                                <CollectionContainer Collection="{StaticResource LayerContextMenu}" />
+                                <Separator />
+                                <CollectionContainer Collection="{StaticResource LayerListContextMenu}" />
+                            </CompositeCollection>
+                        </ContextMenu.ItemsSource>
+                    </ContextMenu>
+                </extcomp:StretchingTreeView.ContextMenu>
             </extcomp:StretchingTreeView>
         </ScrollViewer>
     </Grid>
