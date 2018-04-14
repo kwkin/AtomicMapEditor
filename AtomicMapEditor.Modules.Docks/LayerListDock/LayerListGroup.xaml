@@ -43,7 +43,7 @@
             </StackPanel>
 
             <Label x:Name="layerNameLabel"
-                   Content="{Binding LayerGroupName}"
+                   Content="{Binding LayerName}"
                    Grid.Column="1" />
         </Grid>
     </ToggleButton>

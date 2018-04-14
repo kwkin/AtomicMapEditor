@@ -24,15 +24,6 @@ namespace Ame.Modules.Docks.ClipboardDock
         {
             InitializeComponent();
             System.Diagnostics.PresentationTraceSources.DataBindingSource.Switch.Level = System.Diagnostics.SourceLevels.Critical;
-
-            if (this.DataContext == null)
-            {
-                Console.WriteLine("Null bois");
-            }
-            else
-            {
-                Console.WriteLine("Not null");
-            }
         }
     }
 }

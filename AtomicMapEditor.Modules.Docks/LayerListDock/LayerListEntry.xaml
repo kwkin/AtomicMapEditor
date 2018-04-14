@@ -12,98 +12,78 @@
              HorizontalContentAlignment="Stretch"
              d:DesignWidth="300">
 
-    <UserControl.Resources>
-        <ResourceDictionary Source="pack://application:,,,/Ame.Modules.Docks;component/LayerListDock/LayerListContextMenu.xaml" />
-    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
 
-    <UserControl.ContextMenu>
-        <ContextMenu>
-            <ContextMenu.ItemsSource>
-                <CompositeCollection>
-                    <CollectionContainer Collection="{StaticResource LayerListContextMenu}" />
-                </CompositeCollection>
-            </ContextMenu.ItemsSource>
-        </ContextMenu>
-    </UserControl.ContextMenu>
+        <StackPanel Orientation="Horizontal"
+                    Grid.Column="0">
+            <extcomp:IconToggleButton x:Name="showLayerToggleButton"
+                                      ToolTip="Show: Toggles the layer display"
+                                      Command="{Binding AddTilesetLayerCommand}"
+                                      ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
+            </extcomp:IconToggleButton>
 
-    <ToggleButton Background="Transparent"
-                  BorderThickness="0"
-                  Margin="0"
-                  Padding="0"
-                  HorizontalContentAlignment="Stretch">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
+            <extcomp:IconToggleButton x:Name="lockLayerToggleButton"
+                                      ToolTip="Lock: Prevents the layer from being moved and edited"
+                                      Command="{Binding AddTilesetLayerCommand}"
+                                      ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
+            </extcomp:IconToggleButton>
 
-            <StackPanel Orientation="Horizontal"
-                        Grid.Column="0">
-                <extcomp:IconToggleButton x:Name="showLayerToggleButton"
-                                          ToolTip="Show: Toggles the layer display"
-                                          Command="{Binding AddTilesetLayerCommand}"
-                                          ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
-                </extcomp:IconToggleButton>
+            <Canvas x:Name="tilesetImage"
+                    Height="32"
+                    Width="32"
+                    VerticalAlignment="Top">
+                <Canvas.Background>
+                    <LinearGradientBrush StartPoint="0,0"
+                                         EndPoint="1,1">
+                        <GradientStop Color="Yellow"
+                                      Offset="0.0" />
+                        <GradientStop Color="Red"
+                                      Offset="0.25" />
+                        <GradientStop Color="Blue"
+                                      Offset="0.75" />
+                        <GradientStop Color="Green"
+                                      Offset="1.0" />
+                    </LinearGradientBrush>
+                </Canvas.Background>
+            </Canvas>
+        </StackPanel>
 
-                <extcomp:IconToggleButton x:Name="lockLayerToggleButton"
-                                          ToolTip="Lock: Prevents the layer from being moved and edited"
-                                          Command="{Binding AddTilesetLayerCommand}"
-                                          ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
-                </extcomp:IconToggleButton>
+        <TextBox x:Name="layerNameLabel"
+                 Text="{Binding LayerName}"
+                 HorizontalAlignment="Left"
+                 VerticalAlignment="Center"
+                 Grid.Column="1"
+                 IsReadOnly="True"
+                 BorderThickness="0"
+                 Background="Transparent">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <basetype:SetPropertyAction PropertyName="IsReadOnly"
+                                                TargetObject="{Binding layerNameLabel}">
+                        <basetype:SetPropertyAction.PropertyValue>
+                            <sys:Boolean>False</sys:Boolean>
+                        </basetype:SetPropertyAction.PropertyValue>
+                    </basetype:SetPropertyAction>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="LostFocus">
+                    <basetype:SetPropertyAction PropertyName="IsReadOnly"
+                                                TargetObject="{Binding layerNameLabel}">
+                        <basetype:SetPropertyAction.PropertyValue>
+                            <sys:Boolean>True</sys:Boolean>
+                        </basetype:SetPropertyAction.PropertyValue>
+                    </basetype:SetPropertyAction>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </TextBox>
 
-                <Canvas x:Name="tilesetImage"
-                        Height="32"
-                        Width="32"
-                        VerticalAlignment="Top">
-                    <Canvas.Background>
-                        <LinearGradientBrush StartPoint="0,0"
-                                             EndPoint="1,1">
-                            <GradientStop Color="Yellow"
-                                          Offset="0.0" />
-                            <GradientStop Color="Red"
-                                          Offset="0.25" />
-                            <GradientStop Color="Blue"
-                                          Offset="0.75" />
-                            <GradientStop Color="Green"
-                                          Offset="1.0" />
-                        </LinearGradientBrush>
-                    </Canvas.Background>
-                </Canvas>
-            </StackPanel>
-
-            <TextBox x:Name="layerNameLabel"
-                     Text="{Binding LayerName}"
-                     HorizontalAlignment="Left"
-                     VerticalAlignment="Center"
-                     Grid.Column="1"
-                     IsReadOnly="True"
-                     BorderThickness="0"
-                     Background="Transparent">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseDoubleClick">
-                        <basetype:SetPropertyAction PropertyName="IsReadOnly"
-                                                    TargetObject="{Binding layerNameLabel}">
-                            <basetype:SetPropertyAction.PropertyValue>
-                                <sys:Boolean>False</sys:Boolean>
-                            </basetype:SetPropertyAction.PropertyValue>
-                        </basetype:SetPropertyAction>
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="LostFocus">
-                        <basetype:SetPropertyAction PropertyName="IsReadOnly"
-                                                    TargetObject="{Binding layerNameLabel}">
-                            <basetype:SetPropertyAction.PropertyValue>
-                                <sys:Boolean>True</sys:Boolean>
-                            </basetype:SetPropertyAction.PropertyValue>
-                        </basetype:SetPropertyAction>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </TextBox>
-
-            <Label x:Name="layerPositionLabel"
-                   Content="{Binding Position}"
-                   HorizontalAlignment="Right"
-                   Grid.Column="2" />
-        </Grid>
-    </ToggleButton>
+        <Label x:Name="layerPositionLabel"
+               Content="{Binding Position}"
+               HorizontalAlignment="Right"
+               Grid.Column="2" />
+    </Grid>
 </UserControl>

@@ -3,7 +3,7 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <x:Array Type="{x:Type sys:Object}"
-             x:Key="LayerListContextMenu">
+             x:Key="LayerContextMenu">
         <MenuItem Header="Edit Properties..."
                   Command="{Binding EditPropertiesCommand}" />
         <MenuItem Header="Edit Collisions..."
@@ -16,20 +16,23 @@
         <MenuItem Header="Layer to Map Size"
                   Command="{Binding LayerToMapSizeCommand}" />
         <Separator />
-        <MenuItem Header="New Layer..."
-                  Command="{Binding NewLayerCommand}" />
-        <MenuItem Header="New Group"
-                  Command="{Binding AddLayerGroupCommand}" />
-        <MenuItem Header="Duplicate Layer"
-                  Command="{Binding DuplicateLayerCommand}" />
-        <MenuItem Header="Delete Layer"
-                  Command="{Binding RemoveLayerCommand}" />
-        <Separator />
         <MenuItem Header="Merge Down"
                   Command="{Binding MergeLayerDownCommand }" />
         <MenuItem Header="Move Up"
                   Command="{Binding MoveLayerUpCommand}" />
         <MenuItem Header="Move Down"
                   Command="{Binding MoveLayerDownCommand}" />
+    </x:Array>
+    
+    <x:Array Type="{x:Type sys:Object}"
+             x:Key="LayerListContextMenu">
+        <MenuItem Header="New Layer..."
+                  Command="{Binding NewLayerCommand}" />
+        <MenuItem Header="New Group"
+                  Command="{Binding NewLayerGroupCommand}" />
+        <MenuItem Header="Duplicate Layer"
+                  Command="{Binding DuplicateLayerCommand}" />
+        <MenuItem Header="Delete Layer"
+                  Command="{Binding RemoveLayerCommand}" />
     </x:Array>
 </ResourceDictionary>

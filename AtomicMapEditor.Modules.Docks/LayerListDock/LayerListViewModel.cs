@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using System.Windows.Media;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Models;
@@ -32,8 +30,8 @@ namespace Ame.Modules.Docks.LayerListDock
             this.Title = "Layer List";
             this.eventAggregator = eventAggregator;
 
-            this.AddTilesetLayerCommand = new DelegateCommand(() => NewTilesetLayer());
-            this.AddLayerGroupCommand = new DelegateCommand(() => AddLayerGroup());
+            this.NewLayerCommand = new DelegateCommand(() => NewTilesetLayer());
+            this.NewLayerGroupCommand = new DelegateCommand(() => NewLayerGroup());
             this.MergeLayerDownCommand = new DelegateCommand(() => MergeLayerDown());
             this.MergeLayerUpCommand = new DelegateCommand(() => MergeLayerUp());
             this.MoveLayerDownCommand = new DelegateCommand(() => MoveLayerDown());
@@ -45,24 +43,25 @@ namespace Ame.Modules.Docks.LayerListDock
             this.EditPropertiesCommand = new DelegateCommand(() => EditProperties());
             this.EditCollisionsCommand = new DelegateCommand(() => EditCollisions());
             this.LayerToMapSizeCommand = new DelegateCommand(() => LayerToMapSize());
-            this.NewLayerCommand = new DelegateCommand(() => NewLayer());
+            this.CurrentLayerChangedCommand = new DelegateCommand<object>((currentLayer) => CurrentLayerChanged((Layer)currentLayer));
 
-            this.LayerList = new ObservableCollection<object>();
-            //this.LayerList.Add(new Layer("Layer #1", 32, 32));
-            //this.LayerList.Add(new Layer("Layer #2", 32, 32));
+            this.LayerList = new ObservableCollection<ILayer>();
 
-            //IList<ILayer> layerGroupLayers = new List<ILayer>();
-            //layerGroupLayers.Add(new Layer("Layer #3", 32, 32));
+            //this.LayerList.Add(new Layer("Layer #1", 32, 32, 32, 32));
+            //this.LayerList.Add(new Layer("Layer #2", 32, 32, 32, 32));
 
-            //IList<ILayer> layerGroupLayers2 = new List<ILayer>();
-            //layerGroupLayers2.Add(new Layer("Layer #4", 32, 32));
-            //layerGroupLayers2.Add(new Layer("Layer #5", 32, 32));
+            //ObservableCollection<ILayer> layerGroupLayers = new ObservableCollection<ILayer>();
+            //layerGroupLayers.Add(new Layer("Layer #3", 32, 32, 32, 32));
+
+            //ObservableCollection<ILayer> layerGroupLayers2 = new ObservableCollection<ILayer>();
+            //layerGroupLayers2.Add(new Layer("Layer #4", 32, 32, 32, 32));
+            //layerGroupLayers2.Add(new Layer("Layer #5", 32, 32, 32, 32));
             //layerGroupLayers.Add(new LayerGroup("Layer Group #2", layerGroupLayers2));
 
-            //layerGroupLayers.Add(new Layer("Layer #6", 32, 32));
+            //layerGroupLayers.Add(new Layer("Layer #6", 32, 32, 32, 32));
             //this.LayerList.Add(new LayerGroup("Layer Group #1", layerGroupLayers));
 
-            //this.LayerList.Add(new Layer("Layer #7", 32, 32));
+            //this.LayerList.Add(new Layer("Layer #7", 32, 32, 32, 32));
 
             this.eventAggregator.GetEvent<NewLayerEvent>().Subscribe(AddTilesetLayerMessage);
         }
@@ -72,9 +71,8 @@ namespace Ame.Modules.Docks.LayerListDock
 
         #region properties
 
-        public ICommand AddTilesetLayerCommand { get; private set; }
-        public ICommand AddImageLayerCommand { get; private set; }
-        public ICommand AddLayerGroupCommand { get; private set; }
+        public ICommand NewLayerCommand { get; private set; }
+        public ICommand NewLayerGroupCommand { get; private set; }
         public ICommand MergeLayerDownCommand { get; private set; }
         public ICommand MergeLayerUpCommand { get; private set; }
         public ICommand MoveLayerDownCommand { get; private set; }
@@ -86,7 +84,7 @@ namespace Ame.Modules.Docks.LayerListDock
         public ICommand EditPropertiesCommand { get; private set; }
         public ICommand EditCollisionsCommand { get; private set; }
         public ICommand LayerToMapSizeCommand { get; private set; }
-        public ICommand NewLayerCommand { get; private set; }
+        public ICommand CurrentLayerChangedCommand { get; private set; }
 
         public override DockType DockType
         {
@@ -96,13 +94,14 @@ namespace Ame.Modules.Docks.LayerListDock
             }
         }
 
-        public ObservableCollection<object> LayerList { get; set; }
+        public ObservableCollection<ILayer> LayerList { get; set; }
+        public Layer CurrentLayer { get; set; }
 
         #endregion properties
 
 
         #region methods
-        
+
         public void AddTilesetLayerMessage(NewLayerMessage message)
         {
             AddTilesetLayer(message.Layer);
@@ -121,9 +120,11 @@ namespace Ame.Modules.Docks.LayerListDock
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(window);
         }
 
-        public void AddLayerGroup()
+        public void NewLayerGroup()
         {
-            Console.WriteLine("Add layer group");
+            int layerGroupCount = GetLayerGroupCount() + 1;
+            String newLayerName = String.Format("Layer Group #{0}", layerGroupCount);
+            this.LayerList.Add(new LayerGroup(newLayerName));
         }
 
         public void MergeLayerDown()
@@ -138,7 +139,7 @@ namespace Ame.Modules.Docks.LayerListDock
 
         public void MoveLayerDown()
         {
-            Console.WriteLine("Move layer down");
+            Console.WriteLine("Move layer down: ");
         }
 
         public void MoveLayerUp()
@@ -184,6 +185,37 @@ namespace Ame.Modules.Docks.LayerListDock
         public void NewLayer()
         {
             Console.WriteLine("New layer");
+        }
+
+        public void CurrentLayerChanged(Layer layer)
+        {
+            this.CurrentLayer = layer;
+        }
+
+        private int GetLayerGroupCount()
+        {
+            int layerGroupCount = 0;
+            foreach (ILayer layer in LayerList)
+            {
+                if (layer is LayerGroup)
+                {
+                    layerGroupCount++;
+                }
+            }
+            return layerGroupCount;
+        }
+
+        private int GetLayerCount()
+        {
+            int layerCount = 0;
+            foreach (ILayer layer in LayerList)
+            {
+                if (layer is Layer)
+                {
+                    layerCount++;
+                }
+            }
+            return layerCount;
         }
 
         #endregion methods
