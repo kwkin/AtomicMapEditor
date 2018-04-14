@@ -3,7 +3,8 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <x:Array Type="{x:Type sys:Object}"
-             x:Key="LayerContextMenu">
+             x:Key="LayerContextMenu"
+             x:Shared="false">
         <MenuItem Header="Edit Properties..."
                   Command="{Binding EditPropertiesCommand}" />
         <MenuItem Header="Edit Collisions..."
@@ -25,7 +26,8 @@
     </x:Array>
     
     <x:Array Type="{x:Type sys:Object}"
-             x:Key="LayerListContextMenu">
+             x:Key="LayerListContextMenu"
+             x:Shared="false">
         <MenuItem Header="New Layer..."
                   Command="{Binding NewLayerCommand}" />
         <MenuItem Header="New Group"

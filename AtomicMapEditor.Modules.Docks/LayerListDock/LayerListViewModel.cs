@@ -51,20 +51,20 @@ namespace Ame.Modules.Docks.LayerListDock
             this.LayerList.Add(new Layer("Layer #1", 32, 32, 32, 32));
             this.LayerList.Add(new Layer("Layer #2", 32, 32, 32, 32));
 
-            //ObservableCollection<ILayer> layerGroupLayers = new ObservableCollection<ILayer>();
-            //layerGroupLayers.Add(new Layer("Layer #3", 32, 32, 32, 32));
-            //ObservableCollection<ILayer> layerGroupLayers2 = new ObservableCollection<ILayer>();
-            //layerGroupLayers2.Add(new Layer("Layer #4", 32, 32, 32, 32));
-            //layerGroupLayers2.Add(new Layer("Layer #5", 32, 32, 32, 32));
-            //layerGroupLayers.Add(new LayerGroup("Layer Group #2", layerGroupLayers2));
-            //layerGroupLayers.Add(new Layer("Layer #6", 32, 32, 32, 32));
-            //this.LayerList.Add(new LayerGroup("Layer Group #1", layerGroupLayers));
-            //this.LayerList.Add(new Layer("Layer #7", 32, 32, 32, 32));
-            
-            //this.LayerList.Add(new Layer("Layer #3", 32, 32, 32, 32));
-            //this.LayerList.Add(new Layer("Layer #4", 32, 32, 32, 32));
-            //this.LayerList.Add(new Layer("Layer #5", 32, 32, 32, 32));
-            //this.LayerList.Add(new Layer("Layer #6", 32, 32, 32, 32));
+            ObservableCollection<ILayer> layerGroupLayers = new ObservableCollection<ILayer>();
+            layerGroupLayers.Add(new Layer("Layer #3", 32, 32, 32, 32));
+            ObservableCollection<ILayer> layerGroupLayers2 = new ObservableCollection<ILayer>();
+            layerGroupLayers2.Add(new Layer("Layer #4", 32, 32, 32, 32));
+            layerGroupLayers2.Add(new Layer("Layer #5", 32, 32, 32, 32));
+            layerGroupLayers.Add(new LayerGroup("Layer Group #2", layerGroupLayers2));
+            layerGroupLayers.Add(new Layer("Layer #6", 32, 32, 32, 32));
+            this.LayerList.Add(new LayerGroup("Layer Group #1", layerGroupLayers));
+            this.LayerList.Add(new Layer("Layer #7", 32, 32, 32, 32));
+
+            this.LayerList.Add(new Layer("Layer #3", 32, 32, 32, 32));
+            this.LayerList.Add(new Layer("Layer #4", 32, 32, 32, 32));
+            this.LayerList.Add(new Layer("Layer #5", 32, 32, 32, 32));
+            this.LayerList.Add(new Layer("Layer #6", 32, 32, 32, 32));
 
             this.eventAggregator.GetEvent<NewLayerEvent>().Subscribe(AddTilesetLayerMessage);
             this.eventAggregator.GetEvent<EditLayerEvent>().Subscribe(EditLayerMessageRecieved);
@@ -127,13 +127,11 @@ namespace Ame.Modules.Docks.LayerListDock
 
         public void NewTilesetLayer()
         {
-            // TODO pass layer count
-            OpenWindowMessage openWindowMessage = new OpenWindowMessage(WindowType.Layer);
-
-            openWindowMessage.WindowTitle = "New Layer";
             int layerCount = GetLayerCount() + 1;
             String newLayerName = String.Format("Layer #{0}", layerCount);
 
+            OpenWindowMessage openWindowMessage = new OpenWindowMessage(WindowType.Layer);
+            openWindowMessage.WindowTitle = "New Layer";
             openWindowMessage.Content = new Layer(newLayerName, 32, 32, 32, 32);
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(openWindowMessage);
         }
