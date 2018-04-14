@@ -157,6 +157,7 @@ namespace Ame.Modules.Docks
 
         #region methods
 
+        // TODO add style and template selecter, similar to docks
         private void OpenDock(OpenDockMessage message)
         {
             IUnityContainer container;
@@ -198,9 +199,16 @@ namespace Ame.Modules.Docks
                     break;
 
                 case WindowType.Layer:
-                    notification = NewLayerWindow();
+                    notification = NewLayerWindow(message.Content as Layer);
                     notification.Title = notificationTitle;
-                    this.layerWindowInteraction.Raise(notification, OnLayerWindowClosed);
+                    if (notificationTitle != "Edit Layer")
+                    {
+                        this.layerWindowInteraction.Raise(notification, OnLayerWindowClosed);
+                    }
+                    else
+                    {
+                        this.layerWindowInteraction.Raise(notification, OnLayerEditWindowClosed);
+                    }
                     break;
 
                 default:
@@ -218,13 +226,13 @@ namespace Ame.Modules.Docks
             return mapConfirmation;
         }
 
-        private INotification NewLayerWindow()
+        private INotification NewLayerWindow(Layer layer)
         {
             this.LayerWindowView = new LayerEditor();
             RaisePropertyChanged(nameof(this.LayerWindowView));
-
+            
             Confirmation layerWindowConfirmation = new Confirmation();
-            layerWindowConfirmation.Content = new Layer("Layer #1", 32, 32, 32, 32);
+            layerWindowConfirmation.Content = layer;
             return layerWindowConfirmation;
         }
 
@@ -252,8 +260,20 @@ namespace Ame.Modules.Docks
             {
                 Layer layerModel = confirmation.Content as Layer;
 
-                NewLayerMessage openEditorMessage = new NewLayerMessage(layerModel);
-                this.eventAggregator.GetEvent<NewLayerEvent>().Publish(openEditorMessage);
+                NewLayerMessage newLayerMessage = new NewLayerMessage(layerModel);
+                this.eventAggregator.GetEvent<NewLayerEvent>().Publish(newLayerMessage);
+            }
+        }
+
+        private void OnLayerEditWindowClosed(INotification notification)
+        {
+            IConfirmation confirmation = notification as IConfirmation;
+            if (confirmation.Confirmed)
+            {
+                Layer layerModel = confirmation.Content as Layer;
+
+                EditLayerMessage editLayerMessage = new EditLayerMessage(layerModel);
+                this.eventAggregator.GetEvent<EditLayerEvent>().Publish(editLayerMessage);
             }
         }
 

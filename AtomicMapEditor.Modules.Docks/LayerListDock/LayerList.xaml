@@ -74,6 +74,13 @@
                                 ImageStretch="None">
             </extcomp:IconButton>
 
+            <extcomp:IconButton x:Name="EditLayerButton"
+                                ToolTip="Edit: Edit the current layer"
+                                Command="{Binding EditPropertiesCommand}"
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                ImageStretch="None">
+            </extcomp:IconButton>
+
             <extcomp:IconButton x:Name="DuplicateLayerButton"
                                 ToolTip="Duplicate: Duplicates the current layer"
                                 Command="{Binding DuplicateLayerCommand}"

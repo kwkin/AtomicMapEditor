@@ -4,6 +4,7 @@ using System.Windows.Input;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Models;
+using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
 
@@ -59,14 +60,14 @@ namespace Ame.Modules.Docks.LayerListDock
             //layerGroupLayers.Add(new Layer("Layer #6", 32, 32, 32, 32));
             //this.LayerList.Add(new LayerGroup("Layer Group #1", layerGroupLayers));
             //this.LayerList.Add(new Layer("Layer #7", 32, 32, 32, 32));
-
-
-            this.LayerList.Add(new Layer("Layer #3", 32, 32, 32, 32));
-            this.LayerList.Add(new Layer("Layer #4", 32, 32, 32, 32));
-            this.LayerList.Add(new Layer("Layer #5", 32, 32, 32, 32));
-            this.LayerList.Add(new Layer("Layer #6", 32, 32, 32, 32));
+            
+            //this.LayerList.Add(new Layer("Layer #3", 32, 32, 32, 32));
+            //this.LayerList.Add(new Layer("Layer #4", 32, 32, 32, 32));
+            //this.LayerList.Add(new Layer("Layer #5", 32, 32, 32, 32));
+            //this.LayerList.Add(new Layer("Layer #6", 32, 32, 32, 32));
 
             this.eventAggregator.GetEvent<NewLayerEvent>().Subscribe(AddTilesetLayerMessage);
+            this.eventAggregator.GetEvent<EditLayerEvent>().Subscribe(EditLayerMessageRecieved);
         }
 
         #endregion constructor & destructer
@@ -110,6 +111,14 @@ namespace Ame.Modules.Docks.LayerListDock
             AddTilesetLayer(message.Layer);
         }
 
+        public void EditLayerMessageRecieved(EditLayerMessage message)
+        {
+            Layer editedLayer = message.Layer;
+            int currentLayerIndex = this.LayerList.IndexOf(this.CurrentLayer);
+            this.LayerList.RemoveAt(currentLayerIndex);
+            this.LayerList.Insert(currentLayerIndex, editedLayer);
+        }
+
         public void AddTilesetLayer(Layer layer)
         {
             this.LayerList.Add(layer);
@@ -118,16 +127,22 @@ namespace Ame.Modules.Docks.LayerListDock
 
         public void NewTilesetLayer()
         {
-            OpenWindowMessage window = new OpenWindowMessage(WindowType.Layer);
-            window.WindowTitle = "New Layer";
-            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(window);
+            // TODO pass layer count
+            OpenWindowMessage openWindowMessage = new OpenWindowMessage(WindowType.Layer);
+
+            openWindowMessage.WindowTitle = "New Layer";
+            int layerCount = GetLayerCount() + 1;
+            String newLayerName = String.Format("Layer #{0}", layerCount);
+
+            openWindowMessage.Content = new Layer(newLayerName, 32, 32, 32, 32);
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(openWindowMessage);
         }
 
         public void NewLayerGroup()
         {
             int layerGroupCount = GetLayerGroupCount() + 1;
-            String newLayerName = String.Format("Layer Group #{0}", layerGroupCount);
-            this.LayerList.Add(new LayerGroup(newLayerName));
+            String newLayerGroupName = String.Format("Layer Group #{0}", layerGroupCount);
+            this.LayerList.Add(new LayerGroup(newLayerGroupName));
         }
 
         public void MergeLayerDown()
@@ -172,7 +187,10 @@ namespace Ame.Modules.Docks.LayerListDock
 
         public void EditProperties()
         {
-            Console.WriteLine("Edit Properties");
+            OpenWindowMessage openWindowMessage = new OpenWindowMessage(WindowType.Layer);
+            openWindowMessage.WindowTitle = "Edit Layer";
+            openWindowMessage.Content = this.CurrentLayer;
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(openWindowMessage);
         }
 
         public void ShowLayer()
@@ -203,7 +221,7 @@ namespace Ame.Modules.Docks.LayerListDock
         private int GetLayerGroupCount()
         {
             int layerGroupCount = 0;
-            foreach (ILayer layer in LayerList)
+            foreach (ILayer layer in this.LayerList)
             {
                 if (layer is LayerGroup)
                 {
@@ -216,7 +234,7 @@ namespace Ame.Modules.Docks.LayerListDock
         private int GetLayerCount()
         {
             int layerCount = 0;
-            foreach (ILayer layer in LayerList)
+            foreach (ILayer layer in this.LayerList)
             {
                 if (layer is Layer)
                 {

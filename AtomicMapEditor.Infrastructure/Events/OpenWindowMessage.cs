@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using Microsoft.Practices.Unity;
 
 namespace Ame.Infrastructure.Events
 {
@@ -37,6 +38,8 @@ namespace Ame.Infrastructure.Events
         public Window Parent { get; set; }
         public WindowType WindowType { get; set; }
         public String WindowTitle { get; set; }
+        public object Content { get; set; }
+        public IUnityContainer Container { get; set; }
 
         #endregion Properties
 
