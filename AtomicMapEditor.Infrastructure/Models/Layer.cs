@@ -5,6 +5,7 @@ using System.Windows.Media.Imaging;
 
 namespace Ame.Infrastructure.Models
 {
+    // TODO add serialization
     public class Layer : ILayer
     {
         #region fields

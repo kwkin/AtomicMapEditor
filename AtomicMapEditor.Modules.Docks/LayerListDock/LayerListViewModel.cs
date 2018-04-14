@@ -47,21 +47,24 @@ namespace Ame.Modules.Docks.LayerListDock
 
             this.LayerList = new ObservableCollection<ILayer>();
 
-            //this.LayerList.Add(new Layer("Layer #1", 32, 32, 32, 32));
-            //this.LayerList.Add(new Layer("Layer #2", 32, 32, 32, 32));
+            this.LayerList.Add(new Layer("Layer #1", 32, 32, 32, 32));
+            this.LayerList.Add(new Layer("Layer #2", 32, 32, 32, 32));
 
             //ObservableCollection<ILayer> layerGroupLayers = new ObservableCollection<ILayer>();
             //layerGroupLayers.Add(new Layer("Layer #3", 32, 32, 32, 32));
-
             //ObservableCollection<ILayer> layerGroupLayers2 = new ObservableCollection<ILayer>();
             //layerGroupLayers2.Add(new Layer("Layer #4", 32, 32, 32, 32));
             //layerGroupLayers2.Add(new Layer("Layer #5", 32, 32, 32, 32));
             //layerGroupLayers.Add(new LayerGroup("Layer Group #2", layerGroupLayers2));
-
             //layerGroupLayers.Add(new Layer("Layer #6", 32, 32, 32, 32));
             //this.LayerList.Add(new LayerGroup("Layer Group #1", layerGroupLayers));
-
             //this.LayerList.Add(new Layer("Layer #7", 32, 32, 32, 32));
+
+
+            this.LayerList.Add(new Layer("Layer #3", 32, 32, 32, 32));
+            this.LayerList.Add(new Layer("Layer #4", 32, 32, 32, 32));
+            this.LayerList.Add(new Layer("Layer #5", 32, 32, 32, 32));
+            this.LayerList.Add(new Layer("Layer #6", 32, 32, 32, 32));
 
             this.eventAggregator.GetEvent<NewLayerEvent>().Subscribe(AddTilesetLayerMessage);
         }
@@ -139,22 +142,32 @@ namespace Ame.Modules.Docks.LayerListDock
 
         public void MoveLayerDown()
         {
-            Console.WriteLine("Move layer down: ");
+            int currentLayerIndex = this.LayerList.IndexOf(this.CurrentLayer);
+            if (currentLayerIndex < this.LayerList.Count - 1)
+            {
+                this.LayerList.Move(currentLayerIndex, currentLayerIndex + 1);
+            }
         }
 
         public void MoveLayerUp()
         {
-            Console.WriteLine("Move layer up");
+            int currentLayerIndex = this.LayerList.IndexOf(this.CurrentLayer);
+            if (currentLayerIndex > 0)
+            {
+                this.LayerList.Move(currentLayerIndex, currentLayerIndex - 1);
+            }
         }
 
         public void DuplicateLayer()
         {
-            Console.WriteLine("Duplicate layer");
+            int currentLayerIndex = this.LayerList.IndexOf(this.CurrentLayer);
+            Layer layerCopy = Infrastructure.Utils.Utils.DeepClone<Layer>(this.CurrentLayer);
+            this.LayerList.Insert(currentLayerIndex + 1, layerCopy);
         }
 
         public void RemoveLayer()
         {
-            Console.WriteLine("Remove layer");
+            this.LayerList.Remove(this.CurrentLayer);
         }
 
         public void EditProperties()
@@ -181,12 +194,7 @@ namespace Ame.Modules.Docks.LayerListDock
         {
             Console.WriteLine("Layer To Map Size");
         }
-
-        public void NewLayer()
-        {
-            Console.WriteLine("New layer");
-        }
-
+        
         public void CurrentLayerChanged(Layer layer)
         {
             this.CurrentLayer = layer;
