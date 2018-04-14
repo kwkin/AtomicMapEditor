@@ -95,6 +95,7 @@
     <Compile Include="BaseTypes\DockViewModelTemplate.cs" />
     <Compile Include="BaseTypes\GridModel.cs" />
     <Compile Include="BaseTypes\SetPropertyAction.cs" />
+    <Compile Include="Converters\ViewComponentConverter.cs" />
     <Compile Include="Core\Global.cs" />
     <Compile Include="Events\EditLayerEvent.cs" />
     <Compile Include="Events\EditLayerMessage.cs" />

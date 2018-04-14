@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Globalization;
-using System.Windows;
 using System.Windows.Data;
-using System.Windows.Input;
+
 
 namespace Ame.Infrastructure.Converters
 {
-    public class MouseEventToPointConverter : IValueConverter
+    public class ViewComponentConverter : IValueConverter
     {
         #region fields
 
@@ -27,11 +26,7 @@ namespace Ame.Infrastructure.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var args = value as MouseEventArgs;
-            var element = parameter as FrameworkElement;
-
-            var point = args.GetPosition(element);
-            return point;
+            return parameter;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
