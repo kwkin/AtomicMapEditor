@@ -17,11 +17,23 @@
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Add Directory..."
-                  Command="{Binding AddDirectoryCommand}" />
+                  Command="{Binding AddDirectoryCommand}">
+            <MenuItem.Icon>
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_folder_download_black_24dp.png" />
+            </MenuItem.Icon>
+        </MenuItem>
         <MenuItem Header="Add Group..."
-                  Command="{Binding AddGroupCommand}" />
+                  Command="{Binding AddGroupCommand}">
+            <MenuItem.Icon>
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_folder_plus_black_24dp.png" />
+            </MenuItem.Icon>
+        </MenuItem>
         <MenuItem Header="Remove Item"
-                  Command="{Binding RemoveItemCommand}" />
+                  Command="{Binding RemoveItemCommand}">
+            <MenuItem.Icon>
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_delete_black_24dp.png" />
+            </MenuItem.Icon>
+        </MenuItem>
         <Separator />
         <MenuItem Header="Sort">
             <MenuItem Header="Name"
@@ -45,10 +57,21 @@
                   Command="{Binding ShowImagesCommand}" />
         <Separator />
         <MenuItem Header="Zoom In"
-                  Command="{Binding ZoomInCommand}" />
+                  Command="{Binding ZoomInCommand}">
+            <MenuItem.Icon>
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_magnify_plus_black_24dp.png" />
+            </MenuItem.Icon>
+        </MenuItem>
         <MenuItem Header="Zoom Out"
-                  Command="{Binding ZoomOutCommand}" />
+                  Command="{Binding ZoomOutCommand}">
+            <MenuItem.Icon>
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_magnify_minus_black_24dp.png" />
+            </MenuItem.Icon>
+        </MenuItem>
         <MenuItem Header="Image Size">
+            <MenuItem.Icon>
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_magnify_black_24dp.png" />
+            </MenuItem.Icon>
             <MenuItem Header="Very Large (500x500px)"
                       Command="{Binding SetImageSizeCommand}" />
             <MenuItem Header="Large (250x250px)"
@@ -73,9 +96,17 @@
     <x:Array Type="{x:Type sys:Object}"
              x:Key="ItemEntryContextMenu">
         <MenuItem Header="View Properties..."
-                  Command="{Binding ViewPropertiesCommand}" />
+                  Command="{Binding ViewPropertiesCommand}">
+            <MenuItem.Icon>
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_eye_black_24dp.png" />
+            </MenuItem.Icon>
+        </MenuItem>
         <MenuItem Header="Edit Collisions..."
-                  Command="{Binding EditCollisionsCommand}" />
+                  Command="{Binding EditCollisionsCommand}">
+            <MenuItem.Icon>
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_collisions_black_24dp.png" />
+            </MenuItem.Icon>
+        </MenuItem>
         <MenuItem Header="Rename..."
                   Command="{Binding RenameItemCommand}" />
     </x:Array>

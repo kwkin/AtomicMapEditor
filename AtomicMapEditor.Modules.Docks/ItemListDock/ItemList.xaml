@@ -36,31 +36,31 @@
             <extcomp:IconButton x:Name="addTilesetButton"
                                 Grid.Column="0"
                                 ToolTip="Add Tileset"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_note_add_black_24dp.png">
             </extcomp:IconButton>
 
             <extcomp:IconButton x:Name="addImageButton"
                                 Grid.Column="1"
                                 ToolTip="Add Image"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_image_black_24dp.png">
             </extcomp:IconButton>
 
             <extcomp:IconToggleButton x:Name="showImagesToggleButton"
                                       Grid.Column="2"
                                       ToolTip="Edit Collisions"
-                                      ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
+                                      ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_eye_black_24dp.png">
             </extcomp:IconToggleButton>
 
             <extcomp:IconToggleButton x:Name="showTilesetsToggleButton"
                                       Grid.Column="3"
                                       ToolTip="Crop"
-                                      ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
+                                      ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_grid_black_24dp.png">
             </extcomp:IconToggleButton>
 
             <extcomp:IconButton x:Name="viewPropertiesButton"
                                 Grid.Column="4"
                                 ToolTip="Edit Properties"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_eye_black_24dp.png">
             </extcomp:IconButton>
 
             <TextBox x:Name="itemListComboBox"
