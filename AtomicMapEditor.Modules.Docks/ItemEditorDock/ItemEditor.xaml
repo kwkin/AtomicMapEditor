@@ -49,35 +49,35 @@
                                 Grid.Column="0"
                                 ToolTip="Add a tileset"
                                 Command="{Binding AddTilesetCommand}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_note_add_black_24dp.png">
             </extcomp:IconButton>
 
             <extcomp:IconButton x:Name="addImageButton"
                                 Grid.Column="1"
                                 ToolTip="Add an image"
                                 Command="{Binding AddImageCommand}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_image_black_24dp.png">
             </extcomp:IconButton>
 
             <extcomp:IconButton x:Name="editCollisionsButton"
                                 Grid.Column="2"
                                 ToolTip="Open the item in the collision editor"
                                 Command="{Binding EditCollisionsCommand}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_grid_black_24dp.png">
             </extcomp:IconButton>
 
             <extcomp:IconButton x:Name="cropButton"
                                 Grid.Column="3"
                                 ToolTip="Open the item in the crop editor"
                                 Command="{Binding CropCommand}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_crop_black_24dp.png">
             </extcomp:IconButton>
 
             <extcomp:IconButton x:Name="viewPropertiesButton"
                                 Grid.Column="4"
                                 ToolTip="View the item's properties"
                                 Command="{Binding EditCollisionsCommand}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_eye_black_24dp.png">
             </extcomp:IconButton>
 
             <ComboBox x:Name="itemListComboBox"

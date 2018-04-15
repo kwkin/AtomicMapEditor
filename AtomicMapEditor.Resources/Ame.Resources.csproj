@@ -43,8 +43,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Icons\ic_arrow_collapse_down_black_24dp.png" />
-    <Resource Include="Icons\ic_arrow_collapse_up_black_24dp.png" />
+    <Resource Include="Icons\ic_merge_down_black_24dp.png" />
+    <Resource Include="Icons\ic_merge_up_black_24dp.png" />
     <Resource Include="Icons\ic_arrow_down_black_24dp.png" />
     <Resource Include="Icons\ic_arrow_up_black_24dp.png" />
     <Resource Include="Icons\ic_content_copy_black_24dp.png" />
@@ -68,12 +68,12 @@
     <Resource Include="Icons\ic_arrow_expand_all_black_24dp.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Icons\ic_bitbucket_black_24dp.png" />
+    <Resource Include="Icons\ic_fill_black_24dp.png" />
     <Resource Include="Icons\ic_border_all_black_24dp.png" />
     <Resource Include="Icons\ic_brush_black_24dp.png" />
     <Resource Include="Icons\ic_eyedropper_variant_black_24dp.png" />
     <Resource Include="Icons\ic_pencil_black_24dp.png" />
-    <Resource Include="Icons\ic_square_inc_black_24dp.png" />
+    <Resource Include="Icons\ic_collisions_black_24dp.png" />
     <Resource Include="Icons\ic_vector_circle_black_24dp.png" />
     <Resource Include="Icons\ic_vector_polygon_black_24dp.png" />
     <Resource Include="Icons\ic_vector_square_black_24dp.png" />
@@ -83,10 +83,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Icons\ic_eraser_black_24dp.png" />
-    <Resource Include="Icons\ic_grid_black_24dp.png" />
     <Resource Include="Icons\ic_layers_black_24dp.png" />
     <Resource Include="Icons\ic_play_black_24dp.png" />
     <Resource Include="Icons\ic_repeat_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\ic_image_black_24dp.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

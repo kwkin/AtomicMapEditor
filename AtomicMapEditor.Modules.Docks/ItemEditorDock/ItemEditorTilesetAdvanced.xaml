@@ -8,7 +8,9 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=Ame.Components"
              xmlns:basetype="clr-namespace:Ame.Infrastructure.BaseTypes;assembly=Ame.Infrastructure"
-             mc:Ignorable="d">
+             mc:Ignorable="d"
+             d:DesignHeight="210"
+             d:DesignWidth="300">
 
     <Grid VerticalAlignment="Top"
           MinHeight="210">
@@ -49,7 +51,7 @@
                             Grid.Row="1"
                             HorizontalAlignment="Left"
                             ToolTip="Delete Tileset"
-                            ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
+                            ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_delete_black_24dp.png">
         </extcomp:IconButton>
         <Label x:Name="sourceLabel"
                Grid.Row="1"
@@ -83,7 +85,7 @@
             <extcomp:IconToggleButton x:Name="pickerButton"
                                       ToolTip="Select a transparency color"
                                       IsChecked="{Binding IsSelectingTransparency}"
-                                      ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                      ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_eyedropper_variant_black_24dp.png"
                                       ImageStretch="None">
             </extcomp:IconToggleButton>
             <xctk:ColorPicker x:Name="transparencyColorPicker"
