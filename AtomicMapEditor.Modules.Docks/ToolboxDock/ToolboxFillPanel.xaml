@@ -19,17 +19,17 @@
         <WrapPanel Grid.Row="0">
             <extcomp:IconButton x:Name="eraserButton"
                                 ToolTip="Eraser: Erase tiles using the brush settings"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_eraser_black_24dp.png"
                                 ImageStretch="None">
             </extcomp:IconButton>
             <extcomp:IconButton x:Name="snapToGridButton"
                                 ToolTip="Snap to Grid: Snaps the tile to the grid"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_grid_black_24dp.png"
                                 ImageStretch="None">
             </extcomp:IconButton>
             <extcomp:IconButton x:Name="editAllLayersButton"
                                 ToolTip="Edit All Layers: Affect all visible layers"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_layers_black_24dp.png"
                                 ImageStretch="None">
             </extcomp:IconButton>
         </WrapPanel>

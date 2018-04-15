@@ -27,7 +27,7 @@
                                      Command="{Binding ToolButtonCommand}"
                                      CommandParameter="Stamp"
                                      Style="{StaticResource {x:Type ToggleButton}}"
-                                     ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                     ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_pencil_black_24dp.png"
                                      ImageStretch="None">
             </extcomp:IconRadioButton>
 
@@ -37,7 +37,7 @@
                                      Command="{Binding ToolButtonCommand}"
                                      CommandParameter="Brush"
                                      Style="{StaticResource {x:Type ToggleButton}}"
-                                     ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                     ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_brush_black_24dp.png"
                                      ImageStretch="None">
             </extcomp:IconRadioButton>
 
@@ -47,7 +47,7 @@
                                      Command="{Binding ToolButtonCommand}"
                                      CommandParameter="Select"
                                      Style="{StaticResource {x:Type ToggleButton}}"
-                                     ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                     ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_hand_black_24dp.png"
                                      ImageStretch="None">
             </extcomp:IconRadioButton>
 
@@ -57,7 +57,7 @@
                                      Command="{Binding ToolButtonCommand}"
                                      CommandParameter="Fill"
                                      Style="{StaticResource {x:Type ToggleButton}}"
-                                     ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                     ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_bitbucket_black_24dp.png"
                                      ImageStretch="None">
             </extcomp:IconRadioButton>
 
@@ -67,7 +67,7 @@
                                      Command="{Binding ToolButtonCommand}"
                                      CommandParameter="Picker"
                                      Style="{StaticResource {x:Type ToggleButton}}"
-                                     ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                     ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_eyedropper_variant_black_24dp.png"
                                      ImageStretch="None">
             </extcomp:IconRadioButton>
 
@@ -77,7 +77,7 @@
                                      Command="{Binding ToolButtonCommand}"
                                      CommandParameter="Circle Selection"
                                      Style="{StaticResource {x:Type ToggleButton}}"
-                                     ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                     ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_vector_circle_black_24dp.png"
                                      ImageStretch="None">
             </extcomp:IconRadioButton>
 
@@ -87,7 +87,7 @@
                                      Command="{Binding ToolButtonCommand}"
                                      CommandParameter="Rectangular Selection"
                                      Style="{StaticResource {x:Type ToggleButton}}"
-                                     ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                     ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_vector_square_black_24dp.png"
                                      ImageStretch="None">
             </extcomp:IconRadioButton>
 
@@ -97,7 +97,7 @@
                                      Command="{Binding ToolButtonCommand}"
                                      CommandParameter="Tile Selection"
                                      Style="{StaticResource {x:Type ToggleButton}}"
-                                     ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                     ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_border_all_black_24dp.png"
                                      ImageStretch="None">
             </extcomp:IconRadioButton>
 
@@ -107,7 +107,7 @@
                                      Command="{Binding ToolButtonCommand}"
                                      CommandParameter="Free Selection"
                                      Style="{StaticResource {x:Type ToggleButton}}"
-                                     ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                     ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_vector_polygon_black_24dp.png"
                                      ImageStretch="None">
             </extcomp:IconRadioButton>
 
@@ -117,7 +117,7 @@
                                      Command="{Binding ToolButtonCommand}"
                                      CommandParameter="Tile Collision"
                                      Style="{StaticResource {x:Type ToggleButton}}"
-                                     ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                     ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_square_inc_black_24dp.png"
                                      ImageStretch="None">
             </extcomp:IconRadioButton>
         </WrapPanel>
