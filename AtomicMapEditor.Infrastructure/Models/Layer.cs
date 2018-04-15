@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -6,12 +8,13 @@ using System.Windows.Media.Imaging;
 namespace Ame.Infrastructure.Models
 {
     // TODO add serialization
-    public class Layer : ILayer
+    public class Layer : ILayer, INotifyPropertyChanged
     {
         #region fields
 
         private List<Tile> occupiedTiles;
         private DrawingGroup imageDrawings;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion fields
 
@@ -49,7 +52,23 @@ namespace Ame.Infrastructure.Models
 
         #region properties
 
-        public string LayerName { get; set; }
+        // TODO: check is the other properties need to implement this when editing properties
+        public string layerName { get; set; }
+        public string LayerName
+        {
+            get
+            {
+                return this.layerName;
+            }
+            set
+            {
+                if (this.layerName != value)
+                {
+                    this.layerName = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
         public bool IsImmutable { get; set; }
         public bool IsVisible { get; set; }
         public int TileWidth { get; set; }
@@ -113,6 +132,14 @@ namespace Ame.Infrastructure.Models
             this.imageDrawings = new DrawingGroup();
             this.imageDrawings.Children.Add(aGeometryDrawing);
             this.LayerItems = new DrawingImage(this.imageDrawings);
+        }
+
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
 
         #endregion methods

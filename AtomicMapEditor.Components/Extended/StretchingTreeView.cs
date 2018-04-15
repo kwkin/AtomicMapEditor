@@ -33,7 +33,7 @@ namespace Ame.Components.Extended
             }
         }
 
-        static TreeViewItem VisualUpwardSearch(DependencyObject source)
+        private static TreeViewItem VisualUpwardSearch(DependencyObject source)
         {
             while (source != null && !(source is TreeViewItem))
                 source = VisualTreeHelper.GetParent(source);

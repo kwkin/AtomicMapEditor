@@ -201,13 +201,16 @@ namespace Ame.Modules.Docks
                 case WindowType.Layer:
                     notification = NewLayerWindow(message.Content as Layer);
                     notification.Title = notificationTitle;
+
+                    // TODO do not rely on the title name
+                    // TODO establish a better messaging system
                     if (notificationTitle != "Edit Layer")
                     {
                         this.layerWindowInteraction.Raise(notification, OnLayerWindowClosed);
                     }
                     else
                     {
-                        this.layerWindowInteraction.Raise(notification, OnLayerEditWindowClosed);
+                        this.layerWindowInteraction.Raise(notification);
                     }
                     break;
 
@@ -262,18 +265,6 @@ namespace Ame.Modules.Docks
 
                 NewLayerMessage newLayerMessage = new NewLayerMessage(layerModel);
                 this.eventAggregator.GetEvent<NewLayerEvent>().Publish(newLayerMessage);
-            }
-        }
-
-        private void OnLayerEditWindowClosed(INotification notification)
-        {
-            IConfirmation confirmation = notification as IConfirmation;
-            if (confirmation.Confirmed)
-            {
-                Layer layerModel = confirmation.Content as Layer;
-
-                EditLayerMessage editLayerMessage = new EditLayerMessage(layerModel);
-                this.eventAggregator.GetEvent<EditLayerEvent>().Publish(editLayerMessage);
             }
         }
 

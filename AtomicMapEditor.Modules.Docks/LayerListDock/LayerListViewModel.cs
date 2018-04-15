@@ -68,7 +68,6 @@ namespace Ame.Modules.Docks.LayerListDock
             //this.LayerList.Add(new Layer("Layer #6", 32, 32, 32, 32));
 
             this.eventAggregator.GetEvent<NewLayerEvent>().Subscribe(AddTilesetLayerMessage);
-            this.eventAggregator.GetEvent<EditLayerEvent>().Subscribe(EditLayerMessageRecieved);
         }
 
         #endregion constructor & destructer
@@ -112,19 +111,9 @@ namespace Ame.Modules.Docks.LayerListDock
             AddTilesetLayer(message.Layer);
         }
 
-        public void EditLayerMessageRecieved(EditLayerMessage message)
-        {
-            Layer editedLayer = message.Layer;
-            int currentLayerIndex = this.LayerList.IndexOf(this.CurrentLayer);
-            this.LayerList[currentLayerIndex] = editedLayer;
-            this.CurrentLayer = editedLayer;
-            CollectionViewSource.GetDefaultView(this.LayerList).Refresh();
-        }
-
         public void AddTilesetLayer(Layer layer)
         {
             this.LayerList.Add(layer);
-            RaisePropertyChanged(nameof(this.LayerList));
         }
 
         public void NewTilesetLayer()
