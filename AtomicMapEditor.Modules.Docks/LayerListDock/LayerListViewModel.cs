@@ -45,12 +45,12 @@ namespace Ame.Modules.Docks.LayerListDock
             this.EditPropertiesCommand = new DelegateCommand(() => EditProperties());
             this.EditCollisionsCommand = new DelegateCommand(() => EditCollisions());
             this.LayerToMapSizeCommand = new DelegateCommand(() => LayerToMapSize());
-            this.CurrentLayerChangedCommand = new DelegateCommand<object>((currentLayer) => CurrentLayerChanged((Layer)currentLayer));
+            this.CurrentLayerChangedCommand = new DelegateCommand<object>((currentLayer) => CurrentLayerChanged((ILayer)currentLayer));
 
             this.LayerList = new ObservableCollection<ILayer>();
 
-            //this.LayerList.Add(new Layer("Layer #1", 32, 32, 32, 32));
-            //this.LayerList.Add(new Layer("Layer #2", 32, 32, 32, 32));
+            this.LayerList.Add(new Layer("Layer #1", 32, 32, 32, 32));
+            this.LayerList.Add(new Layer("Layer #2", 32, 32, 32, 32));
 
             //ObservableCollection<ILayer> layerGroupLayers = new ObservableCollection<ILayer>();
             //layerGroupLayers.Add(new Layer("Layer #3", 32, 32, 32, 32));
@@ -99,7 +99,7 @@ namespace Ame.Modules.Docks.LayerListDock
         }
 
         public ObservableCollection<ILayer> LayerList { get; set; }
-        public Layer CurrentLayer { get; set; }
+        public ILayer CurrentLayer { get; set; }
 
         #endregion properties
 
@@ -147,7 +147,7 @@ namespace Ame.Modules.Docks.LayerListDock
         public void MoveLayerDown()
         {
             int currentLayerIndex = this.LayerList.IndexOf(this.CurrentLayer);
-            if (currentLayerIndex < this.LayerList.Count - 1)
+            if (currentLayerIndex < this.LayerList.Count - 1 && currentLayerIndex >= 0)
             {
                 this.LayerList.Move(currentLayerIndex, currentLayerIndex + 1);
             }
@@ -164,18 +164,24 @@ namespace Ame.Modules.Docks.LayerListDock
 
         public void DuplicateLayer()
         {
-            int currentLayerIndex = this.LayerList.IndexOf(this.CurrentLayer);
-            Layer layerCopy = Infrastructure.Utils.Utils.DeepClone<Layer>(this.CurrentLayer);
-            this.LayerList.Insert(currentLayerIndex + 1, layerCopy);
+            Console.WriteLine("Duplicate layer");
         }
 
         public void RemoveLayer()
         {
+            if (this.CurrentLayer == null)
+            {
+                return;
+            }
             this.LayerList.Remove(this.CurrentLayer);
         }
 
         public void EditProperties()
         {
+            if (this.CurrentLayer == null)
+            {
+                return;
+            }
             OpenWindowMessage openWindowMessage = new OpenWindowMessage(WindowType.Layer);
             openWindowMessage.WindowTitle = "Edit Layer";
             openWindowMessage.Content = this.CurrentLayer;
@@ -202,7 +208,7 @@ namespace Ame.Modules.Docks.LayerListDock
             Console.WriteLine("Layer To Map Size");
         }
         
-        public void CurrentLayerChanged(Layer layer)
+        public void CurrentLayerChanged(ILayer layer)
         {
             this.CurrentLayer = layer;
         }

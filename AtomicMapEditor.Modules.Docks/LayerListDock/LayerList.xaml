@@ -41,63 +41,63 @@
             <extcomp:IconButton x:Name="NewLayerButton"
                                 ToolTip="New Layer: Adds a new tileset layer"
                                 Command="{Binding NewLayerCommand}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_plus_box_black_24dp.png"
                                 ImageStretch="None">
             </extcomp:IconButton>
 
             <extcomp:IconButton x:Name="AddLayerGroupButton"
                                 ToolTip="Add Group: Adds a new layer group"
                                 Command="{Binding NewLayerGroupCommand}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_folder_plus_black_24dp.png"
                                 ImageStretch="None">
             </extcomp:IconButton>
 
             <extcomp:IconButton x:Name="MergeLayerDownButton"
                                 ToolTip="Merge Down: Merges the current layer and below layer"
                                 Command="{Binding MergeLayerDownCommand}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_arrow_collapse_down_black_24dp.png"
                                 ImageStretch="None">
             </extcomp:IconButton>
 
             <extcomp:IconButton x:Name="MergeLayerUpButton"
                                 ToolTip="Merge Up: Merges the current layer and above layer"
                                 Command="{Binding MergeLayerUpCommand}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_arrow_collapse_up_black_24dp.png"
                                 ImageStretch="None">
             </extcomp:IconButton>
 
             <extcomp:IconButton x:Name="MoveLayerDownButton"
                                 ToolTip="Move Down: Moves the layer up on the layers order"
                                 Command="{Binding MoveLayerDownCommand}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_arrow_down_black_24dp.png"
                                 ImageStretch="None">
             </extcomp:IconButton>
 
             <extcomp:IconButton x:Name="MoveLayerUpButton"
                                 ToolTip="Move Up: Moves the layer up on the layers order"
                                 Command="{Binding MoveLayerUpCommand}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_arrow_up_black_24dp.png"
                                 ImageStretch="None">
             </extcomp:IconButton>
 
             <extcomp:IconButton x:Name="EditLayerButton"
                                 ToolTip="Edit: Edit the current layer"
                                 Command="{Binding EditPropertiesCommand}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_square_edit_outline_black_24dp.png"
                                 ImageStretch="None">
             </extcomp:IconButton>
 
             <extcomp:IconButton x:Name="DuplicateLayerButton"
                                 ToolTip="Duplicate: Duplicates the current layer"
                                 Command="{Binding DuplicateLayerCommand}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_content_copy_black_24dp.png"
                                 ImageStretch="None">
             </extcomp:IconButton>
 
             <extcomp:IconButton x:Name="RemoveLayerButton"
                                 ToolTip="Remove: Removes the layer"
                                 Command="{Binding RemoveLayerCommand}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_delete_black_24dp.png"
                                 ImageStretch="None">
             </extcomp:IconButton>
         </WrapPanel>

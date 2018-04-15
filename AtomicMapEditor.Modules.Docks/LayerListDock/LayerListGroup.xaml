@@ -31,13 +31,13 @@
                         Grid.Column="0">
                 <extcomp:IconToggleButton x:Name="showLayerToggleButton"
                                           ToolTip="Show: Toggles the layer display"
-                                          ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                          ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_eye_black_24dp.png"
                                           Command="{Binding AddTilesetLayerCommand}">
                 </extcomp:IconToggleButton>
 
                 <extcomp:IconToggleButton x:Name="lockLayerToggleButton"
                                           ToolTip="Lock: Prevents the layer from being moved and edited"
-                                          ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                                          ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_lock_black_24dp.png"
                                           Command="{Binding AddTilesetLayerCommand}">
                 </extcomp:IconToggleButton>
             </StackPanel>

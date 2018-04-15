@@ -66,7 +66,7 @@ namespace Ame.Modules.Menu.Options
             this.NewGroupCommand = new DelegateCommand(() => NewGroup());
             this.DuplicateLayerCommand = new DelegateCommand(() => DuplicateLayer());
             this.MergeLayerDownCommand = new DelegateCommand(() => MergeLayerDown());
-            this.MergeLayerUpCommand = new DelegateCommand(() => MergeLayerUpMap());
+            this.MergeLayerUpCommand = new DelegateCommand(() => MergeLayerUp());
             this.MergeVisibleCommand = new DelegateCommand(() => MergeVisible());
             this.DeleteLayerCommand = new DelegateCommand(() => DeleteLayer());
             this.EditLayerPropertiesCommand = new DelegateCommand(() => EditLayerProperties());
@@ -346,9 +346,10 @@ namespace Ame.Modules.Menu.Options
 
         public void NewLayer()
         {
-            OpenWindowMessage window = new OpenWindowMessage(WindowType.Layer);
-            window.WindowTitle = "New Layer";
-            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(window);
+            Console.WriteLine("New Layer");
+            //OpenWindowMessage window = new OpenWindowMessage(WindowType.Layer);
+            //window.WindowTitle = "New Layer";
+            //this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(window);
         }
 
         public void NewGroup()
@@ -366,7 +367,7 @@ namespace Ame.Modules.Menu.Options
             Console.WriteLine("Merge Layer Down");
         }
 
-        public void MergeLayerUpMap()
+        public void MergeLayerUp()
         {
             Console.WriteLine("Merge Layer Up");
         }

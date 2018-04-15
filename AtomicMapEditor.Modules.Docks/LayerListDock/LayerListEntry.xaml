@@ -24,13 +24,13 @@
             <extcomp:IconToggleButton x:Name="showLayerToggleButton"
                                       ToolTip="Show: Toggles the layer display"
                                       Command="{Binding AddTilesetLayerCommand}"
-                                      ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
+                                      ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_eye_black_24dp.png">
             </extcomp:IconToggleButton>
 
             <extcomp:IconToggleButton x:Name="lockLayerToggleButton"
                                       ToolTip="Lock: Prevents the layer from being moved and edited"
                                       Command="{Binding AddTilesetLayerCommand}"
-                                      ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
+                                      ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_lock_black_24dp.png">
             </extcomp:IconToggleButton>
 
             <Canvas x:Name="tilesetImage"
