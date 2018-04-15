@@ -55,7 +55,8 @@ namespace Ame.Modules.MapEditor.Editor
 
             // Draw map background
             GeometryGroup rectangles = new GeometryGroup();
-            rectangles.Children.Add(new RectangleGeometry(new Rect(0, 0, this.Map.GetPixelWidth(), this.Map.GetPixelHeight())));
+            Rect rect = new Rect(0, 0, this.Map.GetPixelWidth(), this.Map.GetPixelHeight());
+            rectangles.Children.Add(new RectangleGeometry(rect));
             GeometryDrawing aGeometryDrawing = new GeometryDrawing();
             aGeometryDrawing.Geometry = rectangles;
             aGeometryDrawing.Brush = new SolidColorBrush(Colors.AliceBlue);
@@ -227,7 +228,10 @@ namespace Ame.Modules.MapEditor.Editor
                     break;
 
                 case ScaleType.Tile:
-                    transformedPosition = position;
+                    if (this.Map != null)
+                    {
+                        transformedPosition = imageTransform.PixelToTile(position);
+                    }
                     break;
             }
             transformedPosition = PointUtils.IntPoint(transformedPosition);

@@ -30,9 +30,19 @@ namespace Ame.Modules.Docks.Core
 
         #endregion constructor & destructer
 
-
-        #region properties
         
+        #region properties
+
+        public DataTemplate ClipboardDataTemplate { get; set; }
+        public DataTemplate ItemEditorDataTemplate { get; set; }
+        public DataTemplate ItemListDataTemplate { get; set; }
+        public DataTemplate LayerListDataTemplate { get; set; }
+        public DataTemplate MinimapDataTemplate { get; set; }
+        public DataTemplate ToolboxDataTemplate { get; set; }
+        public DataTemplate SelectedBrushDataTemplate { get; set; }
+
+        public DataTemplate MainEditorTemplate { get; set; }
+
         #endregion properties
 
 
@@ -41,46 +51,39 @@ namespace Ame.Modules.Docks.Core
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
             DataTemplate template = new DataTemplate(typeof(UserControl));
-            FrameworkElementFactory frameworkElementFactory;
             if (item is ClipboardViewModel)
             {
-                frameworkElementFactory = new FrameworkElementFactory(typeof(ClipboardDock.Clipboard));
+                return ClipboardDataTemplate;
             }
             else if (item is ItemEditorViewModel)
             {
-                frameworkElementFactory = new FrameworkElementFactory(typeof(ItemEditor));
+                return ItemEditorDataTemplate;
             }
             else if (item is ItemListViewModel)
             {
-                frameworkElementFactory = new FrameworkElementFactory(typeof(ItemList));
+                return ItemListDataTemplate;
             }
             else if (item is LayerListViewModel)
             {
-                frameworkElementFactory = new FrameworkElementFactory(typeof(LayerList));
+                return LayerListDataTemplate;
             }
             else if (item is MinimapViewModel)
             {
-                frameworkElementFactory = new FrameworkElementFactory(typeof(Minimap));
+                return MinimapDataTemplate;
             }
             else if (item is ToolboxViewModel)
             {
-                frameworkElementFactory = new FrameworkElementFactory(typeof(Toolbox));
+                return ToolboxDataTemplate;
             }
             else if (item is SelectedBrushViewModel)
             {
-                frameworkElementFactory = new FrameworkElementFactory(typeof(SelectedBrush));
+                return SelectedBrushDataTemplate;
             }
             else if (item is MainEditorViewModel)
             {
-                frameworkElementFactory = new FrameworkElementFactory(typeof(MainEditor));
+                return MainEditorTemplate;
             }
-            else
-            {
-                return base.SelectTemplate(item, container);
-            }
-            frameworkElementFactory.SetValue(UserControl.DataContextProperty, item);
-            template.VisualTree = frameworkElementFactory;
-            return template;
+            return base.SelectTemplate(item, container);
         }
 
         #endregion methods

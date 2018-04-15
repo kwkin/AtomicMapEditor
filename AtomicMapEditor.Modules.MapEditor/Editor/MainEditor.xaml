@@ -30,6 +30,15 @@
                                       VerticalScrollBarVisibility="Visible"
                                       ZoomIndex="{Binding ZoomIndex}"
                                       ZoomLevels="{Binding ZoomLevels}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseMove">
+                    <basetype:EventToCommand Command="{Binding UpdatePositionCommand, Mode=OneWay}"
+                                             EventArgsConverter="{StaticResource MouseEventToPointConverter}"
+                                             EventArgsConverterParameter="{Binding ElementName=canvasMapImage}"
+                                             PassEventArgsToCommand="True" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+
             <Grid x:Name="scrollViewerGrid"
                   HorizontalAlignment="Center"
                   VerticalAlignment="Center">
@@ -44,12 +53,6 @@
                 </Grid.ContextMenu>
 
                 <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseMove">
-                        <basetype:EventToCommand Command="{Binding UpdatePositionCommand, Mode=OneWay}"
-                                                 EventArgsConverter="{StaticResource MouseEventToPointConverter}"
-                                                 EventArgsConverterParameter="{Binding ElementName=canvasMapImage}"
-                                                 PassEventArgsToCommand="True" />
-                    </i:EventTrigger>
                     <i:EventTrigger EventName="MouseLeftButtonDown">
                         <basetype:EventToCommand Command="{Binding DrawCommand, Mode=OneWay}"
                                                  EventArgsConverter="{StaticResource MouseEventToPointConverter}"

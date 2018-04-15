@@ -74,6 +74,24 @@ namespace Ame.Infrastructure.Models
 
         #region methods
 
+        public void SetWidth(int width)
+
+        {
+
+            this.Columns = width;
+
+        }
+
+
+
+        public void SetHeight(int height)
+
+        {
+
+            this.Rows = height;
+
+        }
+        
         public int GetPixelWidth()
         {
             int width = this.Columns;

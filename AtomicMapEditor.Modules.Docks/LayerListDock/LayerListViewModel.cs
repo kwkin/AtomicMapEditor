@@ -48,18 +48,18 @@ namespace Ame.Modules.Docks.LayerListDock
 
             this.LayerList = new ObservableCollection<ILayer>();
 
-            this.LayerList.Add(new Layer("Layer #1", 32, 32, 32, 32));
-            this.LayerList.Add(new Layer("Layer #2", 32, 32, 32, 32));
+            //this.LayerList.Add(new Layer("Layer #1", 32, 32, 32, 32));
+            //this.LayerList.Add(new Layer("Layer #2", 32, 32, 32, 32));
 
-            ObservableCollection<ILayer> layerGroupLayers = new ObservableCollection<ILayer>();
-            layerGroupLayers.Add(new Layer("Layer #3", 32, 32, 32, 32));
-            ObservableCollection<ILayer> layerGroupLayers2 = new ObservableCollection<ILayer>();
-            layerGroupLayers2.Add(new Layer("Layer #4", 32, 32, 32, 32));
-            layerGroupLayers2.Add(new Layer("Layer #5", 32, 32, 32, 32));
-            layerGroupLayers.Add(new LayerGroup("Layer Group #2", layerGroupLayers2));
-            layerGroupLayers.Add(new Layer("Layer #6", 32, 32, 32, 32));
-            this.LayerList.Add(new LayerGroup("Layer Group #1", layerGroupLayers));
-            this.LayerList.Add(new Layer("Layer #7", 32, 32, 32, 32));
+            //ObservableCollection<ILayer> layerGroupLayers = new ObservableCollection<ILayer>();
+            //layerGroupLayers.Add(new Layer("Layer #3", 32, 32, 32, 32));
+            //ObservableCollection<ILayer> layerGroupLayers2 = new ObservableCollection<ILayer>();
+            //layerGroupLayers2.Add(new Layer("Layer #4", 32, 32, 32, 32));
+            //layerGroupLayers2.Add(new Layer("Layer #5", 32, 32, 32, 32));
+            //layerGroupLayers.Add(new LayerGroup("Layer Group #2", layerGroupLayers2));
+            //layerGroupLayers.Add(new Layer("Layer #6", 32, 32, 32, 32));
+            //this.LayerList.Add(new LayerGroup("Layer Group #1", layerGroupLayers));
+            //this.LayerList.Add(new Layer("Layer #7", 32, 32, 32, 32));
 
             //this.LayerList.Add(new Layer("Layer #3", 32, 32, 32, 32));
             //this.LayerList.Add(new Layer("Layer #4", 32, 32, 32, 32));
@@ -113,10 +113,10 @@ namespace Ame.Modules.Docks.LayerListDock
 
         public void EditLayerMessageRecieved(EditLayerMessage message)
         {
-            Layer editedLayer = message.Layer;
+            ILayer editedLayer = message.Layer;
             int currentLayerIndex = this.LayerList.IndexOf(this.CurrentLayer);
-            this.LayerList.RemoveAt(currentLayerIndex);
-            this.LayerList.Insert(currentLayerIndex, editedLayer);
+            this.LayerList[currentLayerIndex] = editedLayer;
+            RaisePropertyChanged(nameof(this.LayerList));
         }
 
         public void AddTilesetLayer(Layer layer)
