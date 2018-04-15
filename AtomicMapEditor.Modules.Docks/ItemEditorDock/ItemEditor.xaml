@@ -215,19 +215,18 @@
                    Width="65">
             </Label>
             <ComboBox x:Name="coordinateComboBox"
-                      SelectedItem="{Binding Scale, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       Grid.Column="1"
                       Width="65"
                       VerticalAlignment="Center"
-                      ItemsSource="{Binding Source={basetype:EnumBindingSourceExtension {x:Type models:ScaleType}}}">
-            </ComboBox>
+                      ItemsSource="{Binding Source={basetype:EnumBindingSourceExtension {x:Type models:ScaleType}}}"
+                      SelectedItem="{Binding Scale, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <ComboBox x:Name="zoomComboBox"
+                      Grid.Column="2"
                       Width="65"
                       VerticalAlignment="Center"
-                      Grid.Column="2"
                       ItemsSource="{Binding ZoomLevels}"
-                      SelectedIndex="{Binding ZoomIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            </ComboBox>
+                      SelectedIndex="{Binding ZoomIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      DisplayMemberPath="description" />
         </Grid>
     </Grid>
 </UserControl>
