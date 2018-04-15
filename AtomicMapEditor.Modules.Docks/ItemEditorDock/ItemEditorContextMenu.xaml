@@ -4,22 +4,46 @@
                     xmlns:conv="clr-namespace:Ame.Infrastructure.Converters;assembly=Ame.Infrastructure">
 
     <conv:DoubleToZoomLevelConverter x:Key="DoubleToZoomLevelConverter" />
-    
+
     <x:Array Type="{x:Type sys:Object}"
              x:Key="ItemEditorContextMenu">
         <MenuItem Header="View Properties..."
-                  Command="{Binding ViewPropertiesCommand}" />
+                  Command="{Binding ViewPropertiesCommand}">
+            <MenuItem.Icon>
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_eye_black_24dp.png" />
+            </MenuItem.Icon>
+        </MenuItem>
         <MenuItem Header="Edit Collisions..."
-                  Command="{Binding EditCollisionsCommand}" />
+                  Command="{Binding EditCollisionsCommand}">
+            <MenuItem.Icon>
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_collisions_black_24dp.png" />
+            </MenuItem.Icon>
+        </MenuItem>
         <MenuItem Header="Crop..."
-                  Command="{Binding CropCommand}" />
+                  Command="{Binding CropCommand}">
+            <MenuItem.Icon>
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_crop_black_24dp.png" />
+            </MenuItem.Icon>
+        </MenuItem>
         <Separator />
         <MenuItem Header="Add Tileset..."
-                  Command="{Binding AddTilesetCommand}" />
+                  Command="{Binding AddTilesetCommand}">
+            <MenuItem.Icon>
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_note_add_black_24dp.png" />
+            </MenuItem.Icon>
+        </MenuItem>
         <MenuItem Header="Add Image..."
-                  Command="{Binding AddImageCommand}" />
+                  Command="{Binding AddImageCommand}">
+            <MenuItem.Icon>
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_image_black_24dp.png" />
+            </MenuItem.Icon>
+        </MenuItem>
         <MenuItem Header="Remove Item"
-                  Command="{Binding RemoveItemCommand}" />
+                  Command="{Binding RemoveItemCommand}">
+            <MenuItem.Icon>
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_delete_black_24dp.png" />
+            </MenuItem.Icon>
+        </MenuItem>
         <Separator />
         <MenuItem Header="Show Grid"
                   IsChecked="{Binding IsGridOn}"
@@ -32,12 +56,23 @@
         <MenuItem x:Name="zoomInMenuItem"
                   Header="Zoom In"
                   InputGestureText="Ctrl++"
-                  Command="{Binding ZoomInCommand}" />
+                  Command="{Binding ZoomInCommand}">
+            <MenuItem.Icon>
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_magnify_plus_black_24dp.png" />
+            </MenuItem.Icon>
+        </MenuItem>
         <MenuItem x:Name="zoomOutMenuItem"
                   Header="Zoom Out"
                   InputGestureText="Ctrl+-"
-                  Command="{Binding ZoomOutCommand}" />
+                  Command="{Binding ZoomOutCommand}">
+            <MenuItem.Icon>
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_magnify_minus_black_24dp.png" />
+            </MenuItem.Icon>
+        </MenuItem>
         <MenuItem Header="Set Zoom">
+            <MenuItem.Icon>
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_magnify_black_24dp.png" />
+            </MenuItem.Icon>
             <MenuItem x:Name="setZoom3200"
                       Header="32:1 (3200%)"
                       InputGestureText="1"

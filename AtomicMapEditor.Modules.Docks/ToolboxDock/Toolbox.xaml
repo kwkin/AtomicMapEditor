@@ -57,7 +57,7 @@
                                      Command="{Binding ToolButtonCommand}"
                                      CommandParameter="Fill"
                                      Style="{StaticResource {x:Type ToggleButton}}"
-                                     ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_bitbucket_black_24dp.png"
+                                     ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_fill_black_24dp.png"
                                      ImageStretch="None">
             </extcomp:IconRadioButton>
 
@@ -117,7 +117,7 @@
                                      Command="{Binding ToolButtonCommand}"
                                      CommandParameter="Tile Collision"
                                      Style="{StaticResource {x:Type ToggleButton}}"
-                                     ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_square_inc_black_24dp.png"
+                                     ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_collisions_black_24dp.png"
                                      ImageStretch="None">
             </extcomp:IconRadioButton>
         </WrapPanel>

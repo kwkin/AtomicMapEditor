@@ -84,8 +84,7 @@ namespace Ame.Modules.Docks.ItemEditorDock
             this.Scale = ScaleType.Tile;
             this.PositionText = "0, 0";
             this.GridBrush = Brushes.Orange;
-
-            this.ViewPropertiesCommand = new DelegateCommand(() => SetMapProperties());
+            
             this.EditCollisionsCommand = new DelegateCommand(() => EditCollisions());
             this.CropCommand = new DelegateCommand(() => Crop());
             this.AddTilesetCommand = new DelegateCommand(() => AddTileset());
@@ -109,8 +108,7 @@ namespace Ame.Modules.Docks.ItemEditorDock
 
 
         #region properties
-
-        public ICommand ViewPropertiesCommand { get; private set; }
+        
         public ICommand EditCollisionsCommand { get; private set; }
         public ICommand CropCommand { get; private set; }
         public ICommand AddTilesetCommand { get; private set; }
@@ -331,11 +329,6 @@ namespace Ame.Modules.Docks.ItemEditorDock
         private void AddImage()
         {
             Console.WriteLine("Add Image");
-        }
-
-        private void SetMapProperties()
-        {
-            Console.WriteLine("Set Map Properties");
         }
 
         private void EditCollisions()

@@ -5,9 +5,17 @@
     <x:Array Type="{x:Type sys:Object}"
              x:Key="ItemListContextMenu">
         <MenuItem Header="Add Tileset..."
-                  Command="{Binding AddTilesetCommand}" />
+                  Command="{Binding AddTilesetCommand}">
+            <MenuItem.Icon>
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_note_add_black_24dp.png" />
+            </MenuItem.Icon>
+        </MenuItem>
         <MenuItem Header="Add Image..."
-                  Command="{Binding AddImageCommand}" />
+                  Command="{Binding AddImageCommand}">
+            <MenuItem.Icon>
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_image_black_24dp.png" />
+            </MenuItem.Icon>
+        </MenuItem>
         <MenuItem Header="Add Directory..."
                   Command="{Binding AddDirectoryCommand}" />
         <MenuItem Header="Add Group..."

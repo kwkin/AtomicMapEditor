@@ -90,6 +90,12 @@
   <ItemGroup>
     <Resource Include="Icons\ic_image_black_24dp.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\ic_grid_black_24dp.png" />
+    <Resource Include="Icons\ic_magnify_black_24dp.png" />
+    <Resource Include="Icons\ic_magnify_minus_black_24dp.png" />
+    <Resource Include="Icons\ic_magnify_plus_black_24dp.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

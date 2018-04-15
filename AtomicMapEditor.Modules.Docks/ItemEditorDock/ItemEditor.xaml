@@ -63,7 +63,7 @@
                                 Grid.Column="2"
                                 ToolTip="Open the item in the collision editor"
                                 Command="{Binding EditCollisionsCommand}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_grid_black_24dp.png">
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_collisions_black_24dp.png">
             </extcomp:IconButton>
 
             <extcomp:IconButton x:Name="cropButton"
@@ -86,7 +86,6 @@
 
             <extcomp:IconToggleButton x:Name="itemAdvancedOptionsToggle"
                                       Grid.Column="6"
-                                      Command="{Binding ViewPropertiesCommand}"
                                       ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
             </extcomp:IconToggleButton>
         </Grid>
@@ -95,8 +94,8 @@
               Visibility="{Binding IsChecked, ElementName=itemAdvancedOptionsToggle, Converter={StaticResource BoolToVisConverter}}">
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="260"
-                               MaxHeight="260" />
+                <RowDefinition Height="210"
+                               MaxHeight="210" />
                 <RowDefinition />
             </Grid.RowDefinitions>
 
