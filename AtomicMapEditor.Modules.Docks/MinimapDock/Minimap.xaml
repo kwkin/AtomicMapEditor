@@ -33,21 +33,21 @@
                                 Grid.Column="0"
                                 ToolTip="Fit the minimap to the dock size"
                                 Command="{Binding FitMinimapCommand}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_arrow_expand_black_24dp.png">
             </extcomp:IconButton>
 
             <extcomp:IconButton x:Name="toggleGridButton"
                                 Grid.Column="1"
                                 ToolTip="Toggle the grid overlay on the minimap"
                                 Command="{Binding ToggleGridCommand}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_grid_black_24dp.png">
             </extcomp:IconButton>
 
             <extcomp:IconButton x:Name="toggleCollisionButton"
                                 Grid.Column="2"
                                 ToolTip="Toggle the collision overlay on the minimap"
                                 Command="{Binding ToggleCollisionCommand}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_collisions_black_24dp.png">
             </extcomp:IconButton>
 
             <Label x:Name="zoomRatioLabel"

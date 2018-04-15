@@ -16,14 +16,29 @@
         <Separator />
         <MenuItem Header="Zoom In"
                   Command="{Binding ZoomInCommand}"
-                  InputGestureText="Ctrl++" />
+                  InputGestureText="Ctrl++">
+            <MenuItem.Icon>
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_magnify_plus_black_24dp.png" />
+            </MenuItem.Icon>
+        </MenuItem>
         <MenuItem Header="Zoom Out"
                   Command="{Binding ZoomOutCommand}"
-                  InputGestureText="Ctrl+-" />
+                  InputGestureText="Ctrl+-">
+            <MenuItem.Icon>
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_magnify_minus_black_24dp.png" />
+            </MenuItem.Icon>
+        </MenuItem>
         <MenuItem Header="Fit to Window"
                   Command="{Binding ZoomOutCommand}"
-                  InputGestureText="Ctrl+J" />
+                  InputGestureText="Ctrl+J">
+            <MenuItem.Icon>
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_arrow_expand_black_24dp.png" />
+            </MenuItem.Icon>
+        </MenuItem>
         <MenuItem Header="Set Zoom">
+            <MenuItem.Icon>
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_magnify_black_24dp.png" />
+            </MenuItem.Icon>
             <MenuItem Header="1:2"
                       Command="{Binding SetZoomCommand}"
                       InputGestureText="1" />
