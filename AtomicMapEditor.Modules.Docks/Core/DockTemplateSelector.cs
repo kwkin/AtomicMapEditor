@@ -77,7 +77,8 @@ namespace Ame.Modules.Docks.Core
             }
             else if (item is SelectedBrushViewModel)
             {
-                return SelectedBrushDataTemplate;
+                return SelectedBrushDataTemplate;
+
             }
             else if (item is MainEditorViewModel)
             {

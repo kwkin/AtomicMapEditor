@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Windows.Data;
 using System.Windows.Input;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
@@ -113,10 +114,11 @@ namespace Ame.Modules.Docks.LayerListDock
 
         public void EditLayerMessageRecieved(EditLayerMessage message)
         {
-            ILayer editedLayer = message.Layer;
+            Layer editedLayer = message.Layer;
             int currentLayerIndex = this.LayerList.IndexOf(this.CurrentLayer);
             this.LayerList[currentLayerIndex] = editedLayer;
-            RaisePropertyChanged(nameof(this.LayerList));
+            this.CurrentLayer = editedLayer;
+            CollectionViewSource.GetDefaultView(this.LayerList).Refresh();
         }
 
         public void AddTilesetLayer(Layer layer)
