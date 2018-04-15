@@ -111,6 +111,21 @@
   <ItemGroup>
     <Resource Include="Icons\ic_sort_variant_black_24dp.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\ic_minus_black_24dp.png" />
+    <Resource Include="Icons\ic_plus_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\ic_application_black_24dp.png" />
+    <Resource Include="Icons\ic_checkerboard_black_24dp.png" />
+    <Resource Include="Icons\ic_close_box_black_24dp.png" />
+    <Resource Include="Icons\ic_content_save_black_24dp.png" />
+    <Resource Include="Icons\ic_export_black_24dp.png" />
+    <Resource Include="Icons\ic_eye_off_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\ic_window_open_black_24dp.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
