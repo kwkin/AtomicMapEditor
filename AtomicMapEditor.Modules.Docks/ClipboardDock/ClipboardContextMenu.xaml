@@ -5,8 +5,15 @@
     <x:Array Type="{x:Type sys:Object}"
              x:Key="ClipboardContextMenu">
         <MenuItem Header="Remove Item"
-                  Command="{Binding RemoveItemCommand}" />
+                  Command="{Binding RemoveItemCommand}">
+            <MenuItem.Icon>
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_delete_black_24dp.png" />
+            </MenuItem.Icon>
+        </MenuItem>
         <MenuItem Header="Sort">
+            <MenuItem.Icon>
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_sort_variant_black_24dp.png" />
+            </MenuItem.Icon>
             <MenuItem Header="Name"
                       Command="{Binding SortCommand}" />
             <MenuItem Header="Total Size"
@@ -38,10 +45,21 @@
                   Command="{Binding ShowImagesCommand}" />
         <Separator />
         <MenuItem Header="Zoom In"
-                  Command="{Binding ZoomInCommand}" />
+                  Command="{Binding ZoomInCommand}">
+            <MenuItem.Icon>
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_magnify_plus_black_24dp.png" />
+            </MenuItem.Icon>
+        </MenuItem>
         <MenuItem Header="Zoom Out"
-                  Command="{Binding ZoomOutCommand}" />
+                  Command="{Binding ZoomOutCommand}">
+            <MenuItem.Icon>
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_magnify_minus_black_24dp.png" />
+            </MenuItem.Icon>
+        </MenuItem>
         <MenuItem Header="Item Size">
+            <MenuItem.Icon>
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_magnify_black_24dp.png" />
+            </MenuItem.Icon>
             <MenuItem Header="Very Large (500x500px)"
                       InputGestureText="1"
                       Command="{Binding SetItemSizeCommand}" />
