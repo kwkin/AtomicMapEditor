@@ -13,7 +13,7 @@ namespace Ame.Infrastructure.Models
         #endregion fields
 
 
-        #region constructor & destructer
+        #region constructor
 
         public ZoomLevel(double zoom)
         {
@@ -27,7 +27,7 @@ namespace Ame.Infrastructure.Models
             this.zoom = zoom;
         }
 
-        #endregion constructor & destructer
+        #endregion constructor
 
 
         #region properties

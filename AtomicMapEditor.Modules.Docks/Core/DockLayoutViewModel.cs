@@ -25,7 +25,7 @@ namespace Ame.Modules.Docks.Core
         #endregion fields
 
 
-        #region constructor & destructer
+        #region constructor
 
         public DockLayoutViewModel(ILayoutViewModel parent, IEventAggregator eventAggregator)
         {
@@ -37,7 +37,7 @@ namespace Ame.Modules.Docks.Core
             this.eventAggregator = eventAggregator;
         }
 
-        #endregion constructor & destructer
+        #endregion constructor
 
 
         #region properties

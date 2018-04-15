@@ -74,14 +74,14 @@ namespace Ame.Infrastructure.BaseTypes
 
     internal class DockContentIdAttribute : Attribute
     {
-        #region constructor & destructer
+        #region constructor
 
         internal DockContentIdAttribute(string id)
         {
             this.Id = id;
         }
 
-        #endregion constructor & destructer
+        #endregion constructor
 
 
         #region properties

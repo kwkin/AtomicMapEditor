@@ -12,7 +12,7 @@ namespace Ame.Modules.Docks.ItemListDock
         #endregion fields
 
 
-        #region constructor & destructer
+        #region constructor
 
         public ItemListViewModel()
         {
@@ -22,7 +22,7 @@ namespace Ame.Modules.Docks.ItemListDock
             this.ViewPropertiesCommand = new DelegateCommand(() => ViewProperties());
         }
 
-        #endregion constructor & destructer
+        #endregion constructor
 
 
         #region properties

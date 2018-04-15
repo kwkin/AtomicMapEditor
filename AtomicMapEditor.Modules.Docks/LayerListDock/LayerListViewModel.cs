@@ -20,7 +20,7 @@ namespace Ame.Modules.Docks.LayerListDock
         #endregion fields
 
 
-        #region constructor & destructer
+        #region constructor
 
         // TODO add layer editing properties
         public LayerListViewModel(IEventAggregator eventAggregator)
@@ -70,7 +70,7 @@ namespace Ame.Modules.Docks.LayerListDock
             this.eventAggregator.GetEvent<NewLayerEvent>().Subscribe(AddTilesetLayerMessage);
         }
 
-        #endregion constructor & destructer
+        #endregion constructor
 
 
         #region properties

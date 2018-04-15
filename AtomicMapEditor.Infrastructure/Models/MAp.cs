@@ -9,7 +9,7 @@ namespace Ame.Infrastructure.Models
         #endregion fields
 
 
-        #region constructor & destructer
+        #region constructor
         
         public Map()
         {
@@ -53,7 +53,7 @@ namespace Ame.Infrastructure.Models
             this.LayerList.Add(new Layer("Layer #1", this.TileWidth, this.TileHeight, this.Rows, this.Columns));
         }
 
-        #endregion constructor & destructer
+        #endregion constructor
 
 
         #region properties

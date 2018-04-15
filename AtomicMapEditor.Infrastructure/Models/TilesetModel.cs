@@ -9,7 +9,7 @@ namespace Ame.Infrastructure.Models
         #endregion fields
 
 
-        #region constructor & destructer
+        #region constructor
 
         public TilesetModel()
         {
@@ -25,7 +25,7 @@ namespace Ame.Infrastructure.Models
             this.TransparentColor = Colors.Transparent;
         }
 
-        #endregion constructor & destructer
+        #endregion constructor
 
 
         #region properties

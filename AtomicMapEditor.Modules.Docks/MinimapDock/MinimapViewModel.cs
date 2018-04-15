@@ -11,7 +11,7 @@ namespace Ame.Modules.Docks.MinimapDock
 
         #endregion fields
 
-        #region constructor & destructer
+        #region constructor
 
         public MinimapViewModel()
         {
@@ -23,7 +23,7 @@ namespace Ame.Modules.Docks.MinimapDock
             this.CenterOnPointCommand = new DelegateCommand(() => CenterOnPoint());
         }
 
-        #endregion constructor & destructer
+        #endregion constructor
 
 
         #region properties

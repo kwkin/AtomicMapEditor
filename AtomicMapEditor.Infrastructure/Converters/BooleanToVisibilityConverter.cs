@@ -11,13 +11,13 @@ namespace Ame.Infrastructure.Converters
         #endregion fields
 
 
-        #region constructor & destructer
+        #region constructor
 
         public BooleanToVisiblityConverter()
         {
         }
 
-        #endregion constructor & destructer
+        #endregion constructor
 
 
         #region properties

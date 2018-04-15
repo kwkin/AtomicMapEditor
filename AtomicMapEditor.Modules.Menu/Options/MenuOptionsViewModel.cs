@@ -21,7 +21,7 @@ namespace Ame.Modules.Menu.Options
         #endregion fields
 
 
-        #region constructor & destructer
+        #region constructor
 
         public MenuOptionsViewModel(IEventAggregator eventAggregator)
         {
@@ -111,7 +111,7 @@ namespace Ame.Modules.Menu.Options
             this.TestAddClosedDocksCommand = new DelegateCommand(() => TestAddClosedDocks());
         }
 
-        #endregion constructor & destructer
+        #endregion constructor
 
 
         #region properties

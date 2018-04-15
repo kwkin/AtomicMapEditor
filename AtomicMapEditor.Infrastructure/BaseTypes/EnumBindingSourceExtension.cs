@@ -14,7 +14,7 @@ namespace Ame.Infrastructure.BaseTypes
         #endregion fields
 
 
-        #region constructor & destructer
+        #region constructor
 
         public EnumBindingSourceExtension()
         {
@@ -25,7 +25,7 @@ namespace Ame.Infrastructure.BaseTypes
             this.EnumType = enumType;
         }
 
-        #endregion constructor & destructer
+        #endregion constructor
 
 
         #region properties

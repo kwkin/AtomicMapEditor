@@ -19,7 +19,7 @@ namespace Ame.Infrastructure.Models
         #endregion fields
 
 
-        #region constructor & destructer
+        #region constructor
 
         public Layer(int tileWidth, int tileHeight, int rows, int columns)
         {
@@ -47,7 +47,7 @@ namespace Ame.Infrastructure.Models
             ResetLayerItems();
         }
 
-        #endregion constructor & destructer
+        #endregion constructor
 
 
         #region properties

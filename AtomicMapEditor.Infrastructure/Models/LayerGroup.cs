@@ -9,7 +9,7 @@ namespace Ame.Infrastructure.Models
         #endregion fields
 
 
-        #region constructor & destructer
+        #region constructor
 
         public LayerGroup(string layerGroupName)
         {
@@ -22,7 +22,7 @@ namespace Ame.Infrastructure.Models
             this.Layers = layers;
         }
 
-        #endregion constructor & destructer
+        #endregion constructor
 
 
         #region properties

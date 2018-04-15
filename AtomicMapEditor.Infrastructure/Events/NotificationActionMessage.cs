@@ -10,7 +10,7 @@ namespace Ame.Infrastructure.Events
         #endregion fields
 
 
-        #region Constructor & destructer
+        #region Constructor
 
         public NotificationActionMessage(string notification, Action<TCallbackParameter> callback)
         {
@@ -18,7 +18,7 @@ namespace Ame.Infrastructure.Events
             this.Notification = notification;
         }
 
-        #endregion Constructor & destructer
+        #endregion Constructor
 
 
         #region Properties

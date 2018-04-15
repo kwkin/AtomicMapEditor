@@ -92,7 +92,7 @@ namespace Ame.Infrastructure.Utils
 
     internal class FileExtensionAttribute : Attribute
     {
-        #region constructor & destructer
+        #region constructor
 
         internal FileExtensionAttribute(string name, params string[] extensions)
         {
@@ -100,7 +100,7 @@ namespace Ame.Infrastructure.Utils
             this.Extensions = extensions;
         }
 
-        #endregion constructor & destructer
+        #endregion constructor
 
 
         #region properties

@@ -7,10 +7,17 @@ namespace Ame.Components.Extended
 {
     public class StretchingTreeView : TreeView
     {
+        #region constructor
+
         public StretchingTreeView()
         {
             this.MouseRightButtonDown += RightClickSelect;
         }
+
+        #endregion constructor
+
+
+        #region methods
 
         protected override DependencyObject GetContainerForItemOverride()
         {
@@ -40,10 +47,14 @@ namespace Ame.Components.Extended
 
             return source as TreeViewItem;
         }
+
+        #endregion methods
     }
 
     internal class StretchingTreeViewItem : TreeViewItem
     {
+        #region constructor
+
         public StretchingTreeViewItem()
         {
             this.Loaded += new RoutedEventHandler(StretchingTreeViewItemLoaded);
@@ -61,6 +72,11 @@ namespace Ame.Components.Extended
             }
         }
 
+        #endregion constructor
+
+
+        #region methods
+
         protected override DependencyObject GetContainerForItemOverride()
         {
             return new StretchingTreeViewItem();
@@ -70,5 +86,7 @@ namespace Ame.Components.Extended
         {
             return item is StretchingTreeViewItem;
         }
+
+        #endregion methods
     }
 }

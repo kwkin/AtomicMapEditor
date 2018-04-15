@@ -21,14 +21,14 @@ namespace Ame.Modules.Docks.Core
         #endregion fields
 
 
-        #region constructor & destructer
+        #region constructor
 
         public DockTemplateSelector()
         {
 
         }
 
-        #endregion constructor & destructer
+        #endregion constructor
 
         
         #region properties

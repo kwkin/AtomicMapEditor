@@ -9,14 +9,14 @@ namespace Ame.Infrastructure.Events
         #endregion fields
 
 
-        #region Constructor & destructer
+        #region Constructor
 
         public EditLayerMessage(Layer layer)
         {
             this.Layer = layer;
         }
 
-        #endregion Constructor & destructer
+        #endregion Constructor
 
 
         #region Properties

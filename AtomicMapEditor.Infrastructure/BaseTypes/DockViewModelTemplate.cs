@@ -9,9 +9,9 @@ namespace Ame.Infrastructure.BaseTypes
         #endregion fields
 
 
-        #region constructor & destructer
+        #region constructor
 
-        #endregion constructor & destructer
+        #endregion constructor
 
 
         #region properties

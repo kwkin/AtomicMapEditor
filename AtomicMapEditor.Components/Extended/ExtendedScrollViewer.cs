@@ -22,7 +22,7 @@ namespace Ame.Components.Extended
         #endregion fields
 
 
-        #region constructor & destructer
+        #region constructor
 
         public ExtendedScrollViewer()
         {
@@ -52,7 +52,7 @@ namespace Ame.Components.Extended
             this.MouseMove += OnMouseMove;
         }
 
-        #endregion constructor & destructer
+        #endregion constructor
 
 
         #region properties

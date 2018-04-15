@@ -11,7 +11,7 @@ namespace Ame.Components.Extended
         #endregion fields
 
 
-        #region constructor & destructer
+        #region constructor
 
         public IconButton()
         {
@@ -20,7 +20,7 @@ namespace Ame.Components.Extended
             this.ImageStretch = Stretch.None;
         }
 
-        #endregion constructor & destructer
+        #endregion constructor
 
 
         #region properties

@@ -12,7 +12,7 @@ namespace Ame.Modules.Docks.ToolboxDock
         #endregion fields
 
 
-        #region constructor & destructer
+        #region constructor
 
         public ToolboxViewModel()
         {
@@ -21,7 +21,7 @@ namespace Ame.Modules.Docks.ToolboxDock
             this.ToolButtonCommand = new DelegateCommand<string>((s) => SetToolboxTitle(s));
         }
 
-        #endregion constructor & destructer
+        #endregion constructor
 
 
         #region properties

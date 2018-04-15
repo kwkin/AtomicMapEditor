@@ -9,14 +9,14 @@ namespace Ame.Infrastructure.Events
         #endregion fields
 
 
-        #region Constructor & destructer
+        #region Constructor
 
         public UpdateBrushMessage(BrushModel brushModel)
         {
             this.BrushModel = brushModel;
         }
 
-        #endregion Constructor & destructer
+        #endregion Constructor
 
 
         #region Properties

@@ -14,7 +14,7 @@ namespace Ame.Modules.Windows.LayerEditorWindow
         #endregion fields
 
 
-        #region constructor & destructer
+        #region constructor
 
         public LayerEditorViewModel()
         {
@@ -24,7 +24,7 @@ namespace Ame.Modules.Windows.LayerEditorWindow
             this.CloseWindowCommand = new DelegateCommand(CloseWindow);
         }
 
-        #endregion constructor & destructer
+        #endregion constructor
 
 
         #region properties

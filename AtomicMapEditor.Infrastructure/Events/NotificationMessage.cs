@@ -13,7 +13,7 @@ namespace Ame.Infrastructure.Events
         #endregion fields
 
 
-        #region Constructor & destructer
+        #region Constructor
 
         public NotificationMessage(string notification)
         {
@@ -26,7 +26,7 @@ namespace Ame.Infrastructure.Events
             this.Notification = notification;
         }
         
-        #endregion Constructor & destructer
+        #endregion Constructor
 
 
         #region Properties

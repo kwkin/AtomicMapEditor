@@ -10,9 +10,9 @@ namespace Ame.Components.Behaviors
         #endregion fields
 
 
-        #region constructor & destructer
+        #region constructor
 
-        #endregion constructor & destructer
+        #endregion constructor
 
 
         #region properties

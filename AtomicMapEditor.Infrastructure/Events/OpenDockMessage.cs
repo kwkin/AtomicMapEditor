@@ -11,7 +11,7 @@ namespace Ame.Infrastructure.Events
         #endregion fields
 
 
-        #region Constructor & destructer
+        #region Constructor
 
         public OpenDockMessage(DockType dockType)
         {
@@ -33,7 +33,7 @@ namespace Ame.Infrastructure.Events
             this.DockTitle = dockTitle;
         }
 
-        #endregion Constructor & destructer
+        #endregion Constructor
 
 
         #region Properties

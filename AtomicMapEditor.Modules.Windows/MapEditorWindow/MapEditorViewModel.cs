@@ -15,7 +15,7 @@ namespace Ame.Modules.Windows.MapEditorWindow
         #endregion fields
 
 
-        #region constructor & destructer
+        #region constructor
 
         public MapEditorViewModel(IEventAggregator eventAggregator)
         {
@@ -29,7 +29,7 @@ namespace Ame.Modules.Windows.MapEditorWindow
             this.CloseWindowCommand = new DelegateCommand(CloseWindow);
         }
 
-        #endregion constructor & destructer
+        #endregion constructor
 
 
         #region properties

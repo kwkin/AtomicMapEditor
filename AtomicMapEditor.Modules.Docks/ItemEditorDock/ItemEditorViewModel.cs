@@ -35,7 +35,7 @@ namespace Ame.Modules.Docks.ItemEditorDock
         #endregion fields
 
 
-        #region constructor & destructer
+        #region constructor
 
         public ItemEditorViewModel(IEventAggregator eventAggregator, IScrollModel scrollModel) : this(new TilesetModel(), eventAggregator, scrollModel)
         {
@@ -105,7 +105,7 @@ namespace Ame.Modules.Docks.ItemEditorDock
             this.UpdateModelCommand = new DelegateCommand(() => updateTilesetModel());
         }
 
-        #endregion constructor & destructer
+        #endregion constructor
 
 
         #region properties

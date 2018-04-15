@@ -11,7 +11,7 @@ namespace Ame.Modules.MapEditor.Ribbon
 
         #endregion fields
 
-        #region constructor & destructer
+        #region constructor
 
         public MapEditorRibbonViewModel()
         {
@@ -51,7 +51,7 @@ namespace Ame.Modules.MapEditor.Ribbon
             this.ExportFileCommand = new DelegateCommand(() => ExportFile());
         }
 
-        #endregion constructor & destructer
+        #endregion constructor
 
 
         #region properties

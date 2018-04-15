@@ -16,7 +16,7 @@ namespace Ame.Infrastructure.Events
         #endregion fields
 
 
-        #region Constructor & destructer
+        #region Constructor
 
         public OpenWindowMessage(WindowType windowType)
         {
@@ -30,7 +30,7 @@ namespace Ame.Infrastructure.Events
             this.WindowTitle = windowTitle;
         }
 
-        #endregion Constructor & destructer
+        #endregion Constructor
 
 
         #region Properties

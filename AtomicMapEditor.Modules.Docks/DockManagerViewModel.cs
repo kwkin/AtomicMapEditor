@@ -32,7 +32,7 @@ namespace Ame.Modules.Docks
         #endregion fields
 
 
-        #region constructor & destructer
+        #region constructor
 
         public DockManagerViewModel(DockingManager dockManager, IEventAggregator eventAggregator)
         {
@@ -68,7 +68,7 @@ namespace Ame.Modules.Docks
                 (filter) => filter.Notification.Contains(MessageIds.LoadWorkspaceLayout));
         }
 
-        #endregion constructor & destructer
+        #endregion constructor
 
 
         #region properties

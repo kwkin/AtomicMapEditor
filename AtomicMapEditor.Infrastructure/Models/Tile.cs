@@ -10,7 +10,7 @@ namespace Ame.Infrastructure.Models
         #endregion fields
 
 
-        #region constructor & destructer
+        #region constructor
 
         public Tile(Point position, ImageDrawing tileImage)
         {
@@ -18,7 +18,7 @@ namespace Ame.Infrastructure.Models
             this.TileImage = tileImage;
         }
 
-        #endregion constructor & destructer
+        #endregion constructor
 
 
         #region properties
