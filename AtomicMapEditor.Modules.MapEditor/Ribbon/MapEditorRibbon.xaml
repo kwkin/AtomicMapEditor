@@ -6,14 +6,6 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d">
-    <!-- 
-    Note: When adding icons, ensure that the build action is set to resource
-    
-    1: Select the image
-    2: Press F4
-    3: Select "Resource"
-    
-    -->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />

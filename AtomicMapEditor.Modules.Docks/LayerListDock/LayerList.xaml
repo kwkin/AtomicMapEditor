@@ -55,14 +55,14 @@
             <extcomp:IconButton x:Name="MergeLayerDownButton"
                                 ToolTip="Merge Down: Merges the current layer and below layer"
                                 Command="{Binding MergeLayerDownCommand}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_arrow_collapse_down_black_24dp.png"
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_merge_down_black_24dp.png"
                                 ImageStretch="None">
             </extcomp:IconButton>
 
             <extcomp:IconButton x:Name="MergeLayerUpButton"
                                 ToolTip="Merge Up: Merges the current layer and above layer"
                                 Command="{Binding MergeLayerUpCommand}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_arrow_collapse_up_black_24dp.png"
+                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_merge_up_black_24dp.png"
                                 ImageStretch="None">
             </extcomp:IconButton>
 
