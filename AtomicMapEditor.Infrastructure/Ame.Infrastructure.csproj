@@ -91,9 +91,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseTypes\DataGridRowReadOnlyBehavior.cs" />
     <Compile Include="BaseTypes\DockType.cs" />
     <Compile Include="BaseTypes\DockViewModelTemplate.cs" />
     <Compile Include="BaseTypes\GridModel.cs" />
+    <Compile Include="BaseTypes\PropertyStat.cs" />
+    <Compile Include="BaseTypes\ReadOnlyService.cs" />
     <Compile Include="BaseTypes\SetPropertyAction.cs" />
     <Compile Include="Converters\ViewComponentConverter.cs" />
     <Compile Include="Core\Global.cs" />

@@ -1,5 +1,8 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Windows.Data;
 using System.Windows.Input;
+using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Models;
 using Prism.Commands;
 using Prism.Events;
@@ -11,7 +14,7 @@ namespace Ame.Modules.Windows.MapEditorWindow
     public class MapEditorViewModel : BindableBase, IInteractionRequestAware
     {
         #region fields
-        
+
         #endregion fields
 
 
@@ -58,11 +61,17 @@ namespace Ame.Modules.Windows.MapEditorWindow
                 this.notification = value as IConfirmation;
                 this.Map = this.notification.Content as Map;
                 updateUIusingMap();
+                this.MapProperties = PropertyStatUtils.GetPropertyList(this.Map);
+                this.MapProperties.GroupDescriptions.Add(new PropertyGroupDescription("Type"));
                 RaisePropertyChanged(nameof(this.Notification));
             }
         }
+
+        public ICollectionView GroupedProperties { get; set; }
+        public ICollectionView MapProperties { get; set; }
+
         public Action FinishInteraction { get; set; }
-        
+
         #endregion properties
 
 
@@ -99,7 +108,7 @@ namespace Ame.Modules.Windows.MapEditorWindow
                     map.TileHeight = this.TileHeight;
                     map.TileWidth = this.TileWidth;
                     break;
-            
+
                 case ScaleType.Pixel:
                 default:
                     map.Columns = this.Columns;

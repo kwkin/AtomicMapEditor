@@ -114,6 +114,9 @@
     <Compile Include="MapEditorWindow\MapEditorGeneral.xaml.cs">
       <DependentUpon>MapEditorGeneral.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MapEditorWindow\MapEditorProperties.xaml.cs">
+      <DependentUpon>MapEditorProperties.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MapEditorWindow\MapEditorViewModel.cs" />
     <Compile Include="WindowsModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -145,6 +148,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MapEditorWindow\MapEditorGeneral.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MapEditorWindow\MapEditorProperties.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

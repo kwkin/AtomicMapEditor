@@ -78,7 +78,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviors\DataGridRowReadOnlyBehavior.cs" />
     <Compile Include="Behaviors\IScrollModel.cs" />
+    <Compile Include="Behaviors\ReadOnlyService.cs" />
     <Compile Include="Behaviors\ScrollModel.cs" />
     <Compile Include="Extended\ExtendedScrollViewer.cs" />
     <Compile Include="Extended\IconButton.cs" />

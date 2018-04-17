@@ -1,16 +1,21 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using Ame.Infrastructure.BaseTypes;
 
 namespace Ame.Infrastructure.Models
 {
-    public class Map
+    public class Map : INotifyPropertyChanged
     {
         #region fields
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion fields
 
 
         #region constructor
-        
+
         public Map()
         {
             this.Name = "";
@@ -58,17 +63,51 @@ namespace Ame.Infrastructure.Models
 
         #region properties
         
-        public string Name { get; set; }
-        public int Columns { get; set; }
-        public int Rows { get; set; }
-        public int TileWidth { get; set; }
-        public int TileHeight { get; set; }
-        public int PixelScale { get; set; }
-        public ScaleType Scale { get; set; }
-        public int PixelRatio { get; set; }
-        public string Description { get; set; }
-        public IList<Layer> LayerList { get; set; }
+        private string name { get; set; }
 
+        [PropertyStatAttribute(PropertyType.Property)]
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+            set
+            {
+                if (name != value)
+                {
+                    name = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        [PropertyStatAttribute(PropertyType.Property)]
+        public int Columns { get; set; }
+
+        [PropertyStatAttribute(PropertyType.Property)]
+        public int Rows { get; set; }
+
+        [PropertyStatAttribute(PropertyType.Property)]
+        public ScaleType Scale { get; set; }
+
+        [PropertyStatAttribute(PropertyType.Property)]
+        public int TileWidth { get; set; }
+
+        [PropertyStatAttribute(PropertyType.Property)]
+        public int TileHeight { get; set; }
+
+        [PropertyStatAttribute(PropertyType.Property)]
+        public int PixelRatio { get; set; }
+
+        [PropertyStatAttribute(PropertyType.Property)]
+        public int PixelScale { get; set; }
+
+        [PropertyStatAttribute(PropertyType.Property)]
+        public string Description { get; set; }
+
+        public IList<Layer> LayerList { get; set; }
+        
         #endregion properties
 
 
@@ -81,9 +120,7 @@ namespace Ame.Infrastructure.Models
             this.Columns = width;
 
         }
-
-
-
+        
         public void SetHeight(int height)
 
         {
@@ -122,6 +159,14 @@ namespace Ame.Infrastructure.Models
                     break;
             }
             return height;
+        }
+
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
 
         #endregion methods
