@@ -32,10 +32,9 @@
                 </ScrollViewer>
             </TabItem>
 
-            <TabItem Header="Properties">
-                <ScrollViewer x:Name="scrollProperties">
-
-                </ScrollViewer>
+            <TabItem Header="Metadata">
+                <local:LayerEditorMetadata x:Name="MetadataTab"
+                                          DataContext="{Binding DataContext, ElementName=layerWindow}" />
             </TabItem>
         </TabControl>
 

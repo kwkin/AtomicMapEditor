@@ -91,16 +91,16 @@ namespace Ame.Infrastructure.Models
         [MetadataProperty(MetadataType.Property)]
         public ScaleType Scale { get; set; }
 
-        [MetadataProperty(MetadataType.Property)]
+        [MetadataProperty(MetadataType.Property, "Tile Width")]
         public int TileWidth { get; set; }
 
-        [MetadataProperty(MetadataType.Property)]
+        [MetadataProperty(MetadataType.Property, "Tile Height")]
         public int TileHeight { get; set; }
 
-        [MetadataProperty(MetadataType.Property)]
+        [MetadataProperty(MetadataType.Property, "Pixel Ratio")]
         public int PixelRatio { get; set; }
 
-        [MetadataProperty(MetadataType.Property)]
+        [MetadataProperty(MetadataType.Property, "Pixel Scale")]
         public int PixelScale { get; set; }
 
         [MetadataProperty(MetadataType.Property)]

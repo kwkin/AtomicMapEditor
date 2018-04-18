@@ -139,7 +139,7 @@ namespace Ame.Modules.Windows.MapEditorWindow
         private void UpdateMetadata()
         {
             IList metadataList = MetadataPropertyUtils.GetPropertyList(this.Map);
-            metadataList.Add(new MetadataProperty(nameof(this.Map.LayerList.Count), this.Map.LayerList.Count, MetadataType.Statistic));
+            metadataList.Add(new MetadataProperty("Layer Count", this.Map.LayerList.Count, MetadataType.Statistic));
             this.MapMetadata = new ListCollectionView(metadataList);
             this.MapMetadata.GroupDescriptions.Add(new PropertyGroupDescription("Type"));
         }

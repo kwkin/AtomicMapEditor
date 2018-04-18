@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Windows.Data;
 using System.Windows.Input;
+using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Models;
 using Prism.Commands;
 using Prism.Interactivity.InteractionRequest;
@@ -56,6 +60,7 @@ namespace Ame.Modules.Windows.LayerEditorWindow
                 this.notification = value as Confirmation;
                 this.Layer = this.notification.Content as Layer;
                 updateUI();
+                UpdateMetadata();
                 RaisePropertyChanged(nameof(this.Notification));
             }
         }
@@ -63,6 +68,8 @@ namespace Ame.Modules.Windows.LayerEditorWindow
         public Action FinishInteraction { get; set; }
 
         private Layer Layer { get; set; }
+        public ICollectionView GroupedProperties { get; set; }
+        public ICollectionView LayerMetadata { get; set; }
 
         #endregion properties
 
@@ -117,6 +124,14 @@ namespace Ame.Modules.Windows.LayerEditorWindow
             this.ScrollRate = this.Layer.ScrollRate;
             this.Description = this.Layer.Description;
         }
+
+        private void UpdateMetadata()
+        {
+            IList metadataList = MetadataPropertyUtils.GetPropertyList(this.Layer);
+            this.LayerMetadata = new ListCollectionView(metadataList);
+            this.LayerMetadata.GroupDescriptions.Add(new PropertyGroupDescription("Type"));
+        }
+
 
         #endregion methods
     }

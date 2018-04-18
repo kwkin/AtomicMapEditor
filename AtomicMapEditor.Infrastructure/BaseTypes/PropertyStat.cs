@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Windows.Data;
 
 namespace Ame.Infrastructure.BaseTypes
 {
@@ -71,7 +70,12 @@ namespace Ame.Infrastructure.BaseTypes
                 MetadataPropertyAttribute attribute = propertyInfo.GetCustomAttribute<MetadataPropertyAttribute>();
                 if (attribute != null)
                 {
-                    mapProperties.Add(new MetadataProperty(propertyInfo.Name, propertyInfo.GetValue(item), attribute.Type));
+                    String metadataName = propertyInfo.Name;
+                    if (attribute.Name != string.Empty)
+                    {
+                        metadataName = attribute.Name;
+                    }
+                    mapProperties.Add(new MetadataProperty(metadataName, propertyInfo.GetValue(item), attribute.Type));
                 }
             }
             return mapProperties;
@@ -81,7 +85,7 @@ namespace Ame.Infrastructure.BaseTypes
 
 
         #region properties
-        
+
         #endregion properties
 
 
@@ -97,6 +101,13 @@ namespace Ame.Infrastructure.BaseTypes
         internal MetadataPropertyAttribute(MetadataType type)
         {
             this.Type = type;
+            this.Name = "";
+        }
+
+        internal MetadataPropertyAttribute(MetadataType type, String name)
+        {
+            this.Type = type;
+            this.Name = name;
         }
 
         #endregion constructor
@@ -104,6 +115,7 @@ namespace Ame.Infrastructure.BaseTypes
 
         #region properties
 
+        public String Name { get; private set; }
         public MetadataType Type { get; private set; }
 
         #endregion properties

@@ -107,6 +107,9 @@
     <Compile Include="LayerEditorWindow\LayerEditorGeneral.xaml.cs">
       <DependentUpon>LayerEditorGeneral.xaml</DependentUpon>
     </Compile>
+    <Compile Include="LayerEditorWindow\LayerEditorMetadata.xaml.cs">
+      <DependentUpon>LayerEditorMetadata.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LayerEditorWindow\LayerEditorViewModel.cs" />
     <Compile Include="MapEditorWindow\MapEditor.xaml.cs">
       <DependentUpon>MapEditor.xaml</DependentUpon>
@@ -114,8 +117,8 @@
     <Compile Include="MapEditorWindow\MapEditorGeneral.xaml.cs">
       <DependentUpon>MapEditorGeneral.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MapEditorWindow\MapEditorProperties.xaml.cs">
-      <DependentUpon>MapEditorProperties.xaml</DependentUpon>
+    <Compile Include="MapEditorWindow\MapEditorMetadata.xaml.cs">
+      <DependentUpon>MapEditorMetadata.xaml</DependentUpon>
     </Compile>
     <Compile Include="MapEditorWindow\MapEditorViewModel.cs" />
     <Compile Include="WindowsModule.cs" />
@@ -143,6 +146,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="LayerEditorWindow\LayerEditorMetadata.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MapEditorWindow\MapEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -151,7 +158,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MapEditorWindow\MapEditorProperties.xaml">
+    <Page Include="MapEditorWindow\MapEditorMetadata.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

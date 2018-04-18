@@ -11,7 +11,6 @@ using Ame.Infrastructure.Core;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Models;
 using Ame.Modules.Docks.Core;
-using Ame.Modules.MapEditor.Editor;
 using Ame.Modules.Windows.LayerEditorWindow;
 using Microsoft.Practices.Unity;
 using Prism.Events;
@@ -25,8 +24,9 @@ namespace Ame.Modules.Docks
     public class DockManagerViewModel : BindableBase, ILayoutViewModel
     {
         #region fields
-        
+
         private IEventAggregator eventAggregator;
+
         private event EventHandler ActiveDocumentChanged;
 
         #endregion fields
@@ -49,7 +49,7 @@ namespace Ame.Modules.Docks
 
             this.mapWindowInteraction = new InteractionRequest<INotification>();
             this.layerWindowInteraction = new InteractionRequest<INotification>();
-            
+
             this.eventAggregator.GetEvent<OpenDockEvent>().Subscribe(
                 OpenDock,
                 ThreadOption.PublisherThread);
@@ -189,7 +189,7 @@ namespace Ame.Modules.Docks
             {
                 notificationTitle = message.WindowTitle;
             }
-            
+
             switch (message.WindowType)
             {
                 case WindowType.Map:
@@ -202,8 +202,7 @@ namespace Ame.Modules.Docks
                     notification = NewLayerWindow(message.Content as Layer);
                     notification.Title = notificationTitle;
 
-                    // TODO do not rely on the title name
-                    // TODO establish a better messaging system
+                    // TODO do not rely on the title name TODO establish a better messaging system
                     if (notificationTitle != "Edit Layer")
                     {
                         this.layerWindowInteraction.Raise(notification, OnLayerWindowClosed);
@@ -218,7 +217,7 @@ namespace Ame.Modules.Docks
                     break;
             }
         }
-        
+
         private INotification NewMapWindow()
         {
             this.MapWindowView = new Windows.MapEditorWindow.MapEditor();
@@ -233,7 +232,7 @@ namespace Ame.Modules.Docks
         {
             this.LayerWindowView = new LayerEditor();
             RaisePropertyChanged(nameof(this.LayerWindowView));
-            
+
             Confirmation layerWindowConfirmation = new Confirmation();
             layerWindowConfirmation.Content = layer;
             return layerWindowConfirmation;
@@ -244,8 +243,8 @@ namespace Ame.Modules.Docks
             IConfirmation confirmation = notification as IConfirmation;
             if (confirmation.Confirmed)
             {
-                Map mapModel = confirmation.Content as Map;                
-                
+                Map mapModel = confirmation.Content as Map;
+
                 IUnityContainer container = new UnityContainer();
                 container.RegisterInstance<IEventAggregator>(this.eventAggregator);
                 container.RegisterInstance<IScrollModel>(new ScrollModel());

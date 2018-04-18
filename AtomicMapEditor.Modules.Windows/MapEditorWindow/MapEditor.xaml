@@ -36,8 +36,8 @@
                 </ScrollViewer>
             </TabItem>
 
-            <TabItem Header="properties">
-                <local:MapEditorProperties x:Name="MetadataTab"
+            <TabItem Header="Metadata">
+                <local:MapEditorMetadata x:Name="MetadataTab"
                                            DataContext="{Binding DataContext, ElementName=mapWindow}" />
             </TabItem>
         </TabControl>

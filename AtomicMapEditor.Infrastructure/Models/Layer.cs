@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Ame.Infrastructure.BaseTypes;
 
 namespace Ame.Infrastructure.Models
 {
@@ -54,6 +55,8 @@ namespace Ame.Infrastructure.Models
 
         // TODO: check is the other properties need to implement this when editing properties
         public string layerName { get; set; }
+
+        [MetadataProperty(MetadataType.Property, "Name")]
         public string LayerName
         {
             get
@@ -69,18 +72,38 @@ namespace Ame.Infrastructure.Models
                 }
             }
         }
+
+        [MetadataProperty(MetadataType.Property)]
+        public int Columns { get; set; }
+
+        [MetadataProperty(MetadataType.Property)]
+        public int Rows { get; set; }
+
+        [MetadataProperty(MetadataType.Property, "Tile Width")]
+        public int TileWidth { get; set; }
+
+        [MetadataProperty(MetadataType.Property, "Tile Height")]
+        public int TileHeight { get; set; }
+
+        [MetadataProperty(MetadataType.Property, "Pixel Offset X")]
+        public int OffsetX { get; set; }
+
+        [MetadataProperty(MetadataType.Property, "Pixel Offset Y")]
+        public int OffsetY { get; set; }
+
+        [MetadataProperty(MetadataType.Property)]
+        public LayerPosition Position { get; set; }
+
+        [MetadataProperty(MetadataType.Property)]
+        public ScaleType Scale { get; set; }
+
+        [MetadataProperty(MetadataType.Property, "Scroll Rate")]
+        public double ScrollRate { get; set; }
+
+        [MetadataProperty(MetadataType.Property)]
+        public string Description { get; set; }
         public bool IsImmutable { get; set; }
         public bool IsVisible { get; set; }
-        public int TileWidth { get; set; }
-        public int TileHeight { get; set; }
-        public int OffsetX { get; set; }
-        public int OffsetY { get; set; }
-        public int Rows { get; set; }
-        public int Columns { get; set; }
-        public LayerPosition Position { get; set; }
-        public ScaleType Scale { get; set; }
-        public double ScrollRate { get; set; }
-        public string Description { get; set; }
 
         public DrawingImage LayerItems { get; set; }
 
