@@ -62,7 +62,7 @@ namespace Ame.Infrastructure.BaseTypes
 
         #region constructor
 
-        public static ListCollectionView GetPropertyList(object item)
+        public static IList GetPropertyList(object item)
         {
             IList mapProperties = new List<MetadataProperty>();
             PropertyInfo[] propertyInfoList = item.GetType().GetProperties();
@@ -74,7 +74,7 @@ namespace Ame.Infrastructure.BaseTypes
                     mapProperties.Add(new MetadataProperty(propertyInfo.Name, propertyInfo.GetValue(item), attribute.Type));
                 }
             }
-            return new ListCollectionView(mapProperties);
+            return mapProperties;
         }
 
         #endregion constructor

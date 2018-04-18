@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:Ame.Modules.Windows.MapEditorWindow"
              xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=Ame.Components"
              xmlns:Behaviors="clr-namespace:Ame.Components.Behaviors;assembly=Ame.Components"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="300" 
              d:DesignWidth="300">
     <Grid x:Name="propertiesGrid">
@@ -68,14 +68,15 @@
         </WrapPanel>
 
         <DataGrid Grid.Row="1"
-                  ItemsSource="{Binding MapProperties}"
+                  ItemsSource="{Binding MapMetadata}"
                   SelectionUnit="FullRow"
                   AutoGenerateColumns="False"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   Width="{Binding Path=Width, ElementName=propertiesGrid}">
             <i:Interaction.Behaviors>
                 <Behaviors:DataGridRowReadOnlyBehavior />
             </i:Interaction.Behaviors>
-            
+
             <DataGrid.Resources>
                 <Style TargetType="{x:Type DataGridRow}">
                     <Style.Triggers>
@@ -109,13 +110,12 @@
 
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Property"
-                                    Width="*"
-                                    Binding="{Binding Key}"/>
+                                    Width="Auto"
+                                    Binding="{Binding Key}" />
                 <DataGridTextColumn Header="Value"
-                                    Width="2*"
+                                    Width="Auto"
                                     Binding="{Binding Value}" />
             </DataGrid.Columns>
         </DataGrid>
-
     </Grid>
 </UserControl>

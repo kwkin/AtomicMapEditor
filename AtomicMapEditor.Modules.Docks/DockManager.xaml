@@ -71,7 +71,6 @@
                          Grid.Row="2">
 
         <xcad:DockingManager.LayoutItemTemplateSelector>
-            <!--<basetype:DockTemplateSelector />-->
             <basetype:DockTemplateSelector>
                 <basetype:DockTemplateSelector.ClipboardDataTemplate>
                     <DataTemplate>

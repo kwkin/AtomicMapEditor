@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.ComponentModel;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -61,12 +62,13 @@ namespace Ame.Modules.Windows.MapEditorWindow
                 this.notification = value as IConfirmation;
                 this.Map = this.notification.Content as Map;
                 updateUIusingMap();
+                UpdateMetadata();
                 RaisePropertyChanged(nameof(this.Notification));
             }
         }
 
         public ICollectionView GroupedProperties { get; set; }
-        public ICollectionView MapProperties { get; set; }
+        public ICollectionView MapMetadata { get; set; }
 
         public Action FinishInteraction { get; set; }
 
@@ -136,8 +138,10 @@ namespace Ame.Modules.Windows.MapEditorWindow
 
         private void UpdateMetadata()
         {
-            this.MapProperties = MetadataPropertyUtils.GetPropertyList(this.Map);
-            this.MapProperties.GroupDescriptions.Add(new PropertyGroupDescription("Type"));
+            IList metadataList = MetadataPropertyUtils.GetPropertyList(this.Map);
+            metadataList.Add(new MetadataProperty(nameof(this.Map.LayerList.Count), this.Map.LayerList.Count, MetadataType.Statistic));
+            this.MapMetadata = new ListCollectionView(metadataList);
+            this.MapMetadata.GroupDescriptions.Add(new PropertyGroupDescription("Type"));
         }
 
         #endregion methods
