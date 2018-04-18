@@ -26,12 +26,32 @@
             <prism:PopupWindowAction IsModal="True"
                                      CenterOverAssociatedObject="True"
                                      WindowContent="{Binding MapWindowView}">
+                <prism:PopupWindowAction.WindowStyle>
+                    <Style TargetType="Window">
+                        <Setter Property="MinWidth"
+                                Value="416" />
+                        <Setter Property="MinHeight"
+                                Value="305" />
+                        <Setter Property="SizeToContent"
+                                Value="WidthAndHeight" />
+                    </Style>
+                </prism:PopupWindowAction.WindowStyle>
             </prism:PopupWindowAction>
         </prism:InteractionRequestTrigger>
         <prism:InteractionRequestTrigger SourceObject="{Binding LayerWindowInteraction}">
             <prism:PopupWindowAction IsModal="True"
                                      CenterOverAssociatedObject="True"
                                      WindowContent="{Binding LayerWindowView}">
+                <prism:PopupWindowAction.WindowStyle>
+                    <Style TargetType="Window">
+                        <Setter Property="MinWidth"
+                                Value="416" />
+                        <Setter Property="MinHeight"
+                                Value="305" />
+                        <Setter Property="SizeToContent"
+                                Value="WidthAndHeight" />
+                    </Style>
+                </prism:PopupWindowAction.WindowStyle>
             </prism:PopupWindowAction>
         </prism:InteractionRequestTrigger>
     </i:Interaction.Triggers>
