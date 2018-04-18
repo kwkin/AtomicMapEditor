@@ -16,8 +16,8 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="130" />
+            <ColumnDefinition Width="130" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -41,7 +41,7 @@
                                            DataContext="{Binding DataContext, ElementName=mapWindow}" />
             </TabItem>
         </TabControl>
-
+            
         <Button x:Name="cancelButton"
                 Margin="2,0,2,2"
                 Content="Cancel"

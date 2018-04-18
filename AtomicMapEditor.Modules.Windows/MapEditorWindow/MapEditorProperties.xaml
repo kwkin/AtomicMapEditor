@@ -71,7 +71,8 @@
                   ItemsSource="{Binding MapMetadata}"
                   SelectionUnit="FullRow"
                   AutoGenerateColumns="False"
-                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  ScrollViewer.VerticalScrollBarVisibility="Visible"
+                  ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                   Width="{Binding Path=Width, ElementName=propertiesGrid}">
             <i:Interaction.Behaviors>
                 <Behaviors:DataGridRowReadOnlyBehavior />
@@ -110,10 +111,10 @@
 
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Property"
-                                    Width="Auto"
+                                    Width="*"
                                     Binding="{Binding Key}" />
                 <DataGridTextColumn Header="Value"
-                                    Width="Auto"
+                                    Width="2*"
                                     Binding="{Binding Value}" />
             </DataGrid.Columns>
         </DataGrid>

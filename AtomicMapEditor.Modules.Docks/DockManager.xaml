@@ -29,11 +29,13 @@
                 <prism:PopupWindowAction.WindowStyle>
                     <Style TargetType="Window">
                         <Setter Property="MinWidth"
-                                Value="416" />
+                                Value="420" />
                         <Setter Property="MinHeight"
-                                Value="305" />
-                        <Setter Property="SizeToContent"
-                                Value="WidthAndHeight" />
+                                Value="380" />
+                        <Setter Property="Width"
+                                Value="420" />
+                        <Setter Property="Height"
+                                Value="380" />
                     </Style>
                 </prism:PopupWindowAction.WindowStyle>
             </prism:PopupWindowAction>
