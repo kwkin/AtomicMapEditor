@@ -65,7 +65,7 @@ namespace Ame.Infrastructure.Models
         
         private string name { get; set; }
 
-        [PropertyStatAttribute(PropertyType.Property)]
+        [MetadataProperty(MetadataType.Property)]
         public string Name
         {
             get
@@ -82,28 +82,28 @@ namespace Ame.Infrastructure.Models
             }
         }
 
-        [PropertyStatAttribute(PropertyType.Property)]
+        [MetadataProperty(MetadataType.Property)]
         public int Columns { get; set; }
 
-        [PropertyStatAttribute(PropertyType.Property)]
+        [MetadataProperty(MetadataType.Property)]
         public int Rows { get; set; }
 
-        [PropertyStatAttribute(PropertyType.Property)]
+        [MetadataProperty(MetadataType.Property)]
         public ScaleType Scale { get; set; }
 
-        [PropertyStatAttribute(PropertyType.Property)]
+        [MetadataProperty(MetadataType.Property)]
         public int TileWidth { get; set; }
 
-        [PropertyStatAttribute(PropertyType.Property)]
+        [MetadataProperty(MetadataType.Property)]
         public int TileHeight { get; set; }
 
-        [PropertyStatAttribute(PropertyType.Property)]
+        [MetadataProperty(MetadataType.Property)]
         public int PixelRatio { get; set; }
 
-        [PropertyStatAttribute(PropertyType.Property)]
+        [MetadataProperty(MetadataType.Property)]
         public int PixelScale { get; set; }
 
-        [PropertyStatAttribute(PropertyType.Property)]
+        [MetadataProperty(MetadataType.Property)]
         public string Description { get; set; }
 
         public IList<Layer> LayerList { get; set; }

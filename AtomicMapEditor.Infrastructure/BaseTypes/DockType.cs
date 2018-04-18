@@ -5,31 +5,31 @@ namespace Ame.Infrastructure.BaseTypes
 {
     public enum DockType
     {
-        [DockContentIdAttribute("Clipboard")]
+        [DockContentId("Clipboard")]
         Clipboard,
 
-        [DockContentIdAttribute("ItemEditor")]
+        [DockContentId("ItemEditor")]
         ItemEditor,
 
-        [DockContentIdAttribute("ItemList")]
+        [DockContentId("ItemList")]
         ItemList,
 
-        [DockContentIdAttribute("LayerList")]
+        [DockContentId("LayerList")]
         LayerList,
 
-        [DockContentIdAttribute("Minimap")]
+        [DockContentId("Minimap")]
         Minimap,
 
-        [DockContentIdAttribute("SelectedBrush")]
+        [DockContentId("SelectedBrush")]
         SelectedBrush,
 
-        [DockContentIdAttribute("Toolbox")]
+        [DockContentId("Toolbox")]
         Toolbox,
 
-        [DockContentIdAttribute("MapEditor")]
+        [DockContentId("MapEditor")]
         MapEditor,
 
-        [DockContentIdAttribute("Unknown")]
+        [DockContentId("Unknown")]
         Unknown
     }
     

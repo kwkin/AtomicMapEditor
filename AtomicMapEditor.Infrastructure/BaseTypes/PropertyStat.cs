@@ -6,12 +6,12 @@ using System.Windows.Data;
 
 namespace Ame.Infrastructure.BaseTypes
 {
-    public enum PropertyType
+    public enum MetadataType
     {
         Property, Statistic, Custom
     }
 
-    public class PropertyStat
+    public class MetadataProperty
     {
         #region fields
 
@@ -20,12 +20,12 @@ namespace Ame.Infrastructure.BaseTypes
 
         #region constructor
 
-        public PropertyStat(object key, object value, PropertyType type)
+        public MetadataProperty(object key, object value, MetadataType type)
         {
             this.Key = key;
             this.Value = value;
             this.Type = type;
-            if (type == PropertyType.Custom)
+            if (type == MetadataType.Custom)
             {
                 this.IsReadOnly = false;
             }
@@ -42,7 +42,7 @@ namespace Ame.Infrastructure.BaseTypes
 
         public object Key { get; set; }
         public object Value { get; set; }
-        public PropertyType Type { get; set; }
+        public MetadataType Type { get; set; }
         public bool IsReadOnly { get; set; }
 
         #endregion properties
@@ -53,7 +53,7 @@ namespace Ame.Infrastructure.BaseTypes
         #endregion methods
     }
 
-    public static class PropertyStatUtils
+    public static class MetadataPropertyUtils
     {
         #region fields
 
@@ -64,14 +64,14 @@ namespace Ame.Infrastructure.BaseTypes
 
         public static ListCollectionView GetPropertyList(object item)
         {
-            IList mapProperties = new List<PropertyStat>();
+            IList mapProperties = new List<MetadataProperty>();
             PropertyInfo[] propertyInfoList = item.GetType().GetProperties();
             foreach (PropertyInfo propertyInfo in propertyInfoList)
             {
-                PropertyStatAttribute attribute = propertyInfo.GetCustomAttribute<PropertyStatAttribute>();
+                MetadataPropertyAttribute attribute = propertyInfo.GetCustomAttribute<MetadataPropertyAttribute>();
                 if (attribute != null)
                 {
-                    mapProperties.Add(new PropertyStat(propertyInfo.Name, propertyInfo.GetValue(item), attribute.Type));
+                    mapProperties.Add(new MetadataProperty(propertyInfo.Name, propertyInfo.GetValue(item), attribute.Type));
                 }
             }
             return new ListCollectionView(mapProperties);
@@ -90,11 +90,11 @@ namespace Ame.Infrastructure.BaseTypes
         #endregion methods
     }
 
-    internal class PropertyStatAttribute : Attribute
+    internal class MetadataPropertyAttribute : Attribute
     {
         #region constructor
 
-        internal PropertyStatAttribute(PropertyType type)
+        internal MetadataPropertyAttribute(MetadataType type)
         {
             this.Type = type;
         }
@@ -104,7 +104,7 @@ namespace Ame.Infrastructure.BaseTypes
 
         #region properties
 
-        public PropertyType Type { get; private set; }
+        public MetadataType Type { get; private set; }
 
         #endregion properties
     }

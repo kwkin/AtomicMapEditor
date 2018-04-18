@@ -61,8 +61,6 @@ namespace Ame.Modules.Windows.MapEditorWindow
                 this.notification = value as IConfirmation;
                 this.Map = this.notification.Content as Map;
                 updateUIusingMap();
-                this.MapProperties = PropertyStatUtils.GetPropertyList(this.Map);
-                this.MapProperties.GroupDescriptions.Add(new PropertyGroupDescription("Type"));
                 RaisePropertyChanged(nameof(this.Notification));
             }
         }
@@ -134,6 +132,12 @@ namespace Ame.Modules.Windows.MapEditorWindow
             this.Scale = map.Scale;
             this.PixelScale = map.PixelScale;
             this.Description = map.Description;
+        }
+
+        private void UpdateMetadata()
+        {
+            this.MapProperties = MetadataPropertyUtils.GetPropertyList(this.Map);
+            this.MapProperties.GroupDescriptions.Add(new PropertyGroupDescription("Type"));
         }
 
         #endregion methods
