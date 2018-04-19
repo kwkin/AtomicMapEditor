@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Reflection;
 
 namespace Ame.Infrastructure.BaseTypes
@@ -61,9 +62,9 @@ namespace Ame.Infrastructure.BaseTypes
 
         #region constructor
 
-        public static IList GetPropertyList(object item)
+        public static ObservableCollection<MetadataProperty> GetPropertyList(object item)
         {
-            IList mapProperties = new List<MetadataProperty>();
+            ObservableCollection<MetadataProperty> mapProperties = new ObservableCollection<MetadataProperty>();
             PropertyInfo[] propertyInfoList = item.GetType().GetProperties();
             foreach (PropertyInfo propertyInfo in propertyInfoList)
             {

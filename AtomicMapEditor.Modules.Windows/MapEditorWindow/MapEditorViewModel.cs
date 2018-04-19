@@ -1,8 +1,14 @@
 ﻿using System;
+using System.Linq;
 using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Data;
+using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Threading;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Models;
 using Prism.Commands;
@@ -31,6 +37,8 @@ namespace Ame.Modules.Windows.MapEditorWindow
 
             this.SetMapPropertiesCommand = new DelegateCommand(SetMapProperties);
             this.CloseWindowCommand = new DelegateCommand(CloseWindow);
+            this.MovePropertyUpCommand = new DelegateCommand(MovePropertyUp);
+            this.MovePropertyDownCommand = new DelegateCommand(MovePropertyDown);
         }
 
         #endregion constructor
@@ -40,6 +48,8 @@ namespace Ame.Modules.Windows.MapEditorWindow
 
         public ICommand SetMapPropertiesCommand { get; private set; }
         public ICommand CloseWindowCommand { get; private set; }
+        public ICommand MovePropertyUpCommand { get; private set; }
+        public ICommand MovePropertyDownCommand { get; private set; }
 
         public string WindowTitle { get; set; }
         public string Name { get; set; }
@@ -69,6 +79,8 @@ namespace Ame.Modules.Windows.MapEditorWindow
 
         public ICollectionView GroupedProperties { get; set; }
         public ICollectionView MapMetadata { get; set; }
+        public ObservableCollection<MetadataProperty> MetadataList { get; set; }
+        public MetadataProperty SelectedMetadata { get; set; }
 
         public Action FinishInteraction { get; set; }
 
@@ -138,10 +150,72 @@ namespace Ame.Modules.Windows.MapEditorWindow
 
         private void UpdateMetadata()
         {
-            IList metadataList = MetadataPropertyUtils.GetPropertyList(this.Map);
-            metadataList.Add(new MetadataProperty("Layer Count", this.Map.LayerList.Count, MetadataType.Statistic));
-            this.MapMetadata = new ListCollectionView(metadataList);
+            this.MetadataList = MetadataPropertyUtils.GetPropertyList(this.Map);
+            this.MetadataList.Add(new MetadataProperty("Layer Count", this.Map.LayerList.Count, MetadataType.Statistic));
+            this.MapMetadata = new ListCollectionView(this.MetadataList);
             this.MapMetadata.GroupDescriptions.Add(new PropertyGroupDescription("Type"));
+        }
+
+        private void MovePropertyUp()
+        {
+            int currentIndex = this.MapMetadata.CurrentPosition;
+            MetadataProperty currentItem = this.MapMetadata.CurrentItem as MetadataProperty;
+            MetadataType currentItemType = currentItem.Type;
+
+            int propertyIndex = 0;
+            int statisticIndex = this.MetadataList.Count(p => p.Type == MetadataType.Property) + propertyIndex;
+            int customIndex = this.MetadataList.Count(p => p.Type == MetadataType.Statistic) + statisticIndex;
+            int lowestIndex = 0;
+            switch (currentItemType)
+            {
+                case MetadataType.Property:
+                    lowestIndex = propertyIndex;
+                    break;
+                case MetadataType.Statistic:
+                    lowestIndex = statisticIndex;
+                    break;
+                case MetadataType.Custom:
+                    lowestIndex = customIndex;
+                    break;
+                default:
+                    break;
+            }
+            if (currentIndex > lowestIndex)
+            {
+                this.MetadataList.Move(currentIndex, currentIndex - 1);
+                this.MapMetadata.Refresh();
+            }
+        }
+
+        private void MovePropertyDown()
+        {
+            int currentIndex = this.MapMetadata.CurrentPosition;
+            MetadataProperty currentItem = this.MapMetadata.CurrentItem as MetadataProperty;
+            MetadataType currentItemType = currentItem.Type;
+
+            int propertyIndex = 0;
+            int statisticIndex = this.MetadataList.Count(p => p.Type == MetadataType.Property) + propertyIndex;
+            int customIndex = this.MetadataList.Count(p => p.Type == MetadataType.Statistic) + statisticIndex;
+            int highestIndex = 0;
+            switch (currentItemType)
+            {
+                case MetadataType.Property:
+                    highestIndex = statisticIndex - 1;
+                    break;
+                case MetadataType.Statistic:
+                    highestIndex = customIndex - 1;
+                    break;
+                case MetadataType.Custom:
+                    highestIndex = this.MetadataList.Count - 1;
+                    break;
+                default:
+                    break;
+            }
+            if (currentIndex < highestIndex)
+            {
+                this.MetadataList.Move(currentIndex, currentIndex + 1);
+                this.MapMetadata.Refresh();
+            }
         }
 
         #endregion methods

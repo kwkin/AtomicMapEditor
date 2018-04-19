@@ -37,12 +37,14 @@
 
             <extcomp:IconButton x:Name="moveUpButton"
                                 ToolTip="Merge Up: Moves the property up in the list."
+                                Command="{Binding MovePropertyUpCommand}"
                                 ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_arrow_up_black_24dp.png"
                                 ImageStretch="None">
             </extcomp:IconButton>
 
             <extcomp:IconButton x:Name="moveDownButton"
                                 ToolTip="Move Down: Moves the property down in the list."
+                                Command="{Binding MovePropertyDownCommand}"
                                 ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_arrow_down_black_24dp.png"
                                 ImageStretch="None">
             </extcomp:IconButton>
@@ -61,7 +63,8 @@
         </WrapPanel>
 
         <DataGrid Grid.Row="1"
-                  ItemsSource="{Binding MapMetadata}"
+                  ItemsSource="{Binding MapMetadata, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding SelectedMetadata}"
                   SelectionUnit="FullRow"
                   AutoGenerateColumns="False"
                   ScrollViewer.VerticalScrollBarVisibility="Visible"
