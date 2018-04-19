@@ -20,7 +20,7 @@ namespace Ame.Infrastructure.BaseTypes
 
         #region constructor
 
-        public MetadataProperty(object key, object value, MetadataType type)
+        public MetadataProperty(string key, object value, MetadataType type)
         {
             this.Key = key;
             this.Value = value;
@@ -40,7 +40,7 @@ namespace Ame.Infrastructure.BaseTypes
 
         #region properties
 
-        public object Key { get; set; }
+        public string Key { get; set; }
         public object Value { get; set; }
         public MetadataType Type { get; set; }
         public bool IsReadOnly { get; set; }

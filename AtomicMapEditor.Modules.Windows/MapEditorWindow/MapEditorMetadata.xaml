@@ -17,21 +17,10 @@
         </Grid.RowDefinitions>
 
         <WrapPanel Grid.Row="0">
-            <extcomp:IconButton x:Name="editPropertyButton"
-                                ToolTip="Edit Property: Edit the value of the selected property."
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_pencil_black_24dp.png"
-                                ImageStretch="None">
-            </extcomp:IconButton>
-
             <extcomp:IconButton x:Name="addPropertyButton"
                                 ToolTip="Add Property: Add a custom property."
+                                Command="{Binding AddCustomPropertyCommand}"
                                 ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
-                                ImageStretch="None">
-            </extcomp:IconButton>
-
-            <extcomp:IconButton x:Name="addGroupButton"
-                                ToolTip="Merge Down: Merges the current layer and below layer"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_folder_plus_black_24dp.png"
                                 ImageStretch="None">
             </extcomp:IconButton>
 
@@ -49,14 +38,10 @@
                                 ImageStretch="None">
             </extcomp:IconButton>
 
-            <extcomp:IconButton x:Name="orderButton"
-                                ToolTip="Order: Order the list of properties."
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_sort_variant_black_24dp.png"
-                                ImageStretch="None">
-            </extcomp:IconButton>
-
             <extcomp:IconButton x:Name="deleteButton"
                                 ToolTip="Delete: Deletes the selected custom property."
+                                Command="{Binding RemoveCustomPropertyCommand}"
+                                IsEnabled="{Binding IsCustomSelected}"
                                 ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_delete_black_24dp.png"
                                 ImageStretch="None">
             </extcomp:IconButton>

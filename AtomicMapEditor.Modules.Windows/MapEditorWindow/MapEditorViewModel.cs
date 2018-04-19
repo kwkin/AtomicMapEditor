@@ -37,8 +37,10 @@ namespace Ame.Modules.Windows.MapEditorWindow
 
             this.SetMapPropertiesCommand = new DelegateCommand(SetMapProperties);
             this.CloseWindowCommand = new DelegateCommand(CloseWindow);
-            this.MovePropertyUpCommand = new DelegateCommand(MovePropertyUp);
-            this.MovePropertyDownCommand = new DelegateCommand(MovePropertyDown);
+            this.AddCustomPropertyCommand = new DelegateCommand(AddCustomProperty);
+            this.RemoveCustomPropertyCommand = new DelegateCommand(RemoveCustomProperty);
+            this.MoveMetadataUpCommand = new DelegateCommand(MoveMetadataUp);
+            this.MoveMetadataDownCommand = new DelegateCommand(MoveMetadataDown);
         }
 
         #endregion constructor
@@ -48,8 +50,10 @@ namespace Ame.Modules.Windows.MapEditorWindow
 
         public ICommand SetMapPropertiesCommand { get; private set; }
         public ICommand CloseWindowCommand { get; private set; }
-        public ICommand MovePropertyUpCommand { get; private set; }
-        public ICommand MovePropertyDownCommand { get; private set; }
+        public ICommand AddCustomPropertyCommand { get; private set; }
+        public ICommand RemoveCustomPropertyCommand { get; private set; }
+        public ICommand MoveMetadataUpCommand { get; private set; }
+        public ICommand MoveMetadataDownCommand { get; private set; }
 
         public string WindowTitle { get; set; }
         public string Name { get; set; }
@@ -80,7 +84,32 @@ namespace Ame.Modules.Windows.MapEditorWindow
         public ICollectionView GroupedProperties { get; set; }
         public ICollectionView MapMetadata { get; set; }
         public ObservableCollection<MetadataProperty> MetadataList { get; set; }
-        public MetadataProperty SelectedMetadata { get; set; }
+
+        public MetadataProperty selectedMetadata;
+        public MetadataProperty SelectedMetadata
+        {
+            get
+            {
+                return selectedMetadata;
+            }
+            set
+            {
+                this.IsCustomSelected = value.Type == MetadataType.Custom ? true : false;
+                SetProperty(ref this.selectedMetadata, value);
+            }
+        }
+        public bool isCustomeSelected;
+        public bool IsCustomSelected
+        {
+            get
+            {
+                return isCustomeSelected;
+            }
+            set
+            {
+                SetProperty(ref this.isCustomeSelected, value);
+            }
+        }
 
         public Action FinishInteraction { get; set; }
 
@@ -156,7 +185,22 @@ namespace Ame.Modules.Windows.MapEditorWindow
             this.MapMetadata.GroupDescriptions.Add(new PropertyGroupDescription("Type"));
         }
 
-        private void MovePropertyUp()
+        private void AddCustomProperty()
+        {
+            int customCount = this.MetadataList.Count(p => p.Type == MetadataType.Custom);
+            String customName = String.Format("Custom #{0}", customCount);
+            this.MetadataList.Add(new MetadataProperty(customName, "", MetadataType.Custom));
+        }
+
+        private void RemoveCustomProperty()
+        {
+            if (this.SelectedMetadata.Type == MetadataType.Custom)
+            {
+                this.MetadataList.Remove(this.SelectedMetadata);
+            }
+        }
+
+        private void MoveMetadataUp()
         {
             int currentIndex = this.MapMetadata.CurrentPosition;
             MetadataProperty currentItem = this.MapMetadata.CurrentItem as MetadataProperty;
@@ -187,7 +231,7 @@ namespace Ame.Modules.Windows.MapEditorWindow
             }
         }
 
-        private void MovePropertyDown()
+        private void MoveMetadataDown()
         {
             int currentIndex = this.MapMetadata.CurrentPosition;
             MetadataProperty currentItem = this.MapMetadata.CurrentItem as MetadataProperty;
