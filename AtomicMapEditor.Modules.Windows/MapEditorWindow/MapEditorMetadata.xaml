@@ -19,28 +19,28 @@
         <WrapPanel Grid.Row="0">
             <extcomp:IconButton x:Name="addPropertyButton"
                                 ToolTip="Add Property: Add a custom property."
-                                Command="{Binding AddCustomPropertyCommand}"
+                                Command="{Binding AddCustomMetaDataCommand}"
                                 ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
                                 ImageStretch="None">
             </extcomp:IconButton>
 
             <extcomp:IconButton x:Name="moveUpButton"
                                 ToolTip="Merge Up: Moves the property up in the list."
-                                Command="{Binding MovePropertyUpCommand}"
+                                Command="{Binding MoveMetadataUpCommand}"
                                 ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_arrow_up_black_24dp.png"
                                 ImageStretch="None">
             </extcomp:IconButton>
 
             <extcomp:IconButton x:Name="moveDownButton"
                                 ToolTip="Move Down: Moves the property down in the list."
-                                Command="{Binding MovePropertyDownCommand}"
+                                Command="{Binding MoveMetadataDownCommand}"
                                 ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_arrow_down_black_24dp.png"
                                 ImageStretch="None">
             </extcomp:IconButton>
 
             <extcomp:IconButton x:Name="deleteButton"
                                 ToolTip="Delete: Deletes the selected custom property."
-                                Command="{Binding RemoveCustomPropertyCommand}"
+                                Command="{Binding RemoveCustomMetadataCommand}"
                                 IsEnabled="{Binding IsCustomSelected}"
                                 ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_delete_black_24dp.png"
                                 ImageStretch="None">

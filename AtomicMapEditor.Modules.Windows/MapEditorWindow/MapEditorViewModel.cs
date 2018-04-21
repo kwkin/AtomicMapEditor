@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Linq;
-using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Windows;
+using System.Linq;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Threading;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Models;
 using Prism.Commands;
@@ -37,8 +32,8 @@ namespace Ame.Modules.Windows.MapEditorWindow
 
             this.SetMapPropertiesCommand = new DelegateCommand(SetMapProperties);
             this.CloseWindowCommand = new DelegateCommand(CloseWindow);
-            this.AddCustomPropertyCommand = new DelegateCommand(AddCustomProperty);
-            this.RemoveCustomPropertyCommand = new DelegateCommand(RemoveCustomProperty);
+            this.AddCustomMetaDataCommand = new DelegateCommand(AddCustomProperty);
+            this.RemoveCustomMetadataCommand = new DelegateCommand(RemoveCustomProperty);
             this.MoveMetadataUpCommand = new DelegateCommand(MoveMetadataUp);
             this.MoveMetadataDownCommand = new DelegateCommand(MoveMetadataDown);
         }
@@ -50,8 +45,8 @@ namespace Ame.Modules.Windows.MapEditorWindow
 
         public ICommand SetMapPropertiesCommand { get; private set; }
         public ICommand CloseWindowCommand { get; private set; }
-        public ICommand AddCustomPropertyCommand { get; private set; }
-        public ICommand RemoveCustomPropertyCommand { get; private set; }
+        public ICommand AddCustomMetaDataCommand { get; private set; }
+        public ICommand RemoveCustomMetadataCommand { get; private set; }
         public ICommand MoveMetadataUpCommand { get; private set; }
         public ICommand MoveMetadataDownCommand { get; private set; }
 
@@ -98,16 +93,17 @@ namespace Ame.Modules.Windows.MapEditorWindow
                 SetProperty(ref this.selectedMetadata, value);
             }
         }
-        public bool isCustomeSelected;
+
+        public bool isCustomSelected;
         public bool IsCustomSelected
         {
             get
             {
-                return isCustomeSelected;
+                return isCustomSelected;
             }
             set
             {
-                SetProperty(ref this.isCustomeSelected, value);
+                SetProperty(ref this.isCustomSelected, value);
             }
         }
 
@@ -200,6 +196,7 @@ namespace Ame.Modules.Windows.MapEditorWindow
             }
         }
 
+        // TODO move this into a seperate class
         private void MoveMetadataUp()
         {
             int currentIndex = this.MapMetadata.CurrentPosition;
@@ -215,12 +212,15 @@ namespace Ame.Modules.Windows.MapEditorWindow
                 case MetadataType.Property:
                     lowestIndex = propertyIndex;
                     break;
+
                 case MetadataType.Statistic:
                     lowestIndex = statisticIndex;
                     break;
+
                 case MetadataType.Custom:
                     lowestIndex = customIndex;
                     break;
+
                 default:
                     break;
             }
@@ -246,12 +246,15 @@ namespace Ame.Modules.Windows.MapEditorWindow
                 case MetadataType.Property:
                     highestIndex = statisticIndex - 1;
                     break;
+
                 case MetadataType.Statistic:
                     highestIndex = customIndex - 1;
                     break;
+
                 case MetadataType.Custom:
                     highestIndex = this.MetadataList.Count - 1;
                     break;
+
                 default:
                     break;
             }
