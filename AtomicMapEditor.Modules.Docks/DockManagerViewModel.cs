@@ -11,6 +11,7 @@ using Ame.Infrastructure.Core;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Models;
 using Ame.Modules.Docks.Core;
+using Ame.Modules.MapEditor.Editor;
 using Ame.Modules.Windows.LayerEditorWindow;
 using Microsoft.Practices.Unity;
 using Prism.Events;
@@ -47,6 +48,15 @@ namespace Ame.Modules.Docks
 
             this.Documents = new ObservableCollection<DockViewModelTemplate>();
             this.Anchorables = new ObservableCollection<DockViewModelTemplate>();
+            foreach (Map map in session.MapList)
+            {
+                IUnityContainer container = new UnityContainer();
+                container.RegisterInstance<IEventAggregator>(this.eventAggregator);
+                container.RegisterInstance<IScrollModel>(new ScrollModel());
+                container.RegisterInstance<Map>(map);
+                DockViewModelTemplate dockViewModel = DockViewModelSelector.GetViewModel(DockType.MapEditor, container);
+                AddDockViewModel(dockViewModel);
+            }
 
             this.mapWindowInteraction = new InteractionRequest<INotification>();
             this.layerWindowInteraction = new InteractionRequest<INotification>();
@@ -194,10 +204,17 @@ namespace Ame.Modules.Docks
 
             switch (message.WindowType)
             {
-                case WindowType.Map:
+                case WindowType.NewMap:
                     notification = NewMapWindow();
                     notification.Title = notificationTitle;
-                    this.mapWindowInteraction.Raise(notification, OnMapWindowClosed);
+                    this.mapWindowInteraction.Raise(notification, OnNewMapWindowClosed);
+                    break;
+
+                case WindowType.EditMap:
+                    notification = EditMapWindow();
+                    notificationTitle = string.Format("Edit Map - {0}", this.Session.MapList[this.Session.MapListIndex].Name);
+                    notification.Title = notificationTitle;
+                    this.mapWindowInteraction.Raise(notification, OnEditMapWindowClosed);
                     break;
 
                 case WindowType.Layer:
@@ -233,6 +250,17 @@ namespace Ame.Modules.Docks
             return mapConfirmation;
         }
 
+        private INotification EditMapWindow()
+        {
+            this.MapWindowView = new Windows.MapEditorWindow.MapEditor();
+            RaisePropertyChanged(nameof(this.MapWindowView));
+
+            Confirmation mapConfirmation = new Confirmation();
+            string newMapName = this.Session.MapList[this.Session.MapListIndex].Name;
+            mapConfirmation.Content = this.Session.MapList[this.Session.MapListIndex];
+            return mapConfirmation;
+        }
+
         private INotification NewLayerWindow(Layer layer)
         {
             this.LayerWindowView = new LayerEditor();
@@ -243,7 +271,7 @@ namespace Ame.Modules.Docks
             return layerWindowConfirmation;
         }
 
-        private void OnMapWindowClosed(INotification notification)
+        private void OnNewMapWindowClosed(INotification notification)
         {
             IConfirmation confirmation = notification as IConfirmation;
             if (confirmation.Confirmed)
@@ -258,6 +286,16 @@ namespace Ame.Modules.Docks
 
                 OpenDockMessage openEditorMessage = new OpenDockMessage(DockType.MapEditor, container);
                 OpenDock(openEditorMessage);
+            }
+        }
+
+        private void OnEditMapWindowClosed(INotification notification)
+        {
+            IConfirmation confirmation = notification as IConfirmation;
+            if (confirmation.Confirmed)
+            {
+                Map mapModel = confirmation.Content as Map;
+                this.ActiveDocument.Title = mapModel.Name;
             }
         }
 

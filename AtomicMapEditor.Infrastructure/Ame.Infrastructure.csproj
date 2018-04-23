@@ -106,7 +106,6 @@
     <Compile Include="Events\NewLayerMessage.cs" />
     <Compile Include="Models\AmeSession.cs" />
     <Compile Include="Models\Brushes\BrushType.cs" />
-    <Compile Include="Models\Brushes\IBrush.cs" />
     <Compile Include="Models\ILayer.cs" />
     <Compile Include="Models\Layer.cs" />
     <Compile Include="Models\LayerGroup.cs" />

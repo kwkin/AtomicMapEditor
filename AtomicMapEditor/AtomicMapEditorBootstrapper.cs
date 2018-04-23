@@ -50,7 +50,7 @@ namespace Ame
         {
             base.ConfigureViewModelLocator();
             
-            Container.RegisterInstance<AmeSession>(new AmeSession(new Map("Map #0")));
+            Container.RegisterInstance<AmeSession>(new AmeSession(new Map("Map #1")));
 
             ViewModelLocationProvider.Register<MenuOptions, MenuOptionsViewModel>();
             ViewModelLocationProvider.Register<MainEditor, MainEditorViewModel>();

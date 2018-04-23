@@ -310,7 +310,7 @@ namespace Ame.Modules.Menu.Options
 
         public void NewMap()
         {
-            OpenWindowMessage window = new OpenWindowMessage(WindowType.Map);
+            OpenWindowMessage window = new OpenWindowMessage(WindowType.NewMap);
             window.WindowTitle = "New Map";
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(window);
         }
@@ -337,7 +337,8 @@ namespace Ame.Modules.Menu.Options
 
         public void EditMapProperties()
         {
-            Console.WriteLine("Edit Map Properties");
+            OpenWindowMessage window = new OpenWindowMessage(WindowType.EditMap);
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(window);
         }
 
         #endregion map methods
