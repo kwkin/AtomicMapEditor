@@ -46,7 +46,7 @@ namespace Ame.Modules.MapEditor.Editor
             this.Map = map;
             this.eventAggregator = eventAggregator;
             this.scrollModel = scrollModel;
-            this.Title = "Main Editor";
+            this.Title = map.Name;
             this.CurrentLayer = this.Map.LayerList[0];
 
             this.imageTransform = new CoordinateTransform();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using Ame.Infrastructure.Models;
 using Ame.Modules.Docks;
 using Ame.Modules.MapEditor;
 using Ame.Modules.MapEditor.Editor;
@@ -48,6 +49,8 @@ namespace Ame
         protected override void ConfigureViewModelLocator()
         {
             base.ConfigureViewModelLocator();
+            
+            Container.RegisterInstance<AmeSession>(new AmeSession(new Map("Map #0")));
 
             ViewModelLocationProvider.Register<MenuOptions, MenuOptionsViewModel>();
             ViewModelLocationProvider.Register<MainEditor, MainEditorViewModel>();
@@ -55,6 +58,7 @@ namespace Ame
 
             ViewModelLocationProvider.Register<MapEditor, MapEditorViewModel>();
             ViewModelLocationProvider.Register<LayerEditor, LayerEditorViewModel>();
+            
         }
     }
 }

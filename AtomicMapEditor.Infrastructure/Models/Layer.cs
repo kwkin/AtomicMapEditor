@@ -52,8 +52,7 @@ namespace Ame.Infrastructure.Models
 
 
         #region properties
-
-        // TODO: check is the other properties need to implement this when editing properties
+        
         public string layerName { get; set; }
 
         [MetadataProperty(MetadataType.Property, "Name")]

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Input;
+using Ame.Infrastructure.Events;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 
 namespace Ame.Modules.MapEditor.Ribbon
@@ -9,12 +11,20 @@ namespace Ame.Modules.MapEditor.Ribbon
     {
         #region fields
 
+        private IEventAggregator eventAggregator;
+
         #endregion fields
 
         #region constructor
 
-        public MapEditorRibbonViewModel()
+        public MapEditorRibbonViewModel(IEventAggregator eventAggregator)
         {
+            if (eventAggregator == null)
+            {
+                throw new ArgumentNullException("eventAggregator");
+            }
+            this.eventAggregator = eventAggregator;
+
             // Map bindings
             this.NewMapCommand = new DelegateCommand(() => NewMap());
             this.DuplicateMapCommand = new DelegateCommand(() => DuplicateMap());
@@ -108,7 +118,9 @@ namespace Ame.Modules.MapEditor.Ribbon
 
         public void NewMap()
         {
-            Console.WriteLine("Open Map Editor");
+            OpenWindowMessage window = new OpenWindowMessage(WindowType.Map);
+            window.WindowTitle = "New Map";
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(window);
         }
 
         public void DuplicateMap()

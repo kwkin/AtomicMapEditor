@@ -217,21 +217,26 @@ namespace Ame.Modules.Docks.ItemEditorDock
         {
             DrawTileSelect(topLeftPixel, pixelSize);
             Mat croppedImage = BrushUtils.CropImage(this.itemImage, topLeftPixel, pixelSize);
-            
-            Mat trasparentMask = new Mat();
-            Mat croppedTransparentImage = new Mat((int)pixelSize.Height, (int)pixelSize.Width, Emgu.CV.CvEnum.DepthType.Cv8U, -1);
-
-            // R=255, G=150, B=246
-            Color color =  this.TilesetModel.TransparentColor;
-            ScalarArray transparentColorLower = new ScalarArray(new MCvScalar(color.B, color.G, color.R, 0));
-            ScalarArray transparentColorHigher = new ScalarArray(new MCvScalar(color.B, color.G, color.R, 255));
-            CvInvoke.InRange(croppedImage, transparentColorLower, transparentColorHigher, trasparentMask);
-            
-            CvInvoke.BitwiseNot(trasparentMask, trasparentMask);
-            croppedImage.CopyTo(croppedTransparentImage, trasparentMask);
-            
             BrushModel brushModel = new BrushModel();
-            brushModel.Image = ImageUtils.MatToBitmap(croppedTransparentImage);
+
+            if (this.TilesetModel.IsTransparent)
+            {
+                Mat trasparentMask = new Mat();
+                Mat croppedTransparentImage = new Mat((int)pixelSize.Height, (int)pixelSize.Width, Emgu.CV.CvEnum.DepthType.Cv8U, -1);
+
+                Color color = this.TilesetModel.TransparentColor;
+                ScalarArray transparentColorLower = new ScalarArray(new MCvScalar(color.B, color.G, color.R, 0));
+                ScalarArray transparentColorHigher = new ScalarArray(new MCvScalar(color.B, color.G, color.R, 255));
+                CvInvoke.InRange(croppedImage, transparentColorLower, transparentColorHigher, trasparentMask);
+
+                CvInvoke.BitwiseNot(trasparentMask, trasparentMask);
+                croppedImage.CopyTo(croppedTransparentImage, trasparentMask);
+                brushModel.Image = ImageUtils.MatToBitmap(croppedTransparentImage);
+            }
+            else
+            {
+                brushModel.Image = ImageUtils.MatToBitmap(croppedImage);
+            }
             UpdateBrushMessage message = new UpdateBrushMessage(brushModel);
             this.eventAggregator.GetEvent<UpdateBrushEvent>().Publish(message);
 

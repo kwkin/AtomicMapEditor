@@ -34,12 +34,13 @@ namespace Ame.Modules.Docks
 
         #region constructor
 
-        public DockManagerViewModel(DockingManager dockManager, IEventAggregator eventAggregator)
+        public DockManagerViewModel(AmeSession session, DockingManager dockManager, IEventAggregator eventAggregator)
         {
             if (eventAggregator == null)
             {
                 throw new ArgumentNullException("eventAggregator");
             }
+            this.Session = session;
             this.DockManager = dockManager;
             this.DockLayout = new DockLayoutViewModel(this, eventAggregator);
             this.eventAggregator = eventAggregator;
@@ -73,6 +74,7 @@ namespace Ame.Modules.Docks
 
         #region properties
 
+        public AmeSession Session { get; set; }
         public DockingManager DockManager { get; set; }
         public DockLayoutViewModel DockLayout { get; private set; }
         public ObservableCollection<DockViewModelTemplate> Documents { get; private set; }
@@ -202,7 +204,8 @@ namespace Ame.Modules.Docks
                     notification = NewLayerWindow(message.Content as Layer);
                     notification.Title = notificationTitle;
 
-                    // TODO do not rely on the title name TODO establish a better messaging system
+                    // TODO do not rely on the title name 
+                    // TODO establish a better messaging system
                     if (notificationTitle != "Edit Layer")
                     {
                         this.layerWindowInteraction.Raise(notification, OnLayerWindowClosed);
@@ -224,7 +227,9 @@ namespace Ame.Modules.Docks
             RaisePropertyChanged(nameof(this.MapWindowView));
 
             Confirmation mapConfirmation = new Confirmation();
-            mapConfirmation.Content = new Map("Map #1");
+            int mapCount = this.Session.MapList.Count + 1;
+            string newMapName = String.Format("Map #{0}", mapCount);
+            mapConfirmation.Content = new Map(newMapName);
             return mapConfirmation;
         }
 
@@ -249,6 +254,7 @@ namespace Ame.Modules.Docks
                 container.RegisterInstance<IEventAggregator>(this.eventAggregator);
                 container.RegisterInstance<IScrollModel>(new ScrollModel());
                 container.RegisterInstance<Map>(mapModel);
+                this.Session.MapList.Add(mapModel);
 
                 OpenDockMessage openEditorMessage = new OpenDockMessage(DockType.MapEditor, container);
                 OpenDock(openEditorMessage);
