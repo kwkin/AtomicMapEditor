@@ -39,6 +39,11 @@ namespace Ame.Infrastructure.Models
 
         #region methods
         
+        public Map CurrentMap()
+        {
+            return this.MapList[this.MapListIndex];
+        }
+
         #endregion methods
     }
 }

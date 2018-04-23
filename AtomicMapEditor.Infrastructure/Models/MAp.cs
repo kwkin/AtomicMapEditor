@@ -26,7 +26,7 @@ namespace Ame.Infrastructure.Models
             this.Scale = ScaleType.Tile;
             this.PixelScale = 1;
             this.Description = "";
-            this.LayerList = new List<Layer>();
+            this.LayerList = new List<ILayer>();
             this.LayerList.Add(new Layer("Layer #1", this.TileWidth, this.TileHeight, this.Rows, this.Columns));
         }
 
@@ -40,7 +40,7 @@ namespace Ame.Infrastructure.Models
             this.Scale = ScaleType.Tile;
             this.PixelScale = 1;
             this.Description = "";
-            this.LayerList = new List<Layer>();
+            this.LayerList = new List<ILayer>();
             this.LayerList.Add(new Layer("Layer #1", this.TileWidth, this.TileHeight, this.Rows, this.Columns));
         }
 
@@ -54,7 +54,7 @@ namespace Ame.Infrastructure.Models
             this.Scale = ScaleType.Tile;
             this.PixelScale = 1;
             this.Description = "";
-            this.LayerList = new List<Layer>();
+            this.LayerList = new List<ILayer>();
             this.LayerList.Add(new Layer("Layer #1", this.TileWidth, this.TileHeight, this.Rows, this.Columns));
         }
 
@@ -106,8 +106,9 @@ namespace Ame.Infrastructure.Models
         [MetadataProperty(MetadataType.Property)]
         public string Description { get; set; }
 
-        public IList<Layer> LayerList { get; set; }
-        
+        public IList<ILayer> LayerList { get; set; }
+        public int SelectedLayerIndex { get; set; }
+
         #endregion properties
 
 
@@ -167,6 +168,11 @@ namespace Ame.Infrastructure.Models
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+        public ILayer CurrentLayer()
+        {
+            return this.LayerList[this.SelectedLayerIndex];
         }
 
         #endregion methods

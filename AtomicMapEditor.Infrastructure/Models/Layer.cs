@@ -53,7 +53,7 @@ namespace Ame.Infrastructure.Models
 
         #region properties
         
-        public string layerName { get; set; }
+        private string layerName { get; set; }
 
         [MetadataProperty(MetadataType.Property, "Name")]
         public string LayerName

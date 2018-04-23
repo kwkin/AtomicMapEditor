@@ -47,7 +47,9 @@ namespace Ame.Modules.MapEditor.Editor
             this.eventAggregator = eventAggregator;
             this.scrollModel = scrollModel;
             this.Title = map.Name;
-            this.CurrentLayer = this.Map.LayerList[0];
+
+            // TODO use the map current layer instead
+            this.CurrentLayer = this.Map.LayerList[0] as Layer;
 
             this.imageTransform = new CoordinateTransform();
             this.imageTransform.SetPixelToTile(this.Map.TileWidth, this.Map.TileHeight);

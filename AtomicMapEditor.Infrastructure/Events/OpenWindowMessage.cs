@@ -6,7 +6,10 @@ namespace Ame.Infrastructure.Events
 {
     public enum WindowType
     {
-        NewMap, EditMap, Layer
+        NewMap,
+        EditMap,
+        NewLayer,
+        EditLayer
     }
 
     public class OpenWindowMessage

@@ -23,13 +23,14 @@ namespace Ame.Modules.Docks.LayerListDock
         #region constructor
 
         // TODO add layer editing properties
-        public LayerListViewModel(IEventAggregator eventAggregator)
+        public LayerListViewModel(ObservableCollection<ILayer> layerList, IEventAggregator eventAggregator)
         {
             if (eventAggregator == null)
             {
                 throw new ArgumentNullException("eventAggregator");
             }
             this.Title = "Layer List";
+            this.LayerList = layerList;
             this.eventAggregator = eventAggregator;
 
             this.NewLayerCommand = new DelegateCommand(() => NewTilesetLayer());
@@ -46,11 +47,9 @@ namespace Ame.Modules.Docks.LayerListDock
             this.EditCollisionsCommand = new DelegateCommand(() => EditCollisions());
             this.LayerToMapSizeCommand = new DelegateCommand(() => LayerToMapSize());
             this.CurrentLayerChangedCommand = new DelegateCommand<object>((currentLayer) => CurrentLayerChanged((ILayer)currentLayer));
-
-            this.LayerList = new ObservableCollection<ILayer>();
-
-            this.LayerList.Add(new Layer("Layer #1", 32, 32, 32, 32));
-            this.LayerList.Add(new Layer("Layer #2", 32, 32, 32, 32));
+            
+            //this.LayerList.Add(new Layer("Layer #1", 32, 32, 32, 32));
+            //this.LayerList.Add(new Layer("Layer #2", 32, 32, 32, 32));
 
             //ObservableCollection<ILayer> layerGroupLayers = new ObservableCollection<ILayer>();
             //layerGroupLayers.Add(new Layer("Layer #3", 32, 32, 32, 32));
@@ -119,11 +118,9 @@ namespace Ame.Modules.Docks.LayerListDock
         public void NewTilesetLayer()
         {
             int layerCount = GetLayerCount() + 1;
-            String newLayerName = String.Format("Layer #{0}", layerCount);
 
-            OpenWindowMessage openWindowMessage = new OpenWindowMessage(WindowType.Layer);
+            OpenWindowMessage openWindowMessage = new OpenWindowMessage(WindowType.NewLayer);
             openWindowMessage.WindowTitle = "New Layer";
-            openWindowMessage.Content = new Layer(newLayerName, 32, 32, 32, 32);
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(openWindowMessage);
         }
 
@@ -182,8 +179,8 @@ namespace Ame.Modules.Docks.LayerListDock
             {
                 return;
             }
-            OpenWindowMessage openWindowMessage = new OpenWindowMessage(WindowType.Layer);
-            openWindowMessage.WindowTitle = "Edit Layer";
+            OpenWindowMessage openWindowMessage = new OpenWindowMessage(WindowType.EditLayer);
+            openWindowMessage.WindowTitle = string.Format("Edit Layer - {0}", this.CurrentLayer.LayerName);
             openWindowMessage.Content = this.CurrentLayer;
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(openWindowMessage);
         }

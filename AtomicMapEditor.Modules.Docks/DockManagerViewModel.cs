@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
@@ -178,12 +179,18 @@ namespace Ame.Modules.Docks
                 container = new UnityContainer();
                 container.RegisterInstance<IEventAggregator>(this.eventAggregator);
                 container.RegisterInstance<IScrollModel>(new ScrollModel());
+
+                // TODO fix this when DockViewModelSelector is removed
+                IList<ILayer> layerList = this.Session.CurrentMap().LayerList;
+                ObservableCollection<ILayer> layerObservableList = new ObservableCollection<ILayer>(layerList);
+                container.RegisterInstance<ObservableCollection<ILayer>>(layerObservableList);
             }
             else
             {
                 container = message.Container;
             }
 
+            // TODO remove this static class, replace with interface for each
             DockViewModelTemplate dockViewModel = DockViewModelSelector.GetViewModel(message.DockType, container);
             if (!string.IsNullOrEmpty(message.DockTitle))
             {
@@ -202,6 +209,7 @@ namespace Ame.Modules.Docks
                 notificationTitle = message.WindowTitle;
             }
 
+            // TODO switch window type to an interface
             switch (message.WindowType)
             {
                 case WindowType.NewMap:
@@ -212,25 +220,27 @@ namespace Ame.Modules.Docks
 
                 case WindowType.EditMap:
                     notification = EditMapWindow();
-                    notificationTitle = string.Format("Edit Map - {0}", this.Session.MapList[this.Session.MapListIndex].Name);
+                    notificationTitle = string.Format("Edit Map - {0}", this.Session.CurrentMap().Name);
                     notification.Title = notificationTitle;
                     this.mapWindowInteraction.Raise(notification, OnEditMapWindowClosed);
                     break;
 
-                case WindowType.Layer:
-                    notification = NewLayerWindow(message.Content as Layer);
+                case WindowType.NewLayer:
+                    Map currentMap = this.Session.CurrentMap();
+                    int layerCount = currentMap.LayerList.Count;
+                    String newLayerName = String.Format("Layer #{0}", layerCount);
+                    notification = NewLayerWindow(new Layer(newLayerName, 32, 32, 32, 32));
                     notification.Title = notificationTitle;
 
                     // TODO do not rely on the title name 
                     // TODO establish a better messaging system
-                    if (notificationTitle != "Edit Layer")
-                    {
-                        this.layerWindowInteraction.Raise(notification, OnLayerWindowClosed);
-                    }
-                    else
-                    {
-                        this.layerWindowInteraction.Raise(notification);
-                    }
+                    this.layerWindowInteraction.Raise(notification, OnLayerWindowClosed);
+                    break;
+
+                case WindowType.EditLayer:
+                    notification = NewLayerWindow(message.Content as Layer);
+                    notification.Title = notificationTitle;
+                    this.layerWindowInteraction.Raise(notification);
                     break;
 
                 default:
@@ -256,12 +266,13 @@ namespace Ame.Modules.Docks
             RaisePropertyChanged(nameof(this.MapWindowView));
 
             Confirmation mapConfirmation = new Confirmation();
-            string newMapName = this.Session.MapList[this.Session.MapListIndex].Name;
-            mapConfirmation.Content = this.Session.MapList[this.Session.MapListIndex];
+            Map currentMap = this.Session.CurrentMap();
+            mapConfirmation.Content = currentMap;
+            string newMapName = currentMap.Name;
             return mapConfirmation;
         }
 
-        private INotification NewLayerWindow(Layer layer)
+        private INotification NewLayerWindow(ILayer layer)
         {
             this.LayerWindowView = new LayerEditor();
             RaisePropertyChanged(nameof(this.LayerWindowView));
@@ -282,6 +293,12 @@ namespace Ame.Modules.Docks
                 container.RegisterInstance<IEventAggregator>(this.eventAggregator);
                 container.RegisterInstance<IScrollModel>(new ScrollModel());
                 container.RegisterInstance<Map>(mapModel);
+
+                // TODO srsly, remove this
+                IList<ILayer> layerList = this.Session.CurrentMap().LayerList;
+                ObservableCollection<ILayer> layerObservableList = new ObservableCollection<ILayer>(layerList);
+                container.RegisterInstance<ObservableCollection<ILayer>>(layerObservableList);
+
                 this.Session.MapList.Add(mapModel);
 
                 OpenDockMessage openEditorMessage = new OpenDockMessage(DockType.MapEditor, container);
@@ -333,12 +350,17 @@ namespace Ame.Modules.Docks
 
         private void UpdateLayout(object sender, LayoutSerializationCallbackEventArgs args)
         {
-            IUnityContainer unityContainer = new UnityContainer();
-            unityContainer.RegisterInstance<IEventAggregator>(this.eventAggregator);
-            unityContainer.RegisterInstance<IScrollModel>(new ScrollModel());
+            IUnityContainer container = new UnityContainer();
+            container.RegisterInstance<IEventAggregator>(this.eventAggregator);
+            container.RegisterInstance<IScrollModel>(new ScrollModel());
+
+            // TODO srsly, remove this
+            IList<ILayer> layerList = this.Session.CurrentMap().LayerList;
+            ObservableCollection<ILayer> layerObservableList = new ObservableCollection<ILayer>(layerList);
+            container.RegisterInstance<ObservableCollection<ILayer>>(layerObservableList);
 
             DockType dockType = DockTypeUtils.GetById(args.Model.ContentId);
-            DockViewModelTemplate contentViewModel = DockViewModelSelector.GetViewModel(dockType, unityContainer);
+            DockViewModelTemplate contentViewModel = DockViewModelSelector.GetViewModel(dockType, container);
             if (contentViewModel == null)
             {
                 args.Cancel = true;

@@ -49,8 +49,10 @@ namespace Ame
         protected override void ConfigureViewModelLocator()
         {
             base.ConfigureViewModelLocator();
-            
-            Container.RegisterInstance<AmeSession>(new AmeSession(new Map("Map #1")));
+
+            Map map = new Map("Map #1");
+            map.LayerList.Add(new Layer("Layer #2", 32, 32, 32, 32));
+            Container.RegisterInstance<AmeSession>(new AmeSession(map));
 
             ViewModelLocationProvider.Register<MenuOptions, MenuOptionsViewModel>();
             ViewModelLocationProvider.Register<MainEditor, MainEditorViewModel>();
