@@ -104,6 +104,7 @@
     <Compile Include="Events\EditLayerMessage.cs" />
     <Compile Include="Events\NewLayerEvent.cs" />
     <Compile Include="Events\NewLayerMessage.cs" />
+    <Compile Include="Events\Notifications.cs" />
     <Compile Include="Models\AmeSession.cs" />
     <Compile Include="Models\Brushes\BrushType.cs" />
     <Compile Include="Models\ILayer.cs" />

@@ -296,7 +296,8 @@ namespace Ame.Modules.Menu.Options
 
         public void OpenClipboard()
         {
-            Console.WriteLine("Open Clipboard");
+            OpenDockMessage dock = new OpenDockMessage(DockType.Clipboard);
+            this.eventAggregator.GetEvent<OpenDockEvent>().Publish(dock);
         }
 
         public void OpenPreferenences()
@@ -347,15 +348,15 @@ namespace Ame.Modules.Menu.Options
 
         public void NewLayer()
         {
-            Console.WriteLine("New Layer");
-            //OpenWindowMessage window = new OpenWindowMessage(WindowType.Layer);
-            //window.WindowTitle = "New Layer";
-            //this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(window);
+            OpenWindowMessage openWindowMessage = new OpenWindowMessage(WindowType.NewLayer);
+            openWindowMessage.WindowTitle = "New Layer";
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(openWindowMessage);
         }
 
         public void NewGroup()
         {
-            Console.WriteLine("New Group");
+            NotificationMessage<WindowType> newLayerGroupMessage = new NotificationMessage<WindowType>(WindowType.NewLayerGroup, "LayerGroup");
+            this.eventAggregator.GetEvent<NotificationEvent<WindowType>>().Publish(newLayerGroupMessage);
         }
 
         public void DuplicateLayer()
@@ -365,27 +366,32 @@ namespace Ame.Modules.Menu.Options
 
         public void MergeLayerDown()
         {
-            Console.WriteLine("Merge Layer Down");
+            NotificationMessage<Notification> message = new NotificationMessage<Notification>(Notification.MergeCurrentLayerDown);
+            this.eventAggregator.GetEvent<NotificationEvent<Notification>>().Publish(message);
         }
 
         public void MergeLayerUp()
         {
-            Console.WriteLine("Merge Layer Up");
+            NotificationMessage<Notification> message = new NotificationMessage<Notification>(Notification.MergeCurrentLayerDown);
+            this.eventAggregator.GetEvent<NotificationEvent<Notification>>().Publish(message);
         }
 
         public void MergeVisible()
         {
-            Console.WriteLine("Merge Visible");
+            NotificationMessage<Notification> message = new NotificationMessage<Notification>(Notification.MergeVisibleLayers);
+            this.eventAggregator.GetEvent<NotificationEvent<Notification>>().Publish(message);
         }
 
         public void DeleteLayer()
         {
-            Console.WriteLine("Delete Layer");
+            NotificationMessage<Notification> message = new NotificationMessage<Notification>(Notification.DeleteCurrentLayer);
+            this.eventAggregator.GetEvent<NotificationEvent<Notification>>().Publish(message);
         }
 
         public void EditLayerProperties()
         {
-            Console.WriteLine("Edit Layer Properties");
+            OpenWindowMessage openWindowMessage = new OpenWindowMessage(WindowType.EditLayer);
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(openWindowMessage);
         }
 
         public void LayerToMap()
@@ -414,7 +420,7 @@ namespace Ame.Modules.Menu.Options
 
         public void EditItemProperties()
         {
-            Console.WriteLine("Edit Item Properties");
+            Console.WriteLine("Edit Item Properties...");
         }
 
         public void EditItemCollisions()

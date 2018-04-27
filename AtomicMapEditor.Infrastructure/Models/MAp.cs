@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Ame.Infrastructure.BaseTypes;
@@ -27,7 +28,7 @@ namespace Ame.Infrastructure.Models
             this.PixelScale = 1;
             this.Description = "";
             this.LayerList = new List<ILayer>();
-            this.LayerList.Add(new Layer("Layer #1", this.TileWidth, this.TileHeight, this.Rows, this.Columns));
+            this.LayerList.Add(new Layer("Layer #0", this.TileWidth, this.TileHeight, this.Rows, this.Columns));
         }
 
         public Map(string name)
@@ -41,7 +42,7 @@ namespace Ame.Infrastructure.Models
             this.PixelScale = 1;
             this.Description = "";
             this.LayerList = new List<ILayer>();
-            this.LayerList.Add(new Layer("Layer #1", this.TileWidth, this.TileHeight, this.Rows, this.Columns));
+            this.LayerList.Add(new Layer("Layer #0", this.TileWidth, this.TileHeight, this.Rows, this.Columns));
         }
 
         public Map(string name, int width, int height)
@@ -55,7 +56,7 @@ namespace Ame.Infrastructure.Models
             this.PixelScale = 1;
             this.Description = "";
             this.LayerList = new List<ILayer>();
-            this.LayerList.Add(new Layer("Layer #1", this.TileWidth, this.TileHeight, this.Rows, this.Columns));
+            this.LayerList.Add(new Layer("Layer #0", this.TileWidth, this.TileHeight, this.Rows, this.Columns));
         }
 
         #endregion constructor
@@ -162,17 +163,37 @@ namespace Ame.Infrastructure.Models
             return height;
         }
 
+        public ILayer CurrentLayer()
+        {
+            return this.LayerList[this.SelectedLayerIndex];
+        }
+
+        public void MergeCurrentLayerDown()
+        {
+            Console.WriteLine("Merge Current Layer Down");
+        }
+
+        public void MergeCurrentLayerUp()
+        {
+            Console.WriteLine("Merge Current Layer Up");
+        }
+
+        public void MergeVisibleLayers()
+        {
+            Console.WriteLine("Merge Visible Layers");
+        }
+
+        public void DeleteCurrentLayer()
+        {
+            this.LayerList.RemoveAt(this.SelectedLayerIndex);
+        }
+
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
-        }
-
-        public ILayer CurrentLayer()
-        {
-            return this.LayerList[this.SelectedLayerIndex];
         }
 
         #endregion methods

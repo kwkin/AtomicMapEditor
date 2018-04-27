@@ -9,7 +9,9 @@ namespace Ame.Infrastructure.Events
         NewMap,
         EditMap,
         NewLayer,
-        EditLayer
+        EditLayer,
+        EditCurrentLayer,
+        NewLayerGroup
     }
 
     public class OpenWindowMessage

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -12,7 +13,6 @@ using Ame.Infrastructure.Core;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Models;
 using Ame.Modules.Docks.Core;
-using Ame.Modules.MapEditor.Editor;
 using Ame.Modules.Windows.LayerEditorWindow;
 using Microsoft.Practices.Unity;
 using Prism.Events;
@@ -67,6 +67,12 @@ namespace Ame.Modules.Docks
                 ThreadOption.PublisherThread);
             this.eventAggregator.GetEvent<OpenWindowEvent>().Subscribe(
                 OpenWindow,
+                ThreadOption.PublisherThread);
+            this.eventAggregator.GetEvent<NotificationEvent<WindowType>>().Subscribe(
+                CreateNewLayerGroup,
+                ThreadOption.PublisherThread);
+            this.eventAggregator.GetEvent<NotificationEvent<Infrastructure.Events.Notification>>().Subscribe(
+                NotificationReceived,
                 ThreadOption.PublisherThread);
             this.eventAggregator.GetEvent<NotificationActionEvent<string>>().Subscribe(
                 SaveLayoutMessageReceived,
@@ -238,6 +244,18 @@ namespace Ame.Modules.Docks
                     break;
 
                 case WindowType.EditLayer:
+                    if (message.Content == null)
+                    {
+                        Layer currentLayer = this.Session.CurrentMap().CurrentLayer() as Layer;
+                        notification = NewLayerWindow(currentLayer);
+                        notification.Title = string.Format("Edit Layer - {0}", currentLayer.LayerName);
+
+                    }
+                    else
+                    {
+                        notification = NewLayerWindow(message.Content as Layer);
+                        notification.Title = notificationTitle;
+                    }
                     notification = NewLayerWindow(message.Content as Layer);
                     notification.Title = notificationTitle;
                     this.layerWindowInteraction.Raise(notification);
@@ -254,7 +272,7 @@ namespace Ame.Modules.Docks
             RaisePropertyChanged(nameof(this.MapWindowView));
 
             Confirmation mapConfirmation = new Confirmation();
-            int mapCount = this.Session.MapList.Count + 1;
+            int mapCount = this.Session.MapList.Count;
             string newMapName = String.Format("Map #{0}", mapCount);
             mapConfirmation.Content = new Map(newMapName);
             return mapConfirmation;
@@ -328,6 +346,20 @@ namespace Ame.Modules.Docks
             }
         }
 
+        private void CreateNewLayerGroup(NotificationMessage<WindowType> layerGroup)
+        {
+            if (layerGroup.Content == WindowType.NewLayerGroup)
+            {
+                int layerGroupCount = GetLayerGroupCount();
+                String newLayerGroupName = String.Format("Layer Group #{0}", layerGroupCount);
+                ILayer newLayerGroup = new LayerGroup(newLayerGroupName);
+                this.Session.CurrentMap().LayerList.Add(newLayerGroup);
+                
+                NewLayerMessage newLayerMessage = new NewLayerMessage(newLayerGroup);
+                this.eventAggregator.GetEvent<NewLayerEvent>().Publish(newLayerMessage);
+            }
+        }
+
         private void SaveLayoutMessageReceived(NotificationActionMessage<string> message)
         {
             string xmlLayoutString = string.Empty;
@@ -383,6 +415,54 @@ namespace Ame.Modules.Docks
             {
                 this.Documents.Add(dockViewModel);
             }
+        }
+
+        private void NotificationReceived(NotificationMessage<Infrastructure.Events.Notification> notification)
+        {
+            Map currentMap = this.Session.CurrentMap();
+            switch (notification.Content)
+            {
+                case Infrastructure.Events.Notification.MergeCurrentLayerDown:
+                    currentMap.MergeCurrentLayerDown();
+                    break;
+                case Infrastructure.Events.Notification.MergeCurrentLayerUp:
+                    currentMap.MergeCurrentLayerUp();
+                    break;
+                case Infrastructure.Events.Notification.MergeVisibleLayers:
+                    currentMap.MergeVisibleLayers();
+                    break;
+                case Infrastructure.Events.Notification.DeleteCurrentLayer:
+                    currentMap.DeleteCurrentLayer();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private int GetLayerGroupCount()
+        {
+            int layerGroupCount = 0;
+            foreach (ILayer layer in this.Session.CurrentMap().LayerList)
+            {
+                if (layer is LayerGroup)
+                {
+                    layerGroupCount++;
+                }
+            }
+            return layerGroupCount;
+        }
+
+        private int GetLayerCount()
+        {
+            int layerCount = 0;
+            foreach (ILayer layer in this.Session.CurrentMap().LayerList)
+            {
+                if (layer is Layer)
+                {
+                    layerCount++;
+                }
+            }
+            return layerCount;
         }
 
         #endregion methods

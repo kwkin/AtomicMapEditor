@@ -110,15 +110,13 @@ namespace Ame.Modules.Docks.LayerListDock
             AddTilesetLayer(message.Layer);
         }
 
-        public void AddTilesetLayer(Layer layer)
+        public void AddTilesetLayer(ILayer layer)
         {
             this.LayerList.Add(layer);
         }
 
         public void NewTilesetLayer()
         {
-            int layerCount = GetLayerCount() + 1;
-
             OpenWindowMessage openWindowMessage = new OpenWindowMessage(WindowType.NewLayer);
             openWindowMessage.WindowTitle = "New Layer";
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(openWindowMessage);
@@ -126,7 +124,7 @@ namespace Ame.Modules.Docks.LayerListDock
 
         public void NewLayerGroup()
         {
-            int layerGroupCount = GetLayerGroupCount() + 1;
+            int layerGroupCount = GetLayerGroupCount();
             String newLayerGroupName = String.Format("Layer Group #{0}", layerGroupCount);
             this.LayerList.Add(new LayerGroup(newLayerGroupName));
         }

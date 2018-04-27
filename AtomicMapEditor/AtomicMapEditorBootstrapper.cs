@@ -51,7 +51,7 @@ namespace Ame
             base.ConfigureViewModelLocator();
 
             Map map = new Map("Map #1");
-            map.LayerList.Add(new Layer("Layer #2", 32, 32, 32, 32));
+            map.LayerList.Add(new Layer("Layer #1", 32, 32, 32, 32));
             Container.RegisterInstance<AmeSession>(new AmeSession(map));
 
             ViewModelLocationProvider.Register<MenuOptions, MenuOptionsViewModel>();

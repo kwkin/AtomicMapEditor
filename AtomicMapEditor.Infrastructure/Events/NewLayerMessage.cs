@@ -16,7 +16,7 @@ namespace Ame.Infrastructure.Events
 
         #region Constructor
 
-        public NewLayerMessage(Layer layer)
+        public NewLayerMessage(ILayer layer)
         {
             this.Layer = layer;
         }
@@ -26,7 +26,7 @@ namespace Ame.Infrastructure.Events
 
         #region Properties
 
-        public Layer Layer { get; set; }
+        public ILayer Layer { get; set; }
 
         #endregion Properties
 

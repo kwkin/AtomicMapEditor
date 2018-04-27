@@ -15,6 +15,12 @@ namespace Ame.Infrastructure.Events
 
         #region Constructor
 
+        public NotificationMessage(T content)
+        {
+            this.Content = content;
+            this.Notification = "";
+        }
+
         public NotificationMessage(string notification)
         {
             this.Notification = notification;
