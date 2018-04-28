@@ -7,6 +7,7 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using Ame.Infrastructure.Core;
 using Ame.Infrastructure.Events;
+using Ame.Infrastructure.Messages;
 using ICSharpCode.AvalonEdit.Utils;
 using Prism.Commands;
 using Prism.Events;

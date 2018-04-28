@@ -111,6 +111,15 @@ namespace Ame.Infrastructure.Models
         public IList<ILayer> LayerList { get; set; }
         public int SelectedLayerIndex { get; set; }
 
+        public ILayer CurrentLayer
+        {
+            get
+            {
+                return this.LayerList[this.SelectedLayerIndex];
+            }
+        }
+
+
         #endregion properties
 
 
@@ -164,11 +173,6 @@ namespace Ame.Infrastructure.Models
             return height;
         }
 
-        public ILayer CurrentLayer()
-        {
-            return this.LayerList[this.SelectedLayerIndex];
-        }
-
         public void MergeCurrentLayerDown()
         {
             Console.WriteLine("Merge Current Layer Down");
@@ -191,16 +195,13 @@ namespace Ame.Infrastructure.Models
 
         public void DuplicateCurrentLayer()
         {
-            ILayer copiedLayer = Utils.Utils.DeepClone<ILayer>(this.CurrentLayer());
+            ILayer copiedLayer = Utils.Utils.DeepClone<ILayer>(this.CurrentLayer);
             this.LayerList.Add(copiedLayer);
         }
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #endregion methods

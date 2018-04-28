@@ -2,7 +2,7 @@
 using System.Windows;
 using Microsoft.Practices.Unity;
 
-namespace Ame.Infrastructure.Events
+namespace Ame.Infrastructure.Messages
 {
     public enum WindowType
     {

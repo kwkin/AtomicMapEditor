@@ -34,15 +34,18 @@ namespace Ame.Infrastructure.Models
         public IList<Map> MapList { get; set; }
         public int MapListIndex { get; set; }
 
+        public Map CurrentMap
+        {
+            get
+            {
+                return this.MapList[this.MapListIndex];
+            }
+        }
+
         #endregion properties
 
 
         #region methods
-        
-        public Map CurrentMap()
-        {
-            return this.MapList[this.MapListIndex];
-        }
 
         #endregion methods
     }

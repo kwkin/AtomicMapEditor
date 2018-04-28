@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ame.Infrastructure.Events
+namespace Ame.Infrastructure.Messages
 {
     public enum Notification
     {

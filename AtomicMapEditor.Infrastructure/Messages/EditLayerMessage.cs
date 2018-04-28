@@ -1,8 +1,8 @@
 ﻿using Ame.Infrastructure.Models;
 
-namespace Ame.Infrastructure.Events
+namespace Ame.Infrastructure.Messages
 {
-    public class UpdateBrushMessage
+    public class EditLayerMessage
     {
         #region fields
 
@@ -11,9 +11,9 @@ namespace Ame.Infrastructure.Events
 
         #region Constructor
 
-        public UpdateBrushMessage(BrushModel brushModel)
+        public EditLayerMessage(Layer layer)
         {
-            this.BrushModel = brushModel;
+            this.Layer = layer;
         }
 
         #endregion Constructor
@@ -21,7 +21,7 @@ namespace Ame.Infrastructure.Events
 
         #region Properties
 
-        public BrushModel BrushModel { get; set; }
+        public Layer Layer { get; set; }
 
         #endregion Properties
 

@@ -10,6 +10,7 @@ using System.Windows.Threading;
 using Ame.Components.Behaviors;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
+using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Utils;
 using Prism.Commands;
@@ -49,7 +50,7 @@ namespace Ame.Modules.MapEditor.Editor
             this.Title = map.Name;
 
             // TODO use the map current layer instead
-            this.CurrentLayer = this.Map.LayerList[0] as Layer;
+            this.CurrentLayer = this.Map.CurrentLayer as Layer;
 
             this.imageTransform = new CoordinateTransform();
             this.imageTransform.SetPixelToTile(this.Map.TileWidth, this.Map.TileHeight);

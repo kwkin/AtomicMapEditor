@@ -1,4 +1,5 @@
-﻿using Prism.Events;
+﻿using Ame.Infrastructure.Messages;
+using Prism.Events;
 
 namespace Ame.Infrastructure.Events
 {

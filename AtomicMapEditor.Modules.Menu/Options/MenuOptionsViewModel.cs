@@ -7,6 +7,7 @@ using Ame.Infrastructure.BaseTypes;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
+using Ame.Infrastructure.Messages;
 
 namespace Ame.Modules.Menu.Options
 {

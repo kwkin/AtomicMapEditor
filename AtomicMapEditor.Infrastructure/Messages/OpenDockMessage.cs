@@ -2,7 +2,7 @@
 using Ame.Infrastructure.BaseTypes;
 using Microsoft.Practices.Unity;
 
-namespace Ame.Infrastructure.Events
+namespace Ame.Infrastructure.Messages
 {
     public class OpenDockMessage
     {

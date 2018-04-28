@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Ame.Infrastructure.Events
+namespace Ame.Infrastructure.Messages
 {
     public class NotificationActionMessage<TCallbackParameter>
     {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 using Ame.Infrastructure.Events;
+using Ame.Infrastructure.Messages;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;

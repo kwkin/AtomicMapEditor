@@ -10,6 +10,7 @@ using Ame.Components.Behaviors;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Core;
 using Ame.Infrastructure.Events;
+using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
 using Ame.Modules.Docks.Core;
 using Ame.Modules.Windows.LayerEditorWindow;
@@ -25,10 +26,13 @@ namespace Ame.Modules.Docks
     public class DockManagerViewModel : BindableBase, ILayoutViewModel
     {
         // TODO add dock for view session properties
+
         #region fields
 
         private IEventAggregator eventAggregator;
+
         private event EventHandler ActiveDocumentChanged;
+
         public AmeSession session;
 
         #endregion fields
@@ -72,7 +76,7 @@ namespace Ame.Modules.Docks
             this.eventAggregator.GetEvent<NotificationEvent<WindowType>>().Subscribe(
                 CreateNewLayerGroup,
                 ThreadOption.PublisherThread);
-            this.eventAggregator.GetEvent<NotificationEvent<Infrastructure.Events.Notification>>().Subscribe(
+            this.eventAggregator.GetEvent<NotificationEvent<Infrastructure.Messages.Notification>>().Subscribe(
                 NotificationReceived,
                 ThreadOption.PublisherThread);
             this.eventAggregator.GetEvent<NotificationActionEvent<string>>().Subscribe(
@@ -194,7 +198,7 @@ namespace Ame.Modules.Docks
                 container.RegisterInstance<IScrollModel>(new ScrollModel());
 
                 // TODO fix this when DockViewModelSelector is removed
-                IList<ILayer> layerList = this.session.CurrentMap().LayerList;
+                IList<ILayer> layerList = this.session.CurrentMap.LayerList;
                 ObservableCollection<ILayer> layerObservableList = new ObservableCollection<ILayer>(layerList);
                 container.RegisterInstance<ObservableCollection<ILayer>>(layerObservableList);
             }
@@ -233,13 +237,13 @@ namespace Ame.Modules.Docks
 
                 case WindowType.EditMap:
                     notification = EditMapWindow();
-                    notificationTitle = string.Format("Edit Map - {0}", this.session.CurrentMap().Name);
+                    notificationTitle = string.Format("Edit Map - {0}", this.session.CurrentMap.Name);
                     notification.Title = notificationTitle;
                     this.mapWindowInteraction.Raise(notification, OnEditMapWindowClosed);
                     break;
 
                 case WindowType.NewLayer:
-                    Map currentMap = this.session.CurrentMap();
+                    Map currentMap = this.session.CurrentMap;
                     int layerCount = currentMap.LayerList.Count;
                     String newLayerName = String.Format("Layer #{0}", layerCount);
                     notification = NewLayerWindow(new Layer(newLayerName, 32, 32, 32, 32));
@@ -253,7 +257,7 @@ namespace Ame.Modules.Docks
                 case WindowType.EditLayer:
                     if (message.Content == null)
                     {
-                        Layer currentLayer = this.session.CurrentMap().CurrentLayer() as Layer;
+                        Layer currentLayer = this.session.CurrentMap.CurrentLayer as Layer;
                         notification = NewLayerWindow(currentLayer);
                         notification.Title = string.Format("Edit Layer - {0}", currentLayer.LayerName);
                     }
@@ -298,7 +302,7 @@ namespace Ame.Modules.Docks
             RaisePropertyChanged(nameof(this.MapWindowView));
 
             Confirmation mapConfirmation = new Confirmation();
-            Map currentMap = this.session.CurrentMap();
+            Map currentMap = this.session.CurrentMap;
             mapConfirmation.Content = currentMap;
             string newMapName = currentMap.Name;
             return mapConfirmation;
@@ -339,7 +343,7 @@ namespace Ame.Modules.Docks
                 container.RegisterInstance<Map>(mapModel);
 
                 // TODO srsly, remove this
-                IList<ILayer> layerList = this.session.CurrentMap().LayerList;
+                IList<ILayer> layerList = this.session.CurrentMap.LayerList;
                 ObservableCollection<ILayer> layerObservableList = new ObservableCollection<ILayer>(layerList);
                 container.RegisterInstance<ObservableCollection<ILayer>>(layerObservableList);
 
@@ -379,7 +383,7 @@ namespace Ame.Modules.Docks
                 int layerGroupCount = GetLayerGroupCount();
                 String newLayerGroupName = String.Format("Layer Group #{0}", layerGroupCount);
                 ILayer newLayerGroup = new LayerGroup(newLayerGroupName);
-                this.session.CurrentMap().LayerList.Add(newLayerGroup);
+                this.session.CurrentMap.LayerList.Add(newLayerGroup);
 
                 NewLayerMessage newLayerMessage = new NewLayerMessage(newLayerGroup);
                 this.eventAggregator.GetEvent<NewLayerEvent>().Publish(newLayerMessage);
@@ -413,7 +417,7 @@ namespace Ame.Modules.Docks
             container.RegisterInstance<IScrollModel>(new ScrollModel());
 
             // TODO srsly, remove this
-            IList<ILayer> layerList = this.session.CurrentMap().LayerList;
+            IList<ILayer> layerList = this.session.CurrentMap.LayerList;
             ObservableCollection<ILayer> layerObservableList = new ObservableCollection<ILayer>(layerList);
             container.RegisterInstance<ObservableCollection<ILayer>>(layerObservableList);
 
@@ -443,28 +447,28 @@ namespace Ame.Modules.Docks
             }
         }
 
-        private void NotificationReceived(NotificationMessage<Infrastructure.Events.Notification> notification)
+        private void NotificationReceived(NotificationMessage<Infrastructure.Messages.Notification> notification)
         {
-            Map currentMap = this.session.CurrentMap();
+            Map currentMap = this.session.CurrentMap;
             switch (notification.Content)
             {
-                case Infrastructure.Events.Notification.MergeCurrentLayerDown:
+                case Infrastructure.Messages.Notification.MergeCurrentLayerDown:
                     currentMap.MergeCurrentLayerDown();
                     break;
 
-                case Infrastructure.Events.Notification.MergeCurrentLayerUp:
+                case Infrastructure.Messages.Notification.MergeCurrentLayerUp:
                     currentMap.MergeCurrentLayerUp();
                     break;
 
-                case Infrastructure.Events.Notification.MergeVisibleLayers:
+                case Infrastructure.Messages.Notification.MergeVisibleLayers:
                     currentMap.MergeVisibleLayers();
                     break;
 
-                case Infrastructure.Events.Notification.DeleteCurrentLayer:
+                case Infrastructure.Messages.Notification.DeleteCurrentLayer:
                     currentMap.DeleteCurrentLayer();
                     break;
 
-                case Infrastructure.Events.Notification.DuplicateCurrentLayer:
+                case Infrastructure.Messages.Notification.DuplicateCurrentLayer:
                     currentMap.DuplicateCurrentLayer();
                     break;
 
@@ -476,7 +480,7 @@ namespace Ame.Modules.Docks
         private int GetLayerGroupCount()
         {
             int layerGroupCount = 0;
-            foreach (ILayer layer in this.session.CurrentMap().LayerList)
+            foreach (ILayer layer in this.session.CurrentMap.LayerList)
             {
                 if (layer is LayerGroup)
                 {
@@ -489,7 +493,7 @@ namespace Ame.Modules.Docks
         private int GetLayerCount()
         {
             int layerCount = 0;
-            foreach (ILayer layer in this.session.CurrentMap().LayerList)
+            foreach (ILayer layer in this.session.CurrentMap.LayerList)
             {
                 if (layer is Layer)
                 {

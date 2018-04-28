@@ -4,6 +4,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
+using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Utils;
 using Microsoft.Practices.Unity;
@@ -22,8 +23,7 @@ namespace Ame.Modules.Docks.LayerListDock
 
 
         #region constructor
-
-        // TODO add layer editing properties
+        
         public LayerListViewModel(ObservableCollection<ILayer> layerList, IEventAggregator eventAggregator)
         {
             if (eventAggregator == null)

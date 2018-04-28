@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Ame.Infrastructure.Models;
 
-namespace Ame.Infrastructure.Events
+namespace Ame.Infrastructure.Messages
 {
     public class NewLayerMessage
     {

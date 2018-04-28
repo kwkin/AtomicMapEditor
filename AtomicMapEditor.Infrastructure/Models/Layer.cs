@@ -9,7 +9,6 @@ using Ame.Infrastructure.BaseTypes;
 
 namespace Ame.Infrastructure.Models
 {
-    // TODO add serialization
     [Serializable]
     public class Layer : ILayer, INotifyPropertyChanged
     {
