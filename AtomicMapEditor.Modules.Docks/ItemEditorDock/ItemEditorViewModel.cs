@@ -86,6 +86,7 @@ namespace Ame.Modules.Docks.ItemEditorDock
             this.GridBrush = Brushes.Orange;
             
             this.EditCollisionsCommand = new DelegateCommand(() => EditCollisions());
+            this.ViewPropertiesCommand = new DelegateCommand(() => ViewProperties());
             this.CropCommand = new DelegateCommand(() => Crop());
             this.AddTilesetCommand = new DelegateCommand(() => AddTileset());
             this.AddImageCommand = new DelegateCommand(() => AddImage());
@@ -110,6 +111,7 @@ namespace Ame.Modules.Docks.ItemEditorDock
         #region properties
         
         public ICommand EditCollisionsCommand { get; private set; }
+        public ICommand ViewPropertiesCommand { get; private set; }
         public ICommand CropCommand { get; private set; }
         public ICommand AddTilesetCommand { get; private set; }
         public ICommand AddImageCommand { get; private set; }
@@ -339,6 +341,12 @@ namespace Ame.Modules.Docks.ItemEditorDock
         private void EditCollisions()
         {
             Console.WriteLine("Edit Collision");
+        }
+        
+        private void ViewProperties()
+        {
+            OpenWindowMessage window = new OpenWindowMessage(WindowType.TilesetEditor);
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(window);
         }
 
         private void Crop()

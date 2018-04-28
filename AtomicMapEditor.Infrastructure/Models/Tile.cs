@@ -1,8 +1,10 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Media;
 
 namespace Ame.Infrastructure.Models
 {
+    [Serializable]
     public class Tile
     {
         #region fields
@@ -24,7 +26,20 @@ namespace Ame.Infrastructure.Models
         #region properties
 
         public Point Position { get; set; }
-        public ImageDrawing TileImage { get; set; }
+
+        [NonSerialized]
+        private ImageDrawing tileImage;
+        public ImageDrawing TileImage
+        {
+            get
+            {
+                return this.tileImage;
+            }
+            set
+            {
+                this.tileImage = value;
+            }
+        }
 
         #endregion properties
 

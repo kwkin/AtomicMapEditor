@@ -5,6 +5,7 @@ using System.Windows.Input;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Models;
+using Ame.Infrastructure.Utils;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
@@ -47,24 +48,6 @@ namespace Ame.Modules.Docks.LayerListDock
             this.EditCollisionsCommand = new DelegateCommand(() => EditCollisions());
             this.LayerToMapSizeCommand = new DelegateCommand(() => LayerToMapSize());
             this.CurrentLayerChangedCommand = new DelegateCommand<object>((currentLayer) => CurrentLayerChanged((ILayer)currentLayer));
-            
-            //this.LayerList.Add(new Layer("Layer #1", 32, 32, 32, 32));
-            //this.LayerList.Add(new Layer("Layer #2", 32, 32, 32, 32));
-
-            //ObservableCollection<ILayer> layerGroupLayers = new ObservableCollection<ILayer>();
-            //layerGroupLayers.Add(new Layer("Layer #3", 32, 32, 32, 32));
-            //ObservableCollection<ILayer> layerGroupLayers2 = new ObservableCollection<ILayer>();
-            //layerGroupLayers2.Add(new Layer("Layer #4", 32, 32, 32, 32));
-            //layerGroupLayers2.Add(new Layer("Layer #5", 32, 32, 32, 32));
-            //layerGroupLayers.Add(new LayerGroup("Layer Group #2", layerGroupLayers2));
-            //layerGroupLayers.Add(new Layer("Layer #6", 32, 32, 32, 32));
-            //this.LayerList.Add(new LayerGroup("Layer Group #1", layerGroupLayers));
-            //this.LayerList.Add(new Layer("Layer #7", 32, 32, 32, 32));
-
-            //this.LayerList.Add(new Layer("Layer #3", 32, 32, 32, 32));
-            //this.LayerList.Add(new Layer("Layer #4", 32, 32, 32, 32));
-            //this.LayerList.Add(new Layer("Layer #5", 32, 32, 32, 32));
-            //this.LayerList.Add(new Layer("Layer #6", 32, 32, 32, 32));
 
             this.eventAggregator.GetEvent<NewLayerEvent>().Subscribe(AddTilesetLayerMessage);
         }
@@ -159,7 +142,8 @@ namespace Ame.Modules.Docks.LayerListDock
 
         public void DuplicateLayer()
         {
-            Console.WriteLine("Duplicate layer");
+            ILayer copiedLayer = Utils.DeepClone<ILayer>(this.CurrentLayer);
+            AddTilesetLayer(copiedLayer);
         }
 
         public void RemoveLayer()

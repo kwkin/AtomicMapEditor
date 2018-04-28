@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Utils;
 
 namespace Ame.Infrastructure.Models
 {
@@ -186,6 +187,12 @@ namespace Ame.Infrastructure.Models
         public void DeleteCurrentLayer()
         {
             this.LayerList.RemoveAt(this.SelectedLayerIndex);
+        }
+
+        public void DuplicateCurrentLayer()
+        {
+            ILayer copiedLayer = Utils.Utils.DeepClone<ILayer>(this.CurrentLayer());
+            this.LayerList.Add(copiedLayer);
         }
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")

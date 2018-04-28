@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -25,11 +24,12 @@ namespace Ame.Modules.Docks
 {
     public class DockManagerViewModel : BindableBase, ILayoutViewModel
     {
+        // TODO add dock for view session properties
         #region fields
 
         private IEventAggregator eventAggregator;
-
         private event EventHandler ActiveDocumentChanged;
+        public AmeSession session;
 
         #endregion fields
 
@@ -42,7 +42,7 @@ namespace Ame.Modules.Docks
             {
                 throw new ArgumentNullException("eventAggregator");
             }
-            this.Session = session;
+            this.session = session;
             this.DockManager = dockManager;
             this.DockLayout = new DockLayoutViewModel(this, eventAggregator);
             this.eventAggregator = eventAggregator;
@@ -61,6 +61,7 @@ namespace Ame.Modules.Docks
 
             this.mapWindowInteraction = new InteractionRequest<INotification>();
             this.layerWindowInteraction = new InteractionRequest<INotification>();
+            this.tilesetWindowInteraction = new InteractionRequest<INotification>();
 
             this.eventAggregator.GetEvent<OpenDockEvent>().Subscribe(
                 OpenDock,
@@ -91,7 +92,6 @@ namespace Ame.Modules.Docks
 
         #region properties
 
-        public AmeSession Session { get; set; }
         public DockingManager DockManager { get; set; }
         public DockLayoutViewModel DockLayout { get; private set; }
         public ObservableCollection<DockViewModelTemplate> Documents { get; private set; }
@@ -99,6 +99,7 @@ namespace Ame.Modules.Docks
 
         public ContentControl MapWindowView { get; set; }
         public ContentControl LayerWindowView { get; set; }
+        public ContentControl TilesetWindowView { get; set; }
 
         private bool isBusy;
         public bool IsBusy
@@ -150,6 +151,12 @@ namespace Ame.Modules.Docks
             get { return layerWindowInteraction; }
         }
 
+        private InteractionRequest<INotification> tilesetWindowInteraction;
+        public IInteractionRequest TilesetWindowInteraction
+        {
+            get { return tilesetWindowInteraction; }
+        }
+
         public string AppDataDirectory
         {
             get
@@ -187,7 +194,7 @@ namespace Ame.Modules.Docks
                 container.RegisterInstance<IScrollModel>(new ScrollModel());
 
                 // TODO fix this when DockViewModelSelector is removed
-                IList<ILayer> layerList = this.Session.CurrentMap().LayerList;
+                IList<ILayer> layerList = this.session.CurrentMap().LayerList;
                 ObservableCollection<ILayer> layerObservableList = new ObservableCollection<ILayer>(layerList);
                 container.RegisterInstance<ObservableCollection<ILayer>>(layerObservableList);
             }
@@ -226,30 +233,29 @@ namespace Ame.Modules.Docks
 
                 case WindowType.EditMap:
                     notification = EditMapWindow();
-                    notificationTitle = string.Format("Edit Map - {0}", this.Session.CurrentMap().Name);
+                    notificationTitle = string.Format("Edit Map - {0}", this.session.CurrentMap().Name);
                     notification.Title = notificationTitle;
                     this.mapWindowInteraction.Raise(notification, OnEditMapWindowClosed);
                     break;
 
                 case WindowType.NewLayer:
-                    Map currentMap = this.Session.CurrentMap();
+                    Map currentMap = this.session.CurrentMap();
                     int layerCount = currentMap.LayerList.Count;
                     String newLayerName = String.Format("Layer #{0}", layerCount);
                     notification = NewLayerWindow(new Layer(newLayerName, 32, 32, 32, 32));
                     notification.Title = notificationTitle;
 
-                    // TODO do not rely on the title name 
-                    // TODO establish a better messaging system
+                    // TODO do not rely on the title name TODO establish a better messaging system
+                    // TODO add method as callback function
                     this.layerWindowInteraction.Raise(notification, OnLayerWindowClosed);
                     break;
 
                 case WindowType.EditLayer:
                     if (message.Content == null)
                     {
-                        Layer currentLayer = this.Session.CurrentMap().CurrentLayer() as Layer;
+                        Layer currentLayer = this.session.CurrentMap().CurrentLayer() as Layer;
                         notification = NewLayerWindow(currentLayer);
                         notification.Title = string.Format("Edit Layer - {0}", currentLayer.LayerName);
-
                     }
                     else
                     {
@@ -257,8 +263,16 @@ namespace Ame.Modules.Docks
                         notification.Title = notificationTitle;
                     }
                     notification = NewLayerWindow(message.Content as Layer);
-                    notification.Title = notificationTitle;
                     this.layerWindowInteraction.Raise(notification);
+                    break;
+
+                case WindowType.TilesetEditor:
+                    notification = TilesetEditorWindow();
+                    notification.Title = notificationTitle;
+                    this.tilesetWindowInteraction.Raise(notification);
+                    break;
+
+                case WindowType.ImageEditor:
                     break;
 
                 default:
@@ -272,7 +286,7 @@ namespace Ame.Modules.Docks
             RaisePropertyChanged(nameof(this.MapWindowView));
 
             Confirmation mapConfirmation = new Confirmation();
-            int mapCount = this.Session.MapList.Count;
+            int mapCount = this.session.MapList.Count;
             string newMapName = String.Format("Map #{0}", mapCount);
             mapConfirmation.Content = new Map(newMapName);
             return mapConfirmation;
@@ -284,7 +298,7 @@ namespace Ame.Modules.Docks
             RaisePropertyChanged(nameof(this.MapWindowView));
 
             Confirmation mapConfirmation = new Confirmation();
-            Map currentMap = this.Session.CurrentMap();
+            Map currentMap = this.session.CurrentMap();
             mapConfirmation.Content = currentMap;
             string newMapName = currentMap.Name;
             return mapConfirmation;
@@ -300,6 +314,18 @@ namespace Ame.Modules.Docks
             return layerWindowConfirmation;
         }
 
+        private INotification TilesetEditorWindow()
+        {
+            this.TilesetWindowView = new Windows.TilesetEditorWindow.TilesetEditor();
+            RaisePropertyChanged(nameof(this.TilesetWindowView));
+
+            Confirmation tilesetConfirmation = new Confirmation();
+
+            // TODO add tileset
+
+            return tilesetConfirmation;
+        }
+
         private void OnNewMapWindowClosed(INotification notification)
         {
             IConfirmation confirmation = notification as IConfirmation;
@@ -313,11 +339,11 @@ namespace Ame.Modules.Docks
                 container.RegisterInstance<Map>(mapModel);
 
                 // TODO srsly, remove this
-                IList<ILayer> layerList = this.Session.CurrentMap().LayerList;
+                IList<ILayer> layerList = this.session.CurrentMap().LayerList;
                 ObservableCollection<ILayer> layerObservableList = new ObservableCollection<ILayer>(layerList);
                 container.RegisterInstance<ObservableCollection<ILayer>>(layerObservableList);
 
-                this.Session.MapList.Add(mapModel);
+                this.session.MapList.Add(mapModel);
 
                 OpenDockMessage openEditorMessage = new OpenDockMessage(DockType.MapEditor, container);
                 OpenDock(openEditorMessage);
@@ -353,8 +379,8 @@ namespace Ame.Modules.Docks
                 int layerGroupCount = GetLayerGroupCount();
                 String newLayerGroupName = String.Format("Layer Group #{0}", layerGroupCount);
                 ILayer newLayerGroup = new LayerGroup(newLayerGroupName);
-                this.Session.CurrentMap().LayerList.Add(newLayerGroup);
-                
+                this.session.CurrentMap().LayerList.Add(newLayerGroup);
+
                 NewLayerMessage newLayerMessage = new NewLayerMessage(newLayerGroup);
                 this.eventAggregator.GetEvent<NewLayerEvent>().Publish(newLayerMessage);
             }
@@ -387,7 +413,7 @@ namespace Ame.Modules.Docks
             container.RegisterInstance<IScrollModel>(new ScrollModel());
 
             // TODO srsly, remove this
-            IList<ILayer> layerList = this.Session.CurrentMap().LayerList;
+            IList<ILayer> layerList = this.session.CurrentMap().LayerList;
             ObservableCollection<ILayer> layerObservableList = new ObservableCollection<ILayer>(layerList);
             container.RegisterInstance<ObservableCollection<ILayer>>(layerObservableList);
 
@@ -419,21 +445,29 @@ namespace Ame.Modules.Docks
 
         private void NotificationReceived(NotificationMessage<Infrastructure.Events.Notification> notification)
         {
-            Map currentMap = this.Session.CurrentMap();
+            Map currentMap = this.session.CurrentMap();
             switch (notification.Content)
             {
                 case Infrastructure.Events.Notification.MergeCurrentLayerDown:
                     currentMap.MergeCurrentLayerDown();
                     break;
+
                 case Infrastructure.Events.Notification.MergeCurrentLayerUp:
                     currentMap.MergeCurrentLayerUp();
                     break;
+
                 case Infrastructure.Events.Notification.MergeVisibleLayers:
                     currentMap.MergeVisibleLayers();
                     break;
+
                 case Infrastructure.Events.Notification.DeleteCurrentLayer:
                     currentMap.DeleteCurrentLayer();
                     break;
+
+                case Infrastructure.Events.Notification.DuplicateCurrentLayer:
+                    currentMap.DuplicateCurrentLayer();
+                    break;
+
                 default:
                     break;
             }
@@ -442,7 +476,7 @@ namespace Ame.Modules.Docks
         private int GetLayerGroupCount()
         {
             int layerGroupCount = 0;
-            foreach (ILayer layer in this.Session.CurrentMap().LayerList)
+            foreach (ILayer layer in this.session.CurrentMap().LayerList)
             {
                 if (layer is LayerGroup)
                 {
@@ -455,7 +489,7 @@ namespace Ame.Modules.Docks
         private int GetLayerCount()
         {
             int layerCount = 0;
-            foreach (ILayer layer in this.Session.CurrentMap().LayerList)
+            foreach (ILayer layer in this.session.CurrentMap().LayerList)
             {
                 if (layer is Layer)
                 {

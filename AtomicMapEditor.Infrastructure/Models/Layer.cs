@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -9,12 +10,17 @@ using Ame.Infrastructure.BaseTypes;
 namespace Ame.Infrastructure.Models
 {
     // TODO add serialization
+    [Serializable]
     public class Layer : ILayer, INotifyPropertyChanged
     {
         #region fields
-
+        
         private List<Tile> occupiedTiles;
+
+        [NonSerialized]
         private DrawingGroup imageDrawings;
+
+        [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion fields
@@ -104,7 +110,19 @@ namespace Ame.Infrastructure.Models
         public bool IsImmutable { get; set; }
         public bool IsVisible { get; set; }
 
-        public DrawingImage LayerItems { get; set; }
+        [NonSerialized]
+        private DrawingImage layerItems;
+        public DrawingImage LayerItems
+        {
+            get
+            {
+                return this.layerItems;
+            }
+            set
+            {
+                this.layerItems = value;
+            }
+        }
 
         #endregion properties
 

@@ -76,7 +76,7 @@
             <extcomp:IconButton x:Name="viewPropertiesButton"
                                 Grid.Column="4"
                                 ToolTip="View the item's properties"
-                                Command="{Binding EditCollisionsCommand}"
+                                Command="{Binding ViewPropertiesCommand}"
                                 ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_eye_black_24dp.png">
             </extcomp:IconButton>
 

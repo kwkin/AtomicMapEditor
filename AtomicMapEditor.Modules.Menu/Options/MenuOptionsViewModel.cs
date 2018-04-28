@@ -361,7 +361,8 @@ namespace Ame.Modules.Menu.Options
 
         public void DuplicateLayer()
         {
-            Console.WriteLine("Duplicate Layer");
+            NotificationMessage<Notification> message = new NotificationMessage<Notification>(Notification.DeleteCurrentLayer);
+            this.eventAggregator.GetEvent<NotificationEvent<Notification>>().Publish(message);
         }
 
         public void MergeLayerDown()

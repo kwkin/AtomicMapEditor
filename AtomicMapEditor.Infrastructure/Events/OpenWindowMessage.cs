@@ -11,7 +11,9 @@ namespace Ame.Infrastructure.Events
         NewLayer,
         EditLayer,
         EditCurrentLayer,
-        NewLayerGroup
+        NewLayerGroup,
+        TilesetEditor,
+        ImageEditor
     }
 
     public class OpenWindowMessage

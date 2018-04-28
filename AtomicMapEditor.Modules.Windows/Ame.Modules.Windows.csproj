@@ -101,6 +101,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TilesetEditorWindow\TilesetEditor.xaml.cs">
+      <DependentUpon>TilesetEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TilesetEditorWindow\TilesetEditorMetadata.xaml.cs">
+      <DependentUpon>TilesetEditorMetadata.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LayerEditorWindow\LayerEditor.xaml.cs">
       <DependentUpon>LayerEditor.xaml</DependentUpon>
     </Compile>
@@ -121,6 +127,7 @@
       <DependentUpon>MapEditorMetadata.xaml</DependentUpon>
     </Compile>
     <Compile Include="MapEditorWindow\MapEditorViewModel.cs" />
+    <Compile Include="TilesetEditorWindow\TilesetEditorViewModel.cs" />
     <Compile Include="WindowsModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -138,6 +145,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="TilesetEditorWindow\TilesetEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TilesetEditorWindow\TilesetEditorMetadata.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="LayerEditorWindow\LayerEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -163,6 +178,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

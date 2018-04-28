@@ -7,6 +7,7 @@ using Ame.Modules.MapEditor.Editor;
 using Ame.Modules.Menu;
 using Ame.Modules.Menu.Options;
 using Ame.Modules.Windows;
+using Ame.Modules.Windows.TilesetEditorWindow;
 using Ame.Modules.Windows.LayerEditorWindow;
 using Ame.Modules.Windows.MapEditorWindow;
 using Microsoft.Practices.Unity;
@@ -60,7 +61,8 @@ namespace Ame
 
             ViewModelLocationProvider.Register<MapEditor, MapEditorViewModel>();
             ViewModelLocationProvider.Register<LayerEditor, LayerEditorViewModel>();
-            
+            ViewModelLocationProvider.Register<TilesetEditor, TilesetEditorViewModel>();
+
         }
     }
 }

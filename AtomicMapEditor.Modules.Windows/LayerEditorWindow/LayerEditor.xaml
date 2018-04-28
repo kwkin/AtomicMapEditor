@@ -9,6 +9,7 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d"
              MinWidth="400">
+    <!-- TODO Replicate rezie wiith the map editor window -->
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
