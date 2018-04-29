@@ -177,6 +177,10 @@
       <DependentUpon>SelectedBrush.xaml</DependentUpon>
     </Compile>
     <Compile Include="SelectedBrushDock\SelectedBrushViewModel.cs" />
+    <Compile Include="SessionViewDock\SessionViewer.xaml.cs">
+      <DependentUpon>SessionViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SessionViewDock\SessionViewerViewModelcs.cs" />
     <Compile Include="ToolboxDock\Toolbox.xaml.cs">
       <DependentUpon>Toolbox.xaml</DependentUpon>
     </Compile>
@@ -293,6 +297,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SelectedBrushDock\SelectedBrushContextMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SessionViewDock\SessionViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

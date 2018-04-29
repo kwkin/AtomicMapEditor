@@ -111,6 +111,8 @@ namespace Ame.Infrastructure.Models
 
         [NonSerialized]
         private DrawingImage layerItems;
+
+        [IgnoreNodeBuilder]
         public DrawingImage LayerItems
         {
             get

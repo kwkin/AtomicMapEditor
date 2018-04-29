@@ -48,15 +48,12 @@ namespace Ame.Modules.MapEditor.Editor
             this.eventAggregator = eventAggregator;
             this.scrollModel = scrollModel;
             this.Title = map.Name;
-
-            // TODO use the map current layer instead
             this.CurrentLayer = this.Map.CurrentLayer as Layer;
 
             this.imageTransform = new CoordinateTransform();
             this.imageTransform.SetPixelToTile(this.Map.TileWidth, this.Map.TileHeight);
             this.CanvasGridItems = new ObservableCollection<Visual>();
-
-            // Draw map background
+            
             GeometryGroup rectangles = new GeometryGroup();
             Rect rect = new Rect(0, 0, this.Map.GetPixelWidth(), this.Map.GetPixelHeight());
             rectangles.Children.Add(new RectangleGeometry(rect));

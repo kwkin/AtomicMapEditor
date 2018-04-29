@@ -23,6 +23,9 @@ namespace Ame.Infrastructure.BaseTypes
         [DockContentId("SelectedBrush")]
         SelectedBrush,
 
+        [DockContentId("SessionView")]
+        SessionView,
+
         [DockContentId("Toolbox")]
         Toolbox,
 

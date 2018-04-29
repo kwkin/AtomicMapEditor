@@ -9,6 +9,7 @@ using Ame.Modules.Docks.ItemListDock;
 using Ame.Modules.Docks.LayerListDock;
 using Ame.Modules.Docks.MinimapDock;
 using Ame.Modules.Docks.SelectedBrushDock;
+using Ame.Modules.Docks.SessionViewDock;
 using Ame.Modules.Docks.ToolboxDock;
 using Ame.Modules.MapEditor.Editor;
 
@@ -40,6 +41,7 @@ namespace Ame.Modules.Docks.Core
         public DataTemplate MinimapDataTemplate { get; set; }
         public DataTemplate ToolboxDataTemplate { get; set; }
         public DataTemplate SelectedBrushDataTemplate { get; set; }
+        public DataTemplate SessionViewDataTemplate { get; set; }
 
         public DataTemplate MainEditorTemplate { get; set; }
 
@@ -79,6 +81,10 @@ namespace Ame.Modules.Docks.Core
             {
                 return SelectedBrushDataTemplate;
 
+            }
+            else if (item is SessionViewerViewModel)
+            {
+                return SessionViewDataTemplate;
             }
             else if (item is MainEditorViewModel)
             {

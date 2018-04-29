@@ -95,6 +95,8 @@
     <Compile Include="BaseTypes\DockType.cs" />
     <Compile Include="BaseTypes\DockViewModelTemplate.cs" />
     <Compile Include="BaseTypes\GridModel.cs" />
+    <Compile Include="BaseTypes\IgnoreNodeBuilderAttribute.cs" />
+    <Compile Include="BaseTypes\NodeViewBuilder.cs" />
     <Compile Include="BaseTypes\PropertyStat.cs" />
     <Compile Include="BaseTypes\ReadOnlyService.cs" />
     <Compile Include="BaseTypes\SetPropertyAction.cs" />

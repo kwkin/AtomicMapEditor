@@ -14,6 +14,7 @@
              xmlns:minimap="clr-namespace:Ame.Modules.Docks.MinimapDock"
              xmlns:toolbox="clr-namespace:Ame.Modules.Docks.ToolboxDock"
              xmlns:selectedbrush="clr-namespace:Ame.Modules.Docks.SelectedBrushDock"
+             xmlns:sessionview="clr-namespace:Ame.Modules.Docks.SessionViewDock"
              xmlns:conv="clr-namespace:Ame.Infrastructure.Converters;assembly=Ame.Infrastructure"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
@@ -134,6 +135,11 @@
                         <toolbox:Toolbox />
                     </DataTemplate>
                 </basetype:DockTemplateSelector.ToolboxDataTemplate>
+                <basetype:DockTemplateSelector.SessionViewDataTemplate>
+                    <DataTemplate>
+                        <sessionview:SessionViewer />
+                    </DataTemplate>
+                </basetype:DockTemplateSelector.SessionViewDataTemplate>
             </basetype:DockTemplateSelector>
         </xcad:DockingManager.LayoutItemTemplateSelector>
 

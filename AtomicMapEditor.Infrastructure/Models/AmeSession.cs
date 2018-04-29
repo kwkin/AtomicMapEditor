@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ame.Infrastructure.BaseTypes;
 
 namespace Ame.Infrastructure.Models
 {
@@ -30,9 +31,10 @@ namespace Ame.Infrastructure.Models
 
 
         #region properties
-
+        
         public IList<Map> MapList { get; set; }
         public int MapListIndex { get; set; }
+        public int MapCount { get { return MapList.Count; } }
 
         public Map CurrentMap
         {

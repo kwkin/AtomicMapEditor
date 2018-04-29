@@ -245,6 +245,9 @@
                     <MenuItem Header="Selected Brush"
                               InputGestureText="Ctrl+8"
                               Command="{Binding OpenSelectedBrushDockCommand}" />
+                    <MenuItem Header="Session View"
+                              InputGestureText="Ctrl+9"
+                              Command="{Binding OpenSessionViewDockCommand}" />
                 </MenuItem>
                 <Separator />
                 <MenuItem Header="Hide Docks"

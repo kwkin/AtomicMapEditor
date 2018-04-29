@@ -102,6 +102,7 @@ namespace Ame.Modules.Menu.Options
             this.OpenClipboardDockCommand = new DelegateCommand(() => OpenClipboardDock());
             this.OpenUndoHistoryDockCommand = new DelegateCommand(() => OpenUndoHistoryDock());
             this.OpenSelectedBrushDockCommand = new DelegateCommand(() => OpenSelectedBrushDock());
+            this.OpenSessionViewDockCommand = new DelegateCommand(() => OpenSessionViewDock());
             this.HideDocksCommand = new DelegateCommand(() => HideDocks());
             this.SingleWindowCommand = new DelegateCommand(() => SingleWindow());
 
@@ -196,6 +197,7 @@ namespace Ame.Modules.Menu.Options
         public ICommand OpenClipboardDockCommand { get; private set; }
         public ICommand OpenUndoHistoryDockCommand { get; private set; }
         public ICommand OpenSelectedBrushDockCommand { get; private set; }
+        public ICommand OpenSessionViewDockCommand { get; private set; }
         public ICommand HideDocksCommand { get; private set; }
         public ICommand SingleWindowCommand { get; private set; }
 
@@ -532,6 +534,12 @@ namespace Ame.Modules.Menu.Options
         public void OpenSelectedBrushDock()
         {
             OpenDockMessage dock = new OpenDockMessage(DockType.SelectedBrush);
+            this.eventAggregator.GetEvent<OpenDockEvent>().Publish(dock);
+        }
+
+        public void OpenSessionViewDock()
+        {
+            OpenDockMessage dock = new OpenDockMessage(DockType.SessionView);
             this.eventAggregator.GetEvent<OpenDockEvent>().Publish(dock);
         }
 

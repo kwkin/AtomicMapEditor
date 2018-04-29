@@ -59,6 +59,7 @@ namespace Ame.Modules.Docks
                 container.RegisterInstance<IEventAggregator>(this.eventAggregator);
                 container.RegisterInstance<IScrollModel>(new ScrollModel());
                 container.RegisterInstance<Map>(map);
+                container.RegisterInstance(this.session);
                 DockViewModelTemplate dockViewModel = DockViewModelSelector.GetViewModel(DockType.MapEditor, container);
                 AddDockViewModel(dockViewModel);
             }
@@ -196,6 +197,7 @@ namespace Ame.Modules.Docks
                 container = new UnityContainer();
                 container.RegisterInstance<IEventAggregator>(this.eventAggregator);
                 container.RegisterInstance<IScrollModel>(new ScrollModel());
+                container.RegisterInstance(this.session);
 
                 // TODO fix this when DockViewModelSelector is removed
                 IList<ILayer> layerList = this.session.CurrentMap.LayerList;
@@ -249,8 +251,7 @@ namespace Ame.Modules.Docks
                     notification = NewLayerWindow(new Layer(newLayerName, 32, 32, 32, 32));
                     notification.Title = notificationTitle;
 
-                    // TODO do not rely on the title name TODO establish a better messaging system
-                    // TODO add method as callback function
+                    // TODO establish a better messaging system
                     this.layerWindowInteraction.Raise(notification, OnLayerWindowClosed);
                     break;
 
@@ -341,6 +342,7 @@ namespace Ame.Modules.Docks
                 container.RegisterInstance<IEventAggregator>(this.eventAggregator);
                 container.RegisterInstance<IScrollModel>(new ScrollModel());
                 container.RegisterInstance<Map>(mapModel);
+                container.RegisterInstance(this.session);
 
                 // TODO srsly, remove this
                 IList<ILayer> layerList = this.session.CurrentMap.LayerList;
@@ -415,6 +417,7 @@ namespace Ame.Modules.Docks
             IUnityContainer container = new UnityContainer();
             container.RegisterInstance<IEventAggregator>(this.eventAggregator);
             container.RegisterInstance<IScrollModel>(new ScrollModel());
+            container.RegisterInstance(this.session);
 
             // TODO srsly, remove this
             IList<ILayer> layerList = this.session.CurrentMap.LayerList;
