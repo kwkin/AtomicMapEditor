@@ -195,8 +195,7 @@ namespace Ame.Modules.Windows.MapEditorWindow
                 this.MetadataList.Remove(this.SelectedMetadata);
             }
         }
-
-        // TODO move this into a seperate class
+        
         private void MoveMetadataUp()
         {
             int currentIndex = this.MapMetadata.CurrentPosition;

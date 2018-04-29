@@ -25,8 +25,6 @@ namespace Ame.Modules.Docks
 {
     public class DockManagerViewModel : BindableBase, ILayoutViewModel
     {
-        // TODO add dock for view session properties
-
         #region fields
 
         private IEventAggregator eventAggregator;
