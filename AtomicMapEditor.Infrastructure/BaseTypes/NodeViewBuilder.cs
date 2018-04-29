@@ -9,7 +9,7 @@ namespace Ame.Infrastructure.BaseTypes
     public class NodeViewBuilder
     {
         #region fields
-
+        
         #endregion fields
 
 
@@ -99,7 +99,7 @@ namespace Ame.Infrastructure.BaseTypes
                         {
                             object childValue = property.GetValue(value, null);
                             IEnumerable array = childValue as IEnumerable;
-                            CreatePropertyList(array, property);
+                            CreateChildPropertyList(array, property);
                         }
                         catch
                         {
@@ -125,7 +125,7 @@ namespace Ame.Infrastructure.BaseTypes
                         {
                             object childValue = property.GetValue(value, null);
                             IEnumerable enumerable = childValue as IEnumerable;
-                            CreatePropertyList(enumerable, property);
+                            CreateChildPropertyList(enumerable, property);
                         }
                         catch
                         {
@@ -168,7 +168,7 @@ namespace Ame.Infrastructure.BaseTypes
             }
         }
 
-        private void CreatePropertyList(IEnumerable enumerable, PropertyInfo property)
+        private void CreateChildPropertyList(IEnumerable enumerable, PropertyInfo property)
         {
             NodeViewBuilder arrayNode = new NodeViewBuilder(property.Name, enumerable.ToString(), typeof(object));
             if (enumerable != null)
@@ -179,7 +179,6 @@ namespace Ame.Infrastructure.BaseTypes
 
                 foreach (object element in enumerable)
                 {
-                    //Handle 2D arrays
                     if (element is IEnumerable && !(element is string))
                     {
                         arrayNode2 = new NodeViewBuilder("[" + i + "]", element.ToString(), typeof(object));

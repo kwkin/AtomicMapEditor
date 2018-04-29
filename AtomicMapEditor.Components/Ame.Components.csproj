@@ -78,6 +78,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviors\BindableSelectedItemBehavior.cs" />
     <Compile Include="Behaviors\DataGridRowReadOnlyBehavior.cs" />
     <Compile Include="Behaviors\IScrollModel.cs" />
     <Compile Include="Behaviors\ReadOnlyService.cs" />

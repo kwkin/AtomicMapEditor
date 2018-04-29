@@ -6,7 +6,7 @@
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:local="clr-namespace:Ame.Modules.Windows.MapEditorWindow"
              xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=Ame.Components"
-             xmlns:Behaviors="clr-namespace:Ame.Components.Behaviors;assembly=Ame.Components"
+             xmlns:behaviors="clr-namespace:Ame.Components.Behaviors;assembly=Ame.Components"
              mc:Ignorable="d"
              d:DesignHeight="300" 
              d:DesignWidth="300">
@@ -56,7 +56,7 @@
                   ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                   Width="{Binding Path=Width, ElementName=propertiesGrid}">
             <i:Interaction.Behaviors>
-                <Behaviors:DataGridRowReadOnlyBehavior />
+                <behaviors:DataGridRowReadOnlyBehavior />
             </i:Interaction.Behaviors>
 
             <DataGrid.Resources>
@@ -64,7 +64,7 @@
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsReadOnly}"
                                      Value="True">
-                            <Setter Property="Behaviors:ReadOnlyService.IsReadOnly"
+                            <Setter Property="behaviors:ReadOnlyService.IsReadOnly"
                                     Value="True" />
                         </DataTrigger>
                     </Style.Triggers>
