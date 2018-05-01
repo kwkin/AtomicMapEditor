@@ -128,6 +128,11 @@
     </Compile>
     <Compile Include="MapEditorWindow\MapEditorViewModel.cs" />
     <Compile Include="TilesetEditorWindow\TilesetEditorViewModel.cs" />
+    <Compile Include="WindowInteractions\LayerInteraction.cs" />
+    <Compile Include="WindowInteractions\EditMapInteraction.cs" />
+    <Compile Include="WindowInteractions\IWindowInteraction.cs" />
+    <Compile Include="WindowInteractions\NewMapInteraction.cs" />
+    <Compile Include="WindowInteractions\TilesetInteraction.cs" />
     <Compile Include="WindowsModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

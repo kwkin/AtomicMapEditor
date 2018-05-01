@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Ame.Components.Behaviors;
@@ -14,6 +15,7 @@ using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
 using Ame.Modules.Docks.Core;
 using Ame.Modules.Windows.LayerEditorWindow;
+using Ame.Modules.Windows.WindowInteractions;
 using Microsoft.Practices.Unity;
 using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
@@ -216,63 +218,49 @@ namespace Ame.Modules.Docks
             AddDockViewModel(dockViewModel);
             this.ActiveDocument = dockViewModel;
         }
-
+        
         private void OpenWindow(OpenWindowMessage message)
         {
-            INotification notification = null;
-            string notificationTitle = string.Empty;
-            if (!string.IsNullOrEmpty(message.WindowTitle))
-            {
-                notificationTitle = message.WindowTitle;
-            }
-
-            // TODO switch window type to an interface
+            IWindowInteraction interaction = null;
+            IUnityContainer container = new UnityContainer();
+            Action<INotification> callback = null;
             switch (message.WindowType)
             {
                 case WindowType.NewMap:
-                    notification = NewMapWindow();
-                    notification.Title = notificationTitle;
-                    this.mapWindowInteraction.Raise(notification, OnNewMapWindowClosed);
+                    container.RegisterInstance<AmeSession>(this.session);
+                    interaction = container.Resolve(typeof(NewMapInteraction), null) as IWindowInteraction;
+                    callback = OnNewMapWindowClosed;
                     break;
 
                 case WindowType.EditMap:
-                    notification = EditMapWindow();
-                    notificationTitle = string.Format("Edit Map - {0}", this.session.CurrentMap.Name);
-                    notification.Title = notificationTitle;
-                    this.mapWindowInteraction.Raise(notification, OnEditMapWindowClosed);
+                    container.RegisterInstance<AmeSession>(this.session);
+                    interaction = container.Resolve(typeof(EditMapInteraction), null) as IWindowInteraction;
+                    callback = OnEditMapWindowClosed;
                     break;
 
                 case WindowType.NewLayer:
                     Map currentMap = this.session.CurrentMap;
                     int layerCount = currentMap.LayerList.Count;
-                    String newLayerName = String.Format("Layer #{0}", layerCount);
-                    notification = NewLayerWindow(new Layer(newLayerName, 32, 32, 32, 32));
-                    notification.Title = notificationTitle;
-
-                    // TODO establish a better messaging system
-                    this.layerWindowInteraction.Raise(notification, OnLayerWindowClosed);
+                    string newLayerName = string.Format("Layer #{0}", layerCount);
+                    container.RegisterInstance<ILayer>(new Layer(newLayerName, 32, 32, 32, 32));
+                    interaction = container.Resolve(typeof(LayerInteraction), null) as IWindowInteraction;
+                    callback = OnLayerWindowClosed;
                     break;
 
                 case WindowType.EditLayer:
                     if (message.Content == null)
                     {
-                        Layer currentLayer = this.session.CurrentMap.CurrentLayer as Layer;
-                        notification = NewLayerWindow(currentLayer);
-                        notification.Title = string.Format("Edit Layer - {0}", currentLayer.LayerName);
+                        container.RegisterInstance<ILayer>(this.session.CurrentMap.CurrentLayer as ILayer);
                     }
                     else
                     {
-                        notification = NewLayerWindow(message.Content as Layer);
-                        notification.Title = notificationTitle;
+                        container.RegisterInstance<ILayer>(message.Content as ILayer);
                     }
-                    notification = NewLayerWindow(message.Content as Layer);
-                    this.layerWindowInteraction.Raise(notification);
+                    interaction = container.Resolve(typeof(LayerInteraction), null) as IWindowInteraction;
                     break;
 
                 case WindowType.TilesetEditor:
-                    notification = TilesetEditorWindow();
-                    notification.Title = notificationTitle;
-                    this.tilesetWindowInteraction.Raise(notification);
+                    interaction = container.Resolve(typeof(TilesetInteraction), null) as IWindowInteraction;
                     break;
 
                 case WindowType.ImageEditor:
@@ -281,52 +269,10 @@ namespace Ame.Modules.Docks
                 default:
                     break;
             }
-        }
-
-        private INotification NewMapWindow()
-        {
-            this.MapWindowView = new Windows.MapEditorWindow.MapEditor();
-            RaisePropertyChanged(nameof(this.MapWindowView));
-
-            Confirmation mapConfirmation = new Confirmation();
-            int mapCount = this.session.MapList.Count;
-            string newMapName = String.Format("Map #{0}", mapCount);
-            mapConfirmation.Content = new Map(newMapName);
-            return mapConfirmation;
-        }
-
-        private INotification EditMapWindow()
-        {
-            this.MapWindowView = new Windows.MapEditorWindow.MapEditor();
-            RaisePropertyChanged(nameof(this.MapWindowView));
-
-            Confirmation mapConfirmation = new Confirmation();
-            Map currentMap = this.session.CurrentMap;
-            mapConfirmation.Content = currentMap;
-            string newMapName = currentMap.Name;
-            return mapConfirmation;
-        }
-
-        private INotification NewLayerWindow(ILayer layer)
-        {
-            this.LayerWindowView = new LayerEditor();
-            RaisePropertyChanged(nameof(this.LayerWindowView));
-
-            Confirmation layerWindowConfirmation = new Confirmation();
-            layerWindowConfirmation.Content = layer;
-            return layerWindowConfirmation;
-        }
-
-        private INotification TilesetEditorWindow()
-        {
-            this.TilesetWindowView = new Windows.TilesetEditorWindow.TilesetEditor();
-            RaisePropertyChanged(nameof(this.TilesetWindowView));
-
-            Confirmation tilesetConfirmation = new Confirmation();
-
-            // TODO add tileset
-
-            return tilesetConfirmation;
+            if (interaction != null)
+            {
+                interaction.RaiseNotification(this.DockManager, callback);
+            }
         }
 
         private void OnNewMapWindowClosed(INotification notification)
