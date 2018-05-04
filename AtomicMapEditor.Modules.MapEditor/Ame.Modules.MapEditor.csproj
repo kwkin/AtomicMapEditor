@@ -116,6 +116,10 @@
       <Project>{9d27d8dc-5cd8-46d9-b702-efeb6d66f236}</Project>
       <Name>Ame.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AtomicMapEditor.Modules.Windows\Ame.Modules.Windows.csproj">
+      <Project>{69DAE486-6E5A-4936-BC41-04719A925CED}</Project>
+      <Name>Ame.Modules.Windows</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AtomicMapEditor.Resources\Ame.Resources.csproj">
       <Project>{cbcd8c26-e73d-4c60-829c-f573edf4cceb}</Project>
       <Name>Ame.Resources</Name>

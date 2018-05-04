@@ -7,6 +7,7 @@ using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Utils;
+using Ame.Modules.Windows.WindowInteractions;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
@@ -100,7 +101,7 @@ namespace Ame.Modules.Docks.LayerListDock
 
         public void NewTilesetLayer()
         {
-            OpenWindowMessage openWindowMessage = new OpenWindowMessage(WindowType.NewLayer);
+            OpenWindowMessage openWindowMessage = new OpenWindowMessage(typeof(NewLayerInteraction));
             openWindowMessage.WindowTitle = "New Layer";
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(openWindowMessage);
         }
@@ -161,9 +162,12 @@ namespace Ame.Modules.Docks.LayerListDock
             {
                 return;
             }
-            OpenWindowMessage openWindowMessage = new OpenWindowMessage(WindowType.EditLayer);
+            OpenWindowMessage openWindowMessage = new OpenWindowMessage(typeof(EditLayerInteraction));
             openWindowMessage.WindowTitle = string.Format("Edit Layer - {0}", this.CurrentLayer.LayerName);
-            openWindowMessage.Content = this.CurrentLayer;
+
+            IUnityContainer container = new UnityContainer();
+            container.RegisterInstance<ILayer>(this.CurrentLayer);
+            openWindowMessage.Container = container;
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(openWindowMessage);
         }
 

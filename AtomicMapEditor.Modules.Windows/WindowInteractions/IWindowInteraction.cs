@@ -20,6 +20,7 @@ namespace Ame.Modules.Windows.WindowInteractions
         #region methods
         
         void RaiseNotification(DependencyObject test, Action<INotification> callback);
+        void OnWindowClosed(INotification notification);
 
         #endregion
     }

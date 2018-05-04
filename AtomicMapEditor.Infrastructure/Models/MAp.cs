@@ -119,6 +119,13 @@ namespace Ame.Infrastructure.Models
             }
         }
 
+        public int LayerCount
+        {
+            get
+            {
+                return this.LayerList.Count;
+            }
+        }
 
         #endregion properties
 

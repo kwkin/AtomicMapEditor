@@ -14,6 +14,7 @@ using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Utils;
+using Ame.Modules.Windows.WindowInteractions;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using Microsoft.Win32;
@@ -346,7 +347,7 @@ namespace Ame.Modules.Docks.ItemEditorDock
         
         private void ViewProperties()
         {
-            OpenWindowMessage window = new OpenWindowMessage(WindowType.TilesetEditor);
+            OpenWindowMessage window = new OpenWindowMessage(typeof(TilesetInteraction));
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(window);
         }
 

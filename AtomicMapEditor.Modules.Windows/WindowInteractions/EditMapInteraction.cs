@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Models;
 using Prism.Interactivity;
 using Prism.Interactivity.InteractionRequest;
@@ -15,6 +16,7 @@ namespace Ame.Modules.Windows.WindowInteractions
         #region fields
 
         private AmeSession session;
+        private DockViewModelTemplate activeDocument;
         private InteractionRequest<INotification> mapWindowInteraction;
 
         #endregion fields
@@ -22,9 +24,10 @@ namespace Ame.Modules.Windows.WindowInteractions
 
         #region Constructor
 
-        public EditMapInteraction(AmeSession session)
+        public EditMapInteraction(AmeSession session, DockViewModelTemplate activeDocument)
         {
             this.session = session;
+            this.activeDocument = activeDocument;
             this.mapWindowInteraction = new InteractionRequest<INotification>();
         }
 
@@ -49,6 +52,16 @@ namespace Ame.Modules.Windows.WindowInteractions
             trigger.Actions.Add(GetAction());
             trigger.Attach(test);
             this.mapWindowInteraction.Raise(mapConfirmation, callback);
+        }
+
+        public void OnWindowClosed(INotification notification)
+        {
+            IConfirmation confirmation = notification as IConfirmation;
+            if (confirmation.Confirmed)
+            {
+                Map mapModel = confirmation.Content as Map;
+                this.activeDocument.Title = mapModel.Name;
+            }
         }
 
         private PopupWindowAction GetAction()

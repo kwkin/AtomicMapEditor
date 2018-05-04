@@ -15,6 +15,7 @@ using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
 using Ame.Modules.Docks.Core;
 using Ame.Modules.Windows.LayerEditorWindow;
+using Ame.Modules.Windows.WindowInteractionFactories;
 using Ame.Modules.Windows.WindowInteractions;
 using Microsoft.Practices.Unity;
 using Prism.Events;
@@ -33,7 +34,8 @@ namespace Ame.Modules.Docks
 
         private event EventHandler ActiveDocumentChanged;
 
-        public AmeSession session;
+        private AmeSession session;
+        private IWindowStrategy windowBuilder; 
 
         #endregion fields
 
@@ -63,10 +65,21 @@ namespace Ame.Modules.Docks
                 DockViewModelTemplate dockViewModel = DockViewModelSelector.GetViewModel(DockType.MapEditor, container);
                 AddDockViewModel(dockViewModel);
             }
+            if (this.Documents.Count > 0)
+            {
+                this.ActiveDocument = this.Documents[0];
+            }
 
-            this.mapWindowInteraction = new InteractionRequest<INotification>();
-            this.layerWindowInteraction = new InteractionRequest<INotification>();
-            this.tilesetWindowInteraction = new InteractionRequest<INotification>();
+            IWindowInteractionFactory[] factories = new IWindowInteractionFactory[]
+            {
+                new NewMapFactory(this.session, this.eventAggregator),
+                new EditMapFactory(this.session, this.ActiveDocument),
+                new NewLayerFactory(this.session, this.eventAggregator),
+                new EditLayerFactory(this.session, this.session.CurrentMap.CurrentLayer),
+                new TilesetEditorFactory()
+
+            };
+            this.windowBuilder = new WindowStrategy(factories);
 
             this.eventAggregator.GetEvent<OpenDockEvent>().Subscribe(
                 OpenDock,
@@ -144,24 +157,6 @@ namespace Ame.Modules.Docks
             }
         }
 
-        private InteractionRequest<INotification> mapWindowInteraction;
-        public IInteractionRequest MapWindowInteraction
-        {
-            get { return mapWindowInteraction; }
-        }
-
-        private InteractionRequest<INotification> layerWindowInteraction;
-        public IInteractionRequest LayerWindowInteraction
-        {
-            get { return layerWindowInteraction; }
-        }
-
-        private InteractionRequest<INotification> tilesetWindowInteraction;
-        public IInteractionRequest TilesetWindowInteraction
-        {
-            get { return tilesetWindowInteraction; }
-        }
-
         public string AppDataDirectory
         {
             get
@@ -222,103 +217,13 @@ namespace Ame.Modules.Docks
         private void OpenWindow(OpenWindowMessage message)
         {
             IWindowInteraction interaction = null;
-            IUnityContainer container = new UnityContainer();
+            IUnityContainer container = message.Container;
             Action<INotification> callback = null;
-            switch (message.WindowType)
-            {
-                case WindowType.NewMap:
-                    container.RegisterInstance<AmeSession>(this.session);
-                    interaction = container.Resolve(typeof(NewMapInteraction), null) as IWindowInteraction;
-                    callback = OnNewMapWindowClosed;
-                    break;
-
-                case WindowType.EditMap:
-                    container.RegisterInstance<AmeSession>(this.session);
-                    interaction = container.Resolve(typeof(EditMapInteraction), null) as IWindowInteraction;
-                    callback = OnEditMapWindowClosed;
-                    break;
-
-                case WindowType.NewLayer:
-                    Map currentMap = this.session.CurrentMap;
-                    int layerCount = currentMap.LayerList.Count;
-                    string newLayerName = string.Format("Layer #{0}", layerCount);
-                    container.RegisterInstance<ILayer>(new Layer(newLayerName, 32, 32, 32, 32));
-                    interaction = container.Resolve(typeof(LayerInteraction), null) as IWindowInteraction;
-                    callback = OnLayerWindowClosed;
-                    break;
-
-                case WindowType.EditLayer:
-                    if (message.Content == null)
-                    {
-                        container.RegisterInstance<ILayer>(this.session.CurrentMap.CurrentLayer as ILayer);
-                    }
-                    else
-                    {
-                        container.RegisterInstance<ILayer>(message.Content as ILayer);
-                    }
-                    interaction = container.Resolve(typeof(LayerInteraction), null) as IWindowInteraction;
-                    break;
-
-                case WindowType.TilesetEditor:
-                    interaction = container.Resolve(typeof(TilesetInteraction), null) as IWindowInteraction;
-                    break;
-
-                case WindowType.ImageEditor:
-                    break;
-
-                default:
-                    break;
-            }
+            interaction = this.windowBuilder.CreateWindowInteraction(message.WindowType);
             if (interaction != null)
             {
+                callback = interaction.OnWindowClosed;
                 interaction.RaiseNotification(this.DockManager, callback);
-            }
-        }
-
-        private void OnNewMapWindowClosed(INotification notification)
-        {
-            IConfirmation confirmation = notification as IConfirmation;
-            if (confirmation.Confirmed)
-            {
-                Map mapModel = confirmation.Content as Map;
-
-                IUnityContainer container = new UnityContainer();
-                container.RegisterInstance<IEventAggregator>(this.eventAggregator);
-                container.RegisterInstance<IScrollModel>(new ScrollModel());
-                container.RegisterInstance<Map>(mapModel);
-                container.RegisterInstance(this.session);
-
-                // TODO srsly, remove this
-                IList<ILayer> layerList = this.session.CurrentMap.LayerList;
-                ObservableCollection<ILayer> layerObservableList = new ObservableCollection<ILayer>(layerList);
-                container.RegisterInstance<ObservableCollection<ILayer>>(layerObservableList);
-
-                this.session.MapList.Add(mapModel);
-
-                OpenDockMessage openEditorMessage = new OpenDockMessage(DockType.MapEditor, container);
-                OpenDock(openEditorMessage);
-            }
-        }
-
-        private void OnEditMapWindowClosed(INotification notification)
-        {
-            IConfirmation confirmation = notification as IConfirmation;
-            if (confirmation.Confirmed)
-            {
-                Map mapModel = confirmation.Content as Map;
-                this.ActiveDocument.Title = mapModel.Name;
-            }
-        }
-
-        private void OnLayerWindowClosed(INotification notification)
-        {
-            IConfirmation confirmation = notification as IConfirmation;
-            if (confirmation.Confirmed)
-            {
-                Layer layerModel = confirmation.Content as Layer;
-
-                NewLayerMessage newLayerMessage = new NewLayerMessage(layerModel);
-                this.eventAggregator.GetEvent<NewLayerEvent>().Publish(newLayerMessage);
             }
         }
 

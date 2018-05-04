@@ -22,63 +22,6 @@
              d:DesignHeight="300"
              d:DesignWidth="300">
 
-    <i:Interaction.Triggers>
-        <prism:InteractionRequestTrigger SourceObject="{Binding MapWindowInteraction}">
-            <prism:PopupWindowAction IsModal="True"
-                                     CenterOverAssociatedObject="True"
-                                     WindowContent="{Binding MapWindowView}">
-                <prism:PopupWindowAction.WindowStyle>
-                    <Style TargetType="Window">
-                        <Setter Property="MinWidth"
-                                Value="420" />
-                        <Setter Property="MinHeight"
-                                Value="380" />
-                        <Setter Property="Width"
-                                Value="420" />
-                        <Setter Property="Height"
-                                Value="380" />
-                    </Style>
-                </prism:PopupWindowAction.WindowStyle>
-            </prism:PopupWindowAction>
-        </prism:InteractionRequestTrigger>
-        <prism:InteractionRequestTrigger SourceObject="{Binding LayerWindowInteraction}">
-            <prism:PopupWindowAction IsModal="True"
-                                     CenterOverAssociatedObject="True"
-                                     WindowContent="{Binding LayerWindowView}">
-                <prism:PopupWindowAction.WindowStyle>
-                    <Style TargetType="Window">
-                        <Setter Property="MinWidth"
-                                Value="420" />
-                        <Setter Property="MinHeight"
-                                Value="385" />
-                        <Setter Property="Width"
-                                Value="420" />
-                        <Setter Property="Height"
-                                Value="385" />
-                    </Style>
-                </prism:PopupWindowAction.WindowStyle>
-            </prism:PopupWindowAction>
-        </prism:InteractionRequestTrigger>
-        <prism:InteractionRequestTrigger SourceObject="{Binding TilesetWindowInteraction}">
-            <prism:PopupWindowAction IsModal="True"
-                                     CenterOverAssociatedObject="True"
-                                     WindowContent="{Binding TilesetWindowView}">
-                <prism:PopupWindowAction.WindowStyle>
-                    <Style TargetType="Window">
-                        <Setter Property="MinWidth"
-                                Value="420" />
-                        <Setter Property="MinHeight"
-                                Value="385" />
-                        <Setter Property="Width"
-                                Value="420" />
-                        <Setter Property="Height"
-                                Value="385" />
-                    </Style>
-                </prism:PopupWindowAction.WindowStyle>
-            </prism:PopupWindowAction>
-        </prism:InteractionRequestTrigger>
-    </i:Interaction.Triggers>
-
     <UserControl.Resources>
         <conv:ActiveDocumentConverter x:Key="ActiveDocumentConverter" />
         <conv:BooleanToVisiblityConverter x:Key="BoolToVisConverter"

@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
+using Ame.Modules.Windows.WindowInteractions;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -119,7 +120,7 @@ namespace Ame.Modules.MapEditor.Ribbon
 
         public void NewMap()
         {
-            OpenWindowMessage window = new OpenWindowMessage(WindowType.NewMap);
+            OpenWindowMessage window = new OpenWindowMessage(typeof(NewMapInteraction));
             window.WindowTitle = "New Map";
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(window);
         }
@@ -131,7 +132,7 @@ namespace Ame.Modules.MapEditor.Ribbon
 
         public void EditMapProperties()
         {
-            OpenWindowMessage window = new OpenWindowMessage(WindowType.EditMap);
+            OpenWindowMessage window = new OpenWindowMessage(typeof(EditMapInteraction));
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(window);
         }
 

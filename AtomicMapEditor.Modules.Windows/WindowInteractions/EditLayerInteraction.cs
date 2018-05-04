@@ -4,26 +4,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using Ame.Modules.Windows.TilesetEditorWindow;
+using Ame.Infrastructure.Models;
+using Ame.Modules.Windows.LayerEditorWindow;
 using Prism.Interactivity;
 using Prism.Interactivity.InteractionRequest;
 
 namespace Ame.Modules.Windows.WindowInteractions
 {
-    public class TilesetInteraction : IWindowInteraction
+    // TODO combine this with new layer interaction
+    public class EditLayerInteraction : IWindowInteraction
     {
         #region fields
 
-        private InteractionRequest<INotification> interaction;
+        private ILayer layer;
+        private InteractionRequest<INotification> mapWindowInteraction;
 
         #endregion fields
 
 
         #region Constructor
 
-        public TilesetInteraction()
+        public EditLayerInteraction(ILayer layer)
         {
-            this.interaction = new InteractionRequest<INotification>();
+            this.layer = layer;
+            this.mapWindowInteraction = new InteractionRequest<INotification>();
         }
 
         #endregion Constructor
@@ -38,19 +42,21 @@ namespace Ame.Modules.Windows.WindowInteractions
 
         public void RaiseNotification(DependencyObject test, Action<INotification> callback)
         {
-            Confirmation mapConfirmation = new Confirmation();
-            mapConfirmation.Title = "Tileset";
+            Confirmation layerWindowConfirmation = new Confirmation();
+
+            layerWindowConfirmation.Title = string.Format("Edit Layer - {0}", layer.LayerName);
+            layerWindowConfirmation.Content = layer;
 
             InteractionRequestTrigger trigger = new InteractionRequestTrigger();
-            trigger.SourceObject = this.interaction;
+            trigger.SourceObject = this.mapWindowInteraction;
             trigger.Actions.Add(GetAction());
             trigger.Attach(test);
-            this.interaction.Raise(mapConfirmation, callback);
+            this.mapWindowInteraction.Raise(layerWindowConfirmation, callback);
         }
 
         public void OnWindowClosed(INotification notification)
         {
-            throw new NotImplementedException();
+            
         }
 
         private PopupWindowAction GetAction()
@@ -58,7 +64,7 @@ namespace Ame.Modules.Windows.WindowInteractions
             PopupWindowAction action = new PopupWindowAction();
             action.IsModal = true;
             action.CenterOverAssociatedObject = true;
-            action.WindowContent = new TilesetEditor();
+            action.WindowContent = new LayerEditor();
 
             Style style = new Style();
             style.TargetType = typeof(Window);

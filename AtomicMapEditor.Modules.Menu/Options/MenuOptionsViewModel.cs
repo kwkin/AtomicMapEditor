@@ -8,6 +8,7 @@ using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Ame.Infrastructure.Messages;
+using Ame.Modules.Windows.WindowInteractions;
 
 namespace Ame.Modules.Menu.Options
 {
@@ -314,7 +315,7 @@ namespace Ame.Modules.Menu.Options
 
         public void NewMap()
         {
-            OpenWindowMessage window = new OpenWindowMessage(WindowType.NewMap);
+            OpenWindowMessage window = new OpenWindowMessage(typeof(NewMapInteraction));
             window.WindowTitle = "New Map";
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(window);
         }
@@ -341,7 +342,7 @@ namespace Ame.Modules.Menu.Options
 
         public void EditMapProperties()
         {
-            OpenWindowMessage window = new OpenWindowMessage(WindowType.EditMap);
+            OpenWindowMessage window = new OpenWindowMessage(typeof(EditMapInteraction));
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(window);
         }
 
@@ -351,7 +352,7 @@ namespace Ame.Modules.Menu.Options
 
         public void NewLayer()
         {
-            OpenWindowMessage openWindowMessage = new OpenWindowMessage(WindowType.NewLayer);
+            OpenWindowMessage openWindowMessage = new OpenWindowMessage(typeof(NewLayerInteraction));
             openWindowMessage.WindowTitle = "New Layer";
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(openWindowMessage);
         }
@@ -394,7 +395,7 @@ namespace Ame.Modules.Menu.Options
 
         public void EditLayerProperties()
         {
-            OpenWindowMessage openWindowMessage = new OpenWindowMessage(WindowType.EditLayer);
+            OpenWindowMessage openWindowMessage = new OpenWindowMessage(typeof(EditLayerInteraction));
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(openWindowMessage);
         }
 

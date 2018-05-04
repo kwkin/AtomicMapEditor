@@ -128,7 +128,16 @@
     </Compile>
     <Compile Include="MapEditorWindow\MapEditorViewModel.cs" />
     <Compile Include="TilesetEditorWindow\TilesetEditorViewModel.cs" />
-    <Compile Include="WindowInteractions\LayerInteraction.cs" />
+    <Compile Include="WindowInteractionFactories\EditLayerFactory.cs" />
+    <Compile Include="WindowInteractionFactories\EditMapFactory.cs" />
+    <Compile Include="WindowInteractionFactories\IWindowInteractionFactory.cs" />
+    <Compile Include="WindowInteractionFactories\IWindowStrategy.cs" />
+    <Compile Include="WindowInteractionFactories\NewLayerFactory.cs" />
+    <Compile Include="WindowInteractionFactories\NewMapFactory.cs" />
+    <Compile Include="WindowInteractionFactories\TilesetEditorFactory.cs" />
+    <Compile Include="WindowInteractionFactories\WindowStrategy.cs" />
+    <Compile Include="WindowInteractions\EditLayerInteraction.cs" />
+    <Compile Include="WindowInteractions\NewLayerInteraction.cs" />
     <Compile Include="WindowInteractions\EditMapInteraction.cs" />
     <Compile Include="WindowInteractions\IWindowInteraction.cs" />
     <Compile Include="WindowInteractions\NewMapInteraction.cs" />

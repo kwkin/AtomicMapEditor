@@ -6,13 +6,7 @@ namespace Ame.Infrastructure.Messages
 {
     public enum WindowType
     {
-        NewMap,
-        EditMap,
-        NewLayer,
-        EditLayer,
-        EditCurrentLayer,
         NewLayerGroup,
-        TilesetEditor,
         ImageEditor
     }
 
@@ -25,13 +19,13 @@ namespace Ame.Infrastructure.Messages
 
         #region Constructor
 
-        public OpenWindowMessage(WindowType windowType)
+        public OpenWindowMessage(Type windowType)
         {
             this.WindowType = windowType;
             this.WindowTitle = "";
         }
 
-        public OpenWindowMessage(WindowType windowType, String windowTitle)
+        public OpenWindowMessage(Type windowType, String windowTitle)
         {
             this.WindowType = windowType;
             this.WindowTitle = windowTitle;
@@ -42,10 +36,8 @@ namespace Ame.Infrastructure.Messages
 
         #region Properties
 
-        public Window Parent { get; set; }
-        public WindowType WindowType { get; set; }
+        public Type WindowType;
         public String WindowTitle { get; set; }
-        public object Content { get; set; }
         public IUnityContainer Container { get; set; }
 
         #endregion Properties
