@@ -8,8 +8,6 @@ namespace Ame.Modules.Windows.WindowInteractionFactories
     public class EditLayerFactory : IWindowInteractionFactory
     {
         #region fields
-        
-        private IUnityContainer container;
 
         #endregion fields
 
@@ -26,14 +24,16 @@ namespace Ame.Modules.Windows.WindowInteractionFactories
             {
                 throw new ArgumentNullException("session");
             }
-            this.container = new UnityContainer();
-            this.container.RegisterInstance<ILayer>(layer);
+            this.Container = new UnityContainer();
+            this.Container.RegisterInstance<ILayer>(layer);
         }
 
         #endregion constructors
 
 
         #region properties
+
+        public IUnityContainer Container { get; set; }
 
         #endregion properties
 
@@ -42,7 +42,7 @@ namespace Ame.Modules.Windows.WindowInteractionFactories
 
         public IWindowInteraction CreateWindowInteraction()
         {
-            return container.Resolve(typeof(EditLayerInteraction)) as IWindowInteraction;
+            return Container.Resolve(typeof(EditLayerInteraction)) as IWindowInteraction;
         }
 
         public bool AppliesTo(Type type)

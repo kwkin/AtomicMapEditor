@@ -10,8 +10,6 @@ namespace Ame.Modules.Windows.WindowInteractionFactories
     {
         #region fields
 
-        private IUnityContainer container;
-
         #endregion fields
 
 
@@ -23,16 +21,18 @@ namespace Ame.Modules.Windows.WindowInteractionFactories
             {
                 throw new ArgumentNullException("session");
             }
-            this.container = new UnityContainer();
+            this.Container = new UnityContainer();
             string newLayerName = string.Format("Layer #{0}", session.CurrentMap.LayerCount);
-            this.container.RegisterInstance<ILayer>(new Layer(newLayerName, 32, 32, 32, 32));
-            this.container.RegisterInstance<IEventAggregator>(eventAggregator);
+            this.Container.RegisterInstance<ILayer>(new Layer(newLayerName, 32, 32, 32, 32));
+            this.Container.RegisterInstance<IEventAggregator>(eventAggregator);
         }
 
         #endregion constructors
 
 
         #region properties
+
+        public IUnityContainer Container { get; set; }
 
         #endregion properties
 
@@ -41,7 +41,7 @@ namespace Ame.Modules.Windows.WindowInteractionFactories
 
         public IWindowInteraction CreateWindowInteraction()
         {
-            return container.Resolve(typeof(NewLayerInteraction)) as IWindowInteraction;
+            return this.Container.Resolve(typeof(NewLayerInteraction)) as IWindowInteraction;
         }
 
         public bool AppliesTo(Type type)

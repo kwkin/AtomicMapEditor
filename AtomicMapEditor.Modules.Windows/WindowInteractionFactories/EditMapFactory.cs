@@ -11,8 +11,6 @@ namespace Ame.Modules.Windows.WindowInteractionFactories
     {
         #region fields
 
-        private IUnityContainer container;
-
         #endregion fields
 
 
@@ -24,15 +22,17 @@ namespace Ame.Modules.Windows.WindowInteractionFactories
             {
                 throw new ArgumentNullException("session");
             }
-            this.container = new UnityContainer();
-            this.container.RegisterInstance<AmeSession>(session);
-            this.container.RegisterInstance<DockViewModelTemplate>(activeDocument);
+            this.Container = new UnityContainer();
+            this.Container.RegisterInstance<AmeSession>(session);
+            this.Container.RegisterInstance<DockViewModelTemplate>(activeDocument);
         }
 
         #endregion constructors
 
 
         #region properties
+
+        public IUnityContainer Container { get; set; }
 
         #endregion properties
 
@@ -41,7 +41,7 @@ namespace Ame.Modules.Windows.WindowInteractionFactories
 
         public IWindowInteraction CreateWindowInteraction()
         {
-            return container.Resolve(typeof(EditMapInteraction)) as IWindowInteraction;
+            return Container.Resolve(typeof(EditMapInteraction)) as IWindowInteraction;
         }
 
         public bool AppliesTo(Type type)

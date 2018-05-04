@@ -219,7 +219,14 @@ namespace Ame.Modules.Docks
             IWindowInteraction interaction = null;
             IUnityContainer container = message.Container;
             Action<INotification> callback = null;
-            interaction = this.windowBuilder.CreateWindowInteraction(message.WindowType);
+            if (message.Container != null)
+            {
+                interaction = this.windowBuilder.CreateWindowInteraction(message.WindowType, container);
+            }
+            else
+            {
+                interaction = this.windowBuilder.CreateWindowInteraction(message.WindowType);
+            }
             if (interaction != null)
             {
                 callback = interaction.OnWindowClosed;
@@ -267,8 +274,7 @@ namespace Ame.Modules.Docks
             container.RegisterInstance<IEventAggregator>(this.eventAggregator);
             container.RegisterInstance<IScrollModel>(new ScrollModel());
             container.RegisterInstance(this.session);
-
-            // TODO srsly, remove this
+            
             IList<ILayer> layerList = this.session.CurrentMap.LayerList;
             ObservableCollection<ILayer> layerObservableList = new ObservableCollection<ILayer>(layerList);
             container.RegisterInstance<ObservableCollection<ILayer>>(layerObservableList);

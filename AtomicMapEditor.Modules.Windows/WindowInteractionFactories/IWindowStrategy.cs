@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ame.Modules.Windows.WindowInteractions;
+using Microsoft.Practices.Unity;
 
 namespace Ame.Modules.Windows.WindowInteractionFactories
 {
     public interface IWindowStrategy
     {
         IWindowInteraction CreateWindowInteraction(Type type);
+        IWindowInteraction CreateWindowInteraction(Type type, IUnityContainer container);
     }
 }

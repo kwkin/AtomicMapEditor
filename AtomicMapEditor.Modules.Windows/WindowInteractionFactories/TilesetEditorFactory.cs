@@ -9,8 +9,6 @@ namespace Ame.Modules.Windows.WindowInteractionFactories
     {
         #region fields
 
-        private IUnityContainer container;
-
         #endregion fields
 
 
@@ -18,13 +16,15 @@ namespace Ame.Modules.Windows.WindowInteractionFactories
 
         public TilesetEditorFactory()
         {
-            this.container = new UnityContainer();
+            this.Container = new UnityContainer();
         }
 
         #endregion constructors
 
 
         #region properties
+
+        public IUnityContainer Container { get; set; }
 
         #endregion properties
 
@@ -33,7 +33,7 @@ namespace Ame.Modules.Windows.WindowInteractionFactories
 
         public IWindowInteraction CreateWindowInteraction()
         {
-            return container.Resolve(typeof(TilesetInteraction)) as IWindowInteraction;
+            return Container.Resolve(typeof(TilesetInteraction)) as IWindowInteraction;
         }
 
         public bool AppliesTo(Type type)
