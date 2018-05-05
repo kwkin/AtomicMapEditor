@@ -132,22 +132,21 @@
     </Compile>
     <Compile Include="MapEditorWindow\MapEditorViewModel.cs" />
     <Compile Include="TilesetEditorWindow\TilesetEditorViewModel.cs" />
-    <Compile Include="WindowInteractionFactories\EditLayerFactory.cs" />
-    <Compile Include="WindowInteractionFactories\EditMapFactory.cs" />
-    <Compile Include="WindowInteractionFactories\IWindowInteractionFactory.cs" />
-    <Compile Include="WindowInteractionFactories\IWindowStrategy.cs" />
-    <Compile Include="WindowInteractionFactories\NewLayerFactory.cs" />
-    <Compile Include="WindowInteractionFactories\NewMapFactory.cs" />
-    <Compile Include="WindowInteractionFactories\PreferenceOptionsFactory.cs" />
-    <Compile Include="WindowInteractionFactories\TilesetEditorFactory.cs" />
-    <Compile Include="WindowInteractionFactories\WindowStrategy.cs" />
-    <Compile Include="WindowInteractions\EditLayerInteraction.cs" />
-    <Compile Include="WindowInteractions\NewLayerInteraction.cs" />
-    <Compile Include="WindowInteractions\EditMapInteraction.cs" />
-    <Compile Include="WindowInteractions\IWindowInteraction.cs" />
-    <Compile Include="WindowInteractions\NewMapInteraction.cs" />
-    <Compile Include="WindowInteractions\PreferenceOptionsInteraction.cs" />
-    <Compile Include="WindowInteractions\TilesetInteraction.cs" />
+    <Compile Include="LayerEditorWindow\EditLayerInteractionCreator.cs" />
+    <Compile Include="MapEditorWindow\EditMapInteractionCreator.cs" />
+    <Compile Include="IWindowInteractionCreator.cs" />
+    <Compile Include="LayerEditorWindow\NewLayerInteractionCreator.cs" />
+    <Compile Include="MapEditorWindow\NewMapInteractionCreator.cs" />
+    <Compile Include="PreferencesWindow\PreferenceOptionsInteractionCreator.cs" />
+    <Compile Include="TilesetEditorWindow\TilesetEditorInteractionCreator.cs" />
+    <Compile Include="WindowInteractionCreator.cs" />
+    <Compile Include="LayerEditorWindow\EditLayerInteraction.cs" />
+    <Compile Include="LayerEditorWindow\NewLayerInteraction.cs" />
+    <Compile Include="MapEditorWindow\EditMapInteraction.cs" />
+    <Compile Include="IWindowInteraction.cs" />
+    <Compile Include="MapEditorWindow\NewMapInteraction.cs" />
+    <Compile Include="PreferencesWindow\PreferenceOptionsInteraction.cs" />
+    <Compile Include="TilesetEditorWindow\TilesetEditorInteraction.cs" />
     <Compile Include="WindowsModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

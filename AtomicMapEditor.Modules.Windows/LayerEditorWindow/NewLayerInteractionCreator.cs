@@ -1,11 +1,11 @@
 ﻿using System;
 using Ame.Infrastructure.Models;
-using Ame.Modules.Windows.WindowInteractions;
 using Microsoft.Practices.Unity;
+using Prism.Events;
 
-namespace Ame.Modules.Windows.WindowInteractionFactories
+namespace Ame.Modules.Windows.LayerEditorWindow
 {
-    public class EditLayerFactory : IWindowInteractionFactory
+    public class NewLayerInteractionCreator : IWindowInteractionCreator
     {
         #region fields
 
@@ -14,18 +14,16 @@ namespace Ame.Modules.Windows.WindowInteractionFactories
 
         #region constructors
 
-        public EditLayerFactory(AmeSession session, ILayer layer)
+        public NewLayerInteractionCreator(AmeSession session, IEventAggregator eventAggregator)
         {
-            if (layer == null)
-            {
-                throw new ArgumentNullException("container");
-            }
             if (session == null)
             {
                 throw new ArgumentNullException("session");
             }
             this.Container = new UnityContainer();
-            this.Container.RegisterInstance<ILayer>(layer);
+            string newLayerName = string.Format("Layer #{0}", session.CurrentMap.LayerCount);
+            this.Container.RegisterInstance<ILayer>(new Layer(newLayerName, 32, 32, 32, 32));
+            this.Container.RegisterInstance<IEventAggregator>(eventAggregator);
         }
 
         #endregion constructors
@@ -42,12 +40,12 @@ namespace Ame.Modules.Windows.WindowInteractionFactories
 
         public IWindowInteraction CreateWindowInteraction()
         {
-            return Container.Resolve(typeof(EditLayerInteraction)) as IWindowInteraction;
+            return this.Container.Resolve(typeof(NewLayerInteraction)) as IWindowInteraction;
         }
 
         public bool AppliesTo(Type type)
         {
-            return typeof(EditLayerInteraction).Equals(type);
+            return typeof(NewLayerInteraction).Equals(type);
         }
 
         #endregion methods

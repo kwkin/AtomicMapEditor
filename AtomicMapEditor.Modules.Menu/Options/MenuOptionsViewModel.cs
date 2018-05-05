@@ -2,13 +2,15 @@
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Ame.Infrastructure.Events;
 using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Events;
+using Ame.Infrastructure.Messages;
+using Ame.Modules.Windows.LayerEditorWindow;
+using Ame.Modules.Windows.MapEditorWindow;
+using Ame.Modules.Windows.PreferencesWindow;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
-using Ame.Infrastructure.Messages;
-using Ame.Modules.Windows.WindowInteractions;
 
 namespace Ame.Modules.Menu.Options
 {
@@ -588,4 +590,3 @@ namespace Ame.Modules.Menu.Options
         #endregion methods
     }
 }
-

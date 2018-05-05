@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -14,7 +13,7 @@ using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Utils;
-using Ame.Modules.Windows.WindowInteractions;
+using Ame.Modules.Windows.TilesetEditorWindow;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using Microsoft.Win32;
@@ -62,7 +61,7 @@ namespace Ame.Modules.Docks.ItemEditorDock
             this.CanvasSelectItems = new ObservableCollection<Visual>();
             this.itemTransform = new CoordinateTransform();
             this.itemTransform.SetPixelToTile(this.TilesetModel.Width, this.TilesetModel.Height);
-            
+
             if (this.scrollModel.ZoomLevels == null)
             {
                 this.ZoomLevels = new ObservableCollection<ZoomLevel>();
@@ -86,7 +85,7 @@ namespace Ame.Modules.Docks.ItemEditorDock
             this.Scale = ScaleType.Tile;
             this.PositionText = "0, 0";
             this.GridBrush = Brushes.Orange;
-            
+
             this.EditCollisionsCommand = new DelegateCommand(() => EditCollisions());
             this.ViewPropertiesCommand = new DelegateCommand(() => ViewProperties());
             this.CropCommand = new DelegateCommand(() => Crop());
@@ -111,7 +110,7 @@ namespace Ame.Modules.Docks.ItemEditorDock
 
 
         #region properties
-        
+
         public ICommand EditCollisionsCommand { get; private set; }
         public ICommand ViewPropertiesCommand { get; private set; }
         public ICommand CropCommand { get; private set; }
@@ -150,6 +149,7 @@ namespace Ame.Modules.Docks.ItemEditorDock
                 }
             }
         }
+
         public ScaleType Scale { get; set; }
         public String PositionText { get; set; }
         public ObservableCollection<ZoomLevel> ZoomLevels { get; set; }
@@ -170,6 +170,7 @@ namespace Ame.Modules.Docks.ItemEditorDock
                 }
             }
         }
+
         public bool IsGridOn { get; set; }
         public ObservableCollection<Visual> CanvasGridItems { get; set; }
         public ObservableCollection<Visual> CanvasSelectItems { get; set; }
@@ -177,7 +178,7 @@ namespace Ame.Modules.Docks.ItemEditorDock
 
         public TilesetModel TilesetModel { get; set; }
         public DrawingImage ItemImage { get; set; }
-        
+
         public override DockType DockType
         {
             get
@@ -252,7 +253,7 @@ namespace Ame.Modules.Docks.ItemEditorDock
             itemTransform.SetPixelToTile(this.TilesetModel.Width, this.TilesetModel.Height, this.TilesetModel.OffsetX, this.TilesetModel.OffsetY, this.TilesetModel.PaddingX, this.TilesetModel.PaddingY);
             DrawGrid(this.IsGridOn);
         }
-        
+
         public void DrawGrid()
         {
             DrawGrid(this.IsGridOn);
@@ -294,7 +295,7 @@ namespace Ame.Modules.Docks.ItemEditorDock
         {
             Rect selectionBorder = new Rect(topLeftPixel, pixelSize);
             RectangleGeometry tileGeometry = new RectangleGeometry(selectionBorder);
-            
+
             System.Windows.Shapes.Path rectPath = new System.Windows.Shapes.Path();
             rectPath.Stroke = GridBrush;
             rectPath.StrokeThickness = 1;
@@ -344,10 +345,10 @@ namespace Ame.Modules.Docks.ItemEditorDock
         {
             Console.WriteLine("Edit Collision");
         }
-        
+
         private void ViewProperties()
         {
-            OpenWindowMessage window = new OpenWindowMessage(typeof(TilesetInteraction));
+            OpenWindowMessage window = new OpenWindowMessage(typeof(TilesetEditorInteraction));
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(window);
         }
 
@@ -373,7 +374,6 @@ namespace Ame.Modules.Docks.ItemEditorDock
             {
                 this.lastSelectPoint = point;
             }
-            
         }
 
         private void UpdatePosition(Point position)

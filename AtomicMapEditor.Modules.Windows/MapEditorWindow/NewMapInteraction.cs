@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Data;
 using Ame.Components.Behaviors;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
@@ -16,7 +12,7 @@ using Prism.Events;
 using Prism.Interactivity;
 using Prism.Interactivity.InteractionRequest;
 
-namespace Ame.Modules.Windows.WindowInteractions
+namespace Ame.Modules.Windows.MapEditorWindow
 {
     public class NewMapInteraction : IWindowInteraction
     {

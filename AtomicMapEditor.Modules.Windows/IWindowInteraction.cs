@@ -8,7 +8,7 @@ using System.Windows.Data;
 using Prism.Interactivity;
 using Prism.Interactivity.InteractionRequest;
 
-namespace Ame.Modules.Windows.WindowInteractions
+namespace Ame.Modules.Windows
 {
     public interface IWindowInteraction
     {

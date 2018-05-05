@@ -1,25 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Ame.Modules.Windows.WindowInteractions;
 using Microsoft.Practices.Unity;
 
 namespace Ame.Modules.Windows.WindowInteractionFactories
 {
-    public class WindowStrategy : IWindowStrategy
+    public class WindowInteractionCreator
     {
         #region fields
 
-        private readonly IWindowInteractionFactory[] windowInteractionFactories;
+        private readonly IWindowInteractionCreator[] windowInteractionFactories;
 
         #endregion fields
 
 
         #region constructors
-        
-        public WindowStrategy(IWindowInteractionFactory[] windowInteractionFactories)
+
+        public WindowInteractionCreator(IWindowInteractionCreator[] windowInteractionFactories)
         {
             this.windowInteractionFactories = windowInteractionFactories;
         }

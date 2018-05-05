@@ -1,12 +1,10 @@
 ﻿using System;
-using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Models;
-using Ame.Modules.Windows.WindowInteractions;
 using Microsoft.Practices.Unity;
 
-namespace Ame.Modules.Windows.WindowInteractionFactories
+namespace Ame.Modules.Windows.LayerEditorWindow
 {
-    public class EditMapFactory : IWindowInteractionFactory
+    public class EditLayerInteractionCreator : IWindowInteractionCreator
     {
         #region fields
 
@@ -15,15 +13,18 @@ namespace Ame.Modules.Windows.WindowInteractionFactories
 
         #region constructors
 
-        public EditMapFactory(AmeSession session, DockViewModelTemplate activeDocument)
+        public EditLayerInteractionCreator(AmeSession session, ILayer layer)
         {
+            if (layer == null)
+            {
+                throw new ArgumentNullException("container");
+            }
             if (session == null)
             {
                 throw new ArgumentNullException("session");
             }
             this.Container = new UnityContainer();
-            this.Container.RegisterInstance<AmeSession>(session);
-            this.Container.RegisterInstance<DockViewModelTemplate>(activeDocument);
+            this.Container.RegisterInstance<ILayer>(layer);
         }
 
         #endregion constructors
@@ -40,12 +41,12 @@ namespace Ame.Modules.Windows.WindowInteractionFactories
 
         public IWindowInteraction CreateWindowInteraction()
         {
-            return Container.Resolve(typeof(EditMapInteraction)) as IWindowInteraction;
+            return Container.Resolve(typeof(EditLayerInteraction)) as IWindowInteraction;
         }
 
         public bool AppliesTo(Type type)
         {
-            return typeof(EditMapInteraction).Equals(type);
+            return typeof(EditLayerInteraction).Equals(type);
         }
 
         #endregion methods

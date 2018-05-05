@@ -1,12 +1,11 @@
 ﻿using System;
+using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Models;
-using Ame.Modules.Windows.WindowInteractions;
 using Microsoft.Practices.Unity;
-using Prism.Events;
 
-namespace Ame.Modules.Windows.WindowInteractionFactories
+namespace Ame.Modules.Windows.MapEditorWindow
 {
-    public class NewLayerFactory : IWindowInteractionFactory
+    public class EditMapInteractionCreator : IWindowInteractionCreator
     {
         #region fields
 
@@ -15,16 +14,15 @@ namespace Ame.Modules.Windows.WindowInteractionFactories
 
         #region constructors
 
-        public NewLayerFactory(AmeSession session, IEventAggregator eventAggregator)
+        public EditMapInteractionCreator(AmeSession session, DockViewModelTemplate activeDocument)
         {
             if (session == null)
             {
                 throw new ArgumentNullException("session");
             }
             this.Container = new UnityContainer();
-            string newLayerName = string.Format("Layer #{0}", session.CurrentMap.LayerCount);
-            this.Container.RegisterInstance<ILayer>(new Layer(newLayerName, 32, 32, 32, 32));
-            this.Container.RegisterInstance<IEventAggregator>(eventAggregator);
+            this.Container.RegisterInstance<AmeSession>(session);
+            this.Container.RegisterInstance<DockViewModelTemplate>(activeDocument);
         }
 
         #endregion constructors
@@ -41,12 +39,12 @@ namespace Ame.Modules.Windows.WindowInteractionFactories
 
         public IWindowInteraction CreateWindowInteraction()
         {
-            return this.Container.Resolve(typeof(NewLayerInteraction)) as IWindowInteraction;
+            return Container.Resolve(typeof(EditMapInteraction)) as IWindowInteraction;
         }
 
         public bool AppliesTo(Type type)
         {
-            return typeof(NewLayerInteraction).Equals(type);
+            return typeof(EditMapInteraction).Equals(type);
         }
 
         #endregion methods

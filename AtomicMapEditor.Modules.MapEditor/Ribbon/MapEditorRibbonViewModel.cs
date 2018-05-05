@@ -2,7 +2,7 @@
 using System.Windows.Input;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
-using Ame.Modules.Windows.WindowInteractions;
+using Ame.Modules.Windows.MapEditorWindow;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;

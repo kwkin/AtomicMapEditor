@@ -1,22 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using Ame.Modules.Windows.PreferencesWindow;
 using Prism.Events;
 using Prism.Interactivity;
 using Prism.Interactivity.InteractionRequest;
 
-namespace Ame.Modules.Windows.WindowInteractions
+namespace Ame.Modules.Windows.PreferencesWindow
 {
-    // TODO move all factories and interactions to the corresponding window folder
-    // Declare window core namespace containing interfaces and other common elements
     public class PreferenceOptionsInteraction : IWindowInteraction
     {
         #region fields
-        
+
         private IEventAggregator eventAggregator;
         private InteractionRequest<INotification> interaction;
 
@@ -55,7 +48,6 @@ namespace Ame.Modules.Windows.WindowInteractions
 
         public void OnWindowClosed(INotification notification)
         {
-
         }
 
         private PopupWindowAction GetAction()

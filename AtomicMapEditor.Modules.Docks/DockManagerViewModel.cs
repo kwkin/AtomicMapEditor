@@ -23,8 +23,12 @@ using Ame.Modules.Docks.SelectedBrushDock;
 using Ame.Modules.Docks.SessionViewDock;
 using Ame.Modules.Docks.ToolboxDock;
 using Ame.Modules.MapEditor.Editor;
+using Ame.Modules.Windows;
+using Ame.Modules.Windows.LayerEditorWindow;
+using Ame.Modules.Windows.MapEditorWindow;
+using Ame.Modules.Windows.PreferencesWindow;
+using Ame.Modules.Windows.TilesetEditorWindow;
 using Ame.Modules.Windows.WindowInteractionFactories;
-using Ame.Modules.Windows.WindowInteractions;
 using Microsoft.Practices.Unity;
 using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
@@ -43,7 +47,7 @@ namespace Ame.Modules.Docks
         private event EventHandler ActiveDocumentChanged;
 
         private AmeSession session;
-        private IWindowStrategy windowBuilder;
+        private WindowInteractionCreator windowBuilder;
 
         #endregion fields
 
@@ -78,16 +82,16 @@ namespace Ame.Modules.Docks
                 this.ActiveDocument = this.Documents[0];
             }
 
-            IWindowInteractionFactory[] factories = new IWindowInteractionFactory[]
+            IWindowInteractionCreator[] factories = new IWindowInteractionCreator[]
             {
-                new NewMapFactory(this.session, this.eventAggregator),
-                new EditMapFactory(this.session, this.ActiveDocument),
-                new NewLayerFactory(this.session, this.eventAggregator),
-                new EditLayerFactory(this.session, this.session.CurrentMap.CurrentLayer),
-                new TilesetEditorFactory(),
-                new PreferenceOptionsFactory(this.eventAggregator)
+                new NewMapInteractionCreator(this.session, this.eventAggregator),
+                new EditMapInteractionCreator(this.session, this.ActiveDocument),
+                new NewLayerInteractionCreator(this.session, this.eventAggregator),
+                new EditLayerInteractionCreator(this.session, this.session.CurrentMap.CurrentLayer),
+                new TilesetEditorInteractionCreator(),
+                new PreferenceOptionsInteractionCreator(this.eventAggregator)
             };
-            this.windowBuilder = new WindowStrategy(factories);
+            this.windowBuilder = new WindowInteractionCreator(factories);
 
             this.eventAggregator.GetEvent<OpenDockEvent>().Subscribe(
                 OpenDock,

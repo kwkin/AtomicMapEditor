@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Windows.Data;
 using System.Windows.Input;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Utils;
-using Ame.Modules.Windows.WindowInteractions;
+using Ame.Modules.Windows.LayerEditorWindow;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
@@ -24,7 +23,7 @@ namespace Ame.Modules.Docks.LayerListDock
 
 
         #region constructor
-        
+
         public LayerListViewModel(ObservableCollection<ILayer> layerList, IEventAggregator eventAggregator)
         {
             if (eventAggregator == null)
@@ -190,7 +189,7 @@ namespace Ame.Modules.Docks.LayerListDock
         {
             Console.WriteLine("Layer To Map Size");
         }
-        
+
         public void CurrentLayerChanged(ILayer layer)
         {
             this.CurrentLayer = layer;

@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Models;
 using Prism.Interactivity;
 using Prism.Interactivity.InteractionRequest;
 
-namespace Ame.Modules.Windows.WindowInteractions
+namespace Ame.Modules.Windows.MapEditorWindow
 {
     public class EditMapInteraction : IWindowInteraction
     {

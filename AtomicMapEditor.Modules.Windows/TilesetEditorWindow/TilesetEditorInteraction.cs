@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using Ame.Modules.Windows.TilesetEditorWindow;
 using Prism.Interactivity;
 using Prism.Interactivity.InteractionRequest;
 
-namespace Ame.Modules.Windows.WindowInteractions
+namespace Ame.Modules.Windows.TilesetEditorWindow
 {
-    public class TilesetInteraction : IWindowInteraction
+    public class TilesetEditorInteraction : IWindowInteraction
     {
         #region fields
 
@@ -21,7 +16,7 @@ namespace Ame.Modules.Windows.WindowInteractions
 
         #region Constructor
 
-        public TilesetInteraction()
+        public TilesetEditorInteraction()
         {
             this.interaction = new InteractionRequest<INotification>();
         }

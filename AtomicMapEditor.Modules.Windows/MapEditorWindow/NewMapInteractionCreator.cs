@@ -1,53 +1,54 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Ame.Modules.Windows.WindowInteractions;
+using Ame.Infrastructure.Models;
 using Microsoft.Practices.Unity;
 using Prism.Events;
 
-namespace Ame.Modules.Windows.WindowInteractionFactories
+namespace Ame.Modules.Windows.MapEditorWindow
 {
-    public class PreferenceOptionsFactory : IWindowInteractionFactory
+    public class NewMapInteractionCreator : IWindowInteractionCreator
     {
         #region fields
 
         #endregion fields
 
 
-        #region Constructor
+        #region constructors
 
-        public PreferenceOptionsFactory(IEventAggregator eventAggregator)
+        public NewMapInteractionCreator(AmeSession session, IEventAggregator eventAggregator)
         {
+            if (session == null)
+            {
+                throw new ArgumentNullException("session");
+            }
             if (eventAggregator == null)
             {
                 throw new ArgumentNullException("eventAggregator");
             }
             this.Container = new UnityContainer();
+            this.Container.RegisterInstance<AmeSession>(session);
             this.Container.RegisterInstance<IEventAggregator>(eventAggregator);
         }
 
-        #endregion Constructor
+        #endregion constructors
 
 
-        #region Properties
+        #region properties
 
         public IUnityContainer Container { get; set; }
 
-        #endregion Properties
+        #endregion properties
 
 
         #region methods
 
         public IWindowInteraction CreateWindowInteraction()
         {
-            return this.Container.Resolve(typeof(PreferenceOptionsInteraction)) as IWindowInteraction;
+            return this.Container.Resolve(typeof(NewMapInteraction)) as IWindowInteraction;
         }
 
         public bool AppliesTo(Type type)
         {
-            return typeof(PreferenceOptionsInteraction).Equals(type);
+            return typeof(NewMapInteraction).Equals(type);
         }
 
         #endregion methods

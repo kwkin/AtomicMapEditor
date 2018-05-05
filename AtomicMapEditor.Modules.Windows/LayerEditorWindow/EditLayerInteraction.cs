@@ -1,26 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using Ame.Infrastructure.Events;
-using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
-using Ame.Modules.Windows.LayerEditorWindow;
-using Prism.Events;
 using Prism.Interactivity;
 using Prism.Interactivity.InteractionRequest;
 
-namespace Ame.Modules.Windows.WindowInteractions
+namespace Ame.Modules.Windows.LayerEditorWindow
 {
-    public class NewLayerInteraction : IWindowInteraction
+    public class EditLayerInteraction : IWindowInteraction
     {
         #region fields
 
         private ILayer layer;
-
-        private IEventAggregator eventAggregator;
         private InteractionRequest<INotification> mapWindowInteraction;
 
         #endregion fields
@@ -28,10 +18,9 @@ namespace Ame.Modules.Windows.WindowInteractions
 
         #region Constructor
 
-        public NewLayerInteraction(ILayer layer, IEventAggregator eventAggregator)
+        public EditLayerInteraction(ILayer layer)
         {
             this.layer = layer;
-            this.eventAggregator = eventAggregator;
             this.mapWindowInteraction = new InteractionRequest<INotification>();
         }
 
@@ -61,14 +50,6 @@ namespace Ame.Modules.Windows.WindowInteractions
 
         public void OnWindowClosed(INotification notification)
         {
-            IConfirmation confirmation = notification as IConfirmation;
-            if (confirmation.Confirmed)
-            {
-                Layer layerModel = confirmation.Content as Layer;
-
-                NewLayerMessage newLayerMessage = new NewLayerMessage(layerModel);
-                this.eventAggregator.GetEvent<NewLayerEvent>().Publish(newLayerMessage);
-            }
         }
 
         private PopupWindowAction GetAction()

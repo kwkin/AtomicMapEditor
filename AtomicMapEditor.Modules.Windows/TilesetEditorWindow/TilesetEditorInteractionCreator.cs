@@ -1,11 +1,9 @@
 ﻿using System;
-using Ame.Infrastructure.Models;
-using Ame.Modules.Windows.WindowInteractions;
 using Microsoft.Practices.Unity;
 
-namespace Ame.Modules.Windows.WindowInteractionFactories
+namespace Ame.Modules.Windows.TilesetEditorWindow
 {
-    public class TilesetEditorFactory : IWindowInteractionFactory
+    public class TilesetEditorInteractionCreator : IWindowInteractionCreator
     {
         #region fields
 
@@ -14,7 +12,7 @@ namespace Ame.Modules.Windows.WindowInteractionFactories
 
         #region constructors
 
-        public TilesetEditorFactory()
+        public TilesetEditorInteractionCreator()
         {
             this.Container = new UnityContainer();
         }
@@ -33,12 +31,12 @@ namespace Ame.Modules.Windows.WindowInteractionFactories
 
         public IWindowInteraction CreateWindowInteraction()
         {
-            return Container.Resolve(typeof(TilesetInteraction)) as IWindowInteraction;
+            return Container.Resolve(typeof(TilesetEditorInteraction)) as IWindowInteraction;
         }
 
         public bool AppliesTo(Type type)
         {
-            return typeof(TilesetInteraction).Equals(type);
+            return typeof(TilesetEditorInteraction).Equals(type);
         }
 
         #endregion methods
