@@ -1,55 +1,53 @@
 ﻿using System;
-using Ame.Infrastructure.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Ame.Modules.Windows.WindowInteractions;
 using Microsoft.Practices.Unity;
 using Prism.Events;
 
 namespace Ame.Modules.Windows.WindowInteractionFactories
 {
-    public class NewMapFactory : IWindowInteractionFactory
+    public class PreferenceOptionsFactory : IWindowInteractionFactory
     {
         #region fields
 
         #endregion fields
 
 
-        #region constructors
+        #region Constructor
 
-        public NewMapFactory(AmeSession session, IEventAggregator eventAggregator)
+        public PreferenceOptionsFactory(IEventAggregator eventAggregator)
         {
-            if (session == null)
-            {
-                throw new ArgumentNullException("session");
-            }
             if (eventAggregator == null)
             {
                 throw new ArgumentNullException("eventAggregator");
             }
             this.Container = new UnityContainer();
-            this.Container.RegisterInstance<AmeSession>(session);
             this.Container.RegisterInstance<IEventAggregator>(eventAggregator);
         }
 
-        #endregion constructors
+        #endregion Constructor
 
 
-        #region properties
+        #region Properties
 
         public IUnityContainer Container { get; set; }
 
-        #endregion properties
+        #endregion Properties
 
 
         #region methods
 
         public IWindowInteraction CreateWindowInteraction()
         {
-            return this.Container.Resolve(typeof(NewMapInteraction)) as IWindowInteraction;
+            return this.Container.Resolve(typeof(PreferenceOptionsInteraction)) as IWindowInteraction;
         }
 
         public bool AppliesTo(Type type)
         {
-            return typeof(NewMapInteraction).Equals(type);
+            return typeof(PreferenceOptionsInteraction).Equals(type);
         }
 
         #endregion methods

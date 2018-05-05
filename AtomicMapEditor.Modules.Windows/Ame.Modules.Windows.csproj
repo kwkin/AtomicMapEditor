@@ -101,6 +101,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PreferencesWindow\PreferencesMenu.xaml.cs">
+      <DependentUpon>PreferencesMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PreferencesWindow\PreferencesViewModel.cs" />
     <Compile Include="TilesetEditorWindow\TilesetEditor.xaml.cs">
       <DependentUpon>TilesetEditor.xaml</DependentUpon>
     </Compile>
@@ -134,6 +138,7 @@
     <Compile Include="WindowInteractionFactories\IWindowStrategy.cs" />
     <Compile Include="WindowInteractionFactories\NewLayerFactory.cs" />
     <Compile Include="WindowInteractionFactories\NewMapFactory.cs" />
+    <Compile Include="WindowInteractionFactories\PreferenceOptionsFactory.cs" />
     <Compile Include="WindowInteractionFactories\TilesetEditorFactory.cs" />
     <Compile Include="WindowInteractionFactories\WindowStrategy.cs" />
     <Compile Include="WindowInteractions\EditLayerInteraction.cs" />
@@ -141,6 +146,7 @@
     <Compile Include="WindowInteractions\EditMapInteraction.cs" />
     <Compile Include="WindowInteractions\IWindowInteraction.cs" />
     <Compile Include="WindowInteractions\NewMapInteraction.cs" />
+    <Compile Include="WindowInteractions\PreferenceOptionsInteraction.cs" />
     <Compile Include="WindowInteractions\TilesetInteraction.cs" />
     <Compile Include="WindowsModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -159,6 +165,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="PreferencesWindow\PreferencesMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="TilesetEditorWindow\TilesetEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

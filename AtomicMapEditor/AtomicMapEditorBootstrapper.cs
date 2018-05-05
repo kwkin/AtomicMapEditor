@@ -14,6 +14,7 @@ using Microsoft.Practices.Unity;
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Unity;
+using Ame.Modules.Windows.PreferencesWindow;
 
 namespace Ame
 {
@@ -62,6 +63,7 @@ namespace Ame
             ViewModelLocationProvider.Register<MapEditor, MapEditorViewModel>();
             ViewModelLocationProvider.Register<LayerEditor, LayerEditorViewModel>();
             ViewModelLocationProvider.Register<TilesetEditor, TilesetEditorViewModel>();
+            ViewModelLocationProvider.Register<PreferencesMenu, PreferencesViewModel>();
 
         }
     }

@@ -128,8 +128,7 @@ namespace Ame.Modules.Windows.TilesetEditorWindow
                 this.MetadataList.Remove(this.SelectedMetadata);
             }
         }
-
-        // TODO move this into a seperate class
+        
         private void MoveMetadataUp()
         {
             int currentIndex = this.MapMetadata.CurrentPosition;

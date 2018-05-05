@@ -306,7 +306,8 @@ namespace Ame.Modules.Menu.Options
 
         public void OpenPreferenences()
         {
-            Console.WriteLine("Open Preferences");
+            OpenWindowMessage window = new OpenWindowMessage(typeof(PreferenceOptionsInteraction));
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(window);
         }
 
         #endregion edit methods

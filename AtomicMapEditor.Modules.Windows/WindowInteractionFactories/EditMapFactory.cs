@@ -6,7 +6,6 @@ using Microsoft.Practices.Unity;
 
 namespace Ame.Modules.Windows.WindowInteractionFactories
 {
-    // TODO combine with NewMapFactory
     public class EditMapFactory : IWindowInteractionFactory
     {
         #region fields

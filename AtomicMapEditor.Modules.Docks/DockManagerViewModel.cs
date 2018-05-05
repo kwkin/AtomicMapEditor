@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Ame.Components.Behaviors;
@@ -13,8 +13,16 @@ using Ame.Infrastructure.Core;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
+using Ame.Modules.Docks.ClipboardDock;
 using Ame.Modules.Docks.Core;
-using Ame.Modules.Windows.LayerEditorWindow;
+using Ame.Modules.Docks.ItemEditorDock;
+using Ame.Modules.Docks.ItemListDock;
+using Ame.Modules.Docks.LayerListDock;
+using Ame.Modules.Docks.MinimapDock;
+using Ame.Modules.Docks.SelectedBrushDock;
+using Ame.Modules.Docks.SessionViewDock;
+using Ame.Modules.Docks.ToolboxDock;
+using Ame.Modules.MapEditor.Editor;
 using Ame.Modules.Windows.WindowInteractionFactories;
 using Ame.Modules.Windows.WindowInteractions;
 using Microsoft.Practices.Unity;
@@ -35,7 +43,7 @@ namespace Ame.Modules.Docks
         private event EventHandler ActiveDocumentChanged;
 
         private AmeSession session;
-        private IWindowStrategy windowBuilder; 
+        private IWindowStrategy windowBuilder;
 
         #endregion fields
 
@@ -62,7 +70,7 @@ namespace Ame.Modules.Docks
                 container.RegisterInstance<IScrollModel>(new ScrollModel());
                 container.RegisterInstance<Map>(map);
                 container.RegisterInstance(this.session);
-                DockViewModelTemplate dockViewModel = DockViewModelSelector.GetViewModel(DockType.MapEditor, container);
+                DockViewModelTemplate dockViewModel = CreateDockViewModel(DockType.MapEditor, container);
                 AddDockViewModel(dockViewModel);
             }
             if (this.Documents.Count > 0)
@@ -76,8 +84,8 @@ namespace Ame.Modules.Docks
                 new EditMapFactory(this.session, this.ActiveDocument),
                 new NewLayerFactory(this.session, this.eventAggregator),
                 new EditLayerFactory(this.session, this.session.CurrentMap.CurrentLayer),
-                new TilesetEditorFactory()
-
+                new TilesetEditorFactory(),
+                new PreferenceOptionsFactory(this.eventAggregator)
             };
             this.windowBuilder = new WindowStrategy(factories);
 
@@ -194,7 +202,6 @@ namespace Ame.Modules.Docks
                 container.RegisterInstance<IScrollModel>(new ScrollModel());
                 container.RegisterInstance(this.session);
 
-                // TODO fix this when DockViewModelSelector is removed
                 IList<ILayer> layerList = this.session.CurrentMap.LayerList;
                 ObservableCollection<ILayer> layerObservableList = new ObservableCollection<ILayer>(layerList);
                 container.RegisterInstance<ObservableCollection<ILayer>>(layerObservableList);
@@ -204,8 +211,7 @@ namespace Ame.Modules.Docks
                 container = message.Container;
             }
 
-            // TODO remove this static class, replace with interface for each
-            DockViewModelTemplate dockViewModel = DockViewModelSelector.GetViewModel(message.DockType, container);
+            DockViewModelTemplate dockViewModel = CreateDockViewModel(message.DockType, container);
             if (!string.IsNullOrEmpty(message.DockTitle))
             {
                 dockViewModel.Title = message.DockTitle;
@@ -213,7 +219,7 @@ namespace Ame.Modules.Docks
             AddDockViewModel(dockViewModel);
             this.ActiveDocument = dockViewModel;
         }
-        
+
         private void OpenWindow(OpenWindowMessage message)
         {
             IWindowInteraction interaction = null;
@@ -274,13 +280,13 @@ namespace Ame.Modules.Docks
             container.RegisterInstance<IEventAggregator>(this.eventAggregator);
             container.RegisterInstance<IScrollModel>(new ScrollModel());
             container.RegisterInstance(this.session);
-            
+
             IList<ILayer> layerList = this.session.CurrentMap.LayerList;
             ObservableCollection<ILayer> layerObservableList = new ObservableCollection<ILayer>(layerList);
             container.RegisterInstance<ObservableCollection<ILayer>>(layerObservableList);
 
             DockType dockType = DockTypeUtils.GetById(args.Model.ContentId);
-            DockViewModelTemplate contentViewModel = DockViewModelSelector.GetViewModel(dockType, container);
+            DockViewModelTemplate contentViewModel = CreateDockViewModel(dockType, container);
             if (contentViewModel == null)
             {
                 args.Cancel = true;
@@ -359,6 +365,58 @@ namespace Ame.Modules.Docks
                 }
             }
             return layerCount;
+        }
+
+        private DockViewModelTemplate CreateDockViewModel(DockType dockType, IUnityContainer container)
+        {
+            Type viewModelType = null;
+            switch (dockType)
+            {
+                case DockType.Clipboard:
+                    viewModelType = typeof(ClipboardViewModel);
+                    break;
+
+                case DockType.ItemEditor:
+                    viewModelType = typeof(ItemEditorViewModel);
+                    break;
+
+                case DockType.ItemList:
+                    viewModelType = typeof(ItemListViewModel);
+                    break;
+
+                case DockType.LayerList:
+                    viewModelType = typeof(LayerListViewModel);
+                    break;
+
+                case DockType.Minimap:
+                    viewModelType = typeof(MinimapViewModel);
+                    break;
+
+                case DockType.SelectedBrush:
+                    viewModelType = typeof(SelectedBrushViewModel);
+                    break;
+
+                case DockType.SessionView:
+                    viewModelType = typeof(SessionViewerViewModel);
+                    break;
+
+                case DockType.Toolbox:
+                    viewModelType = typeof(ToolboxViewModel);
+                    break;
+
+                case DockType.MapEditor:
+                    if (!container.IsRegistered(typeof(Map)))
+                    {
+                        container.RegisterInstance<Map>(new Map("Map #1"));
+                    }
+                    viewModelType = typeof(MainEditorViewModel);
+                    break;
+
+                default:
+                    throw new InvalidEnumArgumentException("Unknown DockType");
+            }
+            DockViewModelTemplate dockViewModel = container.Resolve(viewModelType) as DockViewModelTemplate;
+            return dockViewModel;
         }
 
         #endregion methods

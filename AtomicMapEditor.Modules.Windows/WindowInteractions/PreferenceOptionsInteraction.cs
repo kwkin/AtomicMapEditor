@@ -4,29 +4,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using Ame.Infrastructure.Models;
-using Ame.Modules.Windows.LayerEditorWindow;
+using Ame.Modules.Windows.PreferencesWindow;
+using Prism.Events;
 using Prism.Interactivity;
 using Prism.Interactivity.InteractionRequest;
 
 namespace Ame.Modules.Windows.WindowInteractions
 {
-    public class EditLayerInteraction : IWindowInteraction
+    // TODO move all factories and interactions to the corresponding window folder
+    // Declare window core namespace containing interfaces and other common elements
+    public class PreferenceOptionsInteraction : IWindowInteraction
     {
         #region fields
-
-        private ILayer layer;
-        private InteractionRequest<INotification> mapWindowInteraction;
+        
+        private IEventAggregator eventAggregator;
+        private InteractionRequest<INotification> interaction;
 
         #endregion fields
 
 
         #region Constructor
 
-        public EditLayerInteraction(ILayer layer)
+        public PreferenceOptionsInteraction(IEventAggregator eventAggregator)
         {
-            this.layer = layer;
-            this.mapWindowInteraction = new InteractionRequest<INotification>();
+            this.eventAggregator = eventAggregator;
+            this.interaction = new InteractionRequest<INotification>();
         }
 
         #endregion Constructor
@@ -39,23 +41,21 @@ namespace Ame.Modules.Windows.WindowInteractions
 
         #region methods
 
-        public void RaiseNotification(DependencyObject test, Action<INotification> callback)
+        public void RaiseNotification(DependencyObject parent, Action<INotification> callback)
         {
-            Confirmation layerWindowConfirmation = new Confirmation();
-
-            layerWindowConfirmation.Title = string.Format("Edit Layer - {0}", layer.LayerName);
-            layerWindowConfirmation.Content = layer;
+            Confirmation confirmation = new Confirmation();
+            confirmation.Title = "Preferences";
 
             InteractionRequestTrigger trigger = new InteractionRequestTrigger();
-            trigger.SourceObject = this.mapWindowInteraction;
+            trigger.SourceObject = this.interaction;
             trigger.Actions.Add(GetAction());
-            trigger.Attach(test);
-            this.mapWindowInteraction.Raise(layerWindowConfirmation, callback);
+            trigger.Attach(parent);
+            this.interaction.Raise(confirmation, callback);
         }
 
         public void OnWindowClosed(INotification notification)
         {
-            
+
         }
 
         private PopupWindowAction GetAction()
@@ -63,7 +63,7 @@ namespace Ame.Modules.Windows.WindowInteractions
             PopupWindowAction action = new PopupWindowAction();
             action.IsModal = true;
             action.CenterOverAssociatedObject = true;
-            action.WindowContent = new LayerEditor();
+            action.WindowContent = new PreferencesMenu();
 
             Style style = new Style();
             style.TargetType = typeof(Window);
