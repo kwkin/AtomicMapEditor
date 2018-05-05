@@ -13,7 +13,7 @@ namespace Ame.Modules.Windows.MapEditorWindow
 
         private AmeSession session;
         private DockViewModelTemplate activeDocument;
-        private InteractionRequest<INotification> mapWindowInteraction;
+        private InteractionRequest<INotification> interaction;
 
         #endregion fields
 
@@ -24,7 +24,7 @@ namespace Ame.Modules.Windows.MapEditorWindow
         {
             this.session = session;
             this.activeDocument = activeDocument;
-            this.mapWindowInteraction = new InteractionRequest<INotification>();
+            this.interaction = new InteractionRequest<INotification>();
         }
 
         #endregion Constructor
@@ -37,17 +37,17 @@ namespace Ame.Modules.Windows.MapEditorWindow
 
         #region methods
 
-        public void RaiseNotification(DependencyObject test, Action<INotification> callback)
+        public void RaiseNotification(DependencyObject parent, Action<INotification> callback)
         {
             Confirmation mapConfirmation = new Confirmation();
             mapConfirmation.Content = this.session.CurrentMap;
             mapConfirmation.Title = string.Format("Edit Map - {0}", this.session.CurrentMap.Name);
 
             InteractionRequestTrigger trigger = new InteractionRequestTrigger();
-            trigger.SourceObject = this.mapWindowInteraction;
+            trigger.SourceObject = this.interaction;
             trigger.Actions.Add(GetAction());
-            trigger.Attach(test);
-            this.mapWindowInteraction.Raise(mapConfirmation, callback);
+            trigger.Attach(parent);
+            this.interaction.Raise(mapConfirmation, callback);
         }
 
         public void OnWindowClosed(INotification notification)

@@ -16,7 +16,7 @@ namespace Ame.Modules.Windows.LayerEditorWindow
         private ILayer layer;
 
         private IEventAggregator eventAggregator;
-        private InteractionRequest<INotification> mapWindowInteraction;
+        private InteractionRequest<INotification> interaction;
 
         #endregion fields
 
@@ -27,7 +27,7 @@ namespace Ame.Modules.Windows.LayerEditorWindow
         {
             this.layer = layer;
             this.eventAggregator = eventAggregator;
-            this.mapWindowInteraction = new InteractionRequest<INotification>();
+            this.interaction = new InteractionRequest<INotification>();
         }
 
         #endregion Constructor
@@ -40,7 +40,7 @@ namespace Ame.Modules.Windows.LayerEditorWindow
 
         #region methods
 
-        public void RaiseNotification(DependencyObject test, Action<INotification> callback)
+        public void RaiseNotification(DependencyObject parent, Action<INotification> callback)
         {
             Confirmation layerWindowConfirmation = new Confirmation();
 
@@ -48,10 +48,10 @@ namespace Ame.Modules.Windows.LayerEditorWindow
             layerWindowConfirmation.Content = layer;
 
             InteractionRequestTrigger trigger = new InteractionRequestTrigger();
-            trigger.SourceObject = this.mapWindowInteraction;
+            trigger.SourceObject = this.interaction;
             trigger.Actions.Add(GetAction());
-            trigger.Attach(test);
-            this.mapWindowInteraction.Raise(layerWindowConfirmation, callback);
+            trigger.Attach(parent);
+            this.interaction.Raise(layerWindowConfirmation, callback);
         }
 
         public void OnWindowClosed(INotification notification)

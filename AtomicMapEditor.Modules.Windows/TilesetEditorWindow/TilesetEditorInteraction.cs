@@ -31,7 +31,7 @@ namespace Ame.Modules.Windows.TilesetEditorWindow
 
         #region methods
 
-        public void RaiseNotification(DependencyObject test, Action<INotification> callback)
+        public void RaiseNotification(DependencyObject parent, Action<INotification> callback)
         {
             Confirmation mapConfirmation = new Confirmation();
             mapConfirmation.Title = "Tileset";
@@ -39,7 +39,7 @@ namespace Ame.Modules.Windows.TilesetEditorWindow
             InteractionRequestTrigger trigger = new InteractionRequestTrigger();
             trigger.SourceObject = this.interaction;
             trigger.Actions.Add(GetAction());
-            trigger.Attach(test);
+            trigger.Attach(parent);
             this.interaction.Raise(mapConfirmation, callback);
         }
 

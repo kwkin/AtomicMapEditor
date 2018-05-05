@@ -20,7 +20,7 @@ namespace Ame.Modules.Windows.MapEditorWindow
 
         private AmeSession session;
         private IEventAggregator eventAggregator;
-        private InteractionRequest<INotification> mapWindowInteraction;
+        private InteractionRequest<INotification> interaction;
 
         #endregion fields
 
@@ -31,7 +31,7 @@ namespace Ame.Modules.Windows.MapEditorWindow
         {
             this.session = session;
             this.eventAggregator = eventAggregator;
-            this.mapWindowInteraction = new InteractionRequest<INotification>();
+            this.interaction = new InteractionRequest<INotification>();
         }
 
         #endregion Constructor
@@ -44,7 +44,7 @@ namespace Ame.Modules.Windows.MapEditorWindow
 
         #region methods
 
-        public void RaiseNotification(DependencyObject test, Action<INotification> callback)
+        public void RaiseNotification(DependencyObject parent, Action<INotification> callback)
         {
             Confirmation mapConfirmation = new Confirmation();
             int mapCount = this.session.MapList.Count;
@@ -53,10 +53,10 @@ namespace Ame.Modules.Windows.MapEditorWindow
             mapConfirmation.Title = "New Map";
 
             InteractionRequestTrigger trigger = new InteractionRequestTrigger();
-            trigger.SourceObject = this.mapWindowInteraction;
+            trigger.SourceObject = this.interaction;
             trigger.Actions.Add(GetAction());
-            trigger.Attach(test);
-            this.mapWindowInteraction.Raise(mapConfirmation, callback);
+            trigger.Attach(parent);
+            this.interaction.Raise(mapConfirmation, callback);
         }
 
         public void OnWindowClosed(INotification notification)
