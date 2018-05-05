@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
-             xmlns:basetype="clr-namespace:Ame.Modules.Docks.Core"
+             xmlns:local="clr-namespace:Ame.Modules.Docks"
+             xmlns:serializer="clr-namespace:Ame.Modules.Docks.Serializer"
              xmlns:maineditor="clr-namespace:Ame.Modules.MapEditor.Editor;assembly=Ame.Modules.MapEditor"
              xmlns:itemeditor="clr-namespace:Ame.Modules.Docks.ItemEditorDock"
              xmlns:itemlist="clr-namespace:Ame.Modules.Docks.ItemListDock"
@@ -32,63 +33,63 @@
                          DocumentsSource="{Binding Documents}"
                          AnchorablesSource="{Binding Anchorables}"
                          ActiveContent="{Binding ActiveDocument, Mode=TwoWay, Converter={StaticResource ActiveDocumentConverter}}"
-                         basetype:DockLayoutSerializer.LoadLayoutCommand="{Binding DockLayout.LoadLayoutCommand}"
-                         basetype:DockLayoutSerializer.SaveLayoutCommand="{Binding DockLayout.SaveLayoutCommand}"
+                         serializer:DockLayoutSerializer.LoadLayoutCommand="{Binding DockLayout.LoadLayoutCommand}"
+                         serializer:DockLayoutSerializer.SaveLayoutCommand="{Binding DockLayout.SaveLayoutCommand}"
                          Grid.Row="2">
 
         <xcad:DockingManager.LayoutItemTemplateSelector>
-            <basetype:DockTemplateSelector>
-                <basetype:DockTemplateSelector.ClipboardDataTemplate>
+            <local:DockTemplateSelector>
+                <local:DockTemplateSelector.ClipboardDataTemplate>
                     <DataTemplate>
                         <clipboard:Clipboard />
                     </DataTemplate>
-                </basetype:DockTemplateSelector.ClipboardDataTemplate>
-                <basetype:DockTemplateSelector.MainEditorTemplate>
+                </local:DockTemplateSelector.ClipboardDataTemplate>
+                <local:DockTemplateSelector.MainEditorTemplate>
                     <DataTemplate>
                         <maineditor:MainEditor />
                     </DataTemplate>
-                </basetype:DockTemplateSelector.MainEditorTemplate>
-                <basetype:DockTemplateSelector.ItemEditorDataTemplate>
+                </local:DockTemplateSelector.MainEditorTemplate>
+                <local:DockTemplateSelector.ItemEditorDataTemplate>
                     <DataTemplate>
                         <itemeditor:ItemEditor />
                     </DataTemplate>
-                </basetype:DockTemplateSelector.ItemEditorDataTemplate>
-                <basetype:DockTemplateSelector.ItemListDataTemplate>
+                </local:DockTemplateSelector.ItemEditorDataTemplate>
+                <local:DockTemplateSelector.ItemListDataTemplate>
                     <DataTemplate>
                         <itemlist:ItemList />
                     </DataTemplate>
-                </basetype:DockTemplateSelector.ItemListDataTemplate>
-                <basetype:DockTemplateSelector.LayerListDataTemplate>
+                </local:DockTemplateSelector.ItemListDataTemplate>
+                <local:DockTemplateSelector.LayerListDataTemplate>
                     <DataTemplate>
                         <layerlist:LayerList />
                     </DataTemplate>
-                </basetype:DockTemplateSelector.LayerListDataTemplate>
-                <basetype:DockTemplateSelector.MinimapDataTemplate>
+                </local:DockTemplateSelector.LayerListDataTemplate>
+                <local:DockTemplateSelector.MinimapDataTemplate>
                     <DataTemplate>
                         <minimap:Minimap />
                     </DataTemplate>
-                </basetype:DockTemplateSelector.MinimapDataTemplate>
-                <basetype:DockTemplateSelector.SelectedBrushDataTemplate>
+                </local:DockTemplateSelector.MinimapDataTemplate>
+                <local:DockTemplateSelector.SelectedBrushDataTemplate>
                     <DataTemplate>
                         <selectedbrush:SelectedBrush />
                     </DataTemplate>
-                </basetype:DockTemplateSelector.SelectedBrushDataTemplate>
-                <basetype:DockTemplateSelector.ToolboxDataTemplate>
+                </local:DockTemplateSelector.SelectedBrushDataTemplate>
+                <local:DockTemplateSelector.ToolboxDataTemplate>
                     <DataTemplate>
                         <toolbox:Toolbox />
                     </DataTemplate>
-                </basetype:DockTemplateSelector.ToolboxDataTemplate>
-                <basetype:DockTemplateSelector.SessionViewDataTemplate>
+                </local:DockTemplateSelector.ToolboxDataTemplate>
+                <local:DockTemplateSelector.SessionViewDataTemplate>
                     <DataTemplate>
                         <sessionview:SessionViewer />
                     </DataTemplate>
-                </basetype:DockTemplateSelector.SessionViewDataTemplate>
-            </basetype:DockTemplateSelector>
+                </local:DockTemplateSelector.SessionViewDataTemplate>
+            </local:DockTemplateSelector>
         </xcad:DockingManager.LayoutItemTemplateSelector>
 
         <xcad:DockingManager.LayoutItemContainerStyleSelector>
-            <basetype:DockStyleSelector>
-                <basetype:DockStyleSelector.DockWindowStyle>
+            <local:DockStyleSelector>
+                <local:DockStyleSelector.DockWindowStyle>
                     <Style TargetType="{x:Type xcad:LayoutAnchorableItem}">
                         <Setter Property="Title"
                                 Value="{Binding Model.Title}" />
@@ -101,8 +102,8 @@
                         <Setter Property="ContentId"
                                 Value="{Binding Model.ContentId}" />
                     </Style>
-                </basetype:DockStyleSelector.DockWindowStyle>
-                <basetype:DockStyleSelector.DocumentStyle>
+                </local:DockStyleSelector.DockWindowStyle>
+                <local:DockStyleSelector.DocumentStyle>
                     <Style TargetType="{x:Type xcad:LayoutItem}">
                         <Setter Property="Title"
                                 Value="{Binding Model.Title}" />
@@ -115,8 +116,8 @@
                         <Setter Property="ContentId"
                                 Value="{Binding Model.ContentId}" />
                     </Style>
-                </basetype:DockStyleSelector.DocumentStyle>
-            </basetype:DockStyleSelector>
+                </local:DockStyleSelector.DocumentStyle>
+            </local:DockStyleSelector>
         </xcad:DockingManager.LayoutItemContainerStyleSelector>
     </xcad:DockingManager>
 </UserControl>

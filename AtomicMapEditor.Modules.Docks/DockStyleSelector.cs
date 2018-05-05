@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using Ame.Infrastructure.BaseTypes;
 
-namespace Ame.Modules.Docks.Core
+namespace Ame.Modules.Docks
 {
     internal class DockStyleSelector : StyleSelector
     {

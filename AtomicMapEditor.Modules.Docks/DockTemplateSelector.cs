@@ -1,8 +1,5 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Markup;
-using System.Windows.Media;
 using Ame.Modules.Docks.ClipboardDock;
 using Ame.Modules.Docks.ItemEditorDock;
 using Ame.Modules.Docks.ItemListDock;
@@ -13,7 +10,7 @@ using Ame.Modules.Docks.SessionViewDock;
 using Ame.Modules.Docks.ToolboxDock;
 using Ame.Modules.MapEditor.Editor;
 
-namespace Ame.Modules.Docks.Core
+namespace Ame.Modules.Docks
 {
     internal class DockTemplateSelector : DataTemplateSelector
     {
@@ -26,12 +23,11 @@ namespace Ame.Modules.Docks.Core
 
         public DockTemplateSelector()
         {
-
         }
 
         #endregion constructor
 
-        
+
         #region properties
 
         public DataTemplate ClipboardDataTemplate { get; set; }
@@ -80,7 +76,6 @@ namespace Ame.Modules.Docks.Core
             else if (item is SelectedBrushViewModel)
             {
                 return SelectedBrushDataTemplate;
-
             }
             else if (item is SessionViewerViewModel)
             {

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Ame.Infrastructure.Core;
-using Ame.Modules.Docks.Core;
+﻿using Ame.Infrastructure.Core;
 using Prism.Modularity;
 using Prism.Regions;
 

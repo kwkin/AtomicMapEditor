@@ -4,7 +4,7 @@ using System.Windows.Input;
 using Xceed.Wpf.AvalonDock;
 using Xceed.Wpf.AvalonDock.Layout.Serialization;
 
-namespace Ame.Modules.Docks.Core
+namespace Ame.Modules.Docks.Serializer
 {
     public static class DockLayoutSerializer
     {
