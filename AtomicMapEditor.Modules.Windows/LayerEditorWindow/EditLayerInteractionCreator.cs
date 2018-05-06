@@ -17,11 +17,11 @@ namespace Ame.Modules.Windows.LayerEditorWindow
         {
             if (layer == null)
             {
-                throw new ArgumentNullException("container");
+                throw new ArgumentNullException("layer is null");
             }
             if (session == null)
             {
-                throw new ArgumentNullException("session");
+                throw new ArgumentNullException("session is null");
             }
             this.Container = new UnityContainer();
             this.Container.RegisterInstance<ILayer>(layer);
@@ -41,7 +41,7 @@ namespace Ame.Modules.Windows.LayerEditorWindow
 
         public IWindowInteraction CreateWindowInteraction()
         {
-            return Container.Resolve(typeof(EditLayerInteraction)) as IWindowInteraction;
+            return this.Container.Resolve(typeof(EditLayerInteraction)) as IWindowInteraction;
         }
 
         public bool AppliesTo(Type type)

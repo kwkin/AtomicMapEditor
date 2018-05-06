@@ -18,7 +18,11 @@ namespace Ame.Modules.Windows.MapEditorWindow
         {
             if (session == null)
             {
-                throw new ArgumentNullException("session");
+                throw new ArgumentNullException("session is null");
+            }
+            if (activeDocument == null)
+            {
+                throw new ArgumentNullException("activeDocument is null");
             }
             this.Container = new UnityContainer();
             this.Container.RegisterInstance<AmeSession>(session);

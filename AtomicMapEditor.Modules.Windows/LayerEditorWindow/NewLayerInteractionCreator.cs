@@ -18,7 +18,11 @@ namespace Ame.Modules.Windows.LayerEditorWindow
         {
             if (session == null)
             {
-                throw new ArgumentNullException("session");
+                throw new ArgumentNullException("session is null");
+            }
+            if (eventAggregator == null)
+            {
+                throw new ArgumentNullException("eventAggregator is null");
             }
             this.Container = new UnityContainer();
             string newLayerName = string.Format("Layer #{0}", session.CurrentMap.LayerCount);

@@ -17,7 +17,7 @@ namespace Ame.Modules.Windows.PreferencesWindow
         {
             if (eventAggregator == null)
             {
-                throw new ArgumentNullException("eventAggregator");
+                throw new ArgumentNullException("eventAggregator is null");
             }
             this.Container = new UnityContainer();
             this.Container.RegisterInstance<IEventAggregator>(eventAggregator);

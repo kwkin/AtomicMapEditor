@@ -18,11 +18,11 @@ namespace Ame.Modules.Windows.MapEditorWindow
         {
             if (session == null)
             {
-                throw new ArgumentNullException("session");
+                throw new ArgumentNullException("session is null");
             }
             if (eventAggregator == null)
             {
-                throw new ArgumentNullException("eventAggregator");
+                throw new ArgumentNullException("eventAggregator is null");
             }
             this.Container = new UnityContainer();
             this.Container.RegisterInstance<AmeSession>(session);

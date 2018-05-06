@@ -40,15 +40,14 @@ namespace Ame.Modules.Windows.WindowInteractionFactories
             return windowInteractionFactory.CreateWindowInteraction();
         }
 
-        public IWindowInteraction CreateWindowInteraction(Type type, IUnityContainer container)
+        public void UpdateContainer(Type type, IUnityContainer container)
         {
             var windowInteractionFactory = this.windowInteractionFactories.FirstOrDefault(factory => factory.AppliesTo(type));
-            windowInteractionFactory.Container = container;
             if (windowInteractionFactory == null)
             {
                 throw new Exception(string.Format("{0} type is not registered", type));
             }
-            return windowInteractionFactory.CreateWindowInteraction();
+            windowInteractionFactory.Container = container;
         }
 
         #endregion methods

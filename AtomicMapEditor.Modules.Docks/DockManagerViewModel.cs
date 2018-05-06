@@ -198,7 +198,7 @@ namespace Ame.Modules.Docks
         // TODO add style and template selecter, similar to docks
         private void OpenDock(OpenDockMessage message)
         {
-            IUnityContainer container;
+            IUnityContainer container = message.Container;
             if (message.Container == null)
             {
                 container = new UnityContainer();
@@ -231,7 +231,8 @@ namespace Ame.Modules.Docks
             Action<INotification> callback = null;
             if (message.Container != null)
             {
-                interaction = this.windowBuilder.CreateWindowInteraction(message.Type, container);
+                this.windowBuilder.UpdateContainer(message.Type, container);
+                interaction = this.windowBuilder.CreateWindowInteraction(message.Type);
             }
             else
             {
