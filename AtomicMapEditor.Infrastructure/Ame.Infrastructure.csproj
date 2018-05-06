@@ -91,11 +91,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseTypes\BrushCommand.cs" />
     <Compile Include="BaseTypes\DataGridRowReadOnlyBehavior.cs" />
     <Compile Include="BaseTypes\DockType.cs" />
     <Compile Include="BaseTypes\DockViewModelTemplate.cs" />
     <Compile Include="BaseTypes\GridModel.cs" />
     <Compile Include="BaseTypes\IgnoreNodeBuilderAttribute.cs" />
+    <Compile Include="BaseTypes\IBrushCommand.cs" />
     <Compile Include="BaseTypes\NodeViewBuilder.cs" />
     <Compile Include="BaseTypes\PropertyStat.cs" />
     <Compile Include="BaseTypes\ReadOnlyService.cs" />
@@ -108,7 +110,9 @@
     <Compile Include="Messages\NewLayerMessage.cs" />
     <Compile Include="Messages\Notifications.cs" />
     <Compile Include="Models\AmeSession.cs" />
-    <Compile Include="Models\Brushes\BrushType.cs" />
+    <Compile Include="Models\Brushes\IBrush.cs" />
+    <Compile Include="Models\Brushes\StampBrush.cs" />
+    <Compile Include="Models\Brushes\TileDrawer.cs" />
     <Compile Include="Models\ILayer.cs" />
     <Compile Include="Models\Layer.cs" />
     <Compile Include="Models\LayerGroup.cs" />

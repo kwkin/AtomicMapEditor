@@ -12,6 +12,7 @@ using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
+using Ame.Infrastructure.Models.Brushes;
 using Ame.Infrastructure.Utils;
 using Prism.Commands;
 using Prism.Events;
@@ -22,10 +23,12 @@ namespace Ame.Modules.MapEditor.Editor
     {
         #region fields
 
+        private TileDrawer tileDrawer;
+        private BrushModel brush;
+
         private IEventAggregator eventAggregator;
         private IScrollModel scrollModel;
 
-        public BrushModel brush;
         private CoordinateTransform imageTransform;
         private DrawingGroup imageDrawings;
 
@@ -49,6 +52,7 @@ namespace Ame.Modules.MapEditor.Editor
             this.scrollModel = scrollModel;
             this.Title = map.Name;
             this.CurrentLayer = this.Map.CurrentLayer as Layer;
+            this.tileDrawer = new TileDrawer(this.LayerItems);
 
             this.imageTransform = new CoordinateTransform();
             this.imageTransform.SetPixelToTile(this.Map.TileWidth, this.Map.TileHeight);
