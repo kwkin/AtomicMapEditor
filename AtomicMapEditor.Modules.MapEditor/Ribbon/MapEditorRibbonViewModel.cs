@@ -121,7 +121,7 @@ namespace Ame.Modules.MapEditor.Ribbon
         public void NewMap()
         {
             OpenWindowMessage window = new OpenWindowMessage(typeof(NewMapInteraction));
-            window.WindowTitle = "New Map";
+            window.Title = "New Map";
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(window);
         }
 

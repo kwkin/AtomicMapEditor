@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Ame.Modules.Docks.SessionViewDock
+namespace Ame.Modules.Docks.SessionViewerDock
 {
     /// <summary>
     /// Interaction logic for SessionViewer.xaml

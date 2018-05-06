@@ -319,7 +319,7 @@ namespace Ame.Modules.Menu.Options
         public void NewMap()
         {
             OpenWindowMessage window = new OpenWindowMessage(typeof(NewMapInteraction));
-            window.WindowTitle = "New Map";
+            window.Title = "New Map";
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(window);
         }
 
@@ -356,7 +356,7 @@ namespace Ame.Modules.Menu.Options
         public void NewLayer()
         {
             OpenWindowMessage openWindowMessage = new OpenWindowMessage(typeof(NewLayerInteraction));
-            openWindowMessage.WindowTitle = "New Layer";
+            openWindowMessage.Title = "New Layer";
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(openWindowMessage);
         }
 

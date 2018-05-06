@@ -28,13 +28,13 @@ namespace Ame.Infrastructure.BaseTypes
         public static readonly DependencyProperty CommandProperty =
             DependencyProperty.Register(
                 nameof(Command),
-                typeof(IBrushCommand),
+                typeof(ICommand),
                 typeof(EventToCommand),
-                new PropertyMetadata(default(IBrushCommand)));
+                new PropertyMetadata(default(ICommand)));
 
-        public IBrushCommand Command
+        public ICommand Command
         {
-            get { return (IBrushCommand)GetValue(CommandProperty); }
+            get { return (ICommand)GetValue(CommandProperty); }
             set { SetValue(CommandProperty, value); }
         }
 
@@ -104,7 +104,7 @@ namespace Ame.Infrastructure.BaseTypes
 
         #region methods
 
-        private IBrushCommand GetCommand()
+        private ICommand GetCommand()
         {
             return Command;
         }

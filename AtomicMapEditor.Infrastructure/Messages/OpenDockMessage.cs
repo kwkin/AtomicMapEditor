@@ -13,24 +13,30 @@ namespace Ame.Infrastructure.Messages
 
         #region Constructor
 
-        public OpenDockMessage(DockType dockType)
+        public OpenDockMessage(DockType type)
         {
-            this.DockType = dockType;
-            this.DockTitle = "";
+            this.Type = type;
+            this.Title = "";
         }
 
-        public OpenDockMessage(DockType dockType, IUnityContainer container)
+        public OpenDockMessage(DockType type, IUnityContainer container)
         {
-            this.DockType = dockType;
+            this.Type = type;
             this.Container = container;
-            this.DockTitle = "";
+            this.Title = "";
         }
 
-        public OpenDockMessage(DockType dockType, IUnityContainer container, String dockTitle)
+        public OpenDockMessage(DockType type, String title)
         {
-            this.DockType = dockType;
+            this.Type = type;
+            this.Title = title;
+        }
+
+        public OpenDockMessage(DockType type, IUnityContainer container, String title)
+        {
+            this.Type = type;
             this.Container = container;
-            this.DockTitle = dockTitle;
+            this.Title = title;
         }
 
         #endregion Constructor
@@ -38,9 +44,9 @@ namespace Ame.Infrastructure.Messages
 
         #region Properties
 
-        public DockType DockType { get; set; }
+        public DockType Type { get; set; }
+        public String Title { get; set; }
         public IUnityContainer Container { get; set; }
-        public String DockTitle { get; set; }
 
         #endregion Properties
 

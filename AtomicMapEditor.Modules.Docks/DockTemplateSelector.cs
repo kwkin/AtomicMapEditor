@@ -6,7 +6,7 @@ using Ame.Modules.Docks.ItemListDock;
 using Ame.Modules.Docks.LayerListDock;
 using Ame.Modules.Docks.MinimapDock;
 using Ame.Modules.Docks.SelectedBrushDock;
-using Ame.Modules.Docks.SessionViewDock;
+using Ame.Modules.Docks.SessionViewerDock;
 using Ame.Modules.Docks.ToolboxDock;
 using Ame.Modules.MapEditor.Editor;
 

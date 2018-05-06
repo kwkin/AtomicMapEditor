@@ -15,7 +15,7 @@
              xmlns:minimap="clr-namespace:Ame.Modules.Docks.MinimapDock"
              xmlns:toolbox="clr-namespace:Ame.Modules.Docks.ToolboxDock"
              xmlns:selectedbrush="clr-namespace:Ame.Modules.Docks.SelectedBrushDock"
-             xmlns:sessionview="clr-namespace:Ame.Modules.Docks.SessionViewDock"
+             xmlns:sessionview="clr-namespace:Ame.Modules.Docks.SessionViewerDock"
              xmlns:conv="clr-namespace:Ame.Infrastructure.Converters;assembly=Ame.Infrastructure"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"

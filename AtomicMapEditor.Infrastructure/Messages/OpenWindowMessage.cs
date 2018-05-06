@@ -19,16 +19,30 @@ namespace Ame.Infrastructure.Messages
 
         #region Constructor
 
-        public OpenWindowMessage(Type windowType)
+        public OpenWindowMessage(Type type)
         {
-            this.WindowType = windowType;
-            this.WindowTitle = "";
+            this.Type = type;
+            this.Title = "";
         }
 
-        public OpenWindowMessage(Type windowType, String windowTitle)
+        public OpenWindowMessage(Type type, IUnityContainer container)
         {
-            this.WindowType = windowType;
-            this.WindowTitle = windowTitle;
+            this.Type = type;
+            this.Container = container;
+            this.Title = "";
+        }
+
+        public OpenWindowMessage(Type type, String title)
+        {
+            this.Type = type;
+            this.Title = title;
+        }
+
+        public OpenWindowMessage(Type type, IUnityContainer container, String title)
+        {
+            this.Type = type;
+            this.Container = container;
+            this.Title = "";
         }
 
         #endregion Constructor
@@ -36,8 +50,8 @@ namespace Ame.Infrastructure.Messages
 
         #region Properties
 
-        public Type WindowType;
-        public String WindowTitle { get; set; }
+        public Type Type;
+        public String Title { get; set; }
         public IUnityContainer Container { get; set; }
 
         #endregion Properties

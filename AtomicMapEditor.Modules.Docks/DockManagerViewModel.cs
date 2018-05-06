@@ -20,7 +20,7 @@ using Ame.Modules.Docks.LayerListDock;
 using Ame.Modules.Docks.MinimapDock;
 using Ame.Modules.Docks.SelectedBrushDock;
 using Ame.Modules.Docks.Serializer;
-using Ame.Modules.Docks.SessionViewDock;
+using Ame.Modules.Docks.SessionViewerDock;
 using Ame.Modules.Docks.ToolboxDock;
 using Ame.Modules.MapEditor.Editor;
 using Ame.Modules.Windows;
@@ -215,10 +215,10 @@ namespace Ame.Modules.Docks
                 container = message.Container;
             }
 
-            DockViewModelTemplate dockViewModel = CreateDockViewModel(message.DockType, container);
-            if (!string.IsNullOrEmpty(message.DockTitle))
+            DockViewModelTemplate dockViewModel = CreateDockViewModel(message.Type, container);
+            if (!string.IsNullOrEmpty(message.Title))
             {
-                dockViewModel.Title = message.DockTitle;
+                dockViewModel.Title = message.Title;
             }
             AddDockViewModel(dockViewModel);
             this.ActiveDocument = dockViewModel;
@@ -231,11 +231,11 @@ namespace Ame.Modules.Docks
             Action<INotification> callback = null;
             if (message.Container != null)
             {
-                interaction = this.windowBuilder.CreateWindowInteraction(message.WindowType, container);
+                interaction = this.windowBuilder.CreateWindowInteraction(message.Type, container);
             }
             else
             {
-                interaction = this.windowBuilder.CreateWindowInteraction(message.WindowType);
+                interaction = this.windowBuilder.CreateWindowInteraction(message.Type);
             }
             if (interaction != null)
             {

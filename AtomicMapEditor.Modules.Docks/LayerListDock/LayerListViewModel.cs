@@ -101,7 +101,7 @@ namespace Ame.Modules.Docks.LayerListDock
         public void NewTilesetLayer()
         {
             OpenWindowMessage openWindowMessage = new OpenWindowMessage(typeof(NewLayerInteraction));
-            openWindowMessage.WindowTitle = "New Layer";
+            openWindowMessage.Title = "New Layer";
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(openWindowMessage);
         }
 
@@ -162,7 +162,7 @@ namespace Ame.Modules.Docks.LayerListDock
                 return;
             }
             OpenWindowMessage openWindowMessage = new OpenWindowMessage(typeof(EditLayerInteraction));
-            openWindowMessage.WindowTitle = string.Format("Edit Layer - {0}", this.CurrentLayer.LayerName);
+            openWindowMessage.Title = string.Format("Edit Layer - {0}", this.CurrentLayer.LayerName);
 
             IUnityContainer container = new UnityContainer();
             container.RegisterInstance<ILayer>(this.CurrentLayer);

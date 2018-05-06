@@ -104,8 +104,6 @@
     <Compile Include="BaseTypes\SetPropertyAction.cs" />
     <Compile Include="Converters\ViewComponentConverter.cs" />
     <Compile Include="Core\Global.cs" />
-    <Compile Include="Events\EditLayerEvent.cs" />
-    <Compile Include="Messages\EditLayerMessage.cs" />
     <Compile Include="Events\NewLayerEvent.cs" />
     <Compile Include="Messages\NewLayerMessage.cs" />
     <Compile Include="Messages\Notifications.cs" />
@@ -159,9 +157,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Requests\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\EMGU.CV.3.3.0.2824\build\Emgu.CV.targets" Condition="Exists('..\packages\EMGU.CV.3.3.0.2824\build\Emgu.CV.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

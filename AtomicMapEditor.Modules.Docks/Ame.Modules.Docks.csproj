@@ -176,10 +176,10 @@
       <DependentUpon>SelectedBrush.xaml</DependentUpon>
     </Compile>
     <Compile Include="SelectedBrushDock\SelectedBrushViewModel.cs" />
-    <Compile Include="SessionViewDock\SessionViewer.xaml.cs">
+    <Compile Include="SessionViewerDock\SessionViewer.xaml.cs">
       <DependentUpon>SessionViewer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SessionViewDock\SessionViewerViewModelcs.cs" />
+    <Compile Include="SessionViewerDock\SessionViewerViewModelcs.cs" />
     <Compile Include="ToolboxDock\Toolbox.xaml.cs">
       <DependentUpon>Toolbox.xaml</DependentUpon>
     </Compile>
@@ -299,7 +299,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SessionViewDock\SessionViewer.xaml">
+    <Page Include="SessionViewerDock\SessionViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
