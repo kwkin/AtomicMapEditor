@@ -2,20 +2,25 @@
 using System.Windows.Input;
 using Ame.Infrastructure.BaseTypes;
 using Prism.Commands;
+using Prism.Events;
 
 namespace Ame.Modules.Docks.ClipboardDock
 {
+    [DockContentId("Clipboard")]
     public class ClipboardViewModel : DockToolViewModelTemplate
     {
         #region fields
+
+        private IEventAggregator eventAggregator;
 
         #endregion fields
 
 
         #region Constructors
 
-        public ClipboardViewModel()
+        public ClipboardViewModel(IEventAggregator eventAggregator)
         {
+            this.eventAggregator = eventAggregator;
             this.Title = "Clipboard";
 
             this.RemoveItemCommand = new DelegateCommand(() => RemoveItem());
@@ -49,14 +54,6 @@ namespace Ame.Modules.Docks.ClipboardDock
         public ICommand ExpandAllCommand { get; private set; }
         public ICommand CollapseAllCommand { get; private set; }
         public ICommand ShowGroupsCommand { get; private set; }
-
-        public override DockType DockType
-        {
-            get
-            {
-                return DockType.Clipboard;
-            }
-        }
 
         #endregion properties
 

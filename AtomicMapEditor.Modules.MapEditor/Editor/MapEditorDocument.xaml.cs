@@ -13,16 +13,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Ame.Modules.MapEditor.Ribbon
+namespace Ame.Modules.MapEditor.Editor
 {
     /// <summary>
-    /// Interaction logic for MapEditorRibbon.xaml
+    /// Interaction logic for MapEditorDocument.xaml
     /// </summary>
-    public partial class MapEditorRibbon : UserControl
+    public partial class MapEditorDocument : UserControl
     {
-        public MapEditorRibbon()
+        public MapEditorDocument()
         {
             InitializeComponent();
+            System.Diagnostics.PresentationTraceSources.DataBindingSource.Switch.Level = System.Diagnostics.SourceLevels.Critical;
         }
     }
 }

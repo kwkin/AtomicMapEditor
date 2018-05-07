@@ -2,20 +2,25 @@
 using System.Windows.Input;
 using Ame.Infrastructure.BaseTypes;
 using Prism.Commands;
+using Prism.Events;
 
 namespace Ame.Modules.Docks.ToolboxDock
 {
-    internal class ToolboxViewModel : DockToolViewModelTemplate
+    [DockContentId("Toolbox")]
+    public class ToolboxViewModel : DockToolViewModelTemplate
     {
         #region fields
+
+        public IEventAggregator eventAggregator;
 
         #endregion fields
 
 
         #region constructor
 
-        public ToolboxViewModel()
+        public ToolboxViewModel(IEventAggregator eventAggregator)
         {
+            this.eventAggregator = eventAggregator;
             this.Title = "Tools";
 
             this.ToolButtonCommand = new DelegateCommand<string>((s) => SetToolboxTitle(s));
@@ -30,15 +35,7 @@ namespace Ame.Modules.Docks.ToolboxDock
 
         public bool StampButtonValue { get; set; }
         public bool BrushButtonValue { get; set; }
-
-        public override DockType DockType
-        {
-            get
-            {
-                return DockType.Toolbox;
-            }
-        }
-
+        
         #endregion properties
 
 

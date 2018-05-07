@@ -13,26 +13,27 @@ namespace Ame.Infrastructure.Messages
 
         #region Constructor
 
-        public OpenDockMessage(DockType type)
+        // TODO check the type
+        public OpenDockMessage(Type type)
         {
             this.Type = type;
             this.Title = "";
         }
 
-        public OpenDockMessage(DockType type, IUnityContainer container)
+        public OpenDockMessage(Type type, IUnityContainer container)
         {
             this.Type = type;
             this.Container = container;
             this.Title = "";
         }
 
-        public OpenDockMessage(DockType type, String title)
+        public OpenDockMessage(Type type, String title)
         {
             this.Type = type;
             this.Title = title;
         }
 
-        public OpenDockMessage(DockType type, IUnityContainer container, String title)
+        public OpenDockMessage(Type type, IUnityContainer container, String title)
         {
             this.Type = type;
             this.Container = container;
@@ -44,7 +45,7 @@ namespace Ame.Infrastructure.Messages
 
         #region Properties
 
-        public DockType Type { get; set; }
+        public Type Type { get; set; }
         public String Title { get; set; }
         public IUnityContainer Container { get; set; }
 

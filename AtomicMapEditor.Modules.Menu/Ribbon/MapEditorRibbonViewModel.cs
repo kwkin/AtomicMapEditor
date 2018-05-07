@@ -7,7 +7,7 @@ using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 
-namespace Ame.Modules.MapEditor.Ribbon
+namespace Ame.Modules.Menu.Ribbon
 {
     public class MapEditorRibbonViewModel : BindableBase
     {

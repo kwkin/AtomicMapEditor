@@ -5,6 +5,14 @@ using System.Windows.Input;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
+using Ame.Modules.Docks.ClipboardDock;
+using Ame.Modules.Docks.ItemEditorDock;
+using Ame.Modules.Docks.ItemListDock;
+using Ame.Modules.Docks.LayerListDock;
+using Ame.Modules.Docks.MinimapDock;
+using Ame.Modules.Docks.SelectedBrushDock;
+using Ame.Modules.Docks.SessionViewerDock;
+using Ame.Modules.Docks.ToolboxDock;
 using Ame.Modules.Windows.LayerEditorWindow;
 using Ame.Modules.Windows.MapEditorWindow;
 using Ame.Modules.Windows.PreferencesWindow;
@@ -105,7 +113,7 @@ namespace Ame.Modules.Menu.Options
             this.OpenClipboardDockCommand = new DelegateCommand(() => OpenClipboardDock());
             this.OpenUndoHistoryDockCommand = new DelegateCommand(() => OpenUndoHistoryDock());
             this.OpenSelectedBrushDockCommand = new DelegateCommand(() => OpenSelectedBrushDock());
-            this.OpenSessionViewDockCommand = new DelegateCommand(() => OpenSessionViewDock());
+            this.OpenSessionViewDockCommand = new DelegateCommand(() => OpenSessionViewerDock());
             this.HideDocksCommand = new DelegateCommand(() => HideDocks());
             this.SingleWindowCommand = new DelegateCommand(() => SingleWindow());
 
@@ -302,7 +310,7 @@ namespace Ame.Modules.Menu.Options
 
         public void OpenClipboard()
         {
-            OpenDockMessage dock = new OpenDockMessage(DockType.Clipboard);
+            OpenDockMessage dock = new OpenDockMessage(typeof(ClipboardViewModel));
             this.eventAggregator.GetEvent<OpenDockEvent>().Publish(dock);
         }
 
@@ -501,49 +509,49 @@ namespace Ame.Modules.Menu.Options
 
         public void OpenClipboardDock()
         {
-            OpenDockMessage dock = new OpenDockMessage(DockType.Clipboard);
+            OpenDockMessage dock = new OpenDockMessage(typeof(ClipboardViewModel));
             this.eventAggregator.GetEvent<OpenDockEvent>().Publish(dock);
         }
 
         public void OpenItemEditorDock()
         {
-            OpenDockMessage dock = new OpenDockMessage(DockType.ItemEditor);
+            OpenDockMessage dock = new OpenDockMessage(typeof(ItemEditorViewModel));
             this.eventAggregator.GetEvent<OpenDockEvent>().Publish(dock);
         }
 
         public void OpenItemListDock()
         {
-            OpenDockMessage dock = new OpenDockMessage(DockType.ItemList);
+            OpenDockMessage dock = new OpenDockMessage(typeof(ItemListViewModel));
             this.eventAggregator.GetEvent<OpenDockEvent>().Publish(dock);
         }
 
         public void OpenLayerListDock()
         {
-            OpenDockMessage dock = new OpenDockMessage(DockType.LayerList);
+            OpenDockMessage dock = new OpenDockMessage(typeof(LayerListViewModel));
             this.eventAggregator.GetEvent<OpenDockEvent>().Publish(dock);
         }
 
         public void OpenToolboxDock()
         {
-            OpenDockMessage dock = new OpenDockMessage(DockType.Toolbox);
+            OpenDockMessage dock = new OpenDockMessage(typeof(ToolboxViewModel));
             this.eventAggregator.GetEvent<OpenDockEvent>().Publish(dock);
         }
 
         public void OpenMinimapDock()
         {
-            OpenDockMessage dock = new OpenDockMessage(DockType.Minimap);
+            OpenDockMessage dock = new OpenDockMessage(typeof(MinimapViewModel));
             this.eventAggregator.GetEvent<OpenDockEvent>().Publish(dock);
         }
 
         public void OpenSelectedBrushDock()
         {
-            OpenDockMessage dock = new OpenDockMessage(DockType.SelectedBrush);
+            OpenDockMessage dock = new OpenDockMessage(typeof(SelectedBrushViewModel));
             this.eventAggregator.GetEvent<OpenDockEvent>().Publish(dock);
         }
 
-        public void OpenSessionViewDock()
+        public void OpenSessionViewerDock()
         {
-            OpenDockMessage dock = new OpenDockMessage(DockType.SessionView);
+            OpenDockMessage dock = new OpenDockMessage(typeof(SessionViewerViewModel));
             this.eventAggregator.GetEvent<OpenDockEvent>().Publish(dock);
         }
 

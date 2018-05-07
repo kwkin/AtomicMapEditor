@@ -7,6 +7,7 @@ using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
+using Ame.Modules.MapEditor.Editor;
 using Microsoft.Practices.Unity;
 using Prism.Events;
 using Prism.Interactivity;
@@ -78,7 +79,8 @@ namespace Ame.Modules.Windows.MapEditorWindow
 
                 this.session.MapList.Add(mapModel);
 
-                OpenDockMessage openEditorMessage = new OpenDockMessage(DockType.MapEditor, container);
+                // TODO fix cyclical dependencies
+                OpenDockMessage openEditorMessage = new OpenDockMessage(typeof(MapEditor.Editor.MapEditorViewModel), container);
                 this.eventAggregator.GetEvent<OpenDockEvent>().Publish(openEditorMessage);
             }
         }
@@ -88,7 +90,7 @@ namespace Ame.Modules.Windows.MapEditorWindow
             PopupWindowAction action = new PopupWindowAction();
             action.IsModal = true;
             action.CenterOverAssociatedObject = true;
-            action.WindowContent = new Windows.MapEditorWindow.MapEditor();
+            action.WindowContent = new MapEditorWindow();
 
             Style style = new Style();
             style.TargetType = typeof(Window);

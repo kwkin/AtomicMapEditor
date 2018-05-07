@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -38,16 +39,20 @@ using Xceed.Wpf.AvalonDock.Layout.Serialization;
 
 namespace Ame.Modules.Docks
 {
+    // TODO Clean up doc creation
+    // TODO Add icons to menu
     public class DockManagerViewModel : BindableBase, ILayoutViewModel
     {
         #region fields
 
         private IEventAggregator eventAggregator;
+        private Type[] dockTemplateTypes;
 
         private event EventHandler ActiveDocumentChanged;
 
         private AmeSession session;
-        private WindowInteractionCreator windowBuilder;
+        private WindowInteractionCreator windowInteractionCreator;
+        private DockCreator dockCreator;
 
         #endregion fields
 
@@ -67,14 +72,11 @@ namespace Ame.Modules.Docks
 
             this.Documents = new ObservableCollection<DockViewModelTemplate>();
             this.Anchorables = new ObservableCollection<DockViewModelTemplate>();
+
             foreach (Map map in session.MapList)
             {
-                IUnityContainer container = new UnityContainer();
-                container.RegisterInstance<IEventAggregator>(this.eventAggregator);
-                container.RegisterInstance<IScrollModel>(new ScrollModel());
-                container.RegisterInstance<Map>(map);
-                container.RegisterInstance(this.session);
-                DockViewModelTemplate dockViewModel = CreateDockViewModel(DockType.MapEditor, container);
+                MapEditorCreator mapEditorCreator = new MapEditorCreator(this.eventAggregator, new ScrollModel(), new Map("Map #1"));
+                DockViewModelTemplate dockViewModel = mapEditorCreator.CreateDock();
                 AddDockViewModel(dockViewModel);
             }
             if (this.Documents.Count > 0)
@@ -82,7 +84,7 @@ namespace Ame.Modules.Docks
                 this.ActiveDocument = this.Documents[0];
             }
 
-            IWindowInteractionCreator[] factories = new IWindowInteractionCreator[]
+            IWindowInteractionCreator[] windowInteractionCreators = new IWindowInteractionCreator[]
             {
                 new NewMapInteractionCreator(this.session, this.eventAggregator),
                 new EditMapInteractionCreator(this.session, this.ActiveDocument),
@@ -91,7 +93,27 @@ namespace Ame.Modules.Docks
                 new TilesetEditorInteractionCreator(),
                 new PreferenceOptionsInteractionCreator(this.eventAggregator)
             };
-            this.windowBuilder = new WindowInteractionCreator(factories);
+            this.windowInteractionCreator = new WindowInteractionCreator(windowInteractionCreators);
+
+            IDockCreator[] dockCreators = new IDockCreator[]
+            {
+                new ClipboardCreator(this.eventAggregator),
+                new ItemEditorCreator(this.eventAggregator, new ScrollModel()),
+                new ItemListCreator(this.eventAggregator),
+                new LayerListCreator(this.eventAggregator, this.session.CurrentMap.LayerList),
+                new MinimapCreator(this.eventAggregator),
+                new SelectedBrushCreator(this.eventAggregator, new ScrollModel()),
+                new SessionViewerCreator(this.eventAggregator, this.session),
+                new ToolboxCreator(this.eventAggregator),
+                new MapEditorCreator(this.eventAggregator, new ScrollModel(), new Map("Map #1"))
+            };
+            this.dockCreator = new DockCreator(dockCreators);
+
+            Type dockTemplateType = typeof(DockViewModelTemplate);
+            this.dockTemplateTypes = (from domainAssembly in AppDomain.CurrentDomain.GetAssemblies()
+                                      from assemblyType in domainAssembly.GetTypes()
+                                      where typeof(DockViewModelTemplate).IsAssignableFrom(assemblyType)
+                                      select assemblyType).ToArray();
 
             this.eventAggregator.GetEvent<OpenDockEvent>().Subscribe(
                 OpenDock,
@@ -198,24 +220,13 @@ namespace Ame.Modules.Docks
         // TODO add style and template selecter, similar to docks
         private void OpenDock(OpenDockMessage message)
         {
+            DockViewModelTemplate dockViewModel;
             IUnityContainer container = message.Container;
-            if (message.Container == null)
+            if (container != null)
             {
-                container = new UnityContainer();
-                container.RegisterInstance<IEventAggregator>(this.eventAggregator);
-                container.RegisterInstance<IScrollModel>(new ScrollModel());
-                container.RegisterInstance(this.session);
-
-                IList<ILayer> layerList = this.session.CurrentMap.LayerList;
-                ObservableCollection<ILayer> layerObservableList = new ObservableCollection<ILayer>(layerList);
-                container.RegisterInstance<ObservableCollection<ILayer>>(layerObservableList);
+                this.dockCreator.UpdateContainer(message.Type, container);
             }
-            else
-            {
-                container = message.Container;
-            }
-
-            DockViewModelTemplate dockViewModel = CreateDockViewModel(message.Type, container);
+            dockViewModel = this.dockCreator.CreateDock(message.Type);
             if (!string.IsNullOrEmpty(message.Title))
             {
                 dockViewModel.Title = message.Title;
@@ -229,15 +240,11 @@ namespace Ame.Modules.Docks
             IWindowInteraction interaction = null;
             IUnityContainer container = message.Container;
             Action<INotification> callback = null;
-            if (message.Container != null)
+            if (container != null)
             {
-                this.windowBuilder.UpdateContainer(message.Type, container);
-                interaction = this.windowBuilder.CreateWindowInteraction(message.Type);
+                this.windowInteractionCreator.UpdateContainer(message.Type, container);
             }
-            else
-            {
-                interaction = this.windowBuilder.CreateWindowInteraction(message.Type);
-            }
+            interaction = this.windowInteractionCreator.CreateWindowInteraction(message.Type);
             if (interaction != null)
             {
                 callback = interaction.OnWindowClosed;
@@ -281,26 +288,23 @@ namespace Ame.Modules.Docks
 
         private void UpdateLayout(object sender, LayoutSerializationCallbackEventArgs args)
         {
-            IUnityContainer container = new UnityContainer();
-            container.RegisterInstance<IEventAggregator>(this.eventAggregator);
-            container.RegisterInstance<IScrollModel>(new ScrollModel());
-            container.RegisterInstance(this.session);
-
-            IList<ILayer> layerList = this.session.CurrentMap.LayerList;
-            ObservableCollection<ILayer> layerObservableList = new ObservableCollection<ILayer>(layerList);
-            container.RegisterInstance<ObservableCollection<ILayer>>(layerObservableList);
-
-            DockType dockType = DockTypeUtils.GetById(args.Model.ContentId);
-            DockViewModelTemplate contentViewModel = CreateDockViewModel(dockType, container);
-            if (contentViewModel == null)
+            Type registeredType = null;
+            foreach (Type dockType in this.dockTemplateTypes)
             {
-                args.Cancel = true;
+                DockContentIdAttribute contentId = Attribute.GetCustomAttribute(dockType, typeof(DockContentIdAttribute)) as DockContentIdAttribute;
+                if (contentId.Id == args.Model.ContentId)
+                {
+                    registeredType = dockType;
+                    break;
+                }
             }
-            else
+            if (registeredType != null)
             {
-                AddDockViewModel(contentViewModel);
+                DockViewModelTemplate dockViewModel = this.dockCreator.CreateDock(registeredType);
+                AddDockViewModel(dockViewModel);
+                args.Content = dockViewModel;
             }
-            args.Content = contentViewModel;
+
         }
 
         private void AddDockViewModel(DockViewModelTemplate dockViewModel)
@@ -370,58 +374,6 @@ namespace Ame.Modules.Docks
                 }
             }
             return layerCount;
-        }
-
-        private DockViewModelTemplate CreateDockViewModel(DockType dockType, IUnityContainer container)
-        {
-            Type viewModelType = null;
-            switch (dockType)
-            {
-                case DockType.Clipboard:
-                    viewModelType = typeof(ClipboardViewModel);
-                    break;
-
-                case DockType.ItemEditor:
-                    viewModelType = typeof(ItemEditorViewModel);
-                    break;
-
-                case DockType.ItemList:
-                    viewModelType = typeof(ItemListViewModel);
-                    break;
-
-                case DockType.LayerList:
-                    viewModelType = typeof(LayerListViewModel);
-                    break;
-
-                case DockType.Minimap:
-                    viewModelType = typeof(MinimapViewModel);
-                    break;
-
-                case DockType.SelectedBrush:
-                    viewModelType = typeof(SelectedBrushViewModel);
-                    break;
-
-                case DockType.SessionView:
-                    viewModelType = typeof(SessionViewerViewModel);
-                    break;
-
-                case DockType.Toolbox:
-                    viewModelType = typeof(ToolboxViewModel);
-                    break;
-
-                case DockType.MapEditor:
-                    if (!container.IsRegistered(typeof(Map)))
-                    {
-                        container.RegisterInstance<Map>(new Map("Map #1"));
-                    }
-                    viewModelType = typeof(MainEditorViewModel);
-                    break;
-
-                default:
-                    throw new InvalidEnumArgumentException("Unknown DockType");
-            }
-            DockViewModelTemplate dockViewModel = container.Resolve(viewModelType) as DockViewModelTemplate;
-            return dockViewModel;
         }
 
         #endregion methods

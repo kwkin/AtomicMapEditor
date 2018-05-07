@@ -82,6 +82,10 @@
     </Compile>
     <Compile Include="Options\MenuOptionsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Ribbon\MapEditorRibbon.xaml.cs">
+      <DependentUpon>MapEditorRibbon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ribbon\MapEditorRibbonViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -90,6 +94,14 @@
     <ProjectReference Include="..\AtomicMapEditor.Infrastructure\Ame.Infrastructure.csproj">
       <Project>{9d27d8dc-5cd8-46d9-b702-efeb6d66f236}</Project>
       <Name>Ame.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AtomicMapEditor.Modules.Docks\Ame.Modules.Docks.csproj">
+      <Project>{47031565-69B8-4C7B-8077-B2FC0D9966D1}</Project>
+      <Name>Ame.Modules.Docks</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AtomicMapEditor.Modules.MapEditor\Ame.Modules.MapEditor.csproj">
+      <Project>{b0caebff-8493-4d50-85f0-5a2d48396359}</Project>
+      <Name>Ame.Modules.MapEditor</Name>
     </ProjectReference>
     <ProjectReference Include="..\AtomicMapEditor.Modules.Windows\Ame.Modules.Windows.csproj">
       <Project>{69DAE486-6E5A-4936-BC41-04719A925CED}</Project>
@@ -104,6 +116,10 @@
     <Page Include="Options\MenuOptions.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ribbon\MapEditorRibbon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -15,9 +15,9 @@ namespace Ame.Modules.Windows.WindowInteractionFactories
 
         #region constructors
 
-        public WindowInteractionCreator(IWindowInteractionCreator[] windowInteractionFactories)
+        public WindowInteractionCreator(IWindowInteractionCreator[] windowInteractionCreators)
         {
-            this.windowInteractionFactories = windowInteractionFactories;
+            this.windowInteractionFactories = windowInteractionCreators;
         }
 
         #endregion constructors
@@ -32,22 +32,22 @@ namespace Ame.Modules.Windows.WindowInteractionFactories
 
         public IWindowInteraction CreateWindowInteraction(Type type)
         {
-            var windowInteractionFactory = this.windowInteractionFactories.FirstOrDefault(factory => factory.AppliesTo(type));
-            if (windowInteractionFactory == null)
+            var windowInteractionCreator = this.windowInteractionFactories.FirstOrDefault(factory => factory.AppliesTo(type));
+            if (windowInteractionCreator == null)
             {
                 throw new Exception(string.Format("{0} type is not registered", type));
             }
-            return windowInteractionFactory.CreateWindowInteraction();
+            return windowInteractionCreator.CreateWindowInteraction();
         }
 
         public void UpdateContainer(Type type, IUnityContainer container)
         {
-            var windowInteractionFactory = this.windowInteractionFactories.FirstOrDefault(factory => factory.AppliesTo(type));
-            if (windowInteractionFactory == null)
+            var windowInteractionCreator = this.windowInteractionFactories.FirstOrDefault(factory => factory.AppliesTo(type));
+            if (windowInteractionCreator == null)
             {
                 throw new Exception(string.Format("{0} type is not registered", type));
             }
-            windowInteractionFactory.Container = container;
+            windowInteractionCreator.Container = container;
         }
 
         #endregion methods

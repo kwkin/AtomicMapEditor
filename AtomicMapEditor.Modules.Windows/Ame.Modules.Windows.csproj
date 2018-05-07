@@ -121,8 +121,8 @@
       <DependentUpon>LayerEditorMetadata.xaml</DependentUpon>
     </Compile>
     <Compile Include="LayerEditorWindow\LayerEditorViewModel.cs" />
-    <Compile Include="MapEditorWindow\MapEditor.xaml.cs">
-      <DependentUpon>MapEditor.xaml</DependentUpon>
+    <Compile Include="MapEditorWindow\MapEditorWindow.xaml.cs">
+      <DependentUpon>MapEditorWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="MapEditorWindow\MapEditorGeneral.xaml.cs">
       <DependentUpon>MapEditorGeneral.xaml</DependentUpon>
@@ -162,6 +162,10 @@
       <Project>{9d27d8dc-5cd8-46d9-b702-efeb6d66f236}</Project>
       <Name>Ame.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AtomicMapEditor.Modules.MapEditor\Ame.Modules.MapEditor.csproj">
+      <Project>{B0CAEBFF-8493-4D50-85F0-5A2D48396359}</Project>
+      <Name>Ame.Modules.MapEditor</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="PreferencesWindow\PreferencesMenu.xaml">
@@ -188,7 +192,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MapEditorWindow\MapEditor.xaml">
+    <Page Include="MapEditorWindow\MapEditorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

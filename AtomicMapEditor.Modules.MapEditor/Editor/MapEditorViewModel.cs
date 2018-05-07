@@ -19,7 +19,8 @@ using Prism.Events;
 
 namespace Ame.Modules.MapEditor.Editor
 {
-    public class MainEditorViewModel : EditorViewModelTemplate
+    [DockContentId("MapEditor")]
+    public class MapEditorViewModel : EditorViewModelTemplate
     {
         #region fields
 
@@ -37,7 +38,7 @@ namespace Ame.Modules.MapEditor.Editor
 
         #region Constructor & destructor
 
-        public MainEditorViewModel(IEventAggregator eventAggregator, IScrollModel scrollModel, Map map)
+        public MapEditorViewModel(IEventAggregator eventAggregator, IScrollModel scrollModel, Map map)
         {
             if (eventAggregator == null)
             {
@@ -143,14 +144,6 @@ namespace Ame.Modules.MapEditor.Editor
                     }),
                     DispatcherPriority.Background);
                 }
-            }
-        }
-
-        public override DockType DockType
-        {
-            get
-            {
-                return DockType.MapEditor;
             }
         }
 

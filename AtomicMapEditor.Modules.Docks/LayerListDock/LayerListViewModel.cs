@@ -13,6 +13,7 @@ using Prism.Events;
 
 namespace Ame.Modules.Docks.LayerListDock
 {
+    [DockContentId("LayerList")]
     public class LayerListViewModel : DockToolViewModelTemplate
     {
         #region fields
@@ -24,7 +25,7 @@ namespace Ame.Modules.Docks.LayerListDock
 
         #region constructor
 
-        public LayerListViewModel(ObservableCollection<ILayer> layerList, IEventAggregator eventAggregator)
+        public LayerListViewModel(IEventAggregator eventAggregator, ObservableCollection<ILayer> layerList)
         {
             if (eventAggregator == null)
             {
@@ -71,14 +72,6 @@ namespace Ame.Modules.Docks.LayerListDock
         public ICommand EditCollisionsCommand { get; private set; }
         public ICommand LayerToMapSizeCommand { get; private set; }
         public ICommand CurrentLayerChangedCommand { get; private set; }
-
-        public override DockType DockType
-        {
-            get
-            {
-                return DockType.LayerList;
-            }
-        }
 
         public ObservableCollection<ILayer> LayerList { get; set; }
         public ILayer CurrentLayer { get; set; }

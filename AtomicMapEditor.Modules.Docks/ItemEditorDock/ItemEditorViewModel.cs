@@ -22,6 +22,7 @@ using Prism.Events;
 
 namespace Ame.Modules.Docks.ItemEditorDock
 {
+    [DockContentId("ItemEditor")]
     public class ItemEditorViewModel : DockToolViewModelTemplate
     {
         #region fields
@@ -178,14 +179,6 @@ namespace Ame.Modules.Docks.ItemEditorDock
 
         public TilesetModel TilesetModel { get; set; }
         public DrawingImage ItemImage { get; set; }
-
-        public override DockType DockType
-        {
-            get
-            {
-                return DockType.ItemEditor;
-            }
-        }
 
         #endregion properties
 

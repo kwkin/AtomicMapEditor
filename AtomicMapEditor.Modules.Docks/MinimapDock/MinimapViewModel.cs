@@ -2,9 +2,11 @@
 using System.Windows.Input;
 using Ame.Infrastructure.BaseTypes;
 using Prism.Commands;
+using Prism.Events;
 
 namespace Ame.Modules.Docks.MinimapDock
 {
+    [DockContentId("Minimap")]
     public class MinimapViewModel : DockToolViewModelTemplate
     {
         #region fields
@@ -13,7 +15,7 @@ namespace Ame.Modules.Docks.MinimapDock
 
         #region constructor
 
-        public MinimapViewModel()
+        public MinimapViewModel(IEventAggregator eventAggregator)
         {
             this.Title = "Minimap";
 
@@ -32,15 +34,7 @@ namespace Ame.Modules.Docks.MinimapDock
         public ICommand ToggleGridCommand { get; private set; }
         public ICommand ToggleCollisionCommand { get; private set; }
         public ICommand CenterOnPointCommand { get; private set; }
-
-        public override DockType DockType
-        {
-            get
-            {
-                return DockType.Minimap;
-            }
-        }
-
+        
         #endregion properties
 
 

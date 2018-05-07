@@ -7,6 +7,7 @@ using Prism.Events;
 
 namespace Ame.Modules.Docks.SessionViewerDock
 {
+    [DockContentId("SessionView")]
     public class SessionViewerViewModel : DockToolViewModelTemplate
     {
         #region fields
@@ -17,7 +18,7 @@ namespace Ame.Modules.Docks.SessionViewerDock
         #endregion fields
 
 
-        #region Constructor & destructor
+        #region constructor
 
         public SessionViewerViewModel(IEventAggregator eventAggregator, AmeSession session)
         {
@@ -31,7 +32,7 @@ namespace Ame.Modules.Docks.SessionViewerDock
             this.Nodes.Add(new NodeViewBuilder("Ame Session", this.session));
         }
 
-        #endregion Constructor & destructor
+        #endregion constructor
 
 
         #region properties
@@ -39,14 +40,6 @@ namespace Ame.Modules.Docks.SessionViewerDock
         public ICommand RefreshTreeCommand { get; set; }
 
         public ObservableCollection<NodeViewBuilder> Nodes { get; set; }
-
-        public override DockType DockType
-        {
-            get
-            {
-                return DockType.SessionView;
-            }
-        }
 
         #endregion properties
 

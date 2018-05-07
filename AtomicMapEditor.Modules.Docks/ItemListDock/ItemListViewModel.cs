@@ -2,20 +2,25 @@
 using System.Windows.Input;
 using Ame.Infrastructure.BaseTypes;
 using Prism.Commands;
+using Prism.Events;
 
 namespace Ame.Modules.Docks.ItemListDock
 {
+    [DockContentId("ItemList")]
     public class ItemListViewModel : DockToolViewModelTemplate
     {
         #region fields
+
+        private IEventAggregator eventAggregator;
 
         #endregion fields
 
 
         #region constructor
 
-        public ItemListViewModel()
+        public ItemListViewModel(IEventAggregator eventAggregator)
         {
+            this.eventAggregator = eventAggregator;
             this.Title = "Item List";
 
             this.AddTilesetCommand = new DelegateCommand(() => AddTileset());
@@ -29,14 +34,6 @@ namespace Ame.Modules.Docks.ItemListDock
 
         public ICommand ViewPropertiesCommand { get; private set; }
         public ICommand AddTilesetCommand { get; private set; }
-
-        public override DockType DockType
-        {
-            get
-            {
-                return DockType.ItemList;
-            }
-        }
 
         #endregion properties
 

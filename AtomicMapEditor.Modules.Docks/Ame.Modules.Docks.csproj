@@ -123,10 +123,17 @@
     <Compile Include="ClipboardDock\Clipboard.xaml.cs">
       <DependentUpon>Clipboard.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ClipboardDock\ClipboardCreator.cs" />
     <Compile Include="ClipboardDock\ClipboardItemEntry.xaml.cs">
       <DependentUpon>ClipboardItemEntry.xaml</DependentUpon>
     </Compile>
     <Compile Include="ClipboardDock\ClipboardViewModel.cs" />
+    <Compile Include="DockCreator.cs" />
+    <Compile Include="ItemEditorDock\ItemEditorCreator.cs" />
+    <Compile Include="ItemListDock\ItemListCreator.cs" />
+    <Compile Include="LayerListDock\LayerListCreator.cs" />
+    <Compile Include="MinimapDock\MinimapCreator.cs" />
+    <Compile Include="SelectedBrushDock\SelectedBrushCreator.cs" />
     <Compile Include="Serializer\DockLayoutSerializer.cs" />
     <Compile Include="Serializer\DockLayoutViewModel.cs" />
     <Compile Include="DockManager.xaml.cs">
@@ -179,6 +186,7 @@
     <Compile Include="SessionViewerDock\SessionViewer.xaml.cs">
       <DependentUpon>SessionViewer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SessionViewerDock\SessionViewerCreator.cs" />
     <Compile Include="SessionViewerDock\SessionViewerViewModelcs.cs" />
     <Compile Include="ToolboxDock\Toolbox.xaml.cs">
       <DependentUpon>Toolbox.xaml</DependentUpon>
@@ -189,6 +197,7 @@
     <Compile Include="ToolboxDock\ToolboxCircleSelectionPanel.xaml.cs">
       <DependentUpon>ToolboxCircleSelectionPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ToolboxDock\ToolboxCreator.cs" />
     <Compile Include="ToolboxDock\ToolboxFillPanel.xaml.cs">
       <DependentUpon>ToolboxFillPanel.xaml</DependentUpon>
     </Compile>

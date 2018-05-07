@@ -96,6 +96,7 @@
     <Compile Include="BaseTypes\DockType.cs" />
     <Compile Include="BaseTypes\DockViewModelTemplate.cs" />
     <Compile Include="BaseTypes\GridModel.cs" />
+    <Compile Include="BaseTypes\IDockCreator.cs" />
     <Compile Include="BaseTypes\IgnoreNodeBuilderAttribute.cs" />
     <Compile Include="BaseTypes\IBrushCommand.cs" />
     <Compile Include="BaseTypes\NodeViewBuilder.cs" />

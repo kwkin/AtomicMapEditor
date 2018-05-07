@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Ame.Modules.MapEditor.Ribbon.MapEditorRibbon"
+﻿<UserControl x:Class="Ame.Modules.Menu.Ribbon.MapEditorRibbon"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"

@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Ame.Modules.Windows.MapEditorWindow
+namespace Ame.Modules.Menu.Ribbon
 {
     /// <summary>
-    /// Interaction logic for MapEditor.xaml
+    /// Interaction logic for MapEditorRibbon.xaml
     /// </summary>
-    public partial class MapEditor : UserControl
+    public partial class MapEditorRibbon : UserControl
     {
-        public MapEditor()
+        public MapEditorRibbon()
         {
             InitializeComponent();
         }

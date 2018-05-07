@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Ame.Infrastructure.BaseTypes;
@@ -28,7 +29,7 @@ namespace Ame.Infrastructure.Models
             this.Scale = ScaleType.Tile;
             this.PixelScale = 1;
             this.Description = "";
-            this.LayerList = new List<ILayer>();
+            this.LayerList = new ObservableCollection<ILayer>();
             this.LayerList.Add(new Layer("Layer #0", this.TileWidth, this.TileHeight, this.Rows, this.Columns));
         }
 
@@ -42,7 +43,7 @@ namespace Ame.Infrastructure.Models
             this.Scale = ScaleType.Tile;
             this.PixelScale = 1;
             this.Description = "";
-            this.LayerList = new List<ILayer>();
+            this.LayerList = new ObservableCollection<ILayer>();
             this.LayerList.Add(new Layer("Layer #0", this.TileWidth, this.TileHeight, this.Rows, this.Columns));
         }
 
@@ -56,7 +57,7 @@ namespace Ame.Infrastructure.Models
             this.Scale = ScaleType.Tile;
             this.PixelScale = 1;
             this.Description = "";
-            this.LayerList = new List<ILayer>();
+            this.LayerList = new ObservableCollection<ILayer>();
             this.LayerList.Add(new Layer("Layer #0", this.TileWidth, this.TileHeight, this.Rows, this.Columns));
         }
 
@@ -108,7 +109,7 @@ namespace Ame.Infrastructure.Models
         [MetadataProperty(MetadataType.Property)]
         public string Description { get; set; }
 
-        public IList<ILayer> LayerList { get; set; }
+        public ObservableCollection<ILayer> LayerList { get; set; }
         public int SelectedLayerIndex { get; set; }
 
         public ILayer CurrentLayer

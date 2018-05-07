@@ -57,10 +57,10 @@ namespace Ame
             Container.RegisterInstance<AmeSession>(new AmeSession(map));
 
             ViewModelLocationProvider.Register<MenuOptions, MenuOptionsViewModel>();
-            ViewModelLocationProvider.Register<MainEditor, MainEditorViewModel>();
+            ViewModelLocationProvider.Register<MapEditorDocument, Modules.MapEditor.Editor.MapEditorViewModel>();
             ViewModelLocationProvider.Register<DockManager, DockManagerViewModel>();
 
-            ViewModelLocationProvider.Register<MapEditor, MapEditorViewModel>();
+            ViewModelLocationProvider.Register<MapEditorWindow, Modules.Windows.MapEditorWindow.MapEditorViewModel>();
             ViewModelLocationProvider.Register<LayerEditor, LayerEditorViewModel>();
             ViewModelLocationProvider.Register<TilesetEditor, TilesetEditorViewModel>();
             ViewModelLocationProvider.Register<PreferencesMenu, PreferencesViewModel>();

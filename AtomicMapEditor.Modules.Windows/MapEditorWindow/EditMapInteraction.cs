@@ -65,7 +65,7 @@ namespace Ame.Modules.Windows.MapEditorWindow
             PopupWindowAction action = new PopupWindowAction();
             action.IsModal = true;
             action.CenterOverAssociatedObject = true;
-            action.WindowContent = new Windows.MapEditorWindow.MapEditor();
+            action.WindowContent = new Windows.MapEditorWindow.MapEditorWindow();
 
             Style style = new Style();
             style.TargetType = typeof(Window);

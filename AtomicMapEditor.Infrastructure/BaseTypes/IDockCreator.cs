@@ -1,9 +1,10 @@
 ﻿using System;
+using Ame.Infrastructure.BaseTypes;
 using Microsoft.Practices.Unity;
 
-namespace Ame.Modules.Windows
+namespace Ame.Modules.Docks
 {
-    public interface IWindowInteractionCreator
+    public interface IDockCreator
     {
         #region properties
 
@@ -14,7 +15,8 @@ namespace Ame.Modules.Windows
 
         #region methods
 
-        IWindowInteraction CreateWindowInteraction();
+        DockViewModelTemplate CreateDock();
+
         bool AppliesTo(Type type);
 
         #endregion methods

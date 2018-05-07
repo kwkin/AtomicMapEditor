@@ -6,7 +6,7 @@
     <conv:DoubleToZoomLevelConverter x:Key="DoubleToZoomLevelConverter" />
 
     <x:Array Type="{x:Type sys:Object}"
-             x:Key="MainEditorContextMenu">
+             x:Key="MapEditorContextMenu">
         <MenuItem Header="View Properties..."
                   Command="{Binding ViewPropertiesCommand}">
             <MenuItem.Icon>

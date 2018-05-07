@@ -20,6 +20,7 @@ using Prism.Events;
 
 namespace Ame.Modules.Docks.SelectedBrushDock
 {
+    [DockContentId("SelectedBrush")]
     public class SelectedBrushViewModel : DockToolViewModelTemplate
     {
         #region fields
@@ -119,14 +120,6 @@ namespace Ame.Modules.Docks.SelectedBrushDock
         }
 
         public BitmapImage BrushImage { get; set; }
-
-        public override DockType DockType
-        {
-            get
-            {
-                return DockType.SelectedBrush;
-            }
-        }
 
         #endregion properties
 

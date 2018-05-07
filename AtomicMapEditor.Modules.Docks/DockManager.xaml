@@ -7,7 +7,7 @@
              xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
              xmlns:local="clr-namespace:Ame.Modules.Docks"
              xmlns:serializer="clr-namespace:Ame.Modules.Docks.Serializer"
-             xmlns:maineditor="clr-namespace:Ame.Modules.MapEditor.Editor;assembly=Ame.Modules.MapEditor"
+             xmlns:mapeditor="clr-namespace:Ame.Modules.MapEditor.Editor;assembly=Ame.Modules.MapEditor"
              xmlns:itemeditor="clr-namespace:Ame.Modules.Docks.ItemEditorDock"
              xmlns:itemlist="clr-namespace:Ame.Modules.Docks.ItemListDock"
              xmlns:clipboard="clr-namespace:Ame.Modules.Docks.ClipboardDock"
@@ -44,11 +44,11 @@
                         <clipboard:Clipboard />
                     </DataTemplate>
                 </local:DockTemplateSelector.ClipboardDataTemplate>
-                <local:DockTemplateSelector.MainEditorTemplate>
+                <local:DockTemplateSelector.MapEditorTemplate>
                     <DataTemplate>
-                        <maineditor:MainEditor />
+                        <mapeditor:MapEditorDocument />
                     </DataTemplate>
-                </local:DockTemplateSelector.MainEditorTemplate>
+                </local:DockTemplateSelector.MapEditorTemplate>
                 <local:DockTemplateSelector.ItemEditorDataTemplate>
                     <DataTemplate>
                         <itemeditor:ItemEditor />

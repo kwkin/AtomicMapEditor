@@ -2,6 +2,7 @@
 
 namespace Ame.Infrastructure.BaseTypes
 {
+    [DockContentId("Clipboard")]
     public abstract class DockViewModelTemplate : BindableBase
     {
         #region fields
@@ -43,15 +44,7 @@ namespace Ame.Infrastructure.BaseTypes
             get { return this.title; }
             set { SetProperty(ref this.title, value); }
         }
-
-        public abstract DockType DockType { get; }
-
-        public string ContentId
-        {
-            get { return DockTypeUtils.GetId(this.DockType); }
-        }
-
-
+        
         #endregion properties
 
 

@@ -39,7 +39,7 @@ namespace Ame.Modules.Docks
         public DataTemplate SelectedBrushDataTemplate { get; set; }
         public DataTemplate SessionViewDataTemplate { get; set; }
 
-        public DataTemplate MainEditorTemplate { get; set; }
+        public DataTemplate MapEditorTemplate { get; set; }
 
         #endregion properties
 
@@ -81,9 +81,9 @@ namespace Ame.Modules.Docks
             {
                 return SessionViewDataTemplate;
             }
-            else if (item is MainEditorViewModel)
+            else if (item is MapEditorViewModel)
             {
-                return MainEditorTemplate;
+                return MapEditorTemplate;
             }
             return base.SelectTemplate(item, container);
         }
