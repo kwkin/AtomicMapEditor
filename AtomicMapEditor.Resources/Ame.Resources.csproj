@@ -129,6 +129,50 @@
   <ItemGroup>
     <Resource Include="Icons\ic_refresh_black_24dp.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\ic_file_document_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\ic_folder_open_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\ic_folder_outline_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\ic_import_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\ic_close_black_24dp.png" />
+    <Resource Include="Icons\ic_exit_to_app_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\ic_redo_black_24dp.png" />
+    <Resource Include="Icons\ic_undo_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\ic_history_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\ic_clipboard_black_24dp.png" />
+    <Resource Include="Icons\ic_content_cut_black_24dp.png" />
+    <Resource Include="Icons\ic_settings_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\ic_arrow_expand_horizontal_black_24dp.png" />
+    <Resource Include="Icons\ic_arrow_expand_vertical_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\ic_call_split_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\ic_arrow_collapse_vertical_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\ic_window_maximize_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\ic_help_circle_black_24dp.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
