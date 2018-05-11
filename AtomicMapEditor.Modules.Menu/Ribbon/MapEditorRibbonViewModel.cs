@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
+using Ame.Modules.Windows.LayerEditorWindow;
 using Ame.Modules.Windows.MapEditorWindow;
 using Prism.Commands;
 using Prism.Events;
@@ -142,7 +143,9 @@ namespace Ame.Modules.Menu.Ribbon
 
         public void NewLayer()
         {
-            Console.WriteLine("Open Layer Editor");
+            OpenWindowMessage openWindowMessage = new OpenWindowMessage(typeof(NewLayerInteraction));
+            openWindowMessage.Title = "New Layer";
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(openWindowMessage);
         }
 
         public void DuplicateLayer()
@@ -152,7 +155,8 @@ namespace Ame.Modules.Menu.Ribbon
 
         public void EditLayerProperties()
         {
-            Console.WriteLine("Edit Layer Properties");
+            OpenWindowMessage openWindowMessage = new OpenWindowMessage(typeof(EditLayerInteraction));
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(openWindowMessage);
         }
 
         #endregion layer methods

@@ -5,12 +5,6 @@ using Microsoft.Practices.Unity;
 
 namespace Ame.Infrastructure.Messages
 {
-    public enum WindowType
-    {
-        NewLayerGroup,
-        ImageEditor
-    }
-
     public class OpenWindowMessage
     {
         #region fields

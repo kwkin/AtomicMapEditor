@@ -201,6 +201,14 @@ namespace Ame.Infrastructure.Models
             this.LayerList.RemoveAt(this.SelectedLayerIndex);
         }
 
+        public void NewLayerGroup()
+        {
+            int layerGroupCount = GetLayerGroupCount();
+            String newLayerGroupName = String.Format("Layer Group #{0}", layerGroupCount);
+            ILayer newLayerGroup = new LayerGroup(newLayerGroupName);
+            this.LayerList.Add(newLayerGroup);
+        }
+
         public void DuplicateCurrentLayer()
         {
             ILayer copiedLayer = Utils.Utils.DeepClone<ILayer>(this.CurrentLayer);
@@ -210,6 +218,32 @@ namespace Ame.Infrastructure.Models
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        
+        private int GetLayerGroupCount()
+        {
+            int layerGroupCount = 0;
+            foreach (ILayer layer in this.LayerList)
+            {
+                if (layer is LayerGroup)
+                {
+                    layerGroupCount++;
+                }
+            }
+            return layerGroupCount;
+        }
+
+        private int GetLayerCount()
+        {
+            int layerCount = 0;
+            foreach (ILayer layer in this.LayerList)
+            {
+                if (layer is Layer)
+                {
+                    layerCount++;
+                }
+            }
+            return layerCount;
         }
 
         #endregion methods

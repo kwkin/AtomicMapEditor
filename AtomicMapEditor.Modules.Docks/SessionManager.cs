@@ -34,10 +34,7 @@ namespace Ame.Modules.Docks
             }
             this.eventAggregator = eventAggregator;
             this.session = session;
-
-            this.eventAggregator.GetEvent<NotificationEvent<WindowType>>().Subscribe(
-                CreateNewLayerGroup,
-                ThreadOption.PublisherThread);
+            
             this.eventAggregator.GetEvent<NotificationEvent<Notification>>().Subscribe(
                 NotificationReceived,
                 ThreadOption.PublisherThread);
@@ -52,17 +49,6 @@ namespace Ame.Modules.Docks
 
 
         #region methods
-        
-        private void CreateNewLayerGroup(NotificationMessage<WindowType> layerGroup)
-        {
-            if (layerGroup.Content == WindowType.NewLayerGroup)
-            {
-                int layerGroupCount = GetLayerGroupCount();
-                String newLayerGroupName = String.Format("Layer Group #{0}", layerGroupCount);
-                ILayer newLayerGroup = new LayerGroup(newLayerGroupName);
-                this.session.CurrentMap.LayerList.Add(newLayerGroup);
-            }
-        }
 
         private void NotificationReceived(NotificationMessage<Notification> notification)
         {
@@ -89,35 +75,13 @@ namespace Ame.Modules.Docks
                     currentMap.DuplicateCurrentLayer();
                     break;
 
+                case Notification.NewLayerGroup:
+                    currentMap.NewLayerGroup();
+                    break;
+
                 default:
                     break;
             }
-        }
-
-        private int GetLayerGroupCount()
-        {
-            int layerGroupCount = 0;
-            foreach (ILayer layer in this.session.CurrentMap.LayerList)
-            {
-                if (layer is LayerGroup)
-                {
-                    layerGroupCount++;
-                }
-            }
-            return layerGroupCount;
-        }
-
-        private int GetLayerCount()
-        {
-            int layerCount = 0;
-            foreach (ILayer layer in this.session.CurrentMap.LayerList)
-            {
-                if (layer is Layer)
-                {
-                    layerCount++;
-                }
-            }
-            return layerCount;
         }
 
         #endregion methods

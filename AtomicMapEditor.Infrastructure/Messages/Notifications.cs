@@ -8,6 +8,6 @@ namespace Ame.Infrastructure.Messages
 {
     public enum Notification
     {
-        MergeCurrentLayerDown, MergeCurrentLayerUp, MergeVisibleLayers, DeleteCurrentLayer, DuplicateCurrentLayer
+        MergeCurrentLayerDown, MergeCurrentLayerUp, MergeVisibleLayers, DeleteCurrentLayer, DuplicateCurrentLayer, NewLayerGroup
     }
 }

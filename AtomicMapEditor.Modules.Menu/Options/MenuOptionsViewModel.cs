@@ -370,8 +370,8 @@ namespace Ame.Modules.Menu.Options
 
         public void NewGroup()
         {
-            NotificationMessage<WindowType> newLayerGroupMessage = new NotificationMessage<WindowType>(WindowType.NewLayerGroup, "LayerGroup");
-            this.eventAggregator.GetEvent<NotificationEvent<WindowType>>().Publish(newLayerGroupMessage);
+            NotificationMessage<Notification> newLayerGroupMessage = new NotificationMessage<Notification>(Notification.NewLayerGroup, "LayerGroup");
+            this.eventAggregator.GetEvent<NotificationEvent<Notification>>().Publish(newLayerGroupMessage);
         }
 
         public void DuplicateLayer()
