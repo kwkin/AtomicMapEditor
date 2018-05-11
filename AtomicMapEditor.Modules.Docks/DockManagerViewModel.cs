@@ -299,32 +299,6 @@ namespace Ame.Modules.Docks
             }
         }
 
-        private int GetLayerGroupCount()
-        {
-            int layerGroupCount = 0;
-            foreach (ILayer layer in this.session.CurrentMap.LayerList)
-            {
-                if (layer is LayerGroup)
-                {
-                    layerGroupCount++;
-                }
-            }
-            return layerGroupCount;
-        }
-
-        private int GetLayerCount()
-        {
-            int layerCount = 0;
-            foreach (ILayer layer in this.session.CurrentMap.LayerList)
-            {
-                if (layer is Layer)
-                {
-                    layerCount++;
-                }
-            }
-            return layerCount;
-        }
-
         #endregion methods
     }
 }
