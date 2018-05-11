@@ -143,7 +143,6 @@
     <Compile Include="LayerEditorWindow\EditLayerInteraction.cs" />
     <Compile Include="LayerEditorWindow\NewLayerInteraction.cs" />
     <Compile Include="MapEditorWindow\EditMapInteraction.cs" />
-    <Compile Include="IWindowInteraction.cs" />
     <Compile Include="MapEditorWindow\NewMapInteraction.cs" />
     <Compile Include="PreferencesWindow\PreferenceOptionsInteraction.cs" />
     <Compile Include="TilesetEditorWindow\TilesetEditorInteraction.cs" />

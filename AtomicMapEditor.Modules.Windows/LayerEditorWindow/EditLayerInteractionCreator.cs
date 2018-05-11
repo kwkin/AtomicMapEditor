@@ -1,4 +1,5 @@
 ﻿using System;
+using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Models;
 using Microsoft.Practices.Unity;
 

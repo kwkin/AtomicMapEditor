@@ -36,7 +36,6 @@
                          serializer:DockLayoutSerializer.LoadLayoutCommand="{Binding DockLayout.LoadLayoutCommand}"
                          serializer:DockLayoutSerializer.SaveLayoutCommand="{Binding DockLayout.SaveLayoutCommand}"
                          Grid.Row="2">
-
         <xcad:DockingManager.LayoutItemTemplateSelector>
             <local:DockTemplateSelector>
                 <local:DockTemplateSelector.ClipboardDataTemplate>

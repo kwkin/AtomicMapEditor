@@ -2,7 +2,7 @@
 using System.Windows;
 using Prism.Interactivity.InteractionRequest;
 
-namespace Ame.Modules.Windows
+namespace Ame.Infrastructure.BaseTypes
 {
     public interface IWindowInteraction
     {

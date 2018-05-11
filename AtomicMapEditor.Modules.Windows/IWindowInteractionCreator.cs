@@ -1,4 +1,5 @@
 ﻿using System;
+using Ame.Infrastructure.BaseTypes;
 using Microsoft.Practices.Unity;
 
 namespace Ame.Modules.Windows

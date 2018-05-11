@@ -12,16 +12,23 @@ namespace Ame.Infrastructure.Messages
 
 
         #region Constructor
-
-        // TODO check the type
+        
         public OpenDockMessage(Type type)
         {
+            if (!typeof(DockViewModelTemplate).IsAssignableFrom(type))
+            {
+                return;
+            }
             this.Type = type;
             this.Title = "";
         }
 
         public OpenDockMessage(Type type, IUnityContainer container)
         {
+            if (!typeof(DockViewModelTemplate).IsAssignableFrom(type))
+            {
+                return;
+            }
             this.Type = type;
             this.Container = container;
             this.Title = "";
@@ -29,12 +36,20 @@ namespace Ame.Infrastructure.Messages
 
         public OpenDockMessage(Type type, String title)
         {
+            if (!typeof(DockViewModelTemplate).IsAssignableFrom(type))
+            {
+                return;
+            }
             this.Type = type;
             this.Title = title;
         }
 
         public OpenDockMessage(Type type, IUnityContainer container, String title)
         {
+            if (!typeof(DockViewModelTemplate).IsAssignableFrom(type))
+            {
+                return;
+            }
             this.Type = type;
             this.Container = container;
             this.Title = title;

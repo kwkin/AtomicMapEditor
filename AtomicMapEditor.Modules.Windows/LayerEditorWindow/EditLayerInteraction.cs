@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Models;
 using Prism.Interactivity;
 using Prism.Interactivity.InteractionRequest;

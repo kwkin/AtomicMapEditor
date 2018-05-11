@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using Ame.Infrastructure.BaseTypes;
 using Prism.Events;
 using Prism.Interactivity;
 using Prism.Interactivity.InteractionRequest;
@@ -59,9 +60,9 @@ namespace Ame.Modules.Windows.PreferencesWindow
 
             Style style = new Style();
             style.TargetType = typeof(Window);
-            style.Setters.Add(new Setter(Window.MinWidthProperty, 420.0));
+            style.Setters.Add(new Setter(Window.MinWidthProperty, 620.0));
             style.Setters.Add(new Setter(Window.MinHeightProperty, 380.0));
-            style.Setters.Add(new Setter(Window.WidthProperty, 420.0));
+            style.Setters.Add(new Setter(Window.WidthProperty, 620.0));
             style.Setters.Add(new Setter(Window.HeightProperty, 380.0));
             action.WindowStyle = style;
             return action;

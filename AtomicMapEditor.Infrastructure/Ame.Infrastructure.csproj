@@ -99,6 +99,7 @@
     <Compile Include="BaseTypes\IDockCreator.cs" />
     <Compile Include="BaseTypes\IgnoreNodeBuilderAttribute.cs" />
     <Compile Include="BaseTypes\IBrushCommand.cs" />
+    <Compile Include="BaseTypes\IWindowInteraction.cs" />
     <Compile Include="BaseTypes\NodeViewBuilder.cs" />
     <Compile Include="BaseTypes\PropertyStat.cs" />
     <Compile Include="BaseTypes\ReadOnlyService.cs" />

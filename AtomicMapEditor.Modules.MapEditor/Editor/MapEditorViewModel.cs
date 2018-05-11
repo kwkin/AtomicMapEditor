@@ -36,7 +36,7 @@ namespace Ame.Modules.MapEditor.Editor
         #endregion fields
 
 
-        #region Constructor & destructor
+        #region constructor
 
         public MapEditorViewModel(IEventAggregator eventAggregator, IScrollModel scrollModel, Map map)
         {
@@ -84,6 +84,10 @@ namespace Ame.Modules.MapEditor.Editor
                 this.ZoomLevels.OrderBy(f => f.zoom);
                 this.scrollModel.ZoomLevels = this.ZoomLevels;
             }
+            else
+            {
+                this.ZoomLevels = this.scrollModel.ZoomLevels;
+            }
             if (this.scrollModel.ZoomIndex < 0 || this.scrollModel.ZoomIndex >= this.ZoomLevels.Count)
             {
                 this.ZoomIndex = 3;
@@ -110,7 +114,7 @@ namespace Ame.Modules.MapEditor.Editor
                 ThreadOption.PublisherThread);
         }
 
-        #endregion Constructor & destructor
+        #endregion constructor
 
 
         #region properties

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using Ame.Infrastructure.BaseTypes;
 using Prism.Interactivity;
 using Prism.Interactivity.InteractionRequest;
 
@@ -45,7 +46,7 @@ namespace Ame.Modules.Windows.TilesetEditorWindow
 
         public void OnWindowClosed(INotification notification)
         {
-            throw new NotImplementedException();
+
         }
 
         private PopupWindowAction GetAction()

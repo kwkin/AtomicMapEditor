@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;

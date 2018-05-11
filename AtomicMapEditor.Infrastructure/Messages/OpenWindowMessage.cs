@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using Ame.Infrastructure.BaseTypes;
 using Microsoft.Practices.Unity;
 
 namespace Ame.Infrastructure.Messages
@@ -21,12 +22,20 @@ namespace Ame.Infrastructure.Messages
 
         public OpenWindowMessage(Type type)
         {
+            if (!typeof(IWindowInteraction).IsAssignableFrom(type))
+            {
+                return;
+            }
             this.Type = type;
             this.Title = "";
         }
 
         public OpenWindowMessage(Type type, IUnityContainer container)
         {
+            if (!typeof(IWindowInteraction).IsAssignableFrom(type))
+            {
+                return;
+            }
             this.Type = type;
             this.Container = container;
             this.Title = "";
@@ -34,12 +43,20 @@ namespace Ame.Infrastructure.Messages
 
         public OpenWindowMessage(Type type, String title)
         {
+            if (!typeof(IWindowInteraction).IsAssignableFrom(type))
+            {
+                return;
+            }
             this.Type = type;
             this.Title = title;
         }
 
         public OpenWindowMessage(Type type, IUnityContainer container, String title)
         {
+            if (!typeof(IWindowInteraction).IsAssignableFrom(type))
+            {
+                return;
+            }
             this.Type = type;
             this.Container = container;
             this.Title = "";

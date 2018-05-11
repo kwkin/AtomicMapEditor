@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Ame.Infrastructure.BaseTypes;
 using Microsoft.Practices.Unity;
 
 namespace Ame.Modules.Windows.WindowInteractionFactories

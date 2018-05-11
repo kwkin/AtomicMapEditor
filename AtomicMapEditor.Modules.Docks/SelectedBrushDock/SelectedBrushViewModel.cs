@@ -64,6 +64,10 @@ namespace Ame.Modules.Docks.SelectedBrushDock
                 this.ZoomLevels.OrderBy(f => f.zoom);
                 this.scrollModel.ZoomLevels = this.ZoomLevels;
             }
+            else
+            {
+                this.ZoomLevels = this.scrollModel.ZoomLevels;
+            }
             if (this.scrollModel.ZoomIndex < 0 || this.scrollModel.ZoomIndex >= this.ZoomLevels.Count)
             {
                 this.ZoomIndex = 3;
