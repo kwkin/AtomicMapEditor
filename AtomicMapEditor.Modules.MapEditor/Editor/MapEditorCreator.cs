@@ -2,7 +2,7 @@
 using Ame.Components.Behaviors;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Models;
-using Ame.Modules.Docks;
+using Ame.Modules.Windows;
 using Microsoft.Practices.Unity;
 using Prism.Events;
 

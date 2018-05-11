@@ -1,0 +1,140 @@
+﻿<UserControl x:Class="Ame.Modules.Windows.Docks.ToolboxDock.Toolbox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:conv="clr-namespace:Ame.Infrastructure.Converters;assembly=Ame.Infrastructure"
+             xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=Ame.Components"
+             xmlns:local="clr-namespace:Ame.Modules.Windows.Docks.ToolboxDock"
+             mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="300">
+    <Grid>
+        <Grid.Resources>
+            <conv:BooleanToVisiblityConverter x:Key="BoolToVisConverter"
+                                              Collapse="True" />
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <WrapPanel Grid.Row="0">
+            <extcomp:IconRadioButton x:Name="stampButton"
+                                     ToolTip="Stamp: Tile Tool"
+                                     GroupName="ToolBoxToolSelection"
+                                     Command="{Binding ToolButtonCommand}"
+                                     CommandParameter="Stamp"
+                                     Style="{StaticResource {x:Type ToggleButton}}"
+                                     ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_pencil_black_24dp.png"
+                                     ImageStretch="None">
+            </extcomp:IconRadioButton>
+
+            <extcomp:IconRadioButton x:Name="brushButton"
+                                     ToolTip="Brush: Draws th selected tiles to the map"
+                                     GroupName="ToolBoxToolSelection"
+                                     Command="{Binding ToolButtonCommand}"
+                                     CommandParameter="Brush"
+                                     Style="{StaticResource {x:Type ToggleButton}}"
+                                     ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_brush_black_24dp.png"
+                                     ImageStretch="None">
+            </extcomp:IconRadioButton>
+
+            <extcomp:IconRadioButton x:Name="selectButton"
+                                     ToolTip="Select: Moves the selected tiles"
+                                     GroupName="ToolBoxToolSelection"
+                                     Command="{Binding ToolButtonCommand}"
+                                     CommandParameter="Select"
+                                     Style="{StaticResource {x:Type ToggleButton}}"
+                                     ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_hand_black_24dp.png"
+                                     ImageStretch="None">
+            </extcomp:IconRadioButton>
+
+            <extcomp:IconRadioButton x:Name="fillButton"
+                                     ToolTip="Fill: Fills the area with the given tile"
+                                     GroupName="ToolBoxToolSelection"
+                                     Command="{Binding ToolButtonCommand}"
+                                     CommandParameter="Fill"
+                                     Style="{StaticResource {x:Type ToggleButton}}"
+                                     ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_fill_black_24dp.png"
+                                     ImageStretch="None">
+            </extcomp:IconRadioButton>
+
+            <extcomp:IconRadioButton x:Name="pickerButton"
+                                     ToolTip="Picker: Sets the current tile to the selected tile"
+                                     GroupName="ToolBoxToolSelection"
+                                     Command="{Binding ToolButtonCommand}"
+                                     CommandParameter="Picker"
+                                     Style="{StaticResource {x:Type ToggleButton}}"
+                                     ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_eyedropper_variant_black_24dp.png"
+                                     ImageStretch="None">
+            </extcomp:IconRadioButton>
+
+            <extcomp:IconRadioButton x:Name="circleSelectionButton"
+                                     ToolTip="Circle Selection: Select an elliptical region"
+                                     GroupName="ToolBoxToolSelection"
+                                     Command="{Binding ToolButtonCommand}"
+                                     CommandParameter="Circle Selection"
+                                     Style="{StaticResource {x:Type ToggleButton}}"
+                                     ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_vector_circle_black_24dp.png"
+                                     ImageStretch="None">
+            </extcomp:IconRadioButton>
+
+            <extcomp:IconRadioButton x:Name="rectangularSelectionButton"
+                                     ToolTip="Rectangular Selection: Select a rectangular region"
+                                     GroupName="ToolBoxToolSelection"
+                                     Command="{Binding ToolButtonCommand}"
+                                     CommandParameter="Rectangular Selection"
+                                     Style="{StaticResource {x:Type ToggleButton}}"
+                                     ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_vector_square_black_24dp.png"
+                                     ImageStretch="None">
+            </extcomp:IconRadioButton>
+
+            <extcomp:IconRadioButton x:Name="tileSelectionButton"
+                                     ToolTip="Tile Selection: Select regions with a similar tile"
+                                     GroupName="ToolBoxToolSelection"
+                                     Command="{Binding ToolButtonCommand}"
+                                     CommandParameter="Tile Selection"
+                                     Style="{StaticResource {x:Type ToggleButton}}"
+                                     ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_border_all_black_24dp.png"
+                                     ImageStretch="None">
+            </extcomp:IconRadioButton>
+
+            <extcomp:IconRadioButton x:Name="freeSelectionButton"
+                                     ToolTip="Free Selection: Select a hand-drawn region using free and polynomial segments"
+                                     GroupName="ToolBoxToolSelection"
+                                     Command="{Binding ToolButtonCommand}"
+                                     CommandParameter="Free Selection"
+                                     Style="{StaticResource {x:Type ToggleButton}}"
+                                     ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_vector_polygon_black_24dp.png"
+                                     ImageStretch="None">
+            </extcomp:IconRadioButton>
+
+            <extcomp:IconRadioButton x:Name="tileCollisionButton"
+                                     ToolTip="Tile Collision: Sets the collision type of an entire tile"
+                                     GroupName="ToolBoxToolSelection"
+                                     Command="{Binding ToolButtonCommand}"
+                                     CommandParameter="Tile Collision"
+                                     Style="{StaticResource {x:Type ToggleButton}}"
+                                     ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_collisions_black_24dp.png"
+                                     ImageStretch="None">
+            </extcomp:IconRadioButton>
+        </WrapPanel>
+
+        <ScrollViewer Grid.Row="1">
+            <Grid>
+                <local:ToolboxStampPanel Visibility="{Binding IsChecked, ElementName=stampButton, Converter={StaticResource BoolToVisConverter}}" />
+                <local:ToolboxBrushPanel Visibility="{Binding IsChecked, ElementName=brushButton, Converter={StaticResource BoolToVisConverter}}" />
+                <local:ToolboxSelectPanel Visibility="{Binding IsChecked, ElementName=selectButton, Converter={StaticResource BoolToVisConverter}}" />
+                <local:ToolboxFillPanel Visibility="{Binding IsChecked, ElementName=fillButton, Converter={StaticResource BoolToVisConverter}}" />
+                <local:ToolboxCircleSelectionPanel Visibility="{Binding IsChecked, ElementName=circleSelectionButton, Converter={StaticResource BoolToVisConverter}}" />
+                <local:ToolboxPickerPanel Visibility="{Binding IsChecked, ElementName=pickerButton, Converter={StaticResource BoolToVisConverter}}" />
+                <local:ToolboxRectangularSelectionPanel Visibility="{Binding IsChecked, ElementName=rectangularSelectionButton, Converter={StaticResource BoolToVisConverter}}" />
+                <local:ToolboxTileSelectionPanel Visibility="{Binding IsChecked, ElementName=tileSelectionButton, Converter={StaticResource BoolToVisConverter}}" />
+                <local:ToolboxFreeSelection Visibility="{Binding IsChecked, ElementName=freeSelectionButton, Converter={StaticResource BoolToVisConverter}}" />
+                <local:ToolboxTileCollisionPanel Visibility="{Binding IsChecked, ElementName=tileCollisionButton, Converter={StaticResource BoolToVisConverter}}" />
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

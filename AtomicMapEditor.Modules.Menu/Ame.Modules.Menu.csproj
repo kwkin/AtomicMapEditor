@@ -95,17 +95,13 @@
       <Project>{9d27d8dc-5cd8-46d9-b702-efeb6d66f236}</Project>
       <Name>Ame.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AtomicMapEditor.Modules.Docks\Ame.Modules.Docks.csproj">
+    <ProjectReference Include="..\AtomicMapEditor.Modules.Docks\Ame.Modules.Windows.csproj">
       <Project>{47031565-69B8-4C7B-8077-B2FC0D9966D1}</Project>
-      <Name>Ame.Modules.Docks</Name>
+      <Name>Ame.Modules.Windows</Name>
     </ProjectReference>
     <ProjectReference Include="..\AtomicMapEditor.Modules.MapEditor\Ame.Modules.MapEditor.csproj">
       <Project>{b0caebff-8493-4d50-85f0-5a2d48396359}</Project>
       <Name>Ame.Modules.MapEditor</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AtomicMapEditor.Modules.Windows\Ame.Modules.Windows.csproj">
-      <Project>{69DAE486-6E5A-4936-BC41-04719A925CED}</Project>
-      <Name>Ame.Modules.Windows</Name>
     </ProjectReference>
     <ProjectReference Include="..\AtomicMapEditor.Resources\Ame.Resources.csproj">
       <Project>{cbcd8c26-e73d-4c60-829c-f573edf4cceb}</Project>

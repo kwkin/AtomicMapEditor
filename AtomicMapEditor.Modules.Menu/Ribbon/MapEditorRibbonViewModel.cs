@@ -2,8 +2,8 @@
 using System.Windows.Input;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
-using Ame.Modules.Windows.LayerEditorWindow;
-using Ame.Modules.Windows.MapEditorWindow;
+using Ame.Modules.Windows.Interactions.LayerEditorInteraction;
+using Ame.Modules.Windows.Interactions.MapEditorInteraction;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;

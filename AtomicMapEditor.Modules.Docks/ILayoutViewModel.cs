@@ -1,4 +1,4 @@
-﻿namespace Ame.Modules.Docks
+﻿namespace Ame.Modules.Windows
 {
     public interface ILayoutViewModel
     {

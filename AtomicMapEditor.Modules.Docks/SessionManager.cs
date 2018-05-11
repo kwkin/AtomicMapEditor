@@ -8,7 +8,7 @@ using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
 using Prism.Events;
 
-namespace Ame.Modules.Docks
+namespace Ame.Modules.Windows
 {
     public class SessionManager
     {

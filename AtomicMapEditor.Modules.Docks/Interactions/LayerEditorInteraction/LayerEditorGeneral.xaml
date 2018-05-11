@@ -1,0 +1,218 @@
+﻿<UserControl x:Class="Ame.Modules.Windows.Interactions.LayerEditorInteraction.LayerEditorGeneral"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Ame.Modules.Windows.Interactions.LayerEditorInteraction"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d"
+             d:DesignWidth="300"
+             d:DesignHeight="280">
+    <Grid MinHeight="280"
+          MaxHeight="280"
+          VerticalAlignment="Top">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="25" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="25" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="25" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Label x:Name="nameLabel"
+               Grid.Row="0"
+               Grid.Column="1"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Center"
+               Content="Dimensions:" />
+        <TextBox x:Name="nameTextBox"
+                 Text="{Binding Name}"
+                 Grid.Row="0"
+                 Grid.Column="3"
+                 Grid.ColumnSpan="3"
+                 VerticalAlignment="Center" />
+
+        <Label x:Name="sizeLabel"
+               Grid.Row="1"
+               Grid.Column="0"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Center"
+               Content="Size" />
+        <Label x:Name="rowLabel"
+               Grid.Row="1"
+               Grid.Column="2"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Center"
+               Content="R:" />
+        <xctk:IntegerUpDown x:Name="rowIntStepper"
+                            Value="{Binding Rows, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Grid.Row="1"
+                            Grid.Column="3"
+                            VerticalAlignment="Center"
+                            Increment="1"
+                            Maximum="2048"
+                            Minimum="1" />
+        <Label x:Name="columnLabel"
+               Grid.Row="1"
+               Grid.Column="4"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Center"
+               Content="C:" />
+        <xctk:IntegerUpDown x:Name="columnIntStepper"
+                            Value="{Binding Columns, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Grid.Row="1"
+                            Grid.Column="6"
+                            VerticalAlignment="Center"
+                            Increment="1"
+                            Maximum="2048"
+                            Minimum="1" />
+
+        <ComboBox x:Name="scaleComboBox"
+                  Grid.Row="2"
+                  Grid.Column="5"
+                  VerticalAlignment="Center"
+                  SelectedIndex="0"
+                  SelectedItem="{Binding Scale}" />
+
+        <Label x:Name="tileSizeLabel"
+               Grid.Row="3"
+               Grid.Column="0"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Center"
+               Content="Tile Size" />
+        <Label x:Name="tileWidthLabel"
+               Grid.Row="3"
+               Grid.Column="2"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Center"
+               Content="W:" />
+        <xctk:IntegerUpDown x:Name="tileWidthIntStepper"
+                            Value="{Binding TileWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Grid.Row="3"
+                            Grid.Column="3"
+                            VerticalAlignment="Center"
+                            Increment="1"
+                            Maximum="2048"
+                            Minimum="1" />
+        <Label x:Name="tileHeightLabel"
+               Grid.Row="3"
+               Grid.Column="4"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Center"
+               Content="H:" />
+        <xctk:IntegerUpDown x:Name="tileHeightIntStepper"
+                            Value="{Binding TileHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Grid.Row="3"
+                            Grid.Column="6"
+                            VerticalAlignment="Center"
+                            Increment="1"
+                            Maximum="2048"
+                            Minimum="1" />
+
+        <Label x:Name="offsetLabel"
+               Grid.Row="4"
+               Grid.Column="0"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Center"
+               Content="Offset" />
+        <Label x:Name="offsetXLabel"
+               Grid.Row="4"
+               Grid.Column="2"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Center"
+               Content="X:" />
+        <xctk:IntegerUpDown x:Name="offsetXIntStepper"
+                            Value="{Binding OffsetX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Grid.Row="4"
+                            Grid.Column="3"
+                            VerticalAlignment="Center"
+                            Increment="1"
+                            Maximum="2048"
+                            Minimum="1" />
+        <Label x:Name="offsetYLabel"
+               Grid.Row="4"
+               Grid.Column="4"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Center"
+               Content="H:" />
+        <xctk:IntegerUpDown x:Name="offsetYIntStepper"
+                            Value="{Binding OffsetY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Grid.Row="4"
+                            Grid.Column="6"
+                            VerticalAlignment="Center"
+                            Increment="1"
+                            Maximum="2048"
+                            Minimum="1" />
+
+        <Label x:Name="positionLabel"
+               Grid.Row="5"
+               Grid.Column="1"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Center"
+               Content="Position: " />
+        <ComboBox x:Name="positionComboBox"
+                  Grid.Row="5"
+                  Grid.Column="3"
+                  Grid.ColumnSpan="3"
+                  VerticalAlignment="Center"
+                  SelectedIndex="0"
+                  SelectedItem="{Binding LayerPosition}" />
+
+        <Label x:Name="scrollRateLabel"
+               Grid.Row="6"
+               Grid.Column="0"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Center"
+               Content="Scroll Rate" />
+        <Label x:Name="scrollRateFromLabel"
+               Grid.Row="6"
+               Grid.Column="1"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Center"
+               Content="From:" />
+        <xctk:DoubleUpDown x:Name="scrollRateFromStepper"
+                           Value="{Binding ScrollRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                           Grid.Row="6"
+                           Grid.Column="3"
+                           Grid.ColumnSpan="3"
+                           VerticalAlignment="Center"
+                           Increment="1"
+                           Maximum="2048"
+                           Minimum="1" />
+
+        <Label x:Name="desciptionLabel"
+               Grid.Row="7"
+               Grid.Column="1"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Center"
+               Content="Description:" />
+        <TextBox x:Name="descriptionTextBox"
+                 Grid.Row="7"
+                 Grid.RowSpan="3"
+                 Grid.Column="3"
+                 Grid.ColumnSpan="3"
+                 Margin="0 10 0 10"
+                 TextWrapping="Wrap" />
+    </Grid>
+</UserControl>

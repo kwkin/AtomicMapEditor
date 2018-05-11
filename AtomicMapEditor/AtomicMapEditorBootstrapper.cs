@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Windows;
 using Ame.Infrastructure.Models;
-using Ame.Modules.Docks;
+using Ame.Modules.Windows;
 using Ame.Modules.MapEditor;
 using Ame.Modules.MapEditor.Editor;
 using Ame.Modules.Menu;
 using Ame.Modules.Menu.Options;
-using Ame.Modules.Windows;
-using Ame.Modules.Windows.TilesetEditorWindow;
-using Ame.Modules.Windows.LayerEditorWindow;
-using Ame.Modules.Windows.MapEditorWindow;
+using Ame.Modules.Windows.Interactions.TilesetEditorInteraction;
+using Ame.Modules.Windows.Interactions.LayerEditorInteraction;
+using Ame.Modules.Windows.Interactions.MapEditorInteraction;
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Unity;
-using Ame.Modules.Windows.PreferencesWindow;
+using Ame.Modules.Windows.Interactions.PreferencesInteraction;
 
 namespace Ame
 {
@@ -30,11 +29,8 @@ namespace Ame
             Type menuModule = typeof(MenuModule);
             this.ModuleCatalog.AddModule(new ModuleInfo(menuModule.Name, menuModule.AssemblyQualifiedName));
 
-            Type dockModule = typeof(DocksModule);
+            Type dockModule = typeof(WindowModule);
             this.ModuleCatalog.AddModule(new ModuleInfo(dockModule.Name, dockModule.AssemblyQualifiedName));
-
-            Type windowModule = typeof(WindowsModule);
-            this.ModuleCatalog.AddModule(new ModuleInfo(windowModule.Name, windowModule.AssemblyQualifiedName));
         }
 
         protected override DependencyObject CreateShell()
@@ -66,9 +62,10 @@ namespace Ame
             
             ViewModelLocationProvider.Register<MenuOptions, MenuOptionsViewModel>();
             ViewModelLocationProvider.Register<MapEditorDocument, Modules.MapEditor.Editor.MapEditorViewModel>();
-            ViewModelLocationProvider.Register<DockManager, DockManagerViewModel>();
+            ViewModelLocationProvider.Register<WindowManager, WindowManagerViewModel>();
 
-            ViewModelLocationProvider.Register<MapEditorWindow, Modules.Windows.MapEditorWindow.MapEditorViewModel>();
+            // TODO rename mapEditorViewModel
+            ViewModelLocationProvider.Register<MapEditorWindow, Modules.Windows.Interactions.MapEditorInteraction.MapEditorViewModel>();
             ViewModelLocationProvider.Register<LayerEditor, LayerEditorViewModel>();
             ViewModelLocationProvider.Register<TilesetEditor, TilesetEditorViewModel>();
             ViewModelLocationProvider.Register<PreferencesMenu, PreferencesViewModel>();

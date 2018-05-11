@@ -2,7 +2,7 @@
 using Ame.Infrastructure.BaseTypes;
 using Microsoft.Practices.Unity;
 
-namespace Ame.Modules.Docks
+namespace Ame.Modules.Windows
 {
     public interface IDockCreator
     {

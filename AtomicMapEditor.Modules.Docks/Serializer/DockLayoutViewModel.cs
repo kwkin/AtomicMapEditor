@@ -13,7 +13,7 @@ using Prism.Commands;
 using Prism.Events;
 using Xceed.Wpf.AvalonDock;
 
-namespace Ame.Modules.Docks.Serializer
+namespace Ame.Modules.Windows.Serializer
 {
     public class DockLayoutViewModel
     {

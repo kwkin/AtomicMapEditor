@@ -101,51 +101,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PreferencesWindow\PreferencesMenu.xaml.cs">
-      <DependentUpon>PreferencesMenu.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PreferencesWindow\PreferencesViewModel.cs" />
-    <Compile Include="TilesetEditorWindow\TilesetEditor.xaml.cs">
-      <DependentUpon>TilesetEditor.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="TilesetEditorWindow\TilesetEditorMetadata.xaml.cs">
-      <DependentUpon>TilesetEditorMetadata.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="LayerEditorWindow\LayerEditor.xaml.cs">
-      <DependentUpon>LayerEditor.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="LayerEditorWindow\LayerEditorGeneral.xaml.cs">
-      <DependentUpon>LayerEditorGeneral.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="LayerEditorWindow\LayerEditorMetadata.xaml.cs">
-      <DependentUpon>LayerEditorMetadata.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="LayerEditorWindow\LayerEditorViewModel.cs" />
-    <Compile Include="MapEditorWindow\MapEditorWindow.xaml.cs">
-      <DependentUpon>MapEditorWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MapEditorWindow\MapEditorGeneral.xaml.cs">
-      <DependentUpon>MapEditorGeneral.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MapEditorWindow\MapEditorMetadata.xaml.cs">
-      <DependentUpon>MapEditorMetadata.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MapEditorWindow\MapEditorViewModel.cs" />
-    <Compile Include="TilesetEditorWindow\TilesetEditorViewModel.cs" />
-    <Compile Include="LayerEditorWindow\EditLayerInteractionCreator.cs" />
-    <Compile Include="MapEditorWindow\EditMapInteractionCreator.cs" />
-    <Compile Include="IWindowInteractionCreator.cs" />
-    <Compile Include="LayerEditorWindow\NewLayerInteractionCreator.cs" />
-    <Compile Include="MapEditorWindow\NewMapInteractionCreator.cs" />
-    <Compile Include="PreferencesWindow\PreferenceOptionsInteractionCreator.cs" />
-    <Compile Include="TilesetEditorWindow\TilesetEditorInteractionCreator.cs" />
     <Compile Include="WindowInteractionCreator.cs" />
-    <Compile Include="LayerEditorWindow\EditLayerInteraction.cs" />
-    <Compile Include="LayerEditorWindow\NewLayerInteraction.cs" />
-    <Compile Include="MapEditorWindow\EditMapInteraction.cs" />
-    <Compile Include="MapEditorWindow\NewMapInteraction.cs" />
-    <Compile Include="PreferencesWindow\PreferenceOptionsInteraction.cs" />
-    <Compile Include="TilesetEditorWindow\TilesetEditorInteraction.cs" />
     <Compile Include="WindowsModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -165,44 +121,6 @@
       <Project>{B0CAEBFF-8493-4D50-85F0-5A2D48396359}</Project>
       <Name>Ame.Modules.MapEditor</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="PreferencesWindow\PreferencesMenu.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="TilesetEditorWindow\TilesetEditor.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="TilesetEditorWindow\TilesetEditorMetadata.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="LayerEditorWindow\LayerEditor.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="LayerEditorWindow\LayerEditorGeneral.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="LayerEditorWindow\LayerEditorMetadata.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MapEditorWindow\MapEditorWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MapEditorWindow\MapEditorGeneral.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MapEditorWindow\MapEditorMetadata.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
