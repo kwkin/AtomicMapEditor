@@ -20,6 +20,8 @@ namespace Ame
 {
     internal class AtomicMapEditorBootstrapper : UnityBootstrapper
     {
+        public SessionManager SessionManager { get; private set; }
+
         protected override void ConfigureModuleCatalog()
         {
             Type canvasEditorModule = typeof(MapEditorModules);
@@ -37,25 +39,31 @@ namespace Ame
 
         protected override DependencyObject CreateShell()
         {
-            return Container.Resolve<Shell>();
+            return this.Container.Resolve<Shell>();
+        }
+
+        protected override void InitializeModules()
+        {
+            base.InitializeModules();
         }
 
         protected override void InitializeShell()
         {
             base.InitializeShell();
-
+            
             Application.Current.MainWindow = (Window)this.Shell;
             Application.Current.MainWindow.Show();
+
+            Map map = new Map("Map #1");
+            map.LayerList.Add(new Layer("Layer #1", 32, 32, 32, 32));
+            this.Container.RegisterInstance<AmeSession>(new AmeSession(map));
+            this.SessionManager = this.Container.Resolve<SessionManager>();
         }
 
         protected override void ConfigureViewModelLocator()
         {
             base.ConfigureViewModelLocator();
-
-            Map map = new Map("Map #1");
-            map.LayerList.Add(new Layer("Layer #1", 32, 32, 32, 32));
-            Container.RegisterInstance<AmeSession>(new AmeSession(map));
-
+            
             ViewModelLocationProvider.Register<MenuOptions, MenuOptionsViewModel>();
             ViewModelLocationProvider.Register<MapEditorDocument, Modules.MapEditor.Editor.MapEditorViewModel>();
             ViewModelLocationProvider.Register<DockManager, DockManagerViewModel>();

@@ -40,7 +40,7 @@ namespace Ame.Modules.Docks.ItemEditorDock
 
         public DockViewModelTemplate CreateDock()
         {
-            return this.Container.Resolve(typeof(ItemEditorViewModel)) as DockViewModelTemplate;
+            return this.Container.Resolve<ItemEditorViewModel>();
         }
 
         public bool AppliesTo(Type type)

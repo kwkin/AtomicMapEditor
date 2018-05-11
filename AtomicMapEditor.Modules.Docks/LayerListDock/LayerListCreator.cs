@@ -45,7 +45,7 @@ namespace Ame.Modules.Docks.LayerListDock
 
         public DockViewModelTemplate CreateDock()
         {
-            return this.Container.Resolve(typeof(LayerListViewModel)) as DockViewModelTemplate;
+            return this.Container.Resolve<LayerListViewModel>();
         }
 
         public bool AppliesTo(Type type)

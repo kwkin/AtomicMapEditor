@@ -44,7 +44,7 @@ namespace Ame.Modules.Docks.SessionViewerDock
 
         public DockViewModelTemplate CreateDock()
         {
-            return this.Container.Resolve(typeof(SessionViewerViewModel)) as DockViewModelTemplate;
+            return this.Container.Resolve<SessionViewerViewModel>();
         }
 
         public bool AppliesTo(Type type)

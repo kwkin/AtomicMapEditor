@@ -38,7 +38,7 @@ namespace Ame.Modules.Docks.ItemListDock
 
         public DockViewModelTemplate CreateDock()
         {
-            return this.Container.Resolve(typeof(ItemListViewModel)) as DockViewModelTemplate;
+            return this.Container.Resolve<ItemListViewModel>();
         }
 
         public bool AppliesTo(Type type)

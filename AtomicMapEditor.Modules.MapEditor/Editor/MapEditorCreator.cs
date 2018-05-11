@@ -8,7 +8,6 @@ using Prism.Events;
 
 namespace Ame.Modules.MapEditor.Editor
 {
-    // TODO rename other classes to mapEditor
     public class MapEditorCreator : IDockCreator
     {
         #region fields
@@ -48,7 +47,7 @@ namespace Ame.Modules.MapEditor.Editor
 
         public DockViewModelTemplate CreateDock()
         {
-            return this.Container.Resolve(typeof(MapEditorViewModel)) as DockViewModelTemplate;
+            return this.Container.Resolve<MapEditorViewModel>();
         }
 
         public bool AppliesTo(Type type)

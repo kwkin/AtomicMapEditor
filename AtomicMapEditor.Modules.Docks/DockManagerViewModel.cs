@@ -40,7 +40,6 @@ using Xceed.Wpf.AvalonDock.Layout.Serialization;
 namespace Ame.Modules.Docks
 {
     // TODO Clean up doc creation
-    // TODO Add icons to menu
     public class DockManagerViewModel : BindableBase, ILayoutViewModel
     {
         #region fields
@@ -50,6 +49,7 @@ namespace Ame.Modules.Docks
 
         private event EventHandler ActiveDocumentChanged;
 
+        private SessionManager sessionManager;
         private AmeSession session;
         private WindowInteractionCreator windowInteractionCreator;
         private DockCreator dockCreator;
@@ -72,7 +72,7 @@ namespace Ame.Modules.Docks
 
             this.Documents = new ObservableCollection<DockViewModelTemplate>();
             this.Anchorables = new ObservableCollection<DockViewModelTemplate>();
-
+            
             foreach (Map map in session.MapList)
             {
                 MapEditorCreator mapEditorCreator = new MapEditorCreator(this.eventAggregator, new ScrollModel(), new Map("Map #1"));
@@ -120,12 +120,6 @@ namespace Ame.Modules.Docks
                 ThreadOption.PublisherThread);
             this.eventAggregator.GetEvent<OpenWindowEvent>().Subscribe(
                 OpenWindow,
-                ThreadOption.PublisherThread);
-            this.eventAggregator.GetEvent<NotificationEvent<WindowType>>().Subscribe(
-                CreateNewLayerGroup,
-                ThreadOption.PublisherThread);
-            this.eventAggregator.GetEvent<NotificationEvent<Infrastructure.Messages.Notification>>().Subscribe(
-                NotificationReceived,
                 ThreadOption.PublisherThread);
             this.eventAggregator.GetEvent<NotificationActionEvent<string>>().Subscribe(
                 SaveLayoutMessageReceived,
@@ -216,8 +210,7 @@ namespace Ame.Modules.Docks
 
 
         #region methods
-
-        // TODO add style and template selecter, similar to docks
+        
         private void OpenDock(OpenDockMessage message)
         {
             DockViewModelTemplate dockViewModel;
@@ -249,20 +242,6 @@ namespace Ame.Modules.Docks
             {
                 callback = interaction.OnWindowClosed;
                 interaction.RaiseNotification(this.DockManager, callback);
-            }
-        }
-
-        private void CreateNewLayerGroup(NotificationMessage<WindowType> layerGroup)
-        {
-            if (layerGroup.Content == WindowType.NewLayerGroup)
-            {
-                int layerGroupCount = GetLayerGroupCount();
-                String newLayerGroupName = String.Format("Layer Group #{0}", layerGroupCount);
-                ILayer newLayerGroup = new LayerGroup(newLayerGroupName);
-                this.session.CurrentMap.LayerList.Add(newLayerGroup);
-
-                NewLayerMessage newLayerMessage = new NewLayerMessage(newLayerGroup);
-                this.eventAggregator.GetEvent<NewLayerEvent>().Publish(newLayerMessage);
             }
         }
 
@@ -317,36 +296,6 @@ namespace Ame.Modules.Docks
             else if (dockViewModel is EditorViewModelTemplate)
             {
                 this.Documents.Add(dockViewModel);
-            }
-        }
-
-        private void NotificationReceived(NotificationMessage<Infrastructure.Messages.Notification> notification)
-        {
-            Map currentMap = this.session.CurrentMap;
-            switch (notification.Content)
-            {
-                case Infrastructure.Messages.Notification.MergeCurrentLayerDown:
-                    currentMap.MergeCurrentLayerDown();
-                    break;
-
-                case Infrastructure.Messages.Notification.MergeCurrentLayerUp:
-                    currentMap.MergeCurrentLayerUp();
-                    break;
-
-                case Infrastructure.Messages.Notification.MergeVisibleLayers:
-                    currentMap.MergeVisibleLayers();
-                    break;
-
-                case Infrastructure.Messages.Notification.DeleteCurrentLayer:
-                    currentMap.DeleteCurrentLayer();
-                    break;
-
-                case Infrastructure.Messages.Notification.DuplicateCurrentLayer:
-                    currentMap.DuplicateCurrentLayer();
-                    break;
-
-                default:
-                    break;
             }
         }
 

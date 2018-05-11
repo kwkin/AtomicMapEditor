@@ -38,7 +38,7 @@ namespace Ame.Modules.Docks.ToolboxDock
 
         public DockViewModelTemplate CreateDock()
         {
-            return this.Container.Resolve(typeof(ToolboxViewModel)) as DockViewModelTemplate;
+            return this.Container.Resolve<ToolboxViewModel>();
         }
 
         public bool AppliesTo(Type type)

@@ -183,6 +183,7 @@
       <DependentUpon>SelectedBrush.xaml</DependentUpon>
     </Compile>
     <Compile Include="SelectedBrushDock\SelectedBrushViewModel.cs" />
+    <Compile Include="SessionManager.cs" />
     <Compile Include="SessionViewerDock\SessionViewer.xaml.cs">
       <DependentUpon>SessionViewer.xaml</DependentUpon>
     </Compile>

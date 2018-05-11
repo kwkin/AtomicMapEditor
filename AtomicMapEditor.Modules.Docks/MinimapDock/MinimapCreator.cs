@@ -38,7 +38,7 @@ namespace Ame.Modules.Docks.MinimapDock
 
         public DockViewModelTemplate CreateDock()
         {
-            return this.Container.Resolve(typeof(MinimapViewModel)) as DockViewModelTemplate;
+            return this.Container.Resolve<MinimapViewModel>();
         }
 
         public bool AppliesTo(Type type)

@@ -32,7 +32,7 @@ namespace Ame.Modules.Windows.TilesetEditorWindow
 
         public IWindowInteraction CreateWindowInteraction()
         {
-            return Container.Resolve(typeof(TilesetEditorInteraction)) as IWindowInteraction;
+            return Container.Resolve<TilesetEditorInteraction>();
         }
 
         public bool AppliesTo(Type type)

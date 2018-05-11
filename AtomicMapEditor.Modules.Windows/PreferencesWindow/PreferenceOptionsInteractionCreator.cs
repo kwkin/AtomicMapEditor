@@ -38,7 +38,7 @@ namespace Ame.Modules.Windows.PreferencesWindow
 
         public IWindowInteraction CreateWindowInteraction()
         {
-            return this.Container.Resolve(typeof(PreferenceOptionsInteraction)) as IWindowInteraction;
+            return this.Container.Resolve<PreferenceOptionsInteraction>();
         }
 
         public bool AppliesTo(Type type)

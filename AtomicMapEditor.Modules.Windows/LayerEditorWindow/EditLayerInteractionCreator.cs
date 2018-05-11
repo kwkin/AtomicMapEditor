@@ -42,7 +42,7 @@ namespace Ame.Modules.Windows.LayerEditorWindow
 
         public IWindowInteraction CreateWindowInteraction()
         {
-            return this.Container.Resolve(typeof(EditLayerInteraction)) as IWindowInteraction;
+            return this.Container.Resolve<EditLayerInteraction>();
         }
 
         public bool AppliesTo(Type type)

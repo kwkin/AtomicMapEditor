@@ -78,8 +78,7 @@ namespace Ame.Modules.Windows.MapEditorWindow
                 container.RegisterInstance<ObservableCollection<ILayer>>(layerObservableList);
 
                 this.session.MapList.Add(mapModel);
-
-                // TODO fix cyclical dependencies
+                
                 OpenDockMessage openEditorMessage = new OpenDockMessage(typeof(MapEditor.Editor.MapEditorViewModel), container);
                 this.eventAggregator.GetEvent<OpenDockEvent>().Publish(openEditorMessage);
             }

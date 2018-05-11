@@ -38,7 +38,7 @@ namespace Ame.Modules.Docks.ClipboardDock
 
         public DockViewModelTemplate CreateDock()
         {
-            return this.Container.Resolve(typeof(ClipboardViewModel)) as DockViewModelTemplate;
+            return this.Container.Resolve<ClipboardViewModel>();
         }
 
         public bool AppliesTo(Type type)

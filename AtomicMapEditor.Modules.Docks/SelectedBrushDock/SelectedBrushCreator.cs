@@ -44,7 +44,7 @@ namespace Ame.Modules.Docks.SelectedBrushDock
 
         public DockViewModelTemplate CreateDock()
         {
-            return this.Container.Resolve(typeof(SelectedBrushViewModel)) as DockViewModelTemplate;
+            return this.Container.Resolve<SelectedBrushViewModel>();
         }
 
         public bool AppliesTo(Type type)

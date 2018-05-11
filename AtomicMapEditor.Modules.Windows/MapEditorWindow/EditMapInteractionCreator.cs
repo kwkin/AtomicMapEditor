@@ -43,7 +43,7 @@ namespace Ame.Modules.Windows.MapEditorWindow
 
         public IWindowInteraction CreateWindowInteraction()
         {
-            return Container.Resolve(typeof(EditMapInteraction)) as IWindowInteraction;
+            return Container.Resolve<EditMapInteraction>();
         }
 
         public bool AppliesTo(Type type)
