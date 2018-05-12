@@ -260,6 +260,11 @@ namespace Ame.Modules.MapEditor.Editor
             this.ZoomIndex = this.scrollModel.SetZoom(zoomLevel);
         }
 
+        public override object GetContent()
+        {
+            return this.Map;
+        }
+
         #endregion methods
     }
 }

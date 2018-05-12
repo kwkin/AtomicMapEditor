@@ -197,6 +197,12 @@ namespace Ame.Modules.Windows
             {
                 if (SetProperty(ref activeDocument, value))
                 {
+                    if (this.ActiveDocument is MapEditor.Editor.MapEditorViewModel)
+                    {
+                        Map selectedMapContent = this.ActiveDocument.GetContent() as Map;
+                        Console.WriteLine(selectedMapContent.Name);
+                        this.session.ChangeCurrentMap(selectedMapContent);
+                    }
                     ActiveDocumentChanged?.Invoke(this, EventArgs.Empty);
                 }
             }

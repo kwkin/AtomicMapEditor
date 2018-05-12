@@ -42,12 +42,30 @@ namespace Ame.Infrastructure.Models
             {
                 return this.MapList[this.MapListIndex];
             }
+            private set
+            {
+                int selectedMapIndex = this.MapList.IndexOf(value);
+                if (selectedMapIndex == -1)
+                {
+                    this.MapList.Add(value);
+                    this.MapListIndex = this.MapList.Count - 1;
+                }
+                else
+                {
+                    this.MapListIndex = selectedMapIndex;
+                }
+            }
         }
 
         #endregion properties
 
 
         #region methods
+
+        public void ChangeCurrentMap(Map currentMap)
+        {
+            this.CurrentMap = currentMap;
+        }
 
         #endregion methods
     }

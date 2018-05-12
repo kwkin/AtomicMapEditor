@@ -26,6 +26,7 @@ namespace Ame.Infrastructure.BaseTypes
         public abstract void ZoomOut();
         public abstract void SetZoom(int zoomIndex);
         public abstract void SetZoom(ZoomLevel zoomLevel);
+        public abstract object GetContent();
 
         #endregion methods
     }
