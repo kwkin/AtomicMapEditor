@@ -25,6 +25,10 @@ namespace Ame.Modules.Windows.Interactions.LayerEditorInteraction
 
         #region Constructor
 
+        public NewLayerInteraction(ILayer layer, IEventAggregator eventAggregator) : this(layer, eventAggregator, null)
+        {
+        }
+
         public NewLayerInteraction(ILayer layer, IEventAggregator eventAggregator, Action<INotification> callback)
         {
             this.layer = layer;
@@ -33,7 +37,7 @@ namespace Ame.Modules.Windows.Interactions.LayerEditorInteraction
             this.callback = callback;
         }
 
-        #endregion Constructor
+        #endregion Constructor 
 
 
         #region Properties
@@ -43,7 +47,7 @@ namespace Ame.Modules.Windows.Interactions.LayerEditorInteraction
 
         #region methods
 
-        public void RaiseNotificationDefaultCallback(DependencyObject parent)
+        public void RaiseNotification(DependencyObject parent)
         {
             RaiseNotification(parent, this.callback);
         }
@@ -60,18 +64,6 @@ namespace Ame.Modules.Windows.Interactions.LayerEditorInteraction
             trigger.Actions.Add(GetAction());
             trigger.Attach(parent);
             this.interaction.Raise(layerWindowConfirmation, callback);
-        }
-
-        public void OnWindowClosed(INotification notification)
-        {
-            IConfirmation confirmation = notification as IConfirmation;
-            if (confirmation.Confirmed)
-            {
-                Layer layerModel = confirmation.Content as Layer;
-
-                NewLayerMessage newLayerMessage = new NewLayerMessage(layerModel);
-                this.eventAggregator.GetEvent<NewLayerEvent>().Publish(newLayerMessage);
-            }
         }
 
         private PopupWindowAction GetAction()

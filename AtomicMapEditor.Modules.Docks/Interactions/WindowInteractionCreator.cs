@@ -2,6 +2,7 @@
 using System.Linq;
 using Ame.Infrastructure.BaseTypes;
 using Microsoft.Practices.Unity;
+using Prism.Interactivity.InteractionRequest;
 
 namespace Ame.Modules.Windows.Interactions
 {
@@ -32,6 +33,16 @@ namespace Ame.Modules.Windows.Interactions
         #region methods
 
         public IWindowInteraction CreateWindowInteraction(Type type)
+        {
+            var windowInteractionCreator = this.windowInteractionFactories.FirstOrDefault(factory => factory.AppliesTo(type));
+            if (windowInteractionCreator == null)
+            {
+                throw new Exception(string.Format("{0} type is not registered", type));
+            }
+            return windowInteractionCreator.CreateWindowInteraction();
+        }
+
+        public IWindowInteraction CreateWindowInteraction(Type type, Action<INotification> notification)
         {
             var windowInteractionCreator = this.windowInteractionFactories.FirstOrDefault(factory => factory.AppliesTo(type));
             if (windowInteractionCreator == null)

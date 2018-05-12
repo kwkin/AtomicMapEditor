@@ -83,7 +83,6 @@
     </Compile>
     <Compile Include="Editor\MapEditorViewModel.cs" />
     <Compile Include="Editor\MapEditorCreator.cs" />
-    <Compile Include="EmptyEditor\EmptyEditorViewModel.cs" />
     <Compile Include="MapEditorModules.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

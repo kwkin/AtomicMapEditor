@@ -10,17 +10,15 @@ namespace Ame.Modules.Windows.Interactions.LayerEditorInteraction
     {
         #region fields
 
+        private Action<INotification> callback;
+
         #endregion fields
 
 
         #region constructors
 
-        public EditLayerInteractionCreator(AmeSession session, ILayer layer)
+        public EditLayerInteractionCreator(ILayer layer)
         {
-            if (session == null)
-            {
-                throw new ArgumentNullException("session is null");
-            }
             this.Container = new UnityContainer();
             if (layer != null)
             {
@@ -32,12 +30,9 @@ namespace Ame.Modules.Windows.Interactions.LayerEditorInteraction
             }
         }
 
-        public EditLayerInteractionCreator(AmeSession session, ILayer layer, Action<INotification> callback)
+        public EditLayerInteractionCreator( ILayer layer, Action<INotification> callback)
         {
-            if (session == null)
-            {
-                throw new ArgumentNullException("session is null");
-            }
+            this.callback = callback;
             this.Container = new UnityContainer();
             if (layer != null)
             {
@@ -64,7 +59,22 @@ namespace Ame.Modules.Windows.Interactions.LayerEditorInteraction
 
         public IWindowInteraction CreateWindowInteraction()
         {
+            if (!this.Container.IsRegistered<Action<INotification>>())
+            {
+                this.Container.RegisterInstance<Action<INotification>>(callback);
+            }
             return this.Container.Resolve<EditLayerInteraction>();
+        }
+
+        public IWindowInteraction CreateWindowInteraction(Action<INotification> callback)
+        {
+            IUnityContainer container = new UnityContainer();
+            foreach (ContainerRegistration registration in this.Container.Registrations)
+            {
+                container.RegisterInstance<ContainerRegistration>(registration);
+            }
+            container.RegisterInstance<Action<INotification>>(callback);
+            return container.Resolve<EditLayerInteraction>();
         }
 
         public bool AppliesTo(Type type)

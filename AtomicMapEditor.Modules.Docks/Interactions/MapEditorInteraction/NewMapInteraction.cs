@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Windows;
-using Ame.Components.Behaviors;
 using Ame.Infrastructure.BaseTypes;
-using Ame.Infrastructure.Events;
-using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
-using Ame.Modules.MapEditor.Editor;
-using Microsoft.Practices.Unity;
 using Prism.Events;
 using Prism.Interactivity;
 using Prism.Interactivity.InteractionRequest;
@@ -22,8 +15,6 @@ namespace Ame.Modules.Windows.Interactions.MapEditorInteraction
         private AmeSession session;
         private IEventAggregator eventAggregator;
         private InteractionRequest<INotification> interaction;
-
-        // TODO make this a nullable type
         private Action<INotification> callback;
 
         #endregion fields
@@ -31,11 +22,8 @@ namespace Ame.Modules.Windows.Interactions.MapEditorInteraction
 
         #region Constructor
 
-        public NewMapInteraction(AmeSession session, IEventAggregator eventAggregator)
+        public NewMapInteraction(AmeSession session, IEventAggregator eventAggregator) : this(session, eventAggregator, null)
         {
-            this.session = session;
-            this.eventAggregator = eventAggregator;
-            this.interaction = new InteractionRequest<INotification>();
         }
 
         public NewMapInteraction(AmeSession session, IEventAggregator eventAggregator, Action<INotification> callback)
@@ -56,7 +44,7 @@ namespace Ame.Modules.Windows.Interactions.MapEditorInteraction
 
         #region methods
 
-        public void RaiseNotificationDefaultCallback(DependencyObject parent)
+        public void RaiseNotification(DependencyObject parent)
         {
             RaiseNotification(parent, this.callback);
         }
@@ -74,30 +62,6 @@ namespace Ame.Modules.Windows.Interactions.MapEditorInteraction
             trigger.Actions.Add(GetAction());
             trigger.Attach(parent);
             this.interaction.Raise(mapConfirmation, callback);
-        }
-
-        public void OnWindowClosed(INotification notification)
-        {
-            IConfirmation confirmation = notification as IConfirmation;
-            if (confirmation.Confirmed)
-            {
-                Map mapModel = confirmation.Content as Map;
-
-                IUnityContainer container = new UnityContainer();
-                container.RegisterInstance<IEventAggregator>(this.eventAggregator);
-                container.RegisterInstance<IScrollModel>(new ScrollModel());
-                container.RegisterInstance<Map>(mapModel);
-                container.RegisterInstance(this.session);
-
-                IList<ILayer> layerList = this.session.CurrentMap.LayerList;
-                ObservableCollection<ILayer> layerObservableList = new ObservableCollection<ILayer>(layerList);
-                container.RegisterInstance<ObservableCollection<ILayer>>(layerObservableList);
-
-                this.session.MapList.Add(mapModel);
-                
-                OpenDockMessage openEditorMessage = new OpenDockMessage(typeof(MapEditor.Editor.MapEditorViewModel), container);
-                this.eventAggregator.GetEvent<OpenDockEvent>().Publish(openEditorMessage);
-            }
         }
 
         private PopupWindowAction GetAction()

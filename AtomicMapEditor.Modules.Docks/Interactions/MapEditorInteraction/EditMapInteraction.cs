@@ -12,7 +12,6 @@ namespace Ame.Modules.Windows.Interactions.MapEditorInteraction
         #region fields
 
         private AmeSession session;
-        private DockViewModelTemplate activeDocument;
         private InteractionRequest<INotification> interaction;
         private Action<INotification> callback;
 
@@ -21,10 +20,13 @@ namespace Ame.Modules.Windows.Interactions.MapEditorInteraction
 
         #region Constructor
 
-        public EditMapInteraction(AmeSession session, DockViewModelTemplate activeDocument, Action<INotification> callback)
+        public EditMapInteraction(AmeSession session) : this(session, null)
+        {
+        }
+
+        public EditMapInteraction(AmeSession session, Action<INotification> callback)
         {
             this.session = session;
-            this.activeDocument = activeDocument;
             this.interaction = new InteractionRequest<INotification>();
             this.callback = callback;
         }
@@ -39,7 +41,7 @@ namespace Ame.Modules.Windows.Interactions.MapEditorInteraction
 
         #region methods
 
-        public void RaiseNotificationDefaultCallback(DependencyObject parent)
+        public void RaiseNotification(DependencyObject parent)
         {
             RaiseNotification(parent, this.callback);
         }
@@ -55,16 +57,6 @@ namespace Ame.Modules.Windows.Interactions.MapEditorInteraction
             trigger.Actions.Add(GetAction());
             trigger.Attach(parent);
             this.interaction.Raise(mapConfirmation, callback);
-        }
-
-        public void OnWindowClosed(INotification notification)
-        {
-            IConfirmation confirmation = notification as IConfirmation;
-            if (confirmation.Confirmed)
-            {
-                Map mapModel = confirmation.Content as Map;
-                this.activeDocument.Title = mapModel.Name;
-            }
         }
 
         private PopupWindowAction GetAction()

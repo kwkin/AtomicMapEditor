@@ -36,7 +36,6 @@ using Xceed.Wpf.AvalonDock;
 using Xceed.Wpf.AvalonDock.Layout.Serialization;
 using Ame.Modules.Windows.Interactions;
 using Ame.Modules.Windows.Docks;
-using Ame.Modules.MapEditor.EmptyEditor;
 
 namespace Ame.Modules.Windows
 {
@@ -83,10 +82,6 @@ namespace Ame.Modules.Windows
             {
                 this.ActiveDocument = this.Documents[0];
             }
-            else
-            {
-                this.ActiveDocument = new EmptyEditorViewModel();
-            }
             // TODO use ? operator
             ILayer currentLayer = null;
             if (this.session.CurrentMap != null)
@@ -99,9 +94,9 @@ namespace Ame.Modules.Windows
             IWindowInteractionCreator[] windowInteractionCreators = new IWindowInteractionCreator[]
             {
                 new NewMapInteractionCreator(this.session, this.eventAggregator, OnNewMapWindowClosed),
-                new EditMapInteractionCreator(this.session, this.ActiveDocument, OnEditMapWindowClosed),
+                new EditMapInteractionCreator(this.session, OnEditMapWindowClosed),
                 new NewLayerInteractionCreator(this.session, this.eventAggregator, OnNewLayerWindowClosed),
-                new EditLayerInteractionCreator(this.session, currentLayer, OnEditLayerWindowClosed),
+                new EditLayerInteractionCreator(currentLayer, OnEditLayerWindowClosed),
                 new TilesetEditorInteractionCreator(this.eventAggregator, OnTilesetEditorWindowClosed),
                 new PreferenceOptionsInteractionCreator(this.eventAggregator, OnPreferencesWindowClosed)
             };
@@ -274,7 +269,6 @@ namespace Ame.Modules.Windows
         {
             IWindowInteraction interaction = null;
             IUnityContainer container = message.Container;
-            Action<INotification> callback = null;
             if (container != null)
             {
                 this.windowInteractionCreator.UpdateContainer(message.Type, container);
@@ -282,7 +276,7 @@ namespace Ame.Modules.Windows
             interaction = this.windowInteractionCreator.CreateWindowInteraction(message.Type);
             if (interaction != null)
             {
-                interaction.RaiseNotificationDefaultCallback(this.WindowManager);
+                interaction.RaiseNotification(this.WindowManager);
             }
         }
 

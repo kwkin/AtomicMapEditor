@@ -64,6 +64,17 @@ namespace Ame.Modules.Windows.Interactions.MapEditorInteraction
             return this.Container.Resolve<NewMapInteraction>();
         }
 
+        public IWindowInteraction CreateWindowInteraction(Action<INotification> callback)
+        {
+            IUnityContainer container = new UnityContainer();
+            foreach (ContainerRegistration registration in this.Container.Registrations)
+            {
+                container.RegisterInstance<ContainerRegistration>(registration);
+            }
+            container.RegisterInstance<Action<INotification>>(callback);
+            return container.Resolve<EditMapInteraction>();
+        }
+
         public bool AppliesTo(Type type)
         {
             return typeof(NewMapInteraction).Equals(type);

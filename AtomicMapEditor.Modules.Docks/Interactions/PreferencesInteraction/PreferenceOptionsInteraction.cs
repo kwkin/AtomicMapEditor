@@ -20,6 +20,10 @@ namespace Ame.Modules.Windows.Interactions.PreferencesInteraction
 
         #region Constructor
 
+        public PreferenceOptionsInteraction(IEventAggregator eventAggregator) : this(eventAggregator, null)
+        {
+        }
+
         public PreferenceOptionsInteraction(IEventAggregator eventAggregator, Action<INotification> callback)
         {
             this.eventAggregator = eventAggregator;
@@ -36,7 +40,7 @@ namespace Ame.Modules.Windows.Interactions.PreferencesInteraction
 
         #region methods
 
-        public void RaiseNotificationDefaultCallback(DependencyObject parent)
+        public void RaiseNotification(DependencyObject parent)
         {
             RaiseNotification(parent, this.callback);
         }
@@ -51,10 +55,6 @@ namespace Ame.Modules.Windows.Interactions.PreferencesInteraction
             trigger.Actions.Add(GetAction());
             trigger.Attach(parent);
             this.interaction.Raise(confirmation, callback);
-        }
-
-        public void OnWindowClosed(INotification notification)
-        {
         }
 
         private PopupWindowAction GetAction()

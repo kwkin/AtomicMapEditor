@@ -77,6 +77,17 @@ namespace Ame.Modules.Windows.Interactions.LayerEditorInteraction
             return this.Container.Resolve<NewLayerInteraction>();
         }
 
+        public IWindowInteraction CreateWindowInteraction(Action<INotification> callback)
+        {
+            IUnityContainer container = new UnityContainer();
+            foreach (ContainerRegistration registration in this.Container.Registrations)
+            {
+                container.RegisterInstance<ContainerRegistration>(registration);
+            }
+            container.RegisterInstance<Action<INotification>>(callback);
+            return container.Resolve<NewLayerInteraction>();
+        }
+
         public bool AppliesTo(Type type)
         {
             return typeof(NewLayerInteraction).Equals(type);

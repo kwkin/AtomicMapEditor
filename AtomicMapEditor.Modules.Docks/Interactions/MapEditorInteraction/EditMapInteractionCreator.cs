@@ -15,7 +15,7 @@ namespace Ame.Modules.Windows.Interactions.MapEditorInteraction
 
         #region constructors
 
-        public EditMapInteractionCreator(AmeSession session, DockViewModelTemplate activeDocument)
+        public EditMapInteractionCreator(AmeSession session)
         {
             if (session == null)
             {
@@ -23,10 +23,9 @@ namespace Ame.Modules.Windows.Interactions.MapEditorInteraction
             }
             this.Container = new UnityContainer();
             this.Container.RegisterInstance<AmeSession>(session);
-            this.Container.RegisterInstance<DockViewModelTemplate>(activeDocument);
         }
 
-        public EditMapInteractionCreator(AmeSession session, DockViewModelTemplate activeDocument, Action<INotification> callback)
+        public EditMapInteractionCreator(AmeSession session, Action<INotification> callback)
         {
             if (session == null)
             {
@@ -34,7 +33,6 @@ namespace Ame.Modules.Windows.Interactions.MapEditorInteraction
             }
             this.Container = new UnityContainer();
             this.Container.RegisterInstance<AmeSession>(session);
-            this.Container.RegisterInstance<DockViewModelTemplate>(activeDocument);
             this.Container.RegisterInstance<Action<INotification>>(callback);
         }
 
@@ -53,6 +51,17 @@ namespace Ame.Modules.Windows.Interactions.MapEditorInteraction
         public IWindowInteraction CreateWindowInteraction()
         {
             return Container.Resolve<EditMapInteraction>();
+        }
+
+        public IWindowInteraction CreateWindowInteraction(Action<INotification> callback)
+        {
+            IUnityContainer container = new UnityContainer();
+            foreach (ContainerRegistration registration in this.Container.Registrations)
+            {
+                container.RegisterInstance<ContainerRegistration>(registration);
+            }
+            container.RegisterInstance<Action<INotification>>(callback);
+            return container.Resolve<EditMapInteraction>();
         }
 
         public bool AppliesTo(Type type)

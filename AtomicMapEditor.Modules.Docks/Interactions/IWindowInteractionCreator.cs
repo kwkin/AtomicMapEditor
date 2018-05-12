@@ -1,6 +1,7 @@
 ﻿using System;
 using Ame.Infrastructure.BaseTypes;
 using Microsoft.Practices.Unity;
+using Prism.Interactivity.InteractionRequest;
 
 namespace Ame.Modules.Windows.Interactions
 {
@@ -16,6 +17,7 @@ namespace Ame.Modules.Windows.Interactions
         #region methods
 
         IWindowInteraction CreateWindowInteraction();
+        IWindowInteraction CreateWindowInteraction(Action<INotification> callback);
         bool AppliesTo(Type type);
 
         #endregion methods

@@ -18,6 +18,10 @@ namespace Ame.Modules.Windows.Interactions.TilesetEditorInteraction
 
         #region Constructor
 
+        public TilesetEditorInteraction() : this(null)
+        {
+        }
+
         public TilesetEditorInteraction(Action<INotification> callback)
         {
             this.interaction = new InteractionRequest<INotification>();
@@ -34,7 +38,7 @@ namespace Ame.Modules.Windows.Interactions.TilesetEditorInteraction
 
         #region methods
 
-        public void RaiseNotificationDefaultCallback(DependencyObject parent)
+        public void RaiseNotification(DependencyObject parent)
         {
             RaiseNotification(parent, this.callback);
         }
@@ -49,11 +53,6 @@ namespace Ame.Modules.Windows.Interactions.TilesetEditorInteraction
             trigger.Actions.Add(GetAction());
             trigger.Attach(parent);
             this.interaction.Raise(mapConfirmation, callback);
-        }
-
-        public void OnWindowClosed(INotification notification)
-        {
-
         }
 
         private PopupWindowAction GetAction()

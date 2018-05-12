@@ -37,7 +37,7 @@ namespace Ame.Modules.Windows.Interactions.LayerEditorInteraction
 
         #region methods
 
-        public void RaiseNotificationDefaultCallback(DependencyObject parent)
+        public void RaiseNotification(DependencyObject parent)
         {
             RaiseNotification(parent, this.callback);
         }
@@ -54,10 +54,6 @@ namespace Ame.Modules.Windows.Interactions.LayerEditorInteraction
             trigger.Actions.Add(GetAction());
             trigger.Attach(parent);
             this.interaction.Raise(confirmation, callback);
-        }
-
-        public void OnWindowClosed(INotification notification)
-        {
         }
 
         private PopupWindowAction GetAction()
