@@ -2,6 +2,7 @@
 using Ame.Infrastructure.BaseTypes;
 using Microsoft.Practices.Unity;
 using Prism.Events;
+using Prism.Interactivity.InteractionRequest;
 
 namespace Ame.Modules.Windows.Interactions.PreferencesInteraction
 {
@@ -22,6 +23,17 @@ namespace Ame.Modules.Windows.Interactions.PreferencesInteraction
             }
             this.Container = new UnityContainer();
             this.Container.RegisterInstance<IEventAggregator>(eventAggregator);
+        }
+
+        public PreferenceOptionsInteractionCreator(IEventAggregator eventAggregator, Action<INotification> callback)
+        {
+            if (eventAggregator == null)
+            {
+                throw new ArgumentNullException("eventAggregator is null");
+            }
+            this.Container = new UnityContainer();
+            this.Container.RegisterInstance<IEventAggregator>(eventAggregator);
+            this.Container.RegisterInstance<Action<INotification>>(callback);
         }
 
         #endregion Constructor

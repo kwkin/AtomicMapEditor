@@ -18,17 +18,19 @@ namespace Ame.Modules.Windows.Interactions.LayerEditorInteraction
 
         private IEventAggregator eventAggregator;
         private InteractionRequest<INotification> interaction;
+        private Action<INotification> callback;
 
         #endregion fields
 
 
         #region Constructor
 
-        public NewLayerInteraction(ILayer layer, IEventAggregator eventAggregator)
+        public NewLayerInteraction(ILayer layer, IEventAggregator eventAggregator, Action<INotification> callback)
         {
             this.layer = layer;
             this.eventAggregator = eventAggregator;
             this.interaction = new InteractionRequest<INotification>();
+            this.callback = callback;
         }
 
         #endregion Constructor
@@ -40,6 +42,11 @@ namespace Ame.Modules.Windows.Interactions.LayerEditorInteraction
 
 
         #region methods
+
+        public void RaiseNotificationDefaultCallback(DependencyObject parent)
+        {
+            RaiseNotification(parent, this.callback);
+        }
 
         public void RaiseNotification(DependencyObject parent, Action<INotification> callback)
         {

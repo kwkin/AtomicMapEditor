@@ -2,6 +2,7 @@
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Models;
 using Microsoft.Practices.Unity;
+using Prism.Interactivity.InteractionRequest;
 
 namespace Ame.Modules.Windows.Interactions.LayerEditorInteraction
 {
@@ -16,16 +17,37 @@ namespace Ame.Modules.Windows.Interactions.LayerEditorInteraction
 
         public EditLayerInteractionCreator(AmeSession session, ILayer layer)
         {
-            if (layer == null)
-            {
-                throw new ArgumentNullException("layer is null");
-            }
             if (session == null)
             {
                 throw new ArgumentNullException("session is null");
             }
             this.Container = new UnityContainer();
-            this.Container.RegisterInstance<ILayer>(layer);
+            if (layer != null)
+            {
+                this.Container.RegisterInstance<ILayer>(layer);
+            }
+            else
+            {
+                this.Container.RegisterInstance<ILayer>(new Layer(32, 32, 32, 32));
+            }
+        }
+
+        public EditLayerInteractionCreator(AmeSession session, ILayer layer, Action<INotification> callback)
+        {
+            if (session == null)
+            {
+                throw new ArgumentNullException("session is null");
+            }
+            this.Container = new UnityContainer();
+            if (layer != null)
+            {
+                this.Container.RegisterInstance<ILayer>(layer);
+            }
+            else
+            {
+                this.Container.RegisterInstance<ILayer>(new Layer(32, 32, 32, 32));
+            }
+            this.Container.RegisterInstance<Action<INotification>>(callback);
         }
 
         #endregion constructors

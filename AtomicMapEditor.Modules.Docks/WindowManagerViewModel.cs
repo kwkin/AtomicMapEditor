@@ -36,6 +36,7 @@ using Xceed.Wpf.AvalonDock;
 using Xceed.Wpf.AvalonDock.Layout.Serialization;
 using Ame.Modules.Windows.Interactions;
 using Ame.Modules.Windows.Docks;
+using Ame.Modules.MapEditor.EmptyEditor;
 
 namespace Ame.Modules.Windows
 {
@@ -82,23 +83,42 @@ namespace Ame.Modules.Windows
             {
                 this.ActiveDocument = this.Documents[0];
             }
+            else
+            {
+                this.ActiveDocument = new EmptyEditorViewModel();
+            }
+            // TODO use ? operator
+            ILayer currentLayer = null;
+            if (this.session.CurrentMap != null)
+            {
+                if (this.session.CurrentMap.CurrentLayer != null)
+                {
+                    currentLayer = this.session.CurrentMap.CurrentLayer;
+                }
+            }
             IWindowInteractionCreator[] windowInteractionCreators = new IWindowInteractionCreator[]
             {
-                new NewMapInteractionCreator(this.session, this.eventAggregator),
-                new EditMapInteractionCreator(this.session, this.ActiveDocument),
-                new NewLayerInteractionCreator(this.session, this.eventAggregator),
-                new EditLayerInteractionCreator(this.session, this.session.CurrentMap.CurrentLayer),
-                new TilesetEditorInteractionCreator(),
-                new PreferenceOptionsInteractionCreator(this.eventAggregator)
+                new NewMapInteractionCreator(this.session, this.eventAggregator, OnNewMapWindowClosed),
+                new EditMapInteractionCreator(this.session, this.ActiveDocument, OnEditMapWindowClosed),
+                new NewLayerInteractionCreator(this.session, this.eventAggregator, OnNewLayerWindowClosed),
+                new EditLayerInteractionCreator(this.session, currentLayer, OnEditLayerWindowClosed),
+                new TilesetEditorInteractionCreator(this.eventAggregator, OnTilesetEditorWindowClosed),
+                new PreferenceOptionsInteractionCreator(this.eventAggregator, OnPreferencesWindowClosed)
             };
             this.windowInteractionCreator = new WindowInteractionCreator(windowInteractionCreators);
 
+
+            ObservableCollection<ILayer> layerList = null;
+            if (this.session.CurrentMap != null)
+            {
+                layerList = this.session.CurrentMap.LayerList;
+            }
             IDockCreator[] dockCreators = new IDockCreator[]
             {
                 new ClipboardCreator(this.eventAggregator),
                 new ItemEditorCreator(this.eventAggregator, new ScrollModel()),
                 new ItemListCreator(this.eventAggregator),
-                new LayerListCreator(this.eventAggregator, this.session.CurrentMap.LayerList),
+                new LayerListCreator(this.eventAggregator, layerList),
                 new MinimapCreator(this.eventAggregator),
                 new SelectedBrushCreator(this.eventAggregator, new ScrollModel()),
                 new SessionViewerCreator(this.eventAggregator, this.session),
@@ -248,7 +268,6 @@ namespace Ame.Modules.Windows
                 dockViewModel.Title = message.Title;
             }
             AddDockViewModel(dockViewModel);
-            this.ActiveDock = dockViewModel;
         }
 
         private void OpenWindow(OpenWindowMessage message)
@@ -263,9 +282,68 @@ namespace Ame.Modules.Windows
             interaction = this.windowInteractionCreator.CreateWindowInteraction(message.Type);
             if (interaction != null)
             {
-                callback = interaction.OnWindowClosed;
-                interaction.RaiseNotification(this.WindowManager, callback);
+                interaction.RaiseNotificationDefaultCallback(this.WindowManager);
             }
+        }
+
+        private void OnEditLayerWindowClosed(INotification notification)
+        {
+
+        }
+
+        private void OnNewLayerWindowClosed(INotification notification)
+        {
+            IConfirmation confirmation = notification as IConfirmation;
+            if (confirmation.Confirmed)
+            {
+                Layer layerModel = confirmation.Content as Layer;
+
+                NewLayerMessage newLayerMessage = new NewLayerMessage(layerModel);
+                this.eventAggregator.GetEvent<NewLayerEvent>().Publish(newLayerMessage);
+            }
+        }
+
+        private void OnNewMapWindowClosed(INotification notification)
+        {
+            IConfirmation confirmation = notification as IConfirmation;
+            if (confirmation.Confirmed)
+            {
+                Map mapModel = confirmation.Content as Map;
+
+                IUnityContainer container = new UnityContainer();
+                container.RegisterInstance<IEventAggregator>(this.eventAggregator);
+                container.RegisterInstance<IScrollModel>(new ScrollModel());
+                container.RegisterInstance<Map>(mapModel);
+                container.RegisterInstance(this.session);
+
+                IList<ILayer> layerList = this.session.CurrentMap.LayerList;
+                ObservableCollection<ILayer> layerObservableList = new ObservableCollection<ILayer>(layerList);
+                container.RegisterInstance<ObservableCollection<ILayer>>(layerObservableList);
+
+                this.session.MapList.Add(mapModel);
+
+                OpenDockMessage openEditorMessage = new OpenDockMessage(typeof(MapEditor.Editor.MapEditorViewModel), container);
+                this.eventAggregator.GetEvent<OpenDockEvent>().Publish(openEditorMessage);
+            }
+        }
+
+        private void OnEditMapWindowClosed(INotification notification)
+        {
+            IConfirmation confirmation = notification as IConfirmation;
+            if (confirmation.Confirmed)
+            {
+                Map mapModel = confirmation.Content as Map;
+                this.activeDocument.Title = mapModel.Name;
+            }
+        }
+
+        private void OnPreferencesWindowClosed(INotification notification)
+        {
+        }
+
+        private void OnTilesetEditorWindowClosed(INotification notification)
+        {
+
         }
 
         private void SaveLayoutMessageReceived(NotificationActionMessage<string> message)
@@ -314,10 +392,12 @@ namespace Ame.Modules.Windows
             dockViewModel.IsVisible = true;
             if (dockViewModel is DockToolViewModelTemplate)
             {
+                this.ActiveDock = dockViewModel;
                 this.Anchorables.Add(dockViewModel);
             }
             else if (dockViewModel is EditorViewModelTemplate)
             {
+                this.ActiveDocument = dockViewModel as EditorViewModelTemplate;
                 this.Documents.Add(dockViewModel as EditorViewModelTemplate);
             }
         }

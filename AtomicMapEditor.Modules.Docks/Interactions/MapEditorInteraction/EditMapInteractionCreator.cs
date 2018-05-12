@@ -2,6 +2,7 @@
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Models;
 using Microsoft.Practices.Unity;
+using Prism.Interactivity.InteractionRequest;
 
 namespace Ame.Modules.Windows.Interactions.MapEditorInteraction
 {
@@ -20,13 +21,21 @@ namespace Ame.Modules.Windows.Interactions.MapEditorInteraction
             {
                 throw new ArgumentNullException("session is null");
             }
-            if (activeDocument == null)
+            this.Container = new UnityContainer();
+            this.Container.RegisterInstance<AmeSession>(session);
+            this.Container.RegisterInstance<DockViewModelTemplate>(activeDocument);
+        }
+
+        public EditMapInteractionCreator(AmeSession session, DockViewModelTemplate activeDocument, Action<INotification> callback)
+        {
+            if (session == null)
             {
-                throw new ArgumentNullException("activeDocument is null");
+                throw new ArgumentNullException("session is null");
             }
             this.Container = new UnityContainer();
             this.Container.RegisterInstance<AmeSession>(session);
             this.Container.RegisterInstance<DockViewModelTemplate>(activeDocument);
+            this.Container.RegisterInstance<Action<INotification>>(callback);
         }
 
         #endregion constructors

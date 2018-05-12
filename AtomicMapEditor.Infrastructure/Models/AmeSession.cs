@@ -16,6 +16,11 @@ namespace Ame.Infrastructure.Models
 
         #region constructor
 
+        public AmeSession()
+        {
+            this.MapList = new List<Map>();
+        }
+
         public AmeSession(IList<Map> MapList)
         {
             this.MapList = MapList;
@@ -40,6 +45,10 @@ namespace Ame.Infrastructure.Models
         {
             get
             {
+                if (this.MapListIndex >= this.MapList.Count)
+                {
+                    return null;
+                }
                 return this.MapList[this.MapListIndex];
             }
             private set

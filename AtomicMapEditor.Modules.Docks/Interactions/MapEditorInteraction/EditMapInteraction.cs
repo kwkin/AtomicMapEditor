@@ -14,17 +14,19 @@ namespace Ame.Modules.Windows.Interactions.MapEditorInteraction
         private AmeSession session;
         private DockViewModelTemplate activeDocument;
         private InteractionRequest<INotification> interaction;
+        private Action<INotification> callback;
 
         #endregion fields
 
 
         #region Constructor
 
-        public EditMapInteraction(AmeSession session, DockViewModelTemplate activeDocument)
+        public EditMapInteraction(AmeSession session, DockViewModelTemplate activeDocument, Action<INotification> callback)
         {
             this.session = session;
             this.activeDocument = activeDocument;
             this.interaction = new InteractionRequest<INotification>();
+            this.callback = callback;
         }
 
         #endregion Constructor
@@ -36,6 +38,11 @@ namespace Ame.Modules.Windows.Interactions.MapEditorInteraction
 
 
         #region methods
+
+        public void RaiseNotificationDefaultCallback(DependencyObject parent)
+        {
+            RaiseNotification(parent, this.callback);
+        }
 
         public void RaiseNotification(DependencyObject parent, Action<INotification> callback)
         {

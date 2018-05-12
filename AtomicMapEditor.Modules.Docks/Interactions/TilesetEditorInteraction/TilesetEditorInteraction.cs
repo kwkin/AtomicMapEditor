@@ -11,15 +11,17 @@ namespace Ame.Modules.Windows.Interactions.TilesetEditorInteraction
         #region fields
 
         private InteractionRequest<INotification> interaction;
+        private Action<INotification> callback;
 
         #endregion fields
 
 
         #region Constructor
 
-        public TilesetEditorInteraction()
+        public TilesetEditorInteraction(Action<INotification> callback)
         {
             this.interaction = new InteractionRequest<INotification>();
+            this.callback = callback;
         }
 
         #endregion Constructor
@@ -31,6 +33,11 @@ namespace Ame.Modules.Windows.Interactions.TilesetEditorInteraction
 
 
         #region methods
+
+        public void RaiseNotificationDefaultCallback(DependencyObject parent)
+        {
+            RaiseNotification(parent, this.callback);
+        }
 
         public void RaiseNotification(DependencyObject parent, Action<INotification> callback)
         {

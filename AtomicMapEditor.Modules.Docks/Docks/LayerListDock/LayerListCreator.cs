@@ -22,13 +22,16 @@ namespace Ame.Modules.Windows.Docks.LayerListDock
             {
                 throw new ArgumentNullException("eventAggregator is null");
             }
-            if (layerList == null)
-            {
-                throw new ArgumentNullException("layerList is null");
-            }
             this.Container = new UnityContainer();
             this.Container.RegisterInstance<IEventAggregator>(eventAggregator);
-            this.Container.RegisterInstance<ObservableCollection<ILayer>>(layerList);
+            if (layerList != null)
+            {
+                this.Container.RegisterInstance<ObservableCollection<ILayer>>(layerList);
+            }
+            else
+            {
+                this.Container.RegisterInstance<ObservableCollection<ILayer>>(new ObservableCollection<ILayer>());
+            }
         }
 
         #endregion constructors

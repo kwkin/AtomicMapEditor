@@ -25,6 +25,11 @@ namespace Ame.Modules.Windows.Docks.LayerListDock
 
         #region constructor
 
+        public LayerListViewModel(IEventAggregator eventAggregator) : this(eventAggregator, new ObservableCollection<ILayer>())
+        {
+
+        }
+
         public LayerListViewModel(IEventAggregator eventAggregator, ObservableCollection<ILayer> layerList)
         {
             if (eventAggregator == null)

@@ -1,6 +1,8 @@
 ﻿using System;
 using Ame.Infrastructure.BaseTypes;
 using Microsoft.Practices.Unity;
+using Prism.Events;
+using Prism.Interactivity.InteractionRequest;
 
 namespace Ame.Modules.Windows.Interactions.TilesetEditorInteraction
 {
@@ -13,9 +15,25 @@ namespace Ame.Modules.Windows.Interactions.TilesetEditorInteraction
 
         #region constructors
 
-        public TilesetEditorInteractionCreator()
+        public TilesetEditorInteractionCreator(IEventAggregator eventAggregator)
         {
+            if (eventAggregator == null)
+            {
+                throw new ArgumentNullException("eventAggregator is null");
+            }
             this.Container = new UnityContainer();
+            this.Container.RegisterInstance<IEventAggregator>(eventAggregator);
+        }
+
+        public TilesetEditorInteractionCreator(IEventAggregator eventAggregator, Action<INotification> callback)
+        {
+            if (eventAggregator == null)
+            {
+                throw new ArgumentNullException("eventAggregator is null");
+            }
+            this.Container = new UnityContainer();
+            this.Container.RegisterInstance<IEventAggregator>(eventAggregator);
+            this.Container.RegisterInstance<Action<INotification>>(callback);
         }
 
         #endregion constructors

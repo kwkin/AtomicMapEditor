@@ -13,13 +13,14 @@ namespace Ame.Modules.Windows.Interactions.PreferencesInteraction
 
         private IEventAggregator eventAggregator;
         private InteractionRequest<INotification> interaction;
+        private Action<INotification> callback;
 
         #endregion fields
 
 
         #region Constructor
 
-        public PreferenceOptionsInteraction(IEventAggregator eventAggregator)
+        public PreferenceOptionsInteraction(IEventAggregator eventAggregator, Action<INotification> callback)
         {
             this.eventAggregator = eventAggregator;
             this.interaction = new InteractionRequest<INotification>();
@@ -34,6 +35,11 @@ namespace Ame.Modules.Windows.Interactions.PreferencesInteraction
 
 
         #region methods
+
+        public void RaiseNotificationDefaultCallback(DependencyObject parent)
+        {
+            RaiseNotification(parent, this.callback);
+        }
 
         public void RaiseNotification(DependencyObject parent, Action<INotification> callback)
         {

@@ -3,6 +3,7 @@ using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Models;
 using Microsoft.Practices.Unity;
 using Prism.Events;
+using Prism.Interactivity.InteractionRequest;
 
 namespace Ame.Modules.Windows.Interactions.MapEditorInteraction
 {
@@ -28,6 +29,22 @@ namespace Ame.Modules.Windows.Interactions.MapEditorInteraction
             this.Container = new UnityContainer();
             this.Container.RegisterInstance<AmeSession>(session);
             this.Container.RegisterInstance<IEventAggregator>(eventAggregator);
+        }
+
+        public NewMapInteractionCreator(AmeSession session, IEventAggregator eventAggregator, Action<INotification> callback)
+        {
+            if (session == null)
+            {
+                throw new ArgumentNullException("session is null");
+            }
+            if (eventAggregator == null)
+            {
+                throw new ArgumentNullException("eventAggregator is null");
+            }
+            this.Container = new UnityContainer();
+            this.Container.RegisterInstance<AmeSession>(session);
+            this.Container.RegisterInstance<IEventAggregator>(eventAggregator);
+            this.Container.RegisterInstance<Action<INotification>>(callback);
         }
 
         #endregion constructors

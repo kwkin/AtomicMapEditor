@@ -49,10 +49,8 @@ namespace Ame
             
             Application.Current.MainWindow = (Window)this.Shell;
             Application.Current.MainWindow.Show();
-
-            Map map = new Map("Map #1");
-            map.LayerList.Add(new Layer("Layer #1", 32, 32, 32, 32));
-            this.Container.RegisterInstance<AmeSession>(new AmeSession(map));
+            
+            this.Container.RegisterInstance<AmeSession>(new AmeSession());
             this.SessionManager = this.Container.Resolve<SessionManager>();
         }
 

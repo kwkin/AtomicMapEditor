@@ -23,6 +23,9 @@ namespace Ame.Modules.Windows.Interactions.MapEditorInteraction
         private IEventAggregator eventAggregator;
         private InteractionRequest<INotification> interaction;
 
+        // TODO make this a nullable type
+        private Action<INotification> callback;
+
         #endregion fields
 
 
@@ -35,6 +38,14 @@ namespace Ame.Modules.Windows.Interactions.MapEditorInteraction
             this.interaction = new InteractionRequest<INotification>();
         }
 
+        public NewMapInteraction(AmeSession session, IEventAggregator eventAggregator, Action<INotification> callback)
+        {
+            this.session = session;
+            this.eventAggregator = eventAggregator;
+            this.interaction = new InteractionRequest<INotification>();
+            this.callback = callback;
+        }
+
         #endregion Constructor
 
 
@@ -44,6 +55,11 @@ namespace Ame.Modules.Windows.Interactions.MapEditorInteraction
 
 
         #region methods
+
+        public void RaiseNotificationDefaultCallback(DependencyObject parent)
+        {
+            RaiseNotification(parent, this.callback);
+        }
 
         public void RaiseNotification(DependencyObject parent, Action<INotification> callback)
         {
