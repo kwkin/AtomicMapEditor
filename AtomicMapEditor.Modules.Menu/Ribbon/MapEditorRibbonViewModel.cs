@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
+using Ame.Infrastructure.Models;
 using Ame.Modules.Windows.Interactions.LayerEditorInteraction;
 using Ame.Modules.Windows.Interactions.MapEditorInteraction;
 using Prism.Commands;
@@ -46,7 +49,7 @@ namespace Ame.Modules.Menu.Ribbon
             // Zoom bindings
             this.ZoomInCommand = new DelegateCommand(() => ZoomIn());
             this.ZoomOutCommand = new DelegateCommand(() => ZoomOut());
-            this.SetZoomCommand = new DelegateCommand(() => SetZoom());
+            this.SetZoomCommand = new DelegateCommand<ZoomLevel>((zoomLevel) => this.SetZoom(zoomLevel));
 
             // View bindings
             this.SampleViewCommand = new DelegateCommand(() => SampleView());
@@ -62,6 +65,18 @@ namespace Ame.Modules.Menu.Ribbon
             // File bindings
             this.SaveFileCommand = new DelegateCommand(() => SaveFile());
             this.ExportFileCommand = new DelegateCommand(() => ExportFile());
+
+            this.ZoomLevels = new ObservableCollection<ZoomLevel>();
+            this.ZoomLevels.Add(new ZoomLevel(0.125));
+            this.ZoomLevels.Add(new ZoomLevel(0.25));
+            this.ZoomLevels.Add(new ZoomLevel(0.5));
+            this.ZoomLevels.Add(new ZoomLevel(1));
+            this.ZoomLevels.Add(new ZoomLevel(2));
+            this.ZoomLevels.Add(new ZoomLevel(4));
+            this.ZoomLevels.Add(new ZoomLevel(8));
+            this.ZoomLevels.Add(new ZoomLevel(16));
+            this.ZoomLevels.Add(new ZoomLevel(32));
+            this.ZoomLevels.OrderBy(f => f.zoom);
         }
 
         #endregion constructor
@@ -71,36 +86,30 @@ namespace Ame.Modules.Menu.Ribbon
 
         // Map Menu
         public ICommand NewMapCommand { get; set; }
-
         public ICommand DuplicateMapCommand { get; set; }
         public ICommand EditMapPropertiesCommand { get; set; }
 
         // Layer Menu
         public ICommand NewLayerCommand { get; set; }
-
         public ICommand DuplicateLayerCommand { get; set; }
         public ICommand EditLayerPropertiesCommand { get; set; }
 
         // Item Menu
         public ICommand AddTilesetCommand { get; set; }
-
         public ICommand AddImageCommand { get; set; }
         public ICommand OpenItemListCommand { get; set; }
 
         // Zoom Menu
         public ICommand ZoomInCommand { get; set; }
-
         public ICommand ZoomOutCommand { get; set; }
         public ICommand SetZoomCommand { get; set; }
 
         // View Menu
         public ICommand SampleViewCommand { get; set; }
-
         public ICommand CollisionsViewCommand { get; set; }
 
         // Window Menu
         public ICommand OpenDockCommand { get; set; }
-
         public ICommand RecentlyClosedDockCommand { get; set; }
         public ICommand DockPresetCommand { get; set; }
         public ICommand SnapDockCommand { get; set; }
@@ -108,9 +117,9 @@ namespace Ame.Modules.Menu.Ribbon
 
         // File Menu
         public ICommand SaveFileCommand { get; set; }
-
         public ICommand ExportFileCommand { get; set; }
-
+        
+        public ObservableCollection<ZoomLevel> ZoomLevels { get; set; }
 
         #endregion properties
 
@@ -194,9 +203,10 @@ namespace Ame.Modules.Menu.Ribbon
             this.eventAggregator.GetEvent<NotificationEvent<ViewNotification>>().Publish(message);
         }
 
-        public void SetZoom()
+        public void SetZoom(ZoomLevel zoomLevel)
         {
-            Console.WriteLine("Set Zoom");
+            NotificationMessage<ZoomLevel> message = new NotificationMessage<ZoomLevel>(zoomLevel);
+            this.eventAggregator.GetEvent<NotificationEvent<ZoomLevel>>().Publish(message);
         }
 
         #endregion zoom methods

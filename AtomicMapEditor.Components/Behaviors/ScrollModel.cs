@@ -64,8 +64,9 @@ namespace Ame.Components.Behaviors
             return this.ZoomIndex;
         }
 
-        public int SetZoom(ZoomLevel selectedZoomLevel)
+        public int SetZoom(ZoomLevel desiredZoomLevel)
         {
+            ZoomLevel selectedZoomLevel = this.ZoomLevels.First((zoomLevel) => zoomLevel.zoom == desiredZoomLevel.zoom);
             int zoomIndex = this.ZoomLevels.IndexOf(selectedZoomLevel);
             if (zoomIndex == -1)
             {

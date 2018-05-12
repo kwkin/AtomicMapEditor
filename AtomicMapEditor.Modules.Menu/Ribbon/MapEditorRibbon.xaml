@@ -4,8 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:conv="clr-namespace:Ame.Infrastructure.Converters;assembly=Ame.Infrastructure"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:basetype="clr-namespace:Ame.Infrastructure.BaseTypes;assembly=Ame.Infrastructure"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d">
+    <UserControl.Resources>
+        <conv:DoubleToZoomLevelConverter x:Key="DoubleToZoomLevelConverter" />
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -227,17 +234,19 @@
                                Content="" />
                     </StackPanel>
                 </Button>
-                <Button x:Name="zoomButton"
-                        Background="Transparent"
-                        BorderBrush="Transparent"
-                        ToolTip="Set Zoom: Sets the zoom on the map editor"
-                        Command="{Binding SetZoomCommand}">
-                    <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_magnify_black_24dp.png" />
-                        <Label Padding="0"
-                               Content="" />
-                    </StackPanel>
-                </Button>
+                <ComboBox x:Name="zoomComboBox"
+                          Grid.Column="2"
+                          Width="36"
+                          VerticalAlignment="Center"
+                          ItemsSource="{Binding ZoomLevels}"
+                          DisplayMemberPath="description">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <basetype:EventToCommand Command="{Binding SetZoomCommand, Mode=OneWay}"
+                                                     CommandParameter="{Binding SelectedItem, ElementName=zoomComboBox}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ComboBox>
                 <Button x:Name="zoomInButton"
                         Background="Transparent"
                         BorderBrush="Transparent"

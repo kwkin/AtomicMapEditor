@@ -480,9 +480,9 @@ namespace Ame.Modules.Menu.Options
             Console.WriteLine("Fit Map To Window");
         }
 
-        public void SetZoom(ZoomLevel selectedZoomLevel)
+        public void SetZoom(ZoomLevel zoomLevel)
         {
-            NotificationMessage<ZoomLevel> message = new NotificationMessage<ZoomLevel>(selectedZoomLevel);
+            NotificationMessage<ZoomLevel> message = new NotificationMessage<ZoomLevel>(zoomLevel);
             this.eventAggregator.GetEvent<NotificationEvent<ZoomLevel>>().Publish(message);
         }
 
