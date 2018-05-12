@@ -240,6 +240,26 @@ namespace Ame.Modules.MapEditor.Editor
             RaisePropertyChanged(nameof(this.PositionText));
         }
 
+        public override void ZoomIn()
+        {
+            this.ZoomIndex = this.scrollModel.ZoomIn();
+        }
+
+        public override void ZoomOut()
+        {
+            this.ZoomIndex = this.scrollModel.ZoomOut();
+        }
+
+        public override void SetZoom(int zoomIndex)
+        {
+            this.ZoomIndex = this.scrollModel.SetZoom(zoomIndex);
+        }
+
+        public override void SetZoom(ZoomLevel zoomLevel)
+        {
+            this.ZoomIndex = this.scrollModel.SetZoom(zoomLevel);
+        }
+
         #endregion methods
     }
 }

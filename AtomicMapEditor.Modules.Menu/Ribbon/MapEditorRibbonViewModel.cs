@@ -184,12 +184,14 @@ namespace Ame.Modules.Menu.Ribbon
 
         public void ZoomIn()
         {
-            Console.WriteLine("Zoom in");
+            NotificationMessage<ViewNotification> message = new NotificationMessage<ViewNotification>(ViewNotification.ZoomInDocument);
+            this.eventAggregator.GetEvent<NotificationEvent<ViewNotification>>().Publish(message);
         }
 
         public void ZoomOut()
         {
-            Console.WriteLine("Zoom out");
+            NotificationMessage<ViewNotification> message = new NotificationMessage<ViewNotification>(ViewNotification.ZoomOutDocument);
+            this.eventAggregator.GetEvent<NotificationEvent<ViewNotification>>().Publish(message);
         }
 
         public void SetZoom()

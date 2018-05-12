@@ -69,7 +69,7 @@ namespace Ame.Modules.Windows
             this.DockLayout = new DockLayoutViewModel(this, eventAggregator);
             this.eventAggregator = eventAggregator;
 
-            this.Documents = new ObservableCollection<DockViewModelTemplate>();
+            this.Documents = new ObservableCollection<EditorViewModelTemplate>();
             this.Anchorables = new ObservableCollection<DockViewModelTemplate>();
             
             foreach (Map map in session.MapList)
@@ -82,7 +82,6 @@ namespace Ame.Modules.Windows
             {
                 this.ActiveDocument = this.Documents[0];
             }
-
             IWindowInteractionCreator[] windowInteractionCreators = new IWindowInteractionCreator[]
             {
                 new NewMapInteractionCreator(this.session, this.eventAggregator),
@@ -130,6 +129,12 @@ namespace Ame.Modules.Windows
                 ThreadOption.PublisherThread,
                 false,
                 (filter) => filter.Notification.Contains(MessageIds.LoadWorkspaceLayout));
+            this.eventAggregator.GetEvent<NotificationEvent<ViewNotification>>().Subscribe(
+                ViewNotificationReceived,
+                ThreadOption.PublisherThread);
+            this.eventAggregator.GetEvent<NotificationEvent<ZoomLevel>>().Subscribe(
+                SetZoomLevel,
+                ThreadOption.PublisherThread);
         }
 
         #endregion constructor
@@ -139,7 +144,7 @@ namespace Ame.Modules.Windows
 
         public DockingManager WindowManager { get; set; }
         public DockLayoutViewModel DockLayout { get; private set; }
-        public ObservableCollection<DockViewModelTemplate> Documents { get; private set; }
+        public ObservableCollection<EditorViewModelTemplate> Documents { get; private set; }
         public ObservableCollection<DockViewModelTemplate> Anchorables { get; private set; }
 
         public ContentControl MapWindowView { get; set; }
@@ -171,8 +176,21 @@ namespace Ame.Modules.Windows
             }
         }
 
-        private DockViewModelTemplate activeDocument = null;
-        public DockViewModelTemplate ActiveDocument
+        private DockViewModelTemplate activeDock = null;
+        public DockViewModelTemplate ActiveDock
+        {
+            get { return activeDock; }
+            set
+            {
+                if (SetProperty(ref activeDock, value))
+                {
+                    ActiveDocumentChanged?.Invoke(this, EventArgs.Empty);
+                }
+            }
+        }
+
+        private EditorViewModelTemplate activeDocument = null;
+        public EditorViewModelTemplate ActiveDocument
         {
             get { return activeDocument; }
             set
@@ -224,7 +242,7 @@ namespace Ame.Modules.Windows
                 dockViewModel.Title = message.Title;
             }
             AddDockViewModel(dockViewModel);
-            this.ActiveDocument = dockViewModel;
+            this.ActiveDock = dockViewModel;
         }
 
         private void OpenWindow(OpenWindowMessage message)
@@ -294,8 +312,30 @@ namespace Ame.Modules.Windows
             }
             else if (dockViewModel is EditorViewModelTemplate)
             {
-                this.Documents.Add(dockViewModel);
+                this.Documents.Add(dockViewModel as EditorViewModelTemplate);
             }
+        }
+
+        private void ViewNotificationReceived(NotificationMessage<ViewNotification> notification)
+        {
+            switch (notification.Content)
+            {
+                case ViewNotification.ZoomInDocument:
+                    this.ActiveDocument.ZoomIn();
+                    break;
+
+                case ViewNotification.ZoomOutDocument:
+                    this.ActiveDocument.ZoomOut();
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        private void SetZoomLevel(NotificationMessage<ZoomLevel> notification)
+        {
+            this.ActiveDocument.SetZoom(notification.Content);
         }
 
         #endregion methods

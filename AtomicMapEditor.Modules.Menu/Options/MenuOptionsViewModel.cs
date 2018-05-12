@@ -2,9 +2,9 @@
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
+using Ame.Infrastructure.Models;
 using Ame.Modules.Windows.Docks.ClipboardDock;
 using Ame.Modules.Windows.Docks.ItemEditorDock;
 using Ame.Modules.Windows.Docks.ItemListDock;
@@ -98,7 +98,7 @@ namespace Ame.Modules.Menu.Options
             this.ZoomOutCommand = new DelegateCommand(() => ZoomOut());
             this.ZoomToolCommand = new DelegateCommand(() => ZoomTool());
             this.FitMapToWindowCommand = new DelegateCommand(() => FitMapToWindow());
-            this.SetZoomCommand = new DelegateCommand(() => SetZoom());
+            this.SetZoomCommand = new DelegateCommand<ZoomLevel>((zoomLevel) => SetZoom(zoomLevel));
             this.DockPresetViewCommand = new DelegateCommand(() => DockPresetView());
             this.ShowGridCommand = new DelegateCommand(() => ShowGrid());
             this.ShowRulerCommand = new DelegateCommand(() => ShowRuler());
@@ -376,7 +376,7 @@ namespace Ame.Modules.Menu.Options
 
         public void DuplicateLayer()
         {
-            NotificationMessage<Notification> message = new NotificationMessage<Notification>(Notification.DeleteCurrentLayer);
+            NotificationMessage<Notification> message = new NotificationMessage<Notification>(Notification.DuplicateCurrentLayer);
             this.eventAggregator.GetEvent<NotificationEvent<Notification>>().Publish(message);
         }
 
@@ -460,12 +460,14 @@ namespace Ame.Modules.Menu.Options
 
         public void ZoomIn()
         {
-            Console.WriteLine("Zoom in");
+            NotificationMessage<ViewNotification> message = new NotificationMessage<ViewNotification>(ViewNotification.ZoomInDocument);
+            this.eventAggregator.GetEvent<NotificationEvent<ViewNotification>>().Publish(message);
         }
 
         public void ZoomOut()
         {
-            Console.WriteLine("Zoom out");
+            NotificationMessage<ViewNotification> message = new NotificationMessage<ViewNotification>(ViewNotification.ZoomOutDocument);
+            this.eventAggregator.GetEvent<NotificationEvent<ViewNotification>>().Publish(message);
         }
 
         public void ZoomTool()
@@ -478,9 +480,10 @@ namespace Ame.Modules.Menu.Options
             Console.WriteLine("Fit Map To Window");
         }
 
-        public void SetZoom()
+        public void SetZoom(ZoomLevel selectedZoomLevel)
         {
-            Console.WriteLine("Set Zoom");
+            NotificationMessage<ZoomLevel> message = new NotificationMessage<ZoomLevel>(selectedZoomLevel);
+            this.eventAggregator.GetEvent<NotificationEvent<ZoomLevel>>().Publish(message);
         }
 
         public void DockPresetView()

@@ -84,6 +84,20 @@ namespace Ame.Components.Behaviors
             return this.ZoomIndex;
         }
 
+        public int SetZoom(int zoomIndex)
+        {
+            if (zoomIndex < 0)
+            {
+                return this.ZoomIndex;
+            }
+            if (zoomIndex > ZoomLevels.Count - 1)
+            {
+                return this.ZoomIndex;
+            }
+            this.ZoomIndex = zoomIndex;
+            return this.ZoomIndex;
+        }
+
         #endregion methods
     }
 }

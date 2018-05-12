@@ -44,7 +44,7 @@ namespace Ame.Infrastructure.BaseTypes
             get { return this.title; }
             set { SetProperty(ref this.title, value); }
         }
-        
+
         #endregion properties
 
 

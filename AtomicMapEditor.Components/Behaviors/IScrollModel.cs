@@ -33,6 +33,8 @@ namespace Ame.Components.Behaviors
 
         int SetZoom(ZoomLevel selectedZoomLevel);
 
+        int SetZoom(int zoomIndex);
+
         #endregion methods
     }
 }

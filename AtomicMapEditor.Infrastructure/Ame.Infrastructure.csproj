@@ -121,7 +121,7 @@
     <Compile Include="Events\OpenWindowEvent.cs" />
     <Compile Include="Messages\OpenWindowMessage.cs" />
     <Compile Include="Events\UpdateBrushEvent.cs" />
-    <Compile Include="Messages\UpdateBrushMessage.cs" />
+    <Compile Include="Models\UpdateBrushMessage.cs" />
     <Compile Include="Models\BrushModel.cs" />
     <Compile Include="Models\Map.cs" />
     <Compile Include="Models\Tile.cs" />
