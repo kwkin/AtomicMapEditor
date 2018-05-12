@@ -45,7 +45,7 @@ namespace Ame.Modules.Windows.Interactions.LayerEditorInteraction
         {
             Confirmation layerWindowConfirmation = new Confirmation();
 
-            layerWindowConfirmation.Title = string.Format("Edit Layer - {0}", layer.LayerName);
+            layerWindowConfirmation.Title = string.Format("New Layer - {0}", layer.LayerName);
             layerWindowConfirmation.Content = layer;
 
             InteractionRequestTrigger trigger = new InteractionRequestTrigger();

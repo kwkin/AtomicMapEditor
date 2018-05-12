@@ -8,7 +8,7 @@ namespace Ame.Infrastructure.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (value is DockViewModelTemplate)
+            if (value is EditorViewModelTemplate)
             {
                 return value;
             }
@@ -17,7 +17,7 @@ namespace Ame.Infrastructure.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (value is DockViewModelTemplate)
+            if (value is EditorViewModelTemplate)
             {
                 return value;
             }
