@@ -30,7 +30,7 @@ namespace Ame.Modules.Windows.Interactions.LayerEditorInteraction
             }
         }
 
-        public EditLayerInteractionCreator( ILayer layer, Action<INotification> callback)
+        public EditLayerInteractionCreator(ILayer layer, Action<INotification> callback)
         {
             this.callback = callback;
             this.Container = new UnityContainer();

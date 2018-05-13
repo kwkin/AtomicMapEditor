@@ -33,12 +33,10 @@ namespace Ame.Modules.Menu.Ribbon
 
             // Map bindings
             this.NewMapCommand = new DelegateCommand(() => NewMap());
-            this.DuplicateMapCommand = new DelegateCommand(() => DuplicateMap());
             this.EditMapPropertiesCommand = new DelegateCommand(() => EditMapProperties());
 
             // Layer bindings
             this.NewLayerCommand = new DelegateCommand(() => NewLayer());
-            this.DuplicateLayerCommand = new DelegateCommand(() => DuplicateLayer());
             this.EditLayerPropertiesCommand = new DelegateCommand(() => EditLayerProperties());
 
             // Item bindings
@@ -86,12 +84,10 @@ namespace Ame.Modules.Menu.Ribbon
 
         // Map Menu
         public ICommand NewMapCommand { get; set; }
-        public ICommand DuplicateMapCommand { get; set; }
         public ICommand EditMapPropertiesCommand { get; set; }
 
         // Layer Menu
         public ICommand NewLayerCommand { get; set; }
-        public ICommand DuplicateLayerCommand { get; set; }
         public ICommand EditLayerPropertiesCommand { get; set; }
 
         // Item Menu
@@ -135,11 +131,6 @@ namespace Ame.Modules.Menu.Ribbon
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(window);
         }
 
-        public void DuplicateMap()
-        {
-            Console.WriteLine("Duplicate Map");
-        }
-
         public void EditMapProperties()
         {
             OpenWindowMessage window = new OpenWindowMessage(typeof(EditMapInteraction));
@@ -155,11 +146,6 @@ namespace Ame.Modules.Menu.Ribbon
             OpenWindowMessage openWindowMessage = new OpenWindowMessage(typeof(NewLayerInteraction));
             openWindowMessage.Title = "New Layer";
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(openWindowMessage);
-        }
-
-        public void DuplicateLayer()
-        {
-            Console.WriteLine("Duplicate Layer");
         }
 
         public void EditLayerProperties()

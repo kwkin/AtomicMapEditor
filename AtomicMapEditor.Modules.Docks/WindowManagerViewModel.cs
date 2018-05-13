@@ -391,7 +391,6 @@ namespace Ame.Modules.Windows
             }
             else if (dockViewModel is EditorViewModelTemplate)
             {
-                this.ActiveDocument = dockViewModel as EditorViewModelTemplate;
                 this.Documents.Add(dockViewModel as EditorViewModelTemplate);
             }
         }
