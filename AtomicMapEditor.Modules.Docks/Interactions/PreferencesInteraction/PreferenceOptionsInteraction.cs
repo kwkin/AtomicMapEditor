@@ -28,6 +28,7 @@ namespace Ame.Modules.Windows.Interactions.PreferencesInteraction
         {
             this.eventAggregator = eventAggregator;
             this.interaction = new InteractionRequest<INotification>();
+            this.callback = callback;
         }
 
         #endregion Constructor

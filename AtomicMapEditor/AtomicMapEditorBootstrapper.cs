@@ -14,6 +14,7 @@ using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Unity;
 using Ame.Modules.Windows.Interactions.PreferencesInteraction;
+using Ame.Modules.Menu.Ribbon;
 
 namespace Ame
 {
@@ -60,6 +61,7 @@ namespace Ame
             
             ViewModelLocationProvider.Register<MenuOptions, MenuOptionsViewModel>();
             ViewModelLocationProvider.Register<MapEditorDocument, Modules.MapEditor.Editor.MapEditorViewModel>();
+            ViewModelLocationProvider.Register<MapEditorRibbon, MapEditorRibbonViewModel>();
             ViewModelLocationProvider.Register<WindowManager, WindowManagerViewModel>();
 
             // TODO rename mapEditorViewModel

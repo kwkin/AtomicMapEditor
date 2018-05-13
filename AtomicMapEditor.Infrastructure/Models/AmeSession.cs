@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Ame.Infrastructure.BaseTypes;
 
 namespace Ame.Infrastructure.Models
 {
-    public class AmeSession
+    public class AmeSession : INotifyPropertyChanged
     {
         #region fields
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion fields
 
@@ -38,31 +42,38 @@ namespace Ame.Infrastructure.Models
         #region properties
         
         public IList<Map> MapList { get; set; }
-        public int MapListIndex { get; set; }
+        public int MapListIndex
+        {
+            get
+            {
+                return this.MapList.IndexOf(this.CurrentMap);
+            }
+        }
         public int MapCount { get { return MapList.Count; } }
 
+        private Map currentMap;
         public Map CurrentMap
         {
             get
             {
-                if (this.MapListIndex >= this.MapList.Count)
+                return this.currentMap;
+            }
+            set
+            {
+                this.currentMap = value;
+                NotifyPropertyChanged();
+            }
+        }
+        
+        public ILayer CurrentLayer
+        {
+            get
+            {
+                if (this.currentMap == null)
                 {
                     return null;
                 }
-                return this.MapList[this.MapListIndex];
-            }
-            private set
-            {
-                int selectedMapIndex = this.MapList.IndexOf(value);
-                if (selectedMapIndex == -1)
-                {
-                    this.MapList.Add(value);
-                    this.MapListIndex = this.MapList.Count - 1;
-                }
-                else
-                {
-                    this.MapListIndex = selectedMapIndex;
-                }
+                return this.currentMap.CurrentLayer;
             }
         }
 
@@ -71,9 +82,18 @@ namespace Ame.Infrastructure.Models
 
         #region methods
 
+        // TODO add to list if not found
         public void ChangeCurrentMap(Map currentMap)
         {
             this.CurrentMap = currentMap;
+        }
+
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
 
         #endregion methods

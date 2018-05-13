@@ -13,7 +13,6 @@ using Prism.Events;
 
 namespace Ame.Modules.Windows.Docks.LayerListDock
 {
-    [DockContentId("LayerList")]
     public class LayerListViewModel : DockToolViewModelTemplate
     {
         #region fields

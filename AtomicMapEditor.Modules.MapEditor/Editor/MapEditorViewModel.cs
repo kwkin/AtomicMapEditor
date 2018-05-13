@@ -19,7 +19,6 @@ using Prism.Events;
 
 namespace Ame.Modules.MapEditor.Editor
 {
-    [DockContentId("MapEditor")]
     public class MapEditorViewModel : EditorViewModelTemplate
     {
         #region fields

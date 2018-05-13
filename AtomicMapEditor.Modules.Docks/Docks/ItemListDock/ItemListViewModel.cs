@@ -6,7 +6,6 @@ using Prism.Events;
 
 namespace Ame.Modules.Windows.Docks.ItemListDock
 {
-    [DockContentId("ItemList")]
     public class ItemListViewModel : DockToolViewModelTemplate
     {
         #region fields

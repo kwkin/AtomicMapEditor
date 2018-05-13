@@ -22,7 +22,6 @@ using Prism.Events;
 
 namespace Ame.Modules.Windows.Docks.ItemEditorDock
 {
-    [DockContentId("ItemEditor")]
     public class ItemEditorViewModel : DockToolViewModelTemplate
     {
         #region fields

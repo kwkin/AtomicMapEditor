@@ -6,7 +6,6 @@ using Prism.Events;
 
 namespace Ame.Modules.Windows.Docks.MinimapDock
 {
-    [DockContentId("Minimap")]
     public class MinimapViewModel : DockToolViewModelTemplate
     {
         #region fields

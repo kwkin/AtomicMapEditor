@@ -6,7 +6,6 @@ using Prism.Events;
 
 namespace Ame.Modules.Windows.Docks.ClipboardDock
 {
-    [DockContentId("Clipboard")]
     public class ClipboardViewModel : DockToolViewModelTemplate
     {
         #region fields

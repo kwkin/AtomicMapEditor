@@ -39,7 +39,7 @@ using Ame.Modules.Windows.Docks;
 
 namespace Ame.Modules.Windows
 {
-    // TODO Clean up doc creation
+    // TODO fix issue with new docs not persisting (probably with the content ID)
     public class WindowManagerViewModel : BindableBase, ILayoutViewModel
     {
         #region fields
@@ -215,7 +215,6 @@ namespace Ame.Modules.Windows
                     if (this.ActiveDocument is MapEditor.Editor.MapEditorViewModel)
                     {
                         Map selectedMapContent = this.ActiveDocument.GetContent() as Map;
-                        Console.WriteLine(selectedMapContent.Name);
                         this.session.ChangeCurrentMap(selectedMapContent);
                     }
                     ActiveDocumentChanged?.Invoke(this, EventArgs.Empty);
@@ -309,9 +308,8 @@ namespace Ame.Modules.Windows
                 container.RegisterInstance<IScrollModel>(new ScrollModel());
                 container.RegisterInstance<Map>(mapModel);
                 container.RegisterInstance(this.session);
-
-                IList<ILayer> layerList = this.session.CurrentMap.LayerList;
-                ObservableCollection<ILayer> layerObservableList = new ObservableCollection<ILayer>(layerList);
+                
+                ObservableCollection<ILayer> layerObservableList = new ObservableCollection<ILayer>();
                 container.RegisterInstance<ObservableCollection<ILayer>>(layerObservableList);
 
                 this.session.MapList.Add(mapModel);
@@ -365,8 +363,7 @@ namespace Ame.Modules.Windows
             Type registeredType = null;
             foreach (Type dockType in this.dockTemplateTypes)
             {
-                DockContentIdAttribute contentId = Attribute.GetCustomAttribute(dockType, typeof(DockContentIdAttribute)) as DockContentIdAttribute;
-                if (contentId.Id == args.Model.ContentId)
+                if (dockType.Name == args.Model.ContentId)
                 {
                     registeredType = dockType;
                     break;

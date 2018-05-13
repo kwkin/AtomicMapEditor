@@ -1,8 +1,8 @@
-﻿using Prism.Mvvm;
+﻿using System;
+using Prism.Mvvm;
 
 namespace Ame.Infrastructure.BaseTypes
 {
-    [DockContentId("Clipboard")]
     public abstract class DockViewModelTemplate : BindableBase
     {
         #region fields
@@ -43,6 +43,14 @@ namespace Ame.Infrastructure.BaseTypes
         {
             get { return this.title; }
             set { SetProperty(ref this.title, value); }
+        }
+        
+        public string ContentId
+        {
+            get
+            {
+                return this.GetType().Name;
+            }
         }
 
         #endregion properties

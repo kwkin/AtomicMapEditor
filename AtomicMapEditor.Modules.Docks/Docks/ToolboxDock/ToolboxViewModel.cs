@@ -6,7 +6,6 @@ using Prism.Events;
 
 namespace Ame.Modules.Windows.Docks.ToolboxDock
 {
-    [DockContentId("Toolbox")]
     public class ToolboxViewModel : DockToolViewModelTemplate
     {
         #region fields

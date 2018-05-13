@@ -23,13 +23,19 @@ namespace Ame.Modules.Menu.Ribbon
 
         #region constructor
 
-        public MapEditorRibbonViewModel(IEventAggregator eventAggregator)
+        public MapEditorRibbonViewModel(IEventAggregator eventAggregator, AmeSession session)
         {
             if (eventAggregator == null)
             {
                 throw new ArgumentNullException("eventAggregator");
             }
+            if (session == null)
+            {
+                throw new ArgumentNullException("session");
+            }
             this.eventAggregator = eventAggregator;
+            this.Session = session;
+            this.ISTHISFUCKINGBROKEN = false;
 
             // Map bindings
             this.NewMapCommand = new DelegateCommand(() => NewMap());
@@ -116,6 +122,9 @@ namespace Ame.Modules.Menu.Ribbon
         public ICommand ExportFileCommand { get; set; }
         
         public ObservableCollection<ZoomLevel> ZoomLevels { get; set; }
+
+        public AmeSession Session { get; set; }
+        public bool ISTHISFUCKINGBROKEN { get; set; }
 
         #endregion properties
 

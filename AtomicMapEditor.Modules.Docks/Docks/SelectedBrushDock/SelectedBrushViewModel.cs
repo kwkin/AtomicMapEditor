@@ -9,7 +9,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Ame.Components.Behaviors;
-using Ame.Components.Extended;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
@@ -20,7 +19,6 @@ using Prism.Events;
 
 namespace Ame.Modules.Windows.Docks.SelectedBrushDock
 {
-    [DockContentId("SelectedBrush")]
     public class SelectedBrushViewModel : DockToolViewModelTemplate
     {
         #region fields
@@ -31,7 +29,7 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
         #endregion fields
 
 
-        #region Constructor & destructor
+        #region constructor
 
         public SelectedBrushViewModel(IEventAggregator eventAggregator, IScrollModel scrollModel)
         {
@@ -88,7 +86,7 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
             this.eventAggregator.GetEvent<UpdateBrushEvent>().Subscribe(UpdateBrushImage);
         }
 
-        #endregion Constructor & destructor
+        #endregion constructor
 
 
         #region properties

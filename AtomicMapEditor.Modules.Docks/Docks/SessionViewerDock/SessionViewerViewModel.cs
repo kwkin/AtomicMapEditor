@@ -7,7 +7,6 @@ using Prism.Events;
 
 namespace Ame.Modules.Windows.Docks.SessionViewerDock
 {
-    [DockContentId("SessionView")]
     public class SessionViewerViewModel : DockToolViewModelTemplate
     {
         #region fields
