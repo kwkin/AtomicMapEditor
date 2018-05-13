@@ -215,7 +215,8 @@ namespace Ame.Modules.Windows
                     if (this.ActiveDocument is MapEditor.Editor.MapEditorViewModel)
                     {
                         Map selectedMapContent = this.ActiveDocument.GetContent() as Map;
-                        this.session.ChangeCurrentMap(selectedMapContent);
+                        this.session.ChangeMap(selectedMapContent);
+                        Console.WriteLine(this.session.CurrentMap.Name);
                     }
                     ActiveDocumentChanged?.Invoke(this, EventArgs.Empty);
                 }

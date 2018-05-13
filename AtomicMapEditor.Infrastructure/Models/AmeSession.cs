@@ -81,11 +81,18 @@ namespace Ame.Infrastructure.Models
 
 
         #region methods
-
-        // TODO add to list if not found
-        public void ChangeCurrentMap(Map currentMap)
+        
+        public void ChangeMap(Map currentMap)
         {
-            this.CurrentMap = currentMap;
+            if (!this.MapList.Contains(currentMap))
+            {
+                this.MapList.Add(currentMap);
+                this.currentMap = currentMap;
+            }
+            else
+            {
+                this.CurrentMap = currentMap;
+            }
         }
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
