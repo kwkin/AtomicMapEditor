@@ -18,9 +18,9 @@ namespace Ame.Modules.Windows.Interactions.LayerEditorInteraction
     /// <summary>
     /// Interaction logic for LayerEditor.xaml
     /// </summary>
-    public partial class LayerEditor : UserControl
+    public partial class LayerPropertiesWindow : UserControl
     {
-        public LayerEditor()
+        public LayerPropertiesWindow()
         {
             InitializeComponent();
         }

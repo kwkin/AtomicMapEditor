@@ -25,7 +25,7 @@ using Ame.Modules.Windows.Docks.SessionViewerDock;
 using Ame.Modules.Windows.Docks.ToolboxDock;
 using Ame.Modules.MapEditor.Editor;
 using Ame.Modules.Windows.Interactions.LayerEditorInteraction;
-using Ame.Modules.Windows.Interactions.MapEditorInteraction;
+using Ame.Modules.Windows.Interactions.MapPropertiesInteraction;
 using Ame.Modules.Windows.Interactions.PreferencesInteraction;
 using Ame.Modules.Windows.Interactions.TilesetEditorInteraction;
 using Microsoft.Practices.Unity;

@@ -8,7 +8,7 @@ using Ame.Modules.Menu;
 using Ame.Modules.Menu.Options;
 using Ame.Modules.Windows.Interactions.TilesetEditorInteraction;
 using Ame.Modules.Windows.Interactions.LayerEditorInteraction;
-using Ame.Modules.Windows.Interactions.MapEditorInteraction;
+using Ame.Modules.Windows.Interactions.MapPropertiesInteraction;
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
 using Prism.Mvvm;
@@ -60,13 +60,12 @@ namespace Ame
             base.ConfigureViewModelLocator();
             
             ViewModelLocationProvider.Register<MenuOptions, MenuOptionsViewModel>();
-            ViewModelLocationProvider.Register<MapEditorDocument, Modules.MapEditor.Editor.MapEditorViewModel>();
+            ViewModelLocationProvider.Register<MapEditorDocument, MapEditorViewModel>();
             ViewModelLocationProvider.Register<MapEditorRibbon, MapEditorRibbonViewModel>();
             ViewModelLocationProvider.Register<WindowManager, WindowManagerViewModel>();
-
-            // TODO rename mapEditorViewModel
-            ViewModelLocationProvider.Register<MapEditorWindow, Modules.Windows.Interactions.MapEditorInteraction.MapEditorViewModel>();
-            ViewModelLocationProvider.Register<LayerEditor, LayerEditorViewModel>();
+            
+            ViewModelLocationProvider.Register<MapPropertiesWindow, MapPropertiesViewModel>();
+            ViewModelLocationProvider.Register<LayerPropertiesWindow, LayerPropertiesViewModel>();
             ViewModelLocationProvider.Register<TilesetEditor, TilesetEditorViewModel>();
             ViewModelLocationProvider.Register<PreferencesMenu, PreferencesViewModel>();
 

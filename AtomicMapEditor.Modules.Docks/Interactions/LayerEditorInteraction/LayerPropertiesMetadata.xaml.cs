@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Ame.Modules.Windows.Interactions.LayerEditorInteraction
 {
     /// <summary>
-    /// Interaction logic for LayerEditorGeneral.xaml
+    /// Interaction logic for LayerEditorMetadata.xaml
     /// </summary>
-    public partial class LayerEditorGeneral : UserControl
+    public partial class LayerPropertiesMetadata : UserControl
     {
-        public LayerEditorGeneral()
+        public LayerPropertiesMetadata()
         {
             InitializeComponent();
         }

@@ -4,7 +4,7 @@ using Ame.Infrastructure.Models;
 using Microsoft.Practices.Unity;
 using Prism.Interactivity.InteractionRequest;
 
-namespace Ame.Modules.Windows.Interactions.MapEditorInteraction
+namespace Ame.Modules.Windows.Interactions.MapPropertiesInteraction
 {
     public class EditMapInteractionCreator : IWindowInteractionCreator
     {

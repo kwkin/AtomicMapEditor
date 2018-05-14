@@ -71,7 +71,7 @@ namespace Ame.Modules.Windows.Interactions.LayerEditorInteraction
             PopupWindowAction action = new PopupWindowAction();
             action.IsModal = true;
             action.CenterOverAssociatedObject = true;
-            action.WindowContent = new LayerEditor();
+            action.WindowContent = new LayerPropertiesWindow();
 
             Style style = new Style();
             style.TargetType = typeof(Window);

@@ -2,18 +2,16 @@
 using System.Windows;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Models;
-using Prism.Events;
 using Prism.Interactivity;
 using Prism.Interactivity.InteractionRequest;
 
-namespace Ame.Modules.Windows.Interactions.MapEditorInteraction
+namespace Ame.Modules.Windows.Interactions.MapPropertiesInteraction
 {
-    public class NewMapInteraction : IWindowInteraction
+    public class EditMapInteraction : IWindowInteraction
     {
         #region fields
 
         private AmeSession session;
-        private IEventAggregator eventAggregator;
         private InteractionRequest<INotification> interaction;
         private Action<INotification> callback;
 
@@ -22,14 +20,13 @@ namespace Ame.Modules.Windows.Interactions.MapEditorInteraction
 
         #region Constructor
 
-        public NewMapInteraction(AmeSession session, IEventAggregator eventAggregator) : this(session, eventAggregator, null)
+        public EditMapInteraction(AmeSession session) : this(session, null)
         {
         }
 
-        public NewMapInteraction(AmeSession session, IEventAggregator eventAggregator, Action<INotification> callback)
+        public EditMapInteraction(AmeSession session, Action<INotification> callback)
         {
             this.session = session;
-            this.eventAggregator = eventAggregator;
             this.interaction = new InteractionRequest<INotification>();
             this.callback = callback;
         }
@@ -52,10 +49,8 @@ namespace Ame.Modules.Windows.Interactions.MapEditorInteraction
         public void RaiseNotification(DependencyObject parent, Action<INotification> callback)
         {
             Confirmation mapConfirmation = new Confirmation();
-            int mapCount = this.session.MapList.Count;
-            string newMapName = string.Format("Map #{0}", mapCount);
-            mapConfirmation.Content = new Map(newMapName);
-            mapConfirmation.Title = "New Map";
+            mapConfirmation.Content = this.session.CurrentMap;
+            mapConfirmation.Title = string.Format("Edit Map - {0}", this.session.CurrentMap.Name);
 
             InteractionRequestTrigger trigger = new InteractionRequestTrigger();
             trigger.SourceObject = this.interaction;
@@ -69,7 +64,7 @@ namespace Ame.Modules.Windows.Interactions.MapEditorInteraction
             PopupWindowAction action = new PopupWindowAction();
             action.IsModal = true;
             action.CenterOverAssociatedObject = true;
-            action.WindowContent = new MapEditorWindow();
+            action.WindowContent = new MapPropertiesWindow();
 
             Style style = new Style();
             style.TargetType = typeof(Window);

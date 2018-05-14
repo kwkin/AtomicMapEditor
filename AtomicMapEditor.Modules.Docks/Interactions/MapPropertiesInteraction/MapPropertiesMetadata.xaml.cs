@@ -1,13 +1,13 @@
 ﻿using System.Windows.Controls;
 
-namespace Ame.Modules.Windows.Interactions.MapEditorInteraction
+namespace Ame.Modules.Windows.Interactions.MapPropertiesInteraction
 {
     /// <summary>
     /// Interaction logic for MapEditorProperties.xaml
     /// </summary>
-    public partial class MapEditorMetadata : UserControl
+    public partial class MapPropertiesMetadata : UserControl
     {
-        public MapEditorMetadata()
+        public MapPropertiesMetadata()
         {
             InitializeComponent();
         }

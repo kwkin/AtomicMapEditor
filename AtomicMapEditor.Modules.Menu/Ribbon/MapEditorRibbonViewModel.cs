@@ -6,7 +6,7 @@ using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
 using Ame.Modules.Windows.Interactions.LayerEditorInteraction;
-using Ame.Modules.Windows.Interactions.MapEditorInteraction;
+using Ame.Modules.Windows.Interactions.MapPropertiesInteraction;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;

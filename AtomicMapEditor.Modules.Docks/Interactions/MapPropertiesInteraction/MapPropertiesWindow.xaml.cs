@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Ame.Modules.Windows.Interactions.MapEditorInteraction
+namespace Ame.Modules.Windows.Interactions.MapPropertiesInteraction
 {
     /// <summary>
     /// Interaction logic for MapEditor.xaml
     /// </summary>
-    public partial class MapEditorWindow : UserControl
+    public partial class MapPropertiesWindow : UserControl
     {
-        public MapEditorWindow()
+        public MapPropertiesWindow()
         {
             InitializeComponent();
         }

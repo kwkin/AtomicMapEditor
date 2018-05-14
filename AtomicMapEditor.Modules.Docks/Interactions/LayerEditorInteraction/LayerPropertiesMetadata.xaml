@@ -1,14 +1,14 @@
-﻿<UserControl x:Class="Ame.Modules.Windows.Interactions.MapEditorInteraction.MapEditorMetadata"
+﻿<UserControl x:Class="Ame.Modules.Windows.Interactions.LayerEditorInteraction.LayerPropertiesMetadata"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Ame.Modules.Windows.Interactions.LayerEditorInteraction"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-             xmlns:local="clr-namespace:Ame.Modules.Windows.Interactions.MapEditorInteraction"
              xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=Ame.Components"
-             xmlns:behaviors="clr-namespace:Ame.Components.Behaviors;assembly=Ame.Components"
+             xmlns:Behaviors="clr-namespace:Ame.Components.Behaviors;assembly=Ame.Components"
              mc:Ignorable="d"
-             d:DesignHeight="300" 
+             d:DesignHeight="300"
              d:DesignWidth="300">
     <Grid x:Name="propertiesGrid">
         <Grid.RowDefinitions>
@@ -23,7 +23,7 @@
                                 ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
                                 ImageStretch="None">
             </extcomp:IconButton>
-
+            
             <extcomp:IconButton x:Name="moveUpButton"
                                 ToolTip="Merge Up: Moves the property up in the list."
                                 Command="{Binding MoveMetadataUpCommand}"
@@ -48,7 +48,7 @@
         </WrapPanel>
 
         <DataGrid Grid.Row="1"
-                  ItemsSource="{Binding MapMetadata, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  ItemsSource="{Binding LayerMetadata, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding SelectedMetadata}"
                   SelectionUnit="FullRow"
                   AutoGenerateColumns="False"
@@ -56,7 +56,7 @@
                   ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                   Width="{Binding Path=Width, ElementName=propertiesGrid}">
             <i:Interaction.Behaviors>
-                <behaviors:DataGridRowReadOnlyBehavior />
+                <Behaviors:DataGridRowReadOnlyBehavior />
             </i:Interaction.Behaviors>
 
             <DataGrid.Resources>
@@ -64,7 +64,7 @@
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsReadOnly}"
                                      Value="True">
-                            <Setter Property="behaviors:ReadOnlyService.IsReadOnly"
+                            <Setter Property="Behaviors:ReadOnlyService.IsReadOnly"
                                     Value="True" />
                         </DataTrigger>
                     </Style.Triggers>

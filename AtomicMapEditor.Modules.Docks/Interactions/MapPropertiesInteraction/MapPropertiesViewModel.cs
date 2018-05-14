@@ -11,9 +11,9 @@ using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
 using Prism.Mvvm;
 
-namespace Ame.Modules.Windows.Interactions.MapEditorInteraction
+namespace Ame.Modules.Windows.Interactions.MapPropertiesInteraction
 {
-    public class MapEditorViewModel : BindableBase, IInteractionRequestAware
+    public class MapPropertiesViewModel : BindableBase, IInteractionRequestAware
     {
         #region fields
 
@@ -22,7 +22,7 @@ namespace Ame.Modules.Windows.Interactions.MapEditorInteraction
 
         #region constructor
 
-        public MapEditorViewModel(IEventAggregator eventAggregator)
+        public MapPropertiesViewModel(IEventAggregator eventAggregator)
         {
             if (eventAggregator == null)
             {

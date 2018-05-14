@@ -13,7 +13,7 @@ using Prism.Mvvm;
 
 namespace Ame.Modules.Windows.Interactions.LayerEditorInteraction
 {
-    public class LayerEditorViewModel : BindableBase, IInteractionRequestAware
+    public class LayerPropertiesViewModel : BindableBase, IInteractionRequestAware
     {
         #region fields
 
@@ -22,7 +22,7 @@ namespace Ame.Modules.Windows.Interactions.LayerEditorInteraction
 
         #region constructor
 
-        public LayerEditorViewModel()
+        public LayerPropertiesViewModel()
         {
             this.WindowTitle = "Layer Editor";
 
