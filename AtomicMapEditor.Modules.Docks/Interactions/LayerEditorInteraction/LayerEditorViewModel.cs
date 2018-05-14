@@ -47,6 +47,7 @@ namespace Ame.Modules.Windows.Interactions.LayerEditorInteraction
         public ICommand MoveMetadataUpCommand { get; private set; }
         public ICommand MoveMetadataDownCommand { get; private set; }
 
+        public string WindowTitle { get; set; }
         public string Name { get; set; }
         public int Rows { get; set; }
         public int Columns { get; set; }
@@ -58,8 +59,6 @@ namespace Ame.Modules.Windows.Interactions.LayerEditorInteraction
         public LayerPosition Position { get; set; }
         public double ScrollRate { get; set; }
         public string Description { get; set; }
-
-        public string WindowTitle { get; set; }
 
         public Confirmation notification { get; set; }
         public INotification Notification

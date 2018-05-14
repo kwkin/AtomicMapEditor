@@ -39,7 +39,6 @@ using Ame.Modules.Windows.Docks;
 
 namespace Ame.Modules.Windows
 {
-    // TODO fix issue with new docs not persisting (probably with the content ID)
     public class WindowManagerViewModel : BindableBase, ILayoutViewModel
     {
         #region fields

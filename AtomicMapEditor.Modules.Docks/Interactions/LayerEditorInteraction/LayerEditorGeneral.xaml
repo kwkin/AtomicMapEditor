@@ -40,7 +40,7 @@
                VerticalAlignment="Center"
                Content="Dimensions:" />
         <TextBox x:Name="nameTextBox"
-                 Text="{Binding Name}"
+                 Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
                  Grid.Row="0"
                  Grid.Column="3"
                  Grid.ColumnSpan="3"
@@ -208,6 +208,7 @@
                VerticalAlignment="Center"
                Content="Description:" />
         <TextBox x:Name="descriptionTextBox"
+                 Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
                  Grid.Row="7"
                  Grid.RowSpan="3"
                  Grid.Column="3"
