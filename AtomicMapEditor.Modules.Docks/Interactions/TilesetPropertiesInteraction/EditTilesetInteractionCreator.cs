@@ -6,7 +6,7 @@ using Prism.Interactivity.InteractionRequest;
 
 namespace Ame.Modules.Windows.Interactions.TilesetEditorInteraction
 {
-    public class TilesetEditorInteractionCreator : IWindowInteractionCreator
+    public class EditTilesetInteractionCreator : IWindowInteractionCreator
     {
         #region fields
 
@@ -15,7 +15,7 @@ namespace Ame.Modules.Windows.Interactions.TilesetEditorInteraction
 
         #region constructors
 
-        public TilesetEditorInteractionCreator(IEventAggregator eventAggregator)
+        public EditTilesetInteractionCreator(IEventAggregator eventAggregator)
         {
             if (eventAggregator == null)
             {
@@ -25,7 +25,7 @@ namespace Ame.Modules.Windows.Interactions.TilesetEditorInteraction
             this.Container.RegisterInstance<IEventAggregator>(eventAggregator);
         }
 
-        public TilesetEditorInteractionCreator(IEventAggregator eventAggregator, Action<INotification> callback)
+        public EditTilesetInteractionCreator(IEventAggregator eventAggregator, Action<INotification> callback)
         {
             if (eventAggregator == null)
             {
@@ -50,7 +50,7 @@ namespace Ame.Modules.Windows.Interactions.TilesetEditorInteraction
 
         public IWindowInteraction CreateWindowInteraction()
         {
-            return Container.Resolve<TilesetEditorInteraction>();
+            return Container.Resolve<EditTilesetInteraction>();
         }
 
         public IWindowInteraction CreateWindowInteraction(Action<INotification> callback)
@@ -61,12 +61,12 @@ namespace Ame.Modules.Windows.Interactions.TilesetEditorInteraction
                 container.RegisterInstance<ContainerRegistration>(registration);
             }
             container.RegisterInstance<Action<INotification>>(callback);
-            return container.Resolve<TilesetEditorInteraction>();
+            return container.Resolve<EditTilesetInteraction>();
         }
 
         public bool AppliesTo(Type type)
         {
-            return typeof(TilesetEditorInteraction).Equals(type);
+            return typeof(EditTilesetInteraction).Equals(type);
         }
 
         #endregion methods

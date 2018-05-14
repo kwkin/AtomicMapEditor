@@ -344,7 +344,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
         private void ViewProperties()
         {
-            OpenWindowMessage window = new OpenWindowMessage(typeof(TilesetEditorInteraction));
+            OpenWindowMessage window = new OpenWindowMessage(typeof(EditTilesetInteraction));
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(window);
         }
 

@@ -13,7 +13,7 @@ using Ame.Modules.Windows.Docks.MinimapDock;
 using Ame.Modules.Windows.Docks.SelectedBrushDock;
 using Ame.Modules.Windows.Docks.SessionViewerDock;
 using Ame.Modules.Windows.Docks.ToolboxDock;
-using Ame.Modules.Windows.Interactions.LayerEditorInteraction;
+using Ame.Modules.Windows.Interactions.LayerPropertiesInteraction;
 using Ame.Modules.Windows.Interactions.MapPropertiesInteraction;
 using Ame.Modules.Windows.Interactions.PreferencesInteraction;
 using Prism.Commands;

@@ -24,7 +24,7 @@ using Ame.Modules.Windows.Serializer;
 using Ame.Modules.Windows.Docks.SessionViewerDock;
 using Ame.Modules.Windows.Docks.ToolboxDock;
 using Ame.Modules.MapEditor.Editor;
-using Ame.Modules.Windows.Interactions.LayerEditorInteraction;
+using Ame.Modules.Windows.Interactions.LayerPropertiesInteraction;
 using Ame.Modules.Windows.Interactions.MapPropertiesInteraction;
 using Ame.Modules.Windows.Interactions.PreferencesInteraction;
 using Ame.Modules.Windows.Interactions.TilesetEditorInteraction;
@@ -96,7 +96,7 @@ namespace Ame.Modules.Windows
                 new EditMapInteractionCreator(this.session, OnEditMapWindowClosed),
                 new NewLayerInteractionCreator(this.session, this.eventAggregator, OnNewLayerWindowClosed),
                 new EditLayerInteractionCreator(currentLayer, OnEditLayerWindowClosed),
-                new TilesetEditorInteractionCreator(this.eventAggregator, OnTilesetEditorWindowClosed),
+                new EditTilesetInteractionCreator(this.eventAggregator, OnTilesetEditorWindowClosed),
                 new PreferenceOptionsInteractionCreator(this.eventAggregator, OnPreferencesWindowClosed)
             };
             this.windowInteractionCreator = new WindowInteractionCreator(windowInteractionCreators);

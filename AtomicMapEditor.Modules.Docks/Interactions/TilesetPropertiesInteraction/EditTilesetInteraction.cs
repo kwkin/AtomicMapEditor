@@ -6,7 +6,7 @@ using Prism.Interactivity.InteractionRequest;
 
 namespace Ame.Modules.Windows.Interactions.TilesetEditorInteraction
 {
-    public class TilesetEditorInteraction : IWindowInteraction
+    public class EditTilesetInteraction : IWindowInteraction
     {
         #region fields
 
@@ -18,11 +18,11 @@ namespace Ame.Modules.Windows.Interactions.TilesetEditorInteraction
 
         #region Constructor
 
-        public TilesetEditorInteraction() : this(null)
+        public EditTilesetInteraction() : this(null)
         {
         }
 
-        public TilesetEditorInteraction(Action<INotification> callback)
+        public EditTilesetInteraction(Action<INotification> callback)
         {
             this.interaction = new InteractionRequest<INotification>();
             this.callback = callback;
@@ -60,7 +60,7 @@ namespace Ame.Modules.Windows.Interactions.TilesetEditorInteraction
             PopupWindowAction action = new PopupWindowAction();
             action.IsModal = true;
             action.CenterOverAssociatedObject = true;
-            action.WindowContent = new TilesetEditor();
+            action.WindowContent = new TilesetPropertiesWindow();
 
             Style style = new Style();
             style.TargetType = typeof(Window);

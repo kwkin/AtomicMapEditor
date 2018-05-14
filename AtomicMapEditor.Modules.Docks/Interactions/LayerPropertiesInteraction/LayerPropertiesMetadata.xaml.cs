@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Ame.Modules.Windows.Interactions.LayerEditorInteraction
+namespace Ame.Modules.Windows.Interactions.LayerPropertiesInteraction
 {
     /// <summary>
-    /// Interaction logic for LayerEditorGeneral.xaml
+    /// Interaction logic for LayerEditorMetadata.xaml
     /// </summary>
-    public partial class LayerPropertiesGeneral : UserControl
+    public partial class LayerPropertiesMetadata : UserControl
     {
-        public LayerPropertiesGeneral()
+        public LayerPropertiesMetadata()
         {
             InitializeComponent();
         }

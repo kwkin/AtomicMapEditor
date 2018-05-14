@@ -11,7 +11,7 @@ using Prism.Mvvm;
 
 namespace Ame.Modules.Windows.Interactions.TilesetEditorInteraction
 {
-    public class TilesetEditorViewModel : BindableBase, IInteractionRequestAware
+    public class TilesetPropertiesViewModel : BindableBase, IInteractionRequestAware
     {
         #region fields
 
@@ -20,7 +20,7 @@ namespace Ame.Modules.Windows.Interactions.TilesetEditorInteraction
 
         #region constructor
 
-        public TilesetEditorViewModel(IEventAggregator eventAggregator)
+        public TilesetPropertiesViewModel(IEventAggregator eventAggregator)
         {
             if (eventAggregator == null)
             {

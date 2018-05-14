@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Ame.Modules.Windows.Interactions.TilesetEditorInteraction.TilesetEditor"
+﻿<UserControl x:Class="Ame.Modules.Windows.Interactions.TilesetEditorInteraction.TilesetPropertiesWindow"
              x:Name="tilesetEditorWindow"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -21,7 +21,7 @@
             <RowDefinition Height="25" />
         </Grid.RowDefinitions>
 
-        <local:TilesetEditorMetadata x:Name="MetadataTab"
+        <local:TilesetPropertiesMetadata x:Name="MetadataTab"
                                      Margin="4,0,4,4"
                                      DataContext="{Binding DataContext, ElementName=tilesetEditorWindow}" 
                                      Grid.ColumnSpan="3"/>

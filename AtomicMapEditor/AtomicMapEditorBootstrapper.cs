@@ -7,7 +7,7 @@ using Ame.Modules.MapEditor.Editor;
 using Ame.Modules.Menu;
 using Ame.Modules.Menu.Options;
 using Ame.Modules.Windows.Interactions.TilesetEditorInteraction;
-using Ame.Modules.Windows.Interactions.LayerEditorInteraction;
+using Ame.Modules.Windows.Interactions.LayerPropertiesInteraction;
 using Ame.Modules.Windows.Interactions.MapPropertiesInteraction;
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
@@ -66,7 +66,7 @@ namespace Ame
             
             ViewModelLocationProvider.Register<MapPropertiesWindow, MapPropertiesViewModel>();
             ViewModelLocationProvider.Register<LayerPropertiesWindow, LayerPropertiesViewModel>();
-            ViewModelLocationProvider.Register<TilesetEditor, TilesetEditorViewModel>();
+            ViewModelLocationProvider.Register<TilesetPropertiesWindow, TilesetPropertiesViewModel>();
             ViewModelLocationProvider.Register<PreferencesMenu, PreferencesViewModel>();
 
         }

@@ -4,7 +4,7 @@ using Ame.Infrastructure.Models;
 using Microsoft.Practices.Unity;
 using Prism.Interactivity.InteractionRequest;
 
-namespace Ame.Modules.Windows.Interactions.LayerEditorInteraction
+namespace Ame.Modules.Windows.Interactions.LayerPropertiesInteraction
 {
     public class EditLayerInteractionCreator : IWindowInteractionCreator
     {

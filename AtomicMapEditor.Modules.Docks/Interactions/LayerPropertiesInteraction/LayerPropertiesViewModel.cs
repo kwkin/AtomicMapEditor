@@ -11,7 +11,7 @@ using Prism.Commands;
 using Prism.Interactivity.InteractionRequest;
 using Prism.Mvvm;
 
-namespace Ame.Modules.Windows.Interactions.LayerEditorInteraction
+namespace Ame.Modules.Windows.Interactions.LayerPropertiesInteraction
 {
     public class LayerPropertiesViewModel : BindableBase, IInteractionRequestAware
     {

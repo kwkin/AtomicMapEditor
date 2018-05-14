@@ -1,22 +1,17 @@
 ﻿using System;
 using System.Windows;
 using Ame.Infrastructure.BaseTypes;
-using Ame.Infrastructure.Events;
-using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
-using Prism.Events;
 using Prism.Interactivity;
 using Prism.Interactivity.InteractionRequest;
 
-namespace Ame.Modules.Windows.Interactions.LayerEditorInteraction
+namespace Ame.Modules.Windows.Interactions.LayerPropertiesInteraction
 {
-    public class NewLayerInteraction : IWindowInteraction
+    public class EditLayerInteraction : IWindowInteraction
     {
         #region fields
 
         private ILayer layer;
-
-        private IEventAggregator eventAggregator;
         private InteractionRequest<INotification> interaction;
         private Action<INotification> callback;
 
@@ -25,19 +20,14 @@ namespace Ame.Modules.Windows.Interactions.LayerEditorInteraction
 
         #region Constructor
 
-        public NewLayerInteraction(ILayer layer, IEventAggregator eventAggregator) : this(layer, eventAggregator, null)
-        {
-        }
-
-        public NewLayerInteraction(ILayer layer, IEventAggregator eventAggregator, Action<INotification> callback)
+        public EditLayerInteraction(ILayer layer, Action<INotification> callback)
         {
             this.layer = layer;
-            this.eventAggregator = eventAggregator;
             this.interaction = new InteractionRequest<INotification>();
             this.callback = callback;
         }
 
-        #endregion Constructor 
+        #endregion Constructor
 
 
         #region Properties
@@ -54,16 +44,16 @@ namespace Ame.Modules.Windows.Interactions.LayerEditorInteraction
 
         public void RaiseNotification(DependencyObject parent, Action<INotification> callback)
         {
-            Confirmation layerWindowConfirmation = new Confirmation();
+            Confirmation confirmation = new Confirmation();
 
-            layerWindowConfirmation.Title = string.Format("New Layer - {0}", layer.LayerName);
-            layerWindowConfirmation.Content = layer;
+            confirmation.Title = string.Format("Edit Layer - {0}", layer.LayerName);
+            confirmation.Content = layer;
 
             InteractionRequestTrigger trigger = new InteractionRequestTrigger();
             trigger.SourceObject = this.interaction;
             trigger.Actions.Add(GetAction());
             trigger.Attach(parent);
-            this.interaction.Raise(layerWindowConfirmation, callback);
+            this.interaction.Raise(confirmation, callback);
         }
 
         private PopupWindowAction GetAction()

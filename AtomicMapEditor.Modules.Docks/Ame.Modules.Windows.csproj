@@ -135,20 +135,20 @@
     <Compile Include="Docks\MinimapDock\MinimapCreator.cs" />
     <Compile Include="Docks\SelectedBrushDock\SelectedBrushCreator.cs" />
     <Compile Include="Interactions\IWindowInteractionCreator.cs" />
-    <Compile Include="Interactions\LayerEditorInteraction\EditLayerInteraction.cs" />
-    <Compile Include="Interactions\LayerEditorInteraction\EditLayerInteractionCreator.cs" />
-    <Compile Include="Interactions\LayerEditorInteraction\LayerPropertiesWindow.xaml.cs">
+    <Compile Include="Interactions\LayerPropertiesInteraction\EditLayerInteraction.cs" />
+    <Compile Include="Interactions\LayerPropertiesInteraction\EditLayerInteractionCreator.cs" />
+    <Compile Include="Interactions\LayerPropertiesInteraction\LayerPropertiesWindow.xaml.cs">
       <DependentUpon>LayerPropertiesWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interactions\LayerEditorInteraction\LayerPropertiesGeneral.xaml.cs">
+    <Compile Include="Interactions\LayerPropertiesInteraction\LayerPropertiesGeneral.xaml.cs">
       <DependentUpon>LayerPropertiesGeneral.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interactions\LayerEditorInteraction\LayerPropertiesMetadata.xaml.cs">
+    <Compile Include="Interactions\LayerPropertiesInteraction\LayerPropertiesMetadata.xaml.cs">
       <DependentUpon>LayerPropertiesMetadata.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interactions\LayerEditorInteraction\LayerPropertiesViewModel.cs" />
-    <Compile Include="Interactions\LayerEditorInteraction\NewLayerInteraction.cs" />
-    <Compile Include="Interactions\LayerEditorInteraction\NewLayerInteractionCreator.cs" />
+    <Compile Include="Interactions\LayerPropertiesInteraction\LayerPropertiesViewModel.cs" />
+    <Compile Include="Interactions\LayerPropertiesInteraction\NewLayerInteraction.cs" />
+    <Compile Include="Interactions\LayerPropertiesInteraction\NewLayerInteractionCreator.cs" />
     <Compile Include="Interactions\MapPropertiesInteraction\EditMapInteraction.cs" />
     <Compile Include="Interactions\MapPropertiesInteraction\EditMapInteractionCreator.cs" />
     <Compile Include="Interactions\MapPropertiesInteraction\MapPropertiesGeneral.xaml.cs">
@@ -169,15 +169,15 @@
       <DependentUpon>PreferencesMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interactions\PreferencesInteraction\PreferencesViewModel.cs" />
-    <Compile Include="Interactions\TilesetEditorInteraction\TilesetEditor.xaml.cs">
-      <DependentUpon>TilesetEditor.xaml</DependentUpon>
+    <Compile Include="Interactions\TilesetPropertiesInteraction\TilesetPropertiesWindow.xaml.cs">
+      <DependentUpon>TilesetPropertiesWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interactions\TilesetEditorInteraction\TilesetEditorInteraction.cs" />
-    <Compile Include="Interactions\TilesetEditorInteraction\TilesetEditorInteractionCreator.cs" />
-    <Compile Include="Interactions\TilesetEditorInteraction\TilesetEditorMetadata.xaml.cs">
-      <DependentUpon>TilesetEditorMetadata.xaml</DependentUpon>
+    <Compile Include="Interactions\TilesetPropertiesInteraction\EditTilesetInteraction.cs" />
+    <Compile Include="Interactions\TilesetPropertiesInteraction\EditTilesetInteractionCreator.cs" />
+    <Compile Include="Interactions\TilesetPropertiesInteraction\TilesetPropertiesMetadata.xaml.cs">
+      <DependentUpon>TilesetPropertiesMetadata.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interactions\TilesetEditorInteraction\TilesetEditorViewModel.cs" />
+    <Compile Include="Interactions\TilesetPropertiesInteraction\TilesetPropertiesViewModel.cs" />
     <Compile Include="Interactions\WindowInteractionCreator.cs" />
     <Compile Include="Serializer\DockLayoutSerializer.cs" />
     <Compile Include="Serializer\DockLayoutViewModel.cs" />
@@ -402,15 +402,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interactions\LayerEditorInteraction\LayerPropertiesWindow.xaml">
+    <Page Include="Interactions\LayerPropertiesInteraction\LayerPropertiesWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interactions\LayerEditorInteraction\LayerPropertiesGeneral.xaml">
+    <Page Include="Interactions\LayerPropertiesInteraction\LayerPropertiesGeneral.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interactions\LayerEditorInteraction\LayerPropertiesMetadata.xaml">
+    <Page Include="Interactions\LayerPropertiesInteraction\LayerPropertiesMetadata.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -430,11 +430,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interactions\TilesetEditorInteraction\TilesetEditor.xaml">
+    <Page Include="Interactions\TilesetPropertiesInteraction\TilesetPropertiesWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interactions\TilesetEditorInteraction\TilesetEditorMetadata.xaml">
+    <Page Include="Interactions\TilesetPropertiesInteraction\TilesetPropertiesMetadata.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
