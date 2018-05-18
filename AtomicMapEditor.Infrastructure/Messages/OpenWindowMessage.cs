@@ -64,6 +64,7 @@ namespace Ame.Infrastructure.Messages
         public Type Type;
         public String Title { get; set; }
         public IUnityContainer Container { get; set; }
+        public object content { get; set; }
 
         #endregion Properties
 

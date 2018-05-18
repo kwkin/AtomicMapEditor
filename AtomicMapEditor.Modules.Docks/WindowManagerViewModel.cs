@@ -95,9 +95,9 @@ namespace Ame.Modules.Windows
                 new NewMapInteractionCreator(this.session, this.eventAggregator, OnNewMapWindowClosed),
                 new EditMapInteractionCreator(this.session, OnEditMapWindowClosed),
                 new NewLayerInteractionCreator(this.session, this.eventAggregator, OnNewLayerWindowClosed),
-                new EditLayerInteractionCreator(currentLayer, OnEditLayerWindowClosed),
-                new EditTilesetInteractionCreator(this.eventAggregator, OnTilesetEditorWindowClosed),
-                new PreferenceOptionsInteractionCreator(this.eventAggregator, OnPreferencesWindowClosed)
+                new EditLayerInteractionCreator(currentLayer),
+                new EditTilesetInteractionCreator(this.eventAggregator),
+                new PreferenceOptionsInteractionCreator(this.eventAggregator)
             };
             this.windowInteractionCreator = new WindowInteractionCreator(windowInteractionCreators);
 
@@ -267,21 +267,16 @@ namespace Ame.Modules.Windows
         private void OpenWindow(OpenWindowMessage message)
         {
             IWindowInteraction interaction = null;
-            IUnityContainer container = message.Container;
-            if (container != null)
+            object content = message.content;
+            if (content != null)
             {
-                this.windowInteractionCreator.UpdateContainer(message.Type, container);
+                this.windowInteractionCreator.UpdateContainer(message.Type, content.GetType(), content);
             }
             interaction = this.windowInteractionCreator.CreateWindowInteraction(message.Type);
             if (interaction != null)
             {
                 interaction.RaiseNotification(this.WindowManager);
             }
-        }
-
-        private void OnEditLayerWindowClosed(INotification notification)
-        {
-
         }
 
         private void OnNewLayerWindowClosed(INotification notification)
@@ -327,15 +322,6 @@ namespace Ame.Modules.Windows
                 Map mapModel = confirmation.Content as Map;
                 this.activeDocument.Title = mapModel.Name;
             }
-        }
-
-        private void OnPreferencesWindowClosed(INotification notification)
-        {
-        }
-
-        private void OnTilesetEditorWindowClosed(INotification notification)
-        {
-
         }
 
         private void SaveLayoutMessageReceived(NotificationActionMessage<string> message)

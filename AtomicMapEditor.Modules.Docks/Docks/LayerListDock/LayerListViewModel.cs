@@ -161,9 +161,10 @@ namespace Ame.Modules.Windows.Docks.LayerListDock
             OpenWindowMessage openWindowMessage = new OpenWindowMessage(typeof(EditLayerInteraction));
             openWindowMessage.Title = string.Format("Edit Layer - {0}", this.CurrentLayer.LayerName);
 
-            IUnityContainer container = new UnityContainer();
-            container.RegisterInstance<ILayer>(this.CurrentLayer);
-            openWindowMessage.Container = container;
+            //IUnityContainer container = new UnityContainer();
+            //container.RegisterInstance<ILayer>(this.CurrentLayer);
+            //openWindowMessage.Container = container;
+            openWindowMessage.content = this.CurrentLayer;
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(openWindowMessage);
         }
 

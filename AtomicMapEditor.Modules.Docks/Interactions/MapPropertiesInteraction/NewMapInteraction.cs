@@ -22,8 +22,11 @@ namespace Ame.Modules.Windows.Interactions.MapPropertiesInteraction
 
         #region Constructor
 
-        public NewMapInteraction(AmeSession session, IEventAggregator eventAggregator) : this(session, eventAggregator, null)
+        public NewMapInteraction(AmeSession session, IEventAggregator eventAggregator)
         {
+            this.session = session;
+            this.eventAggregator = eventAggregator;
+            this.interaction = new InteractionRequest<INotification>();
         }
 
         public NewMapInteraction(AmeSession session, IEventAggregator eventAggregator, Action<INotification> callback)

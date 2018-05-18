@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using Ame.Infrastructure.BaseTypes;
+using Prism.Events;
 using Prism.Interactivity;
 using Prism.Interactivity.InteractionRequest;
 
@@ -10,6 +11,7 @@ namespace Ame.Modules.Windows.Interactions.TilesetEditorInteraction
     {
         #region fields
 
+        private IEventAggregator eventAggregator;
         private InteractionRequest<INotification> interaction;
         private Action<INotification> callback;
 
@@ -18,12 +20,15 @@ namespace Ame.Modules.Windows.Interactions.TilesetEditorInteraction
 
         #region Constructor
 
-        public EditTilesetInteraction() : this(null)
+        public EditTilesetInteraction(IEventAggregator eventAggregator)
         {
+            this.eventAggregator = eventAggregator;
+            this.interaction = new InteractionRequest<INotification>();
         }
 
-        public EditTilesetInteraction(Action<INotification> callback)
+        public EditTilesetInteraction(IEventAggregator eventAggregator, Action<INotification> callback)
         {
+            this.eventAggregator = eventAggregator;
             this.interaction = new InteractionRequest<INotification>();
             this.callback = callback;
         }

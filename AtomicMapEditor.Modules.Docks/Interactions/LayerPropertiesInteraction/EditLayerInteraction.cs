@@ -20,6 +20,12 @@ namespace Ame.Modules.Windows.Interactions.LayerPropertiesInteraction
 
         #region Constructor
 
+        public EditLayerInteraction(ILayer layer)
+        {
+            this.layer = layer;
+            this.interaction = new InteractionRequest<INotification>();
+        }
+
         public EditLayerInteraction(ILayer layer, Action<INotification> callback)
         {
             this.layer = layer;

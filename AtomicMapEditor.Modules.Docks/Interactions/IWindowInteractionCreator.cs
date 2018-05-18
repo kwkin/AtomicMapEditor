@@ -1,6 +1,5 @@
 ﻿using System;
 using Ame.Infrastructure.BaseTypes;
-using Microsoft.Practices.Unity;
 using Prism.Interactivity.InteractionRequest;
 
 namespace Ame.Modules.Windows.Interactions
@@ -9,16 +8,15 @@ namespace Ame.Modules.Windows.Interactions
     {
         #region properties
 
-        IUnityContainer Container { get; set; }
-
         #endregion properties
 
 
         #region methods
-
+        
         IWindowInteraction CreateWindowInteraction();
         IWindowInteraction CreateWindowInteraction(Action<INotification> callback);
         bool AppliesTo(Type type);
+        void UpdateContent(Type type, object value);
 
         #endregion methods
     }

@@ -20,8 +20,10 @@ namespace Ame.Modules.Windows.Interactions.PreferencesInteraction
 
         #region Constructor
 
-        public PreferenceOptionsInteraction(IEventAggregator eventAggregator) : this(eventAggregator, null)
+        public PreferenceOptionsInteraction(IEventAggregator eventAggregator)
         {
+            this.eventAggregator = eventAggregator;
+            this.interaction = new InteractionRequest<INotification>();
         }
 
         public PreferenceOptionsInteraction(IEventAggregator eventAggregator, Action<INotification> callback)

@@ -38,7 +38,7 @@
                Grid.ColumnSpan="2"
                HorizontalAlignment="Right"
                VerticalAlignment="Center"
-               Content="Dimensions:" />
+               Content="Name:" />
         <TextBox x:Name="nameTextBox"
                  Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
                  Grid.Row="0"

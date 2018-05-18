@@ -52,14 +52,14 @@ namespace Ame.Modules.Windows.Interactions
             return windowInteractionCreator.CreateWindowInteraction();
         }
 
-        public void UpdateContainer(Type type, IUnityContainer container)
+        public void UpdateContainer(Type creatorType, Type valueType, object value)
         {
-            var windowInteractionCreator = this.windowInteractionFactories.FirstOrDefault(factory => factory.AppliesTo(type));
+            var windowInteractionCreator = this.windowInteractionFactories.FirstOrDefault(factory => factory.AppliesTo(creatorType));
             if (windowInteractionCreator == null)
             {
-                throw new Exception(string.Format("{0} type is not registered", type));
+                throw new Exception(string.Format("{0} type is not registered", creatorType));
             }
-            windowInteractionCreator.Container = container;
+            windowInteractionCreator.UpdateContent(valueType, value);
         }
 
         #endregion methods

@@ -11,6 +11,10 @@ namespace Ame.Modules.Windows.Interactions.MapPropertiesInteraction
     {
         #region fields
 
+        private AmeSession session;
+        private IEventAggregator eventAggregator;
+        private Action<INotification> callback;
+
         #endregion fields
 
 
@@ -26,9 +30,8 @@ namespace Ame.Modules.Windows.Interactions.MapPropertiesInteraction
             {
                 throw new ArgumentNullException("eventAggregator is null");
             }
-            this.Container = new UnityContainer();
-            this.Container.RegisterInstance<AmeSession>(session);
-            this.Container.RegisterInstance<IEventAggregator>(eventAggregator);
+            this.session = session;
+            this.eventAggregator = eventAggregator;
         }
 
         public NewMapInteractionCreator(AmeSession session, IEventAggregator eventAggregator, Action<INotification> callback)
@@ -41,18 +44,15 @@ namespace Ame.Modules.Windows.Interactions.MapPropertiesInteraction
             {
                 throw new ArgumentNullException("eventAggregator is null");
             }
-            this.Container = new UnityContainer();
-            this.Container.RegisterInstance<AmeSession>(session);
-            this.Container.RegisterInstance<IEventAggregator>(eventAggregator);
-            this.Container.RegisterInstance<Action<INotification>>(callback);
+            this.session = session;
+            this.eventAggregator = eventAggregator;
+            this.callback = callback;
         }
 
         #endregion constructors
 
 
         #region properties
-
-        public IUnityContainer Container { get; set; }
 
         #endregion properties
 
@@ -61,23 +61,33 @@ namespace Ame.Modules.Windows.Interactions.MapPropertiesInteraction
 
         public IWindowInteraction CreateWindowInteraction()
         {
-            return this.Container.Resolve<NewMapInteraction>();
+            return new NewMapInteraction(this.session, this.eventAggregator, this.callback);
         }
 
         public IWindowInteraction CreateWindowInteraction(Action<INotification> callback)
         {
-            IUnityContainer container = new UnityContainer();
-            foreach (ContainerRegistration registration in this.Container.Registrations)
-            {
-                container.RegisterInstance<ContainerRegistration>(registration);
-            }
-            container.RegisterInstance<Action<INotification>>(callback);
-            return container.Resolve<EditMapInteraction>();
+            return new NewMapInteraction(this.session, this.eventAggregator, callback);
         }
 
         public bool AppliesTo(Type type)
         {
             return typeof(NewMapInteraction).Equals(type);
+        }
+
+        public void UpdateContent(Type type, object value)
+        {
+            if (typeof(AmeSession).Equals(type))
+            {
+                this.session = value as AmeSession;
+            }
+            else if (typeof(IEventAggregator).Equals(type))
+            {
+                this.eventAggregator = value as IEventAggregator;
+            }
+            else if (typeof(Action<INotification>).Equals(type))
+            {
+                this.callback = value as Action<INotification>;
+            }
         }
 
         #endregion methods

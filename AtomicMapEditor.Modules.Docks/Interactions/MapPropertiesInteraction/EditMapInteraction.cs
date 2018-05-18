@@ -20,8 +20,10 @@ namespace Ame.Modules.Windows.Interactions.MapPropertiesInteraction
 
         #region Constructor
 
-        public EditMapInteraction(AmeSession session) : this(session, null)
+        public EditMapInteraction(AmeSession session)
         {
+            this.session = session;
+            this.interaction = new InteractionRequest<INotification>();
         }
 
         public EditMapInteraction(AmeSession session, Action<INotification> callback)

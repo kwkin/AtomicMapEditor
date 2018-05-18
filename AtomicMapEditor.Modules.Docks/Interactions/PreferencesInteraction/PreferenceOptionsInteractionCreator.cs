@@ -9,6 +9,9 @@ namespace Ame.Modules.Windows.Interactions.PreferencesInteraction
     public class PreferenceOptionsInteractionCreator : IWindowInteractionCreator
     {
         #region fields
+        
+        private IEventAggregator eventAggregator;
+        private Action<INotification> callback;
 
         #endregion fields
 
@@ -21,8 +24,7 @@ namespace Ame.Modules.Windows.Interactions.PreferencesInteraction
             {
                 throw new ArgumentNullException("eventAggregator is null");
             }
-            this.Container = new UnityContainer();
-            this.Container.RegisterInstance<IEventAggregator>(eventAggregator);
+            this.eventAggregator = eventAggregator;
         }
 
         public PreferenceOptionsInteractionCreator(IEventAggregator eventAggregator, Action<INotification> callback)
@@ -31,9 +33,8 @@ namespace Ame.Modules.Windows.Interactions.PreferencesInteraction
             {
                 throw new ArgumentNullException("eventAggregator is null");
             }
-            this.Container = new UnityContainer();
-            this.Container.RegisterInstance<IEventAggregator>(eventAggregator);
-            this.Container.RegisterInstance<Action<INotification>>(callback);
+            this.eventAggregator = eventAggregator;
+            this.callback = callback;
         }
 
         #endregion Constructor
@@ -50,23 +51,29 @@ namespace Ame.Modules.Windows.Interactions.PreferencesInteraction
 
         public IWindowInteraction CreateWindowInteraction()
         {
-            return this.Container.Resolve<PreferenceOptionsInteraction>();
+            return new PreferenceOptionsInteraction(this.eventAggregator, this.callback);
         }
 
         public IWindowInteraction CreateWindowInteraction(Action<INotification> callback)
         {
-            IUnityContainer container = new UnityContainer();
-            foreach (ContainerRegistration registration in this.Container.Registrations)
-            {
-                container.RegisterInstance<ContainerRegistration>(registration);
-            }
-            container.RegisterInstance<Action<INotification>>(callback);
-            return container.Resolve<PreferenceOptionsInteraction>();
+            return new PreferenceOptionsInteraction(this.eventAggregator, callback);
         }
 
         public bool AppliesTo(Type type)
         {
             return typeof(PreferenceOptionsInteraction).Equals(type);
+        }
+
+        public void UpdateContent(Type type, object value)
+        {
+            if (typeof(IEventAggregator).Equals(type))
+            {
+                this.eventAggregator = value as IEventAggregator;
+            }
+            else if (typeof(Action<INotification>).Equals(type))
+            {
+                this.callback = value as Action<INotification>;
+            }
         }
 
         #endregion methods

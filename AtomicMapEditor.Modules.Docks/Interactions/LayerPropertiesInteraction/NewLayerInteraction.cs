@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Windows;
 using Ame.Infrastructure.BaseTypes;
-using Ame.Infrastructure.Events;
-using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
 using Prism.Events;
 using Prism.Interactivity;
@@ -25,8 +23,11 @@ namespace Ame.Modules.Windows.Interactions.LayerPropertiesInteraction
 
         #region Constructor
 
-        public NewLayerInteraction(ILayer layer, IEventAggregator eventAggregator) : this(layer, eventAggregator, null)
+        public NewLayerInteraction(ILayer layer, IEventAggregator eventAggregator)
         {
+            this.layer = layer;
+            this.eventAggregator = eventAggregator;
+            this.interaction = new InteractionRequest<INotification>();
         }
 
         public NewLayerInteraction(ILayer layer, IEventAggregator eventAggregator, Action<INotification> callback)
