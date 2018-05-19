@@ -211,7 +211,7 @@ namespace Ame.Modules.Windows
             {
                 if (SetProperty(ref activeDocument, value))
                 {
-                    if (this.ActiveDocument is MapEditor.Editor.MapEditorViewModel)
+                    if (this.ActiveDocument is MapEditorViewModel)
                     {
                         Map selectedMapContent = this.ActiveDocument.GetContent() as Map;
                         this.session.ChangeMap(selectedMapContent);
@@ -369,12 +369,13 @@ namespace Ame.Modules.Windows
             dockViewModel.IsVisible = true;
             if (dockViewModel is DockToolViewModelTemplate)
             {
-                this.ActiveDock = dockViewModel;
                 this.Anchorables.Add(dockViewModel);
+                this.ActiveDock = dockViewModel;
             }
             else if (dockViewModel is EditorViewModelTemplate)
             {
                 this.Documents.Add(dockViewModel as EditorViewModelTemplate);
+                this.ActiveDocument = dockViewModel as EditorViewModelTemplate;
             }
         }
 

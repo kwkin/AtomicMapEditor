@@ -87,7 +87,7 @@ namespace Ame.Infrastructure.Models
             if (!this.MapList.Contains(currentMap))
             {
                 this.MapList.Add(currentMap);
-                this.currentMap = currentMap;
+                this.CurrentMap = currentMap;
             }
             else
             {
