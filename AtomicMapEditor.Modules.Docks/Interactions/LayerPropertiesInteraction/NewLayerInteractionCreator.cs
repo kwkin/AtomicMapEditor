@@ -6,19 +6,17 @@ using Prism.Interactivity.InteractionRequest;
 
 namespace Ame.Modules.Windows.Interactions.LayerPropertiesInteraction
 {
-    public class NewLayerInteractionCreator : IWindowInteractionCreator
+    public class NewLayerInteractionCreator : WindowInteractionCreatorTemplate
     {
         #region fields
 
-        private AmeSession session;
-        private IEventAggregator eventAggregator;
-        private Action<INotification> callback;
+        public IEventAggregator eventAggregator;
 
         #endregion fields
 
 
         #region constructors
-        
+
         public NewLayerInteractionCreator(AmeSession session, IEventAggregator eventAggregator)
         {
             if (session == null)
@@ -29,7 +27,7 @@ namespace Ame.Modules.Windows.Interactions.LayerPropertiesInteraction
             {
                 throw new ArgumentNullException("eventAggregator is null");
             }
-            this.session = session;
+            this.Session = session;
             this.eventAggregator = eventAggregator;
         }
 
@@ -43,9 +41,9 @@ namespace Ame.Modules.Windows.Interactions.LayerPropertiesInteraction
             {
                 throw new ArgumentNullException("eventAggregator is null");
             }
-            this.session = session;
+            this.Session = session;
             this.eventAggregator = eventAggregator;
-            this.callback = callback;
+            this.Callback = callback;
         }
 
         #endregion constructors
@@ -53,44 +51,31 @@ namespace Ame.Modules.Windows.Interactions.LayerPropertiesInteraction
 
         #region properties
 
+        public AmeSession Session { get; set; }
+        public Action<INotification> Callback { get; set; }
+
         #endregion properties
 
 
         #region methods
 
-        public IWindowInteraction CreateWindowInteraction()
+        public override IWindowInteraction CreateWindowInteraction()
         {
-            string newLayerName = string.Format("Layer #{0}", session.CurrentMap.LayerCount);
+            string newLayerName = string.Format("Layer #{0}", this.Session.CurrentMap.LayerCount);
             ILayer layer = new Layer(newLayerName, 32, 32, 32, 32);
-            return new NewLayerInteraction(layer, this.eventAggregator, this.callback);
+            return new NewLayerInteraction(layer, this.eventAggregator, this.Callback);
         }
 
-        public IWindowInteraction CreateWindowInteraction(Action<INotification> callback)
+        public override IWindowInteraction CreateWindowInteraction(Action<INotification> callback)
         {
-            string newLayerName = string.Format("Layer #{0}", session.CurrentMap.LayerCount);
+            string newLayerName = string.Format("Layer #{0}", this.Session.CurrentMap.LayerCount);
             ILayer layer = new Layer(newLayerName, 32, 32, 32, 32);
             return new NewLayerInteraction(layer, this.eventAggregator, callback);
         }
 
-        public bool AppliesTo(Type type)
+        public override bool AppliesTo(Type type)
         {
             return typeof(NewLayerInteraction).Equals(type);
-        }
-
-        public void UpdateContent(Type type, object value)
-        {
-            if (typeof(AmeSession).Equals(type))
-            {
-                this.session = value as AmeSession;
-            }
-            else if (typeof(Action<INotification>).Equals(type))
-            {
-                this.eventAggregator = value as IEventAggregator;
-            }
-            else if (typeof(Action<INotification>).Equals(type))
-            {
-                this.callback = value as Action<INotification>;
-            }
         }
 
         #endregion methods

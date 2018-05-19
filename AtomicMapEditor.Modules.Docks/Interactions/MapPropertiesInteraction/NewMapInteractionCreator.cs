@@ -1,19 +1,16 @@
 ﻿using System;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Models;
-using Microsoft.Practices.Unity;
 using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
 
 namespace Ame.Modules.Windows.Interactions.MapPropertiesInteraction
 {
-    public class NewMapInteractionCreator : IWindowInteractionCreator
+    public class NewMapInteractionCreator : WindowInteractionCreatorTemplate
     {
         #region fields
 
-        private AmeSession session;
-        private IEventAggregator eventAggregator;
-        private Action<INotification> callback;
+        public IEventAggregator eventAggregator;
 
         #endregion fields
 
@@ -30,7 +27,7 @@ namespace Ame.Modules.Windows.Interactions.MapPropertiesInteraction
             {
                 throw new ArgumentNullException("eventAggregator is null");
             }
-            this.session = session;
+            this.Session = session;
             this.eventAggregator = eventAggregator;
         }
 
@@ -44,9 +41,9 @@ namespace Ame.Modules.Windows.Interactions.MapPropertiesInteraction
             {
                 throw new ArgumentNullException("eventAggregator is null");
             }
-            this.session = session;
+            this.Session = session;
             this.eventAggregator = eventAggregator;
-            this.callback = callback;
+            this.Callback = callback;
         }
 
         #endregion constructors
@@ -54,40 +51,27 @@ namespace Ame.Modules.Windows.Interactions.MapPropertiesInteraction
 
         #region properties
 
+        public AmeSession Session { get; set; }
+        public Action<INotification> Callback { get; set; }
+
         #endregion properties
 
 
         #region methods
 
-        public IWindowInteraction CreateWindowInteraction()
+        public override IWindowInteraction CreateWindowInteraction()
         {
-            return new NewMapInteraction(this.session, this.eventAggregator, this.callback);
+            return new NewMapInteraction(this.Session, this.eventAggregator, this.Callback);
         }
 
-        public IWindowInteraction CreateWindowInteraction(Action<INotification> callback)
+        public override IWindowInteraction CreateWindowInteraction(Action<INotification> callback)
         {
-            return new NewMapInteraction(this.session, this.eventAggregator, callback);
+            return new NewMapInteraction(this.Session, this.eventAggregator, callback);
         }
 
-        public bool AppliesTo(Type type)
+        public override bool AppliesTo(Type type)
         {
             return typeof(NewMapInteraction).Equals(type);
-        }
-
-        public void UpdateContent(Type type, object value)
-        {
-            if (typeof(AmeSession).Equals(type))
-            {
-                this.session = value as AmeSession;
-            }
-            else if (typeof(IEventAggregator).Equals(type))
-            {
-                this.eventAggregator = value as IEventAggregator;
-            }
-            else if (typeof(Action<INotification>).Equals(type))
-            {
-                this.callback = value as Action<INotification>;
-            }
         }
 
         #endregion methods

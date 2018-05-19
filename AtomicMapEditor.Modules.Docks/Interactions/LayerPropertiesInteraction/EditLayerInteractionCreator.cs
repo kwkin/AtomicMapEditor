@@ -5,14 +5,10 @@ using Prism.Interactivity.InteractionRequest;
 
 namespace Ame.Modules.Windows.Interactions.LayerPropertiesInteraction
 {
-    public class EditLayerInteractionCreator : IWindowInteractionCreator
+    public class EditLayerInteractionCreator : WindowInteractionCreatorTemplate
     {
         #region fields
-
-        private ILayer layer;
-        private AmeSession session;
-        private Action<INotification> callback;
-
+        
         #endregion fields
 
 
@@ -20,44 +16,48 @@ namespace Ame.Modules.Windows.Interactions.LayerPropertiesInteraction
 
         public EditLayerInteractionCreator(AmeSession session)
         {
-            this.session = session;
+            this.Session = session;
         }
 
         public EditLayerInteractionCreator(AmeSession session, Action<INotification> callback)
         {
-            this.session = session;
-            this.callback = callback;
+            this.Session = session;
+            this.Callback = callback;
         }
 
         #endregion constructors
 
 
         #region properties
-        
+
+        public Layer Layer { get; set; }
+        public AmeSession Session { get; set; }
+        public Action<INotification> Callback { get; set; }
+
         #endregion properties
 
 
         #region methods
 
-        public IWindowInteraction CreateWindowInteraction()
+        public override IWindowInteraction CreateWindowInteraction()
         {
-            return CreateWindowInteraction(this.callback);
+            return CreateWindowInteraction(this.Callback);
         }
 
-        public IWindowInteraction CreateWindowInteraction(Action<INotification> callback)
+        public override IWindowInteraction CreateWindowInteraction(Action<INotification> callback)
         {
-            ILayer editLayer = null;
-            if (this.layer != null)
+            Layer editLayer = null;
+            if (this.Layer != null)
             {
-                editLayer = this.layer;
+                editLayer = this.Layer;
             }
             else
             {
-                if (this.session.CurrentMap != null)
+                if (this.Session.CurrentMap != null)
                 {
-                    if (this.session.CurrentMap.CurrentLayer != null)
+                    if (this.Session.CurrentMap.CurrentLayer != null)
                     {
-                        editLayer = this.session.CurrentMap.CurrentLayer;
+                        editLayer = this.Session.CurrentMap.CurrentLayer as Layer;
                     }
                 }
             }
@@ -66,25 +66,13 @@ namespace Ame.Modules.Windows.Interactions.LayerPropertiesInteraction
                 editLayer = new Layer(32, 32, 32, 32);
             }
             IWindowInteraction interaction = new EditLayerInteraction(editLayer, callback);
-            this.layer = null;
+            this.Layer = null;
             return interaction;
         }
 
-        public bool AppliesTo(Type type)
+        public override bool AppliesTo(Type type)
         {
             return typeof(EditLayerInteraction).Equals(type);
-        }
-
-        public void UpdateContent(Type type, object value)
-        {
-            if (typeof(Layer).Equals(type))
-            {
-                this.layer = value as Layer;
-            }
-            else if (typeof(Action<INotification>).Equals(type))
-            {
-                this.callback = value as Action<INotification>;
-            }
         }
 
         #endregion methods

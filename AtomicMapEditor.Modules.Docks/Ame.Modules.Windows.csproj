@@ -134,7 +134,7 @@
     <Compile Include="Docks\LayerListDock\LayerListCreator.cs" />
     <Compile Include="Docks\MinimapDock\MinimapCreator.cs" />
     <Compile Include="Docks\SelectedBrushDock\SelectedBrushCreator.cs" />
-    <Compile Include="Interactions\IWindowInteractionCreator.cs" />
+    <Compile Include="Interactions\WindowInteractionCreatorTemplate.cs" />
     <Compile Include="Interactions\LayerPropertiesInteraction\EditLayerInteraction.cs" />
     <Compile Include="Interactions\LayerPropertiesInteraction\EditLayerInteractionCreator.cs" />
     <Compile Include="Interactions\LayerPropertiesInteraction\LayerPropertiesWindow.xaml.cs">

@@ -5,12 +5,9 @@ using Prism.Interactivity.InteractionRequest;
 
 namespace Ame.Modules.Windows.Interactions.MapPropertiesInteraction
 {
-    public class EditMapInteractionCreator : IWindowInteractionCreator
+    public class EditMapInteractionCreator : WindowInteractionCreatorTemplate
     {
         #region fields
-
-        private AmeSession session;
-        private Action<INotification> callback;
 
         #endregion fields
 
@@ -23,7 +20,7 @@ namespace Ame.Modules.Windows.Interactions.MapPropertiesInteraction
             {
                 throw new ArgumentNullException("session is null");
             }
-            this.session = session;
+            this.Session = session;
         }
 
         public EditMapInteractionCreator(AmeSession session, Action<INotification> callback)
@@ -32,8 +29,8 @@ namespace Ame.Modules.Windows.Interactions.MapPropertiesInteraction
             {
                 throw new ArgumentNullException("session is null");
             }
-            this.session = session;
-            this.callback = callback;
+            this.Session = session;
+            this.Callback = callback;
         }
 
         #endregion constructors
@@ -41,36 +38,27 @@ namespace Ame.Modules.Windows.Interactions.MapPropertiesInteraction
 
         #region properties
 
+        public AmeSession Session { get; set; }
+        public Action<INotification> Callback { get; set; }
+
         #endregion properties
 
 
         #region methods
 
-        public IWindowInteraction CreateWindowInteraction()
+        public override IWindowInteraction CreateWindowInteraction()
         {
-            return new EditMapInteraction(this.session, this.callback);
+            return new EditMapInteraction(this.Session, this.Callback);
         }
 
-        public IWindowInteraction CreateWindowInteraction(Action<INotification> callback)
+        public override IWindowInteraction CreateWindowInteraction(Action<INotification> callback)
         {
-            return new EditMapInteraction(this.session, callback);
+            return new EditMapInteraction(this.Session, callback);
         }
 
-        public bool AppliesTo(Type type)
+        public override bool AppliesTo(Type type)
         {
             return typeof(EditMapInteraction).Equals(type);
-        }
-
-        public void UpdateContent(Type type, object value)
-        {
-            if (typeof(AmeSession).Equals(type))
-            {
-                this.session = value as AmeSession;
-            }
-            else if (typeof(Action<INotification>).Equals(type))
-            {
-                this.callback = value as Action<INotification>;
-            }
         }
 
         #endregion methods

@@ -9,6 +9,8 @@ namespace Ame.Modules.Windows.Docks.ClipboardDock
     {
         #region fields
 
+        public IEventAggregator eventAggregator;
+
         #endregion fields
 
 
@@ -20,15 +22,13 @@ namespace Ame.Modules.Windows.Docks.ClipboardDock
             {
                 throw new ArgumentNullException("eventAggregator is null");
             }
-            this.EventAggregator = eventAggregator;
+            this.eventAggregator = eventAggregator;
         }
 
         #endregion constructors
 
 
         #region properties
-
-        public IEventAggregator EventAggregator { get; set; }
 
         #endregion properties
 
@@ -37,7 +37,7 @@ namespace Ame.Modules.Windows.Docks.ClipboardDock
 
         public override DockViewModelTemplate CreateDock()
         {
-            return new ClipboardViewModel(this.EventAggregator);
+            return new ClipboardViewModel(this.eventAggregator);
         }
 
         public override bool AppliesTo(Type type)

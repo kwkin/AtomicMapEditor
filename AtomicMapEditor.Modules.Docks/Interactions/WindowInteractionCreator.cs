@@ -10,14 +10,14 @@ namespace Ame.Modules.Windows.Interactions
     {
         #region fields
 
-        private readonly IWindowInteractionCreator[] windowInteractionFactories;
+        private readonly WindowInteractionCreatorTemplate[] windowInteractionFactories;
 
         #endregion fields
 
 
         #region constructors
 
-        public WindowInteractionCreator(IWindowInteractionCreator[] windowInteractionCreators)
+        public WindowInteractionCreator(WindowInteractionCreatorTemplate[] windowInteractionCreators)
         {
             this.windowInteractionFactories = windowInteractionCreators;
         }

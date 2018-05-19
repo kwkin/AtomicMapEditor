@@ -81,7 +81,7 @@ namespace Ame.Modules.Windows
                 this.ActiveDocument = this.Documents[0];
             }
             
-            IWindowInteractionCreator[] windowInteractionCreators = new IWindowInteractionCreator[]
+            WindowInteractionCreatorTemplate[] windowInteractionCreators = new WindowInteractionCreatorTemplate[]
             {
                 new NewMapInteractionCreator(this.session, this.eventAggregator, OnNewMapWindowClosed),
                 new EditMapInteractionCreator(this.session, OnEditMapWindowClosed),

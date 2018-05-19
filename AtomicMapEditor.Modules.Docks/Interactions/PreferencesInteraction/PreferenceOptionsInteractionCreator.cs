@@ -6,12 +6,11 @@ using Prism.Interactivity.InteractionRequest;
 
 namespace Ame.Modules.Windows.Interactions.PreferencesInteraction
 {
-    public class PreferenceOptionsInteractionCreator : IWindowInteractionCreator
+    public class PreferenceOptionsInteractionCreator : WindowInteractionCreatorTemplate
     {
         #region fields
         
         private IEventAggregator eventAggregator;
-        private Action<INotification> callback;
 
         #endregion fields
 
@@ -34,7 +33,7 @@ namespace Ame.Modules.Windows.Interactions.PreferencesInteraction
                 throw new ArgumentNullException("eventAggregator is null");
             }
             this.eventAggregator = eventAggregator;
-            this.callback = callback;
+            this.Callback = callback;
         }
 
         #endregion Constructor
@@ -42,38 +41,26 @@ namespace Ame.Modules.Windows.Interactions.PreferencesInteraction
 
         #region Properties
 
-        public IUnityContainer Container { get; set; }
+        public Action<INotification> Callback { get; set; }
 
         #endregion Properties
 
 
         #region methods
 
-        public IWindowInteraction CreateWindowInteraction()
+        public override IWindowInteraction CreateWindowInteraction()
         {
-            return new PreferenceOptionsInteraction(this.eventAggregator, this.callback);
+            return new PreferenceOptionsInteraction(this.eventAggregator, this.Callback);
         }
 
-        public IWindowInteraction CreateWindowInteraction(Action<INotification> callback)
+        public override IWindowInteraction CreateWindowInteraction(Action<INotification> callback)
         {
             return new PreferenceOptionsInteraction(this.eventAggregator, callback);
         }
 
-        public bool AppliesTo(Type type)
+        public override bool AppliesTo(Type type)
         {
             return typeof(PreferenceOptionsInteraction).Equals(type);
-        }
-
-        public void UpdateContent(Type type, object value)
-        {
-            if (typeof(IEventAggregator).Equals(type))
-            {
-                this.eventAggregator = value as IEventAggregator;
-            }
-            else if (typeof(Action<INotification>).Equals(type))
-            {
-                this.callback = value as Action<INotification>;
-            }
         }
 
         #endregion methods
