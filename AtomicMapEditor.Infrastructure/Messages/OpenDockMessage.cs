@@ -23,14 +23,14 @@ namespace Ame.Infrastructure.Messages
             this.Title = "";
         }
 
-        public OpenDockMessage(Type type, IUnityContainer container)
+        public OpenDockMessage(Type type, object content)
         {
             if (!typeof(DockViewModelTemplate).IsAssignableFrom(type))
             {
                 return;
             }
             this.Type = type;
-            this.Container = container;
+            this.Content = content;
             this.Title = "";
         }
 
@@ -44,14 +44,14 @@ namespace Ame.Infrastructure.Messages
             this.Title = title;
         }
 
-        public OpenDockMessage(Type type, IUnityContainer container, String title)
+        public OpenDockMessage(Type type, object content, String title)
         {
             if (!typeof(DockViewModelTemplate).IsAssignableFrom(type))
             {
                 return;
             }
             this.Type = type;
-            this.Container = container;
+            this.Content = content;
             this.Title = title;
         }
 
@@ -61,8 +61,8 @@ namespace Ame.Infrastructure.Messages
         #region Properties
 
         public Type Type { get; set; }
+        public object Content { get; set; }
         public String Title { get; set; }
-        public IUnityContainer Container { get; set; }
 
         #endregion Properties
 

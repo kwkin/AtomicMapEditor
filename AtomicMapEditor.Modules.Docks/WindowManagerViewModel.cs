@@ -28,7 +28,6 @@ using Ame.Modules.Windows.Interactions.LayerPropertiesInteraction;
 using Ame.Modules.Windows.Interactions.MapPropertiesInteraction;
 using Ame.Modules.Windows.Interactions.PreferencesInteraction;
 using Ame.Modules.Windows.Interactions.TilesetEditorInteraction;
-using Microsoft.Practices.Unity;
 using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
 using Prism.Mvvm;
@@ -73,7 +72,7 @@ namespace Ame.Modules.Windows
             
             foreach (Map map in session.MapList)
             {
-                MapEditorCreator mapEditorCreator = new MapEditorCreator(this.eventAggregator, new ScrollModel(), new Map("Map #1"));
+                MapEditorCreator mapEditorCreator = new MapEditorCreator(this.eventAggregator, new Map("Map #1"));
                 DockViewModelTemplate dockViewModel = mapEditorCreator.CreateDock();
                 AddDockViewModel(dockViewModel);
             }
@@ -102,14 +101,14 @@ namespace Ame.Modules.Windows
             IDockCreator[] dockCreators = new IDockCreator[]
             {
                 new ClipboardCreator(this.eventAggregator),
-                new ItemEditorCreator(this.eventAggregator, new ScrollModel()),
+                new ItemEditorCreator(this.eventAggregator),
                 new ItemListCreator(this.eventAggregator),
                 new LayerListCreator(this.eventAggregator, this.session),
                 new MinimapCreator(this.eventAggregator),
-                new SelectedBrushCreator(this.eventAggregator, new ScrollModel()),
+                new SelectedBrushCreator(this.eventAggregator),
                 new SessionViewerCreator(this.eventAggregator, this.session),
                 new ToolboxCreator(this.eventAggregator),
-                new MapEditorCreator(this.eventAggregator, new ScrollModel(), new Map("Map #1"))
+                new MapEditorCreator(this.eventAggregator, new Map("Map #1"))
             };
             this.dockCreator = new DockCreator(dockCreators);
 
@@ -247,10 +246,10 @@ namespace Ame.Modules.Windows
         private void OpenDock(OpenDockMessage message)
         {
             DockViewModelTemplate dockViewModel;
-            IUnityContainer container = message.Container;
-            if (container != null)
+            object content = message.Content;
+            if (content != null)
             {
-                this.dockCreator.UpdateContainer(message.Type, container);
+                this.dockCreator.UpdateContainer(message.Type, content.GetType(), content);
             }
             dockViewModel = this.dockCreator.CreateDock(message.Type);
             if (!string.IsNullOrEmpty(message.Title))
@@ -263,7 +262,7 @@ namespace Ame.Modules.Windows
         private void OpenWindow(OpenWindowMessage message)
         {
             IWindowInteraction interaction = null;
-            object content = message.content;
+            object content = message.Content;
             if (content != null)
             {
                 this.windowInteractionCreator.UpdateContainer(message.Type, content.GetType(), content);
@@ -293,19 +292,8 @@ namespace Ame.Modules.Windows
             if (confirmation.Confirmed)
             {
                 Map mapModel = confirmation.Content as Map;
+                OpenDockMessage openEditorMessage = new OpenDockMessage(typeof(MapEditorViewModel), mapModel);
 
-                IUnityContainer container = new UnityContainer();
-                container.RegisterInstance<IEventAggregator>(this.eventAggregator);
-                container.RegisterInstance<IScrollModel>(new ScrollModel());
-                container.RegisterInstance<Map>(mapModel);
-                container.RegisterInstance(this.session);
-                
-                ObservableCollection<ILayer> layerObservableList = new ObservableCollection<ILayer>();
-                container.RegisterInstance<ObservableCollection<ILayer>>(layerObservableList);
-
-                this.session.MapList.Add(mapModel);
-
-                OpenDockMessage openEditorMessage = new OpenDockMessage(typeof(MapEditor.Editor.MapEditorViewModel), container);
                 this.eventAggregator.GetEvent<OpenDockEvent>().Publish(openEditorMessage);
             }
         }

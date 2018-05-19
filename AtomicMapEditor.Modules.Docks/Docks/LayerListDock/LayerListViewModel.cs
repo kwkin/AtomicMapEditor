@@ -162,7 +162,7 @@ namespace Ame.Modules.Windows.Docks.LayerListDock
             //IUnityContainer container = new UnityContainer();
             //container.RegisterInstance<ILayer>(this.CurrentLayer);
             //openWindowMessage.Container = container;
-            openWindowMessage.content = this.Session.CurrentLayer;
+            openWindowMessage.Content = this.Session.CurrentLayer;
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(openWindowMessage);
         }
 

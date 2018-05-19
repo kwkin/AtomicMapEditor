@@ -7,6 +7,7 @@ namespace Ame.Infrastructure.Messages
 {
     public class OpenWindowMessage
     {
+        // TODO remove container
         #region fields
 
         #endregion fields
@@ -64,7 +65,7 @@ namespace Ame.Infrastructure.Messages
         public Type Type;
         public String Title { get; set; }
         public IUnityContainer Container { get; set; }
-        public object content { get; set; }
+        public object Content { get; set; }
 
         #endregion Properties
 

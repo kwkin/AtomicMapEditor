@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Models;
-using Microsoft.Practices.Unity;
 using Prism.Events;
 
 namespace Ame.Modules.Windows.Docks.LayerListDock
@@ -10,6 +8,9 @@ namespace Ame.Modules.Windows.Docks.LayerListDock
     public class LayerListCreator : IDockCreator
     {
         #region fields
+
+        private IEventAggregator eventAggregator;
+        private AmeSession session;
 
         #endregion fields
 
@@ -26,17 +27,14 @@ namespace Ame.Modules.Windows.Docks.LayerListDock
             {
                 throw new ArgumentNullException("session is null");
             }
-            this.Container = new UnityContainer();
-            this.Container.RegisterInstance<IEventAggregator>(eventAggregator);
-            this.Container.RegisterInstance<AmeSession>(session);
+            this.eventAggregator = eventAggregator;
+            this.session = session;
         }
 
         #endregion constructors
 
 
         #region properties
-
-        public IUnityContainer Container { get; set; }
 
         #endregion properties
 
@@ -45,12 +43,24 @@ namespace Ame.Modules.Windows.Docks.LayerListDock
 
         public DockViewModelTemplate CreateDock()
         {
-            return this.Container.Resolve<LayerListViewModel>();
+            return new LayerListViewModel(this.eventAggregator, session);
         }
 
         public bool AppliesTo(Type type)
         {
             return typeof(LayerListViewModel).Equals(type);
+        }
+
+        public void UpdateContent(Type type, object value)
+        {
+            if (typeof(IEventAggregator).Equals(type))
+            {
+                this.eventAggregator = value as IEventAggregator;
+            }
+            else if (typeof(AmeSession).Equals(type))
+            {
+                this.session = value as AmeSession;
+            }
         }
 
         #endregion methods

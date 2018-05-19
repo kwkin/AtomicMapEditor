@@ -8,16 +8,14 @@ namespace Ame.Modules.Windows
     {
         #region properties
 
-        IUnityContainer Container { get; set; }
-
         #endregion properties
 
 
         #region methods
 
         DockViewModelTemplate CreateDock();
-
         bool AppliesTo(Type type);
+        void UpdateContent(Type type, object value);
 
         #endregion methods
     }

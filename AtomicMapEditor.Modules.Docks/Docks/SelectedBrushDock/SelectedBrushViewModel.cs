@@ -31,6 +31,11 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
 
         #region constructor
 
+        public SelectedBrushViewModel(IEventAggregator eventAggregator) : this(eventAggregator, new ScrollModel())
+        {
+
+        }
+
         public SelectedBrushViewModel(IEventAggregator eventAggregator, IScrollModel scrollModel)
         {
             if (eventAggregator == null)

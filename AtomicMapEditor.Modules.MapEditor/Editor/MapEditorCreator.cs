@@ -3,7 +3,6 @@ using Ame.Components.Behaviors;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Models;
 using Ame.Modules.Windows;
-using Microsoft.Practices.Unity;
 using Prism.Events;
 
 namespace Ame.Modules.MapEditor.Editor
@@ -12,33 +11,38 @@ namespace Ame.Modules.MapEditor.Editor
     {
         #region fields
 
+        private IEventAggregator eventAggregator;
+        private Map map;
+        private ScrollModel scrollModel;
+
         #endregion fields
 
 
         #region constructors
 
-        public MapEditorCreator(IEventAggregator eventAggregator, IScrollModel scrollModel, Map map)
+        public MapEditorCreator(IEventAggregator eventAggregator, Map map) : this(eventAggregator, map, null)
+        {
+        }
+
+        public MapEditorCreator(IEventAggregator eventAggregator, Map map, ScrollModel scrollModel)
         {
             if (eventAggregator == null)
             {
                 throw new ArgumentNullException("eventAggregator is null");
             }
-            if (scrollModel == null)
+            if (map == null)
             {
-                throw new ArgumentNullException("scrollModel is null");
+                throw new ArgumentNullException("map is null");
             }
-            this.Container = new UnityContainer();
-            this.Container.RegisterInstance<IEventAggregator>(eventAggregator);
-            this.Container.RegisterInstance<IScrollModel>(scrollModel);
-            this.Container.RegisterInstance<Map>(map);
+            this.eventAggregator = eventAggregator;
+            this.map = map;
+            this.scrollModel = scrollModel;
         }
 
         #endregion constructors
 
 
         #region properties
-
-        public IUnityContainer Container { get; set; }
 
         #endregion properties
 
@@ -47,12 +51,37 @@ namespace Ame.Modules.MapEditor.Editor
 
         public DockViewModelTemplate CreateDock()
         {
-            return this.Container.Resolve<MapEditorViewModel>();
+            DockViewModelTemplate template;
+            if (this.scrollModel != null)
+            {
+                template = new MapEditorViewModel(this.eventAggregator, this.map, this.scrollModel);
+            }
+            else
+            {
+                template = new MapEditorViewModel(this.eventAggregator, this.map);
+            }
+            return template;
         }
 
         public bool AppliesTo(Type type)
         {
             return typeof(MapEditorViewModel).Equals(type);
+        }
+
+        public void UpdateContent(Type type, object value)
+        {
+            if (typeof(IEventAggregator).Equals(type))
+            {
+                this.eventAggregator = value as IEventAggregator;
+            }
+            else if (typeof(Map).Equals(type))
+            {
+                this.map = value as Map;
+            }
+            else if (typeof(ScrollModel).Equals(type))
+            {
+                this.scrollModel = value as ScrollModel;
+            }
         }
 
         #endregion methods

@@ -9,6 +9,8 @@ namespace Ame.Modules.Windows.Docks.ItemListDock
     {
         #region fields
 
+        private IEventAggregator eventAggregator;
+
         #endregion fields
 
 
@@ -20,16 +22,13 @@ namespace Ame.Modules.Windows.Docks.ItemListDock
             {
                 throw new ArgumentNullException("eventAggregator is null");
             }
-            this.Container = new UnityContainer();
-            this.Container.RegisterInstance<IEventAggregator>(eventAggregator);
+            this.eventAggregator = eventAggregator;
         }
 
         #endregion constructors
 
 
         #region properties
-
-        public IUnityContainer Container { get; set; }
 
         #endregion properties
 
@@ -38,12 +37,20 @@ namespace Ame.Modules.Windows.Docks.ItemListDock
 
         public DockViewModelTemplate CreateDock()
         {
-            return this.Container.Resolve<ItemListViewModel>();
+            return new ItemListViewModel(this.eventAggregator);
         }
 
         public bool AppliesTo(Type type)
         {
             return typeof(ItemListViewModel).Equals(type);
+        }
+
+        public void UpdateContent(Type type, object value)
+        {
+            if (typeof(IEventAggregator).Equals(type))
+            {
+                this.eventAggregator = value as IEventAggregator;
+            }
         }
 
         #endregion methods

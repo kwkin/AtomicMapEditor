@@ -1,7 +1,6 @@
 ﻿using System;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Models;
-using Microsoft.Practices.Unity;
 using Prism.Events;
 
 namespace Ame.Modules.Windows.Docks.SessionViewerDock
@@ -9,6 +8,9 @@ namespace Ame.Modules.Windows.Docks.SessionViewerDock
     public class SessionViewerCreator : IDockCreator
     {
         #region fields
+
+        private IEventAggregator eventAggregator;
+        private AmeSession session;
 
         #endregion fields
 
@@ -25,17 +27,14 @@ namespace Ame.Modules.Windows.Docks.SessionViewerDock
             {
                 throw new ArgumentNullException("session is null");
             }
-            this.Container = new UnityContainer();
-            this.Container.RegisterInstance<IEventAggregator>(eventAggregator);
-            this.Container.RegisterInstance<AmeSession>(session);
+            this.eventAggregator = eventAggregator;
+            this.session = session;
         }
 
         #endregion constructors
 
 
         #region properties
-
-        public IUnityContainer Container { get; set; }
 
         #endregion properties
 
@@ -44,12 +43,24 @@ namespace Ame.Modules.Windows.Docks.SessionViewerDock
 
         public DockViewModelTemplate CreateDock()
         {
-            return this.Container.Resolve<SessionViewerViewModel>();
+            return new SessionViewerViewModel(this.eventAggregator, this.session);
         }
 
         public bool AppliesTo(Type type)
         {
             return typeof(SessionViewerViewModel).Equals(type);
+        }
+
+        public void UpdateContent(Type type, object value)
+        {
+            if (typeof(IEventAggregator).Equals(type))
+            {
+                this.eventAggregator = value as IEventAggregator;
+            }
+            else if (typeof(AmeSession).Equals(type))
+            {
+                this.session = value as AmeSession;
+            }
         }
 
         #endregion methods

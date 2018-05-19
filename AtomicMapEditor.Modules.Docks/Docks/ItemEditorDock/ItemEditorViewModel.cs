@@ -38,11 +38,19 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
         #region constructor
 
-        public ItemEditorViewModel(IEventAggregator eventAggregator, IScrollModel scrollModel) : this(new TilesetModel(), eventAggregator, scrollModel)
+        public ItemEditorViewModel(IEventAggregator eventAggregator) : this(eventAggregator, new TilesetModel(), new ScrollModel())
         {
         }
 
-        public ItemEditorViewModel(TilesetModel tilesetModel, IEventAggregator eventAggregator, IScrollModel scrollModel)
+        public ItemEditorViewModel(IEventAggregator eventAggregator, TilesetModel tilesetModel) : this(eventAggregator, tilesetModel, new ScrollModel())
+        {
+        }
+
+        public ItemEditorViewModel(IEventAggregator eventAggregator, IScrollModel scrollModel) : this(eventAggregator, new TilesetModel(), scrollModel)
+        {
+        }
+
+        public ItemEditorViewModel(IEventAggregator eventAggregator, TilesetModel tilesetModel, IScrollModel scrollModel)
         {
             if (eventAggregator == null)
             {

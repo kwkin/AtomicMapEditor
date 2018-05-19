@@ -9,6 +9,8 @@ namespace Ame.Modules.Windows.Docks.ClipboardDock
     {
         #region fields
 
+        private IEventAggregator eventAggregator;
+
         #endregion fields
 
 
@@ -20,16 +22,13 @@ namespace Ame.Modules.Windows.Docks.ClipboardDock
             {
                 throw new ArgumentNullException("eventAggregator is null");
             }
-            this.Container = new UnityContainer();
-            this.Container.RegisterInstance<IEventAggregator>(eventAggregator);
+            this.eventAggregator = eventAggregator;
         }
 
         #endregion constructors
 
 
         #region properties
-
-        public IUnityContainer Container { get; set; }
 
         #endregion properties
 
@@ -38,12 +37,21 @@ namespace Ame.Modules.Windows.Docks.ClipboardDock
 
         public DockViewModelTemplate CreateDock()
         {
-            return this.Container.Resolve<ClipboardViewModel>();
+            return new ClipboardViewModel(this.eventAggregator);
         }
 
         public bool AppliesTo(Type type)
         {
             return typeof(ClipboardViewModel).Equals(type);
+        }
+
+        // TODO look into reflectance to update this (possibly have in extended class)
+        public void UpdateContent(Type type, object value)
+        {
+            if (typeof(IEventAggregator).Equals(type))
+            {
+                this.eventAggregator = value as IEventAggregator;
+            }
         }
 
         #endregion methods

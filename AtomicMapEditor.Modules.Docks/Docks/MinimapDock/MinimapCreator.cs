@@ -1,6 +1,5 @@
 ﻿using System;
 using Ame.Infrastructure.BaseTypes;
-using Microsoft.Practices.Unity;
 using Prism.Events;
 
 namespace Ame.Modules.Windows.Docks.MinimapDock
@@ -8,6 +7,8 @@ namespace Ame.Modules.Windows.Docks.MinimapDock
     public class MinimapCreator : IDockCreator
     {
         #region fields
+
+        private IEventAggregator eventAggregator;
 
         #endregion fields
 
@@ -20,16 +21,13 @@ namespace Ame.Modules.Windows.Docks.MinimapDock
             {
                 throw new ArgumentNullException("eventAggregator is null");
             }
-            this.Container = new UnityContainer();
-            this.Container.RegisterInstance<IEventAggregator>(eventAggregator);
+            this.eventAggregator = eventAggregator;
         }
 
         #endregion constructors
 
 
         #region properties
-
-        public IUnityContainer Container { get; set; }
 
         #endregion properties
 
@@ -38,12 +36,20 @@ namespace Ame.Modules.Windows.Docks.MinimapDock
 
         public DockViewModelTemplate CreateDock()
         {
-            return this.Container.Resolve<MinimapViewModel>();
+            return new MinimapViewModel(this.eventAggregator);
         }
 
         public bool AppliesTo(Type type)
         {
             return typeof(MinimapViewModel).Equals(type);
+        }
+
+        public void UpdateContent(Type type, object value)
+        {
+            if (typeof(IEventAggregator).Equals(type))
+            {
+                this.eventAggregator = value as IEventAggregator;
+            }
         }
 
         #endregion methods

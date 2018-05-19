@@ -41,14 +41,14 @@ namespace Ame.Modules.Windows.Docks
             return dockCreator.CreateDock();
         }
 
-        public void UpdateContainer(Type type, IUnityContainer container)
+        public void UpdateContainer(Type creatorType, Type valueType, object value)
         {
-            var dockCreator = this.dockCreators.FirstOrDefault(factory => factory.AppliesTo(type));
+            var dockCreator = this.dockCreators.FirstOrDefault(factory => factory.AppliesTo(creatorType));
             if (dockCreator == null)
             {
-                throw new Exception(string.Format("{0} type is not registered", type));
+                throw new Exception(string.Format("{0} type is not registered", creatorType));
             }
-            dockCreator.Container = container;
+            dockCreator.UpdateContent(valueType, value);
         }
 
         #endregion methods

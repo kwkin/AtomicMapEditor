@@ -37,11 +37,19 @@ namespace Ame.Modules.MapEditor.Editor
 
         #region constructor
 
-        public MapEditorViewModel(IEventAggregator eventAggregator, IScrollModel scrollModel, Map map)
+        public MapEditorViewModel(IEventAggregator eventAggregator, Map map) : this(eventAggregator, map, new ScrollModel())
+        {
+        }
+
+        public MapEditorViewModel(IEventAggregator eventAggregator, Map map, ScrollModel scrollModel)
         {
             if (eventAggregator == null)
             {
                 throw new ArgumentNullException("eventAggregator");
+            }
+            if (map == null)
+            {
+                throw new ArgumentNullException("map");
             }
             if (scrollModel == null)
             {
