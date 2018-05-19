@@ -18,8 +18,7 @@ namespace Ame.Modules.Windows.Interactions.LayerPropertiesInteraction
 
 
         #region constructors
-
-        // TODO use this constructor
+        
         public NewLayerInteractionCreator(AmeSession session, IEventAggregator eventAggregator)
         {
             if (session == null)

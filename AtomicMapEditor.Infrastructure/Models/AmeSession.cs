@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -61,19 +62,37 @@ namespace Ame.Infrastructure.Models
             set
             {
                 this.currentMap = value;
+                this.CurrentLayerList = this.currentMap.LayerList;
+                this.CurrentLayer = this.currentMap.CurrentLayer;
                 NotifyPropertyChanged();
             }
         }
-        
+
+        private ObservableCollection<ILayer> currentLayerList;
+        public ObservableCollection<ILayer> CurrentLayerList
+        {
+            get
+            {
+                return this.currentLayerList;
+            }
+            set
+            {
+                this.currentLayerList = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private ILayer currentLayer;
         public ILayer CurrentLayer
         {
             get
             {
-                if (this.currentMap == null)
-                {
-                    return null;
-                }
-                return this.currentMap.CurrentLayer;
+                return this.currentLayer;
+            }
+            set
+            {
+                this.currentLayer = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -81,18 +100,19 @@ namespace Ame.Infrastructure.Models
 
 
         #region methods
-        
-        public void ChangeMap(Map currentMap)
+
+        public void SetCurrentMap(Map currentMap)
         {
             if (!this.MapList.Contains(currentMap))
             {
-                this.MapList.Add(currentMap);
-                this.CurrentMap = currentMap;
+                throw new ArgumentOutOfRangeException(currentMap.Name + " not found in current map list.");
             }
-            else
-            {
-                this.CurrentMap = currentMap;
-            }
+            this.CurrentMap = currentMap;
+        }
+
+        public void SetCurrentMapAtIndex(int currentIndex)
+        {
+            this.CurrentMap = this.MapList[currentIndex];
         }
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")

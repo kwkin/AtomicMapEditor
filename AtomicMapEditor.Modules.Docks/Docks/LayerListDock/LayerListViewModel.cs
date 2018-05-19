@@ -24,19 +24,18 @@ namespace Ame.Modules.Windows.Docks.LayerListDock
 
         #region constructor
 
-        public LayerListViewModel(IEventAggregator eventAggregator) : this(eventAggregator, new ObservableCollection<ILayer>())
-        {
-
-        }
-
-        public LayerListViewModel(IEventAggregator eventAggregator, ObservableCollection<ILayer> layerList)
+        public LayerListViewModel(IEventAggregator eventAggregator, AmeSession session)
         {
             if (eventAggregator == null)
             {
                 throw new ArgumentNullException("eventAggregator");
             }
+            if (session == null)
+            {
+                throw new ArgumentNullException("session");
+            }
             this.Title = "Layer List";
-            this.LayerList = layerList;
+            this.Session = session;
             this.eventAggregator = eventAggregator;
 
             this.NewLayerCommand = new DelegateCommand(() => NewTilesetLayer());
@@ -77,8 +76,7 @@ namespace Ame.Modules.Windows.Docks.LayerListDock
         public ICommand LayerToMapSizeCommand { get; private set; }
         public ICommand CurrentLayerChangedCommand { get; private set; }
 
-        public ObservableCollection<ILayer> LayerList { get; set; }
-        public ILayer CurrentLayer { get; set; }
+        public AmeSession Session { get; set; }
 
         #endregion properties
 
@@ -92,7 +90,7 @@ namespace Ame.Modules.Windows.Docks.LayerListDock
 
         public void AddTilesetLayer(ILayer layer)
         {
-            this.LayerList.Add(layer);
+            this.Session.CurrentLayerList.Add(layer);
         }
 
         public void NewTilesetLayer()
@@ -106,7 +104,7 @@ namespace Ame.Modules.Windows.Docks.LayerListDock
         {
             int layerGroupCount = GetLayerGroupCount();
             String newLayerGroupName = String.Format("Layer Group #{0}", layerGroupCount);
-            this.LayerList.Add(new LayerGroup(newLayerGroupName));
+            this.Session.CurrentLayerList.Add(new LayerGroup(newLayerGroupName));
         }
 
         public void MergeLayerDown()
@@ -121,50 +119,50 @@ namespace Ame.Modules.Windows.Docks.LayerListDock
 
         public void MoveLayerDown()
         {
-            int currentLayerIndex = this.LayerList.IndexOf(this.CurrentLayer);
-            if (currentLayerIndex < this.LayerList.Count - 1 && currentLayerIndex >= 0)
+            int currentLayerIndex = this.Session.CurrentLayerList.IndexOf(this.Session.CurrentLayer);
+            if (currentLayerIndex < this.Session.CurrentLayerList.Count - 1 && currentLayerIndex >= 0)
             {
-                this.LayerList.Move(currentLayerIndex, currentLayerIndex + 1);
+                this.Session.CurrentLayerList.Move(currentLayerIndex, currentLayerIndex + 1);
             }
         }
 
         public void MoveLayerUp()
         {
-            int currentLayerIndex = this.LayerList.IndexOf(this.CurrentLayer);
+            int currentLayerIndex = this.Session.CurrentLayerList.IndexOf(this.Session.CurrentLayer);
             if (currentLayerIndex > 0)
             {
-                this.LayerList.Move(currentLayerIndex, currentLayerIndex - 1);
+                this.Session.CurrentLayerList.Move(currentLayerIndex, currentLayerIndex - 1);
             }
         }
 
         public void DuplicateLayer()
         {
-            ILayer copiedLayer = Utils.DeepClone<ILayer>(this.CurrentLayer);
+            ILayer copiedLayer = Utils.DeepClone<ILayer>(this.Session.CurrentLayer);
             AddTilesetLayer(copiedLayer);
         }
 
         public void RemoveLayer()
         {
-            if (this.CurrentLayer == null)
+            if (this.Session.CurrentLayer == null)
             {
                 return;
             }
-            this.LayerList.Remove(this.CurrentLayer);
+            this.Session.CurrentLayerList.Remove(this.Session.CurrentLayer);
         }
 
         public void EditProperties()
         {
-            if (this.CurrentLayer == null)
+            if (this.Session.CurrentLayer == null)
             {
                 return;
             }
             OpenWindowMessage openWindowMessage = new OpenWindowMessage(typeof(EditLayerInteraction));
-            openWindowMessage.Title = string.Format("Edit Layer - {0}", this.CurrentLayer.LayerName);
+            openWindowMessage.Title = string.Format("Edit Layer - {0}", this.Session.CurrentLayer.LayerName);
 
             //IUnityContainer container = new UnityContainer();
             //container.RegisterInstance<ILayer>(this.CurrentLayer);
             //openWindowMessage.Container = container;
-            openWindowMessage.content = this.CurrentLayer;
+            openWindowMessage.content = this.Session.CurrentLayer;
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(openWindowMessage);
         }
 
@@ -190,13 +188,13 @@ namespace Ame.Modules.Windows.Docks.LayerListDock
 
         public void CurrentLayerChanged(ILayer layer)
         {
-            this.CurrentLayer = layer;
+            this.Session.CurrentLayer = layer;
         }
 
         private int GetLayerGroupCount()
         {
             int layerGroupCount = 0;
-            foreach (ILayer layer in this.LayerList)
+            foreach (ILayer layer in this.Session.CurrentLayerList)
             {
                 if (layer is LayerGroup)
                 {
@@ -209,7 +207,7 @@ namespace Ame.Modules.Windows.Docks.LayerListDock
         private int GetLayerCount()
         {
             int layerCount = 0;
-            foreach (ILayer layer in this.LayerList)
+            foreach (ILayer layer in this.Session.CurrentLayerList)
             {
                 if (layer is Layer)
                 {

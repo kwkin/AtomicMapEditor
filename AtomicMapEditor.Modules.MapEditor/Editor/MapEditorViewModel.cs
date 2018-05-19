@@ -154,8 +154,7 @@ namespace Ame.Modules.MapEditor.Editor
         public Layer CurrentLayer { get; set; }
         
         public DrawingImage MapBackground { get; set; }
-
-        // TODO switch between layers 
+        
         // TODO add drawing images to a canvas, set the z index of the individual drawing images to its position in the list
         public DrawingImage LayerItems { get; set; }
 

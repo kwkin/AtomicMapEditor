@@ -16,22 +16,19 @@ namespace Ame.Modules.Windows.Docks.LayerListDock
 
         #region constructors
 
-        public LayerListCreator(IEventAggregator eventAggregator, ObservableCollection<ILayer> layerList)
+        public LayerListCreator(IEventAggregator eventAggregator, AmeSession session)
         {
             if (eventAggregator == null)
             {
                 throw new ArgumentNullException("eventAggregator is null");
             }
+            if (session == null)
+            {
+                throw new ArgumentNullException("session is null");
+            }
             this.Container = new UnityContainer();
             this.Container.RegisterInstance<IEventAggregator>(eventAggregator);
-            if (layerList != null)
-            {
-                this.Container.RegisterInstance<ObservableCollection<ILayer>>(layerList);
-            }
-            else
-            {
-                this.Container.RegisterInstance<ObservableCollection<ILayer>>(new ObservableCollection<ILayer>());
-            }
+            this.Container.RegisterInstance<AmeSession>(session);
         }
 
         #endregion constructors

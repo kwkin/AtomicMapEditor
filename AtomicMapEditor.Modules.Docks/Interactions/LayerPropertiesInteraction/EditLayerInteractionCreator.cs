@@ -10,6 +10,7 @@ namespace Ame.Modules.Windows.Interactions.LayerPropertiesInteraction
         #region fields
 
         private ILayer layer;
+        private AmeSession session;
         private Action<INotification> callback;
 
         #endregion fields
@@ -17,14 +18,14 @@ namespace Ame.Modules.Windows.Interactions.LayerPropertiesInteraction
 
         #region constructors
 
-        public EditLayerInteractionCreator(ILayer layer)
+        public EditLayerInteractionCreator(AmeSession session)
         {
-            this.layer = layer ?? new Layer(32, 32, 32, 32);
+            this.session = session;
         }
 
-        public EditLayerInteractionCreator(ILayer layer, Action<INotification> callback)
+        public EditLayerInteractionCreator(AmeSession session, Action<INotification> callback)
         {
-            this.layer = layer ?? new Layer(32, 32, 32, 32);
+            this.session = session;
             this.callback = callback;
         }
 
@@ -40,12 +41,33 @@ namespace Ame.Modules.Windows.Interactions.LayerPropertiesInteraction
 
         public IWindowInteraction CreateWindowInteraction()
         {
-            return new EditLayerInteraction(this.layer, this.callback);
+            return CreateWindowInteraction(this.callback);
         }
 
         public IWindowInteraction CreateWindowInteraction(Action<INotification> callback)
         {
-            return new EditLayerInteraction(this.layer, callback);
+            ILayer editLayer = null;
+            if (this.layer != null)
+            {
+                editLayer = this.layer;
+            }
+            else
+            {
+                if (this.session.CurrentMap != null)
+                {
+                    if (this.session.CurrentMap.CurrentLayer != null)
+                    {
+                        editLayer = this.session.CurrentMap.CurrentLayer;
+                    }
+                }
+            }
+            if (editLayer == null)
+            {
+                editLayer = new Layer(32, 32, 32, 32);
+            }
+            IWindowInteraction interaction = new EditLayerInteraction(editLayer, callback);
+            this.layer = null;
+            return interaction;
         }
 
         public bool AppliesTo(Type type)

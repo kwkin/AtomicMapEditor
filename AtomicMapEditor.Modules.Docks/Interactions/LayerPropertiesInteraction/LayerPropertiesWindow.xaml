@@ -42,7 +42,7 @@
                     Content="OK"
                     Width="130"
                     IsDefault="True"
-                    Command="{Binding SetMapPropertiesCommand}"
+                    Command="{Binding SetLayerPropertiesCommand}"
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
             <Button x:Name="cancelButton"
                     Margin="2,0,2,2"

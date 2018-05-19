@@ -104,7 +104,7 @@
 
         <ScrollViewer Grid.Row="1">
             <extcomp:StretchingTreeView x:Name="layerTree"
-                                        ItemsSource="{Binding LayerList}"
+                                        ItemsSource="{Binding Session.CurrentLayerList}"
                                         HorizontalContentAlignment="Stretch"
                                         BorderThickness="0">
                 <i:Interaction.Triggers>

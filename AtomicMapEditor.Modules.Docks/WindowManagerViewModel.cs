@@ -81,21 +81,13 @@ namespace Ame.Modules.Windows
             {
                 this.ActiveDocument = this.Documents[0];
             }
-            // TODO use ? operator
-            ILayer currentLayer = null;
-            if (this.session.CurrentMap != null)
-            {
-                if (this.session.CurrentMap.CurrentLayer != null)
-                {
-                    currentLayer = this.session.CurrentMap.CurrentLayer;
-                }
-            }
+            
             IWindowInteractionCreator[] windowInteractionCreators = new IWindowInteractionCreator[]
             {
                 new NewMapInteractionCreator(this.session, this.eventAggregator, OnNewMapWindowClosed),
                 new EditMapInteractionCreator(this.session, OnEditMapWindowClosed),
                 new NewLayerInteractionCreator(this.session, this.eventAggregator, OnNewLayerWindowClosed),
-                new EditLayerInteractionCreator(currentLayer),
+                new EditLayerInteractionCreator(this.session),
                 new EditTilesetInteractionCreator(this.eventAggregator),
                 new PreferenceOptionsInteractionCreator(this.eventAggregator)
             };
@@ -112,7 +104,7 @@ namespace Ame.Modules.Windows
                 new ClipboardCreator(this.eventAggregator),
                 new ItemEditorCreator(this.eventAggregator, new ScrollModel()),
                 new ItemListCreator(this.eventAggregator),
-                new LayerListCreator(this.eventAggregator, layerList),
+                new LayerListCreator(this.eventAggregator, this.session),
                 new MinimapCreator(this.eventAggregator),
                 new SelectedBrushCreator(this.eventAggregator, new ScrollModel()),
                 new SessionViewerCreator(this.eventAggregator, this.session),
@@ -214,7 +206,11 @@ namespace Ame.Modules.Windows
                     if (this.ActiveDocument is MapEditorViewModel)
                     {
                         Map selectedMapContent = this.ActiveDocument.GetContent() as Map;
-                        this.session.ChangeMap(selectedMapContent);
+                        if (!this.session.MapList.Contains(selectedMapContent))
+                        {
+                            this.session.MapList.Add(selectedMapContent);
+                        }
+                        this.session.SetCurrentMap(selectedMapContent);
                         Console.WriteLine(this.session.CurrentMap.Name);
                     }
                     ActiveDocumentChanged?.Invoke(this, EventArgs.Empty);
