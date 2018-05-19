@@ -449,15 +449,15 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AtomicMapEditor.Components\Ame.Components.csproj">
+    <ProjectReference Include="..\Ame.Components\Ame.Components.csproj">
       <Project>{ae7e3265-b5cf-464a-80b2-415ff1cf9c6c}</Project>
       <Name>Ame.Components</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AtomicMapEditor.Infrastructure\Ame.Infrastructure.csproj">
+    <ProjectReference Include="..\Ame.Infrastructure\Ame.Infrastructure.csproj">
       <Project>{9D27D8DC-5CD8-46D9-B702-EFEB6D66F236}</Project>
       <Name>Ame.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AtomicMapEditor.Modules.MapEditor\Ame.Modules.MapEditor.csproj">
+    <ProjectReference Include="..\Ame.Modules.MapEditor\Ame.Modules.MapEditor.csproj">
       <Project>{b0caebff-8493-4d50-85f0-5a2d48396359}</Project>
       <Name>Ame.Modules.MapEditor</Name>
     </ProjectReference>

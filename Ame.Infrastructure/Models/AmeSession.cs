@@ -92,6 +92,7 @@ namespace Ame.Infrastructure.Models
             set
             {
                 this.currentLayer = value;
+                Console.WriteLine(this.currentLayer.LayerName);
                 NotifyPropertyChanged();
             }
         }

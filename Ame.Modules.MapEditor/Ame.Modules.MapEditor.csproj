@@ -101,15 +101,15 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AtomicMapEditor.Components\Ame.Components.csproj">
+    <ProjectReference Include="..\Ame.Components\Ame.Components.csproj">
       <Project>{ae7e3265-b5cf-464a-80b2-415ff1cf9c6c}</Project>
       <Name>Ame.Components</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AtomicMapEditor.Infrastructure\Ame.Infrastructure.csproj">
+    <ProjectReference Include="..\Ame.Infrastructure\Ame.Infrastructure.csproj">
       <Project>{9d27d8dc-5cd8-46d9-b702-efeb6d66f236}</Project>
       <Name>Ame.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AtomicMapEditor.Resources\Ame.Resources.csproj">
+    <ProjectReference Include="..\Ame.Resources\Ame.Resources.csproj">
       <Project>{cbcd8c26-e73d-4c60-829c-f573edf4cceb}</Project>
       <Name>Ame.Resources</Name>
     </ProjectReference>
