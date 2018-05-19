@@ -5,11 +5,9 @@ using Prism.Events;
 
 namespace Ame.Modules.Windows.Docks.ClipboardDock
 {
-    public class ClipboardCreator : IDockCreator
+    public class ClipboardCreator : DockCreatorTemplate
     {
         #region fields
-
-        private IEventAggregator eventAggregator;
 
         #endregion fields
 
@@ -22,7 +20,7 @@ namespace Ame.Modules.Windows.Docks.ClipboardDock
             {
                 throw new ArgumentNullException("eventAggregator is null");
             }
-            this.eventAggregator = eventAggregator;
+            this.EventAggregator = eventAggregator;
         }
 
         #endregion constructors
@@ -30,28 +28,21 @@ namespace Ame.Modules.Windows.Docks.ClipboardDock
 
         #region properties
 
+        public IEventAggregator EventAggregator { get; set; }
+
         #endregion properties
 
 
         #region methods
 
-        public DockViewModelTemplate CreateDock()
+        public override DockViewModelTemplate CreateDock()
         {
-            return new ClipboardViewModel(this.eventAggregator);
+            return new ClipboardViewModel(this.EventAggregator);
         }
 
-        public bool AppliesTo(Type type)
+        public override bool AppliesTo(Type type)
         {
             return typeof(ClipboardViewModel).Equals(type);
-        }
-
-        // TODO look into reflectance to update this (possibly have in extended class)
-        public void UpdateContent(Type type, object value)
-        {
-            if (typeof(IEventAggregator).Equals(type))
-            {
-                this.eventAggregator = value as IEventAggregator;
-            }
         }
 
         #endregion methods

@@ -5,12 +5,11 @@ using Prism.Events;
 
 namespace Ame.Modules.Windows.Docks.SelectedBrushDock
 {
-    public class SelectedBrushCreator : IDockCreator
+    public class SelectedBrushCreator : DockCreatorTemplate
     {
         #region fields
 
         private IEventAggregator eventAggregator;
-        private ScrollModel scrollModel;
 
         #endregion fields
 
@@ -28,7 +27,7 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
                 throw new ArgumentNullException("eventAggregator is null");
             }
             this.eventAggregator = eventAggregator;
-            this.scrollModel = scrollModel;
+            this.ScrollModel = scrollModel;
         }
 
         #endregion constructors
@@ -36,17 +35,19 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
 
         #region properties
 
+        public ScrollModel ScrollModel { get; set; }
+
         #endregion properties
 
 
         #region methods
 
-        public DockViewModelTemplate CreateDock()
+        public override DockViewModelTemplate CreateDock()
         {
             DockViewModelTemplate template;
-            if (this.scrollModel != null)
+            if (this.ScrollModel != null)
             {
-                template = new SelectedBrushViewModel(this.eventAggregator, this.scrollModel);
+                template = new SelectedBrushViewModel(this.eventAggregator, this.ScrollModel);
             }
             else
             {
@@ -55,21 +56,9 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
             return template;
         }
 
-        public bool AppliesTo(Type type)
+        public override bool AppliesTo(Type type)
         {
             return typeof(SelectedBrushViewModel).Equals(type);
-        }
-
-        public void UpdateContent(Type type, object value)
-        {
-            if (typeof(IEventAggregator).Equals(type))
-            {
-                this.eventAggregator = value as IEventAggregator;
-            }
-            else if (typeof(ScrollModel).Equals(type))
-            {
-                this.scrollModel = value as ScrollModel;
-            }
         }
 
         #endregion methods

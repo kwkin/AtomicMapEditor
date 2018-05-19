@@ -4,7 +4,7 @@ using Prism.Events;
 
 namespace Ame.Modules.Windows.Docks.MinimapDock
 {
-    public class MinimapCreator : IDockCreator
+    public class MinimapCreator : DockCreatorTemplate
     {
         #region fields
 
@@ -34,22 +34,14 @@ namespace Ame.Modules.Windows.Docks.MinimapDock
 
         #region methods
 
-        public DockViewModelTemplate CreateDock()
+        public override DockViewModelTemplate CreateDock()
         {
             return new MinimapViewModel(this.eventAggregator);
         }
 
-        public bool AppliesTo(Type type)
+        public override bool AppliesTo(Type type)
         {
             return typeof(MinimapViewModel).Equals(type);
-        }
-
-        public void UpdateContent(Type type, object value)
-        {
-            if (typeof(IEventAggregator).Equals(type))
-            {
-                this.eventAggregator = value as IEventAggregator;
-            }
         }
 
         #endregion methods

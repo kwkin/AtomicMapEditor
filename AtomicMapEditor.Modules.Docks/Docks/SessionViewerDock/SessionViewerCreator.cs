@@ -5,12 +5,11 @@ using Prism.Events;
 
 namespace Ame.Modules.Windows.Docks.SessionViewerDock
 {
-    public class SessionViewerCreator : IDockCreator
+    public class SessionViewerCreator : DockCreatorTemplate
     {
         #region fields
 
-        private IEventAggregator eventAggregator;
-        private AmeSession session;
+        public IEventAggregator eventAggregator;
 
         #endregion fields
 
@@ -28,39 +27,28 @@ namespace Ame.Modules.Windows.Docks.SessionViewerDock
                 throw new ArgumentNullException("session is null");
             }
             this.eventAggregator = eventAggregator;
-            this.session = session;
+            this.Session = session;
         }
 
         #endregion constructors
 
 
         #region properties
+        public AmeSession Session { get; set; }
 
         #endregion properties
 
 
         #region methods
 
-        public DockViewModelTemplate CreateDock()
+        public override DockViewModelTemplate CreateDock()
         {
-            return new SessionViewerViewModel(this.eventAggregator, this.session);
+            return new SessionViewerViewModel(this.eventAggregator, this.Session);
         }
 
-        public bool AppliesTo(Type type)
+        public override bool AppliesTo(Type type)
         {
             return typeof(SessionViewerViewModel).Equals(type);
-        }
-
-        public void UpdateContent(Type type, object value)
-        {
-            if (typeof(IEventAggregator).Equals(type))
-            {
-                this.eventAggregator = value as IEventAggregator;
-            }
-            else if (typeof(AmeSession).Equals(type))
-            {
-                this.session = value as AmeSession;
-            }
         }
 
         #endregion methods

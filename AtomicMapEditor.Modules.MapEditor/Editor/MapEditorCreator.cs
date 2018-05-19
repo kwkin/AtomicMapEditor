@@ -7,13 +7,11 @@ using Prism.Events;
 
 namespace Ame.Modules.MapEditor.Editor
 {
-    public class MapEditorCreator : IDockCreator
+    public class MapEditorCreator : DockCreatorTemplate
     {
         #region fields
 
-        private IEventAggregator eventAggregator;
-        private Map map;
-        private ScrollModel scrollModel;
+        public IEventAggregator eventAggregator;
 
         #endregion fields
 
@@ -35,8 +33,8 @@ namespace Ame.Modules.MapEditor.Editor
                 throw new ArgumentNullException("map is null");
             }
             this.eventAggregator = eventAggregator;
-            this.map = map;
-            this.scrollModel = scrollModel;
+            this.Map = map;
+            this.ScrollModel = scrollModel;
         }
 
         #endregion constructors
@@ -44,44 +42,31 @@ namespace Ame.Modules.MapEditor.Editor
 
         #region properties
 
+        public Map Map { get; set; }
+        public ScrollModel ScrollModel { get; set; }
+
         #endregion properties
 
 
         #region methods
 
-        public DockViewModelTemplate CreateDock()
+        public override DockViewModelTemplate CreateDock()
         {
             DockViewModelTemplate template;
-            if (this.scrollModel != null)
+            if (this.ScrollModel != null)
             {
-                template = new MapEditorViewModel(this.eventAggregator, this.map, this.scrollModel);
+                template = new MapEditorViewModel(this.eventAggregator, this.Map, this.ScrollModel);
             }
             else
             {
-                template = new MapEditorViewModel(this.eventAggregator, this.map);
+                template = new MapEditorViewModel(this.eventAggregator, this.Map);
             }
             return template;
         }
 
-        public bool AppliesTo(Type type)
+        public override bool AppliesTo(Type type)
         {
             return typeof(MapEditorViewModel).Equals(type);
-        }
-
-        public void UpdateContent(Type type, object value)
-        {
-            if (typeof(IEventAggregator).Equals(type))
-            {
-                this.eventAggregator = value as IEventAggregator;
-            }
-            else if (typeof(Map).Equals(type))
-            {
-                this.map = value as Map;
-            }
-            else if (typeof(ScrollModel).Equals(type))
-            {
-                this.scrollModel = value as ScrollModel;
-            }
         }
 
         #endregion methods

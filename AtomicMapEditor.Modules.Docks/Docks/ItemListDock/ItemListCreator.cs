@@ -5,7 +5,7 @@ using Prism.Events;
 
 namespace Ame.Modules.Windows.Docks.ItemListDock
 {
-    public class ItemListCreator : IDockCreator
+    public class ItemListCreator : DockCreatorTemplate
     {
         #region fields
 
@@ -35,22 +35,14 @@ namespace Ame.Modules.Windows.Docks.ItemListDock
 
         #region methods
 
-        public DockViewModelTemplate CreateDock()
+        public override DockViewModelTemplate CreateDock()
         {
             return new ItemListViewModel(this.eventAggregator);
         }
 
-        public bool AppliesTo(Type type)
+        public override bool AppliesTo(Type type)
         {
             return typeof(ItemListViewModel).Equals(type);
-        }
-
-        public void UpdateContent(Type type, object value)
-        {
-            if (typeof(IEventAggregator).Equals(type))
-            {
-                this.eventAggregator = value as IEventAggregator;
-            }
         }
 
         #endregion methods

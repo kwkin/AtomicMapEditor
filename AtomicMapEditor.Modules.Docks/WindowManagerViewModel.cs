@@ -98,7 +98,7 @@ namespace Ame.Modules.Windows
             {
                 layerList = this.session.CurrentMap.LayerList;
             }
-            IDockCreator[] dockCreators = new IDockCreator[]
+            DockCreatorTemplate[] dockCreators = new DockCreatorTemplate[]
             {
                 new ClipboardCreator(this.eventAggregator),
                 new ItemEditorCreator(this.eventAggregator),

@@ -7,7 +7,6 @@ namespace Ame.Infrastructure.Messages
 {
     public class OpenWindowMessage
     {
-        // TODO remove container
         #region fields
 
         #endregion fields
@@ -25,14 +24,14 @@ namespace Ame.Infrastructure.Messages
             this.Title = "";
         }
 
-        public OpenWindowMessage(Type type, IUnityContainer container)
+        public OpenWindowMessage(Type type, object content)
         {
             if (!typeof(IWindowInteraction).IsAssignableFrom(type))
             {
                 return;
             }
             this.Type = type;
-            this.Container = container;
+            this.Content = content;
             this.Title = "";
         }
 
@@ -46,15 +45,15 @@ namespace Ame.Infrastructure.Messages
             this.Title = title;
         }
 
-        public OpenWindowMessage(Type type, IUnityContainer container, String title)
+        public OpenWindowMessage(Type type, object content, String title)
         {
             if (!typeof(IWindowInteraction).IsAssignableFrom(type))
             {
                 return;
             }
             this.Type = type;
-            this.Container = container;
-            this.Title = "";
+            this.Content = content;
+            this.Title = title;
         }
 
         #endregion Constructor
@@ -64,7 +63,6 @@ namespace Ame.Infrastructure.Messages
 
         public Type Type;
         public String Title { get; set; }
-        public IUnityContainer Container { get; set; }
         public object Content { get; set; }
 
         #endregion Properties

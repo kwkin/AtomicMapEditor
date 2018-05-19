@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Reflection;
 using Ame.Infrastructure.BaseTypes;
-using Microsoft.Practices.Unity;
 
 namespace Ame.Modules.Windows
 {
-    public interface IDockCreator
+    public abstract class DockCreatorTemplate
     {
         #region properties
 
@@ -13,9 +13,21 @@ namespace Ame.Modules.Windows
 
         #region methods
 
-        DockViewModelTemplate CreateDock();
-        bool AppliesTo(Type type);
-        void UpdateContent(Type type, object value);
+        public abstract DockViewModelTemplate CreateDock();
+        public abstract bool AppliesTo(Type type);
+
+        public void UpdateContent(Type type, object value)
+        {
+            PropertyInfo[] properties = this.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            foreach (PropertyInfo property in properties)
+            {
+                if (property.PropertyType == type)
+                {
+                    property.SetValue(this, value);
+                    break;
+                }
+            }
+        }
 
         #endregion methods
     }

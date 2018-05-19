@@ -6,13 +6,11 @@ using Prism.Events;
 
 namespace Ame.Modules.Windows.Docks.ItemEditorDock
 {
-    public class ItemEditorCreator : IDockCreator
+    public class ItemEditorCreator : DockCreatorTemplate
     {
         #region fields
 
         private IEventAggregator eventAggregator;
-        private ScrollModel scrollModel;
-        private TilesetModel tilesetModel;
 
         #endregion fields
 
@@ -38,8 +36,8 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                 throw new ArgumentNullException("eventAggregator is null");
             }
             this.eventAggregator = eventAggregator;
-            this.scrollModel = scrollModel;
-            this.tilesetModel = tilesetModel;
+            this.ScrollModel = scrollModel;
+            this.TilesetModel = tilesetModel;
         }
 
         #endregion constructors
@@ -47,25 +45,28 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
         #region properties
 
+        public ScrollModel ScrollModel { get; set; }
+        public TilesetModel TilesetModel { get; set; }
+
         #endregion properties
 
 
         #region methods
 
-        public DockViewModelTemplate CreateDock()
+        public override DockViewModelTemplate CreateDock()
         {
             DockViewModelTemplate template;
-            if (this.tilesetModel != null && this.scrollModel != null)
+            if (this.TilesetModel != null && this.ScrollModel != null)
             {
-                template = new ItemEditorViewModel(this.eventAggregator, this.tilesetModel, this.scrollModel);
+                template = new ItemEditorViewModel(this.eventAggregator, this.TilesetModel, this.ScrollModel);
             }
-            else if (this.tilesetModel != null && this.scrollModel == null)
+            else if (this.TilesetModel != null && this.ScrollModel == null)
             {
-                template = new ItemEditorViewModel(this.eventAggregator, this.tilesetModel);
+                template = new ItemEditorViewModel(this.eventAggregator, this.TilesetModel);
             }
-            else if (this.tilesetModel == null && this.scrollModel != null)
+            else if (this.TilesetModel == null && this.ScrollModel != null)
             {
-                template = new ItemEditorViewModel(this.eventAggregator, this.scrollModel);
+                template = new ItemEditorViewModel(this.eventAggregator, this.ScrollModel);
             }
             else
             {
@@ -74,25 +75,9 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             return template;
         }
 
-        public bool AppliesTo(Type type)
+        public override bool AppliesTo(Type type)
         {
             return typeof(ItemEditorViewModel).Equals(type);
-        }
-
-        public void UpdateContent(Type type, object value)
-        {
-            if (typeof(IEventAggregator).Equals(type))
-            {
-                this.eventAggregator = value as IEventAggregator;
-            }
-            else if (typeof(TilesetModel).Equals(type))
-            {
-                this.tilesetModel = value as TilesetModel;
-            }
-            else if (typeof(ScrollModel).Equals(type))
-            {
-                this.scrollModel = value as ScrollModel;
-            }
         }
 
         #endregion methods

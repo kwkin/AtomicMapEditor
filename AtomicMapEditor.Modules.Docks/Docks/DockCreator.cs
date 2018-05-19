@@ -9,14 +9,14 @@ namespace Ame.Modules.Windows.Docks
     {
         #region fields
 
-        private readonly IDockCreator[] dockCreators;
+        private readonly DockCreatorTemplate[] dockCreators;
 
         #endregion fields
 
 
         #region constructors
 
-        public DockCreator(IDockCreator[] windowInteractionFactories)
+        public DockCreator(DockCreatorTemplate[] windowInteractionFactories)
         {
             this.dockCreators = windowInteractionFactories;
         }

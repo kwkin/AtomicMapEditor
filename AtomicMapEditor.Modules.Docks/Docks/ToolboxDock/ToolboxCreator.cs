@@ -4,11 +4,11 @@ using Prism.Events;
 
 namespace Ame.Modules.Windows.Docks.ToolboxDock
 {
-    public class ToolboxCreator : IDockCreator
+    public class ToolboxCreator : DockCreatorTemplate
     {
         #region fields
 
-        private IEventAggregator eventAggregator;
+        public IEventAggregator eventAggregator;
 
         #endregion fields
 
@@ -34,22 +34,14 @@ namespace Ame.Modules.Windows.Docks.ToolboxDock
 
         #region methods
 
-        public DockViewModelTemplate CreateDock()
+        public override DockViewModelTemplate CreateDock()
         {
             return new ToolboxViewModel(this.eventAggregator);
         }
 
-        public bool AppliesTo(Type type)
+        public override bool AppliesTo(Type type)
         {
             return typeof(ToolboxViewModel).Equals(type);
-        }
-
-        public void UpdateContent(Type type, object value)
-        {
-            if (typeof(IEventAggregator).Equals(type))
-            {
-                this.eventAggregator = value as IEventAggregator;
-            }
         }
 
         #endregion methods
