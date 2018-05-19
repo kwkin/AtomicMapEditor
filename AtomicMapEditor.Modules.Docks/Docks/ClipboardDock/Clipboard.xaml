@@ -11,7 +11,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/Ame.Modules.Docks;component/Docks/ClipboardDock/ClipboardContextMenu.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.Modules.Windows;component/Docks/ClipboardDock/ClipboardContextMenu.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>

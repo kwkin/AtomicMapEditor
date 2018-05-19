@@ -5,6 +5,7 @@ using System.Windows.Input;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
+using Ame.Modules.Windows.Docks.ProjectExplorerDock;
 using Ame.Modules.Windows.Docks.ClipboardDock;
 using Ame.Modules.Windows.Docks.ItemEditorDock;
 using Ame.Modules.Windows.Docks.ItemListDock;
@@ -113,6 +114,7 @@ namespace Ame.Modules.Menu.Options
             this.OpenClipboardDockCommand = new DelegateCommand(() => OpenClipboardDock());
             this.OpenUndoHistoryDockCommand = new DelegateCommand(() => OpenUndoHistoryDock());
             this.OpenSelectedBrushDockCommand = new DelegateCommand(() => OpenSelectedBrushDock());
+            this.OpenProjectExplorerDockCommand = new DelegateCommand(() => OpenProjectExplorerDock());
             this.OpenSessionViewDockCommand = new DelegateCommand(() => OpenSessionViewerDock());
             this.HideDocksCommand = new DelegateCommand(() => HideDocks());
             this.SingleWindowCommand = new DelegateCommand(() => SingleWindow());
@@ -208,6 +210,7 @@ namespace Ame.Modules.Menu.Options
         public ICommand OpenClipboardDockCommand { get; private set; }
         public ICommand OpenUndoHistoryDockCommand { get; private set; }
         public ICommand OpenSelectedBrushDockCommand { get; private set; }
+        public ICommand OpenProjectExplorerDockCommand { get; private set; }
         public ICommand OpenSessionViewDockCommand { get; private set; }
         public ICommand HideDocksCommand { get; private set; }
         public ICommand SingleWindowCommand { get; private set; }
@@ -549,6 +552,12 @@ namespace Ame.Modules.Menu.Options
         public void OpenSelectedBrushDock()
         {
             OpenDockMessage dock = new OpenDockMessage(typeof(SelectedBrushViewModel));
+            this.eventAggregator.GetEvent<OpenDockEvent>().Publish(dock);
+        }
+        
+        public void OpenProjectExplorerDock()
+        {
+            OpenDockMessage dock = new OpenDockMessage(typeof(ProjectExplorerViewModel));
             this.eventAggregator.GetEvent<OpenDockEvent>().Publish(dock);
         }
 

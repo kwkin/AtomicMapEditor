@@ -7,7 +7,7 @@
     <ProjectGuid>{47031565-69B8-4C7B-8077-B2FC0D9966D1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ame.Modules.Docks</RootNamespace>
+    <RootNamespace>Ame.Modules.Windows</RootNamespace>
     <AssemblyName>Ame.Modules.Docks</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -133,6 +133,11 @@
     <Compile Include="Docks\ItemListDock\ItemListCreator.cs" />
     <Compile Include="Docks\LayerListDock\LayerListCreator.cs" />
     <Compile Include="Docks\MinimapDock\MinimapCreator.cs" />
+    <Compile Include="Docks\ProjectExplorerDock\ProjectExplorer.xaml.cs">
+      <DependentUpon>ProjectExplorer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Docks\ProjectExplorerDock\ProjectExplorerCreator.cs" />
+    <Compile Include="Docks\ProjectExplorerDock\ProjectExplorerViewModel.cs" />
     <Compile Include="Docks\SelectedBrushDock\SelectedBrushCreator.cs" />
     <Compile Include="Interactions\WindowInteractionCreatorTemplate.cs" />
     <Compile Include="Interactions\LayerPropertiesInteraction\EditLayerInteraction.cs" />
@@ -283,6 +288,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Docks\ClipboardDock\ClipboardItemEntry.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Docks\ProjectExplorerDock\ProjectExplorer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

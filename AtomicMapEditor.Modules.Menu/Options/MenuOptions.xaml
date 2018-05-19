@@ -15,7 +15,6 @@
                               x:Key="RecentFilesMenu" />
     </UserControl.Resources>
 
-    
     <Grid>
         <Menu>
             <MenuItem Header="File">
@@ -471,8 +470,12 @@
                               InputGestureText="Ctrl+8"
                               Command="{Binding OpenSelectedBrushDockCommand}">
                     </MenuItem>
-                    <MenuItem Header="Session View"
+                    <MenuItem Header="Project Explorer"
                               InputGestureText="Ctrl+9"
+                              Command="{Binding OpenProjectExplorerDockCommand}">
+                    </MenuItem>
+                    <MenuItem Header="Session View"
+                              InputGestureText="Ctrl+0"
                               Command="{Binding OpenSessionViewDockCommand}">
                     </MenuItem>
                 </MenuItem>

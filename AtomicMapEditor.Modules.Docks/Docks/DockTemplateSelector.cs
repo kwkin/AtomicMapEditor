@@ -9,6 +9,7 @@ using Ame.Modules.Windows.Docks.SelectedBrushDock;
 using Ame.Modules.Windows.Docks.SessionViewerDock;
 using Ame.Modules.Windows.Docks.ToolboxDock;
 using Ame.Modules.MapEditor.Editor;
+using Ame.Modules.Windows.Docks.ProjectExplorerDock;
 
 namespace Ame.Modules.Windows.Docks
 {
@@ -36,6 +37,7 @@ namespace Ame.Modules.Windows.Docks
         public DataTemplate LayerListDataTemplate { get; set; }
         public DataTemplate MinimapDataTemplate { get; set; }
         public DataTemplate ToolboxDataTemplate { get; set; }
+        public DataTemplate ProjectExplorerDataTemplate { get; set; }
         public DataTemplate SelectedBrushDataTemplate { get; set; }
         public DataTemplate SessionViewDataTemplate { get; set; }
 
@@ -76,6 +78,10 @@ namespace Ame.Modules.Windows.Docks
             else if (item is SelectedBrushViewModel)
             {
                 return SelectedBrushDataTemplate;
+            }
+            else if (item is ProjectExplorerViewModel)
+            {
+                return ProjectExplorerDataTemplate;
             }
             else if (item is SessionViewerViewModel)
             {

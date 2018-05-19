@@ -65,9 +65,7 @@ namespace Ame.Modules.Windows.Interactions.LayerPropertiesInteraction
             {
                 editLayer = new Layer(32, 32, 32, 32);
             }
-            IWindowInteraction interaction = new EditLayerInteraction(editLayer, callback);
-            this.Layer = null;
-            return interaction;
+            return new EditLayerInteraction(editLayer, callback);
         }
 
         public override bool AppliesTo(Type type)

@@ -35,6 +35,7 @@ using Xceed.Wpf.AvalonDock;
 using Xceed.Wpf.AvalonDock.Layout.Serialization;
 using Ame.Modules.Windows.Interactions;
 using Ame.Modules.Windows.Docks;
+using Ame.Modules.Windows.Docks.ProjectExplorerDock;
 
 namespace Ame.Modules.Windows
 {
@@ -106,6 +107,7 @@ namespace Ame.Modules.Windows
                 new LayerListCreator(this.eventAggregator, this.session),
                 new MinimapCreator(this.eventAggregator),
                 new SelectedBrushCreator(this.eventAggregator),
+                new ProjectExplorerCreator(this.eventAggregator, this.session),
                 new SessionViewerCreator(this.eventAggregator, this.session),
                 new ToolboxCreator(this.eventAggregator),
                 new MapEditorCreator(this.eventAggregator, new Map("Map #1"))
