@@ -4,12 +4,21 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=Ame.Components"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:conv="clr-namespace:Ame.Infrastructure.Converters;assembly=Ame.Infrastructure"
              xmlns:local="clr-namespace:Ame.Modules.Windows.Docks.MinimapDock"
+             xmlns:actions="clr-namespace:Ame.Infrastructure.Actions;assembly=Ame.Infrastructure"
+             xmlns:models="clr-namespace:Ame.Infrastructure.Models;assembly=Ame.Infrastructure"
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300">
     <UserControl.Resources>
-        <ResourceDictionary Source="pack://application:,,,/Ame.Modules.Windows;component/Docks/MinimapDock/MinimapContextMenu.xaml" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Ame.Modules.Windows;component/Docks/MinimapDock/MinimapContextMenu.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <conv:MouseEventToPointConverter x:Key="MouseEventToPointConverter" />
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <!-- TODO add scroll -->
@@ -18,6 +27,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0"
@@ -60,39 +70,86 @@
         </Grid>
 
         <Separator Grid.Row="1" />
-        
-        <ScrollViewer x:Name="tilesetScrollViewer"
-                      HorizontalScrollBarVisibility="Visible"
-                      VerticalScrollBarVisibility="Visible"
-                      Grid.Column="0"
-                      Grid.Row="2">
-            <Canvas x:Name="tilesetImage"
-                    Height="500"
-                    Width="500"
-                    VerticalAlignment="Top">
-                <Canvas.ContextMenu>
-                    <ContextMenu>
-                        <ContextMenu.ItemsSource>
-                            <CompositeCollection>
-                                <CollectionContainer Collection="{StaticResource MinimapContextMenu}" />
-                            </CompositeCollection>
-                        </ContextMenu.ItemsSource>
-                    </ContextMenu>
-                </Canvas.ContextMenu>
-                <Canvas.Background>
-                    <LinearGradientBrush StartPoint="0,0"
-                                         EndPoint="1,1">
-                        <GradientStop Color="Yellow"
-                                      Offset="0.0" />
-                        <GradientStop Color="Red"
-                                      Offset="0.25" />
-                        <GradientStop Color="Blue"
-                                      Offset="0.75" />
-                        <GradientStop Color="Green"
-                                      Offset="1.0" />
-                    </LinearGradientBrush>
-                </Canvas.Background>
-            </Canvas>
-        </ScrollViewer>
+
+        <extcomp:ExtendedScrollViewer x:Name="tilesetScrollViewer"
+                                      Grid.Column="0"
+                                      Grid.Row="2"
+                                      HorizontalScrollBarVisibility="Visible"
+                                      VerticalScrollBarVisibility="Visible"
+                                      ZoomIndex="{Binding ZoomIndex}"
+                                      ZoomLevels="{Binding ZoomLevels}">
+            <Grid x:Name="scrollViewerGrid">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseMove">
+                        <actions:EventToCommand Command="{Binding UpdatePositionCommand, Mode=OneWay}"
+                                                EventArgsConverter="{StaticResource MouseEventToPointConverter}"
+                                                EventArgsConverterParameter="{Binding ElementName=minimapImage}"
+                                                PassEventArgsToCommand="True" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                
+                <Canvas x:Name="minimapImage"
+                        Height="500"
+                        Width="500"
+                        VerticalAlignment="Top">
+                    <Canvas.ContextMenu>
+                        <ContextMenu>
+                            <ContextMenu.ItemsSource>
+                                <CompositeCollection>
+                                    <CollectionContainer Collection="{StaticResource MinimapContextMenu}" />
+                                </CompositeCollection>
+                            </ContextMenu.ItemsSource>
+                        </ContextMenu>
+                    </Canvas.ContextMenu>
+                    <Canvas.Background>
+                        <LinearGradientBrush StartPoint="0,0"
+                                             EndPoint="1,1">
+                            <GradientStop Color="Yellow"
+                                          Offset="0.0" />
+                            <GradientStop Color="Red"
+                                          Offset="0.25" />
+                            <GradientStop Color="Blue"
+                                          Offset="0.75" />
+                            <GradientStop Color="Green"
+                                          Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Canvas.Background>
+                </Canvas>
+
+                <Grid.LayoutTransform>
+                    <TransformGroup>
+                        <ScaleTransform x:Name="itemScaleTransform" />
+                    </TransformGroup>
+                </Grid.LayoutTransform>
+            </Grid>
+        </extcomp:ExtendedScrollViewer>
+
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Label x:Name="mousePositionLabel"
+                   Content="{Binding PositionText}"
+                   Grid.Column="0"
+                   Width="65">
+            </Label>
+            <ComboBox x:Name="coordinateComboBox"
+                      Grid.Column="1"
+                      Width="65"
+                      VerticalAlignment="Center"
+                      ItemsSource="{Binding Source={actions:EnumBindingSourceExtension {x:Type models:ScaleType}}}"
+                      SelectedItem="{Binding Scale, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <ComboBox x:Name="zoomComboBox"
+                      Grid.Column="2"
+                      Width="65"
+                      VerticalAlignment="Center"
+                      ItemsSource="{Binding ZoomLevels}"
+                      SelectedIndex="{Binding ZoomIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      DisplayMemberPath="description" />
+        </Grid>
     </Grid>
 </UserControl>

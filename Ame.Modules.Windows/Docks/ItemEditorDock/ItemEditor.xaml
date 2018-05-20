@@ -205,7 +205,6 @@
             </Grid>
         </extcomp:ExtendedScrollViewer>
 
-
         <Grid Grid.Row="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
