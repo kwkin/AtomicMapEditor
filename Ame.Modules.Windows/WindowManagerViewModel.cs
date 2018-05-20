@@ -102,7 +102,7 @@ namespace Ame.Modules.Windows
             DockCreatorTemplate[] dockCreators = new DockCreatorTemplate[]
             {
                 new ClipboardCreator(this.eventAggregator),
-                new ItemEditorCreator(this.eventAggregator),
+                new ItemEditorCreator(this.eventAggregator, this.session),
                 new ItemListCreator(this.eventAggregator),
                 new LayerListCreator(this.eventAggregator, this.session),
                 new MinimapCreator(this.eventAggregator),

@@ -31,6 +31,7 @@ namespace Ame.Infrastructure.Models
             this.PixelScale = 1;
             this.Description = "";
             this.LayerList = new ObservableCollection<ILayer>();
+            this.TilesetList = new ObservableCollection<TilesetModel>();
             this.LayerList.Add(new Layer("Layer #0", this.TileWidth, this.TileHeight, this.Rows, this.Columns));
         }
 
@@ -45,6 +46,7 @@ namespace Ame.Infrastructure.Models
             this.PixelScale = 1;
             this.Description = "";
             this.LayerList = new ObservableCollection<ILayer>();
+            this.TilesetList = new ObservableCollection<TilesetModel>();
             this.LayerList.Add(new Layer("Layer #0", this.TileWidth, this.TileHeight, this.Rows, this.Columns));
         }
 
@@ -59,6 +61,7 @@ namespace Ame.Infrastructure.Models
             this.PixelScale = 1;
             this.Description = "";
             this.LayerList = new ObservableCollection<ILayer>();
+            this.TilesetList = new ObservableCollection<TilesetModel>();
             this.LayerList.Add(new Layer("Layer #0", this.TileWidth, this.TileHeight, this.Rows, this.Columns));
         }
 
@@ -128,6 +131,8 @@ namespace Ame.Infrastructure.Models
                 return this.LayerList.Count;
             }
         }
+
+        public ObservableCollection<TilesetModel> TilesetList { get; set; }
 
         #endregion properties
 

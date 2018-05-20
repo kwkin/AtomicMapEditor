@@ -82,7 +82,10 @@
             </extcomp:IconButton>
 
             <ComboBox x:Name="itemListComboBox"
-                      Grid.Column="5">
+                      Grid.Column="5"
+                      ItemsSource="{Binding Session.CurrentTilesetList}"
+                      DisplayMemberPath="Name"
+                      SelectedItem="{Binding TilesetModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             </ComboBox>
 
             <extcomp:IconToggleButton x:Name="itemAdvancedOptionsToggle"
@@ -148,7 +151,7 @@
                            Stretch="Fill"
                            Fill="Transparent" />
                 <Image x:Name="itemImage"
-                       Source="{Binding ItemImage}"
+                       Source="{Binding TilesetModel.ItemImage}"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        RenderOptions.BitmapScalingMode="NearestNeighbor"

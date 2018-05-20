@@ -38,19 +38,19 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
         #region constructor
 
-        public ItemEditorViewModel(IEventAggregator eventAggregator) : this(eventAggregator, new TilesetModel(), new ScrollModel())
+        public ItemEditorViewModel(IEventAggregator eventAggregator, AmeSession session) : this(eventAggregator, session, new TilesetModel(), new ScrollModel())
         {
         }
 
-        public ItemEditorViewModel(IEventAggregator eventAggregator, TilesetModel tilesetModel) : this(eventAggregator, tilesetModel, new ScrollModel())
+        public ItemEditorViewModel(IEventAggregator eventAggregator, AmeSession session, TilesetModel tilesetModel) : this(eventAggregator, session, tilesetModel, new ScrollModel())
         {
         }
 
-        public ItemEditorViewModel(IEventAggregator eventAggregator, IScrollModel scrollModel) : this(eventAggregator, new TilesetModel(), scrollModel)
+        public ItemEditorViewModel(IEventAggregator eventAggregator, AmeSession session, IScrollModel scrollModel) : this(eventAggregator, session, new TilesetModel(), scrollModel)
         {
         }
 
-        public ItemEditorViewModel(IEventAggregator eventAggregator, TilesetModel tilesetModel, IScrollModel scrollModel)
+        public ItemEditorViewModel(IEventAggregator eventAggregator, AmeSession session, TilesetModel tilesetModel, IScrollModel scrollModel)
         {
             if (eventAggregator == null)
             {
@@ -64,6 +64,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             this.eventAggregator = eventAggregator;
             this.scrollModel = scrollModel;
             this.Title = "Item - " + Path.GetFileNameWithoutExtension(tilesetModel.SourcePath);
+            this.Session = session;
 
             this.CanvasGridItems = new ObservableCollection<Visual>();
             this.CanvasSelectItems = new ObservableCollection<Visual>();
@@ -139,6 +140,28 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
         public ICommand SelectTilesCommand { get; private set; }
         public ICommand UpdateModelCommand { get; private set; }
 
+        public bool IsGridOn { get; set; }
+        public ScaleType Scale { get; set; }
+        public String PositionText { get; set; }
+        public ObservableCollection<ZoomLevel> ZoomLevels { get; set; }
+        public int zoomIndex;
+        public int ZoomIndex
+        {
+            get { return this.zoomIndex; }
+            set
+            {
+                if (SetProperty(ref this.zoomIndex, value))
+                {
+                    this.CanvasGridItems.Clear();
+                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        DrawGrid();
+                    }),
+                    DispatcherPriority.Background);
+                }
+            }
+        }
+
         public bool isSelectingTransparency;
         public bool IsSelectingTransparency
         {
@@ -162,34 +185,31 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             }
         }
 
-        public ScaleType Scale { get; set; }
-        public String PositionText { get; set; }
-        public ObservableCollection<ZoomLevel> ZoomLevels { get; set; }
-        public int zoomIndex;
-        public int ZoomIndex
-        {
-            get { return this.zoomIndex; }
-            set
-            {
-                if (SetProperty(ref this.zoomIndex, value))
-                {
-                    this.CanvasGridItems.Clear();
-                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        DrawGrid();
-                    }),
-                    DispatcherPriority.Background);
-                }
-            }
-        }
-
-        public bool IsGridOn { get; set; }
         public ObservableCollection<Visual> CanvasGridItems { get; set; }
         public ObservableCollection<Visual> CanvasSelectItems { get; set; }
         public Brush GridBrush { get; set; }
 
-        public TilesetModel TilesetModel { get; set; }
-        public DrawingImage ItemImage { get; set; }
+        public AmeSession Session { get; set; }
+
+        private TilesetModel tilesetModel;
+        public TilesetModel TilesetModel
+        {
+            get
+            {
+                return tilesetModel;
+            }
+            set
+            {
+                if (SetProperty(ref this.tilesetModel, value))
+                {
+                    
+                    if (!string.IsNullOrEmpty(this.tilesetModel.SourcePath))
+                    {
+                        this.itemImage = CvInvoke.Imread(this.tilesetModel.SourcePath, Emgu.CV.CvEnum.ImreadModes.Unchanged);
+                    }
+                }
+            }
+        }
 
         #endregion properties
 
@@ -270,8 +290,8 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             {
                 GridModel gridParameters = new GridModel()
                 {
-                    rows = this.ItemImage.Width / this.TilesetModel.Width,
-                    columns = this.ItemImage.Height / this.TilesetModel.Height,
+                    rows = this.TilesetModel.ItemImage.Width / this.TilesetModel.Width,
+                    columns = this.TilesetModel.ItemImage.Height / this.TilesetModel.Height,
                     cellWidth = this.TilesetModel.Width,
                     cellHeight = this.TilesetModel.Height,
                     offsetX = this.TilesetModel.OffsetX,
@@ -322,20 +342,28 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                 if (File.Exists(tileFilePath))
                 {
                     this.Title = "Item - " + Path.GetFileNameWithoutExtension(tileFilePath);
-                    this.TilesetModel.SourcePath = tileFilePath;
+                    TilesetModel newTilesetModel = new TilesetModel();
+                    newTilesetModel.SourcePath = tileFilePath;
                     this.itemImage = CvInvoke.Imread(tileFilePath, Emgu.CV.CvEnum.ImreadModes.Unchanged);
 
                     this.itemTransform = new CoordinateTransform();
-                    this.itemTransform.SetPixelToTile(this.TilesetModel.Width, this.TilesetModel.Height);
+                    this.itemTransform.SetPixelToTile(newTilesetModel.Width, newTilesetModel.Height);
 
                     BitmapSource bitmapSource = BitmapFrame.Create(new Uri(tileFilePath));
                     Rect tileRectangle = new Rect(0, 0, bitmapSource.PixelWidth, bitmapSource.PixelHeight);
                     ImageDrawing tileImage = new ImageDrawing(bitmapSource, tileRectangle);
-                    this.ItemImage = new DrawingImage(tileImage);
+                    newTilesetModel.ItemImage = new DrawingImage(tileImage);
+                    this.Session.CurrentTilesetList.Add(newTilesetModel);
+                    this.TilesetModel = newTilesetModel;
+                    
+                    foreach (TilesetModel model in this.Session.CurrentTilesetList)
+                    {
+                        Console.WriteLine(model.SourcePath + "    " + model.Name);
+                    }
 
                     DrawGrid();
                     RaisePropertyChanged(nameof(this.TilesetModel));
-                    RaisePropertyChanged(nameof(this.ItemImage));
+                    RaisePropertyChanged(nameof(this.TilesetModel.ItemImage));
                 }
             }
         }
@@ -383,7 +411,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
         private void UpdatePosition(Point position)
         {
             Point transformedPosition = new Point(0, 0);
-            if (this.ItemImage != null)
+            if (this.TilesetModel.ItemImage != null)
             {
                 switch (Scale)
                 {

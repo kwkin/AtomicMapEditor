@@ -64,6 +64,7 @@ namespace Ame.Infrastructure.Models
                 this.currentMap = value;
                 this.CurrentLayerList = this.currentMap.LayerList;
                 this.CurrentLayer = this.currentMap.CurrentLayer;
+                this.CurrentTilesetList = this.currentMap.TilesetList;
                 NotifyPropertyChanged();
             }
         }
@@ -92,7 +93,20 @@ namespace Ame.Infrastructure.Models
             set
             {
                 this.currentLayer = value;
-                Console.WriteLine(this.currentLayer.LayerName);
+                NotifyPropertyChanged();
+            }
+        }
+
+        private ObservableCollection<TilesetModel> currentTilesetList;
+        public ObservableCollection<TilesetModel> CurrentTilesetList
+        {
+            get
+            {
+                return this.currentTilesetList;
+            }
+            set
+            {
+                this.currentTilesetList = value;
                 NotifyPropertyChanged();
             }
         }

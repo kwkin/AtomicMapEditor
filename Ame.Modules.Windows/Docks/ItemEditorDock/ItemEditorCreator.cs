@@ -11,31 +11,40 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
         #region fields
 
         private IEventAggregator eventAggregator;
+        private AmeSession session;
 
         #endregion fields
 
 
         #region constructors
 
-        public ItemEditorCreator(IEventAggregator eventAggregator) : this(eventAggregator, null, null)
+        public ItemEditorCreator(IEventAggregator eventAggregator, AmeSession session) 
+            : this(eventAggregator, session, null, null)
         {
         }
 
-        public ItemEditorCreator(IEventAggregator eventAggregator, TilesetModel tilesetModel) : this(eventAggregator, tilesetModel, null)
+        public ItemEditorCreator(IEventAggregator eventAggregator, AmeSession session, TilesetModel tilesetModel)
+            : this(eventAggregator, session, tilesetModel, null)
         {
         }
 
-        public ItemEditorCreator(IEventAggregator eventAggregator, ScrollModel scrollModel) : this(eventAggregator, null, scrollModel)
+        public ItemEditorCreator(IEventAggregator eventAggregator, AmeSession session, ScrollModel scrollModel) 
+            : this(eventAggregator, session, null, scrollModel)
         {
         }
 
-        public ItemEditorCreator(IEventAggregator eventAggregator, TilesetModel tilesetModel, ScrollModel scrollModel)
+        public ItemEditorCreator(IEventAggregator eventAggregator, AmeSession session, TilesetModel tilesetModel, ScrollModel scrollModel)
         {
             if (eventAggregator == null)
             {
                 throw new ArgumentNullException("eventAggregator is null");
             }
+            if (session == null)
+            {
+                throw new ArgumentNullException("session is null");
+            }
             this.eventAggregator = eventAggregator;
+            this.session = session;
             this.ScrollModel = scrollModel;
             this.TilesetModel = tilesetModel;
         }
@@ -58,19 +67,19 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             DockViewModelTemplate template;
             if (this.TilesetModel != null && this.ScrollModel != null)
             {
-                template = new ItemEditorViewModel(this.eventAggregator, this.TilesetModel, this.ScrollModel);
+                template = new ItemEditorViewModel(this.eventAggregator, this.session, this.TilesetModel, this.ScrollModel);
             }
             else if (this.TilesetModel != null && this.ScrollModel == null)
             {
-                template = new ItemEditorViewModel(this.eventAggregator, this.TilesetModel);
+                template = new ItemEditorViewModel(this.eventAggregator, this.session, this.TilesetModel);
             }
             else if (this.TilesetModel == null && this.ScrollModel != null)
             {
-                template = new ItemEditorViewModel(this.eventAggregator, this.ScrollModel);
+                template = new ItemEditorViewModel(this.eventAggregator, this.session, this.ScrollModel);
             }
             else
             {
-                template = new ItemEditorViewModel(this.eventAggregator);
+                template = new ItemEditorViewModel(this.eventAggregator, this.session);
             }
             return template;
         }

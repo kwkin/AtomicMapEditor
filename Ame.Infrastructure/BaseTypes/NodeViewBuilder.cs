@@ -80,12 +80,12 @@ namespace Ame.Infrastructure.BaseTypes
                 IEnumerable arr = value as IEnumerable;
                 if (arr != null)
                 { 
-                    int i = 0;
+                    int index = 0;
                     foreach (object element in arr)
                     {
-                        String elementName = string.Format("[{0}]", i);
+                        String elementName = string.Format("[{0}]", index);
                         this.Children.Add(new NodeViewBuilder(elementName, element, element.GetType()));
-                        i++;
+                        index++;
                     }
                 }
             }
@@ -174,32 +174,31 @@ namespace Ame.Infrastructure.BaseTypes
             NodeViewBuilder arrayNode = new NodeViewBuilder(property.Name, enumerable.ToString(), typeof(object));
             if (enumerable != null)
             {
-                int i = 0;
-                int k = 0;
+                int index = 0;
+                int subIndex = 0;
                 NodeViewBuilder arrayNode2;
 
                 foreach (object element in enumerable)
                 {
                     if (element is IEnumerable && !(element is string))
                     {
-                        arrayNode2 = new NodeViewBuilder("[" + i + "]", element.ToString(), typeof(object));
+                        arrayNode2 = new NodeViewBuilder("[" + index + "]", element.ToString(), typeof(object));
 
-                        IEnumerable arr2 = element as IEnumerable;
-                        k = 0;
+                        IEnumerable subElement = element as IEnumerable;
+                        subIndex = 0;
 
-                        foreach (object e in arr2)
+                        foreach (object e in subElement)
                         {
-                            arrayNode2.Children.Add(new NodeViewBuilder("[" + k + "]", e, e.GetType()));
-                            k++;
+                            arrayNode2.Children.Add(new NodeViewBuilder("[" + subIndex + "]", e, e.GetType()));
+                            subIndex++;
                         }
-
                         arrayNode.Children.Add(arrayNode2);
                     }
                     else
                     {
-                        arrayNode.Children.Add(new NodeViewBuilder("[" + i + "]", element, element.GetType()));
+                        arrayNode.Children.Add(new NodeViewBuilder("[" + index + "]", element, element.GetType()));
                     }
-                    i++;
+                    index++;
                 }
             }
             this.Children.Add(arrayNode);

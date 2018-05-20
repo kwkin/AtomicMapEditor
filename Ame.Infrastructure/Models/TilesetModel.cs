@@ -25,6 +25,20 @@ namespace Ame.Infrastructure.Models
             this.TransparentColor = Colors.Transparent;
         }
 
+        public TilesetModel(string name)
+        {
+            this.Name = name;
+            this.SourcePath = "";
+            this.Height = 32;
+            this.Width = 32;
+            this.OffsetX = 0;
+            this.OffsetY = 0;
+            this.PaddingX = 0;
+            this.PaddingY = 0;
+            this.IsTransparent = false;
+            this.TransparentColor = Colors.Transparent;
+        }
+
         #endregion constructor
 
 
@@ -32,6 +46,7 @@ namespace Ame.Infrastructure.Models
 
         public string Name { get; set; }
         public string SourcePath { get; set; }
+        public DrawingImage ItemImage { get; set; }
         public int Height { get; set; }
         public int Width { get; set; }
         public int OffsetX { get; set; }
