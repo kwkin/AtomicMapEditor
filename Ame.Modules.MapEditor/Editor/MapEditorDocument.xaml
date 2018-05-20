@@ -17,6 +17,9 @@
                 <ResourceDictionary Source="pack://application:,,,/Ame.Modules.MapEditor;component/Editor/MapEditorContextMenu.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <conv:MouseEventToPointConverter x:Key="MouseEventToPointConverter" />
+            <conv:IntegerToBooleanConverter x:Key="CountToEnabledConverter"
+                                            ComparisonValue="0"
+                                            IsInversed="True" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -133,6 +136,7 @@
                       VerticalAlignment="Center"
                       ItemsSource="{Binding ZoomLevels}"
                       SelectedIndex="{Binding ZoomIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      IsEnabled="{Binding ZoomLevels.Count, Converter={StaticResource CountToEnabledConverter}}"
                       DisplayMemberPath="description" />
             <Label Grid.Column="3">
                 <TextBlock Text="Dynamically Updating Help Text"

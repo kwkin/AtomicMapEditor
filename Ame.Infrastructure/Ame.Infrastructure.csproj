@@ -96,6 +96,7 @@
     <Compile Include="Attributes\MetadataPropertyAttribute.cs" />
     <Compile Include="Actions\EnumBindingSourceExtension.cs" />
     <Compile Include="Attributes\MetadataPropertyUtils.cs" />
+    <Compile Include="Converters\IntegerToBooleanConverter.cs" />
     <Compile Include="Models\Brushes\BrushCommand.cs" />
     <Compile Include="BaseTypes\DockViewModelTemplate.cs" />
     <Compile Include="Models\GridModel.cs" />

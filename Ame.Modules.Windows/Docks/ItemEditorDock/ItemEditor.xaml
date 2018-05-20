@@ -22,6 +22,9 @@
             <conv:MouseEventToPointConverter x:Key="MouseEventToPointConverter" />
             <conv:BooleanToVisiblityConverter x:Key="BoolToVisConverter"
                                               Collapse="True" />
+            <conv:IntegerToBooleanConverter x:Key="CountToEnabledConverter" 
+                                            ComparisonValue="0"
+                                            IsInversed="True"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -85,7 +88,8 @@
                       Grid.Column="5"
                       ItemsSource="{Binding Session.CurrentTilesetList}"
                       DisplayMemberPath="Name"
-                      SelectedItem="{Binding TilesetModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                      SelectedItem="{Binding TilesetModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      IsEnabled="{Binding Session.CurrentTilesetList.Count, Converter={StaticResource CountToEnabledConverter}}">
             </ComboBox>
 
             <extcomp:IconToggleButton x:Name="itemAdvancedOptionsToggle"
@@ -230,7 +234,8 @@
                       VerticalAlignment="Center"
                       ItemsSource="{Binding ZoomLevels}"
                       SelectedIndex="{Binding ZoomIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                      DisplayMemberPath="description" />
+                      IsEnabled="{Binding ZoomLevels.Count, Converter={StaticResource CountToEnabledConverter}}"
+                      DisplayMemberPath="description"/>
         </Grid>
     </Grid>
 </UserControl>
