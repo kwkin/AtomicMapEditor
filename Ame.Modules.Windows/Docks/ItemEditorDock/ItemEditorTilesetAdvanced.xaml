@@ -8,6 +8,7 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=Ame.Components"
              xmlns:basetype="clr-namespace:Ame.Infrastructure.BaseTypes;assembly=Ame.Infrastructure"
+             xmlns:actions="clr-namespace:Ame.Infrastructure.Actions;assembly=Ame.Infrastructure"
              mc:Ignorable="d"
              d:DesignHeight="210"
              d:DesignWidth="300">
@@ -94,7 +95,6 @@
                               VerticalAlignment="Center"
                               ColorMode="ColorCanvas"
                               SelectedColor="{Binding TilesetModel.TransparentColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-
         </Grid>
         <Label x:Name="sizeLabel"
                Grid.Row="3"
@@ -119,7 +119,7 @@
                             Value="{Binding TilesetModel.Width, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ValueChanged">
-                    <basetype:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
+                    <actions:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </xctk:IntegerUpDown>
@@ -139,7 +139,7 @@
                             Value="{Binding TilesetModel.Height, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ValueChanged">
-                    <basetype:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
+                    <actions:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </xctk:IntegerUpDown>
@@ -167,7 +167,7 @@
                             Value="{Binding TilesetModel.OffsetX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ValueChanged">
-                    <basetype:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
+                    <actions:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </xctk:IntegerUpDown>
@@ -187,7 +187,7 @@
                             Value="{Binding TilesetModel.OffsetY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ValueChanged">
-                    <basetype:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
+                    <actions:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </xctk:IntegerUpDown>
@@ -215,7 +215,7 @@
                             Value="{Binding TilesetModel.PaddingX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ValueChanged">
-                    <basetype:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
+                    <actions:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </xctk:IntegerUpDown>
@@ -235,7 +235,7 @@
                             Value="{Binding TilesetModel.PaddingY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ValueChanged">
-                    <basetype:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
+                    <actions:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </xctk:IntegerUpDown>

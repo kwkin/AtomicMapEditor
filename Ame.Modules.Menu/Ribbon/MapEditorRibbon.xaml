@@ -7,13 +7,14 @@
              xmlns:conv="clr-namespace:Ame.Infrastructure.Converters;assembly=Ame.Infrastructure"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:basetype="clr-namespace:Ame.Infrastructure.BaseTypes;assembly=Ame.Infrastructure"
+             xmlns:actions="clr-namespace:Ame.Infrastructure.Actions;assembly=Ame.Infrastructure"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d">
     <UserControl.Resources>
         <conv:DoubleToZoomLevelConverter x:Key="DoubleToZoomLevelConverter" />
         <conv:NullToBooleanConverter x:Key="NullToBooleanConverter" />
     </UserControl.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -227,8 +228,8 @@
                           IsEnabled="{Binding Session.CurrentMap, Converter={StaticResource NullToBooleanConverter}}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
-                            <basetype:EventToCommand Command="{Binding SetZoomCommand, Mode=OneWay}"
-                                                     CommandParameter="{Binding SelectedItem, ElementName=zoomComboBox}" />
+                            <actions:EventToCommand Command="{Binding SetZoomCommand, Mode=OneWay}"
+                                                    CommandParameter="{Binding SelectedItem, ElementName=zoomComboBox}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </ComboBox>
@@ -421,4 +422,3 @@
         </Grid>
     </Grid>
 </UserControl>
-

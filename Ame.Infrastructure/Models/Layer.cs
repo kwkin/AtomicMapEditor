@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Ame.Infrastructure.Attributes;
 using Ame.Infrastructure.BaseTypes;
 
 namespace Ame.Infrastructure.Models

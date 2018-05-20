@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Models;
 
 namespace Ame.Infrastructure.Utils
 {

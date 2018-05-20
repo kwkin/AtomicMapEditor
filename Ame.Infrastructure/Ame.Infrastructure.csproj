@@ -91,18 +91,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseTypes\BrushCommand.cs" />
-    <Compile Include="BaseTypes\DataGridRowReadOnlyBehavior.cs" />
+    <Compile Include="Attributes\FileExtensionAttribute.cs" />
+    <Compile Include="Attributes\MetadataProperty.cs" />
+    <Compile Include="Attributes\MetadataPropertyAttribute.cs" />
+    <Compile Include="Actions\EnumBindingSourceExtension.cs" />
+    <Compile Include="Attributes\MetadataPropertyUtils.cs" />
+    <Compile Include="Models\Brushes\BrushCommand.cs" />
     <Compile Include="BaseTypes\DockViewModelTemplate.cs" />
-    <Compile Include="BaseTypes\GridModel.cs" />
+    <Compile Include="Models\GridModel.cs" />
     <Compile Include="BaseTypes\DockCreatorTemplate.cs" />
-    <Compile Include="BaseTypes\IgnoreNodeBuilderAttribute.cs" />
-    <Compile Include="BaseTypes\IBrushCommand.cs" />
+    <Compile Include="Attributes\IgnoreNodeBuilderAttribute.cs" />
+    <Compile Include="Models\Brushes\IBrushCommand.cs" />
     <Compile Include="BaseTypes\IWindowInteraction.cs" />
     <Compile Include="BaseTypes\NodeViewBuilder.cs" />
-    <Compile Include="BaseTypes\PropertyStat.cs" />
-    <Compile Include="BaseTypes\ReadOnlyService.cs" />
-    <Compile Include="BaseTypes\SetPropertyAction.cs" />
+    <Compile Include="Actions\SetPropertyAction.cs" />
     <Compile Include="Converters\NullToBooleanConverter.cs" />
     <Compile Include="Converters\ViewComponentConverter.cs" />
     <Compile Include="Core\Global.cs" />
@@ -129,8 +131,7 @@
     <Compile Include="Utils\CoordinateTransform.cs" />
     <Compile Include="BaseTypes\DockToolViewModelTemplate.cs" />
     <Compile Include="BaseTypes\EditorViewModelTemplate.cs" />
-    <Compile Include="BaseTypes\EnumBindingSourceExtension.cs" />
-    <Compile Include="BaseTypes\EventToCommand.cs" />
+    <Compile Include="Actions\EventToCommand.cs" />
     <Compile Include="Converters\EnumDescriptionTypeConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\DoubleToZoomLevelConverter.cs" />

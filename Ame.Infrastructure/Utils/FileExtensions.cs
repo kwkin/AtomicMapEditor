@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Text;
+using Ame.Infrastructure.Attributes;
 
 namespace Ame.Infrastructure.Utils
 {
@@ -87,27 +88,5 @@ namespace Ame.Infrastructure.Utils
         }
 
         #endregion methods
-    }
-
-
-    internal class FileExtensionAttribute : Attribute
-    {
-        #region constructor
-
-        internal FileExtensionAttribute(string name, params string[] extensions)
-        {
-            this.Name = name;
-            this.Extensions = extensions;
-        }
-
-        #endregion constructor
-
-
-        #region properties
-
-        public string Name { get; private set; }
-        public string[] Extensions { get; private set; }
-
-        #endregion properties
     }
 }

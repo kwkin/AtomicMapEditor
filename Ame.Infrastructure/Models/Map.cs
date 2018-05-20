@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Ame.Infrastructure.Attributes;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Utils;
 

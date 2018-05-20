@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Interactivity;
 
-namespace Ame.Infrastructure.BaseTypes
+namespace Ame.Infrastructure.Actions
 {
     public class SetPropertyAction : TriggerAction<FrameworkElement>
     {

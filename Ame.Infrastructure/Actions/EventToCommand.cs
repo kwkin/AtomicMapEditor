@@ -6,7 +6,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interactivity;
 
-namespace Ame.Infrastructure.BaseTypes
+namespace Ame.Infrastructure.Actions
 {
     public class EventToCommand : TriggerAction<DependencyObject>
     {

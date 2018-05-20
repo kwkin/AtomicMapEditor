@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Markup;
 
-namespace Ame.Infrastructure.BaseTypes
+namespace Ame.Infrastructure.Actions
 {
     public class EnumBindingSourceExtension : MarkupExtension
     {

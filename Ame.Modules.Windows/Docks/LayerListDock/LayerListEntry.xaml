@@ -8,6 +8,7 @@
              xmlns:local="clr-namespace:Ame.Modules.Windows.Docks.LayerListDock"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=Ame.Components"
+             xmlns:actions="clr-namespace:Ame.Infrastructure.Actions;assembly=Ame.Infrastructure"
              mc:Ignorable="d"
              HorizontalContentAlignment="Stretch"
              d:DesignWidth="300">
@@ -63,20 +64,20 @@
                  Background="Transparent">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
-                    <basetype:SetPropertyAction PropertyName="IsReadOnly"
-                                                TargetObject="{Binding layerNameLabel}">
-                        <basetype:SetPropertyAction.PropertyValue>
+                    <actions:SetPropertyAction PropertyName="IsReadOnly"
+                                               TargetObject="{Binding layerNameLabel}">
+                        <actions:SetPropertyAction.PropertyValue>
                             <sys:Boolean>False</sys:Boolean>
-                        </basetype:SetPropertyAction.PropertyValue>
-                    </basetype:SetPropertyAction>
+                        </actions:SetPropertyAction.PropertyValue>
+                    </actions:SetPropertyAction>
                 </i:EventTrigger>
                 <i:EventTrigger EventName="LostFocus">
-                    <basetype:SetPropertyAction PropertyName="IsReadOnly"
-                                                TargetObject="{Binding layerNameLabel}">
-                        <basetype:SetPropertyAction.PropertyValue>
+                    <actions:SetPropertyAction PropertyName="IsReadOnly"
+                                               TargetObject="{Binding layerNameLabel}">
+                        <actions:SetPropertyAction.PropertyValue>
                             <sys:Boolean>True</sys:Boolean>
-                        </basetype:SetPropertyAction.PropertyValue>
-                    </basetype:SetPropertyAction>
+                        </actions:SetPropertyAction.PropertyValue>
+                    </actions:SetPropertyAction>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </TextBox>

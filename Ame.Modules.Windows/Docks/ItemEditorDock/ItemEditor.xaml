@@ -8,6 +8,7 @@
              xmlns:conv="clr-namespace:Ame.Infrastructure.Converters;assembly=Ame.Infrastructure"
              xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=Ame.Components"
              xmlns:basetype="clr-namespace:Ame.Infrastructure.BaseTypes;assembly=Ame.Infrastructure"
+             xmlns:actions="clr-namespace:Ame.Infrastructure.Actions;assembly=Ame.Infrastructure"
              xmlns:models="clr-namespace:Ame.Infrastructure.Models;assembly=Ame.Infrastructure"
              mc:Ignorable="d"
              d:DesignHeight="300"
@@ -126,10 +127,10 @@
             <Grid x:Name="scrollViewerGrid">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseMove">
-                        <basetype:EventToCommand Command="{Binding UpdatePositionCommand, Mode=OneWay}"
-                                                 EventArgsConverter="{StaticResource MouseEventToPointConverter}"
-                                                 EventArgsConverterParameter="{Binding ElementName=itemImage}"
-                                                 PassEventArgsToCommand="True" />
+                        <actions:EventToCommand Command="{Binding UpdatePositionCommand, Mode=OneWay}"
+                                                EventArgsConverter="{StaticResource MouseEventToPointConverter}"
+                                                EventArgsConverterParameter="{Binding ElementName=itemImage}"
+                                                PassEventArgsToCommand="True" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
 
@@ -154,16 +155,16 @@
                        Stretch="None">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseLeftButtonDown">
-                            <basetype:EventToCommand Command="{Binding SetSelectPointCommand, Mode=OneWay}"
-                                                     EventArgsConverter="{StaticResource MouseEventToPointConverter}"
-                                                     EventArgsConverterParameter="{Binding ElementName=itemImage}"
-                                                     PassEventArgsToCommand="True" />
+                            <actions:EventToCommand Command="{Binding SetSelectPointCommand, Mode=OneWay}"
+                                                    EventArgsConverter="{StaticResource MouseEventToPointConverter}"
+                                                    EventArgsConverterParameter="{Binding ElementName=itemImage}"
+                                                    PassEventArgsToCommand="True" />
                         </i:EventTrigger>
                         <i:EventTrigger EventName="MouseLeftButtonUp">
-                            <basetype:EventToCommand Command="{Binding SelectTilesCommand, Mode=OneWay}"
-                                                     EventArgsConverter="{StaticResource MouseEventToPointConverter}"
-                                                     EventArgsConverterParameter="{Binding ElementName=itemImage}"
-                                                     PassEventArgsToCommand="True" />
+                            <actions:EventToCommand Command="{Binding SelectTilesCommand, Mode=OneWay}"
+                                                    EventArgsConverter="{StaticResource MouseEventToPointConverter}"
+                                                    EventArgsConverterParameter="{Binding ElementName=itemImage}"
+                                                    PassEventArgsToCommand="True" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Image>
@@ -217,7 +218,7 @@
                       Grid.Column="1"
                       Width="65"
                       VerticalAlignment="Center"
-                      ItemsSource="{Binding Source={basetype:EnumBindingSourceExtension {x:Type models:ScaleType}}}"
+                      ItemsSource="{Binding Source={actions:EnumBindingSourceExtension {x:Type models:ScaleType}}}"
                       SelectedItem="{Binding Scale, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <ComboBox x:Name="zoomComboBox"
                       Grid.Column="2"

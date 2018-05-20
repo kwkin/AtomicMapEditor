@@ -8,6 +8,7 @@
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:Ame.Infrastructure.Models;assembly=Ame.Infrastructure"
+             xmlns:actions="clr-namespace:Ame.Infrastructure.Actions;assembly=Ame.Infrastructure"
              mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -32,10 +33,10 @@
                                       ZoomLevels="{Binding ZoomLevels}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseMove">
-                    <basetype:EventToCommand Command="{Binding UpdatePositionCommand, Mode=OneWay}"
-                                             EventArgsConverter="{StaticResource MouseEventToPointConverter}"
-                                             EventArgsConverterParameter="{Binding ElementName=canvasMapImage}"
-                                             PassEventArgsToCommand="True" />
+                    <actions:EventToCommand Command="{Binding UpdatePositionCommand, Mode=OneWay}"
+                                            EventArgsConverter="{StaticResource MouseEventToPointConverter}"
+                                            EventArgsConverterParameter="{Binding ElementName=canvasMapImage}"
+                                            PassEventArgsToCommand="True" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
 
@@ -54,23 +55,23 @@
 
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseLeftButtonDown">
-                        <basetype:EventToCommand Command="{Binding DrawCommand, Mode=OneWay}"
-                                                 EventArgsConverter="{StaticResource MouseEventToPointConverter}"
-                                                 EventArgsConverterParameter="{Binding ElementName=canvasMapImage}"
-                                                 PassEventArgsToCommand="True" />
+                        <actions:EventToCommand Command="{Binding DrawCommand, Mode=OneWay}"
+                                                EventArgsConverter="{StaticResource MouseEventToPointConverter}"
+                                                EventArgsConverterParameter="{Binding ElementName=canvasMapImage}"
+                                                PassEventArgsToCommand="True" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
-                        <basetype:EventToCommand Command="{Binding DrawReleaseCommand, Mode=OneWay}"
-                                                 EventArgsConverter="{StaticResource MouseEventToPointConverter}"
-                                                 EventArgsConverterParameter="{Binding ElementName=canvasMapImage}"
-                                                 PassEventArgsToCommand="True" />
+                        <actions:EventToCommand Command="{Binding DrawReleaseCommand, Mode=OneWay}"
+                                                EventArgsConverter="{StaticResource MouseEventToPointConverter}"
+                                                EventArgsConverterParameter="{Binding ElementName=canvasMapImage}"
+                                                PassEventArgsToCommand="True" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
 
                 <Rectangle x:Name="selectionHitBox"
                            Fill="Transparent"
                            Stretch="Fill" />
-  
+
                 <Image x:Name="canvasMapImage"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
@@ -99,7 +100,7 @@
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
-                
+
                 <Grid.LayoutTransform>
                     <TransformGroup>
                         <ScaleTransform x:Name="itemScaleTransform" />
@@ -124,7 +125,7 @@
                       Grid.Column="1"
                       Width="65"
                       VerticalAlignment="Center"
-                      ItemsSource="{Binding Source={basetype:EnumBindingSourceExtension {x:Type models:ScaleType}}}"
+                      ItemsSource="{Binding Source={actions:EnumBindingSourceExtension {x:Type models:ScaleType}}}"
                       SelectedItem="{Binding Scale, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <ComboBox x:Name="zoomComboBox"
                       Grid.Column="2"

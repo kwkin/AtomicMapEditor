@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Media;
 using Ame.Infrastructure.Models.Brushes;
 
-namespace Ame.Infrastructure.BaseTypes
+namespace Ame.Infrastructure.Models.Brushes
 {
     public class BrushCommand : IBrushCommand
     {
