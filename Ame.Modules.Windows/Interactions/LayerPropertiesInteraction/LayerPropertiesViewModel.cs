@@ -174,7 +174,7 @@ namespace Ame.Modules.Windows.Interactions.LayerPropertiesInteraction
         private void AddCustomProperty()
         {
             int customCount = this.MetadataList.Count(p => p.Type == MetadataType.Custom);
-            String customName = String.Format("Custom #{0}", customCount);
+            string customName = string.Format("Custom #{0}", customCount);
             this.MetadataList.Add(new MetadataProperty(customName, "", MetadataType.Custom));
         }
 

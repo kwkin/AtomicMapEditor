@@ -17,7 +17,7 @@ namespace Ame.Infrastructure.Attributes
             this.Name = "";
         }
 
-        internal MetadataPropertyAttribute(MetadataType type, String name)
+        internal MetadataPropertyAttribute(MetadataType type, string name)
         {
             this.Type = type;
             this.Name = name;
@@ -28,7 +28,7 @@ namespace Ame.Infrastructure.Attributes
 
         #region properties
 
-        public String Name { get; private set; }
+        public string Name { get; private set; }
         public MetadataType Type { get; private set; }
 
         #endregion properties

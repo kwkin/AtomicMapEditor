@@ -136,7 +136,7 @@ namespace Ame.Modules.MapEditor.Editor
 
         public bool IsGridOn { get; set; }
         public ObservableCollection<Visual> CanvasGridItems { get; set; }
-        public String PositionText { get; set; }
+        public string PositionText { get; set; }
         public ScaleType Scale { get; set; }
         public ObservableCollection<ZoomLevel> ZoomLevels { get; set; }
 

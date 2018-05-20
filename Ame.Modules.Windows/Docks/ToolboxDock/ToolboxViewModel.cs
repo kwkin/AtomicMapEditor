@@ -42,7 +42,7 @@ namespace Ame.Modules.Windows.Docks.ToolboxDock
 
         public void SetToolboxTitle(string brushTitle)
         {
-            if (!String.IsNullOrEmpty(brushTitle))
+            if (!string.IsNullOrEmpty(brushTitle))
             {
                 this.Title = "Tools - " + brushTitle;
             }

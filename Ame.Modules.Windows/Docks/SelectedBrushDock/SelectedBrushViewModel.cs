@@ -102,7 +102,7 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
         public ICommand ZoomOutCommand { get; private set; }
         public ICommand SetZoomCommand { get; private set; }
 
-        public String PositionText { get; set; }
+        public string PositionText { get; set; }
         public ScaleType Scale { get; set; }
         public bool IsGridOn { get; set; }
         public ObservableCollection<Visual> CanvasGridItems { get; set; }

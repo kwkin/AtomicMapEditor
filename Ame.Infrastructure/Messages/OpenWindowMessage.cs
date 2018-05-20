@@ -35,7 +35,7 @@ namespace Ame.Infrastructure.Messages
             this.Title = "";
         }
 
-        public OpenWindowMessage(Type type, String title)
+        public OpenWindowMessage(Type type, string title)
         {
             if (!typeof(IWindowInteraction).IsAssignableFrom(type))
             {
@@ -45,7 +45,7 @@ namespace Ame.Infrastructure.Messages
             this.Title = title;
         }
 
-        public OpenWindowMessage(Type type, object content, String title)
+        public OpenWindowMessage(Type type, object content, string title)
         {
             if (!typeof(IWindowInteraction).IsAssignableFrom(type))
             {
@@ -62,7 +62,7 @@ namespace Ame.Infrastructure.Messages
         #region Properties
 
         public Type Type;
-        public String Title { get; set; }
+        public string Title { get; set; }
         public object Content { get; set; }
 
         #endregion Properties

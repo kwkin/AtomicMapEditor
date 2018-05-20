@@ -83,7 +83,7 @@ namespace Ame.Infrastructure.BaseTypes
                     int index = 0;
                     foreach (object element in arr)
                     {
-                        String elementName = string.Format("[{0}]", index);
+                        string elementName = string.Format("[{0}]", index);
                         this.Children.Add(new NodeViewBuilder(elementName, element, element.GetType()));
                         index++;
                     }

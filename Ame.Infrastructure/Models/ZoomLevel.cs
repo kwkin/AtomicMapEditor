@@ -17,7 +17,7 @@ namespace Ame.Infrastructure.Models
 
         public ZoomLevel(double zoom)
         {
-            this.description = String.Format("{0}%", zoom * 100);
+            this.description = string.Format("{0}%", zoom * 100);
             this.zoom = zoom;
         }
 

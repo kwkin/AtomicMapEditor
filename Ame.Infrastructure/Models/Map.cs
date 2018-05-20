@@ -210,7 +210,7 @@ namespace Ame.Infrastructure.Models
         public void NewLayerGroup()
         {
             int layerGroupCount = GetLayerGroupCount();
-            String newLayerGroupName = String.Format("Layer Group #{0}", layerGroupCount);
+            string newLayerGroupName = string.Format("Layer Group #{0}", layerGroupCount);
             ILayer newLayerGroup = new LayerGroup(newLayerGroupName);
             this.LayerList.Add(newLayerGroup);
         }

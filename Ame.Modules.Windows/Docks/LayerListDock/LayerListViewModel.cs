@@ -103,7 +103,7 @@ namespace Ame.Modules.Windows.Docks.LayerListDock
         public void NewLayerGroup()
         {
             int layerGroupCount = GetLayerGroupCount();
-            String newLayerGroupName = String.Format("Layer Group #{0}", layerGroupCount);
+            string newLayerGroupName = string.Format("Layer Group #{0}", layerGroupCount);
             this.Session.CurrentLayerList.Add(new LayerGroup(newLayerGroupName));
         }
 

@@ -34,7 +34,7 @@ namespace Ame.Infrastructure.Messages
             this.Title = "";
         }
 
-        public OpenDockMessage(Type type, String title)
+        public OpenDockMessage(Type type, string title)
         {
             if (!typeof(DockViewModelTemplate).IsAssignableFrom(type))
             {
@@ -44,7 +44,7 @@ namespace Ame.Infrastructure.Messages
             this.Title = title;
         }
 
-        public OpenDockMessage(Type type, object content, String title)
+        public OpenDockMessage(Type type, object content, string title)
         {
             if (!typeof(DockViewModelTemplate).IsAssignableFrom(type))
             {
@@ -62,7 +62,7 @@ namespace Ame.Infrastructure.Messages
 
         public Type Type { get; set; }
         public object Content { get; set; }
-        public String Title { get; set; }
+        public string Title { get; set; }
 
         #endregion Properties
 

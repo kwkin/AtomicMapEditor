@@ -139,8 +139,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
         public ICommand SetSelectPointCommand { get; private set; }
         public ICommand SelectTilesCommand { get; private set; }
         public ICommand UpdateModelCommand { get; private set; }
-
-        // TODO change all String objects to string
+        
         public bool IsGridOn { get; set; }
         public string PositionText { get; set; }
         public ScaleType Scale { get; set; }

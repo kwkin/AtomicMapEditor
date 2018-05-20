@@ -53,13 +53,13 @@ namespace Ame.Infrastructure.Utils
         public static string GetNameAndExtensions(this OpenFileExtensions extension)
         {
             FileExtensionAttribute attr = GetAttr(extension);
-            return String.Format("{0} ({1})", attr.Name, attr.Extensions);
+            return string.Format("{0} ({1})", attr.Name, attr.Extensions);
         }
 
         public static string GetName(this OpenFileExtensions extension)
         {
             FileExtensionAttribute attr = GetAttr(extension);
-            return String.Format("{0}", attr.Name);
+            return string.Format("{0}", attr.Name);
         }
 
         public static string[] GetExtensions(this OpenFileExtensions extension)
@@ -71,7 +71,7 @@ namespace Ame.Infrastructure.Utils
         public static string GetOpenFileFormat(this OpenFileExtensions extension)
         {
             FileExtensionAttribute attr = GetAttr(extension);
-            return String.Format("{0} ({1})|{2}",
+            return string.Format("{0} ({1})|{2}",
                 attr.Name,
                 string.Join(", ", attr.Extensions),
                 string.Join(";", attr.Extensions));

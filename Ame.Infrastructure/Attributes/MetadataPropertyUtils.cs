@@ -22,7 +22,7 @@ namespace Ame.Infrastructure.Attributes
                 MetadataPropertyAttribute attribute = propertyInfo.GetCustomAttribute<MetadataPropertyAttribute>();
                 if (attribute != null)
                 {
-                    String metadataName = propertyInfo.Name;
+                    string metadataName = propertyInfo.Name;
                     if (attribute.Name != string.Empty)
                     {
                         metadataName = attribute.Name;
