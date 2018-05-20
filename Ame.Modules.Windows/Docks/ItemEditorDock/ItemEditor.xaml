@@ -29,12 +29,12 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Grid Background="#FFD6D6D6"
-              Grid.Row="0"
+        <Grid Grid.Row="0"
               Grid.Column="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -94,7 +94,9 @@
             </extcomp:IconToggleButton>
         </Grid>
 
-        <Grid Grid.Row="1"
+        <Separator Grid.Row="1" />
+        
+        <Grid Grid.Row="2"
               Visibility="{Binding IsChecked, ElementName=itemAdvancedOptionsToggle, Converter={StaticResource BoolToVisConverter}}">
 
             <Grid.RowDefinitions>
@@ -122,7 +124,7 @@
 
         <extcomp:ExtendedScrollViewer x:Name="itemScrollViewer"
                                       Grid.Column="0"
-                                      Grid.Row="2"
+                                      Grid.Row="3"
                                       HorizontalScrollBarVisibility="Visible"
                                       VerticalScrollBarVisibility="Visible"
                                       ZoomIndex="{Binding ZoomIndex}"
@@ -204,7 +206,7 @@
         </extcomp:ExtendedScrollViewer>
 
 
-        <Grid Grid.Row="3">
+        <Grid Grid.Row="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />

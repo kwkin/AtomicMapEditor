@@ -9,10 +9,10 @@
              xmlns:behaviors="clr-namespace:Ame.Components.Behaviors;assembly=Ame.Components"
              xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=Ame.Components"
              mc:Ignorable="d"
-             d:DesignHeight="300"
-             d:DesignWidth="300">
+             d:DesignHeight="300">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -26,9 +26,10 @@
             </extcomp:IconButton>
         </WrapPanel>
 
+        <Separator Grid.Row="1" />
 
         <TreeView x:Name="resultTreeView"
-                  Grid.Row="1"
+                  Grid.Row="2"
                   BorderThickness="0"
                   ItemsSource="{Binding Nodes}">
             <i:Interaction.Behaviors>

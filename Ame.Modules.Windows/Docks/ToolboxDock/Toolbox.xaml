@@ -7,8 +7,7 @@
              xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=Ame.Components"
              xmlns:local="clr-namespace:Ame.Modules.Windows.Docks.ToolboxDock"
              mc:Ignorable="d"
-             d:DesignHeight="300"
-             d:DesignWidth="300">
+             d:DesignHeight="300">
     <Grid>
         <Grid.Resources>
             <conv:BooleanToVisiblityConverter x:Key="BoolToVisConverter"
@@ -16,6 +15,7 @@
         </Grid.Resources>
 
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -122,7 +122,9 @@
             </extcomp:IconRadioButton>
         </WrapPanel>
 
-        <ScrollViewer Grid.Row="1">
+        <Separator Grid.Row="1" />
+
+        <ScrollViewer Grid.Row="2">
             <Grid>
                 <local:ToolboxStampPanel Visibility="{Binding IsChecked, ElementName=stampButton, Converter={StaticResource BoolToVisConverter}}" />
                 <local:ToolboxBrushPanel Visibility="{Binding IsChecked, ElementName=brushButton, Converter={StaticResource BoolToVisConverter}}" />

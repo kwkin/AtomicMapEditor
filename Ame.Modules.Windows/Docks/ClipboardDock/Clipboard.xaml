@@ -19,11 +19,11 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Grid Background="#FFD6D6D6"
-              Grid.Row="0"
+        <Grid Grid.Row="0"
               Grid.Column="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -83,7 +83,9 @@
             </extcomp:IconButton>
         </Grid>
 
-        <WrapPanel Grid.Row="1">
+        <Separator Grid.Row="1" />
+
+        <WrapPanel Grid.Row="2">
             <WrapPanel.ContextMenu>
                 <ContextMenu>
                     <ContextMenu.ItemsSource>

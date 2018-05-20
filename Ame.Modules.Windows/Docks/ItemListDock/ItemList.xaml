@@ -16,11 +16,10 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Grid Background="#FFD6D6D6"
-              Grid.Row="0"
+        <Grid Grid.Row="0"
               Grid.Column="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -74,6 +73,8 @@
             </extcomp:IconButton>
         </Grid>
 
+        <Separator Grid.Row="1" />
+        
         <ScrollViewer x:Name="tilesetScrollViewer"
                       VerticalScrollBarVisibility="Visible"
                       Grid.Column="0"

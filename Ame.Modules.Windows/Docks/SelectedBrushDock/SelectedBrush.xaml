@@ -22,18 +22,33 @@
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <WrapPanel Grid.Row="0">
+            <extcomp:IconToggleButton x:Name="showCollisionsButton"
+                                      ToolTip="Toggle Collisions: Toggles the collision overlay."
+                                      Command="{Binding NewProjectCommand}"
+                                      ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_collisions_black_24dp.png"
+                                      ImageStretch="None">
+            </extcomp:IconToggleButton>
+        </WrapPanel>
+
+        <Separator Grid.Row="1" />
+
         <extcomp:ExtendedScrollViewer x:Name="itemScrollViewer"
-                                      Grid.Row="0"
+                                      Grid.Row="2"
                                       Grid.Column="0"
                                       HorizontalScrollBarVisibility="Visible"
                                       VerticalScrollBarVisibility="Visible"
                                       ZoomIndex="{Binding ZoomIndex}"
                                       ZoomLevels="{Binding ZoomLevels}">
-            <Grid x:Name="scrollViewerGrid" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid x:Name="scrollViewerGrid"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center">
                 <Grid.ContextMenu>
                     <ContextMenu>
                         <ContextMenu.ItemsSource>
@@ -46,11 +61,15 @@
 
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseMove">
-                        <actions:EventToCommand Command="{Binding UpdatePositionCommand, Mode=OneWay}" EventArgsConverter="{StaticResource MouseEventToPointConverter}" EventArgsConverterParameter="{Binding ElementName=itemImage}" PassEventArgsToCommand="True" />
+                        <actions:EventToCommand Command="{Binding UpdatePositionCommand, Mode=OneWay}"
+                                                EventArgsConverter="{StaticResource MouseEventToPointConverter}"
+                                                EventArgsConverterParameter="{Binding ElementName=itemImage}"
+                                                PassEventArgsToCommand="True" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
 
-                <Rectangle Fill="Transparent" Stretch="Fill" />
+                <Rectangle Fill="Transparent"
+                           Stretch="Fill" />
 
                 <Image x:Name="itemImage"
                        HorizontalAlignment="Center"
@@ -80,14 +99,17 @@
             </Grid>
         </extcomp:ExtendedScrollViewer>
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <Label x:Name="mousePositionLabel" Grid.Column="0" Width="65" Content="{Binding PositionText}" />
+            <Label x:Name="mousePositionLabel"
+                   Grid.Column="0"
+                   Width="65"
+                   Content="{Binding PositionText}" />
             <ComboBox x:Name="coordinateComboBox"
                       Grid.Column="1"
                       Width="65"
