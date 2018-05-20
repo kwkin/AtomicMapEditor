@@ -14,7 +14,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/Ame.Modules.Docks;component/Docks/SelectedBrushDock/SelectedBrushContextMenu.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.Modules.Windows;component/Docks/SelectedBrushDock/SelectedBrushContextMenu.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <conv:MouseEventToPointConverter x:Key="MouseEventToPointConverter" />
         </ResourceDictionary>

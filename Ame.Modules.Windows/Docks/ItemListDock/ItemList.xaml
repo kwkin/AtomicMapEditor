@@ -9,7 +9,7 @@
              d:DesignHeight="300"
              d:DesignWidth="300">
     <UserControl.Resources>
-        <ResourceDictionary Source="pack://application:,,,/Ame.Modules.Docks;component/Docks/ItemListDock/ItemListContextMenu.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Ame.Modules.Windows;component/Docks/ItemListDock/ItemListContextMenu.xaml" />
     </UserControl.Resources>
     
     <Grid>

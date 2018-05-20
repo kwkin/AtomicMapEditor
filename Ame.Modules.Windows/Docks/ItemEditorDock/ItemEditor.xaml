@@ -17,7 +17,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/Ame.Modules.Docks;component/Docks/ItemEditorDock/ItemEditorContextMenu.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.Modules.Windows;component/Docks/ItemEditorDock/ItemEditorContextMenu.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <conv:MouseEventToPointConverter x:Key="MouseEventToPointConverter" />
             <conv:BooleanToVisiblityConverter x:Key="BoolToVisConverter"
