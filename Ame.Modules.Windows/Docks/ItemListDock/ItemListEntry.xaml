@@ -11,9 +11,21 @@
         <ResourceDictionary Source="pack://application:,,,/Ame.Modules.Windows;component/Docks/ItemListDock/ItemListContextMenu.xaml" />
     </UserControl.Resources>
     
-
     <!-- TODO point to image -->
     <Grid>
-        <Label Content="{Binding Name}" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Image x:Name="tilesetImage"
+               Source="{Binding ItemImage}"
+               Stretch="UniformToFill"
+               Grid.Column="0">
+        </Image>
+        
+        <Label x:Name="tilesetName"
+               Content="{Binding Name}" 
+               Grid.Column="1"/>
     </Grid>
 </UserControl>

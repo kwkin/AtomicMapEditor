@@ -37,18 +37,18 @@
         <Separator />
         <MenuItem Header="Sort">
             <MenuItem Header="Name"
-                      Command="{Binding SortItemListCommnd}" />
+                      Command="{Binding SortItemListCommand}" />
             <MenuItem Header="Total Size"
-                      Command="{Binding SortItemListCommnd}" />
+                      Command="{Binding SortItemListCommand}" />
             <MenuItem Header="Horizontal Size"
-                      Command="{Binding SortItemListCommnd}" />
+                      Command="{Binding SortItemListCommand}" />
             <MenuItem Header="Vertical Size"
-                      Command="{Binding SortItemListCommnd}" />
+                      Command="{Binding SortItemListCommand}" />
             <Separator />
             <MenuItem Header="Descending"
-                      Command="{Binding SortItemListCommnd}" />
+                      Command="{Binding SortItemListCommand}" />
             <MenuItem Header="Ascending"
-                      Command="{Binding SortItemListCommnd}" />
+                      Command="{Binding SortItemListCommand}" />
         </MenuItem>
         <MenuItem Header="Show Tilesets"
                   IsEnabled="True"

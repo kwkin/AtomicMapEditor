@@ -30,11 +30,24 @@ namespace Ame.Modules.Windows.Docks.ItemListDock
             this.Session = session;
             this.Title = "Item List";
 
+            this.CurrentItemChangedCommand = new DelegateCommand<object>((currentItem) => CurrentItemChanged((IItem)currentItem));
             this.AddTilesetCommand = new DelegateCommand(() => AddTileset());
             this.AddImageCommand = new DelegateCommand(() => AddImage());
             this.AddGroupCommand = new DelegateCommand(() => AddGroup());
+            this.AddDirectoryCommand = new DelegateCommand(() => AddDirectory());
             this.ViewPropertiesCommand = new DelegateCommand(() => ViewProperties());
-            this.CurrentItemChangedCommand = new DelegateCommand<object>((currentItem) => CurrentItemChanged((IItem)currentItem));
+            this.RemoveItemCommand = new DelegateCommand(() => RemoveItem());
+            this.SortItemListCommand = new DelegateCommand(() => SortItemList());
+            this.ShowTilesetsCommand = new DelegateCommand(() => ShowTilesets());
+            this.ZoomInCommand = new DelegateCommand(() => ZoomIn());
+            this.ZoomOutCommand = new DelegateCommand(() => ZoomOut());
+            this.ShowImagesCommand = new DelegateCommand(() => ShowImages());
+            this.SetImageSizeCommand = new DelegateCommand(() => SetImageSize());
+            this.ExpandAllCommand = new DelegateCommand(() => ExpandAll());
+            this.CollapseAllCommand = new DelegateCommand(() => CollapseAll());
+            this.ShowGroupsCommand = new DelegateCommand(() => ShowGroups());
+            this.EditCollisionsCommand = new DelegateCommand(() => EditCollisions());
+            this.RenameItemCommand = new DelegateCommand(() => RenameItem());
 
             this.Items = new ObservableCollection<IItem>();
             ItemGroup itemGroup1 = new ItemGroup("Item Group #1");
@@ -58,11 +71,24 @@ namespace Ame.Modules.Windows.Docks.ItemListDock
 
         #region properties
 
-        public ICommand ViewPropertiesCommand { get; private set; }
         public ICommand CurrentItemChangedCommand { get; private set; }
         public ICommand AddTilesetCommand { get; private set; }
         public ICommand AddImageCommand { get; private set; }
+        public ICommand AddDirectoryCommand { get; private set; }
         public ICommand AddGroupCommand { get; private set; }
+        public ICommand RemoveItemCommand { get; private set; }
+        public ICommand SortItemListCommand { get; private set; }
+        public ICommand ShowTilesetsCommand { get; private set; }
+        public ICommand ShowImagesCommand { get; private set; }
+        public ICommand ZoomInCommand { get; private set; }
+        public ICommand ZoomOutCommand { get; private set; }
+        public ICommand SetImageSizeCommand { get; private set; }
+        public ICommand ExpandAllCommand { get; private set; }
+        public ICommand CollapseAllCommand { get; private set; }
+        public ICommand ShowGroupsCommand { get; private set; }
+        public ICommand ViewPropertiesCommand { get; private set; }
+        public ICommand EditCollisionsCommand { get; private set; }
+        public ICommand RenameItemCommand { get; private set; }
 
         public AmeSession Session { get; set; }
         public ObservableCollection<IItem> Items { get; set; }
@@ -95,6 +121,75 @@ namespace Ame.Modules.Windows.Docks.ItemListDock
         public void AddImage()
         {
             Console.WriteLine("Add Image");
+        }
+
+        public void AddDirectory()
+        {
+            Console.WriteLine("Add Directory");
+        }
+
+        public void RemoveItem()
+        {
+            if (this.Item == null)
+            {
+                return;
+            }
+            this.Items.Remove(this.Item);
+        }
+
+        public void SortItemList()
+        {
+            Console.WriteLine("Sort Item List");
+        }
+
+        public void ShowTilesets()
+        {
+            Console.WriteLine("Show Tilesets");
+        }
+
+        public void ShowImages()
+        {
+            Console.WriteLine("Show Images");
+        }
+
+        public void ZoomIn()
+        {
+            Console.WriteLine("Zoom In");
+        }
+
+        public void ZoomOut()
+        {
+            Console.WriteLine("Zoom Out");
+        }
+
+        public void SetImageSize()
+        {
+            Console.WriteLine("Set Image Size");
+        }
+
+        public void ExpandAll()
+        {
+            Console.WriteLine("Expand All");
+        }
+
+        public void CollapseAll()
+        {
+            Console.WriteLine("Collapse All");
+        }
+
+        public void ShowGroups()
+        {
+            Console.WriteLine("Show Groups");
+        }
+
+        public void EditCollisions()
+        {
+            Console.WriteLine("Edit Collisions");
+        }
+
+        public void RenameItem()
+        {
+            Console.WriteLine("Rename Item");
         }
 
         public void AddGroup()
