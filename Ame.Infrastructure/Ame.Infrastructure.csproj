@@ -99,6 +99,7 @@
     <Compile Include="Converters\IntegerToBooleanConverter.cs" />
     <Compile Include="Models\Brushes\BrushCommand.cs" />
     <Compile Include="BaseTypes\DockViewModelTemplate.cs" />
+    <Compile Include="Models\IItem.cs" />
     <Compile Include="Models\GridModel.cs" />
     <Compile Include="BaseTypes\DockCreatorTemplate.cs" />
     <Compile Include="Attributes\IgnoreNodeBuilderAttribute.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="Models\Brushes\StampBrush.cs" />
     <Compile Include="Models\Brushes\TileDrawer.cs" />
     <Compile Include="Models\ILayer.cs" />
+    <Compile Include="Models\ItemGroup.cs" />
     <Compile Include="Models\Layer.cs" />
     <Compile Include="Models\LayerGroup.cs" />
     <Compile Include="Models\LayerPosition.cs" />

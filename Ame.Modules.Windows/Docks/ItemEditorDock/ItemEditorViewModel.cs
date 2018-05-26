@@ -190,7 +190,6 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
         public Brush GridBrush { get; set; }
 
         public AmeSession Session { get; set; }
-
         private TilesetModel tilesetModel;
         public TilesetModel TilesetModel
         {

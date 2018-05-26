@@ -35,7 +35,7 @@
         <MenuItem Header="Merge Down"
                   Command="{Binding MergeLayerDownCommand }">
             <MenuItem.Icon>
-                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_arrow_collapse_down_black_24dp.png" />
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_merge_down_black_24dp.png" />
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Move Up"

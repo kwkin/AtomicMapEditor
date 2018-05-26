@@ -103,7 +103,7 @@ namespace Ame.Modules.Windows
             {
                 new ClipboardCreator(this.eventAggregator),
                 new ItemEditorCreator(this.eventAggregator, this.session),
-                new ItemListCreator(this.eventAggregator),
+                new ItemListCreator(this.eventAggregator, this.session),
                 new LayerListCreator(this.eventAggregator, this.session),
                 new MinimapCreator(this.eventAggregator),
                 new SelectedBrushCreator(this.eventAggregator),

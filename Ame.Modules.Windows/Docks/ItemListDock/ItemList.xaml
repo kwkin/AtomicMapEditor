@@ -5,6 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=Ame.Components"
              xmlns:local="clr-namespace:Ame.Modules.Windows.Docks.ItemListDock"
+             xmlns:models="clr-namespace:Ame.Infrastructure.Models;assembly=Ame.Infrastructure"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300">
@@ -35,12 +37,14 @@
             <extcomp:IconButton x:Name="addTilesetButton"
                                 Grid.Column="0"
                                 ToolTip="Add Tileset"
+                                Command="{Binding AddTilesetCommand}"
                                 ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_note_add_black_24dp.png">
             </extcomp:IconButton>
 
             <extcomp:IconButton x:Name="addImageButton"
                                 Grid.Column="1"
                                 ToolTip="Add Image"
+                                Command="{Binding AddImageCommand}"
                                 ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_image_black_24dp.png">
             </extcomp:IconButton>
 
@@ -79,8 +83,30 @@
                       VerticalScrollBarVisibility="Visible"
                       Grid.Column="0"
                       Grid.Row="2">
-            <StackPanel Orientation="Vertical">
-                <StackPanel.ContextMenu>
+
+            <extcomp:StretchingTreeView x:Name="itemTree"
+                                        ItemsSource="{Binding Items}"
+                                        HorizontalContentAlignment="Stretch"
+                                        BorderThickness="0">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectedItemChanged">
+                        <i:InvokeCommandAction Command="{Binding CurrentItemChangedCommand}"
+                                               CommandParameter="{Binding ElementName=itemTree, Path=SelectedItem}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+                <TreeView.Resources>
+                    <HierarchicalDataTemplate DataType="{x:Type models:ItemGroup}"
+                                              ItemsSource="{Binding Path=Items}">
+                        <local:ItemListGroup />
+                    </HierarchicalDataTemplate>
+
+                    <DataTemplate DataType="{x:Type models:TilesetModel}">
+                        <local:ItemListEntry />
+                    </DataTemplate>
+                </TreeView.Resources>
+                
+                <extcomp:StretchingTreeView.ContextMenu>
                     <ContextMenu>
                         <ContextMenu.ItemsSource>
                             <CompositeCollection>
@@ -88,13 +114,8 @@
                             </CompositeCollection>
                         </ContextMenu.ItemsSource>
                     </ContextMenu>
-                </StackPanel.ContextMenu>
-                
-                <local:ItemListGroup />
-                <local:ItemListGroup />
-                <local:ItemListGroup />
-                <local:ItemListGroup />
-            </StackPanel>
+                </extcomp:StretchingTreeView.ContextMenu>
+            </extcomp:StretchingTreeView>
         </ScrollViewer>
     </Grid>
 </UserControl>

@@ -18,7 +18,7 @@ namespace Ame.Modules.Windows.Docks.ItemListDock
     /// <summary>
     /// Interaction logic for ItemListGroup.xaml
     /// </summary>
-    public partial class ItemListGroup : Expander
+    public partial class ItemListGroup : UserControl
     {
         public ItemListGroup()
         {

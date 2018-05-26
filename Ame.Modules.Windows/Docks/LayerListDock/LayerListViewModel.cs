@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
@@ -158,10 +160,7 @@ namespace Ame.Modules.Windows.Docks.LayerListDock
             }
             OpenWindowMessage openWindowMessage = new OpenWindowMessage(typeof(EditLayerInteraction));
             openWindowMessage.Title = string.Format("Edit Layer - {0}", this.Session.CurrentLayer.LayerName);
-
-            //IUnityContainer container = new UnityContainer();
-            //container.RegisterInstance<ILayer>(this.CurrentLayer);
-            //openWindowMessage.Container = container;
+            
             openWindowMessage.Content = this.Session.CurrentLayer;
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(openWindowMessage);
         }
@@ -193,28 +192,15 @@ namespace Ame.Modules.Windows.Docks.LayerListDock
 
         private int GetLayerGroupCount()
         {
-            int layerGroupCount = 0;
-            foreach (ILayer layer in this.Session.CurrentLayerList)
-            {
-                if (layer is LayerGroup)
-                {
-                    layerGroupCount++;
-                }
-            }
-            return layerGroupCount;
+            // TODO switch all of these to linq statments
+            IEnumerable<LayerGroup> groups = this.Session.CurrentLayerList.OfType<LayerGroup>();
+            return groups.Count<LayerGroup>();
         }
 
         private int GetLayerCount()
         {
-            int layerCount = 0;
-            foreach (ILayer layer in this.Session.CurrentLayerList)
-            {
-                if (layer is Layer)
-                {
-                    layerCount++;
-                }
-            }
-            return layerCount;
+            IEnumerable<Layer> groups = this.Session.CurrentLayerList.OfType<Layer>();
+            return groups.Count<Layer>();
         }
 
         #endregion methods

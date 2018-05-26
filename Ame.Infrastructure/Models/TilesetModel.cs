@@ -1,8 +1,10 @@
-﻿using System.Windows.Media;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows.Media;
 
 namespace Ame.Infrastructure.Models
 {
-    public class TilesetModel
+    public class TilesetModel : IItem
     {
         #region fields
 
@@ -44,6 +46,8 @@ namespace Ame.Infrastructure.Models
 
         #region properties
 
+        // TODO look into changeing the structure of IItems
+        // Instead of a tree, just have the list. Declare a property indicating the group
         public string Name { get; set; }
         public string SourcePath { get; set; }
         public DrawingImage ItemImage { get; set; }
@@ -55,6 +59,8 @@ namespace Ame.Infrastructure.Models
         public int PaddingY { get; set; }
         public bool IsTransparent { get; set; }
         public Color TransparentColor { get; set; }
+
+        public ObservableCollection<IItem> Items { get; set; }
 
         #endregion properties
 

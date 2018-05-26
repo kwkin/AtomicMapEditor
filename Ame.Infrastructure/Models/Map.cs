@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Linq;
 using Ame.Infrastructure.Attributes;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Utils;
@@ -228,28 +229,14 @@ namespace Ame.Infrastructure.Models
         
         private int GetLayerGroupCount()
         {
-            int layerGroupCount = 0;
-            foreach (ILayer layer in this.LayerList)
-            {
-                if (layer is LayerGroup)
-                {
-                    layerGroupCount++;
-                }
-            }
-            return layerGroupCount;
+            IEnumerable<LayerGroup> groups = this.LayerList.OfType<LayerGroup>();
+            return groups.Count<LayerGroup>();
         }
 
         private int GetLayerCount()
         {
-            int layerCount = 0;
-            foreach (ILayer layer in this.LayerList)
-            {
-                if (layer is Layer)
-                {
-                    layerCount++;
-                }
-            }
-            return layerCount;
+            IEnumerable<Layer> groups = this.LayerList.OfType<Layer>();
+            return groups.Count<Layer>();
         }
 
         #endregion methods
