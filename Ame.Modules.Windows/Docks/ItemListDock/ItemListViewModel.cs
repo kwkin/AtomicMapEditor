@@ -2,7 +2,10 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Events;
+using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
+using Ame.Modules.Windows.Interactions.TilesetEditorInteraction;
 using Prism.Commands;
 using Prism.Events;
 
@@ -79,7 +82,7 @@ namespace Ame.Modules.Windows.Docks.ItemListDock
         {
             string modelName = string.Format("Tileset #{0}", GetTilesetModelCount(this.Items) + 1);
             TilesetModel model = new TilesetModel(modelName);
-            if (this.Item != null)
+            if (this.Item != null && (this.Item is ItemGroup))
             {
                 this.Item.Items.Add(model);
             }
@@ -98,7 +101,7 @@ namespace Ame.Modules.Windows.Docks.ItemListDock
         {
             string modelName = string.Format("Item Group #{0}", GetItemGroupCount(this.Items) + 1);
             ItemGroup group = new ItemGroup(modelName);
-            if (this.Item != null)
+            if (this.Item != null && (this.Item is ItemGroup))
             {
                 this.Item.Items.Add(group);
             }
@@ -110,7 +113,8 @@ namespace Ame.Modules.Windows.Docks.ItemListDock
 
         public void ViewProperties()
         {
-            Console.WriteLine("View Properties ");
+            OpenWindowMessage window = new OpenWindowMessage(typeof(EditTilesetInteraction));
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(window);
         }
         
         private int GetTilesetModelCount(ObservableCollection<IItem> items)
