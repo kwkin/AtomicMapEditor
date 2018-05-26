@@ -20,6 +20,12 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
+        <Rectangle x:Name="selectionHitBox"
+                   Fill="Transparent"
+                   Stretch="Fill"
+                   Grid.ColumnSpan="3">
+        </Rectangle>
+        
         <StackPanel Orientation="Horizontal"
                     Grid.Column="0">
             <extcomp:IconToggleButton x:Name="showLayerToggleButton"

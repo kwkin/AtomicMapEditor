@@ -10,6 +10,7 @@
              xmlns:models="clr-namespace:Ame.Infrastructure.Models;assembly=Ame.Infrastructure"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:basetype="clr-namespace:Ame.Infrastructure.BaseTypes;assembly=Ame.Infrastructure"
+             xmlns:actions="clr-namespace:Ame.Infrastructure.Actions;assembly=Ame.Infrastructure"
              mc:Ignorable="d"
              d:DesignHeight="300">
 
@@ -124,7 +125,19 @@
                     </HierarchicalDataTemplate>
 
                     <DataTemplate DataType="{x:Type models:Layer}">
-                        <local:LayerListEntry />
+                        <local:LayerListEntry>
+                            <local:LayerListEntry.ContextMenu>
+                                <ContextMenu DataContext="{Binding DataContext, Source={actions:RootObjectSource}}">
+                                    <ContextMenu.ItemsSource>
+                                        <CompositeCollection>
+                                            <CollectionContainer Collection="{StaticResource LayerContextMenu}" />
+                                            <Separator />
+                                            <CollectionContainer Collection="{StaticResource LayerListContextMenu}" />
+                                        </CompositeCollection>
+                                    </ContextMenu.ItemsSource>
+                                </ContextMenu>
+                            </local:LayerListEntry.ContextMenu>
+                        </local:LayerListEntry>
                     </DataTemplate>
                 </TreeView.Resources>
 
@@ -132,8 +145,6 @@
                     <ContextMenu >                        
                         <ContextMenu.ItemsSource>
                             <CompositeCollection>
-                                <CollectionContainer Collection="{StaticResource LayerContextMenu}" />
-                                <Separator />
                                 <CollectionContainer Collection="{StaticResource LayerListContextMenu}" />
                             </CompositeCollection>
                         </ContextMenu.ItemsSource>

@@ -106,7 +106,7 @@
 
                     <DataTemplate DataType="{x:Type models:TilesetModel}">
                         <local:ItemListEntry >
-                            <UserControl.ContextMenu>
+                            <local:ItemListEntry.ContextMenu>
                                 <ContextMenu DataContext="{Binding DataContext, Source={actions:RootObjectSource}}">
                                     <ContextMenu.ItemsSource>
                                         <CompositeCollection>
@@ -116,7 +116,7 @@
                                         </CompositeCollection>
                                     </ContextMenu.ItemsSource>
                                 </ContextMenu>
-                            </UserControl.ContextMenu>
+                            </local:ItemListEntry.ContextMenu>
                         </local:ItemListEntry>
                     </DataTemplate>
                 </TreeView.Resources>
