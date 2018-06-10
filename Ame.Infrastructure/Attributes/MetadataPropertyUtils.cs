@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Ame.Infrastructure.Attributes;
 
 namespace Ame.Infrastructure.Attributes
 {

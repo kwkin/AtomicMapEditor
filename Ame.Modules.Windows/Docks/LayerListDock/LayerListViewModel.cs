@@ -191,8 +191,7 @@ namespace Ame.Modules.Windows.Docks.LayerListDock
         }
 
         private int GetLayerGroupCount()
-        { 
-            // TODO switch all of these to linq statments
+        {
             IEnumerable<LayerGroup> groups = this.Session.CurrentLayerList.OfType<LayerGroup>();
             return groups.Count<LayerGroup>();
         }
