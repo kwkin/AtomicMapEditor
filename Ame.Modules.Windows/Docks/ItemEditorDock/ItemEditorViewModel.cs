@@ -236,8 +236,25 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             else
             {
                 this.IsSelectingTransparency = false;
+
+                // TODO update model with transparency
+                Mat trasparentMask = new Mat();
+                Mat croppedTransparentImage = new Mat((int)this.itemImage.Height, (int)this.itemImage.Width, Emgu.CV.CvEnum.DepthType.Cv8U, 1);
+                Color color = this.TilesetModel.TransparentColor;
+                ScalarArray transparentColorLower = new ScalarArray(new MCvScalar(color.B, color.G, color.R, 0));
+                ScalarArray transparentColorHigher = new ScalarArray(new MCvScalar(color.B, color.G, color.R, 255));
+                CvInvoke.InRange(this.itemImage, transparentColorLower, transparentColorHigher, trasparentMask);
+
+                CvInvoke.BitwiseNot(trasparentMask, trasparentMask);
+                this.itemImage.CopyTo(croppedTransparentImage, trasparentMask);
+                this.tilesetModel.ItemImage = ImageUtils.MatToDrawingImage(croppedTransparentImage);
+                this.itemImage = croppedTransparentImage;
+
+                Console.WriteLine(this.TilesetModel.TransparentColor);
+
                 RaisePropertyChanged(nameof(this.IsSelectingTransparency));
                 RaisePropertyChanged(nameof(this.TilesetModel));
+                RaisePropertyChanged(nameof(this.TilesetModel.ItemImage));
             }
         }
 
@@ -348,6 +365,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                     this.itemTransform = new CoordinateTransform();
                     this.itemTransform.SetPixelToTile(newTilesetModel.Width, newTilesetModel.Height);
 
+                    // TODO find a way to draw with Mat
                     BitmapSource bitmapSource = BitmapFrame.Create(new Uri(tileFilePath));
                     Rect tileRectangle = new Rect(0, 0, bitmapSource.PixelWidth, bitmapSource.PixelHeight);
                     ImageDrawing tileImage = new ImageDrawing(bitmapSource, tileRectangle);
@@ -399,7 +417,6 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             {
                 byte[] colorsBGR = this.itemImage.GetData((int)point.Y, (int)point.X);
                 this.TilesetModel.TransparentColor = Color.FromRgb(colorsBGR[2], colorsBGR[1], colorsBGR[0]);
-                Console.WriteLine(this.TilesetModel.TransparentColor);
             }
             else
             {
