@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -8,12 +9,27 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Emgu.CV;
+using Emgu.CV.Structure;
 
 namespace Ame.Infrastructure.Utils
 {
     public static class ImageUtils
     {
-        public static BitmapImage MatToBitmap(Mat image)
+        // TODO look into wrapping mat with these utility functions 
+        public static Bitmap BitMapImageToBitMap(BitmapImage bitmapImage)
+        {
+            //return new Bitmap(bitmapImage.StreamSource);
+            using (MemoryStream outStream = new MemoryStream())
+            {
+                BitmapEncoder encoder = new BmpBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(bitmapImage));
+                encoder.Save(outStream);
+                Bitmap bitmap = new Bitmap(outStream);
+                return new Bitmap(bitmap);
+            }
+        }
+
+        public static BitmapImage MatToBitmapImage(Mat image)
         {
             BitmapImage croppedBitmap = new BitmapImage();
             using (MemoryStream ms = new MemoryStream())
@@ -27,12 +43,35 @@ namespace Ame.Infrastructure.Utils
             return croppedBitmap;
         }
 
-        public static DrawingImage MatToDrawingImage(Mat image)
+        public static Mat BitmapImageToMat(BitmapImage bitmapImage)
         {
-            Rect drawingRect = new Rect(new Size(image.Size.Width, image.Size.Height));
-            ImageDrawing imageDrawing = new ImageDrawing(MatToBitmap(image), drawingRect);
+            Bitmap bitmap = BitMapImageToBitMap(bitmapImage);
+            Image<Bgr, Byte> imageCV = new Image<Bgr, Byte>(bitmap);
+            return imageCV.Mat;
+        }
+
+        public static DrawingImage MatToDrawingImage(Mat mat)
+        {
+            Rect drawingRect = new Rect(new System.Windows.Size(mat.Size.Width, mat.Size.Height));
+            ImageDrawing imageDrawing = new ImageDrawing(MatToBitmapImage(mat), drawingRect);
             DrawingImage drawingImage = new DrawingImage(imageDrawing);
             return drawingImage;
+        }
+
+        public static DrawingGroup MatToDrawingGroup(Mat mat)
+        {
+            Rect drawingRect = new Rect(new System.Windows.Size(mat.Size.Width, mat.Size.Height));
+            ImageDrawing imageDrawing = new ImageDrawing(MatToBitmapImage(mat), drawingRect);
+            DrawingGroup drawingGroup = new DrawingGroup();
+            drawingGroup.Children.Add(imageDrawing);
+            return drawingGroup;
+        }
+
+        public static ImageDrawing MatToImageDrawing(Mat mat)
+        {
+            Rect drawingRect = new Rect(new System.Windows.Size(mat.Size.Width, mat.Size.Height));
+            ImageDrawing imageDrawing = new ImageDrawing(MatToBitmapImage(mat), drawingRect);
+            return imageDrawing;
         }
     }
 }

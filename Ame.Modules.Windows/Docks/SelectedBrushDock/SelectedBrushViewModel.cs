@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 using System.Windows.Threading;
 using Ame.Components.Behaviors;
 using Ame.Infrastructure.BaseTypes;
@@ -126,7 +127,7 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
             }
         }
 
-        public BitmapImage BrushImage { get; set; }
+        public DrawingImage BrushImage { get; set; }
 
         #endregion properties
 
@@ -136,7 +137,9 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
         private void UpdateBrushImage(UpdateBrushMessage message)
         {
             BrushModel brushModel = message.BrushModel;
-            this.BrushImage = brushModel.Image;
+            DrawingGroup drawingGroup = ImageUtils.MatToDrawingGroup(ImageUtils.BitmapImageToMat(brushModel.Image));
+            
+            this.BrushImage = new DrawingImage(drawingGroup);
             DrawGrid();
             RaisePropertyChanged(nameof(this.BrushImage));
         }
@@ -148,14 +151,18 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
 
         public void DrawGrid(bool drawGrid)
         {
+            // TODO switch from shapes namespace to media
+            DrawingImage drawingImage = new DrawingImage();
+
+            DrawingGroup gridLines = new DrawingGroup();
+
             this.IsGridOn = drawGrid;
             if (this.IsGridOn)
             {
-                // TODO find a way to get tile width and height
                 GridModel gridParameters = new GridModel()
                 {
-                    rows = this.BrushImage.PixelWidth / 32,
-                    columns = this.BrushImage.PixelHeight / 32,
+                    rows = this.BrushImage.Width / 32,
+                    columns = this.BrushImage.Height / 32,
                     cellWidth = 32,
                     cellHeight = 32
                 };
@@ -166,6 +173,40 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
             {
                 this.CanvasGridItems.Clear();
             }
+            if (this.BrushImage != null)
+            {
+                DrawingGroup currentDrawingGroup = this.BrushImage.Drawing as DrawingGroup;
+                if (currentDrawingGroup != null)
+                {
+                    if (currentDrawingGroup.Children.Count > 1)
+                    {
+                        currentDrawingGroup.Children.RemoveAt(1);
+                    }
+                }
+            }
+            foreach (Visual visual in this.CanvasGridItems)
+            {
+                Line line = visual as Line;
+                if (line != null)
+                {
+                    GeometryDrawing geometry = new GeometryDrawing();
+                    geometry.Pen = new Pen(Brushes.Black, 1);
+                    Point pointStart = new Point(line.X1, line.Y1);
+                    Point pointStop = new Point(line.X2, line.Y2);
+                    geometry.Geometry = new LineGeometry(pointStart, pointStop);
+                    gridLines.Children.Add(geometry);
+                }
+            }
+            if (this.BrushImage != null)
+            {
+                DrawingGroup currentDrawingGroup = this.BrushImage.Drawing as DrawingGroup;
+                if (currentDrawingGroup != null)
+                {
+                    (this.BrushImage.Drawing as DrawingGroup).Children.Add(gridLines);
+                }
+            }
+
+            RaisePropertyChanged(nameof(this.BrushImage));
             RaisePropertyChanged(nameof(this.IsGridOn));
             RaisePropertyChanged(nameof(this.CanvasGridItems));
         }
