@@ -60,13 +60,13 @@
                     <i:EventTrigger EventName="MouseLeftButtonDown">
                         <actions:EventToCommand Command="{Binding DrawCommand, Mode=OneWay}"
                                                 EventArgsConverter="{StaticResource MouseEventToPointConverter}"
-                                                EventArgsConverterParameter="{Binding ElementName=canvasMapImage}"
+                                                EventArgsConverterParameter="{Binding ElementName=layerImage}"
                                                 PassEventArgsToCommand="True" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
                         <actions:EventToCommand Command="{Binding DrawReleaseCommand, Mode=OneWay}"
                                                 EventArgsConverter="{StaticResource MouseEventToPointConverter}"
-                                                EventArgsConverterParameter="{Binding ElementName=canvasMapImage}"
+                                                EventArgsConverterParameter="{Binding ElementName=layerImage}"
                                                 PassEventArgsToCommand="True" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
@@ -75,34 +75,13 @@
                            Fill="Transparent"
                            Stretch="Fill" />
 
-                <Image x:Name="canvasMapImage"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"
-                       Stretch="None"
-                       Source="{Binding MapBackground}"
-                       RenderOptions.BitmapScalingMode="NearestNeighbor">
-                </Image>
-
                 <Image x:Name="layerImage"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        Stretch="None"
-                       Source="{Binding LayerItems}"
+                       Source="{Binding DrawingCanvas}"
                        RenderOptions.BitmapScalingMode="NearestNeighbor">
                 </Image>
-
-                <ItemsControl ItemsSource="{Binding CanvasGridItems}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <Canvas IsItemsHost="True"
-                                    VerticalAlignment="Center"
-                                    HorizontalAlignment="Center"
-                                    Height="{Binding ActualHeight, ElementName=canvasMapImage}"
-                                    Width="{Binding ActualWidth, ElementName=canvasMapImage}">
-                            </Canvas>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
 
                 <Grid.LayoutTransform>
                     <TransformGroup>

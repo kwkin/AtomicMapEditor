@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ame.Infrastructure.Models.Brushes
+namespace Ame.Infrastructure.Models.DrawingBrushes
 {
     public interface IBrushCommand
     {

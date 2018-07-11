@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using System.Reflection;
 using Ame.Infrastructure.BaseTypes;
 
 namespace Ame.Modules.Windows
@@ -19,6 +18,7 @@ namespace Ame.Modules.Windows
         #region methods
 
         public abstract DockViewModelTemplate CreateDock();
+
         public abstract bool AppliesTo(Type type);
 
         public void UpdateContent(Type type, object value)

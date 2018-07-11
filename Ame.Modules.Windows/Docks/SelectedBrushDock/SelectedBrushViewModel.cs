@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 using Ame.Components.Behaviors;
 using Ame.Infrastructure.BaseTypes;
@@ -27,6 +24,10 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
         private IEventAggregator eventAggregator;
         private IScrollModel scrollModel;
 
+        private DrawingGroup drawingGroup;
+        private ImageDrawing brushImage;
+        private DrawingGroup gridLines;
+
         #endregion fields
 
 
@@ -34,7 +35,6 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
 
         public SelectedBrushViewModel(IEventAggregator eventAggregator) : this(eventAggregator, new ScrollModel())
         {
-
         }
 
         public SelectedBrushViewModel(IEventAggregator eventAggregator, IScrollModel scrollModel)
@@ -51,8 +51,12 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
             this.scrollModel = scrollModel;
             this.Title = "Selected Brush";
 
-            this.CanvasGridItems = new ObservableCollection<Visual>();
-            
+            this.BrushImage = new DrawingImage();
+            this.drawingGroup = new DrawingGroup();
+            this.gridLines = new DrawingGroup();
+            this.drawingGroup.Children.Add(this.gridLines);
+            this.BrushImage.Drawing = this.drawingGroup;
+
             if (this.scrollModel.ZoomLevels == null)
             {
                 this.ZoomLevels = new ObservableCollection<ZoomLevel>();
@@ -106,7 +110,6 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
         public string PositionText { get; set; }
         public ScaleType Scale { get; set; }
         public bool IsGridOn { get; set; }
-        public ObservableCollection<Visual> CanvasGridItems { get; set; }
         public ObservableCollection<ZoomLevel> ZoomLevels { get; set; }
 
         public int zoomIndex;
@@ -117,7 +120,7 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
             {
                 if (SetProperty(ref this.zoomIndex, value))
                 {
-                    this.CanvasGridItems.Clear();
+                    this.gridLines.Children.Clear();
                     Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                     {
                         DrawGrid();
@@ -137,13 +140,16 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
         private void UpdateBrushImage(UpdateBrushMessage message)
         {
             BrushModel brushModel = message.BrushModel;
-            DrawingGroup drawingGroup = ImageUtils.MatToDrawingGroup(ImageUtils.BitmapImageToMat(brushModel.Image));
-            
-            this.BrushImage = new DrawingImage(drawingGroup);
+            this.drawingGroup.Children.Remove(this.brushImage);
+
+            // TODO remove cascaded image conversion
+            // TODO remove remove and insert functions
+            this.brushImage = brushModel.Image;
+            this.drawingGroup.Children.Insert(0, this.brushImage);
             DrawGrid();
             RaisePropertyChanged(nameof(this.BrushImage));
         }
-        
+
         public void DrawGrid()
         {
             DrawGrid(this.IsGridOn);
@@ -151,11 +157,6 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
 
         public void DrawGrid(bool drawGrid)
         {
-            // TODO switch from shapes namespace to media
-            DrawingImage drawingImage = new DrawingImage();
-
-            DrawingGroup gridLines = new DrawingGroup();
-
             this.IsGridOn = drawGrid;
             if (this.IsGridOn)
             {
@@ -166,49 +167,18 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
                     cellWidth = 32,
                     cellHeight = 32
                 };
-                GridFactory.StrokeThickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
-                this.CanvasGridItems = GridFactory.CreateGrid(gridParameters);
+                gridParameters.drawingPen.Thickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
+                using (DrawingContext context = this.gridLines.Open())
+                {
+                    context.DrawDrawing(GridModel.CreateGrid(gridParameters));
+                }
             }
             else
             {
-                this.CanvasGridItems.Clear();
+                this.gridLines.Children.Clear();
             }
-            if (this.BrushImage != null)
-            {
-                DrawingGroup currentDrawingGroup = this.BrushImage.Drawing as DrawingGroup;
-                if (currentDrawingGroup != null)
-                {
-                    if (currentDrawingGroup.Children.Count > 1)
-                    {
-                        currentDrawingGroup.Children.RemoveAt(1);
-                    }
-                }
-            }
-            foreach (Visual visual in this.CanvasGridItems)
-            {
-                Line line = visual as Line;
-                if (line != null)
-                {
-                    GeometryDrawing geometry = new GeometryDrawing();
-                    geometry.Pen = new Pen(Brushes.Black, 1);
-                    Point pointStart = new Point(line.X1, line.Y1);
-                    Point pointStop = new Point(line.X2, line.Y2);
-                    geometry.Geometry = new LineGeometry(pointStart, pointStop);
-                    gridLines.Children.Add(geometry);
-                }
-            }
-            if (this.BrushImage != null)
-            {
-                DrawingGroup currentDrawingGroup = this.BrushImage.Drawing as DrawingGroup;
-                if (currentDrawingGroup != null)
-                {
-                    (this.BrushImage.Drawing as DrawingGroup).Children.Add(gridLines);
-                }
-            }
-
-            RaisePropertyChanged(nameof(this.BrushImage));
             RaisePropertyChanged(nameof(this.IsGridOn));
-            RaisePropertyChanged(nameof(this.CanvasGridItems));
+            RaisePropertyChanged(nameof(this.BrushImage));
         }
 
         private void UpdatePosition(Point position)

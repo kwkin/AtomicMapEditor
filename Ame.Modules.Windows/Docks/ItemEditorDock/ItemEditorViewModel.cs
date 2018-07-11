@@ -5,7 +5,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Ame.Components.Behaviors;
 using Ame.Infrastructure.BaseTypes;
@@ -22,6 +21,8 @@ using Prism.Events;
 
 namespace Ame.Modules.Windows.Docks.ItemEditorDock
 {
+    // TODO convert image formats to Mat for models and DrawingImage for views
+    // TODO remove all references to collection of grid lines
     public class ItemEditorViewModel : DockToolViewModelTemplate
     {
         #region fields
@@ -32,6 +33,11 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
         private Mat itemImage;
         private IEventAggregator eventAggregator;
         private IScrollModel scrollModel;
+
+        private DrawingGroup drawingGroup;
+        private DrawingGroup tilesetImage;
+        private DrawingGroup gridLines;
+        private DrawingGroup selectLines;
 
         #endregion fields
 
@@ -65,11 +71,18 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             this.scrollModel = scrollModel;
             this.Title = "Item - " + Path.GetFileNameWithoutExtension(tilesetModel.SourcePath);
             this.Session = session;
-
-            this.CanvasGridItems = new ObservableCollection<Visual>();
-            this.CanvasSelectItems = new ObservableCollection<Visual>();
             this.itemTransform = new CoordinateTransform();
             this.itemTransform.SetPixelToTile(this.TilesetModel.Width, this.TilesetModel.Height);
+
+            this.TileImage = new DrawingImage();
+            this.drawingGroup = new DrawingGroup();
+            this.tilesetImage = new DrawingGroup();
+            this.gridLines = new DrawingGroup();
+            this.selectLines = new DrawingGroup();
+            this.drawingGroup.Children.Add(this.tilesetImage);
+            this.drawingGroup.Children.Add(this.gridLines);
+            this.drawingGroup.Children.Add(this.selectLines);
+            this.TileImage.Drawing = this.drawingGroup;
 
             if (this.scrollModel.ZoomLevels == null)
             {
@@ -97,7 +110,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             }
             this.Scale = ScaleType.Tile;
             this.PositionText = "0, 0";
-            this.GridBrush = Brushes.Orange;
+            this.GridPen = new Pen(Brushes.Orange, 1);
 
             this.EditCollisionsCommand = new DelegateCommand(() => EditCollisions());
             this.ViewPropertiesCommand = new DelegateCommand(() => ViewProperties());
@@ -124,6 +137,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
         #region properties
 
+        // TODO organize properties
         public ICommand EditCollisionsCommand { get; private set; }
         public ICommand ViewPropertiesCommand { get; private set; }
         public ICommand CropCommand { get; private set; }
@@ -139,7 +153,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
         public ICommand SetSelectPointCommand { get; private set; }
         public ICommand SelectTilesCommand { get; private set; }
         public ICommand UpdateModelCommand { get; private set; }
-        
+
         public bool IsGridOn { get; set; }
         public string PositionText { get; set; }
         public ScaleType Scale { get; set; }
@@ -152,7 +166,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             {
                 if (SetProperty(ref this.zoomIndex, value))
                 {
-                    this.CanvasGridItems.Clear();
+                    this.gridLines.Children.Clear();
                     Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                     {
                         DrawGrid();
@@ -185,9 +199,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             }
         }
 
-        public ObservableCollection<Visual> CanvasGridItems { get; set; }
-        public ObservableCollection<Visual> CanvasSelectItems { get; set; }
-        public Brush GridBrush { get; set; }
+        public Pen GridPen { get; set; }
 
         public AmeSession Session { get; set; }
         private TilesetModel tilesetModel;
@@ -201,7 +213,6 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             {
                 if (SetProperty(ref this.tilesetModel, value))
                 {
-                    
                     if (!string.IsNullOrEmpty(this.tilesetModel.SourcePath))
                     {
                         this.itemImage = CvInvoke.Imread(this.tilesetModel.SourcePath, Emgu.CV.CvEnum.ImreadModes.Unchanged);
@@ -209,6 +220,8 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                 }
             }
         }
+
+        public DrawingImage TileImage { get; set; }
 
         #endregion properties
 
@@ -237,7 +250,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             {
                 this.IsSelectingTransparency = false;
 
-                // TODO update model with transparency
+                // TODO undo transparency
                 Mat trasparentMask = new Mat();
                 Mat transparentImage = new Mat((int)this.itemImage.Height, (int)this.itemImage.Width, Emgu.CV.CvEnum.DepthType.Cv8U, 1);
 
@@ -250,42 +263,33 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                 this.tilesetModel.ItemImage = ImageUtils.MatToDrawingImage(transparentImage);
                 this.itemImage = transparentImage;
 
-                Console.WriteLine(this.TilesetModel.TransparentColor);
-
                 RaisePropertyChanged(nameof(this.IsSelectingTransparency));
                 RaisePropertyChanged(nameof(this.TilesetModel));
-                RaisePropertyChanged(nameof(this.TilesetModel.ItemImage));
+                RaisePropertyChanged(nameof(this.TileImage));
             }
         }
 
         public void Select(Point topLeftPixel, Size pixelSize)
         {
+            // TODO start drawing the selection lines here
+            // TODO add mouse mover that updates when selecting
             DrawTileSelect(topLeftPixel, pixelSize);
-            Mat croppedImage = BrushUtils.CropImage(this.itemImage, topLeftPixel, pixelSize);
             BrushModel brushModel = new BrushModel();
+            Mat croppedImage = BrushUtils.CropImage(this.itemImage, topLeftPixel, pixelSize);
 
             if (this.TilesetModel.IsTransparent)
             {
                 Mat trasparentMask = new Mat();
-                Mat croppedTransparentImage = new Mat((int)pixelSize.Height, (int)pixelSize.Width, Emgu.CV.CvEnum.DepthType.Cv8U, -1);
-
-                Color color = this.TilesetModel.TransparentColor;
-                ScalarArray transparentColorLower = new ScalarArray(new MCvScalar(color.B, color.G, color.R, 0));
-                ScalarArray transparentColorHigher = new ScalarArray(new MCvScalar(color.B, color.G, color.R, 255));
-                CvInvoke.InRange(croppedImage, transparentColorLower, transparentColorHigher, trasparentMask);
-
+                Color transparentColor = this.TilesetModel.TransparentColor;
+                IInputArray transparency = new ScalarArray(new MCvScalar(transparentColor.B, transparentColor.G, transparentColor.R, transparentColor.A));
+                CvInvoke.InRange(croppedImage, transparency, transparency, trasparentMask);
                 CvInvoke.BitwiseNot(trasparentMask, trasparentMask);
-                croppedImage.CopyTo(croppedTransparentImage, trasparentMask);
-                brushModel.Image = ImageUtils.MatToBitmapImage(croppedTransparentImage);
+                croppedImage.CopyTo(croppedImage, trasparentMask);
             }
-            else
-            {
-                brushModel.Image = ImageUtils.MatToBitmapImage(croppedImage);
-            }
+            brushModel.Image = ImageUtils.MatToImageDrawing(croppedImage);
+
             UpdateBrushMessage message = new UpdateBrushMessage(brushModel);
             this.eventAggregator.GetEvent<UpdateBrushEvent>().Publish(message);
-
-            IInputArray transparencyMask = new Mat();
         }
 
         public void updateTilesetModel()
@@ -306,8 +310,8 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             {
                 GridModel gridParameters = new GridModel()
                 {
-                    rows = this.TilesetModel.ItemImage.Width / this.TilesetModel.Width,
-                    columns = this.TilesetModel.ItemImage.Height / this.TilesetModel.Height,
+                    rows = this.itemImage.Width / this.TilesetModel.Width,
+                    columns = this.itemImage.Height / this.TilesetModel.Height,
                     cellWidth = this.TilesetModel.Width,
                     cellHeight = this.TilesetModel.Height,
                     offsetX = this.TilesetModel.OffsetX,
@@ -315,15 +319,18 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                     paddingX = this.TilesetModel.PaddingX,
                     paddingY = this.TilesetModel.PaddingY
                 };
-                GridFactory.StrokeThickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
-                this.CanvasGridItems = GridFactory.CreateGrid(gridParameters);
+                gridParameters.drawingPen.Thickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
+                using (DrawingContext context = this.gridLines.Open())
+                {
+                    context.DrawDrawing(GridModel.CreateGrid(gridParameters));
+                }
             }
             else
             {
-                this.CanvasGridItems.Clear();
+                this.gridLines.Children.Clear();
             }
             RaisePropertyChanged(nameof(this.IsGridOn));
-            RaisePropertyChanged(nameof(this.CanvasGridItems));
+            RaisePropertyChanged(nameof(this.TileImage));
         }
 
         public void DrawRuler()
@@ -334,17 +341,11 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
         private void DrawTileSelect(Point topLeftPixel, Size pixelSize)
         {
             Rect selectionBorder = new Rect(topLeftPixel, pixelSize);
-            RectangleGeometry tileGeometry = new RectangleGeometry(selectionBorder);
-
-            System.Windows.Shapes.Path rectPath = new System.Windows.Shapes.Path();
-            rectPath.Stroke = GridBrush;
-            rectPath.StrokeThickness = 1;
-            rectPath.Data = tileGeometry;
-
-            this.CanvasSelectItems.Clear();
-            this.CanvasSelectItems.Add(rectPath);
-
-            RaisePropertyChanged(nameof(this.CanvasSelectItems));
+            using (DrawingContext context = this.selectLines.Open())
+            {
+                context.DrawRectangle(Brushes.Transparent, this.GridPen, selectionBorder);
+            }
+            RaisePropertyChanged(nameof(this.TileImage));
         }
 
         private void AddTileset()
@@ -357,30 +358,24 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                 string tileFilePath = openTilesetDilog.FileName;
                 if (File.Exists(tileFilePath))
                 {
+                    // TODO find a way to draw with Mat
+                    // TODO look into not having an itemImage and tilesetImage
                     this.Title = "Item - " + Path.GetFileNameWithoutExtension(tileFilePath);
                     TilesetModel newTilesetModel = new TilesetModel();
                     newTilesetModel.SourcePath = tileFilePath;
                     this.itemImage = CvInvoke.Imread(tileFilePath, Emgu.CV.CvEnum.ImreadModes.Unchanged);
-
                     this.itemTransform = new CoordinateTransform();
                     this.itemTransform.SetPixelToTile(newTilesetModel.Width, newTilesetModel.Height);
-
-                    // TODO find a way to draw with Mat
-                    BitmapSource bitmapSource = BitmapFrame.Create(new Uri(tileFilePath));
-                    Rect tileRectangle = new Rect(0, 0, bitmapSource.PixelWidth, bitmapSource.PixelHeight);
-                    ImageDrawing tileImage = new ImageDrawing(bitmapSource, tileRectangle);
-                    newTilesetModel.ItemImage = new DrawingImage(tileImage);
                     this.Session.CurrentTilesetList.Add(newTilesetModel);
                     this.TilesetModel = newTilesetModel;
-                    
-                    foreach (TilesetModel model in this.Session.CurrentTilesetList)
-                    {
-                        Console.WriteLine(model.SourcePath + "    " + model.Name);
-                    }
 
+                    using (DrawingContext context = this.tilesetImage.Open())
+                    {
+                        context.DrawDrawing(ImageUtils.MatToDrawingGroup(this.itemImage));
+                    }
                     DrawGrid();
-                    RaisePropertyChanged(nameof(this.TilesetModel));
-                    RaisePropertyChanged(nameof(this.TilesetModel.ItemImage));
+                    
+                    RaisePropertyChanged(nameof(this.TileImage));
                 }
             }
         }
@@ -427,7 +422,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
         private void UpdatePosition(Point position)
         {
             Point transformedPosition = new Point(0, 0);
-            if (this.TilesetModel.ItemImage != null)
+            if (this.TileImage != null)
             {
                 switch (Scale)
                 {

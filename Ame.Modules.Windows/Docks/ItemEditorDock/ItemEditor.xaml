@@ -157,7 +157,7 @@
                            Stretch="Fill"
                            Fill="Transparent" />
                 <Image x:Name="itemImage"
-                       Source="{Binding TilesetModel.ItemImage}"
+                       Source="{Binding TileImage}"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        RenderOptions.BitmapScalingMode="NearestNeighbor"
@@ -177,29 +177,6 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Image>
-
-                <ItemsControl ItemsSource="{Binding CanvasGridItems}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <Canvas IsItemsHost="True"
-                                    VerticalAlignment="Center"
-                                    HorizontalAlignment="Center"
-                                    Height="{Binding ActualHeight, ElementName=itemImage}"
-                                    Width="{Binding ActualWidth, ElementName=itemImage}" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
-                <ItemsControl ItemsSource="{Binding CanvasSelectItems}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <Canvas IsItemsHost="True"
-                                    VerticalAlignment="Center"
-                                    HorizontalAlignment="Center"
-                                    Height="{Binding ActualHeight, ElementName=itemImage}"
-                                    Width="{Binding ActualWidth, ElementName=itemImage}" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
 
                 <Grid.LayoutTransform>
                     <TransformGroup>

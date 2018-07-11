@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
-using Ame.Infrastructure.Models.Brushes;
+using Ame.Infrastructure.Models.DrawingBrushes;
 
-namespace Ame.Infrastructure.Models.Brushes
+namespace Ame.Infrastructure.Models.DrawingBrushes
 {
     public class BrushCommand : IBrushCommand
     {
@@ -18,9 +18,9 @@ namespace Ame.Infrastructure.Models.Brushes
 
         #region constructor
 
-        public BrushCommand(DrawingImage drawingImage, IBrush brush, Point point)
+        public BrushCommand(DrawingGroup drawingGroup, IBrush brush, Point point)
         {
-            this.DrawingImage = drawingImage;
+            this.DrawingGroup = drawingGroup;
             this.Brush = brush;
             this.Point = point;
         }
@@ -30,7 +30,8 @@ namespace Ame.Infrastructure.Models.Brushes
 
         #region properties
 
-        private DrawingImage DrawingImage { get; set; }
+        // TODO rename
+        private DrawingGroup DrawingGroup { get; set; }
         private IBrush Brush { get; set; }
         private Point Point { get; set; }
 
@@ -41,12 +42,12 @@ namespace Ame.Infrastructure.Models.Brushes
 
         public void Execute()
         {
-            this.Brush.Draw(this.DrawingImage, this.Point);
+            this.Brush.Draw(this.DrawingGroup, this.Point);
         }
 
         public void UnExecute()
         {
-            this.Brush.Draw(this.DrawingImage, this.Point);
+            this.Brush.Draw(this.DrawingGroup, this.Point);
         }
 
         #endregion methods

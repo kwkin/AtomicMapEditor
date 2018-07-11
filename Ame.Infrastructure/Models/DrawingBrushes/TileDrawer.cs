@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Media;
 using Ame.Infrastructure.BaseTypes;
 
-namespace Ame.Infrastructure.Models.Brushes
+namespace Ame.Infrastructure.Models.DrawingBrushes
 {
     public class TileDrawer
     {
@@ -21,10 +21,10 @@ namespace Ame.Infrastructure.Models.Brushes
 
         #region constructor
 
-        public TileDrawer(DrawingImage drawingImage)
+        public TileDrawer(DrawingGroup drawingGroup)
         {
             this.commands = new List<IBrushCommand>();
-            this.DrawingImage = drawingImage;
+            this.DrawingGroup = drawingGroup;
         }
 
         #endregion constructor
@@ -32,7 +32,7 @@ namespace Ame.Infrastructure.Models.Brushes
 
         #region properties
 
-        private DrawingImage DrawingImage { get; set; }
+        private DrawingGroup DrawingGroup { get; set; }
 
         #endregion properties
 
@@ -41,7 +41,7 @@ namespace Ame.Infrastructure.Models.Brushes
 
         public void Draw(IBrush brush, Point point)
         {
-            IBrushCommand command = new BrushCommand(this.DrawingImage, brush, point);
+            IBrushCommand command = new BrushCommand(this.DrawingGroup, brush, point);
             command.Execute();
 
             this.commands.Add(command);

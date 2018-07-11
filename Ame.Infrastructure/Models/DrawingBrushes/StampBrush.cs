@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Ame.Infrastructure.BaseTypes;
 
-namespace Ame.Infrastructure.Models.Brushes
+namespace Ame.Infrastructure.Models.DrawingBrushes
 {
     public class StampBrush : IBrushCommand
     {

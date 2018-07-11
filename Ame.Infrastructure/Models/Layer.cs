@@ -129,6 +129,7 @@ namespace Ame.Infrastructure.Models
             }
         }
 
+
         #endregion properties
 
 
@@ -144,12 +145,14 @@ namespace Ame.Infrastructure.Models
             return this.TileHeight * this.Rows;
         }
 
-        public void SetTile(BitmapImage image, Point tilePoint)
+        public void SetTile(ImageDrawing image, Point tilePoint)
         {
             // TODO improve this 
             // TODO look into rendering using an array
-            Rect rect = new Rect(tilePoint.X, tilePoint.Y, image.Width, image.Height);
-            ImageDrawing tileImage = new ImageDrawing(image, rect);
+            Size imageBounds = new Size(image.Bounds.Width, image.Bounds.Height);
+            Rect rect = new Rect(tilePoint, imageBounds);
+            image.Rect = rect;
+
             foreach (Tile tile in occupiedTiles)
             {
                 if (tile.Position == tilePoint)
@@ -159,9 +162,11 @@ namespace Ame.Infrastructure.Models
                     break;
                 }
             }
-            this.occupiedTiles.Add(new Models.Tile(tilePoint, tileImage));
-            this.imageDrawings.Children.Add(tileImage);
-            this.LayerItems = new DrawingImage(this.imageDrawings);
+            using (DrawingContext context = this.imageDrawings.Append())
+            {
+                context.DrawDrawing(image);
+            }
+            this.occupiedTiles.Add(new Tile(tilePoint, image));
         }
 
         private void ResetLayerItems()
@@ -169,6 +174,7 @@ namespace Ame.Infrastructure.Models
             int pixelWidth = GetPixelWidth();
             int pixelHeight = GetPixelHeight();
 
+            // TODO clean this up
             GeometryGroup rectangles = new GeometryGroup();
             rectangles.Children.Add(new RectangleGeometry(new Rect(0, 0, pixelWidth, pixelHeight)));
             GeometryDrawing aGeometryDrawing = new GeometryDrawing();
