@@ -30,9 +30,11 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
         #region fields
 
         // The time period in milliseconds to draw the select lines
-        private long UpdatePositionLabelDelay = 30;
-
-        private long DrawSelectLineDelay = 100;
+        // TODO add these delays to another class
+        private long updatePositionLabelDelay = 30;
+        private long drawSelectLineDelay = 100;
+        private Stopwatch updatePositionLabelStopWatch;
+        private Stopwatch selectLineStopWatch;
 
         private CoordinateTransform itemTransform;
         private Point lastSelectPoint;
@@ -47,8 +49,6 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
         private DrawingGroup selectLines;
 
         private bool isSelecting;
-        private Stopwatch updatePositionLabelStopWatch;
-        private Stopwatch selectLineStopWatch;
         private Rect selectionBorder;
 
         #endregion fields
@@ -358,12 +358,12 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
         public void UpdateMousePosition(Point position)
         {
-            if (this.updatePositionLabelStopWatch.ElapsedMilliseconds > this.UpdatePositionLabelDelay)
+            if (this.updatePositionLabelStopWatch.ElapsedMilliseconds > this.updatePositionLabelDelay)
             {
                 UpdatePositionLabel(position);
             }
 
-            if (this.isSelecting && this.selectLineStopWatch.ElapsedMilliseconds > this.DrawSelectLineDelay)
+            if (this.isSelecting && this.selectLineStopWatch.ElapsedMilliseconds > this.drawSelectLineDelay)
             {
                 this.ComputeSelectLinesFromPixels(this.lastSelectPoint, position);
             }

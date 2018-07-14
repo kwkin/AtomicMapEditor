@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -17,9 +18,13 @@ using Prism.Events;
 
 namespace Ame.Modules.Windows.Docks.SelectedBrushDock
 {
+    // TODO add transformation between pixels and tiles
     public class SelectedBrushViewModel : DockToolViewModelTemplate
     {
         #region fields
+
+        private long updatePositionLabelDelay = 30;
+        private Stopwatch updatePositionLabelStopWatch;
 
         private IEventAggregator eventAggregator;
         private IScrollModel scrollModel;
@@ -75,9 +80,12 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
             }
             this.Scale = ScaleType.Pixel;
             this.PositionText = "0, 0";
+            this.updatePositionLabelStopWatch = Stopwatch.StartNew();
 
-            this.ShowGridCommand = new DelegateCommand(() => DrawGrid(this.IsGridOn));
-            this.UpdatePositionCommand = new DelegateCommand<object>(point => UpdatePosition((Point)point));
+            this.ShowGridCommand = new DelegateCommand(
+                () => DrawGrid(this.IsGridOn));
+            this.UpdatePositionCommand = new DelegateCommand<object>(
+                (point) => UpdateMousePosition((Point)point));
             this.ZoomInCommand = new DelegateCommand(
                 () => this.ZoomIndex = this.scrollModel.ZoomIn());
             this.ZoomOutCommand = new DelegateCommand(
@@ -129,17 +137,6 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
 
         #region methods
 
-        private void UpdateBrushImage(UpdateBrushMessage message)
-        {
-            BrushModel brushModel = message.BrushModel;
-            using (DrawingContext context = this.selectedBrushImage.Open())
-            {
-                context.DrawDrawing(brushModel.Image);
-            }
-            DrawGrid();
-            RaisePropertyChanged(nameof(this.BrushImage));
-        }
-
         public void DrawGrid()
         {
             DrawGrid(this.IsGridOn);
@@ -171,24 +168,45 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
             RaisePropertyChanged(nameof(this.BrushImage));
         }
 
-        private void UpdatePosition(Point position)
+        public void UpdateMousePosition(Point position)
+        {
+            if (this.updatePositionLabelStopWatch.ElapsedMilliseconds > this.updatePositionLabelDelay)
+            {
+                UpdatePositionLabel(position);
+            }
+        }
+
+        private void UpdatePositionLabel(Point position)
         {
             Point transformedPosition = new Point(0, 0);
             if (this.BrushImage != null)
             {
-                switch (this.Scale)
+                switch (Scale)
                 {
                     case ScaleType.Pixel:
                         transformedPosition = position;
                         break;
 
-                    default:
+                    case ScaleType.Tile:
                         break;
                 }
             }
             transformedPosition = PointUtils.IntPoint(transformedPosition);
             this.PositionText = (transformedPosition.X + ", " + transformedPosition.Y);
+
             RaisePropertyChanged(nameof(this.PositionText));
+            this.updatePositionLabelStopWatch.Restart();
+        }
+
+        private void UpdateBrushImage(UpdateBrushMessage message)
+        {
+            BrushModel brushModel = message.BrushModel;
+            using (DrawingContext context = this.selectedBrushImage.Open())
+            {
+                context.DrawDrawing(brushModel.Image);
+            }
+            DrawGrid();
+            RaisePropertyChanged(nameof(this.BrushImage));
         }
 
         #endregion methods

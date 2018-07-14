@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -21,6 +22,9 @@ namespace Ame.Modules.MapEditor.Editor
     public class MapEditorViewModel : EditorViewModelTemplate
     {
         #region fields
+
+        private long updatePositionLabelDelay = 30;
+        private Stopwatch updatePositionLabelStopWatch;
 
         private TileDrawer tileDrawer;
         private BrushModel brush;
@@ -101,7 +105,7 @@ namespace Ame.Modules.MapEditor.Editor
             this.ShowGridCommand = new DelegateCommand(
                 () => DrawGrid(this.IsGridOn));
             this.UpdatePositionCommand = new DelegateCommand<object>(
-                (point) => UpdatePosition((Point)point));
+                (point) => UpdateMousePosition((Point)point));
             this.ZoomInCommand = new DelegateCommand(
                 () => this.ZoomIndex = this.scrollModel.ZoomIn());
             this.ZoomOutCommand = new DelegateCommand(
@@ -247,25 +251,12 @@ namespace Ame.Modules.MapEditor.Editor
             RaisePropertyChanged(nameof(this.DrawingCanvas));
         }
 
-        private void UpdatePosition(Point position)
+        public void UpdateMousePosition(Point position)
         {
-            Point transformedPosition = new Point(0, 0);
-            switch (Scale)
+            if (this.updatePositionLabelStopWatch.ElapsedMilliseconds > this.updatePositionLabelDelay)
             {
-                case ScaleType.Pixel:
-                    transformedPosition = position;
-                    break;
-
-                case ScaleType.Tile:
-                    if (this.Map != null)
-                    {
-                        transformedPosition = imageTransform.PixelToTile(position);
-                    }
-                    break;
+                UpdatePositionLabel(position);
             }
-            transformedPosition = PointUtils.IntPoint(transformedPosition);
-            this.PositionText = (transformedPosition.X + ", " + transformedPosition.Y);
-            RaisePropertyChanged(nameof(this.PositionText));
         }
 
         public override void ZoomIn()
@@ -302,6 +293,29 @@ namespace Ame.Modules.MapEditor.Editor
             {
                 context.DrawRectangle(backgroundBrush, backgroundPen, rect);
             }
+        }
+
+        private void UpdatePositionLabel(Point position)
+        {
+            Point transformedPosition = new Point(0, 0);
+            switch (Scale)
+            {
+                case ScaleType.Pixel:
+                    transformedPosition = position;
+                    break;
+
+                case ScaleType.Tile:
+                    if (this.Map != null)
+                    {
+                        transformedPosition = imageTransform.PixelToTile(position);
+                    }
+                    break;
+            }
+            transformedPosition = PointUtils.IntPoint(transformedPosition);
+            this.PositionText = (transformedPosition.X + ", " + transformedPosition.Y);
+            RaisePropertyChanged(nameof(this.PositionText));
+
+            this.updatePositionLabelStopWatch.Restart();
         }
 
         #endregion methods
