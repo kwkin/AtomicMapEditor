@@ -25,7 +25,7 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
         private IScrollModel scrollModel;
 
         private DrawingGroup drawingGroup;
-        private ImageDrawing brushImage;
+        private DrawingGroup selectedBrushImage;
         private DrawingGroup gridLines;
 
         #endregion fields
@@ -53,23 +53,15 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
 
             this.BrushImage = new DrawingImage();
             this.drawingGroup = new DrawingGroup();
+            this.selectedBrushImage = new DrawingGroup();
             this.gridLines = new DrawingGroup();
+            this.drawingGroup.Children.Add(this.selectedBrushImage);
             this.drawingGroup.Children.Add(this.gridLines);
             this.BrushImage.Drawing = this.drawingGroup;
 
             if (this.scrollModel.ZoomLevels == null)
             {
-                this.ZoomLevels = new ObservableCollection<ZoomLevel>();
-                this.ZoomLevels.Add(new ZoomLevel(0.125));
-                this.ZoomLevels.Add(new ZoomLevel(0.25));
-                this.ZoomLevels.Add(new ZoomLevel(0.5));
-                this.ZoomLevels.Add(new ZoomLevel(1));
-                this.ZoomLevels.Add(new ZoomLevel(2));
-                this.ZoomLevels.Add(new ZoomLevel(4));
-                this.ZoomLevels.Add(new ZoomLevel(8));
-                this.ZoomLevels.Add(new ZoomLevel(16));
-                this.ZoomLevels.Add(new ZoomLevel(32));
-                this.ZoomLevels.OrderBy(f => f.zoom);
+                this.ZoomLevels = ZoomLevel.CreateZoomList(0.125, 0.25, 0.5, 1, 2, 4, 8, 16, 32);
                 this.scrollModel.ZoomLevels = this.ZoomLevels;
             }
             else
@@ -140,12 +132,10 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
         private void UpdateBrushImage(UpdateBrushMessage message)
         {
             BrushModel brushModel = message.BrushModel;
-            this.drawingGroup.Children.Remove(this.brushImage);
-
-            // TODO remove cascaded image conversion
-            // TODO remove remove and insert functions
-            this.brushImage = brushModel.Image;
-            this.drawingGroup.Children.Insert(0, this.brushImage);
+            using (DrawingContext context = this.selectedBrushImage.Open())
+            {
+                context.DrawDrawing(brushModel.Image);
+            }
             DrawGrid();
             RaisePropertyChanged(nameof(this.BrushImage));
         }

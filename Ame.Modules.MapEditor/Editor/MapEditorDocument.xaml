@@ -46,16 +46,6 @@
             <Grid x:Name="scrollViewerGrid"
                   HorizontalAlignment="Center"
                   VerticalAlignment="Center">
-                <Grid.ContextMenu>
-                    <ContextMenu>
-                        <ContextMenu.ItemsSource>
-                            <CompositeCollection>
-                                <CollectionContainer Collection="{StaticResource MapEditorContextMenu}" />
-                            </CompositeCollection>
-                        </ContextMenu.ItemsSource>
-                    </ContextMenu>
-                </Grid.ContextMenu>
-
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseLeftButtonDown">
                         <actions:EventToCommand Command="{Binding DrawCommand, Mode=OneWay}"
@@ -70,10 +60,16 @@
                                                 PassEventArgsToCommand="True" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-
-                <Rectangle x:Name="selectionHitBox"
-                           Fill="Transparent"
-                           Stretch="Fill" />
+                
+                <Grid.ContextMenu>
+                    <ContextMenu>
+                        <ContextMenu.ItemsSource>
+                            <CompositeCollection>
+                                <CollectionContainer Collection="{StaticResource MapEditorContextMenu}" />
+                            </CompositeCollection>
+                        </ContextMenu.ItemsSource>
+                    </ContextMenu>
+                </Grid.ContextMenu>
 
                 <Image x:Name="layerImage"
                        VerticalAlignment="Center"

@@ -83,17 +83,7 @@ namespace Ame.Modules.MapEditor.Editor
             
             if (this.scrollModel.ZoomLevels == null)
             {
-                this.ZoomLevels = new ObservableCollection<ZoomLevel>();
-                this.ZoomLevels.Add(new ZoomLevel(0.125));
-                this.ZoomLevels.Add(new ZoomLevel(0.25));
-                this.ZoomLevels.Add(new ZoomLevel(0.5));
-                this.ZoomLevels.Add(new ZoomLevel(1));
-                this.ZoomLevels.Add(new ZoomLevel(2));
-                this.ZoomLevels.Add(new ZoomLevel(4));
-                this.ZoomLevels.Add(new ZoomLevel(8));
-                this.ZoomLevels.Add(new ZoomLevel(16));
-                this.ZoomLevels.Add(new ZoomLevel(32));
-                this.ZoomLevels.OrderBy(f => f.zoom);
+                this.ZoomLevels = ZoomLevel.CreateZoomList(0.125, 0.25, 0.5, 1, 2, 4, 8, 16, 32);
                 this.scrollModel.ZoomLevels = this.ZoomLevels;
             }
             else
@@ -167,8 +157,7 @@ namespace Ame.Modules.MapEditor.Editor
         public Map Map { get; set; }
         public Layer CurrentLayer { get; set; }
         public DrawingImage DrawingCanvas { get; set; }
-
-        // TODO change to property
+        
         private Brush backgroundBrush;
         public Brush BackgroundBrush
         {
@@ -216,7 +205,7 @@ namespace Ame.Modules.MapEditor.Editor
 
             // TODO force images into tiles
             Console.WriteLine("Not Transformed: " + point);
-            Point tilePoint = this.imageTransform.PixelToTileEdge(point);
+            Point tilePoint = this.imageTransform.PixelToTopLeftTileEdge(point);
             this.CurrentLayer.SetTile(this.brush.Image, tilePoint);
             this.layerItems.Children.Add(this.CurrentLayer.LayerItems.Drawing);
             RaisePropertyChanged(nameof(this.DrawingCanvas));

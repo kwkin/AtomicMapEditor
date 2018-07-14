@@ -38,17 +38,7 @@ namespace Ame.Modules.Windows.Docks.MinimapDock
 
             if (this.scrollModel.ZoomLevels == null)
             {
-                this.ZoomLevels = new ObservableCollection<ZoomLevel>();
-                this.ZoomLevels.Add(new ZoomLevel(0.125));
-                this.ZoomLevels.Add(new ZoomLevel(0.25));
-                this.ZoomLevels.Add(new ZoomLevel(0.5));
-                this.ZoomLevels.Add(new ZoomLevel(1));
-                this.ZoomLevels.Add(new ZoomLevel(2));
-                this.ZoomLevels.Add(new ZoomLevel(4));
-                this.ZoomLevels.Add(new ZoomLevel(8));
-                this.ZoomLevels.Add(new ZoomLevel(16));
-                this.ZoomLevels.Add(new ZoomLevel(32));
-                this.ZoomLevels.OrderBy(f => f.zoom);
+                this.ZoomLevels = ZoomLevel.CreateZoomList(0.125, 0.25, 0.5, 1, 2, 4, 8, 16, 32);
                 this.scrollModel.ZoomLevels = this.ZoomLevels;
             }
             else

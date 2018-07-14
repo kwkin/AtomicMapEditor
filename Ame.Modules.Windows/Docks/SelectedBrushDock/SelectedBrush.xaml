@@ -53,6 +53,15 @@
             <Grid x:Name="scrollViewerGrid"
                   HorizontalAlignment="Center"
                   VerticalAlignment="Center">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseMove">
+                        <actions:EventToCommand Command="{Binding UpdatePositionCommand, Mode=OneWay}"
+                                                EventArgsConverter="{StaticResource MouseEventToPointConverter}"
+                                                EventArgsConverterParameter="{Binding ElementName=itemImage}"
+                                                PassEventArgsToCommand="True" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                
                 <Grid.ContextMenu>
                     <ContextMenu>
                         <ContextMenu.ItemsSource>
@@ -62,18 +71,6 @@
                         </ContextMenu.ItemsSource>
                     </ContextMenu>
                 </Grid.ContextMenu>
-
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseMove">
-                        <actions:EventToCommand Command="{Binding UpdatePositionCommand, Mode=OneWay}"
-                                                EventArgsConverter="{StaticResource MouseEventToPointConverter}"
-                                                EventArgsConverterParameter="{Binding ElementName=itemImage}"
-                                                PassEventArgsToCommand="True" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-
-                <Rectangle Fill="Transparent"
-                           Stretch="Fill" />
 
                 <Image x:Name="itemImage"
                        HorizontalAlignment="Center"

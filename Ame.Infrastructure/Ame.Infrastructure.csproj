@@ -158,6 +158,7 @@
     <Compile Include="Utils\LineUtils.cs" />
     <Compile Include="Utils\PointUtils.cs" />
     <Compile Include="Utils\SizeUtils.cs" />
+    <Compile Include="Utils\StopWatchExtension.cs" />
     <Compile Include="Utils\Utils.cs" />
   </ItemGroup>
   <ItemGroup>

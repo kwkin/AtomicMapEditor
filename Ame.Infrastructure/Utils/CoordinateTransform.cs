@@ -358,12 +358,35 @@ namespace Ame.Infrastructure.Utils
         #endregion tile to render
 
         #region util functions
-
-        public Point PixelToTileEdge(Point point)
+        
+        public Point PixelToTopLeftTileEdge(Point point)
         {
             Point edgePoint = pixelToTile.Transform(point);
             return pixelToTile.Inverse.Transform(new Point((int)edgePoint.X, (int)edgePoint.Y));
         }
+
+        public Point PixelToTopRightTileEdge(Point pixelPoint)
+        {
+            Point topRightTilePixel = this.PixelToTopLeftTileEdge(pixelPoint);
+            topRightTilePixel.X = pixelPoint.X + (1 / this.pixelToTileScale.ScaleX);
+            return topRightTilePixel;
+        }
+
+        public Point PixelToBottomLeftTileEdge(Point pixelPoint)
+        {
+            Point bottomLeftTilePixel = this.PixelToTopLeftTileEdge(pixelPoint);
+            bottomLeftTilePixel.Y = pixelPoint.Y + (1 / this.pixelToTileScale.ScaleY);
+            return bottomLeftTilePixel;
+        }
+
+        public Point PixelToBottomRightTileEdge(Point pixelPoint)
+        {
+            Point bottomRightTilePixel = this.PixelToTopLeftTileEdge(pixelPoint);
+            bottomRightTilePixel.X = pixelPoint.X + (1 / this.pixelToTileScale.ScaleX);
+            bottomRightTilePixel.Y = pixelPoint.Y + (1 / this.pixelToTileScale.ScaleY);
+            return bottomRightTilePixel;
+        }
+
 
         #endregion util functions
 

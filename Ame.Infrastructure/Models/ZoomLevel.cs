@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,6 +40,18 @@ namespace Ame.Infrastructure.Models
 
 
         #region methods
+        
+        public static ObservableCollection<ZoomLevel> CreateZoomList(params double[] levels)
+        {
+            ObservableCollection<ZoomLevel> zoomLevels = new ObservableCollection<ZoomLevel>();
+            foreach (double level in levels)
+            {
+                ZoomLevel zoomLevel = new ZoomLevel(level);
+                zoomLevels.Add(zoomLevel);
+            }
+            zoomLevels.OrderBy(zoomLevel => zoomLevel.zoom);
+            return zoomLevels;
+        }
 
         #endregion methods
     }

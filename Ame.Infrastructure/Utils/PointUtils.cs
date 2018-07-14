@@ -9,12 +9,60 @@ namespace Ame.Infrastructure.Utils
 {
     public static class PointUtils
     {
+        /// <summary>
+        /// Returns the top left point constructed from the given two points. Assumes that 0,0 is located in the top left.
+        /// </summary>
+        /// <param name="point1"></param>
+        /// <param name="point2"></param>
+        /// <returns></returns>
         public static Point TopLeft(Point point1, Point point2)
         {
             Point topLeft = new Point();
             topLeft.X = Math.Min(point1.X, point2.X);
             topLeft.Y = Math.Min(point1.Y, point2.Y);
             return topLeft;
+        }
+
+        /// <summary>
+        /// Returns the top right constructed from the given two points. Assumes that 0,0 is located in the top left.
+        /// </summary>
+        /// <param name="point1"></param>
+        /// <param name="point2"></param>
+        /// <returns></returns>
+        public static Point TopRight(Point point1, Point point2)
+        {
+            Point topRight = new Point();
+            topRight.X = Math.Max(point1.X, point2.X);
+            topRight.Y = Math.Min(point1.Y, point2.Y);
+            return topRight;
+        }
+
+        /// <summary>
+        /// Returns the bottom left constructed from the given two points. Assumes that 0,0 is located in the top left.
+        /// </summary>
+        /// <param name="point1"></param>
+        /// <param name="point2"></param>
+        /// <returns></returns>
+        public static Point BottomLeft(Point point1, Point point2)
+        {
+            Point bottomLeft = new Point();
+            bottomLeft.X = Math.Min(point1.X, point2.X);
+            bottomLeft.Y = Math.Max(point1.Y, point2.Y);
+            return bottomLeft;
+        }
+
+        /// <summary>
+        /// Returns the bottom right constructed from the given two points. Assumes that 0,0 is located in the top left.
+        /// </summary>
+        /// <param name="point1"></param>
+        /// <param name="point2"></param>
+        /// <returns></returns>
+        public static Point BottomRight(Point point1, Point point2)
+        {
+            Point bottomRight = new Point();
+            bottomRight.X = Math.Max(point1.X, point2.X);
+            bottomRight.Y = Math.Max(point1.Y, point2.Y);
+            return bottomRight;
         }
 
         public static Size SelectionSize(Point point1, Point point2)

@@ -15,7 +15,7 @@ namespace Ame.Infrastructure.Utils
 {
     public static class ImageUtils
     {
-        // TODO look into wrapping mat with these utility functions 
+        // TODO look into wrapping mat with these utility functions
         public static Bitmap BitMapImageToBitMap(BitmapImage bitmapImage)
         {
             //return new Bitmap(bitmapImage.StreamSource);
@@ -70,7 +70,18 @@ namespace Ame.Infrastructure.Utils
         public static ImageDrawing MatToImageDrawing(Mat mat)
         {
             Rect drawingRect = new Rect(new System.Windows.Size(mat.Size.Width, mat.Size.Height));
-            ImageDrawing imageDrawing = new ImageDrawing(MatToBitmapImage(mat), drawingRect);
+
+            BitmapSource bs;
+            using (Bitmap source = mat.Bitmap)
+            {
+                IntPtr ptr = source.GetHbitmap();
+                bs = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+                    ptr,
+                    IntPtr.Zero,
+                    Int32Rect.Empty,
+                    BitmapSizeOptions.FromEmptyOptions());
+            }
+            ImageDrawing imageDrawing = new ImageDrawing(bs, drawingRect);
             return imageDrawing;
         }
     }

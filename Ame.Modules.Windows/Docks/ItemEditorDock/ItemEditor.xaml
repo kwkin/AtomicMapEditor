@@ -153,9 +153,6 @@
                     </ContextMenu>
                 </Grid.ContextMenu>
 
-                <Rectangle x:Name="selectHitBox"
-                           Stretch="Fill"
-                           Fill="Transparent" />
                 <Image x:Name="itemImage"
                        Source="{Binding TileImage}"
                        VerticalAlignment="Center"
@@ -164,13 +161,13 @@
                        Stretch="None">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseLeftButtonDown">
-                            <actions:EventToCommand Command="{Binding SetSelectPointCommand, Mode=OneWay}"
+                            <actions:EventToCommand Command="{Binding HandleLeftClickDownCommand, Mode=OneWay}"
                                                     EventArgsConverter="{StaticResource MouseEventToPointConverter}"
                                                     EventArgsConverterParameter="{Binding ElementName=itemImage}"
                                                     PassEventArgsToCommand="True" />
                         </i:EventTrigger>
                         <i:EventTrigger EventName="MouseLeftButtonUp">
-                            <actions:EventToCommand Command="{Binding SelectTilesCommand, Mode=OneWay}"
+                            <actions:EventToCommand Command="{Binding HandleLeftClickUpCommand, Mode=OneWay}"
                                                     EventArgsConverter="{StaticResource MouseEventToPointConverter}"
                                                     EventArgsConverterParameter="{Binding ElementName=itemImage}"
                                                     PassEventArgsToCommand="True" />
