@@ -49,6 +49,8 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
         private Stopwatch updatePositionLabelStopWatch;
         private Stopwatch selectLineStopWatch;
 
+        private Vector offsetVector;
+
         #endregion fields
 
 
@@ -253,6 +255,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
         /// <param name="point2">Second corner pixel point in the selection</param>
         public void HandleLeftClickUp(Point point1, Point point2)
         {
+            point2 += offsetVector;
             if (!ImageUtils.Intersects(this.itemImage, point1) || !ImageUtils.Intersects(this.itemImage, point2))
             {
                 return;
@@ -288,6 +291,25 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                 RaisePropertyChanged(nameof(this.IsSelectingTransparency));
                 RaisePropertyChanged(nameof(this.TilesetModel));
                 RaisePropertyChanged(nameof(this.TileImage));
+            }
+        }
+
+        public void HandleLeftClickDown(Point point)
+        {
+            point += offsetVector;
+            if (!ImageUtils.Intersects(this.itemImage, point))
+            {
+                return;
+            }
+            if (this.IsSelectingTransparency)
+            {
+                this.SetTransparentColor(point);
+            }
+            else
+            {
+                this.isSelecting = true;
+                ComputeSelectLinesFromPixels(point, point);
+                this.lastSelectPoint = point;
             }
         }
 
@@ -361,6 +383,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
         public void UpdateMousePosition(Point position)
         {
+            position += offsetVector;
             if (this.updatePositionLabelStopWatch.ElapsedMilliseconds > this.updatePositionLabelDelay)
             {
                 UpdatePositionLabel(position);
@@ -394,6 +417,14 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
                     using (DrawingContext context = this.tilesetImage.Open())
                     {
+                        Size drawingRectSize = new Size();
+                        drawingRectSize.Width = this.itemImage.Size.Width + newTilesetModel.Width;
+                        drawingRectSize.Height = this.itemImage.Size.Height + newTilesetModel.Height;
+                        this.offsetVector = new Vector();
+                        offsetVector.X = -newTilesetModel.Width / 2;
+                        offsetVector.Y = -newTilesetModel.Width / 2;
+                        Rect drawingRect = new Rect((Point)offsetVector, drawingRectSize);
+                        context.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Transparent, 0), drawingRect);
                         context.DrawDrawing(ImageUtils.MatToDrawingGroup(this.itemImage));
                     }
                     DrawGrid();
@@ -437,6 +468,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             Point topLeftPixel = PointUtils.TopLeft(pixel1, pixel2);
             Point bottomRightPixel = PointUtils.BottomRight(pixel1, pixel2);
             bottomRightPixel = this.itemTransform.PixelToBottomRightTileEdge(bottomRightPixel);
+
             if (topLeftPixel != this.selectionBorder.TopLeft || bottomRightPixel != this.selectionBorder.BottomRight)
             {
                 DrawSelectLinesFromPixels(topLeftPixel, bottomRightPixel);
@@ -462,24 +494,6 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
         private void RemoveItem()
         {
             Console.WriteLine("Remove Item");
-        }
-
-        private void HandleLeftClickDown(Point point)
-        {
-            if (!ImageUtils.Intersects(this.itemImage, point))
-            {
-                return;
-            }
-            if (this.IsSelectingTransparency)
-            {
-                this.SetTransparentColor(point);
-            }
-            else
-            {
-                this.isSelecting = true;
-                ComputeSelectLinesFromPixels(point, point);
-                this.lastSelectPoint = point;
-            }
         }
 
         private void SetTransparentColor(Point point)

@@ -10,12 +10,14 @@ using Ame.Infrastructure.Models;
 
 namespace Ame.Infrastructure.Utils
 {
+    // TODO create a selection to pixel
     public class CoordinateTransform
     {
         #region fields
 
         private ScaleTransform pixelToRenderScale = new ScaleTransform();
         private ScaleTransform pixelToTileScale = new ScaleTransform();
+        private TranslateTransform pixelToTileTranslate = new TranslateTransform();
 
         private TransformGroup pixelToRender = new TransformGroup();
         private TransformGroup pixelToTile = new TransformGroup();
@@ -49,8 +51,8 @@ namespace Ame.Infrastructure.Utils
         public void SetPixelToTile(double pixelsInWidth, double pixelsInHeight)
         {
             this.pixelToTileScale = new ScaleTransform();
-            this.pixelToTileScale.ScaleX = (double)1 / pixelsInWidth;
-            this.pixelToTileScale.ScaleY = (double)1 / pixelsInHeight;
+            this.pixelToTileScale.ScaleX = 1 / pixelsInWidth;
+            this.pixelToTileScale.ScaleY = 1 / pixelsInHeight;
             pixelToTile.Children.Clear();
             pixelToTile.Children.Add(this.pixelToTileScale);
         }
@@ -58,46 +60,46 @@ namespace Ame.Infrastructure.Utils
         public void SetPixelToTile(double pixelsInWidth, double pixelsInHeight, double offsetX, double offsetY)
         {
             this.pixelToTileScale = new ScaleTransform();
-            this.pixelToTileScale.ScaleX = (double)1 / pixelsInWidth;
-            this.pixelToTileScale.ScaleY = (double)1 / pixelsInHeight;
+            this.pixelToTileScale.ScaleX = 1 / pixelsInWidth;
+            this.pixelToTileScale.ScaleY = 1 / pixelsInHeight;
 
-            TranslateTransform pixelToTileTranslate = new TranslateTransform();
-            pixelToTileTranslate.X = -offsetX;
-            pixelToTileTranslate.Y = -offsetY;
+            this.pixelToTileTranslate = new TranslateTransform();
+            this.pixelToTileTranslate.X = -offsetX;
+            this.pixelToTileTranslate.Y = -offsetY;
 
-            pixelToTile.Children.Clear();
-            pixelToTile.Children.Add(pixelToTileTranslate);
-            pixelToTile.Children.Add(this.pixelToTileScale);
+            this.pixelToTile.Children.Clear();
+            this.pixelToTile.Children.Add(this.pixelToTileTranslate);
+            this.pixelToTile.Children.Add(this.pixelToTileScale);
         }
 
         public void SetPixelToTile(double pixelsInWidth, double pixelsInHeight, double offsetX, double offsetY, double paddingX, double paddingY)
         {
             this.pixelToTileScale = new ScaleTransform();
-            this.pixelToTileScale.ScaleX = (double)1 / (pixelsInWidth + 2 * paddingX);
-            this.pixelToTileScale.ScaleY = (double)1 / (pixelsInHeight + 2 * paddingY);
+            this.pixelToTileScale.ScaleX = 1 / (pixelsInWidth + 2 * paddingX);
+            this.pixelToTileScale.ScaleY = 1 / (pixelsInHeight + 2 * paddingY);
 
-            TranslateTransform pixelToTileTranslate = new TranslateTransform();
-            pixelToTileTranslate.X = -offsetX;
-            pixelToTileTranslate.Y = -offsetY;
+            this.pixelToTileTranslate = new TranslateTransform();
+            this.pixelToTileTranslate.X = -offsetX;
+            this.pixelToTileTranslate.Y = -offsetY;
 
-            pixelToTile.Children.Clear();
-            pixelToTile.Children.Add(pixelToTileTranslate);
-            pixelToTile.Children.Add(this.pixelToTileScale);
+            this.pixelToTile.Children.Clear();
+            this.pixelToTile.Children.Add(this.pixelToTileTranslate);
+            this.pixelToTile.Children.Add(this.pixelToTileScale);
         }
 
         public void SetPixelToTile(GridModel gridModel)
         {
             this.pixelToTileScale = new ScaleTransform();
-            this.pixelToTileScale.ScaleX = (double)1 / (gridModel.cellWidth + 2 * gridModel.paddingX);
-            this.pixelToTileScale.ScaleY = (double)1 / (gridModel.cellHeight + 2 * gridModel.paddingY);
+            this.pixelToTileScale.ScaleX = 1 / (gridModel.cellWidth + 2 * gridModel.paddingX);
+            this.pixelToTileScale.ScaleY = 1 / (gridModel.cellHeight + 2 * gridModel.paddingY);
 
-            TranslateTransform pixelToTileTranslate = new TranslateTransform();
-            pixelToTileTranslate.X = -gridModel.offsetX;
-            pixelToTileTranslate.Y = -gridModel.offsetY;
+            this.pixelToTileTranslate = new TranslateTransform();
+            this.pixelToTileTranslate.X = -gridModel.offsetX;
+            this.pixelToTileTranslate.Y = -gridModel.offsetY;
 
-            pixelToTile.Children.Clear();
-            pixelToTile.Children.Add(pixelToTileTranslate);
-            pixelToTile.Children.Add(this.pixelToTileScale);
+            this.pixelToTile.Children.Clear();
+            this.pixelToTile.Children.Add(this.pixelToTileTranslate);
+            this.pixelToTile.Children.Add(this.pixelToTileScale);
         }
 
         public void SetPixelToRender(double renderWidth, double renderHeight)
@@ -105,8 +107,8 @@ namespace Ame.Infrastructure.Utils
             this.pixelToRenderScale = new ScaleTransform();
             this.pixelToRenderScale.ScaleX = renderWidth;
             this.pixelToRenderScale.ScaleY = renderHeight;
-            pixelToRender.Children.Clear();
-            pixelToRender.Children.Add(this.pixelToRenderScale);
+            this.pixelToRender.Children.Clear();
+            this.pixelToRender.Children.Add(this.pixelToRenderScale);
         }
 
         #endregion configure transforms

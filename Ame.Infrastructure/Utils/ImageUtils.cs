@@ -67,6 +67,14 @@ namespace Ame.Infrastructure.Utils
             return drawingGroup;
         }
 
+        public static DrawingGroup MatToDrawingGroup(Mat mat, Rect drawingRect)
+        {
+            ImageDrawing imageDrawing = new ImageDrawing(MatToBitmapImage(mat), drawingRect);
+            DrawingGroup drawingGroup = new DrawingGroup();
+            drawingGroup.Children.Add(imageDrawing);
+            return drawingGroup;
+        }
+
         public static ImageDrawing MatToImageDrawing(Mat mat)
         {
             Rect drawingRect = new Rect(new System.Windows.Size(mat.Size.Width, mat.Size.Height));
