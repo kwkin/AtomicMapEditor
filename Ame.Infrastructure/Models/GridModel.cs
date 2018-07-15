@@ -8,6 +8,7 @@ using System.Windows.Media;
 
 namespace Ame.Infrastructure.Models
 {
+    // TODO combine grid model with tileset model
     public class GridModel
     {
         #region fields

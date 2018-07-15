@@ -192,7 +192,7 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
                         break;
                 }
             }
-            transformedPosition = PointUtils.IntPoint(transformedPosition);
+            transformedPosition = PointUtils.CreateIntPoint(transformedPosition);
             this.PositionText = (transformedPosition.X + ", " + transformedPosition.Y);
 
             RaisePropertyChanged(nameof(this.PositionText));

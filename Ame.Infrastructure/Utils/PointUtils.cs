@@ -65,7 +65,7 @@ namespace Ame.Infrastructure.Utils
             return bottomRight;
         }
 
-        public static Size SelectionSize(Point point1, Point point2)
+        public static Size ComputeSize(Point point1, Point point2)
         {
             Size size = (Size)Point.Subtract(point1, point2);
             size.Width = Math.Abs(size.Width) + 1;
@@ -73,9 +73,14 @@ namespace Ame.Infrastructure.Utils
             return size;
         }
 
-        public static Point IntPoint(Point point)
+        public static Point CreateIntPoint(Point point)
         {
             return new Point((int)point.X, (int)point.Y);
+        }
+
+        public static Point CreateIntPoint(double x, double y)
+        {
+            return new Point((int)x, (int)y);
         }
 
         public static System.Drawing.Point WindowsToDrawingPoint(Point point)

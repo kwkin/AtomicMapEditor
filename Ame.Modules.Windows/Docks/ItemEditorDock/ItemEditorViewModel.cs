@@ -24,7 +24,6 @@ using Prism.Events;
 namespace Ame.Modules.Windows.Docks.ItemEditorDock
 {
     // TODO convert image formats to Mat for models and DrawingImage for views
-    // TODO fix image adjust when selecting the outside border
     // TODO organize properties
     public class ItemEditorViewModel : DockToolViewModelTemplate
     {
@@ -48,9 +47,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
         private long drawSelectLineDelay = Global.defaultDrawSelectLineDelay;
         private Stopwatch updatePositionLabelStopWatch;
         private Stopwatch selectLineStopWatch;
-
-        private Vector offsetVector;
-
+        
         #endregion fields
 
 
@@ -255,19 +252,21 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
         /// <param name="point2">Second corner pixel point in the selection</param>
         public void HandleLeftClickUp(Point point1, Point point2)
         {
-            point2 += offsetVector;
+            GeneralTransform selectToPixel = this.itemTransform.CreateTransform(this.itemTransform.pixelToSelect.Inverse);
+            point2 = selectToPixel.Transform(point2);
             if (!ImageUtils.Intersects(this.itemImage, point1) || !ImageUtils.Intersects(this.itemImage, point2))
             {
                 return;
             }
             if (!this.IsSelectingTransparency)
             {
-                Point tile1 = itemTransform.PixelToTileInt(point1);
-                Point tile2 = itemTransform.PixelToTileInt(point2);
+                GeneralTransform pixelToTile = this.itemTransform.CreateTransform(this.itemTransform.pixelToTile);
+                Point tile1 = CoordinateTransform.TransformInt(pixelToTile, point1);
+                Point tile2 = CoordinateTransform.TransformInt(pixelToTile, point2);
                 Point topLeftTile = PointUtils.TopLeft(tile1, tile2);
-                Point topLeftPixel = itemTransform.TileToPixel(topLeftTile);
-                Size tileSize = PointUtils.SelectionSize(tile1, tile2);
-                Size pixelSize = itemTransform.TileToPixel(tileSize);
+                Point topLeftPixel = CoordinateTransform.TransformInt(pixelToTile.Inverse, topLeftTile);
+                Size tileSize = PointUtils.ComputeSize(tile1, tile2);
+                Size pixelSize = CoordinateTransform.TransformInt(pixelToTile.Inverse, tileSize);
 
                 Select(topLeftPixel, pixelSize);
             }
@@ -296,7 +295,8 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
         public void HandleLeftClickDown(Point point)
         {
-            point += offsetVector;
+            GeneralTransform selectToPixel = this.itemTransform.CreateTransform(this.itemTransform.pixelToSelect.Inverse);
+            point = selectToPixel.Transform(point);
             if (!ImageUtils.Intersects(this.itemImage, point))
             {
                 return;
@@ -383,7 +383,8 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
         public void UpdateMousePosition(Point position)
         {
-            position += offsetVector;
+            GeneralTransform selectToPixel = this.itemTransform.CreateTransform(this.itemTransform.pixelToSelect.Inverse);
+            position = selectToPixel.Transform(position);
             if (this.updatePositionLabelStopWatch.ElapsedMilliseconds > this.updatePositionLabelDelay)
             {
                 UpdatePositionLabel(position);
@@ -412,6 +413,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                     this.itemImage = CvInvoke.Imread(tileFilePath, Emgu.CV.CvEnum.ImreadModes.Unchanged);
                     this.itemTransform = new CoordinateTransform();
                     this.itemTransform.SetPixelToTile(newTilesetModel.Width, newTilesetModel.Height);
+                    this.itemTransform.SetSlectionToPixel(newTilesetModel.Width / 2, newTilesetModel.Height / 2);
                     this.Session.CurrentTilesetList.Add(newTilesetModel);
                     this.TilesetModel = newTilesetModel;
 
@@ -420,10 +422,10 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                         Size drawingRectSize = new Size();
                         drawingRectSize.Width = this.itemImage.Size.Width + newTilesetModel.Width;
                         drawingRectSize.Height = this.itemImage.Size.Height + newTilesetModel.Height;
-                        this.offsetVector = new Vector();
-                        offsetVector.X = -newTilesetModel.Width / 2;
-                        offsetVector.Y = -newTilesetModel.Width / 2;
-                        Rect drawingRect = new Rect((Point)offsetVector, drawingRectSize);
+                        Point offsetPoint = new Point();
+                        offsetPoint.X = -newTilesetModel.Width / 2;
+                        offsetPoint.Y = -newTilesetModel.Height / 2;
+                        Rect drawingRect = new Rect(offsetPoint, drawingRectSize);
                         context.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Transparent, 0), drawingRect);
                         context.DrawDrawing(ImageUtils.MatToDrawingGroup(this.itemImage));
                     }
@@ -514,11 +516,12 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                         break;
 
                     case ScaleType.Tile:
-                        transformedPosition = itemTransform.PixelToTile(position);
+                        GeneralTransform transform = this.itemTransform.CreateTransform(this.itemTransform.pixelToTile);
+                        transformedPosition = transform.Transform(position);
                         break;
                 }
             }
-            transformedPosition = PointUtils.IntPoint(transformedPosition);
+            transformedPosition = PointUtils.CreateIntPoint(transformedPosition);
             this.PositionText = (transformedPosition.X + ", " + transformedPosition.Y);
 
             RaisePropertyChanged(nameof(this.PositionText));

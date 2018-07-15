@@ -309,11 +309,12 @@ namespace Ame.Modules.MapEditor.Editor
                 case ScaleType.Tile:
                     if (this.Map != null)
                     {
-                        transformedPosition = imageTransform.PixelToTile(position);
+                        GeneralTransform transform = this.imageTransform.CreateTransform(this.imageTransform.pixelToTile);
+                        transformedPosition = transform.Transform(position);
                     }
                     break;
             }
-            transformedPosition = PointUtils.IntPoint(transformedPosition);
+            transformedPosition = PointUtils.CreateIntPoint(transformedPosition);
             this.PositionText = (transformedPosition.X + ", " + transformedPosition.Y);
             RaisePropertyChanged(nameof(this.PositionText));
 

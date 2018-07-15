@@ -8,6 +8,7 @@ using System.Windows.Shapes;
 
 namespace Ame.Infrastructure.Utils
 {
+    // TODO combine with other util classes into a geometry util
     public static class LineUtils
     {
         public static Line CreateLine(Point p1, Point p2)
