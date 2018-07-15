@@ -15,10 +15,8 @@ namespace Ame.Infrastructure.Utils
 {
     public static class ImageUtils
     {
-        // TODO look into wrapping mat with these utility functions
         public static Bitmap BitMapImageToBitMap(BitmapImage bitmapImage)
         {
-            //return new Bitmap(bitmapImage.StreamSource);
             using (MemoryStream outStream = new MemoryStream())
             {
                 BitmapEncoder encoder = new BmpBitmapEncoder();

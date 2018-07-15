@@ -68,7 +68,10 @@ namespace Ame.Infrastructure.Models
         // TODO look into changeing the structure of IItems
         // Instead of a tree, just have the list. Declare a property indicating the group
         public string Name { get; set; }
+
         public string SourcePath { get; set; }
+
+        // TODO check is this is necessary
         public DrawingImage ItemImage { get; set; }
         public GridModel GridModel { get; set; }
         public bool IsTransparent { get; set; }

@@ -174,7 +174,7 @@ namespace Ame.Modules.MapEditor.Editor
             set
             {
                 this.backgroundBrush = value;
-                this.drawBackground(this.backgroundBrush, this.BackgroundPen);
+                drawBackground(this.backgroundBrush, this.BackgroundPen);
             }
         }
 
@@ -188,7 +188,7 @@ namespace Ame.Modules.MapEditor.Editor
             set
             {
                 this.backgroundPen = value;
-                this.drawBackground(this.backgroundBrush, this.BackgroundPen);
+                drawBackground(this.backgroundBrush, this.BackgroundPen);
             }
         }
 

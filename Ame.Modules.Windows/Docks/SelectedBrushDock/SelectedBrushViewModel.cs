@@ -24,15 +24,15 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
     {
         #region fields
 
-        private long updatePositionLabelDelay = Global.defaultUpdatePositionLabelDelay;
-        private Stopwatch updatePositionLabelStopWatch;
-
         private IEventAggregator eventAggregator;
         private IScrollModel scrollModel;
 
         private DrawingGroup drawingGroup;
         private DrawingGroup selectedBrushImage;
         private DrawingGroup gridLines;
+
+        private long updatePositionLabelDelay = Global.defaultUpdatePositionLabelDelay;
+        private Stopwatch updatePositionLabelStopWatch;
 
         #endregion fields
 
@@ -69,15 +69,17 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
             {
                 this.ZoomLevels = ZoomLevel.CreateZoomList(0.125, 0.25, 0.5, 1, 2, 4, 8, 16, 32);
                 this.scrollModel.ZoomLevels = this.ZoomLevels;
+                this.ZoomIndex = 3;
+                this.scrollModel.ZoomIndex = this.ZoomIndex;
             }
             else
             {
                 this.ZoomLevels = this.scrollModel.ZoomLevels;
-            }
-            if (this.scrollModel.ZoomIndex < 0 || this.scrollModel.ZoomIndex >= this.ZoomLevels.Count)
-            {
-                this.ZoomIndex = 3;
-                this.scrollModel.ZoomIndex = this.ZoomIndex;
+                if (this.scrollModel.ZoomIndex < 0 || this.scrollModel.ZoomIndex >= this.ZoomLevels.Count)
+                {
+                    this.ZoomIndex = 3;
+                    this.scrollModel.ZoomIndex = this.ZoomIndex;
+                }
             }
             this.Scale = ScaleType.Pixel;
             this.PositionText = "0, 0";
