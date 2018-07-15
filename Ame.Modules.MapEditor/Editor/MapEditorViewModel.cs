@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using Ame.Components.Behaviors;
 using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Core;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
@@ -23,7 +24,7 @@ namespace Ame.Modules.MapEditor.Editor
     {
         #region fields
 
-        private long updatePositionLabelDelay = 30;
+        private long updatePositionLabelDelay = Global.defaultUpdatePositionLabelDelay;
         private Stopwatch updatePositionLabelStopWatch;
 
         private TileDrawer tileDrawer;
@@ -101,6 +102,7 @@ namespace Ame.Modules.MapEditor.Editor
             }
             this.Scale = ScaleType.Tile;
             this.PositionText = "0, 0";
+            this.updatePositionLabelStopWatch = Stopwatch.StartNew();
 
             this.ShowGridCommand = new DelegateCommand(
                 () => DrawGrid(this.IsGridOn));

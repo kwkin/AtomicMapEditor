@@ -9,5 +9,8 @@ namespace Ame.Infrastructure.Core
     public static class Global
     {
         public static readonly string applicationName = "AtomicMapEditor";
+
+        public static readonly long defaultUpdatePositionLabelDelay = 30;
+        public static readonly long defaultDrawSelectLineDelay = 100;
     }
 }

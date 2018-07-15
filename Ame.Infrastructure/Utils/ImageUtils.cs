@@ -84,5 +84,14 @@ namespace Ame.Infrastructure.Utils
             ImageDrawing imageDrawing = new ImageDrawing(bs, drawingRect);
             return imageDrawing;
         }
+
+        public static bool Intersects(Mat mat, System.Windows.Point point)
+        {
+            if (point.X >= mat.Width || point.X < 0 || point.Y >= mat.Height || point.Y < 0)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

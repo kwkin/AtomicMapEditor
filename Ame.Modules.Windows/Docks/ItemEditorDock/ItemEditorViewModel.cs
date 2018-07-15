@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using Ame.Components.Behaviors;
 using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Core;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
@@ -24,21 +25,11 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 {
     // TODO convert image formats to Mat for models and DrawingImage for views
     // TODO fix image adjust when selecting the outside border
-    // TODO add "this" in local function calls
+    // TODO organize properties
     public class ItemEditorViewModel : DockToolViewModelTemplate
     {
         #region fields
-
-        // The time period in milliseconds to draw the select lines
-        // TODO add these delays to another class
-        private long updatePositionLabelDelay = 30;
-        private long drawSelectLineDelay = 100;
-        private Stopwatch updatePositionLabelStopWatch;
-        private Stopwatch selectLineStopWatch;
-
-        private CoordinateTransform itemTransform;
-        private Point lastSelectPoint;
-
+        
         private Mat itemImage;
         private IEventAggregator eventAggregator;
         private IScrollModel scrollModel;
@@ -48,8 +39,15 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
         private DrawingGroup gridLines;
         private DrawingGroup selectLines;
 
+        private CoordinateTransform itemTransform;
+        private Point lastSelectPoint;
         private bool isSelecting;
         private Rect selectionBorder;
+
+        private long updatePositionLabelDelay = Global.defaultUpdatePositionLabelDelay;
+        private long drawSelectLineDelay = Global.defaultDrawSelectLineDelay;
+        private Stopwatch updatePositionLabelStopWatch;
+        private Stopwatch selectLineStopWatch;
 
         #endregion fields
 
@@ -78,11 +76,16 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             {
                 throw new ArgumentNullException("scrollModel");
             }
-            this.TilesetModel = tilesetModel;
+            if (tilesetModel == null)
+            {
+                throw new ArgumentNullException("tilesetModel");
+            }
             this.eventAggregator = eventAggregator;
             this.scrollModel = scrollModel;
-            this.Title = "Item - " + Path.GetFileNameWithoutExtension(tilesetModel.SourcePath);
+            this.TilesetModel = tilesetModel;
             this.Session = session;
+
+            this.Title = "Item - " + Path.GetFileNameWithoutExtension(tilesetModel.SourcePath);
             this.itemTransform = new CoordinateTransform();
             this.itemTransform.SetPixelToTile(this.TilesetModel.Width, this.TilesetModel.Height);
 
@@ -153,9 +156,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
         #region properties
 
-        // TODO organize properties
         public ICommand HandleLeftClickDownCommand { get; private set; }
-
         public ICommand HandleLeftClickUpCommand { get; private set; }
         public ICommand EditCollisionsCommand { get; private set; }
         public ICommand ViewPropertiesCommand { get; private set; }
@@ -252,6 +253,10 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
         /// <param name="point2">Second corner pixel point in the selection</param>
         public void HandleLeftClickUp(Point point1, Point point2)
         {
+            if (!ImageUtils.Intersects(this.itemImage, point1) || !ImageUtils.Intersects(this.itemImage, point2))
+            {
+                return;
+            }
             if (!this.IsSelectingTransparency)
             {
                 Point tile1 = itemTransform.PixelToTileInt(point1);
@@ -269,7 +274,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
                 // TODO undo transparency
                 Mat trasparentMask = new Mat();
-                Mat transparentImage = new Mat((int)this.itemImage.Height, (int)this.itemImage.Width, Emgu.CV.CvEnum.DepthType.Cv8U, 1);
+                Mat transparentImage = new Mat(this.itemImage.Height, this.itemImage.Width, Emgu.CV.CvEnum.DepthType.Cv8U, 1);
 
                 Color color = this.TilesetModel.TransparentColor;
                 ScalarArray transparentColorLower = new ScalarArray(new MCvScalar(color.B, color.G, color.R, 0));
@@ -288,8 +293,6 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
         public void Select(Point topLeftPixel, Size pixelSize)
         {
-            // TODO start drawing the selection lines here
-            // TODO add mouse mover that updates when selecting
             this.DrawSelectLinesFromPixels(topLeftPixel, pixelSize);
             BrushModel brushModel = new BrushModel();
             Mat croppedImage = BrushUtils.CropImage(this.itemImage, topLeftPixel, pixelSize);
@@ -363,7 +366,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                 UpdatePositionLabel(position);
             }
 
-            if (this.isSelecting && this.selectLineStopWatch.ElapsedMilliseconds > this.drawSelectLineDelay)
+            if (this.isSelecting && this.selectLineStopWatch.ElapsedMilliseconds > this.drawSelectLineDelay && ImageUtils.Intersects(this.itemImage, position))
             {
                 this.ComputeSelectLinesFromPixels(this.lastSelectPoint, position);
             }
@@ -436,7 +439,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             bottomRightPixel = this.itemTransform.PixelToBottomRightTileEdge(bottomRightPixel);
             if (topLeftPixel != this.selectionBorder.TopLeft || bottomRightPixel != this.selectionBorder.BottomRight)
             {
-                this.DrawSelectLinesFromPixels(topLeftPixel, bottomRightPixel);
+                DrawSelectLinesFromPixels(topLeftPixel, bottomRightPixel);
             }
         }
 
@@ -463,6 +466,10 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
         private void HandleLeftClickDown(Point point)
         {
+            if (!ImageUtils.Intersects(this.itemImage, point))
+            {
+                return;
+            }
             if (this.IsSelectingTransparency)
             {
                 this.SetTransparentColor(point);
@@ -470,7 +477,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             else
             {
                 this.isSelecting = true;
-                this.ComputeSelectLinesFromPixels(point, point);
+                ComputeSelectLinesFromPixels(point, point);
                 this.lastSelectPoint = point;
             }
         }
@@ -501,7 +508,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             this.PositionText = (transformedPosition.X + ", " + transformedPosition.Y);
 
             RaisePropertyChanged(nameof(this.PositionText));
-            this.updatePositionLabelStopWatch.Restart();
+            updatePositionLabelStopWatch.Restart();
         }
 
         #endregion methods

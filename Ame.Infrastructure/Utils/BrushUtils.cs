@@ -17,5 +17,14 @@ namespace Ame.Infrastructure.Utils
             System.Drawing.Rectangle rectangle = new System.Drawing.Rectangle(topLeftDrawing, pixelSizeDrawing);
             return new Mat(image, rectangle);
         }
+
+        public static Mat CropImage(Mat image, Point topLeftPixel, Point bottomRightPixel)
+        {
+            Size pointSize = (Size)(bottomRightPixel - topLeftPixel);
+            System.Drawing.Point topLeftDrawing = PointUtils.WindowsToDrawingPoint(topLeftPixel);
+            System.Drawing.Size pixelSizeDrawing = SizeUtils.WindowsToDrawingPoint(pointSize);
+            System.Drawing.Rectangle rectangle = new System.Drawing.Rectangle(topLeftDrawing, pixelSizeDrawing);
+            return new Mat(image, rectangle);
+        }
     }
 }

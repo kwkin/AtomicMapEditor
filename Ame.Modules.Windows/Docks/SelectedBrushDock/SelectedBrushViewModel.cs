@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using Ame.Components.Behaviors;
 using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Core;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
@@ -23,7 +24,7 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
     {
         #region fields
 
-        private long updatePositionLabelDelay = 30;
+        private long updatePositionLabelDelay = Global.defaultUpdatePositionLabelDelay;
         private Stopwatch updatePositionLabelStopWatch;
 
         private IEventAggregator eventAggregator;
