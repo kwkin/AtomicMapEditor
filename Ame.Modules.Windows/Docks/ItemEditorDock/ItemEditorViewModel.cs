@@ -353,16 +353,16 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             {
                 GridModel gridParameters = new GridModel()
                 {
-                    rows = this.itemImage.Width / this.TilesetModel.Width,
-                    columns = this.itemImage.Height / this.TilesetModel.Height,
-                    cellWidth = this.TilesetModel.Width,
-                    cellHeight = this.TilesetModel.Height,
-                    offsetX = this.TilesetModel.OffsetX,
-                    offsetY = this.TilesetModel.OffsetY,
-                    paddingX = this.TilesetModel.PaddingX,
-                    paddingY = this.TilesetModel.PaddingY
+                    Rows = this.itemImage.Width / this.TilesetModel.Width,
+                    Columns = this.itemImage.Height / this.TilesetModel.Height,
+                    CellWidth = this.TilesetModel.Width,
+                    CellHeight = this.TilesetModel.Height,
+                    OffsetX = this.TilesetModel.OffsetX,
+                    OffsetY = this.TilesetModel.OffsetY,
+                    PaddingX = this.TilesetModel.PaddingX,
+                    PaddingY = this.TilesetModel.PaddingY
                 };
-                gridParameters.drawingPen.Thickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
+                gridParameters.DrawingPen.Thickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
                 using (DrawingContext context = this.gridLines.Open())
                 {
                     context.DrawDrawing(GridModel.CreateGrid(gridParameters));

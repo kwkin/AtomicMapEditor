@@ -21,12 +21,15 @@ namespace Ame.Infrastructure.Models
         {
             this.Name = "Tileset #1";
             this.SourcePath = "";
-            this.Height = 32;
-            this.Width = 32;
-            this.OffsetX = 0;
-            this.OffsetY = 0;
-            this.PaddingX = 0;
-            this.PaddingY = 0;
+            this.GridModel = new GridModel()
+            {
+                CellWidth = 32,
+                CellHeight = 32,
+                OffsetX = 0,
+                OffsetY = 0,
+                PaddingX = 0,
+                PaddingY = 0,
+            };
             this.IsTransparent = false;
             this.TransparentColor = Colors.Transparent;
         }
@@ -35,12 +38,24 @@ namespace Ame.Infrastructure.Models
         {
             this.Name = name;
             this.SourcePath = "";
-            this.Height = 32;
-            this.Width = 32;
-            this.OffsetX = 0;
-            this.OffsetY = 0;
-            this.PaddingX = 0;
-            this.PaddingY = 0;
+            this.GridModel = new GridModel()
+            {
+                CellWidth = 32,
+                CellHeight = 32,
+                OffsetX = 0,
+                OffsetY = 0,
+                PaddingX = 0,
+                PaddingY = 0,
+            };
+            this.IsTransparent = false;
+            this.TransparentColor = Colors.Transparent;
+        }
+
+        public TilesetModel(string name, GridModel gridModel)
+        {
+            this.Name = name;
+            this.SourcePath = "";
+            this.GridModel = gridModel;
             this.IsTransparent = false;
             this.TransparentColor = Colors.Transparent;
         }
@@ -55,16 +70,82 @@ namespace Ame.Infrastructure.Models
         public string Name { get; set; }
         public string SourcePath { get; set; }
         public DrawingImage ItemImage { get; set; }
-        public int Height { get; set; }
-        public int Width { get; set; }
-        public int OffsetX { get; set; }
-        public int OffsetY { get; set; }
-        public int PaddingX { get; set; }
-        public int PaddingY { get; set; }
+        public GridModel GridModel { get; set; }
         public bool IsTransparent { get; set; }
         public Color TransparentColor { get; set; }
-
         public ObservableCollection<IItem> Items { get; set; }
+
+        public double Width
+        {
+            get
+            {
+                return this.GridModel.CellWidth;
+            }
+            set
+            {
+                this.GridModel.CellWidth = value;
+            }
+        }
+
+        public double Height
+        {
+            get
+            {
+                return this.GridModel.CellHeight;
+            }
+            set
+            {
+                this.GridModel.CellWidth = value;
+            }
+        }
+
+        public double OffsetX
+        {
+            get
+            {
+                return this.GridModel.OffsetX;
+            }
+            set
+            {
+                this.GridModel.OffsetX = value;
+            }
+        }
+
+        public double OffsetY
+        {
+            get
+            {
+                return this.GridModel.OffsetY;
+            }
+            set
+            {
+                this.GridModel.OffsetY = value;
+            }
+        }
+
+        public double PaddingX
+        {
+            get
+            {
+                return this.GridModel.PaddingX;
+            }
+            set
+            {
+                this.GridModel.PaddingX = value;
+            }
+        }
+
+        public double PaddingY
+        {
+            get
+            {
+                return this.GridModel.PaddingY;
+            }
+            set
+            {
+                this.GridModel.PaddingY = value;
+            }
+        }
 
         #endregion properties
 

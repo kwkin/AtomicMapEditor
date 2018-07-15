@@ -234,12 +234,12 @@ namespace Ame.Modules.MapEditor.Editor
             {
                 GridModel gridParameters = new GridModel()
                 {
-                    rows = this.Map.Rows,
-                    columns = this.Map.Columns,
-                    cellWidth = this.Map.TileWidth,
-                    cellHeight = this.Map.TileHeight,
+                    Rows = this.Map.Rows,
+                    Columns = this.Map.Columns,
+                    CellWidth = this.Map.TileWidth,
+                    CellHeight = this.Map.TileHeight,
                 };
-                gridParameters.drawingPen.Thickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
+                gridParameters.DrawingPen.Thickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
                 using (DrawingContext context = this.gridLines.Open())
                 {
                     context.DrawDrawing(GridModel.CreateGrid(gridParameters));

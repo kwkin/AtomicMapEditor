@@ -150,12 +150,12 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
             {
                 GridModel gridParameters = new GridModel()
                 {
-                    rows = this.BrushImage.Width / 32,
-                    columns = this.BrushImage.Height / 32,
-                    cellWidth = 32,
-                    cellHeight = 32
+                    Rows = this.BrushImage.Width / 32,
+                    Columns = this.BrushImage.Height / 32,
+                    CellWidth = 32,
+                    CellHeight = 32
                 };
-                gridParameters.drawingPen.Thickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
+                gridParameters.DrawingPen.Thickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
                 using (DrawingContext context = this.gridLines.Open())
                 {
                     context.DrawDrawing(GridModel.CreateGrid(gridParameters));
