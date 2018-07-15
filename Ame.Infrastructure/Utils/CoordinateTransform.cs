@@ -39,7 +39,6 @@ namespace Ame.Infrastructure.Utils
 
         #endregion properties
 
-
         #region methods
 
         #region configure transforms
@@ -123,58 +122,6 @@ namespace Ame.Infrastructure.Utils
         #endregion configure transforms
 
         #region util functions
-
-        public static Point Transform(GeneralTransform transform, Point point)
-        {
-            return transform.Transform(point);
-        }
-
-        public static Size Transform(GeneralTransform transform, Size size)
-        {
-            return (Size)transform.Transform((Point)size);
-        }
-
-        public static Line Transform(GeneralTransform transform, Line line)
-        {
-            Point point1 = new Point(line.X1, line.Y1);
-            Point point2 = new Point(line.X2, line.Y2);
-            point1 = transform.Transform(point1);
-            point2 = transform.Transform(point2);
-            Line newLine = LineUtils.CreateLine(point1, point2);
-            return newLine;
-        }
-
-        public static Point TransformInt(GeneralTransform transform, Point point)
-        {
-            Point newPoint = transform.Transform(point);
-            return new Point((int)newPoint.X, (int)newPoint.Y);
-        }
-
-        public static Size TransformInt(GeneralTransform transform, Size size)
-        {
-            Point newPoint = transform.Transform((Point)size);
-            return new Size((int)newPoint.X, (int)newPoint.Y);
-        }
-
-        public static Line TransformInt(GeneralTransform transform, Line line)
-        {
-            Point point1 = PointUtils.CreateIntPoint(line.X1, line.Y1);
-            Point point2 = PointUtils.CreateIntPoint(line.X2, line.Y2);
-            point1 = transform.Transform(point1);
-            point2 = transform.Transform(point2);
-            Line newLine = LineUtils.CreateLine(point1, point2);
-            return newLine;
-        }
-
-        public GeneralTransform CreateTransform(params GeneralTransform[] transforms)
-        {
-            TransformGroup transformGroup = new TransformGroup();
-            foreach (Transform transform in transforms)
-            {
-                transformGroup.Children.Add(transform);
-            }
-            return transformGroup;
-        }
 
         public Point PixelToTopLeftTileEdge(Point point)
         {

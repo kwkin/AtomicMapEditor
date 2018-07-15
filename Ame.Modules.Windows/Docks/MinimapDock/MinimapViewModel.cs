@@ -121,7 +121,7 @@ namespace Ame.Modules.Windows.Docks.MinimapDock
 
         private void UpdatePosition(Point position)
         {
-            Point transformedPosition = PointUtils.CreateIntPoint(position);
+            Point transformedPosition = GeometryUtils.CreateIntPoint(position);
             this.PositionText = (transformedPosition.X + ", " + transformedPosition.Y);
             RaisePropertyChanged(nameof(this.PositionText));
         }

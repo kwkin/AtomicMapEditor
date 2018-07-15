@@ -252,7 +252,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
         /// <param name="point2">Second corner pixel point in the selection</param>
         public void HandleLeftClickUp(Point point1, Point point2)
         {
-            GeneralTransform selectToPixel = this.itemTransform.CreateTransform(this.itemTransform.pixelToSelect.Inverse);
+            GeneralTransform selectToPixel = GeometryUtils.CreateTransform(this.itemTransform.pixelToSelect.Inverse);
             point2 = selectToPixel.Transform(point2);
             if (!ImageUtils.Intersects(this.itemImage, point1) || !ImageUtils.Intersects(this.itemImage, point2))
             {
@@ -260,13 +260,13 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             }
             if (!this.IsSelectingTransparency)
             {
-                GeneralTransform pixelToTile = this.itemTransform.CreateTransform(this.itemTransform.pixelToTile);
-                Point tile1 = CoordinateTransform.TransformInt(pixelToTile, point1);
-                Point tile2 = CoordinateTransform.TransformInt(pixelToTile, point2);
-                Point topLeftTile = PointUtils.TopLeft(tile1, tile2);
-                Point topLeftPixel = CoordinateTransform.TransformInt(pixelToTile.Inverse, topLeftTile);
-                Size tileSize = PointUtils.ComputeSize(tile1, tile2);
-                Size pixelSize = CoordinateTransform.TransformInt(pixelToTile.Inverse, tileSize);
+                GeneralTransform pixelToTile = GeometryUtils.CreateTransform(this.itemTransform.pixelToTile);
+                Point tile1 = GeometryUtils.TransformInt(pixelToTile, point1);
+                Point tile2 = GeometryUtils.TransformInt(pixelToTile, point2);
+                Point topLeftTile = GeometryUtils.TopLeftPoint(tile1, tile2);
+                Point topLeftPixel = GeometryUtils.TransformInt(pixelToTile.Inverse, topLeftTile);
+                Size tileSize = GeometryUtils.ComputeSize(tile1, tile2);
+                Size pixelSize = GeometryUtils.TransformInt(pixelToTile.Inverse, tileSize);
 
                 Select(topLeftPixel, pixelSize);
             }
@@ -295,7 +295,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
         public void HandleLeftClickDown(Point point)
         {
-            GeneralTransform selectToPixel = this.itemTransform.CreateTransform(this.itemTransform.pixelToSelect.Inverse);
+            GeneralTransform selectToPixel = GeometryUtils.CreateTransform(this.itemTransform.pixelToSelect.Inverse);
             point = selectToPixel.Transform(point);
             if (!ImageUtils.Intersects(this.itemImage, point))
             {
@@ -383,7 +383,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
         public void UpdateMousePosition(Point position)
         {
-            GeneralTransform selectToPixel = this.itemTransform.CreateTransform(this.itemTransform.pixelToSelect.Inverse);
+            GeneralTransform selectToPixel = GeometryUtils.CreateTransform(this.itemTransform.pixelToSelect.Inverse);
             position = selectToPixel.Transform(position);
             if (this.updatePositionLabelStopWatch.ElapsedMilliseconds > this.updatePositionLabelDelay)
             {
@@ -467,8 +467,8 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
         {
             Point pixel1 = this.itemTransform.PixelToTopLeftTileEdge(pixelPoint1);
             Point pixel2 = this.itemTransform.PixelToTopLeftTileEdge(pixelPoint2);
-            Point topLeftPixel = PointUtils.TopLeft(pixel1, pixel2);
-            Point bottomRightPixel = PointUtils.BottomRight(pixel1, pixel2);
+            Point topLeftPixel = GeometryUtils.TopLeftPoint(pixel1, pixel2);
+            Point bottomRightPixel = GeometryUtils.BottomRightPoint(pixel1, pixel2);
             bottomRightPixel = this.itemTransform.PixelToBottomRightTileEdge(bottomRightPixel);
 
             if (topLeftPixel != this.selectionBorder.TopLeft || bottomRightPixel != this.selectionBorder.BottomRight)
@@ -516,12 +516,12 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                         break;
 
                     case ScaleType.Tile:
-                        GeneralTransform transform = this.itemTransform.CreateTransform(this.itemTransform.pixelToTile);
+                        GeneralTransform transform = GeometryUtils.CreateTransform(this.itemTransform.pixelToTile);
                         transformedPosition = transform.Transform(position);
                         break;
                 }
             }
-            transformedPosition = PointUtils.CreateIntPoint(transformedPosition);
+            transformedPosition = GeometryUtils.CreateIntPoint(transformedPosition);
             this.PositionText = (transformedPosition.X + ", " + transformedPosition.Y);
 
             RaisePropertyChanged(nameof(this.PositionText));

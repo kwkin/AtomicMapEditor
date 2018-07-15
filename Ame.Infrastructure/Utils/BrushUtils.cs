@@ -12,8 +12,8 @@ namespace Ame.Infrastructure.Utils
     {
         public static Mat CropImage(Mat image, Point topLeftPixel, Size pixelSize)
         {
-            System.Drawing.Point topLeftDrawing = PointUtils.WindowsToDrawingPoint(topLeftPixel);
-            System.Drawing.Size pixelSizeDrawing = SizeUtils.WindowsToDrawingPoint(pixelSize);
+            System.Drawing.Point topLeftDrawing = GeometryUtils.WindowsToDrawingPoint(topLeftPixel);
+            System.Drawing.Size pixelSizeDrawing = GeometryUtils.WindowsToDrawingPoint(pixelSize);
             System.Drawing.Rectangle rectangle = new System.Drawing.Rectangle(topLeftDrawing, pixelSizeDrawing);
             return new Mat(image, rectangle);
         }
@@ -21,8 +21,8 @@ namespace Ame.Infrastructure.Utils
         public static Mat CropImage(Mat image, Point topLeftPixel, Point bottomRightPixel)
         {
             Size pointSize = (Size)(bottomRightPixel - topLeftPixel);
-            System.Drawing.Point topLeftDrawing = PointUtils.WindowsToDrawingPoint(topLeftPixel);
-            System.Drawing.Size pixelSizeDrawing = SizeUtils.WindowsToDrawingPoint(pointSize);
+            System.Drawing.Point topLeftDrawing = GeometryUtils.WindowsToDrawingPoint(topLeftPixel);
+            System.Drawing.Size pixelSizeDrawing = GeometryUtils.WindowsToDrawingPoint(pointSize);
             System.Drawing.Rectangle rectangle = new System.Drawing.Rectangle(topLeftDrawing, pixelSizeDrawing);
             return new Mat(image, rectangle);
         }
