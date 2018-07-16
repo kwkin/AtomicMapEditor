@@ -99,5 +99,15 @@ namespace Ame.Infrastructure.Utils
             }
             return true;
         }
+
+        public static Mat ColorToTransparent(Mat image, System.Windows.Media.Color transparentColor)
+        {
+            Mat trasparentMask = new Mat();
+            IInputArray transparency = new ScalarArray(new MCvScalar(transparentColor.B, transparentColor.G, transparentColor.R, transparentColor.A));
+            CvInvoke.InRange(image, transparency, transparency, trasparentMask);
+            CvInvoke.BitwiseNot(trasparentMask, trasparentMask);
+            image.CopyTo(trasparentMask, trasparentMask);
+            return trasparentMask;
+        }
     }
 }

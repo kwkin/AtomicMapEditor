@@ -16,14 +16,12 @@ using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Utils;
 using Ame.Modules.Windows.Interactions.TilesetEditorInteraction;
 using Emgu.CV;
-using Emgu.CV.Structure;
 using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Events;
 
 namespace Ame.Modules.Windows.Docks.ItemEditorDock
 {
-    // TODO refactor: rename, change public/private, divide up functions, split to models
     public class ItemEditorViewModel : DockToolViewModelTemplate
     {
         #region fields
@@ -47,6 +45,13 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
         private long drawSelectLineDelay = Global.defaultDrawSelectLineDelay;
         private Stopwatch updatePositionLabelStopWatch;
         private Stopwatch selectLineStopWatch;
+
+        private int zoomIndex;
+        private bool isSelectingTransparency;
+        private TilesetModel tilesetModel;
+        private Pen gridPen;
+        private Brush backgroundBrush;
+        private Pen backgroundPen;
 
         #endregion fields
 
@@ -148,10 +153,10 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                 () => this.ZoomIndex = this.scrollModel.ZoomOut());
             this.SetZoomCommand = new DelegateCommand<ZoomLevel>(
                 (zoomLevel) => this.ZoomIndex = this.scrollModel.SetZoom(zoomLevel));
-            this.UpdatePositionCommand = new DelegateCommand<object>(
-                (point) => UpdateMousePosition((Point)point));
+            this.HandleMouseMoveCommand = new DelegateCommand<object>(
+                (point) => HandleMouseMove((Point)point));
             this.UpdateModelCommand = new DelegateCommand(
-                () => updateTilesetModel());
+                () => UpdateTilesetModel());
         }
 
         #endregion constructor
@@ -161,6 +166,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
         public ICommand HandleLeftClickDownCommand { get; private set; }
         public ICommand HandleLeftClickUpCommand { get; private set; }
+        public ICommand HandleMouseMoveCommand { get; private set; }
         public ICommand EditCollisionsCommand { get; private set; }
         public ICommand ViewPropertiesCommand { get; private set; }
         public ICommand CropCommand { get; private set; }
@@ -169,7 +175,6 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
         public ICommand RemoveItemCommand { get; private set; }
         public ICommand ShowGridCommand { get; private set; }
         public ICommand ShowRulerCommand { get; private set; }
-        public ICommand UpdatePositionCommand { get; private set; }
         public ICommand ZoomInCommand { get; private set; }
         public ICommand ZoomOutCommand { get; private set; }
         public ICommand SetZoomCommand { get; private set; }
@@ -178,14 +183,11 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
         public AmeSession Session { get; set; }
         public DrawingImage TileImage { get; set; }
 
-        // TODO to what background pen and brush is doing
-        public Pen GridPen { get; set; }
-
         public bool IsGridOn { get; set; }
+        public bool IsRulerOn { get; set; }
         public string PositionText { get; set; }
         public ScaleType Scale { get; set; }
         public ObservableCollection<ZoomLevel> ZoomLevels { get; set; }
-        public int zoomIndex;
         public int ZoomIndex
         {
             get { return this.zoomIndex; }
@@ -203,7 +205,6 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             }
         }
 
-        public bool isSelectingTransparency;
         public bool IsSelectingTransparency
         {
             get
@@ -226,7 +227,6 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             }
         }
 
-        private TilesetModel tilesetModel;
         public TilesetModel TilesetModel
         {
             get
@@ -245,7 +245,18 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             }
         }
 
-        private Brush backgroundBrush;
+        public Pen GridPen
+        {
+            get
+            {
+                return gridPen;
+            }
+            set
+            {
+                this.gridPen = value;
+            }
+        }
+
         public Brush BackgroundBrush
         {
             get
@@ -255,11 +266,10 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             set
             {
                 this.backgroundBrush = value;
-                drawBackground(this.backgroundBrush, this.BackgroundPen);
+                DrawBackground(this.backgroundBrush, this.BackgroundPen);
             }
         }
 
-        private Pen backgroundPen;
         public Pen BackgroundPen
         {
             get
@@ -269,7 +279,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             set
             {
                 this.backgroundPen = value;
-                drawBackground(this.backgroundBrush, this.BackgroundPen);
+                DrawBackground(this.backgroundBrush, this.BackgroundPen);
             }
         }
 
@@ -278,16 +288,13 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
         #region methods
 
-        public void HandleLeftClickUp(Point selectPoint1)
+        public void HandleLeftClickUp(Point selectPoint)
         {
             GeneralTransform selectToPixel = GeometryUtils.CreateTransform(this.itemTransform.pixelToSelect.Inverse);
-            Point pixelPoint = selectToPixel.Transform(selectPoint1);
-            if (!ImageUtils.Intersects(this.itemImage, pixelPoint))
+            Point pixelPoint = selectToPixel.Transform(selectPoint);
+            if (!this.IsSelectingTransparency)
             {
-                return;
-            }
-            if (!this.IsSelectingTransparency && ImageUtils.Intersects(this.itemImage, this.lastSelectPoint))
-            {
+                this.isSelecting = false;
                 SelectTiles(pixelPoint, this.lastSelectPoint);
             }
             else
@@ -297,28 +304,46 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             }
         }
 
-        public void HandleLeftClickDown(Point point)
+        public void HandleLeftClickDown(Point selectPoint)
         {
             GeneralTransform selectToPixel = GeometryUtils.CreateTransform(this.itemTransform.pixelToSelect.Inverse);
-            point = selectToPixel.Transform(point);
-            if (!ImageUtils.Intersects(this.itemImage, point))
+            selectPoint = selectToPixel.Transform(selectPoint);
+            if (!ImageUtils.Intersects(this.itemImage, selectPoint))
             {
                 return;
             }
-            if (this.IsSelectingTransparency)
+            if (!this.IsSelectingTransparency)
             {
-                this.SetTransparentColor(point);
+                this.isSelecting = true;
+                ComputeSelectLinesFromPixels(selectPoint, selectPoint);
+                this.lastSelectPoint = selectPoint;
             }
             else
             {
-                this.isSelecting = true;
-                ComputeSelectLinesFromPixels(point, point);
-                this.lastSelectPoint = point;
+                SetTransparentColor(selectPoint);
+            }
+        }
+
+        public void HandleMouseMove(Point selectPosition)
+        {
+            GeneralTransform selectToPixel = GeometryUtils.CreateTransform(this.itemTransform.pixelToSelect.Inverse);
+            selectPosition = selectToPixel.Transform(selectPosition);
+            if (this.updatePositionLabelStopWatch.ElapsedMilliseconds > this.updatePositionLabelDelay)
+            {
+                UpdatePositionLabel(selectPosition);
+            }
+            if (this.isSelecting && this.selectLineStopWatch.ElapsedMilliseconds > this.drawSelectLineDelay && ImageUtils.Intersects(this.itemImage, selectPosition))
+            {
+                this.ComputeSelectLinesFromPixels(this.lastSelectPoint, selectPosition);
             }
         }
 
         public void SelectTiles(Point pixelPoint1, Point pixelPoint2)
         {
+            if (!ImageUtils.Intersects(this.itemImage, pixelPoint1) || !ImageUtils.Intersects(this.itemImage, pixelPoint2))
+            {
+                return;
+            }
             GeneralTransform pixelToTile = GeometryUtils.CreateTransform(this.itemTransform.pixelToTile);
             Point tile1 = GeometryUtils.TransformInt(pixelToTile, pixelPoint1);
             Point tile2 = GeometryUtils.TransformInt(pixelToTile, pixelPoint2);
@@ -333,45 +358,26 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
             if (this.TilesetModel.IsTransparent)
             {
-                Mat trasparentMask = new Mat();
-                Color transparentColor = this.TilesetModel.TransparentColor;
-                IInputArray transparency = new ScalarArray(new MCvScalar(transparentColor.B, transparentColor.G, transparentColor.R, transparentColor.A));
-                CvInvoke.InRange(croppedImage, transparency, transparency, trasparentMask);
-                CvInvoke.BitwiseNot(trasparentMask, trasparentMask);
-                croppedImage.CopyTo(trasparentMask, trasparentMask);
-                brushModel.Image = ImageUtils.MatToImageDrawing(trasparentMask);
+                croppedImage = ImageUtils.ColorToTransparent(croppedImage, this.TilesetModel.TransparentColor);
             }
-            else
-            {
-                brushModel.Image = ImageUtils.MatToImageDrawing(croppedImage);
-            }
+            brushModel.Image = ImageUtils.MatToImageDrawing(croppedImage);
 
-            this.isSelecting = false;
             UpdateBrushMessage message = new UpdateBrushMessage(brushModel);
             this.eventAggregator.GetEvent<UpdateBrushEvent>().Publish(message);
         }
 
-        public void SelectTransparency(Point pixelPoint1)
+        public void SelectTransparency(Point pixelPoint)
         {
-            // TODO combine with SelectTiles transparency command, or apply transparency when selecting tiles
-            Mat trasparentMask = new Mat();
-            Color transparentColor = this.TilesetModel.TransparentColor;
-            IInputArray transparency = new ScalarArray(new MCvScalar(transparentColor.B, transparentColor.G, transparentColor.R, transparentColor.A));
-            CvInvoke.InRange(this.itemImage, transparency, transparency, trasparentMask);
-            CvInvoke.BitwiseNot(trasparentMask, trasparentMask);
-
-            this.itemImage.CopyTo(trasparentMask, trasparentMask);
-            this.tilesetModel.ItemImage = ImageUtils.MatToDrawingImage(trasparentMask);
+            if (!ImageUtils.Intersects(this.itemImage, pixelPoint))
+            {
+                return;
+            }
+            Mat transparentImage = ImageUtils.ColorToTransparent(this.itemImage, this.TilesetModel.TransparentColor);
+            this.tilesetModel.ItemImage = ImageUtils.MatToDrawingImage(transparentImage);
             using (DrawingContext context = this.tilesetImage.Open())
             {
                 context.DrawDrawing(this.tilesetModel.ItemImage.Drawing);
             }
-        }
-
-        public void updateTilesetModel()
-        {
-            this.itemTransform.SetPixelToTile(this.TilesetModel.Width, this.TilesetModel.Height, this.TilesetModel.OffsetX, this.TilesetModel.OffsetY, this.TilesetModel.PaddingX, this.TilesetModel.PaddingY);
-            DrawGrid(this.IsGridOn);
         }
 
         public void DrawGrid()
@@ -411,22 +417,12 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
         public void DrawRuler()
         {
-            Console.WriteLine("DrawRuler");
+            DrawRuler(this.IsRulerOn);
         }
 
-        public void UpdateMousePosition(Point position)
+        public void DrawRuler(bool drawRuler)
         {
-            GeneralTransform selectToPixel = GeometryUtils.CreateTransform(this.itemTransform.pixelToSelect.Inverse);
-            position = selectToPixel.Transform(position);
-            if (this.updatePositionLabelStopWatch.ElapsedMilliseconds > this.updatePositionLabelDelay)
-            {
-                UpdatePositionLabel(position);
-            }
-
-            if (this.isSelecting && this.selectLineStopWatch.ElapsedMilliseconds > this.drawSelectLineDelay && ImageUtils.Intersects(this.itemImage, position))
-            {
-                this.ComputeSelectLinesFromPixels(this.lastSelectPoint, position);
-            }
+            Console.WriteLine("DrawRuler");
         }
 
         public void AddTileset()
@@ -454,7 +450,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                     {
                         context.DrawDrawing(ImageUtils.MatToDrawingGroup(this.itemImage));
                     }
-                    drawBackground(this.BackgroundBrush, this.BackgroundPen);
+                    DrawBackground(this.BackgroundBrush, this.BackgroundPen);
                     DrawGrid();
                     RaisePropertyChanged(nameof(this.TileImage));
                 }
@@ -466,26 +462,14 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             Console.WriteLine("Add Image");
         }
 
-        private void DrawSelectLinesFromPixels(Point topLeftPixel, Size pixelSize)
+        private void SetTransparentColor(Point pixelPoint)
         {
-            this.selectionBorder = new Rect(topLeftPixel, pixelSize);
-            using (DrawingContext context = this.selectLines.Open())
+            if (!ImageUtils.Intersects(this.itemImage, pixelPoint))
             {
-                context.DrawRectangle(Brushes.Transparent, this.GridPen, this.selectionBorder);
+                return;
             }
-            RaisePropertyChanged(nameof(this.TileImage));
-            this.selectLineStopWatch.Restart();
-        }
-
-        private void DrawSelectLinesFromPixels(Point topLeftPixel, Point bottomRightPixel)
-        {
-            this.selectionBorder = new Rect(topLeftPixel, bottomRightPixel);
-            using (DrawingContext context = this.selectLines.Open())
-            {
-                context.DrawRectangle(Brushes.Transparent, this.GridPen, this.selectionBorder);
-            }
-            RaisePropertyChanged(nameof(this.TileImage));
-            this.selectLineStopWatch.Restart();
+            byte[] colorsBGR = this.itemImage.GetData((int)pixelPoint.Y, (int)pixelPoint.X);
+            this.TilesetModel.TransparentColor = Color.FromRgb(colorsBGR[2], colorsBGR[1], colorsBGR[0]);
         }
 
         private void ComputeSelectLinesFromPixels(Point pixelPoint1, Point pixelPoint2)
@@ -500,33 +484,6 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             {
                 DrawSelectLinesFromPixels(topLeftPixel, bottomRightPixel);
             }
-        }
-
-        private void EditCollisions()
-        {
-            Console.WriteLine("Edit Collision");
-        }
-
-        private void ViewProperties()
-        {
-            OpenWindowMessage window = new OpenWindowMessage(typeof(EditTilesetInteraction));
-            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(window);
-        }
-
-        private void Crop()
-        {
-            Console.WriteLine("Crop ");
-        }
-
-        private void RemoveItem()
-        {
-            Console.WriteLine("Remove Item");
-        }
-
-        private void SetTransparentColor(Point point)
-        {
-            byte[] colorsBGR = this.itemImage.GetData((int)point.Y, (int)point.X);
-            this.TilesetModel.TransparentColor = Color.FromRgb(colorsBGR[2], colorsBGR[1], colorsBGR[0]);
         }
 
         private void UpdatePositionLabel(Point position)
@@ -553,26 +510,75 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             updatePositionLabelStopWatch.Restart();
         }
 
-        private void drawBackground(Brush backgroundBrush, Pen backgroundPen)
+        private void UpdateTilesetModel()
         {
+            this.itemTransform.SetPixelToTile(this.TilesetModel.Width, this.TilesetModel.Height, this.TilesetModel.OffsetX, this.TilesetModel.OffsetY, this.TilesetModel.PaddingX, this.TilesetModel.PaddingY);
+            DrawGrid(this.IsGridOn);
+        }
+
+        private void DrawSelectLinesFromPixels(Point topLeftPixel, Size pixelSize)
+        {
+            this.selectionBorder = new Rect(topLeftPixel, pixelSize);
+            using (DrawingContext context = this.selectLines.Open())
+            {
+                context.DrawRectangle(Brushes.Transparent, this.GridPen, this.selectionBorder);
+            }
+            RaisePropertyChanged(nameof(this.TileImage));
+            this.selectLineStopWatch.Restart();
+        }
+
+        private void DrawSelectLinesFromPixels(Point topLeftPixel, Point bottomRightPixel)
+        {
+            this.selectionBorder = new Rect(topLeftPixel, bottomRightPixel);
+            using (DrawingContext context = this.selectLines.Open())
+            {
+                context.DrawRectangle(Brushes.Transparent, this.GridPen, this.selectionBorder);
+            }
+            RaisePropertyChanged(nameof(this.TileImage));
+            this.selectLineStopWatch.Restart();
+        }
+
+        private void EditCollisions()
+        {
+            Console.WriteLine("Edit Collision");
+        }
+
+        private void ViewProperties()
+        {
+            OpenWindowMessage window = new OpenWindowMessage(typeof(EditTilesetInteraction));
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(window);
+        }
+
+        private void Crop()
+        {
+            Console.WriteLine("Crop ");
+        }
+
+        private void RemoveItem()
+        {
+            Console.WriteLine("Remove Item");
+        }
+
+        private void DrawBackground(Brush backgroundBrush, Pen backgroundPen)
+        {
+            Size extendedSize = new Size();
+            extendedSize.Width = this.itemImage.Size.Width + this.tilesetModel.Width;
+            extendedSize.Height = this.itemImage.Size.Height + this.tilesetModel.Height;
+            Point extendedPoint = new Point();
+            extendedPoint.X = -this.tilesetModel.Width / 2;
+            extendedPoint.Y = -this.tilesetModel.Height / 2;
+            Rect drawingRect = new Rect(extendedPoint, extendedSize);
+
+            Size backgroundSize = new Size();
+            backgroundSize.Width = this.itemImage.Size.Width;
+            backgroundSize.Height = this.itemImage.Size.Height;
+            Point backgroundPoint = new Point();
+            backgroundPoint.X = 0;
+            backgroundPoint.Y = 0;
+            Rect backgroundRectangle = new Rect(backgroundPoint, backgroundSize);
             using (DrawingContext context = this.extendedBorder.Open())
             {
-                Size extendedSize = new Size();
-                extendedSize.Width = this.itemImage.Size.Width + this.tilesetModel.Width;
-                extendedSize.Height = this.itemImage.Size.Height + this.tilesetModel.Height;
-                Point extendedPoint = new Point();
-                extendedPoint.X = -this.tilesetModel.Width / 2;
-                extendedPoint.Y = -this.tilesetModel.Height / 2;
-                Rect drawingRect = new Rect(extendedPoint, extendedSize);
                 context.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Transparent, 0), drawingRect);
-
-                Size backgroundSize = new Size();
-                backgroundSize.Width = this.itemImage.Size.Width;
-                backgroundSize.Height = this.itemImage.Size.Height;
-                Point backgroundPoint = new Point();
-                backgroundPoint.X = 0;
-                backgroundPoint.Y = 0;
-                Rect backgroundRectangle = new Rect(backgroundPoint, backgroundSize);
                 context.DrawRectangle(backgroundBrush, backgroundPen, backgroundRectangle);
             }
         }

@@ -136,7 +136,7 @@
             <Grid x:Name="scrollViewerGrid">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseMove">
-                        <actions:EventToCommand Command="{Binding UpdatePositionCommand, Mode=OneWay}"
+                        <actions:EventToCommand Command="{Binding HandleMouseMoveCommand, Mode=OneWay}"
                                                 EventArgsConverter="{StaticResource MouseEventToPointConverter}"
                                                 EventArgsConverterParameter="{Binding ElementName=itemImage}"
                                                 PassEventArgsToCommand="True" />
