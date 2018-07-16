@@ -380,7 +380,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             Size pixelSize = GeometryUtils.TransformInt(pixelToTile.Inverse, tileSize);
 
             this.DrawSelectLinesFromPixels(topLeftPixel, pixelSize);
-            BrushModel brushModel = new BrushModel();
+            BrushModel brushModel = new BrushModel(this.tilesetModel);
             Mat croppedImage = BrushUtils.CropImage(this.itemImage, topLeftPixel, pixelSize);
 
             if (this.IsTransparent)
@@ -463,7 +463,6 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                 string tileFilePath = openTilesetDilog.FileName;
                 if (File.Exists(tileFilePath))
                 {
-                    // TODO look into not having an itemImage and tilesetImage
                     TilesetModel newTilesetModel = new TilesetModel();
                     newTilesetModel.SourcePath = tileFilePath;
                     this.Title = "Item - " + Path.GetFileNameWithoutExtension(tileFilePath);

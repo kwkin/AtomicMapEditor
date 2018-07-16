@@ -30,6 +30,7 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
         private DrawingGroup drawingGroup;
         private DrawingGroup selectedBrushImage;
         private DrawingGroup gridLines;
+        private GridModel gridModel;
 
         private long updatePositionLabelDelay = Global.defaultUpdatePositionLabelDelay;
         private Stopwatch updatePositionLabelStopWatch;
@@ -64,6 +65,7 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
             this.drawingGroup.Children.Add(this.selectedBrushImage);
             this.drawingGroup.Children.Add(this.gridLines);
             this.BrushImage.Drawing = this.drawingGroup;
+            this.gridModel = new GridModel();
 
             if (this.scrollModel.ZoomLevels == null)
             {
@@ -150,17 +152,10 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
             this.IsGridOn = drawGrid;
             if (this.IsGridOn)
             {
-                GridModel gridParameters = new GridModel()
-                {
-                    Rows = this.BrushImage.Width / 32,
-                    Columns = this.BrushImage.Height / 32,
-                    CellWidth = 32,
-                    CellHeight = 32
-                };
-                gridParameters.DrawingPen.Thickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
+                this.gridModel.DrawingPen.Thickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
                 using (DrawingContext context = this.gridLines.Open())
                 {
-                    context.DrawDrawing(GridModel.CreateGrid(gridParameters));
+                    context.DrawDrawing(GridModel.CreateGrid(this.gridModel));
                 }
             }
             else
@@ -208,6 +203,10 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
             {
                 context.DrawDrawing(brushModel.Image);
             }
+            this.gridModel.Rows = message.BrushModel.Rows;
+            this.gridModel.Columns = message.BrushModel.Columns;
+            this.gridModel.CellWidth = message.BrushModel.TileWidth;
+            this.gridModel.CellHeight = message.BrushModel.TileHeight;
             DrawGrid();
             RaisePropertyChanged(nameof(this.BrushImage));
         }

@@ -41,7 +41,6 @@ namespace Ame.Infrastructure.Models
             this.Position = LayerPosition.Base;
 
             this.occupiedTiles = new List<Tile>();
-            ResetLayerItems();
         }
 
         public Layer(string layerName, int tileWidth, int tileHeight, int rows, int columns)
@@ -54,7 +53,6 @@ namespace Ame.Infrastructure.Models
             this.Position = LayerPosition.Base;
 
             this.occupiedTiles = new List<Tile>();
-            ResetLayerItems();
         }
 
         #endregion constructor
@@ -167,22 +165,6 @@ namespace Ame.Infrastructure.Models
                 context.DrawDrawing(image);
             }
             this.occupiedTiles.Add(new Tile(tilePoint, image));
-        }
-
-        private void ResetLayerItems()
-        {
-            int pixelWidth = GetPixelWidth();
-            int pixelHeight = GetPixelHeight();
-
-            // TODO clean this up
-            GeometryGroup rectangles = new GeometryGroup();
-            rectangles.Children.Add(new RectangleGeometry(new Rect(0, 0, pixelWidth, pixelHeight)));
-            GeometryDrawing aGeometryDrawing = new GeometryDrawing();
-            aGeometryDrawing.Geometry = rectangles;
-            aGeometryDrawing.Brush = new SolidColorBrush(Colors.Transparent);
-            this.imageDrawings = new DrawingGroup();
-            this.imageDrawings.Children.Add(aGeometryDrawing);
-            this.LayerItems = new DrawingImage(this.imageDrawings);
         }
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")

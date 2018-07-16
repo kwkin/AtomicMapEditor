@@ -65,14 +65,12 @@ namespace Ame.Infrastructure.Models
 
         #region properties
 
-        // TODO look into changeing the structure of IItems
+        // TODO look into changing the structure of IItems
         // Instead of a tree, just have the list. Declare a property indicating the group
         public string Name { get; set; }
 
         public string SourcePath { get; set; }
-
-        // TODO check if this is necessary
-        public DrawingImage ItemImage { get; set; }
+        
         public GridModel GridModel { get; set; }
         public bool IsTransparent { get; set; }
         public Color TransparentColor { get; set; }
