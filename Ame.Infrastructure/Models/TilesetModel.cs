@@ -71,7 +71,7 @@ namespace Ame.Infrastructure.Models
 
         public string SourcePath { get; set; }
 
-        // TODO check is this is necessary
+        // TODO check if this is necessary
         public DrawingImage ItemImage { get; set; }
         public GridModel GridModel { get; set; }
         public bool IsTransparent { get; set; }

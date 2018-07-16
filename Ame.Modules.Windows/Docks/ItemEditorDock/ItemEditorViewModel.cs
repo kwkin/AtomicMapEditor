@@ -39,6 +39,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
         private CoordinateTransform itemTransform;
         private Point lastSelectPoint;
         private bool isSelecting;
+        private bool isMouseDown;
         private Rect selectionBorder;
 
         private long updatePositionLabelDelay = Global.defaultUpdatePositionLabelDelay;
@@ -245,6 +246,30 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             }
         }
 
+        public bool IsTransparent
+        {
+            get
+            {
+                return this.TilesetModel.IsTransparent;
+            }
+            set
+            {
+                this.TilesetModel.IsTransparent = value;
+            }
+        }
+
+        public Color TransparentColor
+        {
+            get
+            {
+                return this.TilesetModel.TransparentColor;
+            }
+            set
+            {
+                this.TilesetModel.TransparentColor = value;
+            }
+        }
+
         public Pen GridPen
         {
             get
@@ -290,6 +315,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
         public void HandleLeftClickUp(Point selectPoint)
         {
+            this.isMouseDown = false;
             GeneralTransform selectToPixel = GeometryUtils.CreateTransform(this.itemTransform.pixelToSelect.Inverse);
             Point pixelPoint = selectToPixel.Transform(selectPoint);
             if (!this.IsSelectingTransparency)
@@ -306,6 +332,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
         public void HandleLeftClickDown(Point selectPoint)
         {
+            this.isMouseDown = true;
             GeneralTransform selectToPixel = GeometryUtils.CreateTransform(this.itemTransform.pixelToSelect.Inverse);
             selectPoint = selectToPixel.Transform(selectPoint);
             if (!ImageUtils.Intersects(this.itemImage, selectPoint))
@@ -318,23 +345,23 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                 ComputeSelectLinesFromPixels(selectPoint, selectPoint);
                 this.lastSelectPoint = selectPoint;
             }
-            else
-            {
-                SetTransparentColor(selectPoint);
-            }
         }
 
         public void HandleMouseMove(Point selectPosition)
         {
             GeneralTransform selectToPixel = GeometryUtils.CreateTransform(this.itemTransform.pixelToSelect.Inverse);
-            selectPosition = selectToPixel.Transform(selectPosition);
+            Point pixelPoint = selectToPixel.Transform(selectPosition);
             if (this.updatePositionLabelStopWatch.ElapsedMilliseconds > this.updatePositionLabelDelay)
             {
-                UpdatePositionLabel(selectPosition);
+                UpdatePositionLabel(pixelPoint);
+                if (this.IsSelectingTransparency && this.isMouseDown)
+                {
+                    PickTransparentColor(pixelPoint);
+                }
             }
             if (this.isSelecting && this.selectLineStopWatch.ElapsedMilliseconds > this.drawSelectLineDelay && ImageUtils.Intersects(this.itemImage, selectPosition))
             {
-                this.ComputeSelectLinesFromPixels(this.lastSelectPoint, selectPosition);
+                this.ComputeSelectLinesFromPixels(this.lastSelectPoint, pixelPoint);
             }
         }
 
@@ -356,9 +383,9 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             BrushModel brushModel = new BrushModel();
             Mat croppedImage = BrushUtils.CropImage(this.itemImage, topLeftPixel, pixelSize);
 
-            if (this.TilesetModel.IsTransparent)
+            if (this.IsTransparent)
             {
-                croppedImage = ImageUtils.ColorToTransparent(croppedImage, this.TilesetModel.TransparentColor);
+                croppedImage = ImageUtils.ColorToTransparent(croppedImage, this.TransparentColor);
             }
             brushModel.Image = ImageUtils.MatToImageDrawing(croppedImage);
 
@@ -372,12 +399,13 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             {
                 return;
             }
-            Mat transparentImage = ImageUtils.ColorToTransparent(this.itemImage, this.TilesetModel.TransparentColor);
-            this.tilesetModel.ItemImage = ImageUtils.MatToDrawingImage(transparentImage);
+            PickTransparentColor(pixelPoint);
+            Mat transparentImage = ImageUtils.ColorToTransparent(this.itemImage, this.TransparentColor);
             using (DrawingContext context = this.tilesetImage.Open())
             {
-                context.DrawDrawing(this.tilesetModel.ItemImage.Drawing);
+                context.DrawDrawing(ImageUtils.MatToImageDrawing(transparentImage));
             }
+            RaisePropertyChanged(nameof(this.TransparentColor));
         }
 
         public void DrawGrid()
@@ -460,16 +488,6 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
         public void AddImage()
         {
             Console.WriteLine("Add Image");
-        }
-
-        private void SetTransparentColor(Point pixelPoint)
-        {
-            if (!ImageUtils.Intersects(this.itemImage, pixelPoint))
-            {
-                return;
-            }
-            byte[] colorsBGR = this.itemImage.GetData((int)pixelPoint.Y, (int)pixelPoint.X);
-            this.TilesetModel.TransparentColor = Color.FromRgb(colorsBGR[2], colorsBGR[1], colorsBGR[0]);
         }
 
         private void ComputeSelectLinesFromPixels(Point pixelPoint1, Point pixelPoint2)
@@ -581,6 +599,13 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                 context.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Transparent, 0), drawingRect);
                 context.DrawRectangle(backgroundBrush, backgroundPen, backgroundRectangle);
             }
+        }
+
+        private void PickTransparentColor(Point pixelPoint)
+        {
+            byte[] colorsBGR = this.itemImage.GetData((int)pixelPoint.Y, (int)pixelPoint.X);
+            this.TransparentColor = Color.FromRgb(colorsBGR[2], colorsBGR[1], colorsBGR[0]);
+            RaisePropertyChanged(nameof(this.TransparentColor));
         }
 
         #endregion methods

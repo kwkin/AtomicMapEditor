@@ -75,7 +75,7 @@
                   HorizontalAlignment="Left"
                   VerticalAlignment="Center"
                   Content="Use Transparent"
-                  IsChecked="{Binding TilesetModel.IsTransparent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                  IsChecked="{Binding IsTransparent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <Grid Grid.Row="2"
               Grid.Column="6">
             <Grid.ColumnDefinitions>
@@ -94,7 +94,7 @@
                               Grid.Column="1"
                               VerticalAlignment="Center"
                               ColorMode="ColorCanvas"
-                              SelectedColor="{Binding TilesetModel.TransparentColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                              SelectedColor="{Binding TransparentColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
         <Label x:Name="sizeLabel"
                Grid.Row="3"
