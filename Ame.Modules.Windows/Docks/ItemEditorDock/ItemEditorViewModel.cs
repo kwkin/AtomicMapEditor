@@ -384,9 +384,8 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                 croppedImage = ImageUtils.ColorToTransparent(croppedImage, this.TransparentColor);
             }
             brushModel.Image = ImageUtils.MatToImageDrawing(croppedImage);
-
-            UpdateBrushMessage message = new UpdateBrushMessage(brushModel);
-            this.eventAggregator.GetEvent<UpdateBrushEvent>().Publish(message);
+            
+            this.eventAggregator.GetEvent<UpdateBrushEvent>().Publish(brushModel);
         }
 
         public void SelectTransparency(Point pixelPoint)

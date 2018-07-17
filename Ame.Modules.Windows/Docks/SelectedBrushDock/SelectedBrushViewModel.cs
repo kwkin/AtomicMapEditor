@@ -195,17 +195,16 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
             this.updatePositionLabelStopWatch.Restart();
         }
 
-        private void UpdateBrushImage(UpdateBrushMessage message)
+        private void UpdateBrushImage(BrushModel brushModel)
         {
-            BrushModel brushModel = message.BrushModel;
             using (DrawingContext context = this.selectedBrushImage.Open())
             {
                 context.DrawDrawing(brushModel.Image);
             }
-            this.gridModel.Rows = message.BrushModel.Rows;
-            this.gridModel.Columns = message.BrushModel.Columns;
-            this.gridModel.CellWidth = message.BrushModel.TileWidth;
-            this.gridModel.CellHeight = message.BrushModel.TileHeight;
+            this.gridModel.Rows = brushModel.Rows;
+            this.gridModel.Columns = brushModel.Columns;
+            this.gridModel.CellWidth = brushModel.TileWidth;
+            this.gridModel.CellHeight = brushModel.TileHeight;
             DrawGrid();
             RaisePropertyChanged(nameof(this.BrushImage));
         }

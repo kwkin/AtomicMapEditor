@@ -222,9 +222,9 @@ namespace Ame.Modules.MapEditor.Editor
             }
         }
 
-        public void UpdateBrushImage(UpdateBrushMessage brushMessage)
+        public void UpdateBrushImage(BrushModel brushModel)
         {
-            this.brush = brushMessage.BrushModel;
+            this.brush = brushModel;
         }
 
         public void DrawGrid()
