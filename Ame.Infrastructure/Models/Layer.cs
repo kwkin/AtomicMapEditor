@@ -7,9 +7,7 @@ using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using Ame.Infrastructure.Attributes;
-using Ame.Infrastructure.BaseTypes;
 
 namespace Ame.Infrastructure.Models
 {
@@ -17,7 +15,7 @@ namespace Ame.Infrastructure.Models
     public class Layer : ILayer, INotifyPropertyChanged
     {
         #region fields
-        
+
         private List<Tile> occupiedTiles;
 
         [NonSerialized]
@@ -39,8 +37,9 @@ namespace Ame.Infrastructure.Models
             this.Rows = rows;
             this.Columns = columns;
             this.Position = LayerPosition.Base;
-
             this.occupiedTiles = new List<Tile>();
+            ResetLayerItems();
+
         }
 
         public Layer(string layerName, int tileWidth, int tileHeight, int rows, int columns)
@@ -51,15 +50,16 @@ namespace Ame.Infrastructure.Models
             this.Rows = rows;
             this.Columns = columns;
             this.Position = LayerPosition.Base;
-
             this.occupiedTiles = new List<Tile>();
+            ResetLayerItems();
+
         }
 
         #endregion constructor
 
 
         #region properties
-        
+
         private string layerName { get; set; }
 
         [MetadataProperty(MetadataType.Property, "Name")]
@@ -108,6 +108,7 @@ namespace Ame.Infrastructure.Models
 
         [MetadataProperty(MetadataType.Property)]
         public string Description { get; set; }
+
         public bool IsImmutable { get; set; }
         public bool IsVisible { get; set; }
 
@@ -145,7 +146,7 @@ namespace Ame.Infrastructure.Models
 
         public void SetTile(ImageDrawing image, Point tilePoint)
         {
-            // TODO improve this 
+            // TODO improve this
             // TODO look into rendering using an array
             Size imageBounds = new Size(image.Bounds.Width, image.Bounds.Height);
             Rect rect = new Rect(tilePoint, imageBounds);
@@ -173,6 +174,14 @@ namespace Ame.Infrastructure.Models
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+
+
+        private void ResetLayerItems()
+        {
+            this.imageDrawings = new DrawingGroup();
+            this.layerItems = new DrawingImage(imageDrawings);
         }
 
         #endregion methods

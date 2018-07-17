@@ -156,6 +156,7 @@ namespace Ame.Infrastructure.Models
 
         }
         
+        // TODO property this
         public int GetPixelWidth()
         {
             int width = this.Columns;

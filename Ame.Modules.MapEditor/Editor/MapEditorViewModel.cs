@@ -24,21 +24,22 @@ namespace Ame.Modules.MapEditor.Editor
     {
         #region fields
 
-        private long updatePositionLabelDelay = Global.defaultUpdatePositionLabelDelay;
-        private Stopwatch updatePositionLabelStopWatch;
-
-        private TileDrawer tileDrawer;
-        private BrushModel brush;
-
         private IEventAggregator eventAggregator;
         private IScrollModel scrollModel;
 
+        private TileDrawer tileDrawer;
+        private BrushModel brush;
         private CoordinateTransform imageTransform;
+        public int zoomIndex;
+        private long updatePositionLabelDelay = Global.defaultUpdatePositionLabelDelay;
+        private Stopwatch updatePositionLabelStopWatch;
 
         private DrawingGroup drawingGroup;
         private DrawingGroup mapBackground;
         private DrawingGroup layerItems;
         private DrawingGroup gridLines;
+        private Brush backgroundBrush;
+        private Pen backgroundPen;
 
         #endregion fields
 
@@ -66,10 +67,14 @@ namespace Ame.Modules.MapEditor.Editor
             this.eventAggregator = eventAggregator;
             this.Map = map;
             this.scrollModel = scrollModel;
-            this.Title = map.Name;
+
             this.CurrentLayer = this.Map.CurrentLayer as Layer;
             this.tileDrawer = new TileDrawer(this.layerItems);
-            this.DrawingCanvas = new DrawingImage();
+            this.imageTransform = new CoordinateTransform();
+            this.imageTransform.SetPixelToTile(this.Map.TileWidth, this.Map.TileHeight);
+            this.imageTransform.SetSlectionToPixel(this.Map.TileWidth / 2, this.Map.TileHeight / 2);
+
+            this.Title = map.Name;
             this.drawingGroup = new DrawingGroup();
             this.mapBackground = new DrawingGroup();
             this.layerItems = new DrawingGroup();
@@ -77,15 +82,10 @@ namespace Ame.Modules.MapEditor.Editor
             this.drawingGroup.Children.Add(this.mapBackground);
             this.drawingGroup.Children.Add(this.layerItems);
             this.drawingGroup.Children.Add(this.gridLines);
-            this.DrawingCanvas.Drawing = this.drawingGroup;
-
+            this.DrawingCanvas = new DrawingImage(this.drawingGroup);
             this.backgroundBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#a5efda"));
             this.backgroundPen = new Pen(Brushes.Transparent, 0);
-            drawBackground(this.BackgroundBrush, this.BackgroundPen);
-
-            this.imageTransform = new CoordinateTransform();
-            this.imageTransform.SetPixelToTile(this.Map.TileWidth, this.Map.TileHeight);
-            
+            redrawBackground();
             if (this.scrollModel.ZoomLevels == null)
             {
                 this.ZoomLevels = ZoomLevel.CreateZoomList(0.125, 0.25, 0.5, 1, 2, 4, 8, 16, 32);
@@ -106,18 +106,18 @@ namespace Ame.Modules.MapEditor.Editor
 
             this.ShowGridCommand = new DelegateCommand(
                 () => DrawGrid(this.IsGridOn));
-            this.UpdatePositionCommand = new DelegateCommand<object>(
-                (point) => UpdateMousePosition((Point)point));
+            this.HandleMouseMoveCommand = new DelegateCommand<object>(
+                (point) => HandleMouseMove((Point)point));
             this.ZoomInCommand = new DelegateCommand(
                 () => this.ZoomIndex = this.scrollModel.ZoomIn());
             this.ZoomOutCommand = new DelegateCommand(
                 () => this.ZoomIndex = this.scrollModel.ZoomOut());
             this.SetZoomCommand = new DelegateCommand<ZoomLevel>(
                 (zoomLevel) => this.ZoomIndex = this.scrollModel.SetZoom(zoomLevel));
-            this.DrawCommand = new DelegateCommand<object>(
-                (point) => Draw((Point)point));
-            this.DrawReleaseCommand = new DelegateCommand<object>(
-                (point) => DrawRelease((Point)point));
+            this.HandleLeftClickDownCommand = new DelegateCommand<object>(
+                (point) => HandleLeftClickDown((Point)point));
+            this.HandleLeftClickUpCommand = new DelegateCommand<object>(
+                (point) => HandleLeftClickUp((Point)point));
 
             this.eventAggregator.GetEvent<UpdateBrushEvent>().Subscribe(
                 UpdateBrushImage,
@@ -129,20 +129,23 @@ namespace Ame.Modules.MapEditor.Editor
 
         #region properties
 
+        public ICommand HandleLeftClickDownCommand { get; private set; }
+        public ICommand HandleLeftClickUpCommand { get; private set; }
+        public ICommand HandleMouseMoveCommand { get; private set; }
         public ICommand ShowGridCommand { get; private set; }
-        public ICommand UpdatePositionCommand { get; private set; }
         public ICommand ZoomInCommand { get; private set; }
         public ICommand ZoomOutCommand { get; private set; }
         public ICommand SetZoomCommand { get; private set; }
-        public ICommand DrawCommand { get; private set; }
-        public ICommand DrawReleaseCommand { get; private set; }
 
+        public Map Map { get; set; }
+        public Layer CurrentLayer { get; set; }
+
+        public DrawingImage DrawingCanvas { get; set; }
         public bool IsGridOn { get; set; }
         public string PositionText { get; set; }
         public ScaleType Scale { get; set; }
         public ObservableCollection<ZoomLevel> ZoomLevels { get; set; }
 
-        public int zoomIndex;
         public int ZoomIndex
         {
             get { return this.zoomIndex; }
@@ -160,11 +163,6 @@ namespace Ame.Modules.MapEditor.Editor
             }
         }
 
-        public Map Map { get; set; }
-        public Layer CurrentLayer { get; set; }
-        public DrawingImage DrawingCanvas { get; set; }
-        
-        private Brush backgroundBrush;
         public Brush BackgroundBrush
         {
             get
@@ -174,11 +172,10 @@ namespace Ame.Modules.MapEditor.Editor
             set
             {
                 this.backgroundBrush = value;
-                drawBackground(this.backgroundBrush, this.BackgroundPen);
+                redrawBackground();
             }
         }
 
-        private Pen backgroundPen;
         public Pen BackgroundPen
         {
             get
@@ -188,7 +185,7 @@ namespace Ame.Modules.MapEditor.Editor
             set
             {
                 this.backgroundPen = value;
-                drawBackground(this.backgroundBrush, this.BackgroundPen);
+                redrawBackground();
             }
         }
 
@@ -197,29 +194,37 @@ namespace Ame.Modules.MapEditor.Editor
 
         #region methods
 
-        public void UpdateBrushImage(UpdateBrushMessage brushMessage)
-        {
-            this.brush = brushMessage.BrushModel;
-        }
-
-        public void Draw(Point point)
+        public void HandleLeftClickDown(Point selectPoint)
         {
             if (this.brush == null)
             {
                 return;
             }
-
-            // TODO force images into tiles
-            Console.WriteLine("Not Transformed: " + point);
-            Point tilePoint = this.imageTransform.PixelToTopLeftTileEdge(point);
-            this.CurrentLayer.SetTile(this.brush.Image, tilePoint);
-            this.layerItems.Children.Add(this.CurrentLayer.LayerItems.Drawing);
-            RaisePropertyChanged(nameof(this.DrawingCanvas));
+            GeneralTransform selectToPixel = GeometryUtils.CreateTransform(this.imageTransform.pixelToSelect.Inverse);
+            Point pixelPoint = selectToPixel.Transform(selectPoint);
+            draw(pixelPoint);
         }
 
-        public void DrawRelease(Point point)
+        public void HandleLeftClickUp(Point selectPoint)
         {
-            Console.WriteLine("Up: " + point);
+            GeneralTransform selectToPixel = GeometryUtils.CreateTransform(this.imageTransform.pixelToSelect.Inverse);
+            Point pixelPoint = selectToPixel.Transform(selectPoint);
+            Console.WriteLine("Up: " + pixelPoint);
+        }
+
+        public void HandleMouseMove(Point position)
+        {
+            GeneralTransform selectToPixel = GeometryUtils.CreateTransform(this.imageTransform.pixelToSelect.Inverse);
+            Point pixelPoint = selectToPixel.Transform(position);
+            if (this.updatePositionLabelStopWatch.ElapsedMilliseconds > this.updatePositionLabelDelay)
+            {
+                UpdatePositionLabel(pixelPoint);
+            }
+        }
+
+        public void UpdateBrushImage(UpdateBrushMessage brushMessage)
+        {
+            this.brush = brushMessage.BrushModel;
         }
 
         public void DrawGrid()
@@ -232,6 +237,7 @@ namespace Ame.Modules.MapEditor.Editor
             this.IsGridOn = drawGrid;
             if (this.IsGridOn)
             {
+                // TODO combine gridModel with map
                 GridModel gridParameters = new GridModel()
                 {
                     Rows = this.Map.Rows,
@@ -251,14 +257,6 @@ namespace Ame.Modules.MapEditor.Editor
             }
             RaisePropertyChanged(nameof(this.IsGridOn));
             RaisePropertyChanged(nameof(this.DrawingCanvas));
-        }
-
-        public void UpdateMousePosition(Point position)
-        {
-            if (this.updatePositionLabelStopWatch.ElapsedMilliseconds > this.updatePositionLabelDelay)
-            {
-                UpdatePositionLabel(position);
-            }
         }
 
         public override void ZoomIn()
@@ -286,14 +284,39 @@ namespace Ame.Modules.MapEditor.Editor
             return this.Map;
         }
 
-        private void drawBackground(Brush backgroundBrush, Pen backgroundPen)
+        private void draw(Point point)
         {
+            if (!ImageUtils.Intersects(this.DrawingCanvas, point))
+            {
+                return;
+            }
+            // TODO force images into tiles
+            // TODO use a brush to draw tiles
+            Console.WriteLine("Not Transformed: " + point);
+            Point tilePoint = this.imageTransform.PixelToTopLeftTileEdge(point);
+            this.CurrentLayer.SetTile(this.brush.Image, tilePoint);
+            this.layerItems.Children.Add(this.CurrentLayer.LayerItems.Drawing);
+            RaisePropertyChanged(nameof(this.DrawingCanvas));
+        }
+
+        private void redrawBackground()
+        {
+            Size extendedSize = new Size();
+            extendedSize.Width = this.Map.GetPixelWidth() + this.Map.TileWidth;
+            extendedSize.Height = this.Map.GetPixelHeight() + this.Map.TileHeight;
+            Point extendedPoint = new Point();
+            extendedPoint.X = -this.Map.TileWidth / 2;
+            extendedPoint.Y = -this.Map.TileHeight / 2;
+            Rect drawingRect = new Rect(extendedPoint, extendedSize);
+
             Point backgroundLocation = new Point(0, 0);
             Size backgroundSize = new Size(this.Map.GetPixelWidth(), this.Map.GetPixelHeight());
             Rect rect = new Rect(backgroundLocation, backgroundSize);
+
             using (DrawingContext context = this.mapBackground.Open())
             {
-                context.DrawRectangle(backgroundBrush, backgroundPen, rect);
+                context.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Transparent, 0), drawingRect);
+                context.DrawRectangle(this.backgroundBrush, this.backgroundPen, rect);
             }
         }
 
@@ -317,7 +340,6 @@ namespace Ame.Modules.MapEditor.Editor
             transformedPosition = GeometryUtils.CreateIntPoint(transformedPosition);
             this.PositionText = (transformedPosition.X + ", " + transformedPosition.Y);
             RaisePropertyChanged(nameof(this.PositionText));
-
             this.updatePositionLabelStopWatch.Restart();
         }
 

@@ -100,6 +100,15 @@ namespace Ame.Infrastructure.Utils
             return true;
         }
 
+        public static bool Intersects(DrawingImage drawingImage, System.Windows.Point point)
+        {
+            if (point.X >= drawingImage.Width || point.X < 0 || point.Y >= drawingImage.Height || point.Y < 0)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public static Mat ColorToTransparent(Mat image, System.Windows.Media.Color transparentColor)
         {
             Mat trasparentMask = new Mat();

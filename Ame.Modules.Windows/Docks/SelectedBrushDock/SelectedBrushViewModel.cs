@@ -19,7 +19,6 @@ using Prism.Events;
 
 namespace Ame.Modules.Windows.Docks.SelectedBrushDock
 {
-    // TODO add transformation between pixels and tiles
     public class SelectedBrushViewModel : DockToolViewModelTemplate
     {
         #region fields
@@ -57,14 +56,14 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
             this.eventAggregator = eventAggregator;
             this.scrollModel = scrollModel;
             this.Title = "Selected Brush";
-
-            this.BrushImage = new DrawingImage();
+            
             this.drawingGroup = new DrawingGroup();
             this.selectedBrushImage = new DrawingGroup();
             this.gridLines = new DrawingGroup();
             this.drawingGroup.Children.Add(this.selectedBrushImage);
             this.drawingGroup.Children.Add(this.gridLines);
-            this.BrushImage.Drawing = this.drawingGroup;
+            this.BrushImage = new DrawingImage(this.drawingGroup);
+
             this.gridModel = new GridModel();
 
             if (this.scrollModel.ZoomLevels == null)

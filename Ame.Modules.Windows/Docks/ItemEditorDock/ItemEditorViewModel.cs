@@ -30,26 +30,24 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
         private IEventAggregator eventAggregator;
         private IScrollModel scrollModel;
 
-        private DrawingGroup drawingGroup;
-        private DrawingGroup tilesetImage;
-        private DrawingGroup gridLines;
-        private DrawingGroup selectLines;
-        private DrawingGroup extendedBorder;
-
         private CoordinateTransform itemTransform;
         private Point lastSelectPoint;
         private bool isSelecting;
         private bool isMouseDown;
         private Rect selectionBorder;
-
+        private int zoomIndex;
+        private bool isSelectingTransparency;
+        private TilesetModel tilesetModel;
         private long updatePositionLabelDelay = Global.defaultUpdatePositionLabelDelay;
         private long drawSelectLineDelay = Global.defaultDrawSelectLineDelay;
         private Stopwatch updatePositionLabelStopWatch;
         private Stopwatch selectLineStopWatch;
 
-        private int zoomIndex;
-        private bool isSelectingTransparency;
-        private TilesetModel tilesetModel;
+        private DrawingGroup drawingGroup;
+        private DrawingGroup tilesetImage;
+        private DrawingGroup gridLines;
+        private DrawingGroup selectLines;
+        private DrawingGroup extendedBorder;
         private Pen gridPen;
         private Brush backgroundBrush;
         private Pen backgroundPen;
@@ -90,11 +88,10 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             this.TilesetModel = tilesetModel;
             this.Session = session;
 
-            this.Title = "Item - " + Path.GetFileNameWithoutExtension(tilesetModel.SourcePath);
             this.itemTransform = new CoordinateTransform();
             this.itemTransform.SetPixelToTile(this.TilesetModel.Width, this.TilesetModel.Height);
 
-            this.TileImage = new DrawingImage();
+            this.Title = "Item - " + Path.GetFileNameWithoutExtension(tilesetModel.SourcePath);
             this.drawingGroup = new DrawingGroup();
             this.tilesetImage = new DrawingGroup();
             this.gridLines = new DrawingGroup();
@@ -104,8 +101,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             this.drawingGroup.Children.Add(this.tilesetImage);
             this.drawingGroup.Children.Add(this.gridLines);
             this.drawingGroup.Children.Add(this.selectLines);
-            this.TileImage.Drawing = this.drawingGroup;
-
+            this.TileImage = new DrawingImage(this.drawingGroup);
             if (this.scrollModel.ZoomLevels == null)
             {
                 this.ZoomLevels = ZoomLevel.CreateZoomList(0.125, 0.25, 0.5, 1, 2, 4, 8, 16, 32);
@@ -132,6 +128,8 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                 (point) => HandleLeftClickDown((Point)point));
             this.HandleLeftClickUpCommand = new DelegateCommand<object>(
                 (point) => HandleLeftClickUp((Point)point));
+            this.HandleMouseMoveCommand = new DelegateCommand<object>(
+                (point) => HandleMouseMove((Point)point));
             this.EditCollisionsCommand = new DelegateCommand(
                 () => EditCollisions());
             this.ViewPropertiesCommand = new DelegateCommand(
@@ -154,8 +152,6 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                 () => this.ZoomIndex = this.scrollModel.ZoomOut());
             this.SetZoomCommand = new DelegateCommand<ZoomLevel>(
                 (zoomLevel) => this.ZoomIndex = this.scrollModel.SetZoom(zoomLevel));
-            this.HandleMouseMoveCommand = new DelegateCommand<object>(
-                (point) => HandleMouseMove((Point)point));
             this.UpdateModelCommand = new DelegateCommand(
                 () => UpdateTilesetModel());
         }
@@ -182,8 +178,8 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
         public ICommand UpdateModelCommand { get; private set; }
 
         public AmeSession Session { get; set; }
-        public DrawingImage TileImage { get; set; }
 
+        public DrawingImage TileImage { get; set; }
         public bool IsGridOn { get; set; }
         public bool IsRulerOn { get; set; }
         public string PositionText { get; set; }
@@ -453,6 +449,26 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             Console.WriteLine("DrawRuler");
         }
 
+        public void ZoomIn()
+        {
+            this.ZoomIndex = this.scrollModel.ZoomIn();
+        }
+
+        public void ZoomOut()
+        {
+            this.ZoomIndex = this.scrollModel.ZoomOut();
+        }
+
+        public void SetZoom(int zoomIndex)
+        {
+            this.ZoomIndex = this.scrollModel.SetZoom(zoomIndex);
+        }
+
+        public void SetZoom(ZoomLevel zoomLevel)
+        {
+            this.ZoomIndex = this.scrollModel.SetZoom(zoomLevel);
+        }
+
         public void AddTileset()
         {
             OpenFileDialog openTilesetDilog = new OpenFileDialog();
@@ -522,7 +538,6 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             }
             transformedPosition = GeometryUtils.CreateIntPoint(transformedPosition);
             this.PositionText = (transformedPosition.X + ", " + transformedPosition.Y);
-
             RaisePropertyChanged(nameof(this.PositionText));
             updatePositionLabelStopWatch.Restart();
         }

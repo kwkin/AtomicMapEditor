@@ -36,9 +36,9 @@
                                       ZoomLevels="{Binding ZoomLevels}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseMove">
-                    <actions:EventToCommand Command="{Binding UpdatePositionCommand, Mode=OneWay}"
+                    <actions:EventToCommand Command="{Binding HandleMouseMoveCommand, Mode=OneWay}"
                                             EventArgsConverter="{StaticResource MouseEventToPointConverter}"
-                                            EventArgsConverterParameter="{Binding ElementName=canvasMapImage}"
+                                            EventArgsConverterParameter="{Binding ElementName=layerImage}"
                                             PassEventArgsToCommand="True" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
@@ -48,13 +48,13 @@
                   VerticalAlignment="Center">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseLeftButtonDown">
-                        <actions:EventToCommand Command="{Binding DrawCommand, Mode=OneWay}"
+                        <actions:EventToCommand Command="{Binding HandleLeftClickDownCommand, Mode=OneWay}"
                                                 EventArgsConverter="{StaticResource MouseEventToPointConverter}"
                                                 EventArgsConverterParameter="{Binding ElementName=layerImage}"
                                                 PassEventArgsToCommand="True" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
-                        <actions:EventToCommand Command="{Binding DrawReleaseCommand, Mode=OneWay}"
+                        <actions:EventToCommand Command="{Binding HandleLeftClickUpCommand, Mode=OneWay}"
                                                 EventArgsConverter="{StaticResource MouseEventToPointConverter}"
                                                 EventArgsConverterParameter="{Binding ElementName=layerImage}"
                                                 PassEventArgsToCommand="True" />
