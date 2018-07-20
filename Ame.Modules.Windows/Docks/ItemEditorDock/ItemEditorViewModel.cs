@@ -89,7 +89,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             this.Session = session;
 
             this.itemTransform = new CoordinateTransform();
-            this.itemTransform.SetPixelToTile(this.TilesetModel.Width, this.TilesetModel.Height);
+            this.itemTransform.SetPixelToTile(this.TilesetModel.TileWidth, this.TilesetModel.TileHeight);
 
             this.Title = "Item - " + Path.GetFileNameWithoutExtension(tilesetModel.SourcePath);
             this.drawingGroup = new DrawingGroup();
@@ -413,17 +413,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             this.IsGridOn = drawGrid;
             if (this.IsGridOn)
             {
-                PaddedGridRenderable gridParameters = new PaddedGridRenderable()
-                {
-                    Rows = this.itemImage.Width / this.TilesetModel.Width,
-                    Columns = this.itemImage.Height / this.TilesetModel.Height,
-                    TileWidth = this.TilesetModel.Width,
-                    TileHeight = this.TilesetModel.Height,
-                    OffsetX = this.TilesetModel.OffsetX,
-                    OffsetY = this.TilesetModel.OffsetY,
-                    PaddingX = this.TilesetModel.PaddingX,
-                    PaddingY = this.TilesetModel.PaddingY
-                };
+                PaddedGridRenderable gridParameters = new PaddedGridRenderable(this.TilesetModel.GridModel);
                 gridParameters.DrawingPen.Thickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
                 using (DrawingContext context = this.gridLines.Open())
                 {
@@ -483,8 +473,10 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                     this.Title = "Item - " + Path.GetFileNameWithoutExtension(tileFilePath);
                     this.itemImage = CvInvoke.Imread(tileFilePath, Emgu.CV.CvEnum.ImreadModes.Unchanged);
                     this.itemTransform = new CoordinateTransform();
-                    this.itemTransform.SetPixelToTile(newTilesetModel.Width, newTilesetModel.Height);
-                    this.itemTransform.SetSlectionToPixel(newTilesetModel.Width / 2, newTilesetModel.Height / 2);
+                    newTilesetModel.PixelWidth = this.itemImage.Width;
+                    newTilesetModel.PixelHeight = this.itemImage.Height;
+                    this.itemTransform.SetPixelToTile(newTilesetModel.TileWidth, newTilesetModel.TileHeight);
+                    this.itemTransform.SetSlectionToPixel(newTilesetModel.TileWidth / 2, newTilesetModel.TileHeight / 2);
                     this.Session.CurrentTilesetList.Add(newTilesetModel);
                     this.TilesetModel = newTilesetModel;
 
@@ -543,7 +535,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
         private void UpdateTilesetModel()
         {
-            this.itemTransform.SetPixelToTile(this.TilesetModel.Width, this.TilesetModel.Height, this.TilesetModel.OffsetX, this.TilesetModel.OffsetY, this.TilesetModel.PaddingX, this.TilesetModel.PaddingY);
+            this.itemTransform.SetPixelToTile(this.TilesetModel.TileWidth, this.TilesetModel.TileHeight, this.TilesetModel.OffsetX, this.TilesetModel.OffsetY, this.TilesetModel.PaddingX, this.TilesetModel.PaddingY);
             DrawGrid(this.IsGridOn);
         }
 
@@ -593,16 +585,16 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
         private void DrawBackground(Brush backgroundBrush, Pen backgroundPen)
         {
             Size extendedSize = new Size();
-            extendedSize.Width = this.itemImage.Size.Width + this.tilesetModel.Width;
-            extendedSize.Height = this.itemImage.Size.Height + this.tilesetModel.Height;
+            extendedSize.Width = this.tilesetModel.PixelWidth + this.tilesetModel.TileWidth;
+            extendedSize.Height = this.tilesetModel.PixelHeight + this.tilesetModel.TileHeight;
             Point extendedPoint = new Point();
-            extendedPoint.X = -this.tilesetModel.Width / 2;
-            extendedPoint.Y = -this.tilesetModel.Height / 2;
+            extendedPoint.X = -this.tilesetModel.TileWidth / 2;
+            extendedPoint.Y = -this.tilesetModel.TileHeight / 2;
             Rect drawingRect = new Rect(extendedPoint, extendedSize);
 
             Size backgroundSize = new Size();
-            backgroundSize.Width = this.itemImage.Size.Width;
-            backgroundSize.Height = this.itemImage.Size.Height;
+            backgroundSize.Width = this.tilesetModel.PixelWidth;
+            backgroundSize.Height = this.tilesetModel.PixelHeight;
             Point backgroundPoint = new Point();
             backgroundPoint.X = 0;
             backgroundPoint.Y = 0;

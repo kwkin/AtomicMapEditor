@@ -14,7 +14,6 @@ namespace Ame.Infrastructure.Models
         #region fields
 
         public event PropertyChangedEventHandler PropertyChanged;
-
         private string name;
 
         #endregion fields
@@ -94,11 +93,11 @@ namespace Ame.Infrastructure.Models
         {
             get
             {
-                return this.Grid.Columns;
+                return this.Grid.ColumnCount();
             }
             set
             {
-                this.Grid.Columns = value;
+                this.Grid.SetWidthWithColumns(value);
             }
         }
 
@@ -107,11 +106,11 @@ namespace Ame.Infrastructure.Models
         {
             get
             {
-                return this.Grid.Rows;
+                return this.Grid.RowCount();
             }
             set
             {
-                this.Grid.Rows = value;
+                this.Grid.SetHeightWithRows(value);
             }
         }
 

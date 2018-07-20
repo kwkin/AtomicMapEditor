@@ -238,13 +238,7 @@ namespace Ame.Modules.MapEditor.Editor
             if (this.IsGridOn)
             {
                 // TODO combine gridModel with map
-                PaddedGridRenderable gridParameters = new PaddedGridRenderable()
-                {
-                    Rows = this.Map.Rows,
-                    Columns = this.Map.Columns,
-                    TileWidth = this.Map.TileWidth,
-                    TileHeight = this.Map.TileHeight,
-                };
+                PaddedGridRenderable gridParameters = new PaddedGridRenderable(this.Map.Grid);
                 gridParameters.DrawingPen.Thickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
                 using (DrawingContext context = this.gridLines.Open())
                 {

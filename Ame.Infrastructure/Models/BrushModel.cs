@@ -29,8 +29,8 @@ namespace Ame.Infrastructure.Models
 
         public BrushModel(TilesetModel tilesetModel)
         {
-            this.TileWidth = (int)tilesetModel.Width;
-            this.TileHeight = (int)tilesetModel.Height;
+            this.TileWidth = (int)tilesetModel.TileWidth;
+            this.TileHeight = (int)tilesetModel.TileHeight;
         }
 
         #endregion constructor

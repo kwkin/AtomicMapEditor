@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media;
 
 namespace Ame.Infrastructure.Models
 {
+    [Serializable]
     public class GridModel
     {
         #region fields
@@ -21,18 +20,16 @@ namespace Ame.Infrastructure.Models
         {
         }
 
-        public GridModel(int rows, int columns)
+        public GridModel(int pixelWidth, int pixelHeight)
         {
-            this.Rows = rows;
-            this.Columns = columns;
+            this.PixelWidth = pixelWidth;
+            this.PixelHeight = pixelHeight;
         }
 
-        public GridModel(int rows, int columns, int cellWidth, int cellHeight)
+        public GridModel(int columns, int rows, int tileWidth, int tileHeight)
         {
-            this.Rows = rows;
-            this.Columns = columns;
-            this.TileWidth = cellWidth;
-            this.TileHeight = cellHeight;
+            SetHeightWithRows(rows, tileHeight);
+            SetWidthWithColumns(columns, tileWidth);
         }
 
         #endregion constructor
@@ -40,55 +37,59 @@ namespace Ame.Infrastructure.Models
 
         #region properties
 
-        public int Rows { get; set; } = 1;
-        public int Columns { get; set; } = 1;
+        public int PixelWidth { get; set; } = 1;
+        public int PixelHeight { get; set; } = 1;
         public int TileWidth { get; set; } = 1;
         public int TileHeight { get; set; } = 1;
-        public ScaleType Scale { get; set; }
-
-        public int PixelWidth
-        {
-            get
-            {
-                int width = this.Columns;
-                switch (this.Scale)
-                {
-                    case ScaleType.Tile:
-                        width *= this.TileWidth;
-                        break;
-
-                    case ScaleType.Pixel:
-                    default:
-                        break;
-                }
-                return width;
-            }
-        }
-
-        public int PixelHeight
-        {
-            get
-            {
-                int height = this.Rows;
-                switch (this.Scale)
-                {
-                    case ScaleType.Tile:
-                        height *= this.TileHeight;
-                        break;
-
-                    case ScaleType.Pixel:
-                    default:
-                        break;
-                }
-                return height;
-            }
-        }
+        public ScaleType Scale { get; set; } = ScaleType.Tile;
 
         #endregion properties
 
 
         #region methods
-        
+
+        public virtual int ColumnCount()
+        {
+            return this.PixelWidth / this.TileWidth;
+        }
+
+        public virtual int RowCount()
+        {
+            return this.PixelHeight / this.TileHeight;
+        }
+
+        public virtual double PreciseColumnCount()
+        {
+            return this.PixelWidth / this.TileWidth;
+        }
+
+        public virtual double PreciseRowCount()
+        {
+            return this.PixelHeight / this.TileHeight;
+        }
+
+        public virtual void SetWidthWithColumns(int columns, int tileWidth)
+        {
+            this.TileWidth = tileWidth;
+            this.PixelWidth = this.TileWidth * columns;
+        }
+
+        public virtual void SetHeightWithRows(int rows, int tileHeight)
+        {
+            this.TileHeight = tileHeight;
+            this.PixelHeight = this.TileHeight * rows;
+        }
+
+        public virtual void SetWidthWithColumns(int columns)
+        {
+            this.PixelWidth = this.TileWidth * columns;
+        }
+
+        public virtual void SetHeightWithRows(int rows)
+        {
+            this.PixelHeight = this.TileHeight * rows;
+        }
+
         #endregion methods
     }
 }

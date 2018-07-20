@@ -24,6 +24,8 @@ namespace Ame.Infrastructure.Models
             // TODO change to regular constructor call
             this.GridModel = new PaddedGrid()
             {
+                PixelWidth = 32,
+                PixelHeight = 32,
                 TileWidth = 32,
                 TileHeight = 32,
                 OffsetX = 0,
@@ -41,6 +43,8 @@ namespace Ame.Infrastructure.Models
             this.SourcePath = "";
             this.GridModel = new PaddedGrid()
             {
+                PixelWidth = 32,
+                PixelHeight = 32,
                 TileWidth = 32,
                 TileHeight = 32,
                 OffsetX = 0,
@@ -77,7 +81,55 @@ namespace Ame.Infrastructure.Models
         public Color TransparentColor { get; set; }
         public ObservableCollection<IItem> Items { get; set; }
 
-        public int Width
+        public int PixelWidth
+        {
+            get
+            {
+                return this.GridModel.PixelWidth;
+            }
+            set
+            {
+                this.GridModel.PixelWidth = value;
+            }
+        }
+
+        public int PixelHeight
+        {
+            get
+            {
+                return this.GridModel.PixelHeight;
+            }
+            set
+            {
+                this.GridModel.PixelHeight = value;
+            }
+        }
+
+        public int ColumnCount
+        {
+            get
+            {
+                return this.GridModel.ColumnCount();
+            }
+            set
+            {
+                this.GridModel.SetWidthWithColumns(value);
+            }
+        }
+
+        public int RowCount
+        {
+            get
+            {
+                return this.GridModel.RowCount();
+            }
+            set
+            {
+                this.GridModel.SetHeightWithRows(value);
+            }
+        }
+        
+        public int TileWidth
         {
             get
             {
@@ -89,7 +141,7 @@ namespace Ame.Infrastructure.Models
             }
         }
 
-        public int Height
+        public int TileHeight
         {
             get
             {
@@ -97,7 +149,7 @@ namespace Ame.Infrastructure.Models
             }
             set
             {
-                this.GridModel.TileWidth = value;
+                this.GridModel.TileHeight = value;
             }
         }
 

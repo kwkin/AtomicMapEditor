@@ -116,7 +116,7 @@
                             Increment="1"
                             Maximum="2048"
                             Minimum="1"
-                            Value="{Binding TilesetModel.Width, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            Value="{Binding TilesetModel.TileWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ValueChanged">
                     <actions:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
@@ -136,7 +136,7 @@
                             Increment="1"
                             Maximum="2048"
                             Minimum="1"
-                            Value="{Binding TilesetModel.Height, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            Value="{Binding TilesetModel.TileHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ValueChanged">
                     <actions:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
