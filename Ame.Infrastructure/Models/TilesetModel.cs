@@ -21,10 +21,11 @@ namespace Ame.Infrastructure.Models
         {
             this.Name = "Tileset #1";
             this.SourcePath = "";
-            this.GridModel = new GridModel()
+            // TODO change to regular constructor call
+            this.GridModel = new PaddedGrid()
             {
-                CellWidth = 32,
-                CellHeight = 32,
+                TileWidth = 32,
+                TileHeight = 32,
                 OffsetX = 0,
                 OffsetY = 0,
                 PaddingX = 0,
@@ -38,10 +39,10 @@ namespace Ame.Infrastructure.Models
         {
             this.Name = name;
             this.SourcePath = "";
-            this.GridModel = new GridModel()
+            this.GridModel = new PaddedGrid()
             {
-                CellWidth = 32,
-                CellHeight = 32,
+                TileWidth = 32,
+                TileHeight = 32,
                 OffsetX = 0,
                 OffsetY = 0,
                 PaddingX = 0,
@@ -51,7 +52,7 @@ namespace Ame.Infrastructure.Models
             this.TransparentColor = Colors.Transparent;
         }
 
-        public TilesetModel(string name, GridModel gridModel)
+        public TilesetModel(string name, PaddedGrid gridModel)
         {
             this.Name = name;
             this.SourcePath = "";
@@ -71,36 +72,36 @@ namespace Ame.Infrastructure.Models
 
         public string SourcePath { get; set; }
         
-        public GridModel GridModel { get; set; }
+        public PaddedGrid GridModel { get; set; }
         public bool IsTransparent { get; set; }
         public Color TransparentColor { get; set; }
         public ObservableCollection<IItem> Items { get; set; }
 
-        public double Width
+        public int Width
         {
             get
             {
-                return this.GridModel.CellWidth;
+                return this.GridModel.TileWidth;
             }
             set
             {
-                this.GridModel.CellWidth = value;
+                this.GridModel.TileWidth = value;
             }
         }
 
-        public double Height
+        public int Height
         {
             get
             {
-                return this.GridModel.CellHeight;
+                return this.GridModel.TileHeight;
             }
             set
             {
-                this.GridModel.CellWidth = value;
+                this.GridModel.TileWidth = value;
             }
         }
 
-        public double OffsetX
+        public int OffsetX
         {
             get
             {
@@ -112,7 +113,7 @@ namespace Ame.Infrastructure.Models
             }
         }
 
-        public double OffsetY
+        public int OffsetY
         {
             get
             {
@@ -124,7 +125,7 @@ namespace Ame.Infrastructure.Models
             }
         }
 
-        public double PaddingX
+        public int PaddingX
         {
             get
             {
@@ -136,7 +137,7 @@ namespace Ame.Infrastructure.Models
             }
         }
 
-        public double PaddingY
+        public int PaddingY
         {
             get
             {

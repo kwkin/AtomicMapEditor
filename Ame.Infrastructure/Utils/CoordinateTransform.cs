@@ -95,11 +95,11 @@ namespace Ame.Infrastructure.Utils
             this.pixelToTile.Children.Add(this.pixelToTileScale);
         }
 
-        public void SetPixelToTile(GridModel gridModel)
+        public void SetPixelToTile(PaddedGrid gridModel)
         {
             this.pixelToTileScale = new ScaleTransform();
-            this.pixelToTileScale.ScaleX = 1 / (gridModel.CellWidth + 2 * gridModel.PaddingX);
-            this.pixelToTileScale.ScaleY = 1 / (gridModel.CellHeight + 2 * gridModel.PaddingY);
+            this.pixelToTileScale.ScaleX = 1 / (gridModel.TileWidth + 2 * gridModel.PaddingX);
+            this.pixelToTileScale.ScaleY = 1 / (gridModel.TileHeight + 2 * gridModel.PaddingY);
 
             this.pixelToTileTranslate = new TranslateTransform();
             this.pixelToTileTranslate.X = -gridModel.OffsetX;

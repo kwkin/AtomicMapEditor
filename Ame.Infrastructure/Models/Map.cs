@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Linq;
+using System.Runtime.CompilerServices;
+
 using Ame.Infrastructure.Attributes;
-using Ame.Infrastructure.BaseTypes;
-using Ame.Infrastructure.Utils;
 
 namespace Ame.Infrastructure.Models
 {
@@ -16,6 +15,8 @@ namespace Ame.Infrastructure.Models
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private string name;
+
         #endregion fields
 
 
@@ -24,54 +25,50 @@ namespace Ame.Infrastructure.Models
         public Map()
         {
             this.Name = "";
-            this.Columns = 32;
-            this.Rows = 32;
-            this.TileWidth = 32;
-            this.TileHeight = 32;
+            this.Grid = new GridModel(32, 32, 32, 32);
             this.Scale = ScaleType.Tile;
             this.PixelScale = 1;
             this.Description = "";
             this.LayerList = new ObservableCollection<ILayer>();
             this.TilesetList = new ObservableCollection<TilesetModel>();
-            this.LayerList.Add(new Layer("Layer #0", this.TileWidth, this.TileHeight, this.Rows, this.Columns));
+
+            Layer initialLayer = new Layer("Layer #0", this.TileWidth, this.TileHeight, this.Rows, this.Columns);
+            this.LayerList.Add(initialLayer);
         }
 
         public Map(string name)
         {
             this.Name = name;
-            this.Columns = 32;
-            this.Rows = 32;
-            this.TileWidth = 32;
-            this.TileHeight = 32;
+
+            this.Grid = new GridModel(32, 32, 32, 32);
             this.Scale = ScaleType.Tile;
             this.PixelScale = 1;
             this.Description = "";
             this.LayerList = new ObservableCollection<ILayer>();
             this.TilesetList = new ObservableCollection<TilesetModel>();
-            this.LayerList.Add(new Layer("Layer #0", this.TileWidth, this.TileHeight, this.Rows, this.Columns));
+
+            Layer initialLayer = new Layer("Layer #0", this.TileWidth, this.TileHeight, this.Rows, this.Columns);
+            this.LayerList.Add(initialLayer);
         }
 
         public Map(string name, int width, int height)
         {
             this.Name = name;
-            this.Columns = width;
-            this.Rows = height;
-            this.TileWidth = 32;
-            this.TileHeight = 32;
+            this.Grid = new GridModel(width, height, 32, 32);
             this.Scale = ScaleType.Tile;
             this.PixelScale = 1;
             this.Description = "";
             this.LayerList = new ObservableCollection<ILayer>();
             this.TilesetList = new ObservableCollection<TilesetModel>();
-            this.LayerList.Add(new Layer("Layer #0", this.TileWidth, this.TileHeight, this.Rows, this.Columns));
+
+            Layer initialLayer = new Layer("Layer #0", this.TileWidth, this.TileHeight, this.Rows, this.Columns);
+            this.LayerList.Add(initialLayer);
         }
 
         #endregion constructor
 
 
         #region properties
-        
-        private string name { get; set; }
 
         [MetadataProperty(MetadataType.Property)]
         public string Name
@@ -90,20 +87,90 @@ namespace Ame.Infrastructure.Models
             }
         }
 
-        [MetadataProperty(MetadataType.Property)]
-        public int Columns { get; set; }
+        public GridModel Grid { get; set; }
 
         [MetadataProperty(MetadataType.Property)]
-        public int Rows { get; set; }
+        public int Columns
+        {
+            get
+            {
+                return this.Grid.Columns;
+            }
+            set
+            {
+                this.Grid.Columns = value;
+            }
+        }
 
         [MetadataProperty(MetadataType.Property)]
-        public ScaleType Scale { get; set; }
+        public int Rows
+        {
+            get
+            {
+                return this.Grid.Rows;
+            }
+            set
+            {
+                this.Grid.Rows = value;
+            }
+        }
 
         [MetadataProperty(MetadataType.Property, "Tile Width")]
-        public int TileWidth { get; set; }
+        public int TileWidth
+        {
+            get
+            {
+                return this.Grid.TileWidth;
+            }
+            set
+            {
+                this.Grid.TileWidth = value;
+            }
+        }
 
         [MetadataProperty(MetadataType.Property, "Tile Height")]
-        public int TileHeight { get; set; }
+        public int TileHeight
+        {
+            get
+            {
+                return this.Grid.TileHeight;
+            }
+            set
+            {
+                this.Grid.TileHeight = value;
+            }
+        }
+
+        [MetadataProperty(MetadataType.Property)]
+        public ScaleType Scale
+        {
+            get
+            {
+                return this.Grid.Scale;
+            }
+            set
+            {
+                this.Grid.Scale = value;
+            }
+        }
+
+        [MetadataProperty(MetadataType.Property, "Pixel Width")]
+        public int PixelWidth
+        {
+            get
+            {
+                return this.Grid.PixelWidth;
+            }
+        }
+
+        [MetadataProperty(MetadataType.Property, "Pixel Height")]
+        public int PixelHeight
+        {
+            get
+            {
+                return this.Grid.PixelHeight;
+            }
+        }
 
         [MetadataProperty(MetadataType.Property, "Pixel Ratio")]
         public int PixelRatio { get; set; }
@@ -135,59 +202,18 @@ namespace Ame.Infrastructure.Models
 
         public ObservableCollection<TilesetModel> TilesetList { get; set; }
 
+        public int TilesetCount
+        {
+            get
+            {
+                return this.TilesetList.Count;
+            }
+        }
+
         #endregion properties
 
 
         #region methods
-
-        public void SetWidth(int width)
-
-        {
-
-            this.Columns = width;
-
-        }
-        
-        public void SetHeight(int height)
-
-        {
-
-            this.Rows = height;
-
-        }
-        
-        // TODO property this
-        public int GetPixelWidth()
-        {
-            int width = this.Columns;
-            switch (this.Scale)
-            {
-                case ScaleType.Tile:
-                    width *= this.TileWidth;
-                    break;
-
-                case ScaleType.Pixel:
-                default:
-                    break;
-            }
-            return width;
-        }
-
-        public int GetPixelHeight()
-        {
-            int height = this.Rows;
-            switch (this.Scale)
-            {
-                case ScaleType.Tile:
-                    height *= this.TileHeight;
-                    break;
-            
-                case ScaleType.Pixel:
-                default:
-                    break;
-            }
-            return height;
-        }
 
         public void MergeCurrentLayerDown()
         {
@@ -227,7 +253,7 @@ namespace Ame.Infrastructure.Models
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        
+
         private int GetLayerGroupCount()
         {
             IEnumerable<LayerGroup> groups = this.LayerList.OfType<LayerGroup>();

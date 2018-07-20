@@ -413,12 +413,12 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             this.IsGridOn = drawGrid;
             if (this.IsGridOn)
             {
-                GridModel gridParameters = new GridModel()
+                PaddedGridRenderable gridParameters = new PaddedGridRenderable()
                 {
                     Rows = this.itemImage.Width / this.TilesetModel.Width,
                     Columns = this.itemImage.Height / this.TilesetModel.Height,
-                    CellWidth = this.TilesetModel.Width,
-                    CellHeight = this.TilesetModel.Height,
+                    TileWidth = this.TilesetModel.Width,
+                    TileHeight = this.TilesetModel.Height,
                     OffsetX = this.TilesetModel.OffsetX,
                     OffsetY = this.TilesetModel.OffsetY,
                     PaddingX = this.TilesetModel.PaddingX,
@@ -427,7 +427,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                 gridParameters.DrawingPen.Thickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
                 using (DrawingContext context = this.gridLines.Open())
                 {
-                    context.DrawDrawing(GridModel.CreateGrid(gridParameters));
+                    context.DrawDrawing(gridParameters.CreateGrid());
                 }
             }
             else

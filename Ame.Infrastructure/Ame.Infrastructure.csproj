@@ -129,6 +129,8 @@
     <Compile Include="Events\UpdateBrushEvent.cs" />
     <Compile Include="Models\BrushModel.cs" />
     <Compile Include="Models\Map.cs" />
+    <Compile Include="Models\PaddedGrid.cs" />
+    <Compile Include="Models\PaddedGridRenderable.cs" />
     <Compile Include="Models\Tile.cs" />
     <Compile Include="Utils\BrushUtils.cs" />
     <Compile Include="Utils\CoordinateTransform.cs" />

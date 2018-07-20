@@ -238,17 +238,17 @@ namespace Ame.Modules.MapEditor.Editor
             if (this.IsGridOn)
             {
                 // TODO combine gridModel with map
-                GridModel gridParameters = new GridModel()
+                PaddedGridRenderable gridParameters = new PaddedGridRenderable()
                 {
                     Rows = this.Map.Rows,
                     Columns = this.Map.Columns,
-                    CellWidth = this.Map.TileWidth,
-                    CellHeight = this.Map.TileHeight,
+                    TileWidth = this.Map.TileWidth,
+                    TileHeight = this.Map.TileHeight,
                 };
                 gridParameters.DrawingPen.Thickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
                 using (DrawingContext context = this.gridLines.Open())
                 {
-                    context.DrawDrawing(GridModel.CreateGrid(gridParameters));
+                    context.DrawDrawing(gridParameters.CreateGrid());
                 }
             }
             else
@@ -302,15 +302,15 @@ namespace Ame.Modules.MapEditor.Editor
         private void redrawBackground()
         {
             Size extendedSize = new Size();
-            extendedSize.Width = this.Map.GetPixelWidth() + this.Map.TileWidth;
-            extendedSize.Height = this.Map.GetPixelHeight() + this.Map.TileHeight;
+            extendedSize.Width = this.Map.PixelWidth + this.Map.TileWidth;
+            extendedSize.Height = this.Map.PixelHeight + this.Map.TileHeight;
             Point extendedPoint = new Point();
             extendedPoint.X = -this.Map.TileWidth / 2;
             extendedPoint.Y = -this.Map.TileHeight / 2;
             Rect drawingRect = new Rect(extendedPoint, extendedSize);
 
             Point backgroundLocation = new Point(0, 0);
-            Size backgroundSize = new Size(this.Map.GetPixelWidth(), this.Map.GetPixelHeight());
+            Size backgroundSize = new Size(this.Map.PixelWidth, this.Map.PixelHeight);
             Rect rect = new Rect(backgroundLocation, backgroundSize);
 
             using (DrawingContext context = this.mapBackground.Open())

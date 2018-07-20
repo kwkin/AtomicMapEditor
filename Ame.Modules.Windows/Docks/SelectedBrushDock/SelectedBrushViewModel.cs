@@ -29,7 +29,7 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
         private DrawingGroup drawingGroup;
         private DrawingGroup selectedBrushImage;
         private DrawingGroup gridLines;
-        private GridModel gridModel;
+        private PaddedGridRenderable gridModel;
 
         private long updatePositionLabelDelay = Global.defaultUpdatePositionLabelDelay;
         private Stopwatch updatePositionLabelStopWatch;
@@ -64,7 +64,7 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
             this.drawingGroup.Children.Add(this.gridLines);
             this.BrushImage = new DrawingImage(this.drawingGroup);
 
-            this.gridModel = new GridModel();
+            this.gridModel = new PaddedGridRenderable();
 
             if (this.scrollModel.ZoomLevels == null)
             {
@@ -154,7 +154,7 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
                 this.gridModel.DrawingPen.Thickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
                 using (DrawingContext context = this.gridLines.Open())
                 {
-                    context.DrawDrawing(GridModel.CreateGrid(this.gridModel));
+                    context.DrawDrawing(this.gridModel.CreateGrid());
                 }
             }
             else
@@ -203,8 +203,8 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
             }
             this.gridModel.Rows = brushModel.Rows;
             this.gridModel.Columns = brushModel.Columns;
-            this.gridModel.CellWidth = brushModel.TileWidth;
-            this.gridModel.CellHeight = brushModel.TileHeight;
+            this.gridModel.TileWidth = brushModel.TileWidth;
+            this.gridModel.TileHeight = brushModel.TileHeight;
             DrawGrid();
             RaisePropertyChanged(nameof(this.BrushImage));
         }
