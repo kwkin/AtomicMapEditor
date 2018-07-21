@@ -31,11 +31,11 @@ using Ame.Modules.Windows.Interactions.TilesetEditorInteraction;
 using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
 using Prism.Mvvm;
-using Xceed.Wpf.AvalonDock;
-using Xceed.Wpf.AvalonDock.Layout.Serialization;
 using Ame.Modules.Windows.Interactions;
 using Ame.Modules.Windows.Docks;
 using Ame.Modules.Windows.Docks.ProjectExplorerDock;
+using AvalonDock;
+using AvalonDock.Layout.Serialization;
 
 namespace Ame.Modules.Windows
 {

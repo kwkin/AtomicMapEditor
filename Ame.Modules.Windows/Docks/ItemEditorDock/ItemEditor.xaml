@@ -35,7 +35,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition />
+            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
@@ -84,7 +84,7 @@
             <extcomp:IconButton x:Name="viewPropertiesButton"
                                 Grid.Column="4"
                                 ToolTip="View the item's properties"
-                                IsEnabled="{Binding Session.CurrentTilesetList.Count, Converter={StaticResource CountToEnabledConverter}}"
+                                IsEnabled="{Binding ItemImage, Converter={StaticResource NullToBooleanConverter}}"
                                 Command="{Binding ViewPropertiesCommand}"
                                 ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_eye_black_24dp.png">
             </extcomp:IconButton>

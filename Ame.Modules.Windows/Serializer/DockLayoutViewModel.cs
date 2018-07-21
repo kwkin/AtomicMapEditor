@@ -8,10 +8,10 @@ using System.Windows.Threading;
 using Ame.Infrastructure.Core;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
+using AvalonDock;
 using ICSharpCode.AvalonEdit.Utils;
 using Prism.Commands;
 using Prism.Events;
-using Xceed.Wpf.AvalonDock;
 
 namespace Ame.Modules.Windows.Serializer
 {

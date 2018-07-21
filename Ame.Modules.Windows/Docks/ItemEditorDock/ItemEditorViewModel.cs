@@ -24,10 +24,6 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 {
     // TODO fix application crash when closing docks with multiple tabs
     // TODO add image loading
-    // TODO add tileset properties
-    // TODO keep drawing in the same location when expanding the advanced options
-    // TODO disable properties property when no tileset is selected
-    // TODO fix the broken garbage for creating interactions
     public class ItemEditorViewModel : DockToolViewModelTemplate
     {
         #region fields
