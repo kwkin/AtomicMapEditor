@@ -201,8 +201,8 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
             {
                 context.DrawDrawing(brushModel.Image);
             }
-            this.gridModel.SetHeightWithRows(brushModel.Rows, brushModel.TileHeight);
-            this.gridModel.SetWidthWithColumns(brushModel.Columns, brushModel.TileWidth);
+            this.gridModel.SetHeightWithRows(brushModel.RowCount(), brushModel.TileHeight);
+            this.gridModel.SetWidthWithColumns(brushModel.ColumnCount(), brushModel.TileWidth);
             DrawGrid();
             RaisePropertyChanged(nameof(this.BrushImage));
         }

@@ -355,7 +355,9 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                     PickTransparentColor(pixelPoint);
                 }
             }
-            if (this.isSelecting && this.selectLineStopWatch.ElapsedMilliseconds > this.drawSelectLineDelay && ImageUtils.Intersects(this.itemImage, selectPosition))
+            if (this.isSelecting
+                && this.selectLineStopWatch.ElapsedMilliseconds > this.drawSelectLineDelay
+                && ImageUtils.Intersects(this.itemImage, pixelPoint))
             {
                 this.ComputeSelectLinesFromPixels(this.lastSelectPoint, pixelPoint);
             }
@@ -363,7 +365,8 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
         public void SelectTiles(Point pixelPoint1, Point pixelPoint2)
         {
-            if (!ImageUtils.Intersects(this.itemImage, pixelPoint1) || !ImageUtils.Intersects(this.itemImage, pixelPoint2))
+            if (!ImageUtils.Intersects(this.itemImage, pixelPoint1) 
+                || !ImageUtils.Intersects(this.itemImage, pixelPoint2))
             {
                 return;
             }
@@ -384,7 +387,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                 croppedImage = ImageUtils.ColorToTransparent(croppedImage, this.TransparentColor);
             }
             brushModel.Image = ImageUtils.MatToImageDrawing(croppedImage);
-            
+
             this.eventAggregator.GetEvent<UpdateBrushEvent>().Publish(brushModel);
         }
 
@@ -413,7 +416,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             this.IsGridOn = drawGrid;
             if (this.IsGridOn)
             {
-                PaddedGridRenderable gridParameters = new PaddedGridRenderable(this.TilesetModel.GridModel);
+                PaddedGridRenderable gridParameters = new PaddedGridRenderable(this.TilesetModel);
                 double thickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
                 gridParameters.DrawingPen.Thickness = thickness < Global.maxGridThickness ? thickness : Global.maxGridThickness;
                 DrawingGroup group = gridParameters.CreateGrid();

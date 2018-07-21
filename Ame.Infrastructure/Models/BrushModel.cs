@@ -8,14 +8,12 @@ using System.Windows.Media.Imaging;
 
 namespace Ame.Infrastructure.Models
 {
-    public class BrushModel
+    public class BrushModel : GridModel
     {
         #region fields
 
         // TODO combine with tileset model
         public ImageDrawing Image { get; set; }
-        public int TileWidth { get; set; }
-        public int TileHeight { get; set; }
 
         #endregion fields
 
@@ -23,14 +21,27 @@ namespace Ame.Infrastructure.Models
         #region constructor
         
         public BrushModel()
+            : base()
         {
 
         }
 
-        public BrushModel(TilesetModel tilesetModel)
+        public BrushModel(int pixelWidth, int pixelHeight)
+            : base(pixelWidth, pixelHeight)
         {
-            this.TileWidth = (int)tilesetModel.TileWidth;
-            this.TileHeight = (int)tilesetModel.TileHeight;
+
+        }
+
+        public BrushModel(int columns, int rows, int tileWidth, int tileHeight)
+            : base(columns, rows, tileWidth, tileHeight)
+        {
+
+        }
+
+        public BrushModel(TilesetModel tileset)
+            :base(tileset.ColumnCount(), tileset.RowCount(), tileset.TileWidth, tileset.TileHeight)
+        {
+
         }
 
         #endregion constructor
@@ -42,22 +53,6 @@ namespace Ame.Infrastructure.Models
 
 
         #region methods
-
-        public int Rows
-        {
-            get
-            {
-                return (int)(this.Image.Rect.Height / this.TileHeight);
-            }
-        }
-
-        public int Columns
-        {
-            get
-            {
-                return (int)(this.Image.Rect.Width / this.TileWidth);
-            }
-        }
 
         #endregion
     }
