@@ -22,6 +22,10 @@ using Prism.Events;
 
 namespace Ame.Modules.Windows.Docks.ItemEditorDock
 {
+    // TODO fix application crash bug when closing docks with multiple tabs
+    // TODO add image loading
+    // TODO add tileset properties
+    // TODO keep drawing in the same location when expanding the advanced options
     public class ItemEditorViewModel : DockToolViewModelTemplate
     {
         #region fields
@@ -154,6 +158,8 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                 (zoomLevel) => this.ZoomIndex = this.scrollModel.SetZoom(zoomLevel));
             this.UpdateModelCommand = new DelegateCommand(
                 () => UpdateTilesetModel());
+            this.ChangeItemCommand = new DelegateCommand(
+                () => UpdateItemModel());
         }
 
         #endregion constructor
@@ -176,6 +182,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
         public ICommand ZoomOutCommand { get; private set; }
         public ICommand SetZoomCommand { get; private set; }
         public ICommand UpdateModelCommand { get; private set; }
+        public ICommand ChangeItemCommand { get; private set; }
 
         public AmeSession Session { get; set; }
 
@@ -470,25 +477,19 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                 string tileFilePath = openTilesetDilog.FileName;
                 if (File.Exists(tileFilePath))
                 {
-                    // TODO count nubmer of tileset models loaded
                     string tilesetName = string.Format("Tileset #{0}", this.Session.CurrentTilesetCount);
                     TilesetModel newTileset = new TilesetModel(tilesetName, tileFilePath);
                     this.Title = "Item - " + Path.GetFileNameWithoutExtension(tileFilePath);
-                    this.itemImage = CvInvoke.Imread(tileFilePath, Emgu.CV.CvEnum.ImreadModes.Unchanged);
+
+                    Mat matImage = CvInvoke.Imread(tileFilePath, Emgu.CV.CvEnum.ImreadModes.Unchanged);
                     this.itemTransform = new CoordinateTransform();
-                    newTileset.PixelWidth = this.itemImage.Width;
-                    newTileset.PixelHeight = this.itemImage.Height;
+                    newTileset.PixelWidth = matImage.Width;
+                    newTileset.PixelHeight = matImage.Height;
                     this.itemTransform.SetPixelToTile(newTileset.TileWidth, newTileset.TileHeight);
                     this.itemTransform.SetSlectionToPixel(newTileset.TileWidth / 2, newTileset.TileHeight / 2);
                     this.Session.CurrentTilesetList.Add(newTileset);
                     this.TilesetModel = newTileset;
-
-                    DrawingGroup newGroup = ImageUtils.MatToDrawingGroup(this.itemImage);
-                    this.TilesetModel.TilesetImage = newGroup;
-                    using (DrawingContext context = this.tilesetImage.Open())
-                    {
-                        context.DrawDrawing(newGroup);
-                    }
+                    
                     DrawBackground(this.BackgroundBrush, this.BackgroundPen);
                     DrawGrid();
                     RaisePropertyChanged(nameof(this.TileImage));
@@ -499,6 +500,27 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
         public void AddImage()
         {
             Console.WriteLine("Add Image");
+        }
+
+        public void UpdateItemModel()
+        {
+            ChangeItemModel(this.TilesetModel);
+        }
+
+        public void ChangeItemModel(TilesetModel tilesetModel)
+        {
+            if (!this.Session.CurrentTilesetList.Contains(tilesetModel))
+            {
+                this.Session.CurrentTilesetList.Add(tilesetModel);
+            }
+            this.TilesetModel = tilesetModel;
+            this.itemImage = CvInvoke.Imread(this.TilesetModel.SourcePath, Emgu.CV.CvEnum.ImreadModes.Unchanged);
+            DrawingGroup newGroup = ImageUtils.MatToDrawingGroup(this.itemImage);
+            this.TilesetModel.TilesetImage = newGroup;
+            using (DrawingContext context = this.tilesetImage.Open())
+            {
+                context.DrawDrawing(this.TilesetModel.TilesetImage);
+            }
         }
 
         private void ComputeSelectLinesFromPixels(Point pixelPoint1, Point pixelPoint2)

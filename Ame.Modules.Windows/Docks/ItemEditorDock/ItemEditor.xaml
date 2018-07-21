@@ -89,7 +89,14 @@
                       ItemsSource="{Binding Session.CurrentTilesetList}"
                       DisplayMemberPath="Name"
                       SelectedItem="{Binding TilesetModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                      IsEnabled="{Binding Session.CurrentTilesetList.Count, Converter={StaticResource CountToEnabledConverter}}">
+                      IsEnabled="{Binding Session.CurrentTilesetList.Count, Converter={StaticResource CountToEnabledConverter}}"
+                      Height="28"
+                      VerticalAlignment="Top">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding ChangeItemCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
             </ComboBox>
 
             <extcomp:IconToggleButton x:Name="itemAdvancedOptionsToggle"

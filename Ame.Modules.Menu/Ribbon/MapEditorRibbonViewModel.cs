@@ -13,6 +13,10 @@ using Prism.Mvvm;
 
 namespace Ame.Modules.Menu.Ribbon
 {
+    // TODO add the "Add Tileset" command
+    // TODO add the "Add Image" command
+    // TODO change zoom combobox to an icon
+    // TODO add the "Open Dock" command
     public class MapEditorRibbonViewModel : BindableBase
     {
         #region fields
