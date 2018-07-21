@@ -12,9 +12,6 @@ namespace Ame.Infrastructure.Models
     {
         #region fields
 
-        // TODO combine with tileset model
-        public ImageDrawing Image { get; set; }
-
         #endregion fields
 
 
@@ -39,7 +36,7 @@ namespace Ame.Infrastructure.Models
         }
 
         public BrushModel(TilesetModel tileset)
-            :base(tileset.ColumnCount(), tileset.RowCount(), tileset.TileWidth, tileset.TileHeight)
+            : base(tileset.ColumnCount(), tileset.RowCount(), tileset.TileWidth, tileset.TileHeight)
         {
 
         }
@@ -48,6 +45,8 @@ namespace Ame.Infrastructure.Models
 
 
         #region properties
+
+        public ImageDrawing Image { get; set; }
 
         #endregion properties
 

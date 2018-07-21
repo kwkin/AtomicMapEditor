@@ -470,21 +470,24 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                 string tileFilePath = openTilesetDilog.FileName;
                 if (File.Exists(tileFilePath))
                 {
-                    TilesetModel newTilesetModel = new TilesetModel();
-                    newTilesetModel.SourcePath = tileFilePath;
+                    // TODO count nubmer of tileset models loaded
+                    string tilesetName = string.Format("Tileset #{0}", this.Session.CurrentTilesetCount);
+                    TilesetModel newTileset = new TilesetModel(tilesetName, tileFilePath);
                     this.Title = "Item - " + Path.GetFileNameWithoutExtension(tileFilePath);
                     this.itemImage = CvInvoke.Imread(tileFilePath, Emgu.CV.CvEnum.ImreadModes.Unchanged);
                     this.itemTransform = new CoordinateTransform();
-                    newTilesetModel.PixelWidth = this.itemImage.Width;
-                    newTilesetModel.PixelHeight = this.itemImage.Height;
-                    this.itemTransform.SetPixelToTile(newTilesetModel.TileWidth, newTilesetModel.TileHeight);
-                    this.itemTransform.SetSlectionToPixel(newTilesetModel.TileWidth / 2, newTilesetModel.TileHeight / 2);
-                    this.Session.CurrentTilesetList.Add(newTilesetModel);
-                    this.TilesetModel = newTilesetModel;
+                    newTileset.PixelWidth = this.itemImage.Width;
+                    newTileset.PixelHeight = this.itemImage.Height;
+                    this.itemTransform.SetPixelToTile(newTileset.TileWidth, newTileset.TileHeight);
+                    this.itemTransform.SetSlectionToPixel(newTileset.TileWidth / 2, newTileset.TileHeight / 2);
+                    this.Session.CurrentTilesetList.Add(newTileset);
+                    this.TilesetModel = newTileset;
 
+                    DrawingGroup newGroup = ImageUtils.MatToDrawingGroup(this.itemImage);
+                    this.TilesetModel.TilesetImage = newGroup;
                     using (DrawingContext context = this.tilesetImage.Open())
                     {
-                        context.DrawDrawing(ImageUtils.MatToDrawingGroup(this.itemImage));
+                        context.DrawDrawing(newGroup);
                     }
                     DrawBackground(this.BackgroundBrush, this.BackgroundPen);
                     DrawGrid();

@@ -10,6 +10,7 @@ using Ame.Infrastructure.BaseTypes;
 
 namespace Ame.Infrastructure.Models
 {
+    // TODO cleanup
     public class AmeSession : INotifyPropertyChanged
     {
         #region fields
@@ -83,6 +84,14 @@ namespace Ame.Infrastructure.Models
             }
         }
 
+        public int CurrentLayerCount
+        {
+            get
+            {
+                return this.CurrentLayerList.Count;
+            }
+        }
+
         private ILayer currentLayer;
         public ILayer CurrentLayer
         {
@@ -108,6 +117,14 @@ namespace Ame.Infrastructure.Models
             {
                 this.currentTilesetList = value;
                 NotifyPropertyChanged();
+            }
+        }
+
+        public int CurrentTilesetCount
+        {
+            get
+            {
+                return this.CurrentTilesetList.Count;
             }
         }
 

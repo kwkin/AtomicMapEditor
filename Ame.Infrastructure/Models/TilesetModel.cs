@@ -24,6 +24,7 @@ namespace Ame.Infrastructure.Models
             this.TileWidth = 32;
             this.TileHeight = 32;
             this.IsTransparent = false;
+            this.TilesetImage = new DrawingGroup();
             this.TransparentColor = Colors.Transparent;
         }
 
@@ -34,6 +35,18 @@ namespace Ame.Infrastructure.Models
             this.TileWidth = 32;
             this.TileHeight = 32;
             this.IsTransparent = false;
+            this.TilesetImage = new DrawingGroup();
+            this.TransparentColor = Colors.Transparent;
+        }
+
+        public TilesetModel(string name, string sourcePath)
+        {
+            this.Name = name;
+            this.SourcePath = sourcePath;
+            this.TileWidth = 32;
+            this.TileHeight = 32;
+            this.IsTransparent = false;
+            this.TilesetImage = new DrawingGroup();
             this.TransparentColor = Colors.Transparent;
         }
 
@@ -45,9 +58,9 @@ namespace Ame.Infrastructure.Models
         // TODO look into changing the structure of IItems
         // TODO Instead of a tree, just have the list. Declare a property indicating the group
         public string Name { get; set; }
-
         public string SourcePath { get; set; }
-        
+
+        public DrawingGroup TilesetImage;
         public bool IsTransparent { get; set; }
         public Color TransparentColor { get; set; }
         public ObservableCollection<IItem> Items { get; set; }
@@ -56,6 +69,11 @@ namespace Ame.Infrastructure.Models
 
 
         #region methods
+
+        public DrawingContext Open()
+        {
+            return this.TilesetImage.Open();
+        }
 
         #endregion methods
     }
