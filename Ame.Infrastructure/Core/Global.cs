@@ -10,6 +10,7 @@ namespace Ame.Infrastructure.Core
     {
         public static readonly string applicationName = "AtomicMapEditor";
 
+        public static readonly double maxGridThickness = 0.5;
         public static readonly long defaultUpdatePositionLabelDelay = 30;
         public static readonly long defaultDrawSelectLineDelay = 100;
     }

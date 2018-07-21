@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Shapes;
 using System.Windows.Threading;
 using Ame.Components.Behaviors;
 using Ame.Infrastructure.BaseTypes;
@@ -237,13 +238,11 @@ namespace Ame.Modules.MapEditor.Editor
             this.IsGridOn = drawGrid;
             if (this.IsGridOn)
             {
-                // TODO combine gridModel with map
                 PaddedGridRenderable gridParameters = new PaddedGridRenderable(this.Map.Grid);
-                gridParameters.DrawingPen.Thickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
-                using (DrawingContext context = this.gridLines.Open())
-                {
-                    context.DrawDrawing(gridParameters.CreateGrid());
-                }
+                double thickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
+                gridParameters.DrawingPen.Thickness = thickness < Global.maxGridThickness ? thickness : Global.maxGridThickness;
+                DrawingGroup group = gridParameters.CreateGrid();
+                this.gridLines.Children = group.Children;
             }
             else
             {

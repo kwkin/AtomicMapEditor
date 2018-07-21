@@ -414,11 +414,10 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             if (this.IsGridOn)
             {
                 PaddedGridRenderable gridParameters = new PaddedGridRenderable(this.TilesetModel.GridModel);
-                gridParameters.DrawingPen.Thickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
-                using (DrawingContext context = this.gridLines.Open())
-                {
-                    context.DrawDrawing(gridParameters.CreateGrid());
-                }
+                double thickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
+                gridParameters.DrawingPen.Thickness = thickness < Global.maxGridThickness ? thickness : Global.maxGridThickness;
+                DrawingGroup group = gridParameters.CreateGrid();
+                this.gridLines.Children = group.Children;
             }
             else
             {

@@ -29,7 +29,7 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
         private DrawingGroup drawingGroup;
         private DrawingGroup selectedBrushImage;
         private DrawingGroup gridLines;
-        private PaddedGridRenderable gridModel;
+        private GridModel gridModel;
 
         private long updatePositionLabelDelay = Global.defaultUpdatePositionLabelDelay;
         private Stopwatch updatePositionLabelStopWatch;
@@ -151,11 +151,11 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
             this.IsGridOn = drawGrid;
             if (this.IsGridOn)
             {
-                this.gridModel.DrawingPen.Thickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
-                using (DrawingContext context = this.gridLines.Open())
-                {
-                    context.DrawDrawing(this.gridModel.CreateGrid());
-                }
+                PaddedGridRenderable gridParameters = new PaddedGridRenderable(this.gridModel);
+                double thickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
+                gridParameters.DrawingPen.Thickness = thickness < Global.maxGridThickness ? thickness : Global.maxGridThickness;
+                DrawingGroup group = gridParameters.CreateGrid();
+                this.gridLines.Children = group.Children;
             }
             else
             {
