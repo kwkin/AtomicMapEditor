@@ -45,14 +45,25 @@ namespace Ame.Modules.Windows.Interactions.LayerPropertiesInteraction
 
         public void RaiseNotification(DependencyObject parent)
         {
-            RaiseNotification(parent, this.callback);
+            string title = string.Format("Edit Layer - {0}", layer.LayerName);
+            RaiseNotification(parent, this.callback, title);
         }
 
         public void RaiseNotification(DependencyObject parent, Action<INotification> callback)
         {
-            Confirmation confirmation = new Confirmation();
+            string title = string.Format("Edit Layer - {0}", layer.LayerName);
+            RaiseNotification(parent, callback, title);
+        }
 
-            confirmation.Title = string.Format("Edit Layer - {0}", layer.LayerName);
+        public void RaiseNotification(DependencyObject parent, string title)
+        {
+            RaiseNotification(parent, this.callback, title);
+        }
+
+        public void RaiseNotification(DependencyObject parent, Action<INotification> callback, string title)
+        {
+            Confirmation confirmation = new Confirmation();
+            confirmation.Title = title;
             confirmation.Content = layer;
 
             InteractionRequestTrigger trigger = new InteractionRequestTrigger();

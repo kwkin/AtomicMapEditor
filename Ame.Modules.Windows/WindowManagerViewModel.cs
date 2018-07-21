@@ -88,7 +88,7 @@ namespace Ame.Modules.Windows
                 new EditMapInteractionCreator(this.session, OnEditMapWindowClosed),
                 new NewLayerInteractionCreator(this.session, this.eventAggregator, OnNewLayerWindowClosed),
                 new EditLayerInteractionCreator(this.session),
-                new EditTilesetInteractionCreator(this.eventAggregator),
+                new EditTilesetInteractionCreator(this.session, this.eventAggregator),
                 new PreferenceOptionsInteractionCreator(this.eventAggregator)
             };
             this.windowInteractionCreator = new WindowInteractionCreator(windowInteractionCreators);
@@ -264,6 +264,7 @@ namespace Ame.Modules.Windows
         private void OpenWindow(OpenWindowMessage message)
         {
             IWindowInteraction interaction = null;
+            string title = message.Title;
             object content = message.Content;
             if (content != null)
             {
@@ -272,7 +273,14 @@ namespace Ame.Modules.Windows
             interaction = this.windowInteractionCreator.CreateWindowInteraction(message.Type);
             if (interaction != null)
             {
-                interaction.RaiseNotification(this.WindowManager);
+                if (!string.IsNullOrEmpty(title))
+                {
+                    interaction.RaiseNotification(this.WindowManager, title);
+                }
+                else
+                {
+                    interaction.RaiseNotification(this.WindowManager);
+                }
             }
         }
 

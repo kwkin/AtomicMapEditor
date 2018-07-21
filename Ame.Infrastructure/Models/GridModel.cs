@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ame.Infrastructure.Attributes;
 
 namespace Ame.Infrastructure.Models
 {
@@ -37,10 +38,18 @@ namespace Ame.Infrastructure.Models
 
         #region properties
 
+        [MetadataProperty(MetadataType.Property, "Width")]
         public int PixelWidth { get; set; } = 1;
+
+        [MetadataProperty(MetadataType.Property, "Height")]
         public int PixelHeight { get; set; } = 1;
+
+        [MetadataProperty(MetadataType.Property, "Tile Width")]
         public int TileWidth { get; set; } = 1;
+
+        [MetadataProperty(MetadataType.Property, "Tile Height")]
         public int TileHeight { get; set; } = 1;
+
         public ScaleType Scale { get; set; } = ScaleType.Tile;
 
         #endregion properties

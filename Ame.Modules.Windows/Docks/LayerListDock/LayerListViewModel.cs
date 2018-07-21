@@ -160,7 +160,6 @@ namespace Ame.Modules.Windows.Docks.LayerListDock
             }
             OpenWindowMessage openWindowMessage = new OpenWindowMessage(typeof(EditLayerInteraction));
             openWindowMessage.Title = string.Format("Edit Layer - {0}", this.Session.CurrentLayer.LayerName);
-            
             openWindowMessage.Content = this.Session.CurrentLayer;
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(openWindowMessage);
         }

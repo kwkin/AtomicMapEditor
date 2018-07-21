@@ -45,13 +45,13 @@
         </WrapPanel>
 
         <DataGrid Grid.Row="1"
-                    ItemsSource="{Binding LayerMetadata, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedItem="{Binding SelectedMetadata}"
-                    SelectionUnit="FullRow"
-                    AutoGenerateColumns="False"
-                    ScrollViewer.VerticalScrollBarVisibility="Visible"
-                    ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                    Width="{Binding Path=Width, ElementName=propertiesGrid}">
+                  ItemsSource="{Binding TilesetMetadata, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding SelectedMetadata}"
+                  SelectionUnit="FullRow"
+                  AutoGenerateColumns="False"
+                  ScrollViewer.VerticalScrollBarVisibility="Visible"
+                  ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                  Width="{Binding Path=Width, ElementName=propertiesGrid}">
             <i:Interaction.Behaviors>
                 <Behaviors:DataGridRowReadOnlyBehavior />
             </i:Interaction.Behaviors>
@@ -60,7 +60,7 @@
                 <Style TargetType="{x:Type DataGridRow}">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsReadOnly}"
-                                        Value="True">
+                                     Value="True">
                             <Setter Property="Behaviors:ReadOnlyService.IsReadOnly"
                                     Value="True" />
                         </DataTrigger>
@@ -76,7 +76,7 @@
                                 <Setter.Value>
                                     <ControlTemplate TargetType="{x:Type GroupItem}">
                                         <Expander IsExpanded="True"
-                                                    Header="{Binding Path=Name}">
+                                                  Header="{Binding Path=Name}">
                                             <ItemsPresenter />
                                         </Expander>
                                     </ControlTemplate>

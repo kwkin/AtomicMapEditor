@@ -45,14 +45,26 @@ namespace Ame.Modules.Windows.Interactions.MapPropertiesInteraction
 
         public void RaiseNotification(DependencyObject parent)
         {
-            RaiseNotification(parent, this.callback);
+            string title = string.Format("Edit Map - {0}", this.session.CurrentMap.Name);
+            RaiseNotification(parent, this.callback, title);
         }
 
         public void RaiseNotification(DependencyObject parent, Action<INotification> callback)
         {
+            string title = string.Format("Edit Map - {0}", this.session.CurrentMap.Name);
+            RaiseNotification(parent, callback, title);
+        }
+
+        public void RaiseNotification(DependencyObject parent, string title)
+        {
+            RaiseNotification(parent, this.callback, title);
+        }
+
+        public void RaiseNotification(DependencyObject parent, Action<INotification> callback, string title)
+        {
             Confirmation mapConfirmation = new Confirmation();
             mapConfirmation.Content = this.session.CurrentMap;
-            mapConfirmation.Title = string.Format("Edit Map - {0}", this.session.CurrentMap.Name);
+            mapConfirmation.Title = title;
 
             InteractionRequestTrigger trigger = new InteractionRequestTrigger();
             trigger.SourceObject = this.interaction;

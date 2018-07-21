@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Models;
 using Prism.Events;
 using Prism.Interactivity;
 using Prism.Interactivity.InteractionRequest;
@@ -11,6 +12,7 @@ namespace Ame.Modules.Windows.Interactions.TilesetEditorInteraction
     {
         #region fields
 
+        private TilesetModel tilesetModel;
         private IEventAggregator eventAggregator;
         private InteractionRequest<INotification> interaction;
         private Action<INotification> callback;
@@ -20,14 +22,31 @@ namespace Ame.Modules.Windows.Interactions.TilesetEditorInteraction
 
         #region Constructor
 
-        public EditTilesetInteraction(IEventAggregator eventAggregator)
+        public EditTilesetInteraction(TilesetModel tilesetModel, IEventAggregator eventAggregator)
         {
+            this.tilesetModel = tilesetModel;
             this.eventAggregator = eventAggregator;
             this.interaction = new InteractionRequest<INotification>();
         }
 
-        public EditTilesetInteraction(IEventAggregator eventAggregator, Action<INotification> callback)
+        public EditTilesetInteraction(AmeSession session, IEventAggregator eventAggregator)
         {
+            this.tilesetModel = session.CurrentTileset;
+            this.eventAggregator = eventAggregator;
+            this.interaction = new InteractionRequest<INotification>();
+        }
+
+        public EditTilesetInteraction(TilesetModel tilesetModel, IEventAggregator eventAggregator, Action<INotification> callback)
+        {
+            this.tilesetModel = tilesetModel;
+            this.eventAggregator = eventAggregator;
+            this.interaction = new InteractionRequest<INotification>();
+            this.callback = callback;
+        }
+
+        public EditTilesetInteraction(AmeSession session, IEventAggregator eventAggregator, Action<INotification> callback)
+        {
+            this.tilesetModel = session.CurrentTileset;
             this.eventAggregator = eventAggregator;
             this.interaction = new InteractionRequest<INotification>();
             this.callback = callback;
@@ -45,13 +64,26 @@ namespace Ame.Modules.Windows.Interactions.TilesetEditorInteraction
 
         public void RaiseNotification(DependencyObject parent)
         {
-            RaiseNotification(parent, this.callback);
+            string title = string.Format("Tileset Properties - {0}", this.tilesetModel.Name);
+            RaiseNotification(parent, this.callback, title);
         }
 
         public void RaiseNotification(DependencyObject parent, Action<INotification> callback)
         {
+            string title = string.Format("Tileset Properties - {0}", this.tilesetModel.Name);
+            RaiseNotification(parent, callback, title);
+        }
+
+        public void RaiseNotification(DependencyObject parent, string title)
+        {
+            RaiseNotification(parent, this.callback, title);
+        }
+
+        public void RaiseNotification(DependencyObject parent, Action<INotification> callback, string title)
+        {
             Confirmation mapConfirmation = new Confirmation();
-            mapConfirmation.Title = "Tileset";
+            mapConfirmation.Title = title;
+            mapConfirmation.Content = this.tilesetModel;
 
             InteractionRequestTrigger trigger = new InteractionRequestTrigger();
             trigger.SourceObject = this.interaction;

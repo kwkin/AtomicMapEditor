@@ -22,15 +22,16 @@ using Prism.Events;
 
 namespace Ame.Modules.Windows.Docks.ItemEditorDock
 {
-    // TODO fix application crash bug when closing docks with multiple tabs
+    // TODO fix application crash when closing docks with multiple tabs
     // TODO add image loading
     // TODO add tileset properties
     // TODO keep drawing in the same location when expanding the advanced options
+    // TODO disable properties property when no tileset is selected
+    // TODO fix the broken garbage for creating interactions
     public class ItemEditorViewModel : DockToolViewModelTemplate
     {
         #region fields
 
-        private Mat itemImage;
         private IEventAggregator eventAggregator;
         private IScrollModel scrollModel;
 
@@ -209,6 +210,19 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             }
         }
 
+        private Mat itemImage;
+        public Mat ItemImage
+        {
+            get
+            {
+                return this.itemImage;
+            }
+            set
+            {
+                SetProperty(ref this.itemImage, value);
+            }
+        }
+
         public bool IsSelectingTransparency
         {
             get
@@ -243,7 +257,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                 {
                     if (!string.IsNullOrEmpty(this.tilesetModel.SourcePath))
                     {
-                        this.itemImage = CvInvoke.Imread(this.tilesetModel.SourcePath, Emgu.CV.CvEnum.ImreadModes.Unchanged);
+                        this.ItemImage = CvInvoke.Imread(this.tilesetModel.SourcePath, Emgu.CV.CvEnum.ImreadModes.Unchanged);
                     }
                 }
             }
@@ -338,7 +352,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             this.isMouseDown = true;
             GeneralTransform selectToPixel = GeometryUtils.CreateTransform(this.itemTransform.pixelToSelect.Inverse);
             selectPoint = selectToPixel.Transform(selectPoint);
-            if (!ImageUtils.Intersects(this.itemImage, selectPoint))
+            if (!ImageUtils.Intersects(this.ItemImage, selectPoint))
             {
                 return;
             }
@@ -364,7 +378,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             }
             if (this.isSelecting
                 && this.selectLineStopWatch.ElapsedMilliseconds > this.drawSelectLineDelay
-                && ImageUtils.Intersects(this.itemImage, pixelPoint))
+                && ImageUtils.Intersects(this.ItemImage, pixelPoint))
             {
                 this.ComputeSelectLinesFromPixels(this.lastSelectPoint, pixelPoint);
             }
@@ -372,8 +386,8 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
         public void SelectTiles(Point pixelPoint1, Point pixelPoint2)
         {
-            if (!ImageUtils.Intersects(this.itemImage, pixelPoint1) 
-                || !ImageUtils.Intersects(this.itemImage, pixelPoint2))
+            if (!ImageUtils.Intersects(this.ItemImage, pixelPoint1) 
+                || !ImageUtils.Intersects(this.ItemImage, pixelPoint2))
             {
                 return;
             }
@@ -387,7 +401,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
             this.DrawSelectLinesFromPixels(topLeftPixel, pixelSize);
             BrushModel brushModel = new BrushModel(this.tilesetModel);
-            Mat croppedImage = BrushUtils.CropImage(this.itemImage, topLeftPixel, pixelSize);
+            Mat croppedImage = BrushUtils.CropImage(this.ItemImage, topLeftPixel, pixelSize);
 
             if (this.IsTransparent)
             {
@@ -400,12 +414,12 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
         public void SelectTransparency(Point pixelPoint)
         {
-            if (!ImageUtils.Intersects(this.itemImage, pixelPoint))
+            if (!ImageUtils.Intersects(this.ItemImage, pixelPoint))
             {
                 return;
             }
             PickTransparentColor(pixelPoint);
-            Mat transparentImage = ImageUtils.ColorToTransparent(this.itemImage, this.TransparentColor);
+            Mat transparentImage = ImageUtils.ColorToTransparent(this.ItemImage, this.TransparentColor);
             using (DrawingContext context = this.tilesetImage.Open())
             {
                 context.DrawDrawing(ImageUtils.MatToImageDrawing(transparentImage));
@@ -514,8 +528,9 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                 this.Session.CurrentTilesetList.Add(tilesetModel);
             }
             this.TilesetModel = tilesetModel;
-            this.itemImage = CvInvoke.Imread(this.TilesetModel.SourcePath, Emgu.CV.CvEnum.ImreadModes.Unchanged);
-            DrawingGroup newGroup = ImageUtils.MatToDrawingGroup(this.itemImage);
+            this.Session.CurrentTileset = this.TilesetModel;
+            this.ItemImage = CvInvoke.Imread(this.TilesetModel.SourcePath, Emgu.CV.CvEnum.ImreadModes.Unchanged);
+            DrawingGroup newGroup = ImageUtils.MatToDrawingGroup(this.ItemImage);
             this.TilesetModel.TilesetImage = newGroup;
             using (DrawingContext context = this.tilesetImage.Open())
             {
@@ -595,7 +610,13 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
         private void ViewProperties()
         {
+            if (this.Session.CurrentTilesetCount == 0)
+            {
+                return;
+            }
             OpenWindowMessage window = new OpenWindowMessage(typeof(EditTilesetInteraction));
+            window.Title = string.Format("Tileset Properties - {0}", this.TilesetModel.Name);
+            window.Content = this.TilesetModel;
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(window);
         }
 
@@ -635,7 +656,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
         private void PickTransparentColor(Point pixelPoint)
         {
-            byte[] colorsBGR = this.itemImage.GetData((int)pixelPoint.Y, (int)pixelPoint.X);
+            byte[] colorsBGR = this.ItemImage.GetData((int)pixelPoint.Y, (int)pixelPoint.X);
             this.TransparentColor = Color.FromRgb(colorsBGR[2], colorsBGR[1], colorsBGR[0]);
             RaisePropertyChanged(nameof(this.TransparentColor));
         }

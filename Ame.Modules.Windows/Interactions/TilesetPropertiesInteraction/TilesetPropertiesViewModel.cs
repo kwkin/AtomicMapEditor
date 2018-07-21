@@ -2,9 +2,11 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Data;
 using System.Windows.Input;
 using Ame.Infrastructure.Attributes;
 using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Models;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
@@ -12,6 +14,7 @@ using Prism.Mvvm;
 
 namespace Ame.Modules.Windows.Interactions.TilesetEditorInteraction
 {
+    // TODO create model class for handeling metadata
     public class TilesetPropertiesViewModel : BindableBase, IInteractionRequestAware
     {
         #region fields
@@ -56,12 +59,16 @@ namespace Ame.Modules.Windows.Interactions.TilesetEditorInteraction
             set
             {
                 this.notification = value as IConfirmation;
+                this.TilesetModel = this.notification.Content as TilesetModel;
+                UpdateMetadata();
                 RaisePropertyChanged(nameof(this.Notification));
             }
         }
 
+        private TilesetModel TilesetModel { get; set; }
+
         public ICollectionView GroupedProperties { get; set; }
-        public ICollectionView MapMetadata { get; set; }
+        public ICollectionView TilesetMetadata { get; set; }
         public ObservableCollection<MetadataProperty> MetadataList { get; set; }
 
         public MetadataProperty selectedMetadata;
@@ -109,10 +116,9 @@ namespace Ame.Modules.Windows.Interactions.TilesetEditorInteraction
 
         private void UpdateMetadata()
         {
-            //this.MetadataList = MetadataPropertyUtils.GetPropertyList(this.Map);
-            //this.MetadataList.Add(new MetadataProperty("Layer Count", this.Map.LayerList.Count, MetadataType.Statistic));
-            //this.MapMetadata = new ListCollectionView(this.MetadataList);
-            //this.MapMetadata.GroupDescriptions.Add(new PropertyGroupDescription("Type"));
+            this.MetadataList = MetadataPropertyUtils.GetPropertyList(this.TilesetModel);
+            this.TilesetMetadata = new ListCollectionView(this.MetadataList);
+            this.TilesetMetadata.GroupDescriptions.Add(new PropertyGroupDescription("Type"));
         }
 
         private void AddCustomProperty()
@@ -132,8 +138,8 @@ namespace Ame.Modules.Windows.Interactions.TilesetEditorInteraction
         
         private void MoveMetadataUp()
         {
-            int currentIndex = this.MapMetadata.CurrentPosition;
-            MetadataProperty currentItem = this.MapMetadata.CurrentItem as MetadataProperty;
+            int currentIndex = this.TilesetMetadata.CurrentPosition;
+            MetadataProperty currentItem = this.TilesetMetadata.CurrentItem as MetadataProperty;
             MetadataType currentItemType = currentItem.Type;
 
             int propertyIndex = 0;
@@ -160,14 +166,14 @@ namespace Ame.Modules.Windows.Interactions.TilesetEditorInteraction
             if (currentIndex > lowestIndex)
             {
                 this.MetadataList.Move(currentIndex, currentIndex - 1);
-                this.MapMetadata.Refresh();
+                this.TilesetMetadata.Refresh();
             }
         }
 
         private void MoveMetadataDown()
         {
-            int currentIndex = this.MapMetadata.CurrentPosition;
-            MetadataProperty currentItem = this.MapMetadata.CurrentItem as MetadataProperty;
+            int currentIndex = this.TilesetMetadata.CurrentPosition;
+            MetadataProperty currentItem = this.TilesetMetadata.CurrentItem as MetadataProperty;
             MetadataType currentItemType = currentItem.Type;
 
             int propertyIndex = 0;
@@ -194,7 +200,7 @@ namespace Ame.Modules.Windows.Interactions.TilesetEditorInteraction
             if (currentIndex < highestIndex)
             {
                 this.MetadataList.Move(currentIndex, currentIndex + 1);
-                this.MapMetadata.Refresh();
+                this.TilesetMetadata.Refresh();
             }
         }
 

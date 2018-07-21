@@ -24,7 +24,9 @@
                                               Collapse="True" />
             <conv:IntegerToBooleanConverter x:Key="CountToEnabledConverter" 
                                             ComparisonValue="0"
-                                            IsInversed="True"/>
+                                            IsInversed="True" />
+            <conv:NullToBooleanConverter x:Key="NullToBooleanConverter"
+                                         IsInversed="True" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -66,6 +68,7 @@
             <extcomp:IconButton x:Name="editCollisionsButton"
                                 Grid.Column="2"
                                 ToolTip="Open the item in the collision editor"
+                                IsEnabled="{Binding ItemImage, Converter={StaticResource NullToBooleanConverter}}"
                                 Command="{Binding EditCollisionsCommand}"
                                 ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_collisions_black_24dp.png">
             </extcomp:IconButton>
@@ -73,6 +76,7 @@
             <extcomp:IconButton x:Name="cropButton"
                                 Grid.Column="3"
                                 ToolTip="Open the item in the crop editor"
+                                IsEnabled="{Binding ItemImage, Converter={StaticResource NullToBooleanConverter}}"
                                 Command="{Binding CropCommand}"
                                 ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_crop_black_24dp.png">
             </extcomp:IconButton>
@@ -80,6 +84,7 @@
             <extcomp:IconButton x:Name="viewPropertiesButton"
                                 Grid.Column="4"
                                 ToolTip="View the item's properties"
+                                IsEnabled="{Binding Session.CurrentTilesetList.Count, Converter={StaticResource CountToEnabledConverter}}"
                                 Command="{Binding ViewPropertiesCommand}"
                                 ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_eye_black_24dp.png">
             </extcomp:IconButton>

@@ -50,13 +50,24 @@ namespace Ame.Modules.Windows.Interactions.LayerPropertiesInteraction
 
         public void RaiseNotification(DependencyObject parent)
         {
-            RaiseNotification(parent, this.callback);
+            string title = string.Format("New Layer - {0}", layer.LayerName);
+            RaiseNotification(parent, this.callback, title);
         }
 
         public void RaiseNotification(DependencyObject parent, Action<INotification> callback)
         {
-            Confirmation layerWindowConfirmation = new Confirmation();
+            string title = string.Format("New Layer - {0}", layer.LayerName);
+            RaiseNotification(parent, callback, title);
+        }
 
+        public void RaiseNotification(DependencyObject parent, string title)
+        {
+            RaiseNotification(parent, this.callback, title);
+        }
+
+        public void RaiseNotification(DependencyObject parent, Action<INotification> callback, string title)
+        {
+            Confirmation layerWindowConfirmation = new Confirmation();
             layerWindowConfirmation.Title = string.Format("New Layer - {0}", layer.LayerName);
             layerWindowConfirmation.Content = layer;
 

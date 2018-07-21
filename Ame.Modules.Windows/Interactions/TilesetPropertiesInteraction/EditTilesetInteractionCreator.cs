@@ -1,5 +1,6 @@
 ﻿using System;
 using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Models;
 using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
 
@@ -8,7 +9,7 @@ namespace Ame.Modules.Windows.Interactions.TilesetEditorInteraction
     public class EditTilesetInteractionCreator : WindowInteractionCreatorTemplate
     {
         #region fields
-
+        
         private IEventAggregator eventAggregator;
 
         #endregion fields
@@ -16,21 +17,31 @@ namespace Ame.Modules.Windows.Interactions.TilesetEditorInteraction
 
         #region constructors
 
-        public EditTilesetInteractionCreator(IEventAggregator eventAggregator)
+        public EditTilesetInteractionCreator(AmeSession session, IEventAggregator eventAggregator)
         {
+            if (session == null)
+            {
+                throw new ArgumentNullException("session is null");
+            }
             if (eventAggregator == null)
             {
                 throw new ArgumentNullException("eventAggregator is null");
             }
+            this.Session = session;
             this.eventAggregator = eventAggregator;
         }
 
-        public EditTilesetInteractionCreator(IEventAggregator eventAggregator, Action<INotification> callback)
+        public EditTilesetInteractionCreator(AmeSession session, IEventAggregator eventAggregator, Action<INotification> callback)
         {
+            if (session == null)
+            {
+                throw new ArgumentNullException("session is null");
+            }
             if (eventAggregator == null)
             {
                 throw new ArgumentNullException("eventAggregator is null");
             }
+            this.Session = session;
             this.eventAggregator = eventAggregator;
             this.Callback = callback;
         }
@@ -40,6 +51,8 @@ namespace Ame.Modules.Windows.Interactions.TilesetEditorInteraction
 
         #region properties
 
+        public AmeSession Session { get; set; }
+        public TilesetModel TilesetModel { get; set; }
         public Action<INotification> Callback { get; set; }
 
         #endregion properties
@@ -47,14 +60,33 @@ namespace Ame.Modules.Windows.Interactions.TilesetEditorInteraction
 
         #region methods
 
+        // TODO combine this method with the one below
         public override IWindowInteraction CreateWindowInteraction()
         {
-            return new EditTilesetInteraction(this.eventAggregator, this.Callback);
+            IWindowInteraction interaction;
+            if (this.TilesetModel != null)
+            {
+                interaction = new EditTilesetInteraction(this.TilesetModel, this.eventAggregator, this.Callback);
+            }
+            else
+            {
+                interaction = new EditTilesetInteraction(this.Session, this.eventAggregator, this.Callback);
+            }
+            return interaction;
         }
 
         public override IWindowInteraction CreateWindowInteraction(Action<INotification> callback)
         {
-            return new EditTilesetInteraction(this.eventAggregator, callback);
+            IWindowInteraction interaction;
+            if (this.TilesetModel != null)
+            {
+                interaction = new EditTilesetInteraction(this.TilesetModel, this.eventAggregator, callback);
+            }
+            else
+            {
+                interaction = new EditTilesetInteraction(this.Session, this.eventAggregator, Callback);
+            }
+            return interaction;
         }
 
         public override bool AppliesTo(Type type)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ame.Infrastructure.Attributes;
 
 namespace Ame.Infrastructure.Models
 {
@@ -49,9 +50,16 @@ namespace Ame.Infrastructure.Models
 
         #region properties
 
+        [MetadataProperty(MetadataType.Property, "Offset X")]
         public int OffsetX { get; set; } = 0;
+
+        [MetadataProperty(MetadataType.Property, "Offset Y")]
         public int OffsetY { get; set; } = 0;
+
+        [MetadataProperty(MetadataType.Property, "Padding X")]
         public int PaddingX { get; set; } = 0;
+
+        [MetadataProperty(MetadataType.Property, "Padding Y")]
         public int PaddingY { get; set; } = 0;
 
         #endregion properties

@@ -12,7 +12,8 @@
              mc:Ignorable="d">
     <UserControl.Resources>
         <conv:DoubleToZoomLevelConverter x:Key="DoubleToZoomLevelConverter" />
-        <conv:NullToBooleanConverter x:Key="NullToBooleanConverter" />
+        <conv:NullToBooleanConverter x:Key="NullToBooleanConverter"
+                                     IsInversed="True" />
     </UserControl.Resources>
 
     <Grid>

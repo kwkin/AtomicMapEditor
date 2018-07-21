@@ -45,13 +45,25 @@ namespace Ame.Modules.Windows.Interactions.PreferencesInteraction
 
         public void RaiseNotification(DependencyObject parent)
         {
-            RaiseNotification(parent, this.callback);
+            string title = "Preferences";
+            RaiseNotification(parent, this.callback, title);
         }
 
         public void RaiseNotification(DependencyObject parent, Action<INotification> callback)
         {
+            string title = "Preferences";
+            RaiseNotification(parent, callback, title);
+        }
+
+        public void RaiseNotification(DependencyObject parent, string title)
+        {
+            RaiseNotification(parent, this.callback, title);
+        }
+
+        public void RaiseNotification(DependencyObject parent, Action<INotification> callback, string title)
+        {
             Confirmation confirmation = new Confirmation();
-            confirmation.Title = "Preferences";
+            confirmation.Title = title;
 
             InteractionRequestTrigger trigger = new InteractionRequestTrigger();
             trigger.SourceObject = this.interaction;

@@ -24,7 +24,9 @@ namespace Ame.Infrastructure.Converters
 
 
         #region properties
-        
+
+        public bool IsInversed { get; set; }
+
         #endregion properties
 
 
@@ -32,7 +34,8 @@ namespace Ame.Infrastructure.Converters
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            return value == null ? false : true;
+            bool isNull = value == null ? true : false;
+            return isNull ^ IsInversed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

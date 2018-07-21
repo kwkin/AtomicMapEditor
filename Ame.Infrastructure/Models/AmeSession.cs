@@ -120,6 +120,20 @@ namespace Ame.Infrastructure.Models
             }
         }
 
+        private TilesetModel currentTileset;
+        public TilesetModel CurrentTileset
+        {
+            get
+            {
+                return this.currentTileset;
+            }
+            set
+            {
+                this.currentTileset = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         public int CurrentTilesetCount
         {
             get

@@ -18,10 +18,14 @@ namespace Ame.Infrastructure.BaseTypes
         #region methods
 
         // Calls the default notification
-        void RaiseNotification(DependencyObject test);
+        void RaiseNotification(DependencyObject parent);
 
-        void RaiseNotification(DependencyObject test, Action<INotification> callback);
-        
+        void RaiseNotification(DependencyObject parent, Action<INotification> callback);
+
+        void RaiseNotification(DependencyObject parent, string title);
+
+        void RaiseNotification(DependencyObject parent, Action<INotification> callback, string title);
+
         #endregion methods
     }
 }

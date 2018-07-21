@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using Ame.Infrastructure.Attributes;
 
 namespace Ame.Infrastructure.Models
 {
@@ -57,14 +58,17 @@ namespace Ame.Infrastructure.Models
 
         // TODO look into changing the structure of IItems
         // TODO Instead of a tree, just have the list. Declare a property indicating the group
+        [MetadataProperty(MetadataType.Property, "Name")]
         public string Name { get; set; }
+
+        [MetadataProperty(MetadataType.Property, "Source Path")]
         public string SourcePath { get; set; }
 
         public DrawingGroup TilesetImage;
         public bool IsTransparent { get; set; }
         public Color TransparentColor { get; set; }
         public ObservableCollection<IItem> Items { get; set; }
-        
+                        
         #endregion properties
 
 
