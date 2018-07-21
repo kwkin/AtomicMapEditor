@@ -15,7 +15,7 @@ namespace Ame.Infrastructure.Utils
 {
     public static class ImageUtils
     {
-        public static Bitmap BitMapImageToBitMap(BitmapImage bitmapImage)
+        public static Bitmap BitmapImageToBitmap(BitmapImage bitmapImage)
         {
             using (MemoryStream outStream = new MemoryStream())
             {
@@ -43,34 +43,9 @@ namespace Ame.Infrastructure.Utils
 
         public static Mat BitmapImageToMat(BitmapImage bitmapImage)
         {
-            Bitmap bitmap = BitMapImageToBitMap(bitmapImage);
+            Bitmap bitmap = BitmapImageToBitmap(bitmapImage);
             Image<Bgr, Byte> imageCV = new Image<Bgr, Byte>(bitmap);
             return imageCV.Mat;
-        }
-
-        public static DrawingImage MatToDrawingImage(Mat mat)
-        {
-            Rect drawingRect = new Rect(new System.Windows.Size(mat.Size.Width, mat.Size.Height));
-            ImageDrawing imageDrawing = new ImageDrawing(MatToBitmapImage(mat), drawingRect);
-            DrawingImage drawingImage = new DrawingImage(imageDrawing);
-            return drawingImage;
-        }
-
-        public static DrawingGroup MatToDrawingGroup(Mat mat)
-        {
-            Rect drawingRect = new Rect(new System.Windows.Size(mat.Size.Width, mat.Size.Height));
-            ImageDrawing imageDrawing = new ImageDrawing(MatToBitmapImage(mat), drawingRect);
-            DrawingGroup drawingGroup = new DrawingGroup();
-            drawingGroup.Children.Add(imageDrawing);
-            return drawingGroup;
-        }
-
-        public static DrawingGroup MatToDrawingGroup(Mat mat, Rect drawingRect)
-        {
-            ImageDrawing imageDrawing = new ImageDrawing(MatToBitmapImage(mat), drawingRect);
-            DrawingGroup drawingGroup = new DrawingGroup();
-            drawingGroup.Children.Add(imageDrawing);
-            return drawingGroup;
         }
 
         public static ImageDrawing MatToImageDrawing(Mat mat)
@@ -91,6 +66,21 @@ namespace Ame.Infrastructure.Utils
             return imageDrawing;
         }
 
+        public static DrawingImage MatToDrawingImage(Mat mat)
+        {
+            ImageDrawing imageDrawing = MatToImageDrawing(mat);
+            DrawingImage drawingImage = new DrawingImage(imageDrawing);
+            return drawingImage;
+        }
+
+        public static DrawingGroup MatToDrawingGroup(Mat mat)
+        {
+            ImageDrawing imageDrawing = MatToImageDrawing(mat);
+            DrawingGroup drawingGroup = new DrawingGroup();
+            drawingGroup.Children.Add(imageDrawing);
+            return drawingGroup;
+        }
+
         public static bool Intersects(Mat mat, System.Windows.Point point)
         {
             if (point.X >= mat.Width || point.X < 0 || point.Y >= mat.Height || point.Y < 0)
@@ -100,9 +90,31 @@ namespace Ame.Infrastructure.Utils
             return true;
         }
 
-        public static bool Intersects(DrawingImage drawingImage, System.Windows.Point point)
+        public static bool Intersects(ImageDrawing drawing, System.Windows.Point point)
         {
-            if (point.X >= drawingImage.Width || point.X < 0 || point.Y >= drawingImage.Height || point.Y < 0)
+            System.Windows.Point topLeft = drawing.Bounds.TopLeft;
+            System.Windows.Point bottomRight = drawing.Bounds.BottomRight;
+            if (point.X >= bottomRight.X || point.X < topLeft.X || point.Y >= bottomRight.Y || point.Y < topLeft.Y)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public static bool Intersects(DrawingImage drawing, System.Windows.Point point)
+        {
+            if (point.X >= drawing.Width || point.X < 0 || point.Y >= drawing.Height || point.Y < 0)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public static bool Intersects(DrawingGroup drawing, System.Windows.Point point)
+        {
+            System.Windows.Point topLeft = drawing.Bounds.TopLeft;
+            System.Windows.Point bottomRight = drawing.Bounds.BottomRight;
+            if (point.X >= bottomRight.X || point.X < topLeft.X || point.Y >= bottomRight.Y || point.Y < topLeft.Y)
             {
                 return false;
             }
