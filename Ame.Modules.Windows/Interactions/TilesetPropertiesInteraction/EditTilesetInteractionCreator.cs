@@ -59,20 +59,10 @@ namespace Ame.Modules.Windows.Interactions.TilesetEditorInteraction
 
 
         #region methods
-
-        // TODO combine this method with the one below
+        
         public override IWindowInteraction CreateWindowInteraction()
         {
-            IWindowInteraction interaction;
-            if (this.TilesetModel != null)
-            {
-                interaction = new EditTilesetInteraction(this.TilesetModel, this.eventAggregator, this.Callback);
-            }
-            else
-            {
-                interaction = new EditTilesetInteraction(this.Session, this.eventAggregator, this.Callback);
-            }
-            return interaction;
+            return CreateWindowInteraction(this.Callback);
         }
 
         public override IWindowInteraction CreateWindowInteraction(Action<INotification> callback)

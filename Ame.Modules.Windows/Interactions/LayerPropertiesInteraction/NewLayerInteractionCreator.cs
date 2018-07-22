@@ -61,9 +61,7 @@ namespace Ame.Modules.Windows.Interactions.LayerPropertiesInteraction
 
         public override IWindowInteraction CreateWindowInteraction()
         {
-            string newLayerName = string.Format("Layer #{0}", this.Session.CurrentMap.LayerCount);
-            ILayer layer = new Layer(newLayerName, 32, 32, 32, 32);
-            return new NewLayerInteraction(layer, this.eventAggregator, this.Callback);
+            return CreateWindowInteraction(this.Callback);
         }
 
         public override IWindowInteraction CreateWindowInteraction(Action<INotification> callback)

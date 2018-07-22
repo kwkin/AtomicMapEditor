@@ -61,7 +61,7 @@ namespace Ame.Modules.Windows.Interactions.MapPropertiesInteraction
 
         public override IWindowInteraction CreateWindowInteraction()
         {
-            return new NewMapInteraction(this.Session, this.eventAggregator, this.Callback);
+            return CreateWindowInteraction(this.Callback);
         }
 
         public override IWindowInteraction CreateWindowInteraction(Action<INotification> callback)

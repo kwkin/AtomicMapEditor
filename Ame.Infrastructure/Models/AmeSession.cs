@@ -6,11 +6,9 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using Ame.Infrastructure.BaseTypes;
 
 namespace Ame.Infrastructure.Models
 {
-    // TODO cleanup
     public class AmeSession : INotifyPropertyChanged
     {
         #region fields
@@ -24,17 +22,17 @@ namespace Ame.Infrastructure.Models
 
         public AmeSession()
         {
-            this.MapList = new List<Map>();
+            this.MapList = new ObservableCollection<Map>();
         }
 
-        public AmeSession(IList<Map> MapList)
+        public AmeSession(ObservableCollection<Map> MapList)
         {
             this.MapList = MapList;
         }
 
         public AmeSession(Map Map)
         {
-            this.MapList = new List<Map>();
+            this.MapList = new ObservableCollection<Map>();
             this.MapList.Add(Map);
         }
 
@@ -42,30 +40,17 @@ namespace Ame.Infrastructure.Models
 
 
         #region properties
-        
-        public IList<Map> MapList { get; set; }
-        public int MapListIndex
-        {
-            get
-            {
-                return this.MapList.IndexOf(this.CurrentMap);
-            }
-        }
-        public int MapCount { get { return MapList.Count; } }
 
-        private Map currentMap;
-        public Map CurrentMap
+        private ObservableCollection<Map> mapList;
+        public ObservableCollection<Map> MapList
         {
             get
             {
-                return this.currentMap;
+                return this.mapList;
             }
             set
             {
-                this.currentMap = value;
-                this.CurrentLayerList = this.currentMap.LayerList;
-                this.CurrentLayer = this.currentMap.CurrentLayer;
-                this.CurrentTilesetList = this.currentMap.TilesetList;
+                this.mapList = value;
                 NotifyPropertyChanged();
             }
         }
@@ -84,11 +69,34 @@ namespace Ame.Infrastructure.Models
             }
         }
 
-        public int CurrentLayerCount
+        private ObservableCollection<TilesetModel> currentTilesetList;
+        public ObservableCollection<TilesetModel> CurrentTilesetList
         {
             get
             {
-                return this.CurrentLayerList.Count;
+                return this.currentTilesetList;
+            }
+            set
+            {
+                this.currentTilesetList = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private Map currentMap;
+        public Map CurrentMap
+        {
+            get
+            {
+                return this.currentMap;
+            }
+            set
+            {
+                this.currentMap = value;
+                this.CurrentLayerList = this.currentMap.LayerList;
+                this.CurrentLayer = this.currentMap.CurrentLayer;
+                this.CurrentTilesetList = this.currentMap.TilesetList;
+                NotifyPropertyChanged();
             }
         }
 
@@ -102,20 +110,6 @@ namespace Ame.Infrastructure.Models
             set
             {
                 this.currentLayer = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private ObservableCollection<TilesetModel> currentTilesetList;
-        public ObservableCollection<TilesetModel> CurrentTilesetList
-        {
-            get
-            {
-                return this.currentTilesetList;
-            }
-            set
-            {
-                this.currentTilesetList = value;
                 NotifyPropertyChanged();
             }
         }
@@ -134,11 +128,51 @@ namespace Ame.Infrastructure.Models
             }
         }
 
+        public int MapCount
+        {
+            get
+            {
+                return MapList.Count;
+            }
+        }
+
+        public int CurrentLayerCount
+        {
+            get
+            {
+                return this.CurrentLayerList.Count;
+            }
+        }
+
         public int CurrentTilesetCount
         {
             get
             {
                 return this.CurrentTilesetList.Count;
+            }
+        }
+
+        public int CurrentMapIndex
+        {
+            get
+            {
+                return this.MapList.IndexOf(this.CurrentMap);
+            }
+        }
+
+        public int CurrentLayerIndex
+        {
+            get
+            {
+                return this.CurrentLayerList.IndexOf(this.CurrentLayer);
+            }
+        }
+
+        public int CurrentTilesetIndex
+        {
+            get
+            {
+                return this.CurrentTilesetList.IndexOf(this.CurrentTileset);
             }
         }
 

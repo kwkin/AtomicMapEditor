@@ -22,7 +22,6 @@ using Prism.Events;
 
 namespace Ame.Modules.Windows.Docks.ItemEditorDock
 {
-    // TODO fix application crash when closing docks with multiple tabs
     // TODO add image loading
     public class ItemEditorViewModel : DockToolViewModelTemplate
     {
