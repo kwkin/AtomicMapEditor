@@ -25,6 +25,7 @@ namespace Ame.Modules.Menu.Ribbon
 
         #endregion fields
 
+
         #region constructor
 
         public MapEditorRibbonViewModel(IEventAggregator eventAggregator, AmeSession session)

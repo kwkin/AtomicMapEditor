@@ -1,6 +1,5 @@
 ﻿using System;
 using Ame.Infrastructure.BaseTypes;
-using Microsoft.Practices.Unity;
 using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
 
@@ -9,7 +8,7 @@ namespace Ame.Modules.Windows.Interactions.PreferencesInteraction
     public class PreferenceOptionsInteractionCreator : WindowInteractionCreatorTemplate
     {
         #region fields
-        
+
         private IEventAggregator eventAggregator;
 
         #endregion fields

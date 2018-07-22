@@ -8,7 +8,7 @@ namespace Ame.Modules.Windows.Interactions.LayerPropertiesInteraction
     public class EditLayerInteractionCreator : WindowInteractionCreatorTemplate
     {
         #region fields
-        
+
         #endregion fields
 
 

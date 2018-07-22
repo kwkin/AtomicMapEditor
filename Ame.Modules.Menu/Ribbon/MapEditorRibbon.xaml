@@ -213,37 +213,44 @@
                         BorderBrush="Transparent"
                         ToolTip="Zoom Out: Zooms out on the map editor"
                         Command="{Binding ZoomOutCommand}"
+                        HorizontalContentAlignment="Center"
                         IsEnabled="{Binding Session.CurrentMap, Converter={StaticResource NullToBooleanConverter}}">
                     <StackPanel Orientation="Vertical">
                         <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_minus_black_24dp.png" />
                         <Label Padding="0"
-                               Content="" />
+                               Content="Out"
+                               HorizontalContentAlignment="Center" />
                     </StackPanel>
                 </Button>
-                <ComboBox x:Name="zoomComboBox"
-                          Grid.Column="2"
-                          Width="36"
-                          VerticalAlignment="Center"
-                          ItemsSource="{Binding ZoomLevels}"
-                          DisplayMemberPath="description"
-                          IsEnabled="{Binding Session.CurrentMap, Converter={StaticResource NullToBooleanConverter}}">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="SelectionChanged">
-                            <actions:EventToCommand Command="{Binding SetZoomCommand, Mode=OneWay}"
-                                                    CommandParameter="{Binding SelectedItem, ElementName=zoomComboBox}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ComboBox>
+                <StackPanel>
+                    <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_magnify_black_24dp.png" />
+                    <ComboBox x:Name="zoomComboBox"
+                              Grid.Column="2"
+                              Width="48"
+                              VerticalAlignment="Center"
+                              ItemsSource="{Binding ZoomLevels}"
+                              DisplayMemberPath="description"
+                              IsEnabled="{Binding Session.CurrentMap, Converter={StaticResource NullToBooleanConverter}}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <actions:EventToCommand Command="{Binding SetZoomCommand, Mode=OneWay}"
+                                                        CommandParameter="{Binding SelectedItem, ElementName=zoomComboBox}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
+                </StackPanel>
                 <Button x:Name="zoomInButton"
                         Background="Transparent"
                         BorderBrush="Transparent"
                         ToolTip="Zoom In: Zooms in on the map editor"
                         Command="{Binding ZoomInCommand}"
+                        HorizontalContentAlignment="Center"
                         IsEnabled="{Binding Session.CurrentMap, Converter={StaticResource NullToBooleanConverter}}">
                     <StackPanel Orientation="Vertical">
                         <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_plus_black_24dp.png" />
                         <Label Padding="0"
-                               Content="" />
+                               Content="In"
+                               HorizontalContentAlignment="Center" />
                     </StackPanel>
                 </Button>
             </UniformGrid>
