@@ -28,7 +28,7 @@ namespace Ame.Modules.MapEditor.Editor
         private IEventAggregator eventAggregator;
         private IScrollModel scrollModel;
 
-        private TileDrawer tileDrawer;
+        private IDrawingTool drawingTool;
         private BrushModel brush;
         private CoordinateTransform imageTransform;
         public int zoomIndex;
@@ -70,7 +70,7 @@ namespace Ame.Modules.MapEditor.Editor
             this.scrollModel = scrollModel;
 
             this.CurrentLayer = this.Map.CurrentLayer as Layer;
-            this.tileDrawer = new TileDrawer(this.layerItems);
+            this.drawingTool = new StampTool();
             this.imageTransform = new CoordinateTransform();
             this.imageTransform.SetPixelToTile(this.Map.TileWidth, this.Map.TileHeight);
             this.imageTransform.SetSlectionToPixel(this.Map.TileWidth / 2, this.Map.TileHeight / 2);
@@ -78,7 +78,7 @@ namespace Ame.Modules.MapEditor.Editor
             this.Title = map.Name;
             this.drawingGroup = new DrawingGroup();
             this.mapBackground = new DrawingGroup();
-            this.layerItems = new DrawingGroup();
+            this.layerItems = this.Map.CurrentLayer.LayerGroup;
             this.gridLines = new DrawingGroup();
             this.drawingGroup.Children.Add(this.mapBackground);
             this.drawingGroup.Children.Add(this.layerItems);
@@ -226,6 +226,7 @@ namespace Ame.Modules.MapEditor.Editor
         public void UpdateBrushImage(BrushModel brushModel)
         {
             this.brush = brushModel;
+            this.drawingTool.Brush = this.brush;
         }
 
         public void DrawGrid()
@@ -283,13 +284,9 @@ namespace Ame.Modules.MapEditor.Editor
             {
                 return;
             }
-            // TODO force images into tiles
-            // TODO use a brush to draw tiles
             Console.WriteLine("Not Transformed: " + point);
             Point tilePoint = this.imageTransform.PixelToTopLeftTileEdge(point);
-            this.CurrentLayer.SetTile(this.brush.Image, tilePoint);
-            this.layerItems.Children.Add(this.CurrentLayer.LayerItems.Drawing);
-            RaisePropertyChanged(nameof(this.DrawingCanvas));
+            this.drawingTool.Apply(this.Map, tilePoint);
         }
 
         private void redrawBackground()

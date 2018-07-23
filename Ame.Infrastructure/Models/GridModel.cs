@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Ame.Infrastructure.Attributes;
 
 namespace Ame.Infrastructure.Models
@@ -51,6 +52,32 @@ namespace Ame.Infrastructure.Models
         public int TileHeight { get; set; } = 1;
 
         public ScaleType Scale { get; set; } = ScaleType.Tile;
+
+        public Size PixelSize
+        {
+            get
+            {
+                return new Size(this.PixelWidth, this.PixelHeight);
+            }
+            set
+            {
+                this.PixelWidth = (int)value.Width;
+                this.PixelHeight = (int)value.Height;
+            }
+        }
+
+        public Size TileSize
+        {
+            get
+            {
+                return new Size(this.TileWidth, this.TileHeight);
+            }
+            set
+            {
+                this.TileWidth = (int)value.Width;
+                this.TileHeight = (int)value.Height;
+            }
+        }
 
         #endregion properties
 

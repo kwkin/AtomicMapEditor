@@ -98,13 +98,12 @@
     <Compile Include="Actions\EnumBindingSourceExtension.cs" />
     <Compile Include="Attributes\MetadataPropertyUtils.cs" />
     <Compile Include="Converters\IntegerToBooleanConverter.cs" />
-    <Compile Include="Models\DrawingBrushes\BrushCommand.cs" />
     <Compile Include="BaseTypes\DockViewModelTemplate.cs" />
+    <Compile Include="Models\DrawingBrushes\BrushAction.cs" />
     <Compile Include="Models\IItem.cs" />
     <Compile Include="Models\GridModel.cs" />
     <Compile Include="BaseTypes\DockCreatorTemplate.cs" />
     <Compile Include="Attributes\IgnoreNodeBuilderAttribute.cs" />
-    <Compile Include="Models\DrawingBrushes\IBrushCommand.cs" />
     <Compile Include="BaseTypes\IWindowInteraction.cs" />
     <Compile Include="BaseTypes\NodeViewBuilder.cs" />
     <Compile Include="Actions\SetPropertyAction.cs" />
@@ -115,9 +114,8 @@
     <Compile Include="Messages\NewLayerMessage.cs" />
     <Compile Include="Messages\Notifications.cs" />
     <Compile Include="Models\AmeSession.cs" />
-    <Compile Include="Models\DrawingBrushes\IBrush.cs" />
-    <Compile Include="Models\DrawingBrushes\StampBrush.cs" />
-    <Compile Include="Models\DrawingBrushes\TileDrawer.cs" />
+    <Compile Include="Models\DrawingBrushes\IDrawingTool.cs" />
+    <Compile Include="Models\DrawingBrushes\StampTool.cs" />
     <Compile Include="Models\ILayer.cs" />
     <Compile Include="Models\ItemGroup.cs" />
     <Compile Include="Models\Layer.cs" />

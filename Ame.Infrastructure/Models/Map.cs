@@ -4,8 +4,10 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-
+using System.Windows;
+using System.Windows.Media;
 using Ame.Infrastructure.Attributes;
+using Ame.Infrastructure.Models.DrawingBrushes;
 
 namespace Ame.Infrastructure.Models
 {
@@ -14,6 +16,7 @@ namespace Ame.Infrastructure.Models
         #region fields
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private string name;
 
         #endregion fields
@@ -31,8 +34,21 @@ namespace Ame.Infrastructure.Models
             this.LayerList = new ObservableCollection<ILayer>();
             this.TilesetList = new ObservableCollection<TilesetModel>();
 
-            Layer initialLayer = new Layer("Layer #0", this.TileWidth, this.TileHeight, this.Rows, this.Columns);
+            Layer initialLayer = new Layer("Layer #0", this.TileWidth, this.TileHeight, this.RowCount, this.ColumnCount);
             this.LayerList.Add(initialLayer);
+
+            this.UndoQueue = new Stack<BrushAction>();
+            this.RedoQueue = new Stack<BrushAction>();
+            for (int xIndex = 0; xIndex < this.TileWidth; ++xIndex)
+            {
+                for (int yIndex = 0; yIndex < this.TileHeight; ++yIndex)
+                {
+                    Point position = new Point(xIndex * 32, yIndex * 32);
+                    Rect rect = new Rect(position, new Size(32, 32));
+                    ImageDrawing emptyTile = new ImageDrawing(new DrawingImage(), rect);
+                    this.CurrentLayer.LayerItems.Add(emptyTile);
+                }
+            }
         }
 
         public Map(string name)
@@ -46,8 +62,21 @@ namespace Ame.Infrastructure.Models
             this.LayerList = new ObservableCollection<ILayer>();
             this.TilesetList = new ObservableCollection<TilesetModel>();
 
-            Layer initialLayer = new Layer("Layer #0", this.TileWidth, this.TileHeight, this.Rows, this.Columns);
+            Layer initialLayer = new Layer("Layer #0", this.TileWidth, this.TileHeight, this.RowCount, this.ColumnCount);
             this.LayerList.Add(initialLayer);
+
+            this.UndoQueue = new Stack<BrushAction>();
+            this.RedoQueue = new Stack<BrushAction>();
+            for (int xIndex = 0; xIndex < this.TileWidth; ++xIndex)
+            {
+                for (int yIndex = 0; yIndex < this.TileHeight; ++yIndex)
+                {
+                    Point position = new Point(xIndex * 32, yIndex * 32);
+                    Rect rect = new Rect(position, new Size(32, 32));
+                    ImageDrawing emptyTile = new ImageDrawing(new DrawingImage(), rect);
+                    this.CurrentLayer.LayerItems.Add(emptyTile);
+                }
+            }
         }
 
         public Map(string name, int width, int height)
@@ -60,8 +89,22 @@ namespace Ame.Infrastructure.Models
             this.LayerList = new ObservableCollection<ILayer>();
             this.TilesetList = new ObservableCollection<TilesetModel>();
 
-            Layer initialLayer = new Layer("Layer #0", this.TileWidth, this.TileHeight, this.Rows, this.Columns);
+            Layer initialLayer = new Layer("Layer #0", this.TileWidth, this.TileHeight, this.RowCount, this.ColumnCount);
             this.LayerList.Add(initialLayer);
+
+            this.UndoQueue = new Stack<BrushAction>();
+            this.RedoQueue = new Stack<BrushAction>();
+            for (int xIndex = 0; xIndex < this.TileWidth; ++xIndex)
+            {
+                for (int yIndex = 0; yIndex < this.TileHeight; ++yIndex)
+                {
+                    Point position = new Point(xIndex * 32, yIndex * 32);
+                    Rect rect = new Rect(position, new Size(32, 32));
+                    ImageDrawing emptyTile = new ImageDrawing(new DrawingImage(), rect);
+                    this.CurrentLayer.LayerItems.Add(emptyTile);
+                }
+            }
+
         }
 
         #endregion constructor
@@ -89,7 +132,7 @@ namespace Ame.Infrastructure.Models
         public GridModel Grid { get; set; }
 
         [MetadataProperty(MetadataType.Property)]
-        public int Columns
+        public int ColumnCount
         {
             get
             {
@@ -102,7 +145,7 @@ namespace Ame.Infrastructure.Models
         }
 
         [MetadataProperty(MetadataType.Property)]
-        public int Rows
+        public int RowCount
         {
             get
             {
@@ -183,11 +226,11 @@ namespace Ame.Infrastructure.Models
         public ObservableCollection<ILayer> LayerList { get; set; }
         public int SelectedLayerIndex { get; set; }
 
-        public ILayer CurrentLayer
+        public Layer CurrentLayer
         {
             get
             {
-                return this.LayerList[this.SelectedLayerIndex];
+                return this.LayerList[this.SelectedLayerIndex] as Layer;
             }
         }
 
@@ -208,6 +251,9 @@ namespace Ame.Infrastructure.Models
                 return this.TilesetList.Count;
             }
         }
+
+        public Stack<BrushAction> UndoQueue { get; set; }
+        public Stack<BrushAction> RedoQueue { get; set; }
 
         #endregion properties
 
@@ -263,6 +309,44 @@ namespace Ame.Infrastructure.Models
         {
             IEnumerable<Layer> groups = this.LayerList.OfType<Layer>();
             return groups.Count<Layer>();
+        }
+
+        public void Draw(BrushAction action)
+        {
+            Console.Write("Draw: " + action.Name + ", ");
+
+            //BrushAction undoAction;
+            //Console.WriteLine(Util.AverageTime(Stopwatch.StartNew(), () => undoAction = applyAction(action), 100000));
+            BrushAction undoAction = applyAction(action);
+            this.UndoQueue.Push(action);
+            this.RedoQueue.Clear();
+        }
+
+        private BrushAction applyAction(BrushAction action)
+        {
+            List<ImageDrawing> previousTiles = new List<ImageDrawing>();
+            foreach (ImageDrawing tile in action.Tiles)
+            {
+                ImageDrawing previousTile = Draw(tile);
+                if (previousTile != null)
+                {
+                    previousTiles.Add(previousTile);
+                }
+            }
+            BrushAction revertAction = new BrushAction(action.Name, previousTiles);
+            return revertAction;
+        }
+
+        private ImageDrawing Draw(ImageDrawing tile)
+        {
+            if (tile.Bounds.X < 0 || tile.Bounds.Y < 0 || tile.Bounds.X >= this.PixelWidth || tile.Bounds.Y >= this.PixelHeight)
+            {
+                return null;
+            }
+            int previousTileIndex = (int)(tile.Bounds.X / 32) + (int)(tile.Bounds.Y / 32) * this.ColumnCount;
+            ImageDrawing previousTile = this.CurrentLayer.LayerItems[previousTileIndex] as ImageDrawing;
+            this.CurrentLayer.LayerItems[previousTileIndex] = tile;
+            return previousTile;
         }
 
         #endregion methods

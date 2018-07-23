@@ -402,7 +402,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             {
                 croppedImage = ImageUtils.ColorToTransparent(croppedImage, this.TransparentColor);
             }
-            brushModel.Image = ImageUtils.MatToImageDrawing(croppedImage);
+            brushModel.Image = ImageUtils.MatToDrawingImage(croppedImage);
 
             this.eventAggregator.GetEvent<UpdateBrushEvent>().Publish(brushModel);
         }

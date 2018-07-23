@@ -46,7 +46,7 @@ namespace Ame.Infrastructure.Models
 
         #region properties
 
-        public ImageDrawing Image { get; set; }
+        public DrawingImage Image { get; set; }
 
         #endregion properties
 

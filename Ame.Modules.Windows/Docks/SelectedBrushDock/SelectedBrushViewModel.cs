@@ -199,7 +199,7 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
         {
             using (DrawingContext context = this.selectedBrushImage.Open())
             {
-                context.DrawDrawing(brushModel.Image);
+                context.DrawDrawing(brushModel.Image.Drawing);
             }
             this.gridModel.SetHeightWithRows(brushModel.RowCount(), brushModel.TileHeight);
             this.gridModel.SetWidthWithColumns(brushModel.ColumnCount(), brushModel.TileWidth);

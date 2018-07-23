@@ -39,7 +39,6 @@ namespace Ame.Infrastructure.Models
             this.Position = LayerPosition.Base;
             this.occupiedTiles = new List<Tile>();
             ResetLayerItems();
-
         }
 
         public Layer(string layerName, int tileWidth, int tileHeight, int rows, int columns)
@@ -52,7 +51,6 @@ namespace Ame.Infrastructure.Models
             this.Position = LayerPosition.Base;
             this.occupiedTiles = new List<Tile>();
             ResetLayerItems();
-
         }
 
         #endregion constructor
@@ -113,21 +111,29 @@ namespace Ame.Infrastructure.Models
         public bool IsVisible { get; set; }
 
         [NonSerialized]
-        private DrawingImage layerItems;
+        private DrawingGroup layerGroup;
 
         [IgnoreNodeBuilder]
-        public DrawingImage LayerItems
+        public DrawingGroup LayerGroup
         {
             get
             {
-                return this.layerItems;
+                return this.layerGroup;
             }
             set
             {
-                this.layerItems = value;
+                this.layerGroup = value;
             }
         }
 
+        [IgnoreNodeBuilder]
+        public DrawingCollection LayerItems
+        {
+            get
+            {
+                return this.layerGroup.Children;
+            }
+        }
 
         #endregion properties
 
@@ -176,12 +182,9 @@ namespace Ame.Infrastructure.Models
             }
         }
 
-
-
         private void ResetLayerItems()
         {
-            this.imageDrawings = new DrawingGroup();
-            this.layerItems = new DrawingImage(imageDrawings);
+            this.LayerGroup = new DrawingGroup();
         }
 
         #endregion methods
