@@ -109,6 +109,10 @@ namespace Ame.Modules.MapEditor.Editor
                 () => DrawGrid(this.IsGridOn));
             this.HandleMouseMoveCommand = new DelegateCommand<object>(
                 (point) => HandleMouseMove((Point)point));
+            this.UndoCommand = new DelegateCommand(
+                () => this.Undo());
+            this.RedoCommand = new DelegateCommand(
+                () => this.Redo());
             this.ZoomInCommand = new DelegateCommand(
                 () => this.ZoomIndex = this.scrollModel.ZoomIn());
             this.ZoomOutCommand = new DelegateCommand(
@@ -137,6 +141,8 @@ namespace Ame.Modules.MapEditor.Editor
         public ICommand ZoomInCommand { get; private set; }
         public ICommand ZoomOutCommand { get; private set; }
         public ICommand SetZoomCommand { get; private set; }
+        public ICommand UndoCommand { get; private set; }
+        public ICommand RedoCommand { get; private set; }
 
         public Map Map { get; set; }
         public Layer CurrentLayer { get; set; }
@@ -251,6 +257,16 @@ namespace Ame.Modules.MapEditor.Editor
             }
             RaisePropertyChanged(nameof(this.IsGridOn));
             RaisePropertyChanged(nameof(this.DrawingCanvas));
+        }
+
+        public void Undo()
+        {
+            this.Map.Undo();
+        }
+
+        public void Redo()
+        {
+            this.Map.Redo();
         }
 
         public override void ZoomIn()

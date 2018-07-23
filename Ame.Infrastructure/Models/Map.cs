@@ -104,7 +104,6 @@ namespace Ame.Infrastructure.Models
                     this.CurrentLayer.LayerItems.Add(emptyTile);
                 }
             }
-
         }
 
         #endregion constructor
@@ -313,13 +312,33 @@ namespace Ame.Infrastructure.Models
 
         public void Draw(BrushAction action)
         {
-            Console.Write("Draw: " + action.Name + ", ");
-
             //BrushAction undoAction;
             //Console.WriteLine(Util.AverageTime(Stopwatch.StartNew(), () => undoAction = applyAction(action), 100000));
             BrushAction undoAction = applyAction(action);
-            this.UndoQueue.Push(action);
+            this.UndoQueue.Push(undoAction);
             this.RedoQueue.Clear();
+        }
+
+        public void Undo()
+        {
+            if (this.UndoQueue.Count == 0)
+            {
+                return;
+            }
+            BrushAction undoAction = this.UndoQueue.Pop();
+            BrushAction redoAction = applyAction(undoAction);
+            this.RedoQueue.Push(redoAction);
+        }
+
+        public void Redo()
+        {
+            if (this.RedoQueue.Count == 0)
+            {
+                return;
+            }
+            BrushAction redoAction = this.RedoQueue.Pop();
+            BrushAction undoAction = applyAction(redoAction);
+            this.UndoQueue.Push(undoAction);
         }
 
         private BrushAction applyAction(BrushAction action)
@@ -344,8 +363,10 @@ namespace Ame.Infrastructure.Models
                 return null;
             }
             int previousTileIndex = (int)(tile.Bounds.X / 32) + (int)(tile.Bounds.Y / 32) * this.ColumnCount;
+            Console.WriteLine(previousTileIndex);
             ImageDrawing previousTile = this.CurrentLayer.LayerItems[previousTileIndex] as ImageDrawing;
             this.CurrentLayer.LayerItems[previousTileIndex] = tile;
+            previousTile.Rect = tile.Bounds;
             return previousTile;
         }
 

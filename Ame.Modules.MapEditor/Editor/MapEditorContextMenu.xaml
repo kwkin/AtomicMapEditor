@@ -20,6 +20,11 @@
             </MenuItem.Icon>
         </MenuItem>
         <Separator />
+        <MenuItem Header="Undo"
+                  Command="{Binding UndoCommand}" />
+        <MenuItem Header="Redo"
+                  Command="{Binding RedoCommand}" />
+        <Separator />
         <MenuItem Header="Show Grid"
                   IsChecked="{Binding IsGridOn}"
                   IsCheckable="True"
