@@ -395,14 +395,14 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             Size pixelSize = GeometryUtils.TransformInt(pixelToTile.Inverse, tileSize);
 
             this.DrawSelectLinesFromPixels(topLeftPixel, pixelSize);
-            BrushModel brushModel = new BrushModel(this.tilesetModel);
+            BrushModel brushModel = new BrushModel((int)tileSize.Width, (int)tileSize.Height, this.TilesetModel.TileWidth, this.TilesetModel.TileHeight);
             Mat croppedImage = BrushUtils.CropImage(this.ItemImage, topLeftPixel, pixelSize);
 
             if (this.IsTransparent)
             {
                 croppedImage = ImageUtils.ColorToTransparent(croppedImage, this.TransparentColor);
             }
-            brushModel.Image = ImageUtils.MatToDrawingImage(croppedImage);
+            brushModel.TileImage(croppedImage);
 
             this.eventAggregator.GetEvent<UpdateBrushEvent>().Publish(brushModel);
         }

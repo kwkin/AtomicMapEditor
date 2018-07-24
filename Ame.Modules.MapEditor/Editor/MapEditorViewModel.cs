@@ -214,9 +214,7 @@ namespace Ame.Modules.MapEditor.Editor
 
         public void HandleLeftClickUp(Point selectPoint)
         {
-            GeneralTransform selectToPixel = GeometryUtils.CreateTransform(this.imageTransform.pixelToSelect.Inverse);
-            Point pixelPoint = selectToPixel.Transform(selectPoint);
-            Console.WriteLine("Up: " + pixelPoint);
+
         }
 
         public void HandleMouseMove(Point position)
@@ -300,7 +298,6 @@ namespace Ame.Modules.MapEditor.Editor
             {
                 return;
             }
-            Console.WriteLine("Not Transformed: " + point);
             Point tilePoint = this.imageTransform.PixelToTopLeftTileEdge(point);
             this.drawingTool.Apply(this.Map, tilePoint);
         }

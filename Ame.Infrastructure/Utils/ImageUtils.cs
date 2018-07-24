@@ -51,7 +51,11 @@ namespace Ame.Infrastructure.Utils
         public static ImageDrawing MatToImageDrawing(Mat mat)
         {
             Rect drawingRect = new Rect(new System.Windows.Size(mat.Size.Width, mat.Size.Height));
+            return MatToImageDrawing(mat, drawingRect);
+        }
 
+        public static ImageDrawing MatToImageDrawing(Mat mat, Rect drawingRect)
+        {
             BitmapSource bs;
             using (Bitmap source = mat.Bitmap)
             {

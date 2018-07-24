@@ -197,9 +197,14 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
 
         private void UpdateBrushImage(BrushModel brushModel)
         {
+            int index = 0;
             using (DrawingContext context = this.selectedBrushImage.Open())
             {
-                context.DrawDrawing(brushModel.Image.Drawing);
+                foreach (ImageDrawing tile in brushModel.Tiles)
+                {
+                    Console.WriteLine("Index: " + index++ + " " + tile.Rect);
+                    context.DrawDrawing(tile);
+                }
             }
             this.gridModel.SetHeightWithRows(brushModel.RowCount(), brushModel.TileHeight);
             this.gridModel.SetWidthWithColumns(brushModel.ColumnCount(), brushModel.TileWidth);

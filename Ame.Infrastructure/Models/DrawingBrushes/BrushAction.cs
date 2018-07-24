@@ -16,7 +16,7 @@ namespace Ame.Infrastructure.Models.DrawingBrushes
 
         #region constructor
 
-        public BrushAction(string name, List<ImageDrawing> tiles)
+        public BrushAction(string name, Stack<ImageDrawing> tiles)
         {
             this.Name = name;
             this.Tiles = tiles;
@@ -28,7 +28,7 @@ namespace Ame.Infrastructure.Models.DrawingBrushes
         #region properties
 
         public string Name { get; set; }
-        public List<ImageDrawing> Tiles { get; set; }
+        public Stack<ImageDrawing> Tiles { get; set; }
 
         #endregion properties
 

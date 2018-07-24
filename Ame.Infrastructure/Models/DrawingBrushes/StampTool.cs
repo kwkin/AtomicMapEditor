@@ -35,6 +35,7 @@ namespace Ame.Infrastructure.Models.DrawingBrushes
 
         public string ToolName { get; set; } = "Stamp";
         public BrushModel Brush { get; set; }
+        public int radius { get; set; } = 5;
 
         #endregion properties
 
@@ -43,13 +44,17 @@ namespace Ame.Infrastructure.Models.DrawingBrushes
 
         public void Apply(Map map, Point pixelPosition)
         {
-            List<ImageDrawing> tiles = new List<ImageDrawing>();
+            Stack<ImageDrawing> tiles = new Stack<ImageDrawing>();
+
             Rect rect = new Rect(pixelPosition, this.Brush.TileSize);
-            ImageDrawing tile = new ImageDrawing(this.Brush.Image, rect);
-            tiles.Add(tile);
+            ImageDrawing tile = this.Brush.Tiles[0];
+
+            tiles.Push(tile);
             BrushAction action = new BrushAction(this.ToolName, tiles);
             map.Draw(action);
         }
+
+
 
         #endregion methods
     }

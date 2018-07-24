@@ -312,8 +312,6 @@ namespace Ame.Infrastructure.Models
 
         public void Draw(BrushAction action)
         {
-            //BrushAction undoAction;
-            //Console.WriteLine(Util.AverageTime(Stopwatch.StartNew(), () => undoAction = applyAction(action), 100000));
             BrushAction undoAction = applyAction(action);
             this.UndoQueue.Push(undoAction);
             this.RedoQueue.Clear();
@@ -343,26 +341,29 @@ namespace Ame.Infrastructure.Models
 
         private BrushAction applyAction(BrushAction action)
         {
-            List<ImageDrawing> previousTiles = new List<ImageDrawing>();
+            Stack<ImageDrawing> previousTiles = new Stack<ImageDrawing>();
             foreach (ImageDrawing tile in action.Tiles)
             {
                 ImageDrawing previousTile = Draw(tile);
                 if (previousTile != null)
                 {
-                    previousTiles.Add(previousTile);
+                    previousTiles.Push(previousTile);
                 }
             }
             BrushAction revertAction = new BrushAction(action.Name, previousTiles);
             return revertAction;
         }
-
+        
         private ImageDrawing Draw(ImageDrawing tile)
         {
-            if (tile.Bounds.X < 0 || tile.Bounds.Y < 0 || tile.Bounds.X >= this.PixelWidth || tile.Bounds.Y >= this.PixelHeight)
+            if (tile.Bounds.X < 0
+                || tile.Bounds.Y < 0 
+                || tile.Bounds.X >= this.PixelWidth 
+                || tile.Bounds.Y >= this.PixelHeight)
             {
                 return null;
             }
-            int previousTileIndex = (int)(tile.Bounds.X / 32) + (int)(tile.Bounds.Y / 32) * this.ColumnCount;
+            int previousTileIndex = (int)(tile.Bounds.X / this.TileWidth) + (int)(tile.Bounds.Y / this.TileHeight) * this.ColumnCount;
             Console.WriteLine(previousTileIndex);
             ImageDrawing previousTile = this.CurrentLayer.LayerItems[previousTileIndex] as ImageDrawing;
             this.CurrentLayer.LayerItems[previousTileIndex] = tile;
