@@ -45,11 +45,16 @@ namespace Ame.Infrastructure.Models.DrawingBrushes
         public void Apply(Map map, Point pixelPosition)
         {
             Stack<ImageDrawing> tiles = new Stack<ImageDrawing>();
-
-            Rect rect = new Rect(pixelPosition, this.Brush.TileSize);
-            ImageDrawing tile = this.Brush.Tiles[0];
-
-            tiles.Push(tile);
+            
+            foreach (ImageDrawing drawing in this.Brush.Tiles)
+            {
+                ImageDrawing adjustedDrawing = new ImageDrawing();
+                adjustedDrawing.ImageSource = drawing.ImageSource;
+                Point adjustedPoint = new Point(pixelPosition.X + drawing.Rect.X, pixelPosition.Y + drawing.Rect.Y);
+                Rect adjustedRect = new Rect(adjustedPoint, this.Brush.TileSize);
+                adjustedDrawing.Rect = adjustedRect;
+                tiles.Push(adjustedDrawing);
+            }
             BrushAction action = new BrushAction(this.ToolName, tiles);
             map.Draw(action);
         }
