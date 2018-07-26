@@ -73,10 +73,9 @@
                 </Grid.ContextMenu>
 
                 <Image x:Name="itemImage"
-                       RenderOptions.EdgeMode="Aliased"
+                       RenderOptions.BitmapScalingMode="NearestNeighbor"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
-                       RenderOptions.BitmapScalingMode="NearestNeighbor"
                        Source="{Binding BrushImage}"
                        Stretch="None" />
 

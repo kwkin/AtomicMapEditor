@@ -72,12 +72,11 @@
                 </Grid.ContextMenu>
 
                 <Image x:Name="layerImage"
-                       RenderOptions.EdgeMode="Aliased"
+                       RenderOptions.BitmapScalingMode="NearestNeighbor"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        Stretch="None"
-                       Source="{Binding DrawingCanvas}"
-                       RenderOptions.BitmapScalingMode="NearestNeighbor">
+                       Source="{Binding DrawingCanvas}">
                 </Image>
 
                 <Grid.LayoutTransform>

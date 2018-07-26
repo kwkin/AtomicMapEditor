@@ -185,6 +185,7 @@ namespace Ame.Infrastructure.Models
         private void ResetLayerItems()
         {
             this.LayerGroup = new DrawingGroup();
+            RenderOptions.SetEdgeMode(this.LayerGroup, EdgeMode.Aliased);
         }
 
         #endregion methods

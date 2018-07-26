@@ -66,6 +66,7 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
             this.drawingGroup.Children.Add(this.extendedBackground);
             this.drawingGroup.Children.Add(this.gridLines);
             this.BrushImage = new DrawingImage(this.drawingGroup);
+            RenderOptions.SetEdgeMode(this.selectedBrushImage, EdgeMode.Aliased);
 
             this.gridModel = new PaddedGridRenderable();
 
