@@ -72,6 +72,7 @@
                 </Grid.ContextMenu>
 
                 <Image x:Name="layerImage"
+                       RenderOptions.EdgeMode="Aliased"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        Stretch="None"

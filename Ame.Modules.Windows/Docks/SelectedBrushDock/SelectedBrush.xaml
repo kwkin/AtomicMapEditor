@@ -73,6 +73,7 @@
                 </Grid.ContextMenu>
 
                 <Image x:Name="itemImage"
+                       RenderOptions.EdgeMode="Aliased"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
                        RenderOptions.BitmapScalingMode="NearestNeighbor"

@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Emgu.CV;
@@ -56,17 +58,17 @@ namespace Ame.Infrastructure.Utils
 
         public static ImageDrawing MatToImageDrawing(Mat mat, Rect drawingRect)
         {
-            BitmapSource bs;
-            using (Bitmap source = mat.Bitmap)
+            BitmapSource source;
+            using (Bitmap bitmap = mat.Bitmap)
             {
-                IntPtr ptr = source.GetHbitmap();
-                bs = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+                IntPtr ptr = bitmap.GetHbitmap();
+                source = Imaging.CreateBitmapSourceFromHBitmap(
                     ptr,
                     IntPtr.Zero,
                     Int32Rect.Empty,
                     BitmapSizeOptions.FromEmptyOptions());
             }
-            ImageDrawing imageDrawing = new ImageDrawing(bs, drawingRect);
+            ImageDrawing imageDrawing = new ImageDrawing(source, drawingRect);
             return imageDrawing;
         }
 

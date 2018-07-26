@@ -364,7 +364,6 @@ namespace Ame.Infrastructure.Models
                 return null;
             }
             int previousTileIndex = (int)(tile.Bounds.X / this.TileWidth) + (int)(tile.Bounds.Y / this.TileHeight) * this.ColumnCount;
-            Console.WriteLine(previousTileIndex);
             ImageDrawing previousTile = this.CurrentLayer.LayerItems[previousTileIndex] as ImageDrawing;
             this.CurrentLayer.LayerItems[previousTileIndex] = tile;
             previousTile.Rect = tile.Bounds;

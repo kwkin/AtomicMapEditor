@@ -27,6 +27,7 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
         private IScrollModel scrollModel;
 
         private DrawingGroup drawingGroup;
+        private DrawingGroup extendedBackground;
         private DrawingGroup selectedBrushImage;
         private DrawingGroup gridLines;
         private GridModel gridModel;
@@ -58,9 +59,11 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
             this.Title = "Selected Brush";
             
             this.drawingGroup = new DrawingGroup();
+            this.extendedBackground = new DrawingGroup();
             this.selectedBrushImage = new DrawingGroup();
             this.gridLines = new DrawingGroup();
             this.drawingGroup.Children.Add(this.selectedBrushImage);
+            this.drawingGroup.Children.Add(this.extendedBackground);
             this.drawingGroup.Children.Add(this.gridLines);
             this.BrushImage = new DrawingImage(this.drawingGroup);
 
@@ -127,7 +130,7 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
                     this.gridLines.Children.Clear();
                     Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        DrawGrid();
+                        RefreshGrid();
                     }),
                     DispatcherPriority.Background);
                 }
@@ -141,7 +144,7 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
 
         #region methods
 
-        public void DrawGrid()
+        public void RefreshGrid()
         {
             DrawGrid(this.IsGridOn);
         }
@@ -197,19 +200,34 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
 
         private void UpdateBrushImage(BrushModel brushModel)
         {
-            int index = 0;
             using (DrawingContext context = this.selectedBrushImage.Open())
             {
                 foreach (ImageDrawing tile in brushModel.Tiles)
                 {
-                    Console.WriteLine("Index: " + index++ + " " + tile.Rect);
                     context.DrawDrawing(tile);
                 }
             }
             this.gridModel.SetHeightWithRows(brushModel.RowCount(), brushModel.TileHeight);
             this.gridModel.SetWidthWithColumns(brushModel.ColumnCount(), brushModel.TileWidth);
-            DrawGrid();
+            redrawExtendedBackground();
+            RefreshGrid();
             RaisePropertyChanged(nameof(this.BrushImage));
+        }
+
+        private void redrawExtendedBackground()
+        {
+            Size extendedSize = new Size();
+            extendedSize.Width = this.gridModel.PixelWidth + this.gridModel.TileWidth;
+            extendedSize.Height = this.gridModel.PixelHeight + this.gridModel.TileHeight;
+            Point extendedPoint = new Point();
+            extendedPoint.X = -this.gridModel.TileWidth / 2;
+            extendedPoint.Y = -this.gridModel.TileHeight / 2;
+            Rect drawingRect = new Rect(extendedPoint, extendedSize);
+
+            using (DrawingContext context = this.extendedBackground.Open())
+            {
+                context.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Transparent, 0), drawingRect);
+            }
         }
 
         #endregion methods
