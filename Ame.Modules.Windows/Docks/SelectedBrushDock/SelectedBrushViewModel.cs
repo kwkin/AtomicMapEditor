@@ -30,6 +30,7 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
         private DrawingGroup extendedBackground;
         private DrawingGroup selectedBrushImage;
         private DrawingGroup gridLines;
+        private CoordinateTransform imageTransform;
         private GridModel gridModel;
 
         private long updatePositionLabelDelay = Global.defaultUpdatePositionLabelDelay;
@@ -57,7 +58,8 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
             this.eventAggregator = eventAggregator;
             this.scrollModel = scrollModel;
             this.Title = "Selected Brush";
-            
+
+            this.imageTransform = new CoordinateTransform();
             this.drawingGroup = new DrawingGroup();
             this.extendedBackground = new DrawingGroup();
             this.selectedBrushImage = new DrawingGroup();
@@ -92,8 +94,8 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
 
             this.ShowGridCommand = new DelegateCommand(
                 () => DrawGrid(this.IsGridOn));
-            this.UpdatePositionCommand = new DelegateCommand<object>(
-                (point) => UpdateMousePosition((Point)point));
+            this.HandleMouseMoveCommand = new DelegateCommand<object>(
+                (point) => HandleMouseMove((Point)point));
             this.ZoomInCommand = new DelegateCommand(
                 () => this.ZoomIndex = this.scrollModel.ZoomIn());
             this.ZoomOutCommand = new DelegateCommand(
@@ -110,7 +112,7 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
         #region properties
 
         public ICommand ShowGridCommand { get; private set; }
-        public ICommand UpdatePositionCommand { get; private set; }
+        public ICommand HandleMouseMoveCommand { get; private set; }
         public ICommand ZoomInCommand { get; private set; }
         public ICommand ZoomOutCommand { get; private set; }
         public ICommand SetZoomCommand { get; private set; }
@@ -169,11 +171,13 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
             RaisePropertyChanged(nameof(this.BrushImage));
         }
 
-        public void UpdateMousePosition(Point position)
+        public void HandleMouseMove(Point position)
         {
+            GeneralTransform selectToPixel = GeometryUtils.CreateTransform(this.imageTransform.pixelToSelect.Inverse);
+            Point pixelPoint = selectToPixel.Transform(position);
             if (this.updatePositionLabelStopWatch.ElapsedMilliseconds > this.updatePositionLabelDelay)
             {
-                UpdatePositionLabel(position);
+                UpdatePositionLabel(pixelPoint);
             }
         }
 
@@ -189,6 +193,11 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
                         break;
 
                     case ScaleType.Tile:
+                        if (this.BrushImage != null)
+                        {
+                            GeneralTransform transform = GeometryUtils.CreateTransform(this.imageTransform.pixelToTile);
+                            transformedPosition = transform.Transform(position);
+                        }
                         break;
                 }
             }
@@ -210,6 +219,10 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
             }
             this.gridModel.SetHeightWithRows(brushModel.RowCount(), brushModel.TileHeight);
             this.gridModel.SetWidthWithColumns(brushModel.ColumnCount(), brushModel.TileWidth);
+
+            this.imageTransform.SetPixelToTile(this.gridModel.TileWidth, this.gridModel.TileHeight);
+            this.imageTransform.SetSlectionToPixel(this.gridModel.TileWidth / 2, this.gridModel.TileHeight / 2);
+
             redrawExtendedBackground();
             RefreshGrid();
             RaisePropertyChanged(nameof(this.BrushImage));
