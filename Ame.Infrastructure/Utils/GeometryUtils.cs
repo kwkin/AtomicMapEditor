@@ -38,6 +38,11 @@ namespace Ame.Infrastructure.Utils
 
         #region point
 
+        public static Point CopyPoint(Point point)
+        {
+            return new Point(point.X, point.Y);
+        }
+
         /// <summary>
         /// Returns the top left point constructed from the given two points. Assumes that 0,0 is located in the top left.
         /// </summary>

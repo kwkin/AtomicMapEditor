@@ -18,9 +18,6 @@ namespace Ame.Infrastructure.Models
 
         private List<Tile> occupiedTiles;
 
-        [NonSerialized]
-        private DrawingGroup imageDrawings;
-
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -148,30 +145,6 @@ namespace Ame.Infrastructure.Models
         public int GetPixelHeight()
         {
             return this.TileHeight * this.Rows;
-        }
-
-        public void SetTile(ImageDrawing image, Point tilePoint)
-        {
-            // TODO improve this
-            // TODO look into rendering using an array
-            Size imageBounds = new Size(image.Bounds.Width, image.Bounds.Height);
-            Rect rect = new Rect(tilePoint, imageBounds);
-            image.Rect = rect;
-
-            foreach (Tile tile in occupiedTiles)
-            {
-                if (tile.Position == tilePoint)
-                {
-                    this.occupiedTiles.Remove(tile);
-                    this.imageDrawings.Children.Remove(tile.TileImage);
-                    break;
-                }
-            }
-            using (DrawingContext context = this.imageDrawings.Append())
-            {
-                context.DrawDrawing(image);
-            }
-            this.occupiedTiles.Add(new Tile(tilePoint, image));
         }
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")

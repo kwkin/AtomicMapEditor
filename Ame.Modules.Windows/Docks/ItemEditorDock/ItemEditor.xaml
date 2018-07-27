@@ -145,16 +145,22 @@
                                       VerticalScrollBarVisibility="Visible"
                                       ZoomIndex="{Binding ZoomIndex}"
                                       ZoomLevels="{Binding ZoomLevels}">
-            <Grid x:Name="scrollViewerGrid">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseMove">
-                        <actions:EventToCommand Command="{Binding HandleMouseMoveCommand, Mode=OneWay}"
-                                                EventArgsConverter="{StaticResource MouseEventToPointConverter}"
-                                                EventArgsConverterParameter="{Binding ElementName=itemImage}"
-                                                PassEventArgsToCommand="True" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseMove">
+                    <actions:EventToCommand Command="{Binding HandleMouseMoveCommand, Mode=OneWay}"
+                                            EventArgsConverter="{StaticResource MouseEventToPointConverter}"
+                                            EventArgsConverterParameter="{Binding ElementName=itemImage}"
+                                            PassEventArgsToCommand="True" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="MouseLeftButtonUp">
+                    <actions:EventToCommand Command="{Binding HandleLeftClickUpCommand, Mode=OneWay}"
+                                            EventArgsConverter="{StaticResource MouseEventToPointConverter}"
+                                            EventArgsConverterParameter="{Binding ElementName=itemImage}"
+                                            PassEventArgsToCommand="True" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
 
+            <Grid x:Name="scrollViewerGrid">
                 <Grid.ContextMenu>
                     <ContextMenu>
                         <ContextMenu.ItemsSource>
@@ -174,12 +180,6 @@
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseLeftButtonDown">
                             <actions:EventToCommand Command="{Binding HandleLeftClickDownCommand, Mode=OneWay}"
-                                                    EventArgsConverter="{StaticResource MouseEventToPointConverter}"
-                                                    EventArgsConverterParameter="{Binding ElementName=itemImage}"
-                                                    PassEventArgsToCommand="True" />
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="MouseLeftButtonUp">
-                            <actions:EventToCommand Command="{Binding HandleLeftClickUpCommand, Mode=OneWay}"
                                                     EventArgsConverter="{StaticResource MouseEventToPointConverter}"
                                                     EventArgsConverterParameter="{Binding ElementName=itemImage}"
                                                     PassEventArgsToCommand="True" />

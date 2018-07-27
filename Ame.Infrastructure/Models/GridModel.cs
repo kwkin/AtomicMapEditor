@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Ame.Infrastructure.Attributes;
+using Ame.Infrastructure.Utils;
 
 namespace Ame.Infrastructure.Models
 {
@@ -126,6 +127,50 @@ namespace Ame.Infrastructure.Models
             this.PixelHeight = this.TileHeight * rows;
         }
 
-        #endregion methods
+        public Point BindPoint(Point point)
+        {
+            Point boundPoint = GeometryUtils.CopyPoint(point);
+            if (point.X < 0)
+            {
+                boundPoint.X = 0;
+            }
+            else if (point.X > this.PixelWidth)
+            {
+                boundPoint.X = this.PixelWidth - 1;
+            }
+            if (point.Y < 0)
+            {
+                boundPoint.Y = 0;
+            }
+            else if (point.Y > this.PixelHeight)
+            {
+                boundPoint.Y = this.PixelHeight - 1;
+            }
+            return boundPoint;
+        }
+
+        public Point BindPointIncludeSize(Point point)
+        {
+            Point boundPoint = GeometryUtils.CopyPoint(point);
+            if (point.X < 0)
+            {
+                boundPoint.X = 0;
+            }
+            else if (point.X > this.PixelWidth)
+            {
+                boundPoint.X = this.PixelWidth;
+            }
+            if (point.Y < 0)
+            {
+                boundPoint.Y = 0;
+            }
+            else if (point.Y > this.PixelHeight)
+            {
+                boundPoint.Y = this.PixelHeight;
+            }
+            return boundPoint;
+        }
     }
+
+    #endregion methods
 }

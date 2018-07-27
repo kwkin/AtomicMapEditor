@@ -119,7 +119,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             this.Scale = ScaleType.Tile;
             this.PositionText = "0, 0";
             this.GridPen = new Pen(Brushes.Orange, 1);
-            this.backgroundBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#a5efda"));
+            this.backgroundBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#b8e5ed"));
             this.backgroundPen = new Pen(Brushes.Transparent, 0);
             this.updatePositionLabelStopWatch = Stopwatch.StartNew();
             this.selectLineStopWatch = Stopwatch.StartNew();
@@ -335,7 +335,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                 this.isSelecting = false;
                 SelectTiles(pixelPoint, this.lastSelectPoint);
             }
-            else
+            else if (this.isSelecting)
             {
                 SelectTransparency(pixelPoint);
                 this.IsSelectingTransparency = false;
@@ -371,9 +371,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                     PickTransparentColor(pixelPoint);
                 }
             }
-            if (this.isSelecting
-                && this.selectLineStopWatch.ElapsedMilliseconds > this.drawSelectLineDelay
-                && ImageUtils.Intersects(this.ItemImage, pixelPoint))
+            if (this.isSelecting && this.selectLineStopWatch.ElapsedMilliseconds > this.drawSelectLineDelay)
             {
                 this.ComputeSelectLinesFromPixels(this.lastSelectPoint, pixelPoint);
             }
@@ -381,11 +379,8 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
         public void SelectTiles(Point pixelPoint1, Point pixelPoint2)
         {
-            if (!ImageUtils.Intersects(this.ItemImage, pixelPoint1) 
-                || !ImageUtils.Intersects(this.ItemImage, pixelPoint2))
-            {
-                return;
-            }
+            pixelPoint1 = this.tilesetModel.BindPoint(pixelPoint1);
+            pixelPoint2 = this.tilesetModel.BindPoint(pixelPoint2);
             GeneralTransform pixelToTile = GeometryUtils.CreateTransform(this.itemTransform.pixelToTile);
             Point tile1 = GeometryUtils.TransformInt(pixelToTile, pixelPoint1);
             Point tile2 = GeometryUtils.TransformInt(pixelToTile, pixelPoint2);
@@ -498,7 +493,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                     this.itemTransform.SetSlectionToPixel(newTileset.TileWidth / 2, newTileset.TileHeight / 2);
                     this.Session.CurrentTilesetList.Add(newTileset);
                     this.TilesetModel = newTileset;
-                    
+
                     DrawBackground(this.BackgroundBrush, this.BackgroundPen);
                     DrawGrid();
                     RaisePropertyChanged(nameof(this.TileImage));
@@ -541,6 +536,8 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             Point bottomRightPixel = GeometryUtils.BottomRightPoint(pixel1, pixel2);
             bottomRightPixel = this.itemTransform.PixelToBottomRightTileEdge(bottomRightPixel);
 
+            topLeftPixel = this.TilesetModel.BindPointIncludeSize(topLeftPixel);
+            bottomRightPixel = this.TilesetModel.BindPointIncludeSize(bottomRightPixel);
             if (topLeftPixel != this.selectionBorder.TopLeft || bottomRightPixel != this.selectionBorder.BottomRight)
             {
                 DrawSelectLinesFromPixels(topLeftPixel, bottomRightPixel);

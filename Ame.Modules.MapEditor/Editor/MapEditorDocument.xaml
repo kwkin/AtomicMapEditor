@@ -43,9 +43,7 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
 
-            <Grid x:Name="scrollViewerGrid"
-                  HorizontalAlignment="Center"
-                  VerticalAlignment="Center">
+            <Grid x:Name="scrollViewerGrid">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseLeftButtonDown">
                         <actions:EventToCommand Command="{Binding HandleLeftClickDownCommand, Mode=OneWay}"

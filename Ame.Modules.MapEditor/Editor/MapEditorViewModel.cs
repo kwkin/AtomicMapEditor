@@ -85,7 +85,7 @@ namespace Ame.Modules.MapEditor.Editor
             this.drawingGroup.Children.Add(this.gridLines);
             this.DrawingCanvas = new DrawingImage(this.drawingGroup);
 
-            this.backgroundBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#a5efda"));
+            this.backgroundBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#b8e5ed"));
             this.backgroundPen = new Pen(Brushes.Transparent, 0);
             redrawBackground();
             if (this.scrollModel.ZoomLevels == null)
