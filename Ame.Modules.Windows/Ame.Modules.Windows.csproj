@@ -144,49 +144,49 @@
     <Compile Include="Docks\ProjectExplorerDock\ProjectExplorerViewModel.cs" />
     <Compile Include="Docks\SelectedBrushDock\SelectedBrushCreator.cs" />
     <Compile Include="Interactions\WindowInteractionCreatorTemplate.cs" />
-    <Compile Include="Interactions\LayerPropertiesInteraction\EditLayerInteraction.cs" />
-    <Compile Include="Interactions\LayerPropertiesInteraction\EditLayerInteractionCreator.cs" />
-    <Compile Include="Interactions\LayerPropertiesInteraction\LayerPropertiesWindow.xaml.cs">
+    <Compile Include="Interactions\LayerProperties\EditLayerInteraction.cs" />
+    <Compile Include="Interactions\LayerProperties\EditLayerInteractionCreator.cs" />
+    <Compile Include="Interactions\LayerProperties\LayerPropertiesWindow.xaml.cs">
       <DependentUpon>LayerPropertiesWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interactions\LayerPropertiesInteraction\LayerPropertiesGeneral.xaml.cs">
+    <Compile Include="Interactions\LayerProperties\LayerPropertiesGeneral.xaml.cs">
       <DependentUpon>LayerPropertiesGeneral.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interactions\LayerPropertiesInteraction\LayerPropertiesMetadata.xaml.cs">
+    <Compile Include="Interactions\LayerProperties\LayerPropertiesMetadata.xaml.cs">
       <DependentUpon>LayerPropertiesMetadata.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interactions\LayerPropertiesInteraction\LayerPropertiesViewModel.cs" />
-    <Compile Include="Interactions\LayerPropertiesInteraction\NewLayerInteraction.cs" />
-    <Compile Include="Interactions\LayerPropertiesInteraction\NewLayerInteractionCreator.cs" />
-    <Compile Include="Interactions\MapPropertiesInteraction\EditMapInteraction.cs" />
-    <Compile Include="Interactions\MapPropertiesInteraction\EditMapInteractionCreator.cs" />
-    <Compile Include="Interactions\MapPropertiesInteraction\MapPropertiesGeneral.xaml.cs">
+    <Compile Include="Interactions\LayerProperties\LayerPropertiesViewModel.cs" />
+    <Compile Include="Interactions\LayerProperties\NewLayerInteraction.cs" />
+    <Compile Include="Interactions\LayerProperties\NewLayerInteractionCreator.cs" />
+    <Compile Include="Interactions\MapProperties\EditMapInteraction.cs" />
+    <Compile Include="Interactions\MapProperties\EditMapInteractionCreator.cs" />
+    <Compile Include="Interactions\MapProperties\MapPropertiesGeneral.xaml.cs">
       <DependentUpon>MapPropertiesGeneral.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interactions\MapPropertiesInteraction\MapPropertiesMetadata.xaml.cs">
+    <Compile Include="Interactions\MapProperties\MapPropertiesMetadata.xaml.cs">
       <DependentUpon>MapPropertiesMetadata.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interactions\MapPropertiesInteraction\MapPropertiesViewModel.cs" />
-    <Compile Include="Interactions\MapPropertiesInteraction\MapPropertiesWindow.xaml.cs">
+    <Compile Include="Interactions\MapProperties\MapPropertiesViewModel.cs" />
+    <Compile Include="Interactions\MapProperties\MapPropertiesWindow.xaml.cs">
       <DependentUpon>MapPropertiesWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interactions\MapPropertiesInteraction\NewMapInteraction.cs" />
-    <Compile Include="Interactions\MapPropertiesInteraction\NewMapInteractionCreator.cs" />
-    <Compile Include="Interactions\PreferencesInteraction\PreferenceOptionsInteraction.cs" />
-    <Compile Include="Interactions\PreferencesInteraction\PreferenceOptionsInteractionCreator.cs" />
-    <Compile Include="Interactions\PreferencesInteraction\PreferencesMenu.xaml.cs">
+    <Compile Include="Interactions\MapProperties\NewMapInteraction.cs" />
+    <Compile Include="Interactions\MapProperties\NewMapInteractionCreator.cs" />
+    <Compile Include="Interactions\Preferences\PreferenceOptionsInteraction.cs" />
+    <Compile Include="Interactions\Preferences\PreferenceOptionsInteractionCreator.cs" />
+    <Compile Include="Interactions\Preferences\PreferencesMenu.xaml.cs">
       <DependentUpon>PreferencesMenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interactions\PreferencesInteraction\PreferencesViewModel.cs" />
-    <Compile Include="Interactions\TilesetPropertiesInteraction\TilesetPropertiesWindow.xaml.cs">
+    <Compile Include="Interactions\Preferences\PreferencesViewModel.cs" />
+    <Compile Include="Interactions\TilesetProperties\TilesetPropertiesWindow.xaml.cs">
       <DependentUpon>TilesetPropertiesWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interactions\TilesetPropertiesInteraction\EditTilesetInteraction.cs" />
-    <Compile Include="Interactions\TilesetPropertiesInteraction\EditTilesetInteractionCreator.cs" />
-    <Compile Include="Interactions\TilesetPropertiesInteraction\TilesetPropertiesMetadata.xaml.cs">
+    <Compile Include="Interactions\TilesetProperties\EditTilesetInteraction.cs" />
+    <Compile Include="Interactions\TilesetProperties\EditTilesetInteractionCreator.cs" />
+    <Compile Include="Interactions\TilesetProperties\TilesetPropertiesMetadata.xaml.cs">
       <DependentUpon>TilesetPropertiesMetadata.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interactions\TilesetPropertiesInteraction\TilesetPropertiesViewModel.cs" />
+    <Compile Include="Interactions\TilesetProperties\TilesetPropertiesViewModel.cs" />
     <Compile Include="Interactions\WindowInteractionCreator.cs" />
     <Compile Include="Serializer\DockLayoutSerializer.cs" />
     <Compile Include="Serializer\DockLayoutViewModel.cs" />
@@ -415,39 +415,39 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interactions\LayerPropertiesInteraction\LayerPropertiesWindow.xaml">
+    <Page Include="Interactions\LayerProperties\LayerPropertiesWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interactions\LayerPropertiesInteraction\LayerPropertiesGeneral.xaml">
+    <Page Include="Interactions\LayerProperties\LayerPropertiesGeneral.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interactions\LayerPropertiesInteraction\LayerPropertiesMetadata.xaml">
+    <Page Include="Interactions\LayerProperties\LayerPropertiesMetadata.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interactions\MapPropertiesInteraction\MapPropertiesGeneral.xaml">
+    <Page Include="Interactions\MapProperties\MapPropertiesGeneral.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interactions\MapPropertiesInteraction\MapPropertiesMetadata.xaml">
+    <Page Include="Interactions\MapProperties\MapPropertiesMetadata.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interactions\MapPropertiesInteraction\MapPropertiesWindow.xaml">
+    <Page Include="Interactions\MapProperties\MapPropertiesWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interactions\PreferencesInteraction\PreferencesMenu.xaml">
+    <Page Include="Interactions\Preferences\PreferencesMenu.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interactions\TilesetPropertiesInteraction\TilesetPropertiesWindow.xaml">
+    <Page Include="Interactions\TilesetProperties\TilesetPropertiesWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interactions\TilesetPropertiesInteraction\TilesetPropertiesMetadata.xaml">
+    <Page Include="Interactions\TilesetProperties\TilesetPropertiesMetadata.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

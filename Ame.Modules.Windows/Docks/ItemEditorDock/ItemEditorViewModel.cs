@@ -14,7 +14,7 @@ using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Utils;
-using Ame.Modules.Windows.Interactions.TilesetEditorInteraction;
+using Ame.Modules.Windows.Interactions.TilesetEditor;
 using Emgu.CV;
 using Microsoft.Win32;
 using Prism.Commands;

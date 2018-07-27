@@ -8,7 +8,7 @@ using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Utils;
-using Ame.Modules.Windows.Interactions.LayerPropertiesInteraction;
+using Ame.Modules.Windows.Interactions.LayerProperties;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;

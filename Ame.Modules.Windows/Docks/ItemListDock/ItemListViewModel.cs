@@ -5,7 +5,7 @@ using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
-using Ame.Modules.Windows.Interactions.TilesetEditorInteraction;
+using Ame.Modules.Windows.Interactions.TilesetEditor;
 using Prism.Commands;
 using Prism.Events;
 

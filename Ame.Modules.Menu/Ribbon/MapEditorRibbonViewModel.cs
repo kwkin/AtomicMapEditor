@@ -5,8 +5,8 @@ using System.Windows.Input;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
-using Ame.Modules.Windows.Interactions.LayerPropertiesInteraction;
-using Ame.Modules.Windows.Interactions.MapPropertiesInteraction;
+using Ame.Modules.Windows.Interactions.LayerProperties;
+using Ame.Modules.Windows.Interactions.MapProperties;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -15,7 +15,6 @@ namespace Ame.Modules.Menu.Ribbon
 {
     // TODO add the "Add Tileset" command
     // TODO add the "Add Image" command
-    // TODO change zoom combobox to an icon
     // TODO add the "Open Dock" command
     public class MapEditorRibbonViewModel : BindableBase
     {

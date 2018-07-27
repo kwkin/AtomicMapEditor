@@ -6,14 +6,14 @@ using Ame.Modules.MapEditor;
 using Ame.Modules.MapEditor.Editor;
 using Ame.Modules.Menu;
 using Ame.Modules.Menu.Options;
-using Ame.Modules.Windows.Interactions.TilesetEditorInteraction;
-using Ame.Modules.Windows.Interactions.LayerPropertiesInteraction;
-using Ame.Modules.Windows.Interactions.MapPropertiesInteraction;
+using Ame.Modules.Windows.Interactions.TilesetEditor;
+using Ame.Modules.Windows.Interactions.LayerProperties;
+using Ame.Modules.Windows.Interactions.MapProperties;
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Unity;
-using Ame.Modules.Windows.Interactions.PreferencesInteraction;
+using Ame.Modules.Windows.Interactions.Preferences;
 using Ame.Modules.Menu.Ribbon;
 
 namespace Ame
