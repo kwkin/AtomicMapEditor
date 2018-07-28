@@ -2,22 +2,31 @@
              x:Name="tilesetEditorWindow"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Ame.Modules.Windows.Interactions.TilesetProperties"
+             xmlns:conv="clr-namespace:Ame.Infrastructure.Converters;assembly=Ame.Infrastructure"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d"
              MinWidth="400"
              d:DesignHeight="300">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <conv:NullOrEmptyToBooleanConverter x:Key="NullOrEmptyToBooleanConverter"
+                                                IsInversed="True" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="25" />
         </Grid.RowDefinitions>
-        
-        <!-- TODO add functionality -->
-        <!-- TODO swap cancel, apply, and ok buttons -->
+
+        <!-- TODO Add image to the window -->
+        <!-- TODO Bind accept button to text: "Create" for new tilesets and "Update" when editing-->
         <TabControl x:Name="tabControl"
                     Margin="4,0,4,4"
                     Grid.Column="0"
@@ -40,11 +49,12 @@
         <StackPanel Grid.Row="1"
                     FlowDirection="RightToLeft"
                     Orientation="Horizontal">
-            <Button x:Name="oKButton"
-                    Content="OK"
+            <Button x:Name="createButton"
+                    Content="Create"
                     Margin="2,0,2,2"
                     IsDefault="True"
                     Width="130"
+                    IsEnabled="{Binding FileSourcePath, Converter={StaticResource NullOrEmptyToBooleanConverter}}"
                     Command="{Binding SetTilesetCommand}"
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
             <Button x:Name="cancelButton"

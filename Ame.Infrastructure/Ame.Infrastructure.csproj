@@ -99,6 +99,7 @@
     <Compile Include="Attributes\MetadataPropertyUtils.cs" />
     <Compile Include="Converters\IntegerToBooleanConverter.cs" />
     <Compile Include="BaseTypes\DockViewModelTemplate.cs" />
+    <Compile Include="Converters\NullOrEmptyToBooleanConverter.cs" />
     <Compile Include="Events\CloseDockEvent.cs" />
     <Compile Include="Events\OpenWindowEvent.cs" />
     <Compile Include="Exceptions\InteractionConfigurationException.cs" />
