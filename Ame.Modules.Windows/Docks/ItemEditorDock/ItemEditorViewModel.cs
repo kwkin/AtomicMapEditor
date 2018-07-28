@@ -328,6 +328,10 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
         public void HandleLeftClickUp(Point selectPoint)
         {
+            if (this.ItemImage == null)
+            {
+                return;
+            }
             this.isMouseDown = false;
             GeneralTransform selectToPixel = GeometryUtils.CreateTransform(this.itemTransform.pixelToSelect.Inverse);
             Point pixelPoint = selectToPixel.Transform(selectPoint);
@@ -345,6 +349,10 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
         public void HandleLeftClickDown(Point selectPoint)
         {
+            if (this.ItemImage == null)
+            {
+                return;
+            }
             this.isMouseDown = true;
             GeneralTransform selectToPixel = GeometryUtils.CreateTransform(this.itemTransform.pixelToSelect.Inverse);
             selectPoint = selectToPixel.Transform(selectPoint);
@@ -362,6 +370,10 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
         public void HandleMouseMove(Point selectPosition)
         {
+            if (this.ItemImage == null)
+            {
+                return;
+            }
             GeneralTransform selectToPixel = GeometryUtils.CreateTransform(this.itemTransform.pixelToSelect.Inverse);
             Point pixelPoint = selectToPixel.Transform(selectPosition);
             if (this.updatePositionLabelStopWatch.ElapsedMilliseconds > this.updatePositionLabelDelay)

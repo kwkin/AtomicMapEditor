@@ -31,6 +31,7 @@ using Prism.Mvvm;
 
 namespace Ame.Modules.Windows
 {
+    // TODO Set current dock to newly created dock
     public class WindowManagerViewModel : BindableBase, ILayoutViewModel
     {
         #region fields
