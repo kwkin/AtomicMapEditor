@@ -27,7 +27,7 @@ using Ame.Modules.MapEditor.Editor;
 using Ame.Modules.Windows.Interactions.LayerProperties;
 using Ame.Modules.Windows.Interactions.MapProperties;
 using Ame.Modules.Windows.Interactions.Preferences;
-using Ame.Modules.Windows.Interactions.TilesetEditor;
+using Ame.Modules.Windows.Interactions.TilesetProperties;
 using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
 using Prism.Mvvm;
@@ -89,6 +89,7 @@ namespace Ame.Modules.Windows
                 new NewLayerInteractionCreator(this.session, this.eventAggregator, OnNewLayerWindowClosed),
                 new EditLayerInteractionCreator(this.session),
                 new EditTilesetInteractionCreator(this.session, this.eventAggregator),
+                new NewTilesetInteractionCreator(this.session, this.eventAggregator, OnNewTilesetWindowClosed),
                 new PreferenceOptionsInteractionCreator(this.eventAggregator)
             };
             this.windowInteractionCreator = new WindowInteractionCreator(windowInteractionCreators);
@@ -305,6 +306,16 @@ namespace Ame.Modules.Windows
                 OpenDockMessage openEditorMessage = new OpenDockMessage(typeof(MapEditorViewModel), mapModel);
 
                 this.eventAggregator.GetEvent<OpenDockEvent>().Publish(openEditorMessage);
+            }
+        }
+
+        private void OnNewTilesetWindowClosed(INotification notification)
+        {
+            IConfirmation confirmation = notification as IConfirmation;
+            if (confirmation.Confirmed)
+            {
+                TilesetModel tilesetModel = confirmation.Content as TilesetModel;
+                this.session.CurrentTilesetList.Add(tilesetModel);
             }
         }
 

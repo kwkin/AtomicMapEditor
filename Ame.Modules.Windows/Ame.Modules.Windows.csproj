@@ -143,6 +143,11 @@
     <Compile Include="Docks\ProjectExplorerDock\ProjectExplorerCreator.cs" />
     <Compile Include="Docks\ProjectExplorerDock\ProjectExplorerViewModel.cs" />
     <Compile Include="Docks\SelectedBrushDock\SelectedBrushCreator.cs" />
+    <Compile Include="Interactions\TilesetProperties\NewTilesetInteraction.cs" />
+    <Compile Include="Interactions\TilesetProperties\NewTilesetInteractionCreator.cs" />
+    <Compile Include="Interactions\TilesetProperties\TilesetPropertiesGeneral.xaml.cs">
+      <DependentUpon>TilesetPropertiesGeneral.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Interactions\WindowInteractionCreatorTemplate.cs" />
     <Compile Include="Interactions\LayerProperties\EditLayerInteraction.cs" />
     <Compile Include="Interactions\LayerProperties\EditLayerInteractionCreator.cs" />
@@ -296,6 +301,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Docks\ProjectExplorerDock\ProjectExplorer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interactions\TilesetProperties\TilesetPropertiesGeneral.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

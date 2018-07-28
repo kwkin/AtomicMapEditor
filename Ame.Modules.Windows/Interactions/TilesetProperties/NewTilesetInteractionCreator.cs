@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Models;
 using Prism.Events;
@@ -6,10 +10,10 @@ using Prism.Interactivity.InteractionRequest;
 
 namespace Ame.Modules.Windows.Interactions.TilesetProperties
 {
-    public class EditTilesetInteractionCreator : WindowInteractionCreatorTemplate
+    public class NewTilesetInteractionCreator : WindowInteractionCreatorTemplate
     {
         #region fields
-        
+
         private IEventAggregator eventAggregator;
 
         #endregion fields
@@ -17,7 +21,7 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
 
         #region constructors
 
-        public EditTilesetInteractionCreator(AmeSession session, IEventAggregator eventAggregator)
+        public NewTilesetInteractionCreator(AmeSession session, IEventAggregator eventAggregator)
         {
             if (session == null)
             {
@@ -31,7 +35,7 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
             this.eventAggregator = eventAggregator;
         }
 
-        public EditTilesetInteractionCreator(AmeSession session, IEventAggregator eventAggregator, Action<INotification> callback)
+        public NewTilesetInteractionCreator(AmeSession session, IEventAggregator eventAggregator, Action<INotification> callback)
         {
             if (session == null)
             {
@@ -59,7 +63,7 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
 
 
         #region methods
-        
+
         public override IWindowInteraction CreateWindowInteraction()
         {
             return CreateWindowInteraction(this.Callback);
@@ -67,21 +71,12 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
 
         public override IWindowInteraction CreateWindowInteraction(Action<INotification> callback)
         {
-            IWindowInteraction interaction;
-            if (this.TilesetModel != null)
-            {
-                interaction = new EditTilesetInteraction(this.TilesetModel, this.eventAggregator, callback);
-            }
-            else
-            {
-                interaction = new EditTilesetInteraction(this.Session, this.eventAggregator, Callback);
-            }
-            return interaction;
+            return new NewTilesetInteraction(this.Session, this.eventAggregator, callback);
         }
 
         public override bool AppliesTo(Type type)
         {
-            return typeof(EditTilesetInteraction).Equals(type);
+            return typeof(NewTilesetInteraction).Equals(type);
         }
 
         #endregion methods

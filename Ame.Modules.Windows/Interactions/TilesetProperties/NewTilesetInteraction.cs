@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Models;
@@ -8,48 +12,33 @@ using Prism.Interactivity.InteractionRequest;
 
 namespace Ame.Modules.Windows.Interactions.TilesetProperties
 {
-    public class EditTilesetInteraction : IWindowInteraction
+    public class NewTilesetInteraction : IWindowInteraction
     {
         #region fields
-
-        private TilesetModel tilesetModel;
+        
         private IEventAggregator eventAggregator;
         private InteractionRequest<INotification> interaction;
         private Action<INotification> callback;
+        private AmeSession session;
 
         #endregion fields
 
 
         #region Constructor
 
-        public EditTilesetInteraction(TilesetModel tilesetModel, IEventAggregator eventAggregator)
+        public NewTilesetInteraction(AmeSession session, IEventAggregator eventAggregator)
         {
-            this.tilesetModel = tilesetModel;
             this.eventAggregator = eventAggregator;
             this.interaction = new InteractionRequest<INotification>();
+            this.session = session;
         }
 
-        public EditTilesetInteraction(AmeSession session, IEventAggregator eventAggregator)
+        public NewTilesetInteraction(AmeSession session, IEventAggregator eventAggregator, Action<INotification> callback)
         {
-            this.tilesetModel = session.CurrentTileset;
-            this.eventAggregator = eventAggregator;
-            this.interaction = new InteractionRequest<INotification>();
-        }
-
-        public EditTilesetInteraction(TilesetModel tilesetModel, IEventAggregator eventAggregator, Action<INotification> callback)
-        {
-            this.tilesetModel = tilesetModel;
             this.eventAggregator = eventAggregator;
             this.interaction = new InteractionRequest<INotification>();
             this.callback = callback;
-        }
-
-        public EditTilesetInteraction(AmeSession session, IEventAggregator eventAggregator, Action<INotification> callback)
-        {
-            this.tilesetModel = session.CurrentTileset;
-            this.eventAggregator = eventAggregator;
-            this.interaction = new InteractionRequest<INotification>();
-            this.callback = callback;
+            this.session = session;
         }
 
         #endregion Constructor
@@ -64,13 +53,13 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
 
         public void RaiseNotification(DependencyObject parent)
         {
-            string title = string.Format("Tileset Properties - {0}", this.tilesetModel.Name);
+            string title = string.Format("New Tileset");
             RaiseNotification(parent, this.callback, title);
         }
 
         public void RaiseNotification(DependencyObject parent, Action<INotification> callback)
         {
-            string title = string.Format("Tileset Properties - {0}", this.tilesetModel.Name);
+            string title = string.Format("New Tileset");
             RaiseNotification(parent, callback, title);
         }
 
@@ -81,15 +70,18 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
 
         public void RaiseNotification(DependencyObject parent, Action<INotification> callback, string title)
         {
-            Confirmation mapConfirmation = new Confirmation();
-            mapConfirmation.Title = title;
-            mapConfirmation.Content = this.tilesetModel;
+            Confirmation tilesetConfirmation = new Confirmation();
+            tilesetConfirmation.Title = title;
+
+            TilesetModel tilesetModel = new TilesetModel();
+            tilesetModel.Name = string.Format("Tileset #{0}", this.session.CurrentTilesetCount + 1);
+            tilesetConfirmation.Content = tilesetModel;
 
             InteractionRequestTrigger trigger = new InteractionRequestTrigger();
             trigger.SourceObject = this.interaction;
             trigger.Actions.Add(GetAction());
             trigger.Attach(parent);
-            this.interaction.Raise(mapConfirmation, callback);
+            this.interaction.Raise(tilesetConfirmation, callback);
         }
 
         private PopupWindowAction GetAction()

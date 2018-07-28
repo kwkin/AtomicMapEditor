@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Ame.Modules.Windows.Interactions.TilesetEditor
+namespace Ame.Modules.Windows.Interactions.TilesetProperties
 {
     /// <summary>
     /// Interaction logic for TilesetEditor.xaml

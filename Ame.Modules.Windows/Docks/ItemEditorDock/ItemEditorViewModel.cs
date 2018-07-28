@@ -14,7 +14,7 @@ using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Utils;
-using Ame.Modules.Windows.Interactions.TilesetEditor;
+using Ame.Modules.Windows.Interactions.TilesetProperties;
 using Emgu.CV;
 using Microsoft.Win32;
 using Prism.Commands;
@@ -252,7 +252,14 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                 {
                     if (!string.IsNullOrEmpty(this.tilesetModel.SourcePath))
                     {
+                        this.Title = "Item - " + Path.GetFileNameWithoutExtension(this.tilesetModel.Name);
                         this.ItemImage = CvInvoke.Imread(this.tilesetModel.SourcePath, Emgu.CV.CvEnum.ImreadModes.Unchanged);
+                        this.itemTransform = new CoordinateTransform();
+                        this.itemTransform.SetPixelToTile(this.tilesetModel.TileWidth, this.tilesetModel.TileHeight);
+                        this.itemTransform.SetSlectionToPixel(this.tilesetModel.TileWidth / 2, this.tilesetModel.TileHeight / 2);
+                        DrawBackground();
+                        DrawGrid();
+                        RaisePropertyChanged(nameof(this.TileImage));
                     }
                 }
             }
@@ -335,7 +342,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                 this.isSelecting = false;
                 SelectTiles(pixelPoint, this.lastSelectPoint);
             }
-            else if (this.isSelecting)
+            else
             {
                 SelectTransparency(pixelPoint);
                 this.IsSelectingTransparency = false;
@@ -473,32 +480,9 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
         public void AddTileset()
         {
-            OpenFileDialog openTilesetDilog = new OpenFileDialog();
-            openTilesetDilog.Title = "Select a Tileset";
-            openTilesetDilog.Filter = ImageExtension.GetOpenFileImageExtensions();
-            if (openTilesetDilog.ShowDialog() == true)
-            {
-                string tileFilePath = openTilesetDilog.FileName;
-                if (File.Exists(tileFilePath))
-                {
-                    string tilesetName = string.Format("Tileset #{0}", this.Session.CurrentTilesetCount);
-                    TilesetModel newTileset = new TilesetModel(tilesetName, tileFilePath);
-                    this.Title = "Item - " + Path.GetFileNameWithoutExtension(tileFilePath);
-
-                    Mat matImage = CvInvoke.Imread(tileFilePath, Emgu.CV.CvEnum.ImreadModes.Unchanged);
-                    this.itemTransform = new CoordinateTransform();
-                    newTileset.PixelWidth = matImage.Width;
-                    newTileset.PixelHeight = matImage.Height;
-                    this.itemTransform.SetPixelToTile(newTileset.TileWidth, newTileset.TileHeight);
-                    this.itemTransform.SetSlectionToPixel(newTileset.TileWidth / 2, newTileset.TileHeight / 2);
-                    this.Session.CurrentTilesetList.Add(newTileset);
-                    this.TilesetModel = newTileset;
-
-                    DrawBackground(this.BackgroundBrush, this.BackgroundPen);
-                    DrawGrid();
-                    RaisePropertyChanged(nameof(this.TileImage));
-                }
-            }
+            OpenWindowMessage openWindowMessage = new OpenWindowMessage(typeof(NewTilesetInteraction));
+            openWindowMessage.Title = "New Layer";
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(openWindowMessage);
         }
 
         public void AddImage()
@@ -620,6 +604,11 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
         private void RemoveItem()
         {
             Console.WriteLine("Remove Item");
+        }
+
+        private void DrawBackground()
+        {
+            DrawBackground(this.BackgroundBrush, this.BackgroundPen);
         }
 
         private void DrawBackground(Brush backgroundBrush, Pen backgroundPen)

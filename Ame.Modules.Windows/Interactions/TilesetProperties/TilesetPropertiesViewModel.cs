@@ -1,20 +1,26 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 using Ame.Infrastructure.Attributes;
-using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Models;
+using Ame.Infrastructure.Utils;
+using Emgu.CV;
+using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
 using Prism.Mvvm;
 
-namespace Ame.Modules.Windows.Interactions.TilesetEditor
+namespace Ame.Modules.Windows.Interactions.TilesetProperties
 {
     // TODO create model class for handeling metadata
+    // TODO set up cancel button
+    // TODO add image of tileset
     public class TilesetPropertiesViewModel : BindableBase, IInteractionRequestAware
     {
         #region fields
@@ -32,11 +38,14 @@ namespace Ame.Modules.Windows.Interactions.TilesetEditor
             }
             this.WindowTitle = "New Map";
 
+            // TODO change to lambda
+            this.SetTilesetCommand = new DelegateCommand(SetTileset);
             this.CloseWindowCommand = new DelegateCommand(CloseWindow);
             this.AddCustomMetaDataCommand = new DelegateCommand(AddCustomProperty);
             this.RemoveCustomMetadataCommand = new DelegateCommand(RemoveCustomProperty);
             this.MoveMetadataUpCommand = new DelegateCommand(MoveMetadataUp);
             this.MoveMetadataDownCommand = new DelegateCommand(MoveMetadataDown);
+            this.BrowseSourceCommand = new DelegateCommand(BrowseSource);
         }
 
         #endregion constructor
@@ -44,11 +53,13 @@ namespace Ame.Modules.Windows.Interactions.TilesetEditor
 
         #region properties
 
+        public ICommand SetTilesetCommand { get; private set; }
         public ICommand CloseWindowCommand { get; private set; }
         public ICommand AddCustomMetaDataCommand { get; private set; }
         public ICommand RemoveCustomMetadataCommand { get; private set; }
         public ICommand MoveMetadataUpCommand { get; private set; }
         public ICommand MoveMetadataDownCommand { get; private set; }
+        public ICommand BrowseSourceCommand { get; set; }
 
         public string WindowTitle { get; set; }
 
@@ -60,12 +71,15 @@ namespace Ame.Modules.Windows.Interactions.TilesetEditor
             {
                 this.notification = value as IConfirmation;
                 this.TilesetModel = this.notification.Content as TilesetModel;
-                UpdateMetadata();
+                if (this.TilesetModel != null)
+                {
+                    UpdateMetadata();
+                }
                 RaisePropertyChanged(nameof(this.Notification));
             }
         }
 
-        private TilesetModel TilesetModel { get; set; }
+        public TilesetModel TilesetModel { get; set; }
 
         public ICollectionView GroupedProperties { get; set; }
         public ICollectionView TilesetMetadata { get; set; }
@@ -98,12 +112,37 @@ namespace Ame.Modules.Windows.Interactions.TilesetEditor
             }
         }
 
+        public string fileSourcePath;
+        public string FileSourcePath
+        {
+            get
+            {
+                return fileSourcePath;
+            }
+            set
+            {
+                SetProperty(ref this.fileSourcePath, value);
+            }
+        }
+
+        public bool IsTransparent { get; set; }
+        public Color TransparentColor { get; set; }
+
         public Action FinishInteraction { get; set; }
 
         #endregion properties
 
 
         #region methods
+
+        private void SetTileset()
+        {
+            if (this.notification != null)
+            {
+                this.notification.Confirmed = true;
+            }
+            FinishInteraction();
+        }
 
         private void CloseWindow()
         {
@@ -135,7 +174,7 @@ namespace Ame.Modules.Windows.Interactions.TilesetEditor
                 this.MetadataList.Remove(this.SelectedMetadata);
             }
         }
-        
+
         private void MoveMetadataUp()
         {
             int currentIndex = this.TilesetMetadata.CurrentPosition;
@@ -201,6 +240,25 @@ namespace Ame.Modules.Windows.Interactions.TilesetEditor
             {
                 this.MetadataList.Move(currentIndex, currentIndex + 1);
                 this.TilesetMetadata.Refresh();
+            }
+        }
+
+        private void BrowseSource()
+        {
+            OpenFileDialog openTilesetDilog = new OpenFileDialog();
+            openTilesetDilog.Title = "Select a Tileset";
+            openTilesetDilog.Filter = ImageExtension.GetOpenFileImageExtensions();
+            if (openTilesetDilog.ShowDialog() == true)
+            {
+                string tileFilePath = openTilesetDilog.FileName;
+                if (File.Exists(tileFilePath))
+                {
+                    this.FileSourcePath = tileFilePath;
+                    this.TilesetModel.SourcePath = tileFilePath;
+                    Mat matImage = CvInvoke.Imread(tileFilePath, Emgu.CV.CvEnum.ImreadModes.Unchanged);
+                    this.TilesetModel.PixelWidth = matImage.Width;
+                    this.TilesetModel.PixelHeight = matImage.Height;
+                }
             }
         }
 

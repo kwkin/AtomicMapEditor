@@ -6,7 +6,7 @@ using Ame.Modules.MapEditor;
 using Ame.Modules.MapEditor.Editor;
 using Ame.Modules.Menu;
 using Ame.Modules.Menu.Options;
-using Ame.Modules.Windows.Interactions.TilesetEditor;
+using Ame.Modules.Windows.Interactions.TilesetProperties;
 using Ame.Modules.Windows.Interactions.LayerProperties;
 using Ame.Modules.Windows.Interactions.MapProperties;
 using Microsoft.Practices.Unity;
