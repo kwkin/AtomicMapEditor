@@ -67,6 +67,7 @@ namespace Ame.Infrastructure.Messages
         public Type Type { get; set; }
         public object Content { get; set; }
         public string Title { get; set; }
+        public bool IgnoreIfExists { get; set; }
 
         #endregion Properties
 

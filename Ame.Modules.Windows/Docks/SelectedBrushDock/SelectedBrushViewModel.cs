@@ -11,6 +11,7 @@ using Ame.Components.Behaviors;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Core;
 using Ame.Infrastructure.Events;
+using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Utils;
 using Prism.Commands;
@@ -178,6 +179,12 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
             {
                 UpdatePositionLabel(pixelPoint);
             }
+        }
+
+        public override void CloseDock()
+        {
+            CloseDockMessage closeMessage = new CloseDockMessage(this);
+            this.eventAggregator.GetEvent<CloseDockEvent>().Publish(closeMessage);
         }
 
         private void UpdatePositionLabel(Point position)

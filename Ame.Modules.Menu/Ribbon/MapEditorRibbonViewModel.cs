@@ -5,10 +5,13 @@ using System.Windows.Input;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
+using Ame.Modules.Windows.Docks.ItemEditorDock;
 using Ame.Modules.Windows.Interactions.LayerProperties;
 using Ame.Modules.Windows.Interactions.MapProperties;
+using Ame.Modules.Windows.Interactions.TilesetProperties;
 using Prism.Commands;
 using Prism.Events;
+using Prism.Interactivity.InteractionRequest;
 using Prism.Mvvm;
 
 namespace Ame.Modules.Menu.Ribbon
@@ -39,7 +42,6 @@ namespace Ame.Modules.Menu.Ribbon
             }
             this.eventAggregator = eventAggregator;
             this.Session = session;
-            this.ISTHISFUCKINGBROKEN = false;
 
             // Map bindings
             this.NewMapCommand = new DelegateCommand(() => NewMap());
@@ -171,7 +173,8 @@ namespace Ame.Modules.Menu.Ribbon
 
         public void AddTileset()
         {
-            Console.WriteLine("Adding Tileset");
+            NewTilesetInteraction interaction = new NewTilesetInteraction(OnNewTilesetWindowClosed);
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
         }
 
         public void AddImage()
@@ -264,6 +267,23 @@ namespace Ame.Modules.Menu.Ribbon
         }
 
         #endregion file methods
+
+
+        private void OnNewTilesetWindowClosed(INotification notification)
+        {
+            IConfirmation confirmation = notification as IConfirmation;
+            if (confirmation.Confirmed)
+            {
+                TilesetModel tilesetModel = confirmation.Content as TilesetModel;
+                this.Session.CurrentTilesetList.Add(tilesetModel);
+
+                OpenDockMessage message = new OpenDockMessage(typeof(ItemEditorViewModel));
+                message.IgnoreIfExists = true;
+                message.Content = tilesetModel;
+                this.eventAggregator.GetEvent<OpenDockEvent>().Publish(message);
+
+            }
+        }
 
         #endregion methods
     }

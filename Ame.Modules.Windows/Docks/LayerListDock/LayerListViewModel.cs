@@ -186,6 +186,12 @@ namespace Ame.Modules.Windows.Docks.LayerListDock
             this.Session.CurrentLayer = layer;
         }
 
+        public override void CloseDock()
+        {
+            CloseDockMessage closeMessage = new CloseDockMessage(this);
+            this.eventAggregator.GetEvent<CloseDockEvent>().Publish(closeMessage);
+        }
+
         private int GetLayerGroupCount()
         {
             IEnumerable<LayerGroup> groups = this.Session.CurrentLayerList.OfType<LayerGroup>();

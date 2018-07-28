@@ -6,6 +6,8 @@ using System.Windows;
 using System.Windows.Input;
 using Ame.Components.Behaviors;
 using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Events;
+using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Utils;
 using Prism.Commands;
@@ -98,6 +100,12 @@ namespace Ame.Modules.Windows.Docks.MinimapDock
 
 
         #region methods
+        
+        public override void CloseDock()
+        {
+            CloseDockMessage closeMessage = new CloseDockMessage(this);
+            this.eventAggregator.GetEvent<CloseDockEvent>().Publish(closeMessage);
+        }
 
         private void FitMinimap()
         {

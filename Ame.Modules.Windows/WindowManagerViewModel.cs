@@ -1,41 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
-using Ame.Components.Behaviors;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Core;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
+using Ame.Modules.MapEditor.Editor;
+using Ame.Modules.Windows.Docks;
 using Ame.Modules.Windows.Docks.ClipboardDock;
 using Ame.Modules.Windows.Docks.ItemEditorDock;
 using Ame.Modules.Windows.Docks.ItemListDock;
 using Ame.Modules.Windows.Docks.LayerListDock;
 using Ame.Modules.Windows.Docks.MinimapDock;
+using Ame.Modules.Windows.Docks.ProjectExplorerDock;
 using Ame.Modules.Windows.Docks.SelectedBrushDock;
-using Ame.Modules.Windows.Serializer;
 using Ame.Modules.Windows.Docks.SessionViewerDock;
 using Ame.Modules.Windows.Docks.ToolboxDock;
-using Ame.Modules.MapEditor.Editor;
-using Ame.Modules.Windows.Interactions.LayerProperties;
-using Ame.Modules.Windows.Interactions.MapProperties;
-using Ame.Modules.Windows.Interactions.Preferences;
-using Ame.Modules.Windows.Interactions.TilesetProperties;
-using Prism.Events;
-using Prism.Interactivity.InteractionRequest;
-using Prism.Mvvm;
-using Ame.Modules.Windows.Interactions;
-using Ame.Modules.Windows.Docks;
-using Ame.Modules.Windows.Docks.ProjectExplorerDock;
+using Ame.Modules.Windows.Serializer;
 using AvalonDock;
 using AvalonDock.Layout.Serialization;
+using Prism.Events;
+using Prism.Mvvm;
 
 namespace Ame.Modules.Windows
 {
@@ -47,7 +39,7 @@ namespace Ame.Modules.Windows
         private Type[] dockTemplateTypes;
 
         private event EventHandler ActiveDocumentChanged;
-        
+
         private AmeSession session;
         private DockCreator dockCreator;
 
@@ -69,7 +61,7 @@ namespace Ame.Modules.Windows
 
             this.Documents = new ObservableCollection<EditorViewModelTemplate>();
             this.Anchorables = new ObservableCollection<DockViewModelTemplate>();
-            
+
             foreach (Map map in session.MapList)
             {
                 MapEditorCreator mapEditorCreator = new MapEditorCreator(this.eventAggregator, this.session);
@@ -80,7 +72,7 @@ namespace Ame.Modules.Windows
             {
                 this.ActiveDocument = this.Documents[0];
             }
-            
+
             ObservableCollection<ILayer> layerList = null;
             if (this.session.CurrentMap != null)
             {
@@ -110,6 +102,9 @@ namespace Ame.Modules.Windows
             this.eventAggregator.GetEvent<OpenDockEvent>().Subscribe(
                 OpenDock,
                 ThreadOption.PublisherThread);
+            this.eventAggregator.GetEvent<CloseDockEvent>().Subscribe(
+                CloseDock,
+                ThreadOption.PublisherThread);
             this.eventAggregator.GetEvent<OpenWindowEvent>().Subscribe(
                 OpenWindow,
                 ThreadOption.PublisherThread);
@@ -138,6 +133,7 @@ namespace Ame.Modules.Windows
 
         public DockingManager WindowManager { get; set; }
         public DockLayoutViewModel DockLayout { get; private set; }
+
         public ObservableCollection<EditorViewModelTemplate> Documents { get; private set; }
         public ObservableCollection<DockViewModelTemplate> Anchorables { get; private set; }
 
@@ -231,9 +227,26 @@ namespace Ame.Modules.Windows
 
 
         #region methods
-        
+
         private void OpenDock(OpenDockMessage message)
         {
+            if (message.IgnoreIfExists)
+            {
+                if (typeof(DockToolViewModelTemplate).IsAssignableFrom(message.Type))
+                {
+                    if (this.Anchorables.ToList().Exists((item) => item.GetType() == message.Type))
+                    {
+                        return;
+                    }
+                }
+                else if (typeof(EditorViewModelTemplate).IsAssignableFrom(message.Type))
+                {
+                    if (this.Documents.ToList().Exists((item) => item.GetType() == message.Type))
+                    {
+                        return;
+                    }
+                }
+            }
             DockViewModelTemplate dockViewModel;
             object content = message.Content;
             if (content != null)
@@ -246,6 +259,19 @@ namespace Ame.Modules.Windows
                 dockViewModel.Title = message.Title;
             }
             AddDockViewModel(dockViewModel);
+        }
+
+        private void CloseDock(CloseDockMessage message)
+        {
+            Type dockType = message.Dock.GetType();
+            if (typeof(DockToolViewModelTemplate).IsAssignableFrom(dockType))
+            {
+                this.Anchorables.Remove(message.Dock);
+            }
+            else if (typeof(EditorViewModelTemplate).IsAssignableFrom(dockType))
+            {
+                this.Documents.Remove(message.Dock as EditorViewModelTemplate);
+            }
         }
 
         private void OpenWindow(IWindowInteraction interaction)
@@ -293,7 +319,6 @@ namespace Ame.Modules.Windows
                 AddDockViewModel(dockViewModel);
                 args.Content = dockViewModel;
             }
-
         }
 
         private void AddDockViewModel(DockViewModelTemplate dockViewModel)

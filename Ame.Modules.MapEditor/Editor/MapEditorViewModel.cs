@@ -293,6 +293,12 @@ namespace Ame.Modules.MapEditor.Editor
             return this.Map;
         }
 
+        public override void CloseDock()
+        {
+            CloseDockMessage closeMessage = new CloseDockMessage(this);
+            this.eventAggregator.GetEvent<CloseDockEvent>().Publish(closeMessage);
+        }
+
         private void draw(Point point)
         {
             if (!ImageUtils.Intersects(this.DrawingCanvas, point))

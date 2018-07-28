@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Events;
+using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
 using Prism.Commands;
 using Prism.Events;
@@ -44,6 +46,12 @@ namespace Ame.Modules.Windows.Docks.SessionViewerDock
 
 
         #region methods
+
+        public override void CloseDock()
+        {
+            CloseDockMessage closeMessage = new CloseDockMessage(this);
+            this.eventAggregator.GetEvent<CloseDockEvent>().Publish(closeMessage);
+        }
 
         public void RefreshTree()
         {

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Prism.Commands;
 using Prism.Mvvm;
 
 namespace Ame.Infrastructure.BaseTypes
@@ -20,7 +22,7 @@ namespace Ame.Infrastructure.BaseTypes
 
 
         #region properties
-
+        
         private bool isActive = false;
         public bool IsActive
         {
@@ -57,10 +59,25 @@ namespace Ame.Infrastructure.BaseTypes
             }
         }
 
+        DelegateCommand closeCommand = null;
+        public ICommand CloseCommand
+        {
+            get
+            {
+                if (closeCommand == null)
+                {
+                    this.closeCommand = new DelegateCommand(CloseDock);
+                }
+                return this.closeCommand;
+            }
+        }
+
         #endregion properties
 
 
         #region methods
+
+        public abstract void CloseDock();
 
         #endregion methods
     }

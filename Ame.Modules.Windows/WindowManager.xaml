@@ -99,6 +99,10 @@
                     <Style TargetType="{x:Type xcad:LayoutAnchorableItem}">
                         <Setter Property="Title"
                                 Value="{Binding Model.Title}" />
+                        <Setter Property="CloseCommand"
+                                Value="{Binding Model.CloseCommand}" />
+                        <Setter Property="HideCommand"
+                                Value="{Binding Model.CloseCommand}" />
                         <Setter Property="Visibility"
                                 Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BoolToVisConverter}, ConverterParameter={x:Static Visibility.Hidden}}" />
                         <Setter Property="IsSelected"
@@ -113,6 +117,8 @@
                     <Style TargetType="{x:Type xcad:LayoutItem}">
                         <Setter Property="Title"
                                 Value="{Binding Model.Title}" />
+                        <Setter Property="CloseCommand"
+                                Value="{Binding Model.CloseCommand}" />
                         <Setter Property="Visibility"
                                 Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BoolToVisConverter}, ConverterParameter={x:Static Visibility.Hidden}}" />
                         <Setter Property="IsSelected"

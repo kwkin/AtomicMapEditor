@@ -84,15 +84,6 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             {
                 throw new ArgumentNullException("tilesetModel");
             }
-            this.eventAggregator = eventAggregator;
-            this.scrollModel = scrollModel;
-            this.TilesetModel = tilesetModel;
-            this.Session = session;
-
-            this.itemTransform = new CoordinateTransform();
-            this.itemTransform.SetPixelToTile(this.TilesetModel.TileWidth, this.TilesetModel.TileHeight);
-
-            this.Title = "Item - " + Path.GetFileNameWithoutExtension(tilesetModel.SourcePath);
             this.drawingGroup = new DrawingGroup();
             this.tilesetImage = new DrawingGroup();
             this.gridLines = new DrawingGroup();
@@ -103,6 +94,13 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             this.drawingGroup.Children.Add(this.gridLines);
             this.drawingGroup.Children.Add(this.selectLines);
             this.TileImage = new DrawingImage(this.drawingGroup);
+
+            this.eventAggregator = eventAggregator;
+            this.scrollModel = scrollModel;
+            this.Session = session;
+            this.TilesetModel = tilesetModel;
+
+            this.Title = "Item - " + Path.GetFileNameWithoutExtension(tilesetModel.SourcePath);
             if (this.scrollModel.ZoomLevels == null)
             {
                 this.ZoomLevels = ZoomLevel.CreateZoomList(0.125, 0.25, 0.5, 1, 2, 4, 8, 16, 32);
@@ -254,12 +252,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                     if (!string.IsNullOrEmpty(this.tilesetModel.SourcePath))
                     {
                         this.Title = "Item - " + Path.GetFileNameWithoutExtension(this.tilesetModel.Name);
-                        this.ItemImage = CvInvoke.Imread(this.tilesetModel.SourcePath, Emgu.CV.CvEnum.ImreadModes.Unchanged);
-                        this.itemTransform = new CoordinateTransform();
-                        this.itemTransform.SetPixelToTile(this.tilesetModel.TileWidth, this.tilesetModel.TileHeight);
-                        this.itemTransform.SetSlectionToPixel(this.tilesetModel.TileWidth / 2, this.tilesetModel.TileHeight / 2);
-                        DrawBackground();
-                        DrawGrid();
+                        ChangeItemModel(this.tilesetModel);
                         RaisePropertyChanged(nameof(this.TileImage));
                     }
                 }
@@ -506,10 +499,22 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             this.ItemImage = CvInvoke.Imread(this.TilesetModel.SourcePath, Emgu.CV.CvEnum.ImreadModes.Unchanged);
             DrawingGroup newGroup = ImageUtils.MatToDrawingGroup(this.ItemImage);
             this.TilesetModel.TilesetImage = newGroup;
+            this.itemTransform = new CoordinateTransform();
+            this.itemTransform.SetPixelToTile(this.tilesetModel.TileWidth, this.tilesetModel.TileHeight);
+            this.itemTransform.SetSlectionToPixel(this.tilesetModel.TileWidth / 2, this.tilesetModel.TileHeight / 2);
+
             using (DrawingContext context = this.tilesetImage.Open())
             {
                 context.DrawDrawing(this.TilesetModel.TilesetImage);
             }
+            DrawBackground();
+            DrawGrid();
+        }
+
+        public override void CloseDock()
+        {
+            CloseDockMessage closeMessage = new CloseDockMessage(this);
+            this.eventAggregator.GetEvent<CloseDockEvent>().Publish(closeMessage);
         }
 
         private void ComputeSelectLinesFromPixels(Point pixelPoint1, Point pixelPoint2)

@@ -211,7 +211,13 @@ namespace Ame.Modules.Windows.Docks.ItemListDock
             EditTilesetInteraction interaction = new EditTilesetInteraction();
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
         }
-        
+
+        public override void CloseDock()
+        {
+            CloseDockMessage closeMessage = new CloseDockMessage(this);
+            this.eventAggregator.GetEvent<CloseDockEvent>().Publish(closeMessage);
+        }
+
         private int GetTilesetModelCount(ObservableCollection<IItem> items)
         {
             int tilesetModelCount = 0;
