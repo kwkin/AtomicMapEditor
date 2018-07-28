@@ -19,6 +19,7 @@ using Emgu.CV;
 using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Events;
+using Prism.Interactivity.InteractionRequest;
 
 namespace Ame.Modules.Windows.Docks.ItemEditorDock
 {
@@ -480,7 +481,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
         public void AddTileset()
         {
-            NewTilesetInteraction interaction = new NewTilesetInteraction();
+            NewTilesetInteraction interaction = new NewTilesetInteraction(OnNewTilesetWindowClosed);
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
         }
 
@@ -637,6 +638,17 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             byte[] colorsBGR = this.ItemImage.GetData((int)pixelPoint.Y, (int)pixelPoint.X);
             this.TransparentColor = Color.FromRgb(colorsBGR[2], colorsBGR[1], colorsBGR[0]);
             RaisePropertyChanged(nameof(this.TransparentColor));
+        }
+
+        private void OnNewTilesetWindowClosed(INotification notification)
+        {
+            IConfirmation confirmation = notification as IConfirmation;
+            if (confirmation.Confirmed)
+            {
+                TilesetModel tilesetModel = confirmation.Content as TilesetModel;
+                this.Session.CurrentTilesetList.Add(tilesetModel);
+                this.TilesetModel = tilesetModel;
+            }
         }
 
         #endregion methods

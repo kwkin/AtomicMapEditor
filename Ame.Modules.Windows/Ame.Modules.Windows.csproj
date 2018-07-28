@@ -185,7 +185,6 @@
       <DependentUpon>TilesetPropertiesMetadata.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interactions\TilesetProperties\TilesetPropertiesViewModel.cs" />
-    <Compile Include="Interactions\WindowInteractionCreator.cs" />
     <Compile Include="Serializer\DockLayoutSerializer.cs" />
     <Compile Include="Serializer\DockLayoutViewModel.cs" />
     <Compile Include="WindowManager.xaml.cs">

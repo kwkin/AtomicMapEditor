@@ -72,7 +72,7 @@ namespace Ame.Modules.Windows
             
             foreach (Map map in session.MapList)
             {
-                MapEditorCreator mapEditorCreator = new MapEditorCreator(this.eventAggregator, new Map("Map #1"));
+                MapEditorCreator mapEditorCreator = new MapEditorCreator(this.eventAggregator, this.session);
                 DockViewModelTemplate dockViewModel = mapEditorCreator.CreateDock();
                 AddDockViewModel(dockViewModel);
             }
@@ -97,7 +97,7 @@ namespace Ame.Modules.Windows
                 new ProjectExplorerCreator(this.eventAggregator, this.session),
                 new SessionViewerCreator(this.eventAggregator, this.session),
                 new ToolboxCreator(this.eventAggregator),
-                new MapEditorCreator(this.eventAggregator, new Map("Map #1"))
+                new MapEditorCreator(this.eventAggregator, this.session)
             };
             this.dockCreator = new DockCreator(dockCreators);
 

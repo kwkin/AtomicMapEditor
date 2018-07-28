@@ -18,20 +18,20 @@ namespace Ame.Modules.MapEditor.Editor
 
         #region constructors
 
-        public MapEditorCreator(IEventAggregator eventAggregator, Map map) : this(eventAggregator, map, null)
+        public MapEditorCreator(IEventAggregator eventAggregator, AmeSession session)
+            : this(eventAggregator, session, null, null)
         {
         }
 
-        public MapEditorCreator(IEventAggregator eventAggregator, Map map, ScrollModel scrollModel)
+        public MapEditorCreator(IEventAggregator eventAggregator, AmeSession session, Map map, ScrollModel scrollModel)
         {
             if (eventAggregator == null)
             {
                 throw new ArgumentNullException("eventAggregator is null");
             }
-            if (map == null)
-            {
-                throw new ArgumentNullException("map is null");
-            }
+            string mapTitle = string.Format("Map #{0}", session.MapCount);
+            map = map ?? new Map(mapTitle);
+
             this.eventAggregator = eventAggregator;
             this.Map = map;
             this.ScrollModel = scrollModel;
