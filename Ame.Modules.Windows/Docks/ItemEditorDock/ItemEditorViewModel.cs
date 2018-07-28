@@ -335,12 +335,12 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             this.isMouseDown = false;
             GeneralTransform selectToPixel = GeometryUtils.CreateTransform(this.itemTransform.pixelToSelect.Inverse);
             Point pixelPoint = selectToPixel.Transform(selectPoint);
-            if (!this.IsSelectingTransparency)
+            if (this.isSelecting)
             {
                 this.isSelecting = false;
                 SelectTiles(pixelPoint, this.lastSelectPoint);
             }
-            else
+            else if (this.IsSelectingTransparency)
             {
                 SelectTransparency(pixelPoint);
                 this.IsSelectingTransparency = false;
