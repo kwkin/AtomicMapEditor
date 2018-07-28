@@ -144,13 +144,11 @@
     <Compile Include="Docks\ProjectExplorerDock\ProjectExplorerViewModel.cs" />
     <Compile Include="Docks\SelectedBrushDock\SelectedBrushCreator.cs" />
     <Compile Include="Interactions\TilesetProperties\NewTilesetInteraction.cs" />
-    <Compile Include="Interactions\TilesetProperties\NewTilesetInteractionCreator.cs" />
     <Compile Include="Interactions\TilesetProperties\TilesetPropertiesGeneral.xaml.cs">
       <DependentUpon>TilesetPropertiesGeneral.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interactions\WindowInteractionCreatorTemplate.cs" />
     <Compile Include="Interactions\LayerProperties\EditLayerInteraction.cs" />
-    <Compile Include="Interactions\LayerProperties\EditLayerInteractionCreator.cs" />
     <Compile Include="Interactions\LayerProperties\LayerPropertiesWindow.xaml.cs">
       <DependentUpon>LayerPropertiesWindow.xaml</DependentUpon>
     </Compile>
@@ -162,9 +160,7 @@
     </Compile>
     <Compile Include="Interactions\LayerProperties\LayerPropertiesViewModel.cs" />
     <Compile Include="Interactions\LayerProperties\NewLayerInteraction.cs" />
-    <Compile Include="Interactions\LayerProperties\NewLayerInteractionCreator.cs" />
     <Compile Include="Interactions\MapProperties\EditMapInteraction.cs" />
-    <Compile Include="Interactions\MapProperties\EditMapInteractionCreator.cs" />
     <Compile Include="Interactions\MapProperties\MapPropertiesGeneral.xaml.cs">
       <DependentUpon>MapPropertiesGeneral.xaml</DependentUpon>
     </Compile>
@@ -176,9 +172,7 @@
       <DependentUpon>MapPropertiesWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interactions\MapProperties\NewMapInteraction.cs" />
-    <Compile Include="Interactions\MapProperties\NewMapInteractionCreator.cs" />
     <Compile Include="Interactions\Preferences\PreferenceOptionsInteraction.cs" />
-    <Compile Include="Interactions\Preferences\PreferenceOptionsInteractionCreator.cs" />
     <Compile Include="Interactions\Preferences\PreferencesMenu.xaml.cs">
       <DependentUpon>PreferencesMenu.xaml</DependentUpon>
     </Compile>
@@ -187,7 +181,6 @@
       <DependentUpon>TilesetPropertiesWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interactions\TilesetProperties\EditTilesetInteraction.cs" />
-    <Compile Include="Interactions\TilesetProperties\EditTilesetInteractionCreator.cs" />
     <Compile Include="Interactions\TilesetProperties\TilesetPropertiesMetadata.xaml.cs">
       <DependentUpon>TilesetPropertiesMetadata.xaml</DependentUpon>
     </Compile>

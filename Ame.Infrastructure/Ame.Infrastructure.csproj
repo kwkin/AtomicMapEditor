@@ -99,6 +99,8 @@
     <Compile Include="Attributes\MetadataPropertyUtils.cs" />
     <Compile Include="Converters\IntegerToBooleanConverter.cs" />
     <Compile Include="BaseTypes\DockViewModelTemplate.cs" />
+    <Compile Include="Events\OpenWindowEvent.cs" />
+    <Compile Include="Exceptions\InteractionConfigurationException.cs" />
     <Compile Include="Models\DrawingBrushes\BrushAction.cs" />
     <Compile Include="Models\DrawingBrushes\CircleBrushTool.cs" />
     <Compile Include="Models\IItem.cs" />
@@ -123,8 +125,6 @@
     <Compile Include="Models\LayerGroup.cs" />
     <Compile Include="Models\LayerPosition.cs" />
     <Compile Include="Converters\ActiveDocumentConverter.cs" />
-    <Compile Include="Events\OpenWindowEvent.cs" />
-    <Compile Include="Messages\OpenWindowMessage.cs" />
     <Compile Include="Events\UpdateBrushEvent.cs" />
     <Compile Include="Models\BrushModel.cs" />
     <Compile Include="Models\Map.cs" />

@@ -319,8 +319,8 @@ namespace Ame.Modules.Menu.Options
 
         public void OpenPreferenences()
         {
-            OpenWindowMessage window = new OpenWindowMessage(typeof(PreferenceOptionsInteraction));
-            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(window);
+            PreferenceOptionsInteraction interaction = new PreferenceOptionsInteraction();
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
         }
 
         #endregion edit methods
@@ -329,9 +329,8 @@ namespace Ame.Modules.Menu.Options
 
         public void NewMap()
         {
-            OpenWindowMessage window = new OpenWindowMessage(typeof(NewMapInteraction));
-            window.Title = "New Map";
-            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(window);
+            NewMapInteraction interaction = new NewMapInteraction();
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
         }
 
         public void DuplicateMap()
@@ -356,8 +355,8 @@ namespace Ame.Modules.Menu.Options
 
         public void EditMapProperties()
         {
-            OpenWindowMessage window = new OpenWindowMessage(typeof(EditMapInteraction));
-            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(window);
+            EditMapInteraction interaction = new EditMapInteraction();
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
         }
 
         #endregion map methods
@@ -366,9 +365,8 @@ namespace Ame.Modules.Menu.Options
 
         public void NewLayer()
         {
-            OpenWindowMessage openWindowMessage = new OpenWindowMessage(typeof(NewLayerInteraction));
-            openWindowMessage.Title = "New Layer";
-            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(openWindowMessage);
+            NewLayerInteraction interaction = new NewLayerInteraction();
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
         }
 
         public void NewGroup()
@@ -409,8 +407,8 @@ namespace Ame.Modules.Menu.Options
 
         public void EditLayerProperties()
         {
-            OpenWindowMessage openWindowMessage = new OpenWindowMessage(typeof(EditLayerInteraction));
-            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(openWindowMessage);
+            EditLayerInteraction interaction = new EditLayerInteraction();
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
         }
 
         public void LayerToMap()

@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Ame.Infrastructure.Models;
+using Prism.Events;
+using Prism.Interactivity;
 using Prism.Interactivity.InteractionRequest;
 
 namespace Ame.Infrastructure.BaseTypes
@@ -12,19 +15,20 @@ namespace Ame.Infrastructure.BaseTypes
     {
         #region properties
 
+        string Title { get; set; }
+
+        Action<INotification> Callback { get; set; }
+
+        IEventAggregator EventAggregator { get; set; }
+
         #endregion properties
 
 
         #region methods
 
-        // Calls the default notification
+        void UpdateMissingContent(AmeSession session);
+
         void RaiseNotification(DependencyObject parent);
-
-        void RaiseNotification(DependencyObject parent, Action<INotification> callback);
-
-        void RaiseNotification(DependencyObject parent, string title);
-
-        void RaiseNotification(DependencyObject parent, Action<INotification> callback, string title);
 
         #endregion methods
     }

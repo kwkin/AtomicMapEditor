@@ -49,7 +49,6 @@ namespace Ame.Modules.Windows
         private event EventHandler ActiveDocumentChanged;
         
         private AmeSession session;
-        private WindowInteractionCreator windowInteractionCreator;
         private DockCreator dockCreator;
 
         #endregion fields
@@ -82,19 +81,6 @@ namespace Ame.Modules.Windows
                 this.ActiveDocument = this.Documents[0];
             }
             
-            WindowInteractionCreatorTemplate[] windowInteractionCreators = new WindowInteractionCreatorTemplate[]
-            {
-                new NewMapInteractionCreator(this.session, this.eventAggregator, OnNewMapWindowClosed),
-                new EditMapInteractionCreator(this.session, OnEditMapWindowClosed),
-                new NewLayerInteractionCreator(this.session, this.eventAggregator, OnNewLayerWindowClosed),
-                new EditLayerInteractionCreator(this.session),
-                new EditTilesetInteractionCreator(this.session, this.eventAggregator),
-                new NewTilesetInteractionCreator(this.session, this.eventAggregator, OnNewTilesetWindowClosed),
-                new PreferenceOptionsInteractionCreator(this.eventAggregator)
-            };
-            this.windowInteractionCreator = new WindowInteractionCreator(windowInteractionCreators);
-
-
             ObservableCollection<ILayer> layerList = null;
             if (this.session.CurrentMap != null)
             {
@@ -262,71 +248,12 @@ namespace Ame.Modules.Windows
             AddDockViewModel(dockViewModel);
         }
 
-        private void OpenWindow(OpenWindowMessage message)
+        private void OpenWindow(IWindowInteraction interaction)
         {
-            IWindowInteraction interaction = null;
-            string title = message.Title;
-            object content = message.Content;
-            if (content != null)
-            {
-                this.windowInteractionCreator.UpdateContainer(message.Type, content.GetType(), content);
-            }
-            interaction = this.windowInteractionCreator.CreateWindowInteraction(message.Type);
-            if (interaction != null)
-            {
-                if (!string.IsNullOrEmpty(title))
-                {
-                    interaction.RaiseNotification(this.WindowManager, title);
-                }
-                else
-                {
-                    interaction.RaiseNotification(this.WindowManager);
-                }
-            }
-        }
-
-        private void OnNewLayerWindowClosed(INotification notification)
-        {
-            IConfirmation confirmation = notification as IConfirmation;
-            if (confirmation.Confirmed)
-            {
-                Layer layerModel = confirmation.Content as Layer;
-
-                NewLayerMessage newLayerMessage = new NewLayerMessage(layerModel);
-                this.eventAggregator.GetEvent<NewLayerEvent>().Publish(newLayerMessage);
-            }
-        }
-
-        private void OnNewMapWindowClosed(INotification notification)
-        {
-            IConfirmation confirmation = notification as IConfirmation;
-            if (confirmation.Confirmed)
-            {
-                Map mapModel = confirmation.Content as Map;
-                OpenDockMessage openEditorMessage = new OpenDockMessage(typeof(MapEditorViewModel), mapModel);
-
-                this.eventAggregator.GetEvent<OpenDockEvent>().Publish(openEditorMessage);
-            }
-        }
-
-        private void OnNewTilesetWindowClosed(INotification notification)
-        {
-            IConfirmation confirmation = notification as IConfirmation;
-            if (confirmation.Confirmed)
-            {
-                TilesetModel tilesetModel = confirmation.Content as TilesetModel;
-                this.session.CurrentTilesetList.Add(tilesetModel);
-            }
-        }
-
-        private void OnEditMapWindowClosed(INotification notification)
-        {
-            IConfirmation confirmation = notification as IConfirmation;
-            if (confirmation.Confirmed)
-            {
-                Map mapModel = confirmation.Content as Map;
-                this.activeDocument.Title = mapModel.Name;
-            }
+            string title = interaction.Title;
+            interaction.EventAggregator = this.eventAggregator;
+            interaction.UpdateMissingContent(this.session);
+            interaction.RaiseNotification(this.WindowManager);
         }
 
         private void SaveLayoutMessageReceived(NotificationActionMessage<string> message)

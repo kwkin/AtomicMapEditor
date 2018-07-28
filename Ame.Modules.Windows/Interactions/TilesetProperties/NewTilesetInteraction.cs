@@ -15,10 +15,8 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
     public class NewTilesetInteraction : IWindowInteraction
     {
         #region fields
-        
-        private IEventAggregator eventAggregator;
-        private InteractionRequest<INotification> interaction;
-        private Action<INotification> callback;
+
+        private TilesetModel tilesetModel;
         private AmeSession session;
 
         #endregion fields
@@ -26,19 +24,13 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
 
         #region Constructor
 
-        public NewTilesetInteraction(AmeSession session, IEventAggregator eventAggregator)
+        public NewTilesetInteraction()
         {
-            this.eventAggregator = eventAggregator;
-            this.interaction = new InteractionRequest<INotification>();
-            this.session = session;
         }
 
-        public NewTilesetInteraction(AmeSession session, IEventAggregator eventAggregator, Action<INotification> callback)
+        public NewTilesetInteraction(Action<INotification> callback)
         {
-            this.eventAggregator = eventAggregator;
-            this.interaction = new InteractionRequest<INotification>();
-            this.callback = callback;
-            this.session = session;
+            this.Callback = callback;
         }
 
         #endregion Constructor
@@ -46,42 +38,40 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
 
         #region Properties
 
+        public string Title { get; set; }
+        public Action<INotification> Callback { get; set; }
+        public IEventAggregator EventAggregator { get; set; }
+
         #endregion Properties
 
 
         #region methods
 
+        public void UpdateMissingContent(AmeSession session)
+        {
+            this.session = session;
+            this.Title = "New Tileset";
+            string newTilesetName = string.Format("Tileset #{0}", session.CurrentTilesetCount);
+            this.tilesetModel = new TilesetModel(newTilesetName);
+            this.Callback = this.Callback ?? OnNewTilesetWindowClosed;
+        }
+
         public void RaiseNotification(DependencyObject parent)
         {
-            string title = string.Format("New Tileset");
-            RaiseNotification(parent, this.callback, title);
-        }
-
-        public void RaiseNotification(DependencyObject parent, Action<INotification> callback)
-        {
-            string title = string.Format("New Tileset");
-            RaiseNotification(parent, callback, title);
-        }
-
-        public void RaiseNotification(DependencyObject parent, string title)
-        {
-            RaiseNotification(parent, this.callback, title);
-        }
-
-        public void RaiseNotification(DependencyObject parent, Action<INotification> callback, string title)
-        {
             Confirmation tilesetConfirmation = new Confirmation();
-            tilesetConfirmation.Title = title;
+            tilesetConfirmation.Title = this.Title;
+            tilesetConfirmation.Content = this.tilesetModel;
 
             TilesetModel tilesetModel = new TilesetModel();
             tilesetModel.Name = string.Format("Tileset #{0}", this.session.CurrentTilesetCount + 1);
             tilesetConfirmation.Content = tilesetModel;
 
             InteractionRequestTrigger trigger = new InteractionRequestTrigger();
-            trigger.SourceObject = this.interaction;
+            InteractionRequest<INotification> interaction = new InteractionRequest<INotification>();
+            trigger.SourceObject = interaction;
             trigger.Actions.Add(GetAction());
             trigger.Attach(parent);
-            this.interaction.Raise(tilesetConfirmation, callback);
+            interaction.Raise(tilesetConfirmation, this.Callback);
         }
 
         private PopupWindowAction GetAction()
@@ -93,12 +83,22 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
 
             Style style = new Style();
             style.TargetType = typeof(Window);
-            style.Setters.Add(new Setter(Window.MinWidthProperty, 420.0));
-            style.Setters.Add(new Setter(Window.MinHeightProperty, 380.0));
-            style.Setters.Add(new Setter(Window.WidthProperty, 420.0));
-            style.Setters.Add(new Setter(Window.HeightProperty, 380.0));
+            style.Setters.Add(new Setter(FrameworkElement.MinWidthProperty, 420.0));
+            style.Setters.Add(new Setter(FrameworkElement.MinHeightProperty, 380.0));
+            style.Setters.Add(new Setter(FrameworkElement.WidthProperty, 420.0));
+            style.Setters.Add(new Setter(FrameworkElement.HeightProperty, 380.0));
             action.WindowStyle = style;
             return action;
+        }
+
+        private void OnNewTilesetWindowClosed(INotification notification)
+        {
+            IConfirmation confirmation = notification as IConfirmation;
+            if (confirmation.Confirmed)
+            {
+                TilesetModel tilesetModel = confirmation.Content as TilesetModel;
+                this.session.CurrentTilesetList.Add(tilesetModel);
+            }
         }
 
         #endregion methods

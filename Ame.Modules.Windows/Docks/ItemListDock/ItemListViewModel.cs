@@ -208,8 +208,8 @@ namespace Ame.Modules.Windows.Docks.ItemListDock
 
         public void ViewProperties()
         {
-            OpenWindowMessage window = new OpenWindowMessage(typeof(EditTilesetInteraction));
-            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(window);
+            EditTilesetInteraction interaction = new EditTilesetInteraction();
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
         }
         
         private int GetTilesetModelCount(ObservableCollection<IItem> items)

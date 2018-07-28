@@ -12,73 +12,63 @@ namespace Ame.Modules.Windows.Interactions.LayerProperties
     {
         #region fields
 
-        private ILayer layer;
-
-        private IEventAggregator eventAggregator;
-        private InteractionRequest<INotification> interaction;
-        private Action<INotification> callback;
+        private Layer layer;
+        private AmeSession session;
 
         #endregion fields
 
 
         #region Constructor
 
-        public NewLayerInteraction(ILayer layer, IEventAggregator eventAggregator)
+        public NewLayerInteraction()
         {
-            this.layer = layer;
-            this.eventAggregator = eventAggregator;
-            this.interaction = new InteractionRequest<INotification>();
         }
 
-        public NewLayerInteraction(ILayer layer, IEventAggregator eventAggregator, Action<INotification> callback)
+        public NewLayerInteraction(Action<INotification> callback)
         {
-            this.layer = layer;
-            this.eventAggregator = eventAggregator;
-            this.interaction = new InteractionRequest<INotification>();
-            this.callback = callback;
+            this.Callback = callback;
         }
 
-        #endregion Constructor 
+        #endregion Constructor
+
 
 
         #region Properties
+
+        public string Title { get; set; }
+        public Action<INotification> Callback { get; set; }
+        public IEventAggregator EventAggregator { get; set; }
 
         #endregion Properties
 
 
         #region methods
 
+        public void UpdateMissingContent(AmeSession session)
+        {
+            this.session = session;
+            Map currentMap = session.CurrentMap;
+            this.Title = "New Layer";
+            string newLayerName = string.Format("Layer #{0}", currentMap.LayerCount);
+            this.layer = new Layer(newLayerName, currentMap.TileWidth, currentMap.TileHeight, currentMap.RowCount, currentMap.ColumnCount);
+            this.Callback = this.Callback ?? OnNewLayerWindowClosed;
+        }
+
         public void RaiseNotification(DependencyObject parent)
         {
-            string title = string.Format("New Layer - {0}", layer.LayerName);
-            RaiseNotification(parent, this.callback, title);
-        }
-
-        public void RaiseNotification(DependencyObject parent, Action<INotification> callback)
-        {
-            string title = string.Format("New Layer - {0}", layer.LayerName);
-            RaiseNotification(parent, callback, title);
-        }
-
-        public void RaiseNotification(DependencyObject parent, string title)
-        {
-            RaiseNotification(parent, this.callback, title);
-        }
-
-        public void RaiseNotification(DependencyObject parent, Action<INotification> callback, string title)
-        {
             Confirmation layerWindowConfirmation = new Confirmation();
-            layerWindowConfirmation.Title = string.Format("New Layer - {0}", layer.LayerName);
-            layerWindowConfirmation.Content = layer;
+            layerWindowConfirmation.Title = this.Title;
+            layerWindowConfirmation.Content = this.layer;
 
             InteractionRequestTrigger trigger = new InteractionRequestTrigger();
-            trigger.SourceObject = this.interaction;
-            trigger.Actions.Add(GetAction());
+            InteractionRequest<INotification> interaction = new InteractionRequest<INotification>();
+            trigger.SourceObject = interaction;
+            trigger.Actions.Add(CreateAction());
             trigger.Attach(parent);
-            this.interaction.Raise(layerWindowConfirmation, callback);
+            interaction.Raise(layerWindowConfirmation, this.Callback);
         }
 
-        private PopupWindowAction GetAction()
+        private PopupWindowAction CreateAction()
         {
             PopupWindowAction action = new PopupWindowAction();
             action.IsModal = true;
@@ -87,12 +77,22 @@ namespace Ame.Modules.Windows.Interactions.LayerProperties
 
             Style style = new Style();
             style.TargetType = typeof(Window);
-            style.Setters.Add(new Setter(Window.MinWidthProperty, 420.0));
-            style.Setters.Add(new Setter(Window.MinHeightProperty, 380.0));
-            style.Setters.Add(new Setter(Window.WidthProperty, 420.0));
-            style.Setters.Add(new Setter(Window.HeightProperty, 380.0));
+            style.Setters.Add(new Setter(FrameworkElement.MinWidthProperty, 420.0));
+            style.Setters.Add(new Setter(FrameworkElement.MinHeightProperty, 380.0));
+            style.Setters.Add(new Setter(FrameworkElement.WidthProperty, 420.0));
+            style.Setters.Add(new Setter(FrameworkElement.HeightProperty, 380.0));
             action.WindowStyle = style;
             return action;
+        }
+
+        private void OnNewLayerWindowClosed(INotification notification)
+        {
+            IConfirmation confirmation = notification as IConfirmation;
+            if (confirmation.Confirmed)
+            {
+                Layer layer = confirmation.Content as Layer;
+                this.session.CurrentLayerList.Add(layer);
+            }
         }
 
         #endregion methods

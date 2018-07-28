@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Exceptions;
 using Ame.Infrastructure.Models;
 using Prism.Events;
 using Prism.Interactivity;
@@ -12,44 +13,29 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
     {
         #region fields
 
-        private TilesetModel tilesetModel;
-        private IEventAggregator eventAggregator;
-        private InteractionRequest<INotification> interaction;
-        private Action<INotification> callback;
-
         #endregion fields
 
 
         #region Constructor
 
-        public EditTilesetInteraction(TilesetModel tilesetModel, IEventAggregator eventAggregator)
+        public EditTilesetInteraction()
         {
-            this.tilesetModel = tilesetModel;
-            this.eventAggregator = eventAggregator;
-            this.interaction = new InteractionRequest<INotification>();
         }
 
-        public EditTilesetInteraction(AmeSession session, IEventAggregator eventAggregator)
+        public EditTilesetInteraction(TilesetModel tileset)
         {
-            this.tilesetModel = session.CurrentTileset;
-            this.eventAggregator = eventAggregator;
-            this.interaction = new InteractionRequest<INotification>();
+            this.TilesetModel = tileset;
         }
 
-        public EditTilesetInteraction(TilesetModel tilesetModel, IEventAggregator eventAggregator, Action<INotification> callback)
+        public EditTilesetInteraction(Action<INotification> callback)
         {
-            this.tilesetModel = tilesetModel;
-            this.eventAggregator = eventAggregator;
-            this.interaction = new InteractionRequest<INotification>();
-            this.callback = callback;
+            this.Callback = callback;
         }
 
-        public EditTilesetInteraction(AmeSession session, IEventAggregator eventAggregator, Action<INotification> callback)
+        public EditTilesetInteraction(TilesetModel tileset, Action<INotification> callback)
         {
-            this.tilesetModel = session.CurrentTileset;
-            this.eventAggregator = eventAggregator;
-            this.interaction = new InteractionRequest<INotification>();
-            this.callback = callback;
+            this.TilesetModel = tileset;
+            this.Callback = callback;
         }
 
         #endregion Constructor
@@ -57,42 +43,41 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
 
         #region Properties
 
+        public TilesetModel TilesetModel { get; set; }
+        public string Title { get; set; }
+        public Action<INotification> Callback { get; set; }
+        public IEventAggregator EventAggregator { get; set; }
+
         #endregion Properties
 
 
         #region methods
 
+        public void UpdateMissingContent(AmeSession session)
+        {
+            this.TilesetModel = this.TilesetModel ?? session.CurrentTileset;
+            this.Title = this.Title ?? string.Format("Tileset Properties - {0}", this.TilesetModel.Name);
+        }
+
         public void RaiseNotification(DependencyObject parent)
         {
-            string title = string.Format("Tileset Properties - {0}", this.tilesetModel.Name);
-            RaiseNotification(parent, this.callback, title);
-        }
-
-        public void RaiseNotification(DependencyObject parent, Action<INotification> callback)
-        {
-            string title = string.Format("Tileset Properties - {0}", this.tilesetModel.Name);
-            RaiseNotification(parent, callback, title);
-        }
-
-        public void RaiseNotification(DependencyObject parent, string title)
-        {
-            RaiseNotification(parent, this.callback, title);
-        }
-
-        public void RaiseNotification(DependencyObject parent, Action<INotification> callback, string title)
-        {
+            if (this.TilesetModel == null)
+            {
+                throw new InteractionConfigurationException("TilesetModel is null");
+            }
             Confirmation mapConfirmation = new Confirmation();
-            mapConfirmation.Title = title;
-            mapConfirmation.Content = this.tilesetModel;
+            mapConfirmation.Title = this.Title;
+            mapConfirmation.Content = this.TilesetModel;
 
             InteractionRequestTrigger trigger = new InteractionRequestTrigger();
-            trigger.SourceObject = this.interaction;
-            trigger.Actions.Add(GetAction());
+            InteractionRequest<INotification> interaction = new InteractionRequest<INotification>();
+            trigger.SourceObject = interaction;
+            trigger.Actions.Add(CreateAction());
             trigger.Attach(parent);
-            this.interaction.Raise(mapConfirmation, callback);
+            interaction.Raise(mapConfirmation, this.Callback);
         }
 
-        private PopupWindowAction GetAction()
+        private PopupWindowAction CreateAction()
         {
             PopupWindowAction action = new PopupWindowAction();
             action.IsModal = true;
@@ -101,10 +86,10 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
 
             Style style = new Style();
             style.TargetType = typeof(Window);
-            style.Setters.Add(new Setter(Window.MinWidthProperty, 420.0));
-            style.Setters.Add(new Setter(Window.MinHeightProperty, 380.0));
-            style.Setters.Add(new Setter(Window.WidthProperty, 420.0));
-            style.Setters.Add(new Setter(Window.HeightProperty, 380.0));
+            style.Setters.Add(new Setter(FrameworkElement.MinWidthProperty, 420.0));
+            style.Setters.Add(new Setter(FrameworkElement.MinHeightProperty, 380.0));
+            style.Setters.Add(new Setter(FrameworkElement.WidthProperty, 420.0));
+            style.Setters.Add(new Setter(FrameworkElement.HeightProperty, 380.0));
             action.WindowStyle = style;
             return action;
         }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Windows;
 using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Exceptions;
 using Ame.Infrastructure.Models;
+using Prism.Events;
 using Prism.Interactivity;
 using Prism.Interactivity.InteractionRequest;
 
@@ -11,26 +13,29 @@ namespace Ame.Modules.Windows.Interactions.MapProperties
     {
         #region fields
 
-        private AmeSession session;
-        private InteractionRequest<INotification> interaction;
-        private Action<INotification> callback;
-
         #endregion fields
 
 
         #region Constructor
 
-        public EditMapInteraction(AmeSession session)
+        public EditMapInteraction()
         {
-            this.session = session;
-            this.interaction = new InteractionRequest<INotification>();
         }
 
-        public EditMapInteraction(AmeSession session, Action<INotification> callback)
+        public EditMapInteraction(Map map)
         {
-            this.session = session;
-            this.interaction = new InteractionRequest<INotification>();
-            this.callback = callback;
+            this.Map = map;
+        }
+
+        public EditMapInteraction(Action<INotification> callback)
+        {
+            this.Callback = callback;
+        }
+
+        public EditMapInteraction(Map map, Action<INotification> callback)
+        {
+            this.Map = map;
+            this.Callback = callback;
         }
 
         #endregion Constructor
@@ -38,42 +43,41 @@ namespace Ame.Modules.Windows.Interactions.MapProperties
 
         #region Properties
 
+        public Map Map { get; set; }
+        public string Title { get; set; }
+        public Action<INotification> Callback { get; set; }
+        public IEventAggregator EventAggregator { get; set; }
+
         #endregion Properties
 
 
         #region methods
 
+        public void UpdateMissingContent(AmeSession session)
+        {
+            this.Map = this.Map ?? session.CurrentMap;
+            this.Title = string.Format("Edit Map - {0}", this.Map.Name);
+        }
+
         public void RaiseNotification(DependencyObject parent)
         {
-            string title = string.Format("Edit Map - {0}", this.session.CurrentMap.Name);
-            RaiseNotification(parent, this.callback, title);
-        }
-
-        public void RaiseNotification(DependencyObject parent, Action<INotification> callback)
-        {
-            string title = string.Format("Edit Map - {0}", this.session.CurrentMap.Name);
-            RaiseNotification(parent, callback, title);
-        }
-
-        public void RaiseNotification(DependencyObject parent, string title)
-        {
-            RaiseNotification(parent, this.callback, title);
-        }
-
-        public void RaiseNotification(DependencyObject parent, Action<INotification> callback, string title)
-        {
+            if (this.Map == null)
+            {
+                throw new InteractionConfigurationException("Map is null");
+            }
             Confirmation mapConfirmation = new Confirmation();
-            mapConfirmation.Content = this.session.CurrentMap;
-            mapConfirmation.Title = title;
+            mapConfirmation.Content = this.Map;
+            mapConfirmation.Title = this.Title;
 
             InteractionRequestTrigger trigger = new InteractionRequestTrigger();
-            trigger.SourceObject = this.interaction;
-            trigger.Actions.Add(GetAction());
+            InteractionRequest<INotification> interaction = new InteractionRequest<INotification>();
+            trigger.SourceObject = interaction;
+            trigger.Actions.Add(CreateAction());
             trigger.Attach(parent);
-            this.interaction.Raise(mapConfirmation, callback);
+            interaction.Raise(mapConfirmation, this.Callback);
         }
 
-        private PopupWindowAction GetAction()
+        private PopupWindowAction CreateAction()
         {
             PopupWindowAction action = new PopupWindowAction();
             action.IsModal = true;
@@ -82,10 +86,10 @@ namespace Ame.Modules.Windows.Interactions.MapProperties
 
             Style style = new Style();
             style.TargetType = typeof(Window);
-            style.Setters.Add(new Setter(Window.MinWidthProperty, 420.0));
-            style.Setters.Add(new Setter(Window.MinHeightProperty, 380.0));
-            style.Setters.Add(new Setter(Window.WidthProperty, 420.0));
-            style.Setters.Add(new Setter(Window.HeightProperty, 380.0));
+            style.Setters.Add(new Setter(FrameworkElement.MinWidthProperty, 420.0));
+            style.Setters.Add(new Setter(FrameworkElement.MinHeightProperty, 380.0));
+            style.Setters.Add(new Setter(FrameworkElement.WidthProperty, 420.0));
+            style.Setters.Add(new Setter(FrameworkElement.HeightProperty, 380.0));
             action.WindowStyle = style;
             return action;
         }

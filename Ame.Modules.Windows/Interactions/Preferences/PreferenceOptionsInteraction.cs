@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Models;
 using Prism.Events;
 using Prism.Interactivity;
 using Prism.Interactivity.InteractionRequest;
@@ -11,26 +12,18 @@ namespace Ame.Modules.Windows.Interactions.Preferences
     {
         #region fields
 
-        private IEventAggregator eventAggregator;
-        private InteractionRequest<INotification> interaction;
-        private Action<INotification> callback;
-
         #endregion fields
 
 
         #region Constructor
 
-        public PreferenceOptionsInteraction(IEventAggregator eventAggregator)
+        public PreferenceOptionsInteraction()
         {
-            this.eventAggregator = eventAggregator;
-            this.interaction = new InteractionRequest<INotification>();
         }
 
-        public PreferenceOptionsInteraction(IEventAggregator eventAggregator, Action<INotification> callback)
+        public PreferenceOptionsInteraction(Action<INotification> callback)
         {
-            this.eventAggregator = eventAggregator;
-            this.interaction = new InteractionRequest<INotification>();
-            this.callback = callback;
+            this.Callback = callback;
         }
 
         #endregion Constructor
@@ -38,41 +31,34 @@ namespace Ame.Modules.Windows.Interactions.Preferences
 
         #region Properties
 
+        public string Title { get; set; }
+        public Action<INotification> Callback { get; set; }
+        public IEventAggregator EventAggregator { get; set; }
+
         #endregion Properties
 
 
         #region methods
 
+        public void UpdateMissingContent(AmeSession session)
+        {
+            this.Title = "Preferences";
+        }
+
         public void RaiseNotification(DependencyObject parent)
         {
-            string title = "Preferences";
-            RaiseNotification(parent, this.callback, title);
-        }
-
-        public void RaiseNotification(DependencyObject parent, Action<INotification> callback)
-        {
-            string title = "Preferences";
-            RaiseNotification(parent, callback, title);
-        }
-
-        public void RaiseNotification(DependencyObject parent, string title)
-        {
-            RaiseNotification(parent, this.callback, title);
-        }
-
-        public void RaiseNotification(DependencyObject parent, Action<INotification> callback, string title)
-        {
             Confirmation confirmation = new Confirmation();
-            confirmation.Title = title;
+            confirmation.Title = this.Title;
 
             InteractionRequestTrigger trigger = new InteractionRequestTrigger();
-            trigger.SourceObject = this.interaction;
-            trigger.Actions.Add(GetAction());
+            InteractionRequest<INotification> interaction = new InteractionRequest<INotification>();
+            trigger.SourceObject = interaction;
+            trigger.Actions.Add(CreateAction());
             trigger.Attach(parent);
-            this.interaction.Raise(confirmation, callback);
+            interaction.Raise(confirmation, this.Callback);
         }
 
-        private PopupWindowAction GetAction()
+        private PopupWindowAction CreateAction()
         {
             PopupWindowAction action = new PopupWindowAction();
             action.IsModal = true;
@@ -81,10 +67,10 @@ namespace Ame.Modules.Windows.Interactions.Preferences
 
             Style style = new Style();
             style.TargetType = typeof(Window);
-            style.Setters.Add(new Setter(Window.MinWidthProperty, 620.0));
-            style.Setters.Add(new Setter(Window.MinHeightProperty, 380.0));
-            style.Setters.Add(new Setter(Window.WidthProperty, 620.0));
-            style.Setters.Add(new Setter(Window.HeightProperty, 380.0));
+            style.Setters.Add(new Setter(FrameworkElement.MinWidthProperty, 620.0));
+            style.Setters.Add(new Setter(FrameworkElement.MinHeightProperty, 380.0));
+            style.Setters.Add(new Setter(FrameworkElement.WidthProperty, 620.0));
+            style.Setters.Add(new Setter(FrameworkElement.HeightProperty, 380.0));
             action.WindowStyle = style;
             return action;
         }

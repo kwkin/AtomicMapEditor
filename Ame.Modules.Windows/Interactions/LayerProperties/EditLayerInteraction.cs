@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Windows;
 using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Exceptions;
 using Ame.Infrastructure.Models;
+using Prism.Events;
 using Prism.Interactivity;
 using Prism.Interactivity.InteractionRequest;
 
@@ -11,26 +13,29 @@ namespace Ame.Modules.Windows.Interactions.LayerProperties
     {
         #region fields
 
-        private ILayer layer;
-        private InteractionRequest<INotification> interaction;
-        private Action<INotification> callback;
-
         #endregion fields
 
 
         #region Constructor
 
+        public EditLayerInteraction()
+        {
+        }
+
         public EditLayerInteraction(ILayer layer)
         {
-            this.layer = layer;
-            this.interaction = new InteractionRequest<INotification>();
+            this.Layer = layer;
+        }
+
+        public EditLayerInteraction(Action<INotification> callback)
+        {
+            this.Callback = callback;
         }
 
         public EditLayerInteraction(ILayer layer, Action<INotification> callback)
         {
-            this.layer = layer;
-            this.interaction = new InteractionRequest<INotification>();
-            this.callback = callback;
+            this.Layer = layer;
+            this.Callback = callback;
         }
 
         #endregion Constructor
@@ -38,42 +43,41 @@ namespace Ame.Modules.Windows.Interactions.LayerProperties
 
         #region Properties
 
+        public ILayer Layer { get; set; }
+        public string Title { get; set; }
+        public Action<INotification> Callback { get; set; }
+        public IEventAggregator EventAggregator { get; set; }
+
         #endregion Properties
 
 
         #region methods
 
+        public void UpdateMissingContent(AmeSession session)
+        {
+            this.Layer = this.Layer ?? session.CurrentLayer;
+            this.Title = this.Title ?? string.Format("Edit Layer - {0}", this.Layer.LayerName);
+        }
+
         public void RaiseNotification(DependencyObject parent)
         {
-            string title = string.Format("Edit Layer - {0}", layer.LayerName);
-            RaiseNotification(parent, this.callback, title);
-        }
-
-        public void RaiseNotification(DependencyObject parent, Action<INotification> callback)
-        {
-            string title = string.Format("Edit Layer - {0}", layer.LayerName);
-            RaiseNotification(parent, callback, title);
-        }
-
-        public void RaiseNotification(DependencyObject parent, string title)
-        {
-            RaiseNotification(parent, this.callback, title);
-        }
-
-        public void RaiseNotification(DependencyObject parent, Action<INotification> callback, string title)
-        {
+            if (this.Layer == null)
+            {
+                throw new InteractionConfigurationException("Layer is null");
+            }
             Confirmation confirmation = new Confirmation();
-            confirmation.Title = title;
-            confirmation.Content = layer;
+            confirmation.Title = this.Title;
+            confirmation.Content = this.Layer;
 
             InteractionRequestTrigger trigger = new InteractionRequestTrigger();
-            trigger.SourceObject = this.interaction;
-            trigger.Actions.Add(GetAction());
+            InteractionRequest<INotification> interaction = new InteractionRequest<INotification>();
+            trigger.SourceObject = interaction;
+            trigger.Actions.Add(CreateAction());
             trigger.Attach(parent);
-            this.interaction.Raise(confirmation, callback);
+            interaction.Raise(confirmation, this.Callback);
         }
 
-        private PopupWindowAction GetAction()
+        private PopupWindowAction CreateAction()
         {
             PopupWindowAction action = new PopupWindowAction();
             action.IsModal = true;
@@ -82,10 +86,10 @@ namespace Ame.Modules.Windows.Interactions.LayerProperties
 
             Style style = new Style();
             style.TargetType = typeof(Window);
-            style.Setters.Add(new Setter(Window.MinWidthProperty, 420.0));
-            style.Setters.Add(new Setter(Window.MinHeightProperty, 380.0));
-            style.Setters.Add(new Setter(Window.WidthProperty, 420.0));
-            style.Setters.Add(new Setter(Window.HeightProperty, 380.0));
+            style.Setters.Add(new Setter(FrameworkElement.MinWidthProperty, 420.0));
+            style.Setters.Add(new Setter(FrameworkElement.MinHeightProperty, 380.0));
+            style.Setters.Add(new Setter(FrameworkElement.WidthProperty, 420.0));
+            style.Setters.Add(new Setter(FrameworkElement.HeightProperty, 380.0));
             action.WindowStyle = style;
             return action;
         }

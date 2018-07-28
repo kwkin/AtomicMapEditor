@@ -480,9 +480,8 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
         public void AddTileset()
         {
-            OpenWindowMessage openWindowMessage = new OpenWindowMessage(typeof(NewTilesetInteraction));
-            openWindowMessage.Title = "New Layer";
-            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(openWindowMessage);
+            NewTilesetInteraction interaction = new NewTilesetInteraction();
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
         }
 
         public void AddImage()
@@ -590,10 +589,8 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             {
                 return;
             }
-            OpenWindowMessage window = new OpenWindowMessage(typeof(EditTilesetInteraction));
-            window.Title = string.Format("Tileset Properties - {0}", this.TilesetModel.Name);
-            window.Content = this.TilesetModel;
-            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(window);
+            EditTilesetInteraction interaction = new EditTilesetInteraction(this.TilesetModel);
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
         }
 
         private void Crop()

@@ -97,9 +97,8 @@ namespace Ame.Modules.Windows.Docks.LayerListDock
 
         public void NewTilesetLayer()
         {
-            OpenWindowMessage openWindowMessage = new OpenWindowMessage(typeof(NewLayerInteraction));
-            openWindowMessage.Title = "New Layer";
-            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(openWindowMessage);
+            NewLayerInteraction interaction = new NewLayerInteraction();
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
         }
 
         public void NewLayerGroup()
@@ -158,10 +157,8 @@ namespace Ame.Modules.Windows.Docks.LayerListDock
             {
                 return;
             }
-            OpenWindowMessage openWindowMessage = new OpenWindowMessage(typeof(EditLayerInteraction));
-            openWindowMessage.Title = string.Format("Edit Layer - {0}", this.Session.CurrentLayer.LayerName);
-            openWindowMessage.Content = this.Session.CurrentLayer;
-            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(openWindowMessage);
+            EditLayerInteraction interaction = new EditLayerInteraction();
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
         }
 
         public void ShowLayer()

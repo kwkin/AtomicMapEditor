@@ -139,15 +139,14 @@ namespace Ame.Modules.Menu.Ribbon
 
         public void NewMap()
         {
-            OpenWindowMessage window = new OpenWindowMessage(typeof(NewMapInteraction));
-            window.Title = "New Map";
-            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(window);
+            NewMapInteraction interaction = new NewMapInteraction();
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
         }
 
         public void EditMapProperties()
         {
-            OpenWindowMessage window = new OpenWindowMessage(typeof(EditMapInteraction));
-            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(window);
+            EditMapInteraction interaction = new EditMapInteraction();
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
         }
 
         #endregion map methods
@@ -156,15 +155,14 @@ namespace Ame.Modules.Menu.Ribbon
 
         public void NewLayer()
         {
-            OpenWindowMessage openWindowMessage = new OpenWindowMessage(typeof(NewLayerInteraction));
-            openWindowMessage.Title = "New Layer";
-            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(openWindowMessage);
+            NewLayerInteraction interaction = new NewLayerInteraction();
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
         }
 
         public void EditLayerProperties()
         {
-            OpenWindowMessage openWindowMessage = new OpenWindowMessage(typeof(EditLayerInteraction));
-            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(openWindowMessage);
+            EditLayerInteraction interaction = new EditLayerInteraction();
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
         }
 
         #endregion layer methods

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Windows;
 using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Events;
+using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
+using Ame.Modules.MapEditor.Editor;
 using Prism.Events;
 using Prism.Interactivity;
 using Prism.Interactivity.InteractionRequest;
@@ -12,74 +15,61 @@ namespace Ame.Modules.Windows.Interactions.MapProperties
     {
         #region fields
 
+        private Map map;
         private AmeSession session;
-        private IEventAggregator eventAggregator;
-        private InteractionRequest<INotification> interaction;
-        private Action<INotification> callback;
 
         #endregion fields
 
 
         #region Constructor
 
-        public NewMapInteraction(AmeSession session, IEventAggregator eventAggregator)
+        public NewMapInteraction()
         {
-            this.session = session;
-            this.eventAggregator = eventAggregator;
-            this.interaction = new InteractionRequest<INotification>();
         }
 
-        public NewMapInteraction(AmeSession session, IEventAggregator eventAggregator, Action<INotification> callback)
+        public NewMapInteraction(Action<INotification> callback)
         {
-            this.session = session;
-            this.eventAggregator = eventAggregator;
-            this.interaction = new InteractionRequest<INotification>();
-            this.callback = callback;
+            this.Callback = callback;
         }
+
 
         #endregion Constructor
 
 
         #region Properties
 
-        #endregion Properties
+        public string Title { get; set; }
+        public Action<INotification> Callback { get; set; }
+        public IEventAggregator EventAggregator { get; set; }
 
+        #endregion Properties
 
         #region methods
 
+        public void UpdateMissingContent(AmeSession session)
+        {
+            this.session = session;
+            this.Title = "New Map";
+            string newMapeName = string.Format("Map #{0}", session.MapCount);
+            this.map = new Map(newMapeName);
+            this.Callback = this.Callback ?? OnNewMapWindowClosed;
+        }
+
         public void RaiseNotification(DependencyObject parent)
         {
-            string title = "New Map";
-            RaiseNotification(parent, this.callback, title);
-        }
-
-        public void RaiseNotification(DependencyObject parent, Action<INotification> callback)
-        {
-            string title = "New Map";
-            RaiseNotification(parent, callback, title);
-        }
-
-        public void RaiseNotification(DependencyObject parent, string title)
-        {
-            RaiseNotification(parent, this.callback, title);
-        }
-
-        public void RaiseNotification(DependencyObject parent, Action<INotification> callback, string title)
-        {
             Confirmation mapConfirmation = new Confirmation();
-            int mapCount = this.session.MapList.Count;
-            string newMapName = string.Format("Map #{0}", mapCount);
-            mapConfirmation.Content = new Map(newMapName);
-            mapConfirmation.Title = title;
+            mapConfirmation.Content = this.map;
+            mapConfirmation.Title = this.Title;
 
             InteractionRequestTrigger trigger = new InteractionRequestTrigger();
-            trigger.SourceObject = this.interaction;
-            trigger.Actions.Add(GetAction());
+            InteractionRequest<INotification> interaction = new InteractionRequest<INotification>();
+            trigger.SourceObject = interaction;
+            trigger.Actions.Add(CreateAction());
             trigger.Attach(parent);
-            this.interaction.Raise(mapConfirmation, callback);
+            interaction.Raise(mapConfirmation, this.Callback);
         }
 
-        private PopupWindowAction GetAction()
+        private PopupWindowAction CreateAction()
         {
             PopupWindowAction action = new PopupWindowAction();
             action.IsModal = true;
@@ -88,12 +78,23 @@ namespace Ame.Modules.Windows.Interactions.MapProperties
 
             Style style = new Style();
             style.TargetType = typeof(Window);
-            style.Setters.Add(new Setter(Window.MinWidthProperty, 420.0));
-            style.Setters.Add(new Setter(Window.MinHeightProperty, 380.0));
-            style.Setters.Add(new Setter(Window.WidthProperty, 420.0));
-            style.Setters.Add(new Setter(Window.HeightProperty, 380.0));
+            style.Setters.Add(new Setter(FrameworkElement.MinWidthProperty, 420.0));
+            style.Setters.Add(new Setter(FrameworkElement.MinHeightProperty, 380.0));
+            style.Setters.Add(new Setter(FrameworkElement.WidthProperty, 420.0));
+            style.Setters.Add(new Setter(FrameworkElement.HeightProperty, 380.0));
             action.WindowStyle = style;
             return action;
+        }
+
+        private void OnNewMapWindowClosed(INotification notification)
+        {
+            IConfirmation confirmation = notification as IConfirmation;
+            if (confirmation.Confirmed)
+            {
+                Map mapModel = confirmation.Content as Map;
+                OpenDockMessage openEditorMessage = new OpenDockMessage(typeof(MapEditorViewModel), mapModel);
+                this.EventAggregator.GetEvent<OpenDockEvent>().Publish(openEditorMessage);
+            }
         }
 
         #endregion methods
