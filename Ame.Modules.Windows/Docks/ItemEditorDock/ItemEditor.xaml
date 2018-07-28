@@ -106,6 +106,7 @@
 
             <extcomp:IconToggleButton x:Name="itemAdvancedOptionsToggle"
                                       Grid.Column="6"
+                                      IsEnabled="{Binding ItemImage, Converter={StaticResource NullToBooleanConverter}}"
                                       ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
             </extcomp:IconToggleButton>
         </Grid>
