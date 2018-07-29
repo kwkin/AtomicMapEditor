@@ -37,9 +37,9 @@
         <StackPanel Grid.Row="1"
                     FlowDirection="RightToLeft"
                     Orientation="Horizontal">
-            <Button x:Name="oKButton"
+            <Button x:Name="createButton"
+                    Content="{Binding AcceptButtonText}"
                     Margin="2,0,2,2"
-                    Content="OK"
                     Width="130"
                     IsDefault="True"
                     Command="{Binding SetLayerPropertiesCommand}"

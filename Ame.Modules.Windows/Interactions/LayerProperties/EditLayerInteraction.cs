@@ -2,6 +2,7 @@
 using System.Windows;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Exceptions;
+using Ame.Infrastructure.Messages.Interactions;
 using Ame.Infrastructure.Models;
 using Prism.Events;
 using Prism.Interactivity;
@@ -67,7 +68,9 @@ namespace Ame.Modules.Windows.Interactions.LayerProperties
             }
             Confirmation confirmation = new Confirmation();
             confirmation.Title = this.Title;
-            confirmation.Content = this.Layer;
+
+            LayerInteractionMessage message = new LayerInteractionMessage(this.Layer as Layer, true);
+            confirmation.Content = message;
 
             InteractionRequestTrigger trigger = new InteractionRequestTrigger();
             InteractionRequest<INotification> interaction = new InteractionRequest<INotification>();

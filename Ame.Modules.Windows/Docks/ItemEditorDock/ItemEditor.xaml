@@ -135,7 +135,7 @@
                           HorizontalAlignment="Stretch"
                           Height="5"
                           Grid.Row="1"
-                          ResizeBehavior="PreviousAndCurrent">
+                          ResizeBehavior="CurrentAndNext">
             </GridSplitter>
         </Grid>
 

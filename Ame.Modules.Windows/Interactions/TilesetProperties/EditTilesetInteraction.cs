@@ -2,6 +2,7 @@
 using System.Windows;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Exceptions;
+using Ame.Infrastructure.Messages.Interactions;
 using Ame.Infrastructure.Models;
 using Prism.Events;
 using Prism.Interactivity;
@@ -65,16 +66,18 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
             {
                 throw new InteractionConfigurationException("TilesetModel is null");
             }
-            Confirmation mapConfirmation = new Confirmation();
-            mapConfirmation.Title = this.Title;
-            mapConfirmation.Content = this.TilesetModel;
+            Confirmation tilesetConfirmation = new Confirmation();
+            tilesetConfirmation.Title = this.Title;
+
+            TilesetInteractionMessage message = new TilesetInteractionMessage(this.TilesetModel, true);
+            tilesetConfirmation.Content = message;
 
             InteractionRequestTrigger trigger = new InteractionRequestTrigger();
             InteractionRequest<INotification> interaction = new InteractionRequest<INotification>();
             trigger.SourceObject = interaction;
             trigger.Actions.Add(CreateAction());
             trigger.Attach(parent);
-            interaction.Raise(mapConfirmation, this.Callback);
+            interaction.Raise(tilesetConfirmation, this.Callback);
         }
 
         private PopupWindowAction CreateAction()
@@ -84,12 +87,13 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
             action.CenterOverAssociatedObject = true;
             action.WindowContent = new TilesetPropertiesWindow();
 
+            // TODO get these properties via a static method in the view model
             Style style = new Style();
             style.TargetType = typeof(Window);
-            style.Setters.Add(new Setter(FrameworkElement.MinWidthProperty, 420.0));
-            style.Setters.Add(new Setter(FrameworkElement.MinHeightProperty, 380.0));
-            style.Setters.Add(new Setter(FrameworkElement.WidthProperty, 420.0));
-            style.Setters.Add(new Setter(FrameworkElement.HeightProperty, 380.0));
+            style.Setters.Add(new Setter(FrameworkElement.MinWidthProperty, 720.0));
+            style.Setters.Add(new Setter(FrameworkElement.MinHeightProperty, 480.0));
+            style.Setters.Add(new Setter(FrameworkElement.WidthProperty, 720.0));
+            style.Setters.Add(new Setter(FrameworkElement.HeightProperty, 480.0));
             action.WindowStyle = style;
             return action;
         }

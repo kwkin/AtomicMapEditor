@@ -12,6 +12,7 @@ using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Core;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
+using Ame.Infrastructure.Messages.Interactions;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Utils;
 using Ame.Modules.Windows.Interactions.TilesetProperties;
@@ -24,6 +25,7 @@ using Prism.Interactivity.InteractionRequest;
 namespace Ame.Modules.Windows.Docks.ItemEditorDock
 {
     // TODO add image loading
+    // TODO use properties instead of fields: itemImage, tilesetModel
     public class ItemEditorViewModel : DockToolViewModelTemplate
     {
         #region fields
@@ -100,6 +102,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             this.Session = session;
             this.TilesetModel = tilesetModel;
 
+            // TODO create default scroll modes, add a factory method
             this.Title = "Item - " + Path.GetFileNameWithoutExtension(tilesetModel.SourcePath);
             if (this.scrollModel.ZoomLevels == null)
             {
@@ -515,12 +518,18 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             this.itemTransform.SetPixelToTile(this.tilesetModel.TileWidth, this.tilesetModel.TileHeight);
             this.itemTransform.SetSlectionToPixel(this.tilesetModel.TileWidth / 2, this.tilesetModel.TileHeight / 2);
 
+            this.TransparentColor = this.TilesetModel.TransparentColor;
+            this.IsTransparent = this.TilesetModel.IsTransparent;
+            Mat transparentImage = ImageUtils.ColorToTransparent(this.ItemImage, this.TransparentColor);
             using (DrawingContext context = this.tilesetImage.Open())
             {
-                context.DrawDrawing(this.TilesetModel.TilesetImage);
+                context.DrawDrawing(ImageUtils.MatToImageDrawing(transparentImage));
             }
             DrawBackground();
             DrawGrid();
+
+            RaisePropertyChanged(nameof(this.TransparentColor));
+            RaisePropertyChanged(nameof(this.IsTransparent));
         }
 
         public override void CloseDock()
@@ -662,7 +671,8 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             IConfirmation confirmation = notification as IConfirmation;
             if (confirmation.Confirmed)
             {
-                TilesetModel tilesetModel = confirmation.Content as TilesetModel;
+                TilesetInteractionMessage message = confirmation.Content as TilesetInteractionMessage;
+                TilesetModel tilesetModel = message.Tileset as TilesetModel;
                 this.Session.CurrentTilesetList.Add(tilesetModel);
                 this.TilesetModel = tilesetModel;
             }

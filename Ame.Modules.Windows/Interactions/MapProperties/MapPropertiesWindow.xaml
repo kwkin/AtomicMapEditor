@@ -42,7 +42,7 @@
                     Orientation="Horizontal">
             <Button x:Name="oKButton"
                     Margin="2,0,2,2"
-                    Content="OK"
+                    Content="{Binding AcceptButtonText}"
                     Width="130"
                     IsDefault="True"
                     Command="{Binding SetMapPropertiesCommand}"

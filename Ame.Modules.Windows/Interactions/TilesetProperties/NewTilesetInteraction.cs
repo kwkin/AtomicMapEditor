@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Messages.Interactions;
 using Ame.Infrastructure.Models;
 using Prism.Events;
 using Prism.Interactivity;
@@ -60,11 +61,9 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
         {
             Confirmation tilesetConfirmation = new Confirmation();
             tilesetConfirmation.Title = this.Title;
-            tilesetConfirmation.Content = this.tilesetModel;
 
-            TilesetModel tilesetModel = new TilesetModel();
-            tilesetModel.Name = string.Format("Tileset #{0}", this.session.CurrentTilesetCount + 1);
-            tilesetConfirmation.Content = tilesetModel;
+            TilesetInteractionMessage message = new TilesetInteractionMessage(this.tilesetModel, false);
+            tilesetConfirmation.Content = message;
 
             InteractionRequestTrigger trigger = new InteractionRequestTrigger();
             InteractionRequest<INotification> interaction = new InteractionRequest<INotification>();
@@ -83,10 +82,10 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
 
             Style style = new Style();
             style.TargetType = typeof(Window);
-            style.Setters.Add(new Setter(FrameworkElement.MinWidthProperty, 420.0));
-            style.Setters.Add(new Setter(FrameworkElement.MinHeightProperty, 380.0));
-            style.Setters.Add(new Setter(FrameworkElement.WidthProperty, 420.0));
-            style.Setters.Add(new Setter(FrameworkElement.HeightProperty, 380.0));
+            style.Setters.Add(new Setter(FrameworkElement.MinWidthProperty, 720.0));
+            style.Setters.Add(new Setter(FrameworkElement.MinHeightProperty, 450.0));
+            style.Setters.Add(new Setter(FrameworkElement.WidthProperty, 720.0));
+            style.Setters.Add(new Setter(FrameworkElement.HeightProperty, 450.0));
             action.WindowStyle = style;
             return action;
         }
@@ -96,7 +95,8 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
             IConfirmation confirmation = notification as IConfirmation;
             if (confirmation.Confirmed)
             {
-                TilesetModel tilesetModel = confirmation.Content as TilesetModel;
+                TilesetInteractionMessage message = confirmation.Content as TilesetInteractionMessage;
+                TilesetModel tilesetModel = message.Tileset as TilesetModel;
                 this.session.CurrentTilesetList.Add(tilesetModel);
             }
         }

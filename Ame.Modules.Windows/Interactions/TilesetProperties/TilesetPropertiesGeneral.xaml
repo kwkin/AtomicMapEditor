@@ -46,7 +46,7 @@
                  Grid.Column="3"
                  Grid.ColumnSpan="3"
                  VerticalAlignment="Center"
-                 Text="{Binding TilesetModel.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                 Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
         </TextBox>
 
         <Label x:Name="sourceLabel"
@@ -61,7 +61,7 @@
                  Grid.Column="3"
                  Grid.ColumnSpan="2"
                  VerticalAlignment="Center"
-                 Text="{Binding FileSourcePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                 Text="{Binding SourcePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <Button x:Name="sourceButton"
                 Grid.Row="1"
                 Grid.Column="5"
@@ -117,7 +117,7 @@
                             Increment="1"
                             Maximum="2048"
                             Minimum="1"
-                            Value="{Binding TilesetModel.TileWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            Value="{Binding TileWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ValueChanged">
                     <actions:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
@@ -137,7 +137,7 @@
                             Increment="1"
                             Maximum="2048"
                             Minimum="1"
-                            Value="{Binding TilesetModel.TileHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            Value="{Binding TileHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ValueChanged">
                     <actions:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
@@ -165,7 +165,7 @@
                             Increment="1"
                             Maximum="2048"
                             Minimum="0"
-                            Value="{Binding TilesetModel.OffsetX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            Value="{Binding OffsetX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ValueChanged">
                     <actions:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
@@ -185,7 +185,7 @@
                             Increment="1"
                             Maximum="2048"
                             Minimum="0"
-                            Value="{Binding TilesetModel.OffsetY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            Value="{Binding OffsetY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ValueChanged">
                     <actions:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
@@ -213,7 +213,7 @@
                             Increment="1"
                             Maximum="2048"
                             Minimum="0"
-                            Value="{Binding TilesetModel.PaddingX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            Value="{Binding PaddingX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ValueChanged">
                     <actions:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
@@ -233,7 +233,7 @@
                             Increment="1"
                             Maximum="2048"
                             Minimum="0"
-                            Value="{Binding TilesetModel.PaddingY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            Value="{Binding PaddingY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ValueChanged">
                     <actions:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
