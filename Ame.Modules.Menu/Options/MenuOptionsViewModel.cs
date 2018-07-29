@@ -45,85 +45,277 @@ namespace Ame.Modules.Menu.Options
             this.eventAggregator = eventAggregator;
 
             // File bindings
-            this.NewFileCommand = new DelegateCommand(() => NewFile());
-            this.OpenFileCommand = new DelegateCommand(() => OpenFile());
-            this.SaveFileCommand = new DelegateCommand(() => SaveFile());
-            this.SaveAsFileCommand = new DelegateCommand(() => SaveAsFile());
-            this.ExportFileCommand = new DelegateCommand(() => ExportFile());
-            this.ExportAsFileCommand = new DelegateCommand(() => ExportAsFile());
-            this.ImportFileCommand = new DelegateCommand(() => ImportFile());
-            this.ViewFilePropertiesCommand = new DelegateCommand(() => ViewFileProperties());
-            this.CloseFileCommand = new DelegateCommand(() => CloseFile());
-            this.CloseAllFilesCommand = new DelegateCommand(() => CloseAllFiles());
-            this.ExitProgramCommand = new DelegateCommand(() => ExitProgram());
+            this.NewFileCommand = new DelegateCommand(() =>
+            {
+                NewFile();
+            });
+            this.OpenFileCommand = new DelegateCommand(() =>
+            {
+                OpenFile();
+            });
+            this.SaveFileCommand = new DelegateCommand(() =>
+            {
+                SaveFile();
+            });
+            this.SaveAsFileCommand = new DelegateCommand(() =>
+            {
+                SaveAsFile();
+            });
+            this.ExportFileCommand = new DelegateCommand(() =>
+            {
+                ExportFile();
+            });
+            this.ExportAsFileCommand = new DelegateCommand(() =>
+            {
+                ExportAsFile();
+            });
+            this.ImportFileCommand = new DelegateCommand(() =>
+            {
+                ImportFile();
+            });
+            this.ViewFilePropertiesCommand = new DelegateCommand(() =>
+            {
+                ViewFileProperties();
+            });
+            this.CloseFileCommand = new DelegateCommand(() =>
+            {
+                CloseFile();
+            });
+            this.CloseAllFilesCommand = new DelegateCommand(() =>
+            {
+                CloseAllFiles();
+            });
+            this.ExitProgramCommand = new DelegateCommand(() =>
+            {
+                ExitProgram();
+            });
 
             // Edit bindings
-            this.UndoCommand = new DelegateCommand(() => Undo());
-            this.RedoCommand = new DelegateCommand(() => Redo());
-            this.CutCommand = new DelegateCommand(() => CutSelection());
-            this.CopyCommand = new DelegateCommand(() => CopySelection());
-            this.PasteCommand = new DelegateCommand(() => PasteClipboard());
-            this.OpenClipboardCommand = new DelegateCommand(() => OpenClipboard());
-            this.OpenPreferencesCommand = new DelegateCommand(() => OpenPreferenences());
+            this.UndoCommand = new DelegateCommand(() =>
+            {
+                Undo();
+            });
+            this.RedoCommand = new DelegateCommand(() =>
+            {
+                Redo();
+            });
+            this.CutCommand = new DelegateCommand(() =>
+            {
+                CutSelection();
+            });
+            this.CopyCommand = new DelegateCommand(() =>
+            {
+                CopySelection();
+            });
+            this.PasteCommand = new DelegateCommand(() =>
+            {
+                PasteClipboard();
+            });
+            this.OpenClipboardCommand = new DelegateCommand(() =>
+            {
+                OpenClipboard();
+            });
+            this.OpenPreferencesCommand = new DelegateCommand(() =>
+            {
+                OpenPreferenences();
+            });
 
             // Map bindings
-            this.NewMapCommand = new DelegateCommand(() => NewMap());
-            this.DuplicateMapCommand = new DelegateCommand(() => DuplicateMap());
-            this.FlipMapHorizontallyCommand = new DelegateCommand(() => FlipMapHorizontally());
-            this.FlipMapVerticallyCommand = new DelegateCommand(() => FlipMapVertically());
-            this.GuillotineMapCommand = new DelegateCommand(() => GuillotineMap());
-            this.EditMapPropertiesCommand = new DelegateCommand(() => EditMapProperties());
+            this.NewMapCommand = new DelegateCommand(() =>
+            {
+                NewMap();
+            });
+            this.DuplicateMapCommand = new DelegateCommand(() =>
+            {
+                DuplicateMap();
+            });
+            this.FlipMapHorizontallyCommand = new DelegateCommand(() =>
+            {
+                FlipMapHorizontally();
+            });
+            this.FlipMapVerticallyCommand = new DelegateCommand(() =>
+            {
+                FlipMapVertically();
+            });
+            this.GuillotineMapCommand = new DelegateCommand(() =>
+            {
+                GuillotineMap();
+            });
+            this.EditMapPropertiesCommand = new DelegateCommand(() =>
+            {
+                EditMapProperties();
+            });
 
             // Layer bindings
-            this.NewLayerCommand = new DelegateCommand(() => NewLayer());
-            this.NewGroupCommand = new DelegateCommand(() => NewGroup());
-            this.DuplicateLayerCommand = new DelegateCommand(() => DuplicateLayer());
-            this.MergeLayerDownCommand = new DelegateCommand(() => MergeLayerDown());
-            this.MergeLayerUpCommand = new DelegateCommand(() => MergeLayerUp());
-            this.MergeVisibleCommand = new DelegateCommand(() => MergeVisible());
-            this.DeleteLayerCommand = new DelegateCommand(() => DeleteLayer());
-            this.EditLayerPropertiesCommand = new DelegateCommand(() => EditLayerProperties());
-            this.LayerToMapCommand = new DelegateCommand(() => LayerToMap());
+            this.NewLayerCommand = new DelegateCommand(() =>
+            {
+                NewLayer();
+            });
+            this.NewGroupCommand = new DelegateCommand(() =>
+            {
+                NewGroup();
+            });
+            this.DuplicateLayerCommand = new DelegateCommand(() =>
+            {
+                DuplicateLayer();
+            });
+            this.MergeLayerDownCommand = new DelegateCommand(() =>
+            {
+                MergeLayerDown();
+            });
+            this.MergeLayerUpCommand = new DelegateCommand(() =>
+            {
+                MergeLayerUp();
+            });
+            this.MergeVisibleCommand = new DelegateCommand(() =>
+            {
+                MergeVisible();
+            });
+            this.DeleteLayerCommand = new DelegateCommand(() =>
+            {
+                DeleteLayer();
+            });
+            this.EditLayerPropertiesCommand = new DelegateCommand(() =>
+            {
+                EditLayerProperties();
+            });
+            this.LayerToMapCommand = new DelegateCommand(() =>
+            {
+                LayerToMap();
+            });
 
             // Item bindings
-            this.AddTilesetCommand = new DelegateCommand(() => AddTileset());
-            this.AddImageCommand = new DelegateCommand(() => AddImage());
-            this.AddGroupCommand = new DelegateCommand(() => AddGroup());
-            this.EditItemPropertiesCommand = new DelegateCommand(() => EditItemProperties());
-            this.EditItemCollisionsCommand = new DelegateCommand(() => EditItemCollisions());
+            this.AddTilesetCommand = new DelegateCommand(() =>
+            {
+                AddTileset();
+            });
+            this.AddImageCommand = new DelegateCommand(() =>
+            {
+                AddImage();
+            });
+            this.AddGroupCommand = new DelegateCommand(() =>
+            {
+                AddGroup();
+            });
+            this.EditItemPropertiesCommand = new DelegateCommand(() =>
+            {
+                EditItemProperties();
+            });
+            this.EditItemCollisionsCommand = new DelegateCommand(() =>
+            {
+                EditItemCollisions();
+            });
 
             // View bindings
-            this.SampleViewCommand = new DelegateCommand(() => SampleView());
-            this.CollisionsViewCommand = new DelegateCommand(() => CollisionsView());
-            this.ZoomInCommand = new DelegateCommand(() => ZoomIn());
-            this.ZoomOutCommand = new DelegateCommand(() => ZoomOut());
-            this.ZoomToolCommand = new DelegateCommand(() => ZoomTool());
-            this.FitMapToWindowCommand = new DelegateCommand(() => FitMapToWindow());
-            this.SetZoomCommand = new DelegateCommand<ZoomLevel>((zoomLevel) => SetZoom(zoomLevel));
-            this.DockPresetViewCommand = new DelegateCommand(() => DockPresetView());
-            this.ShowGridCommand = new DelegateCommand(() => ShowGrid());
-            this.ShowRulerCommand = new DelegateCommand(() => ShowRuler());
-            this.ShowScrollBarCommand = new DelegateCommand(() => ShowScrollBar());
+            this.SampleViewCommand = new DelegateCommand(() =>
+            {
+                SampleView();
+            });
+            this.CollisionsViewCommand = new DelegateCommand(() => 
+            {
+                CollisionsView();
+            });
+            this.ZoomInCommand = new DelegateCommand(() => 
+            {
+                ZoomIn();
+            });
+            this.ZoomOutCommand = new DelegateCommand(() =>
+            {
+                ZoomOut();
+            });
+            this.ZoomToolCommand = new DelegateCommand(() =>
+            {
+                ZoomTool();
+            });
+            this.FitMapToWindowCommand = new DelegateCommand(() => 
+            {
+                FitMapToWindow();
+            });
+            this.SetZoomCommand = new DelegateCommand<ZoomLevel>((zoomLevel) =>
+            {
+                SetZoom(zoomLevel);
+            });
+            this.DockPresetViewCommand = new DelegateCommand(() =>
+            {
+                DockPresetView();
+            });
+            this.ShowGridCommand = new DelegateCommand(() =>
+            {
+                ShowGrid();
+            });
+            this.ShowRulerCommand = new DelegateCommand(() => 
+            {
+                ShowRuler();
+            });
+            this.ShowScrollBarCommand = new DelegateCommand(() =>
+            {
+                ShowScrollBar();
+            });
 
             // Window bindings
-            this.OpenItemEditorDockCommand = new DelegateCommand(() => OpenItemEditorDock());
-            this.OpenItemListDockCommand = new DelegateCommand(() => OpenItemListDock());
-            this.OpenLayerListDockCommand = new DelegateCommand(() => OpenLayerListDock());
-            this.OpenToolboxDockCommand = new DelegateCommand(() => OpenToolboxDock());
-            this.OpenMinimapDockCommand = new DelegateCommand(() => OpenMinimapDock());
-            this.OpenClipboardDockCommand = new DelegateCommand(() => OpenClipboardDock());
-            this.OpenUndoHistoryDockCommand = new DelegateCommand(() => OpenUndoHistoryDock());
-            this.OpenSelectedBrushDockCommand = new DelegateCommand(() => OpenSelectedBrushDock());
-            this.OpenProjectExplorerDockCommand = new DelegateCommand(() => OpenProjectExplorerDock());
-            this.OpenSessionViewDockCommand = new DelegateCommand(() => OpenSessionViewerDock());
-            this.HideDocksCommand = new DelegateCommand(() => HideDocks());
-            this.SingleWindowCommand = new DelegateCommand(() => SingleWindow());
+            this.OpenItemEditorDockCommand = new DelegateCommand(() =>
+            {
+                OpenItemEditorDock();
+            });
+            this.OpenItemListDockCommand = new DelegateCommand(() =>
+            {
+                OpenItemListDock();
+            });
+            this.OpenLayerListDockCommand = new DelegateCommand(() => 
+            {
+                OpenLayerListDock();
+            });
+            this.OpenToolboxDockCommand = new DelegateCommand(() => 
+            {
+                OpenToolboxDock();
+            });
+            this.OpenMinimapDockCommand = new DelegateCommand(() =>
+            {
+                OpenMinimapDock();
+            });
+            this.OpenClipboardDockCommand = new DelegateCommand(() => 
+            {
+                OpenClipboardDock();
+            });
+            this.OpenUndoHistoryDockCommand = new DelegateCommand(() =>
+            {
+                OpenUndoHistoryDock();
+            });
+            this.OpenSelectedBrushDockCommand = new DelegateCommand(() =>
+            {
+                OpenSelectedBrushDock();
+            });
+            this.OpenProjectExplorerDockCommand = new DelegateCommand(() =>
+            {
+                OpenProjectExplorerDock();
+            });
+            this.OpenSessionViewDockCommand = new DelegateCommand(() =>
+            {
+                OpenSessionViewerDock();
+            });
+            this.HideDocksCommand = new DelegateCommand(() =>
+            {
+                HideDocks();
+            });
+            this.SingleWindowCommand = new DelegateCommand(() =>
+            {
+                SingleWindow();
+            });
 
             // Help bindings
-            this.HelpCommand = new DelegateCommand(() => Help());
-            this.AboutCommand = new DelegateCommand(() => About());
+            this.HelpCommand = new DelegateCommand(() =>
+            {
+                Help();
+            });
+            this.AboutCommand = new DelegateCommand(() =>
+            {
+                About();
+            });
 
-            this.TestAddClosedDocksCommand = new DelegateCommand(() => TestAddClosedDocks());
+            this.TestAddClosedDocksCommand = new DelegateCommand(() =>
+            {
+                TestAddClosedDocks();
+            });
         }
 
         #endregion constructor

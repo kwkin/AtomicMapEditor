@@ -92,16 +92,26 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
             this.PositionText = "0, 0";
             this.updatePositionLabelStopWatch = Stopwatch.StartNew();
 
-            this.ShowGridCommand = new DelegateCommand(
-                () => DrawGrid(this.IsGridOn));
-            this.HandleMouseMoveCommand = new DelegateCommand<object>(
-                (point) => HandleMouseMove((Point)point));
-            this.ZoomInCommand = new DelegateCommand(
-                () => this.ZoomIndex = this.scrollModel.ZoomIn());
-            this.ZoomOutCommand = new DelegateCommand(
-                () => this.ZoomIndex = this.scrollModel.ZoomOut());
-            this.SetZoomCommand = new DelegateCommand<ZoomLevel>(
-                (zoomLevel) => this.ZoomIndex = this.scrollModel.SetZoom(zoomLevel));
+            this.ShowGridCommand = new DelegateCommand(() =>
+            {
+                DrawGrid(this.IsGridOn);
+            });
+            this.HandleMouseMoveCommand = new DelegateCommand<object>((point) =>
+            {
+                HandleMouseMove((Point)point);
+            });
+            this.ZoomInCommand = new DelegateCommand(() =>
+            {
+                this.ZoomIndex = this.scrollModel.ZoomIn();
+            });
+            this.ZoomOutCommand = new DelegateCommand(() =>
+            {
+                this.ZoomIndex = this.scrollModel.ZoomOut();
+            });
+            this.SetZoomCommand = new DelegateCommand<ZoomLevel>((zoomLevel) =>
+            {
+                this.ZoomIndex = this.scrollModel.SetZoom(zoomLevel);
+            });
 
             this.eventAggregator.GetEvent<UpdateBrushEvent>().Subscribe(UpdateBrushImage);
         }

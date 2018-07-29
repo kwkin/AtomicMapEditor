@@ -24,7 +24,10 @@ namespace Ame.Modules.Windows.Docks.ToolboxDock
             this.eventAggregator = eventAggregator;
             this.Title = "Tools";
 
-            this.ToolButtonCommand = new DelegateCommand<string>((s) => SetToolboxTitle(s));
+            this.ToolButtonCommand = new DelegateCommand<string>((s) =>
+            {
+                SetToolboxTitle(s);
+            });
         }
 
         #endregion constructor

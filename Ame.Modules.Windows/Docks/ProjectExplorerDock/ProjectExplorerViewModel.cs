@@ -32,10 +32,13 @@ namespace Ame.Modules.Windows.Docks.ProjectExplorerDock
             this.session = session;
             this.Title = "Project Explorer";
 
-            this.RefreshTreeCommand = new DelegateCommand(() => RefreshTree());
-
             this.Nodes = new ObservableCollection<NodeViewBuilder>();
             this.Nodes.Add(new NodeViewBuilder("Ame Session", this.session));
+
+            this.RefreshTreeCommand = new DelegateCommand(() =>
+            {
+                RefreshTree();
+            });
         }
 
         #endregion constructor

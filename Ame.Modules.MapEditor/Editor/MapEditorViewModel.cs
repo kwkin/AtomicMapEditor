@@ -106,28 +106,48 @@ namespace Ame.Modules.MapEditor.Editor
             this.PositionText = "0, 0";
             this.updatePositionLabelStopWatch = Stopwatch.StartNew();
 
-            this.ShowGridCommand = new DelegateCommand(
-                () => DrawGrid(this.IsGridOn));
-            this.HandleMouseMoveCommand = new DelegateCommand<object>(
-                (point) => HandleMouseMove((Point)point));
-            this.UndoCommand = new DelegateCommand(
-                () => this.Undo());
-            this.RedoCommand = new DelegateCommand(
-                () => this.Redo());
-            this.ZoomInCommand = new DelegateCommand(
-                () => this.ZoomIndex = this.scrollModel.ZoomIn());
-            this.ZoomOutCommand = new DelegateCommand(
-                () => this.ZoomIndex = this.scrollModel.ZoomOut());
-            this.SetZoomCommand = new DelegateCommand<ZoomLevel>(
-                (zoomLevel) => this.ZoomIndex = this.scrollModel.SetZoom(zoomLevel));
-            this.HandleLeftClickDownCommand = new DelegateCommand<object>(
-                (point) => HandleLeftClickDown((Point)point));
-            this.HandleLeftClickUpCommand = new DelegateCommand<object>(
-                (point) => HandleLeftClickUp((Point)point));
+            this.ShowGridCommand = new DelegateCommand(() =>
+            {
+                DrawGrid(this.IsGridOn);
+            });
+            this.HandleMouseMoveCommand = new DelegateCommand<object>((point) =>
+            {
+                HandleMouseMove((Point)point);
+            });
+            this.UndoCommand = new DelegateCommand(() =>
+            {
+                this.Undo();
+            });
+            this.RedoCommand = new DelegateCommand(() =>
+            {
+                this.Redo();
+            });
+            this.ZoomInCommand = new DelegateCommand(() =>
+            {
+                this.ZoomIndex = this.scrollModel.ZoomIn();
+            });
+            this.ZoomOutCommand = new DelegateCommand(() =>
+            {
+                this.ZoomIndex = this.scrollModel.ZoomOut();
+            });
+            this.SetZoomCommand = new DelegateCommand<ZoomLevel>((zoomLevel) =>
+            {
+                this.ZoomIndex = this.scrollModel.SetZoom(zoomLevel);
+            });
+            this.HandleLeftClickDownCommand = new DelegateCommand<object>((point) =>
+            {
+                HandleLeftClickDown((Point)point);
+            });
+            this.HandleLeftClickUpCommand = new DelegateCommand<object>((point) =>
+            {
+                HandleLeftClickUp((Point)point);
+            });
 
-            this.eventAggregator.GetEvent<UpdateBrushEvent>().Subscribe(
-                UpdateBrushImage,
-                ThreadOption.PublisherThread);
+            this.eventAggregator.GetEvent<UpdateBrushEvent>().Subscribe((brushEvent) =>
+            {
+                UpdateBrushImage(brushEvent);
+            }, 
+            ThreadOption.PublisherThread);
         }
 
         #endregion constructor

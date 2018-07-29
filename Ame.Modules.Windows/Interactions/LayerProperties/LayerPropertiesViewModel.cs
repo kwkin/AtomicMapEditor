@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Data;
 using System.Windows.Input;
 using Ame.Infrastructure.Attributes;
-using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Messages.Interactions;
 using Ame.Infrastructure.Models;
 using Prism.Commands;
@@ -28,12 +26,30 @@ namespace Ame.Modules.Windows.Interactions.LayerProperties
         {
             this.WindowTitle = "Layer Editor";
 
-            this.SetLayerPropertiesCommand = new DelegateCommand(SetLayerProperties);
-            this.CloseWindowCommand = new DelegateCommand(CloseWindow);
-            this.AddCustomMetaDataCommand = new DelegateCommand(AddCustomProperty);
-            this.RemoveCustomMetadataCommand = new DelegateCommand(RemoveCustomProperty);
-            this.MoveMetadataUpCommand = new DelegateCommand(MoveMetadataUp);
-            this.MoveMetadataDownCommand = new DelegateCommand(MoveMetadataDown);
+            this.SetLayerPropertiesCommand = new DelegateCommand(() =>
+            {
+                SetLayerProperties();
+            });
+            this.CloseWindowCommand = new DelegateCommand(() =>
+            {
+                CloseWindow();
+            });
+            this.AddCustomMetaDataCommand = new DelegateCommand(() =>
+            {
+                AddCustomProperty();
+            });
+            this.RemoveCustomMetadataCommand = new DelegateCommand(() =>
+            {
+                SetLayerProperties();
+            });
+            this.MoveMetadataUpCommand = new DelegateCommand(() =>
+            {
+                MoveMetadataUp();
+            });
+            this.MoveMetadataDownCommand = new DelegateCommand(() =>
+            {
+                MoveMetadataDown();
+            });
         }
 
         #endregion constructor

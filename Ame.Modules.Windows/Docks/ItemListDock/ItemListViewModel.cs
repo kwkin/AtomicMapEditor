@@ -31,23 +31,74 @@ namespace Ame.Modules.Windows.Docks.ItemListDock
             this.Title = "Item List";
 
             this.CurrentItemChangedCommand = new DelegateCommand<object>((currentItem) => CurrentItemChanged((IItem)currentItem));
-            this.AddTilesetCommand = new DelegateCommand(() => AddTileset());
-            this.AddImageCommand = new DelegateCommand(() => AddImage());
-            this.AddGroupCommand = new DelegateCommand(() => AddGroup());
-            this.AddDirectoryCommand = new DelegateCommand(() => AddDirectory());
-            this.ViewPropertiesCommand = new DelegateCommand(() => ViewProperties());
-            this.RemoveItemCommand = new DelegateCommand(() => RemoveItem());
-            this.SortItemListCommand = new DelegateCommand(() => SortItemList());
-            this.ShowTilesetsCommand = new DelegateCommand(() => ShowTilesets());
-            this.ZoomInCommand = new DelegateCommand(() => ZoomIn());
-            this.ZoomOutCommand = new DelegateCommand(() => ZoomOut());
-            this.ShowImagesCommand = new DelegateCommand(() => ShowImages());
-            this.SetImageSizeCommand = new DelegateCommand(() => SetImageSize());
-            this.ExpandAllCommand = new DelegateCommand(() => ExpandAll());
-            this.CollapseAllCommand = new DelegateCommand(() => CollapseAll());
-            this.ShowGroupsCommand = new DelegateCommand(() => ShowGroups());
-            this.EditCollisionsCommand = new DelegateCommand(() => EditCollisions());
-            this.RenameItemCommand = new DelegateCommand(() => RenameItem());
+            this.AddTilesetCommand = new DelegateCommand(() =>
+            {
+                AddTileset();
+            });
+            this.AddImageCommand = new DelegateCommand(() =>
+            {
+                AddImage();
+            });
+            this.AddGroupCommand = new DelegateCommand(() =>
+            {
+                AddGroup();
+            });
+            this.AddDirectoryCommand = new DelegateCommand(() =>
+            {
+                AddDirectory();
+            });
+            this.ViewPropertiesCommand = new DelegateCommand(() =>
+            {
+                ViewProperties();
+            });
+            this.RemoveItemCommand = new DelegateCommand(() =>
+            {
+                RemoveItem();
+            });
+            this.SortItemListCommand = new DelegateCommand(() =>
+            {
+                SortItemList();
+            });
+            this.ShowTilesetsCommand = new DelegateCommand(() =>
+            {
+                ShowTilesets();
+            });
+            this.ZoomInCommand = new DelegateCommand(() =>
+            {
+                ZoomIn();
+            });
+            this.ZoomOutCommand = new DelegateCommand(() =>
+            {
+                ZoomOut();
+            });
+            this.ShowImagesCommand = new DelegateCommand(() =>
+            {
+                ShowImages();
+            });
+            this.SetImageSizeCommand = new DelegateCommand(() =>
+            {
+                SetImageSize();
+            });
+            this.ExpandAllCommand = new DelegateCommand(() =>
+            {
+                ExpandAll();
+            });
+            this.CollapseAllCommand = new DelegateCommand(() =>
+            {
+                CollapseAll();
+            });
+            this.ShowGroupsCommand = new DelegateCommand(() =>
+            {
+                ShowGroups();
+            });
+            this.EditCollisionsCommand = new DelegateCommand(() =>
+            {
+                EditCollisions();
+            });
+            this.RenameItemCommand = new DelegateCommand(() =>
+            {
+                RenameItem();
+            });
 
             this.Items = new ObservableCollection<IItem>();
             ItemGroup itemGroup1 = new ItemGroup("Item Group #1");
@@ -60,7 +111,7 @@ namespace Ame.Modules.Windows.Docks.ItemListDock
             itemGroup3.Items.Add(new TilesetModel("Tileset #4"));
             itemGroup2.Items.Add(itemGroup3);
             itemGroup2.Items.Add(new TilesetModel("Tileset #5"));
-            
+
             this.Items.Add(itemGroup1);
             this.Items.Add(itemGroup2);
             this.Items.Add(new TilesetModel("Tileset #6"));

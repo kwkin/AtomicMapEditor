@@ -120,36 +120,66 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             {
                 HandleLeftClickDown((Point)point);
             });
-            this.HandleLeftClickUpCommand = new DelegateCommand<object>(
-                (point) => HandleLeftClickUp((Point)point));
-            this.HandleMouseMoveCommand = new DelegateCommand<object>(
-                (point) => HandleMouseMove((Point)point));
-            this.AddTilesetCommand = new DelegateCommand(
-                () => AddTileset());
-            this.AddImageCommand = new DelegateCommand(
-                () => AddImage());
-            this.RemoveItemCommand = new DelegateCommand(
-                () => RemoveItem());
-            this.ViewPropertiesCommand = new DelegateCommand(
-                () => ViewProperties());
-            this.EditCollisionsCommand = new DelegateCommand(
-                () => EditCollisions());
-            this.CropCommand = new DelegateCommand(
-                () => Crop());
-            this.ChangeItemCommand = new DelegateCommand(
-                () => UpdateItemModel());
-            this.UpdateModelCommand = new DelegateCommand(
-                () => UpdateTilesetModel());
-            this.ShowGridCommand = new DelegateCommand(
-                () => RefreshGrid());
-            this.ShowRulerCommand = new DelegateCommand(
-                () => RefreshRuler());
-            this.ZoomOutCommand = new DelegateCommand(
-                () => this.ZoomIn());
-            this.ZoomOutCommand = new DelegateCommand(
-                () => this.ZoomOut());
-            this.SetZoomCommand = new DelegateCommand<ZoomLevel>(
-                (zoomLevel) => this.SetZoom(zoomLevel));
+            this.HandleLeftClickUpCommand = new DelegateCommand<object>((point) =>
+            {
+                HandleLeftClickUp((Point)point);
+            });
+            this.HandleMouseMoveCommand = new DelegateCommand<object>((point) =>
+            {
+                HandleMouseMove((Point)point);
+            });
+            this.AddTilesetCommand = new DelegateCommand(() =>
+            {
+                AddTileset();
+            });
+            this.AddImageCommand = new DelegateCommand(() =>
+            {
+                AddImage();
+            });
+            this.RemoveItemCommand = new DelegateCommand(() =>
+            {
+                RemoveItem();
+            });
+            this.ViewPropertiesCommand = new DelegateCommand(() =>
+            {
+                ViewProperties();
+            });
+            this.EditCollisionsCommand = new DelegateCommand(() =>
+            {
+                EditCollisions();
+            });
+            this.CropCommand = new DelegateCommand(() =>
+            {
+                Crop();
+            });
+            this.ChangeItemCommand = new DelegateCommand(() =>
+            {
+                UpdateItemModel();
+            });
+            this.UpdateModelCommand = new DelegateCommand(() =>
+            {
+                UpdateTilesetModel();
+            });
+            this.ShowGridCommand = new DelegateCommand(() =>
+            {
+                RefreshGrid();
+            });
+            this.ShowRulerCommand = new DelegateCommand(() =>
+            {
+                RefreshRuler();
+            });
+            this.ZoomOutCommand = new DelegateCommand(() =>
+            {
+                ZoomIn();
+            });
+            this.ZoomOutCommand = new DelegateCommand(() =>
+            {
+                ZoomOut();
+            });
+            this.SetZoomCommand = new DelegateCommand<ZoomLevel>((zoomLevel) =>
+            {
+                SetZoom(zoomLevel);
+            });
         }
 
         #endregion constructor
@@ -326,7 +356,10 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                     {
                         this.Title = "Item - " + Path.GetFileNameWithoutExtension(this.tilesetModel.Name);
                         ChangeItemModel(this.tilesetModel);
-                        RaisePropertyChanged(nameof(this.TileImage));
+                    }
+                    else
+                    {
+                        this.Title = "Item Editor";
                     }
                 }
             }

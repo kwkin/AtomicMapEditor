@@ -83,26 +83,46 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
 
             this.updatePositionLabelStopWatch = Stopwatch.StartNew();
 
-            this.HandleLeftClickDownCommand = new DelegateCommand<object>(
-                (point) => HandleLeftClickDown((Point)point));
-            this.HandleLeftClickUpCommand = new DelegateCommand<object>(
-                (point) => HandleLeftClickUp((Point)point));
-            this.HandleMouseMoveCommand = new DelegateCommand<object>(
-                (point) => HandleMouseMove((Point)point));
-            this.SetTilesetCommand = new DelegateCommand(
-                () => SetTileset());
-            this.CloseWindowCommand = new DelegateCommand(
-                () => CloseWindow());
-            this.AddCustomMetaDataCommand = new DelegateCommand(
-                () => AddCustomProperty());
-            this.RemoveCustomMetadataCommand = new DelegateCommand(
-                () => RemoveCustomProperty());
-            this.MoveMetadataUpCommand = new DelegateCommand(
-                () => MoveMetadataUp());
-            this.MoveMetadataDownCommand = new DelegateCommand(
-                () => MoveMetadataDown());
-            this.BrowseSourceCommand = new DelegateCommand(
-                () => BrowseSource());
+            this.HandleLeftClickDownCommand = new DelegateCommand<object>((point) =>
+            {
+                HandleLeftClickDown((Point)point);
+            });
+            this.HandleLeftClickUpCommand = new DelegateCommand<object>((point) =>
+            {
+                HandleLeftClickUp((Point)point);
+            });
+            this.HandleMouseMoveCommand = new DelegateCommand<object>((point) =>
+            {
+                HandleMouseMove((Point)point);
+            });
+            this.SetTilesetCommand = new DelegateCommand(() =>
+            {
+                SetTileset();
+            });
+            this.CloseWindowCommand = new DelegateCommand(() =>
+            {
+                CloseWindow();
+            });
+            this.AddCustomMetaDataCommand = new DelegateCommand(() =>
+            {
+                AddCustomProperty();
+            });
+            this.RemoveCustomMetadataCommand = new DelegateCommand(() =>
+            {
+                RemoveCustomProperty();
+            });
+            this.MoveMetadataUpCommand = new DelegateCommand(() =>
+            {
+                MoveMetadataUp();
+            });
+            this.MoveMetadataDownCommand = new DelegateCommand(() =>
+            {
+                MoveMetadataDown();
+            });
+            this.BrowseSourceCommand = new DelegateCommand(() =>
+            {
+                BrowseSource();
+            });
         }
 
         #endregion constructor
@@ -189,6 +209,7 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
                 SetProperty(ref this.isCustomSelected, value);
             }
         }
+
         public bool IsGridOn { get; set; }
         public ScaleType Scale { get; set; }
         public string PositionText { get; set; }
@@ -254,6 +275,7 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
 
 
         #region methods
+
         private bool isMouseDown;
 
         public void HandleLeftClickUp(Point selectPoint)

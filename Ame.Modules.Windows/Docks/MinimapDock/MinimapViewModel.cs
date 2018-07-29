@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -27,7 +26,7 @@ namespace Ame.Modules.Windows.Docks.MinimapDock
 
         #region constructor
 
-        public MinimapViewModel(IEventAggregator eventAggregator) 
+        public MinimapViewModel(IEventAggregator eventAggregator)
             : this(eventAggregator, new ScrollModel())
         {
         }
@@ -55,18 +54,38 @@ namespace Ame.Modules.Windows.Docks.MinimapDock
             this.Scale = ScaleType.Tile;
             this.PositionText = "0, 0";
 
-            this.FitMinimapCommand = new DelegateCommand(() => FitMinimap());
-            this.ToggleGridCommand = new DelegateCommand(() => ToggleGrid());
-            this.ToggleCollisionCommand = new DelegateCommand(() => ToggleCollision());
-            this.CenterOnPointCommand = new DelegateCommand(() => CenterOnPoint());
-            this.ZoomInCommand = new DelegateCommand(
-                () => this.ZoomIndex = this.scrollModel.ZoomIn());
-            this.ZoomOutCommand = new DelegateCommand(
-                () => this.ZoomIndex = this.scrollModel.ZoomOut());
-            this.SetZoomCommand = new DelegateCommand<ZoomLevel>(
-                (zoomLevel) => this.ZoomIndex = this.scrollModel.SetZoom(zoomLevel));
-            this.UpdatePositionCommand = new DelegateCommand<object>(
-                (point) => UpdatePosition((Point)point));
+            this.FitMinimapCommand = new DelegateCommand(() =>
+            {
+                FitMinimap();
+            });
+            this.ToggleGridCommand = new DelegateCommand(() =>
+            {
+                ToggleGrid();
+            });
+            this.ToggleCollisionCommand = new DelegateCommand(() =>
+            {
+                ToggleCollision();
+            });
+            this.CenterOnPointCommand = new DelegateCommand(() =>
+            {
+                CenterOnPoint();
+            });
+            this.ZoomInCommand = new DelegateCommand(() =>
+            {
+                this.ZoomIndex = this.scrollModel.ZoomIn();
+            });
+            this.ZoomOutCommand = new DelegateCommand(() =>
+            {
+                this.ZoomIndex = this.scrollModel.ZoomOut();
+            });
+            this.SetZoomCommand = new DelegateCommand<ZoomLevel>((zoomLevel) =>
+            {
+                this.ZoomIndex = this.scrollModel.SetZoom(zoomLevel);
+            });
+            this.UpdatePositionCommand = new DelegateCommand<object>((point) =>
+            {
+                UpdatePosition((Point)point);
+            });
         }
 
         #endregion constructor
@@ -100,7 +119,7 @@ namespace Ame.Modules.Windows.Docks.MinimapDock
 
 
         #region methods
-        
+
         public override void CloseDock()
         {
             CloseDockMessage closeMessage = new CloseDockMessage(this);

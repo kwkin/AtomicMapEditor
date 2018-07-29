@@ -5,7 +5,6 @@ using System.Linq;
 using System.Windows.Data;
 using System.Windows.Input;
 using Ame.Infrastructure.Attributes;
-using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Models;
 using Prism.Commands;
 using Prism.Events;
@@ -31,12 +30,30 @@ namespace Ame.Modules.Windows.Interactions.MapProperties
             }
             this.WindowTitle = "New Map";
 
-            this.SetMapPropertiesCommand = new DelegateCommand(SetMapProperties);
-            this.CloseWindowCommand = new DelegateCommand(CloseWindow);
-            this.AddCustomMetaDataCommand = new DelegateCommand(AddCustomProperty);
-            this.RemoveCustomMetadataCommand = new DelegateCommand(RemoveCustomProperty);
-            this.MoveMetadataUpCommand = new DelegateCommand(MoveMetadataUp);
-            this.MoveMetadataDownCommand = new DelegateCommand(MoveMetadataDown);
+            this.SetMapPropertiesCommand = new DelegateCommand(() =>
+            {
+                SetMapProperties();
+            });
+            this.CloseWindowCommand = new DelegateCommand(() =>
+            {
+                CloseWindow();
+            });
+            this.AddCustomMetaDataCommand = new DelegateCommand(() =>
+            {
+                AddCustomProperty();
+            });
+            this.RemoveCustomMetadataCommand = new DelegateCommand(() =>
+            {
+                RemoveCustomProperty();
+            });
+            this.MoveMetadataUpCommand = new DelegateCommand(() =>
+            {
+                MoveMetadataUp();
+            });
+            this.MoveMetadataDownCommand = new DelegateCommand(() =>
+            {
+                MoveMetadataDown();
+            });
         }
 
         #endregion constructor
@@ -196,7 +213,7 @@ namespace Ame.Modules.Windows.Interactions.MapProperties
                 this.MetadataList.Remove(this.SelectedMetadata);
             }
         }
-        
+
         private void MoveMetadataUp()
         {
             int currentIndex = this.MapMetadata.CurrentPosition;

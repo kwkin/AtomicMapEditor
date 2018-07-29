@@ -44,48 +44,96 @@ namespace Ame.Modules.Menu.Ribbon
             this.Session = session;
 
             // Map bindings
-            this.NewMapCommand = new DelegateCommand(() => NewMap());
-            this.EditMapPropertiesCommand = new DelegateCommand(() => EditMapProperties());
+            this.NewMapCommand = new DelegateCommand(() =>
+            {
+                NewMap();
+            });
+            this.EditMapPropertiesCommand = new DelegateCommand(() =>
+            {
+                EditMapProperties();
+            });
 
             // Layer bindings
-            this.NewLayerCommand = new DelegateCommand(() => NewLayer());
-            this.EditLayerPropertiesCommand = new DelegateCommand(() => EditLayerProperties());
+            this.NewLayerCommand = new DelegateCommand(() =>
+            {
+                NewLayer();
+            });
+            this.EditLayerPropertiesCommand = new DelegateCommand(() =>
+            {
+                EditLayerProperties();
+            });
 
             // Item bindings
-            this.AddTilesetCommand = new DelegateCommand(() => AddTileset());
-            this.AddImageCommand = new DelegateCommand(() => AddImage());
-            this.OpenItemListCommand = new DelegateCommand(() => OpenItemList());
+            this.AddTilesetCommand = new DelegateCommand(() =>
+            {
+                AddTileset();
+            });
+            this.AddImageCommand = new DelegateCommand(() =>
+            {
+                AddImage();
+            });
+            this.OpenItemListCommand = new DelegateCommand(() =>
+            {
+                OpenItemList();
+            });
 
             // Zoom bindings
-            this.ZoomInCommand = new DelegateCommand(() => ZoomIn());
-            this.ZoomOutCommand = new DelegateCommand(() => ZoomOut());
-            this.SetZoomCommand = new DelegateCommand<ZoomLevel>((zoomLevel) => this.SetZoom(zoomLevel));
+            this.ZoomInCommand = new DelegateCommand(() =>
+            {
+                ZoomIn();
+            });
+            this.ZoomOutCommand = new DelegateCommand(() =>
+            {
+                ZoomOut();
+            });
+            this.SetZoomCommand = new DelegateCommand<ZoomLevel>((zoomLevel) =>
+            {
+                SetZoom(zoomLevel);
+            });
 
             // View bindings
-            this.SampleViewCommand = new DelegateCommand(() => SampleView());
-            this.CollisionsViewCommand = new DelegateCommand(() => CollisionsView());
+            this.SampleViewCommand = new DelegateCommand(() =>
+            {
+                SampleView();
+            });
+            this.CollisionsViewCommand = new DelegateCommand(() =>
+            {
+                CollisionsView();
+            });
 
             // Window bindings
-            this.OpenDockCommand = new DelegateCommand(() => OpenDock());
-            this.RecentlyClosedDockCommand = new DelegateCommand(() => RecentlyClosedDock());
-            this.DockPresetCommand = new DelegateCommand(() => DockPreset());
-            this.SnapDockCommand = new DelegateCommand(() => SnapDock());
-            this.HideDocksCommand = new DelegateCommand(() => HideDocks());
+            this.OpenDockCommand = new DelegateCommand(() =>
+            {
+                OpenDock();
+            });
+            this.RecentlyClosedDockCommand = new DelegateCommand(() =>
+            {
+                RecentlyClosedDock();
+            });
+            this.DockPresetCommand = new DelegateCommand(() =>
+            {
+                DockPreset();
+            });
+            this.SnapDockCommand = new DelegateCommand(() =>
+            {
+                SnapDock();
+            });
+            this.HideDocksCommand = new DelegateCommand(() =>
+            {
+                HideDocks();
+            });
 
             // File bindings
-            this.SaveFileCommand = new DelegateCommand(() => SaveFile());
-            this.ExportFileCommand = new DelegateCommand(() => ExportFile());
+            this.SaveFileCommand = new DelegateCommand(() =>
+            {
+                SaveFile();
+            });
+            this.ExportFileCommand = new DelegateCommand(() =>
+            {
+                ExportFile();
+            });
 
-            this.ZoomLevels = new ObservableCollection<ZoomLevel>();
-            this.ZoomLevels.Add(new ZoomLevel(0.125));
-            this.ZoomLevels.Add(new ZoomLevel(0.25));
-            this.ZoomLevels.Add(new ZoomLevel(0.5));
-            this.ZoomLevels.Add(new ZoomLevel(1));
-            this.ZoomLevels.Add(new ZoomLevel(2));
-            this.ZoomLevels.Add(new ZoomLevel(4));
-            this.ZoomLevels.Add(new ZoomLevel(8));
-            this.ZoomLevels.Add(new ZoomLevel(16));
-            this.ZoomLevels.Add(new ZoomLevel(32));
+            this.ZoomLevels = ZoomLevel.CreateZoomList(0.125, 0.25, 0.5, 1, 2, 4, 8, 16, 32);
             this.ZoomLevels.OrderBy(f => f.zoom);
         }
 
@@ -96,28 +144,34 @@ namespace Ame.Modules.Menu.Ribbon
 
         // Map Menu
         public ICommand NewMapCommand { get; set; }
+
         public ICommand EditMapPropertiesCommand { get; set; }
 
         // Layer Menu
         public ICommand NewLayerCommand { get; set; }
+
         public ICommand EditLayerPropertiesCommand { get; set; }
 
         // Item Menu
         public ICommand AddTilesetCommand { get; set; }
+
         public ICommand AddImageCommand { get; set; }
         public ICommand OpenItemListCommand { get; set; }
 
         // Zoom Menu
         public ICommand ZoomInCommand { get; set; }
+
         public ICommand ZoomOutCommand { get; set; }
         public ICommand SetZoomCommand { get; set; }
 
         // View Menu
         public ICommand SampleViewCommand { get; set; }
+
         public ICommand CollisionsViewCommand { get; set; }
 
         // Window Menu
         public ICommand OpenDockCommand { get; set; }
+
         public ICommand RecentlyClosedDockCommand { get; set; }
         public ICommand DockPresetCommand { get; set; }
         public ICommand SnapDockCommand { get; set; }
@@ -125,8 +179,9 @@ namespace Ame.Modules.Menu.Ribbon
 
         // File Menu
         public ICommand SaveFileCommand { get; set; }
+
         public ICommand ExportFileCommand { get; set; }
-        
+
         public ObservableCollection<ZoomLevel> ZoomLevels { get; set; }
 
         public AmeSession Session { get; set; }
@@ -281,7 +336,6 @@ namespace Ame.Modules.Menu.Ribbon
                 message.IgnoreIfExists = true;
                 message.Content = tilesetModel;
                 this.eventAggregator.GetEvent<OpenDockEvent>().Publish(message);
-
             }
         }
 

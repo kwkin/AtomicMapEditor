@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using Ame.Infrastructure.BaseTypes;
@@ -9,7 +8,6 @@ using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Utils;
 using Ame.Modules.Windows.Interactions.LayerProperties;
-using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
 
@@ -40,20 +38,62 @@ namespace Ame.Modules.Windows.Docks.LayerListDock
             this.Session = session;
             this.eventAggregator = eventAggregator;
 
-            this.NewLayerCommand = new DelegateCommand(() => NewTilesetLayer());
-            this.NewLayerGroupCommand = new DelegateCommand(() => NewLayerGroup());
-            this.MergeLayerDownCommand = new DelegateCommand(() => MergeLayerDown());
-            this.MergeLayerUpCommand = new DelegateCommand(() => MergeLayerUp());
-            this.MoveLayerDownCommand = new DelegateCommand(() => MoveLayerDown());
-            this.MoveLayerUpCommand = new DelegateCommand(() => MoveLayerUp());
-            this.DuplicateLayerCommand = new DelegateCommand(() => DuplicateLayer());
-            this.RemoveLayerCommand = new DelegateCommand(() => RemoveLayer());
-            this.ShowLayerCommand = new DelegateCommand(() => ShowLayer());
-            this.LockLayerCommand = new DelegateCommand(() => LockLayer());
-            this.EditPropertiesCommand = new DelegateCommand(() => EditProperties());
-            this.EditCollisionsCommand = new DelegateCommand(() => EditCollisions());
-            this.LayerToMapSizeCommand = new DelegateCommand(() => LayerToMapSize());
-            this.CurrentLayerChangedCommand = new DelegateCommand<object>((currentLayer) => CurrentLayerChanged((ILayer)currentLayer));
+            this.NewLayerCommand = new DelegateCommand(() =>
+            {
+                NewTilesetLayer();
+            });
+            this.NewLayerGroupCommand = new DelegateCommand(() =>
+            {
+                NewLayerGroup();
+            });
+            this.MergeLayerDownCommand = new DelegateCommand(() =>
+            {
+                MergeLayerDown();
+            });
+            this.MergeLayerUpCommand = new DelegateCommand(() =>
+            {
+                MergeLayerUp();
+            });
+            this.MoveLayerDownCommand = new DelegateCommand(() =>
+            {
+                MoveLayerDown();
+            });
+            this.MoveLayerUpCommand = new DelegateCommand(() =>
+            {
+                MoveLayerUp();
+            });
+            this.DuplicateLayerCommand = new DelegateCommand(() =>
+            {
+                DuplicateLayer();
+            });
+            this.RemoveLayerCommand = new DelegateCommand(() =>
+            {
+                RemoveLayer();
+            });
+            this.ShowLayerCommand = new DelegateCommand(() =>
+            {
+                ShowLayer();
+            });
+            this.LockLayerCommand = new DelegateCommand(() =>
+            {
+                LockLayer();
+            });
+            this.EditPropertiesCommand = new DelegateCommand(() =>
+            {
+                EditProperties();
+            });
+            this.EditCollisionsCommand = new DelegateCommand(() =>
+            {
+                EditCollisions();
+            });
+            this.LayerToMapSizeCommand = new DelegateCommand(() =>
+            {
+                LayerToMapSize();
+            });
+            this.CurrentLayerChangedCommand = new DelegateCommand<object>((currentLayer) =>
+            {
+                CurrentLayerChanged((ILayer)currentLayer);
+            });
 
             this.eventAggregator.GetEvent<NewLayerEvent>().Subscribe(AddTilesetLayerMessage);
         }

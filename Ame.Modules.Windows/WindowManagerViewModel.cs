@@ -100,15 +100,18 @@ namespace Ame.Modules.Windows
                                       where typeof(DockViewModelTemplate).IsAssignableFrom(assemblyType)
                                       select assemblyType).ToArray();
 
-            this.eventAggregator.GetEvent<OpenDockEvent>().Subscribe(
-                OpenDock,
-                ThreadOption.PublisherThread);
-            this.eventAggregator.GetEvent<CloseDockEvent>().Subscribe(
-                CloseDock,
-                ThreadOption.PublisherThread);
-            this.eventAggregator.GetEvent<OpenWindowEvent>().Subscribe(
-                OpenWindow,
-                ThreadOption.PublisherThread);
+            this.eventAggregator.GetEvent<OpenDockEvent>().Subscribe((messge) =>
+            {
+                OpenDock(messge);
+            }, ThreadOption.PublisherThread);
+            this.eventAggregator.GetEvent<CloseDockEvent>().Subscribe((messge) =>
+            {
+                CloseDock(messge);
+            }, ThreadOption.PublisherThread);
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Subscribe((messge) =>
+            {
+                OpenWindow(messge);
+            }, ThreadOption.PublisherThread);
             this.eventAggregator.GetEvent<NotificationActionEvent<string>>().Subscribe(
                 SaveLayoutMessageReceived,
                 ThreadOption.PublisherThread,
@@ -119,12 +122,14 @@ namespace Ame.Modules.Windows
                 ThreadOption.PublisherThread,
                 false,
                 (filter) => filter.Notification.Contains(MessageIds.LoadWorkspaceLayout));
-            this.eventAggregator.GetEvent<NotificationEvent<ViewNotification>>().Subscribe(
-                ViewNotificationReceived,
-                ThreadOption.PublisherThread);
-            this.eventAggregator.GetEvent<NotificationEvent<ZoomLevel>>().Subscribe(
-                SetZoomLevel,
-                ThreadOption.PublisherThread);
+            this.eventAggregator.GetEvent<NotificationEvent<ViewNotification>>().Subscribe((messge) =>
+            {
+                ViewNotificationReceived(messge);
+            }, ThreadOption.PublisherThread);
+            this.eventAggregator.GetEvent<NotificationEvent<ZoomLevel>>().Subscribe((messge) =>
+            {
+                SetZoomLevel(messge);
+            }, ThreadOption.PublisherThread);
         }
 
         #endregion constructor

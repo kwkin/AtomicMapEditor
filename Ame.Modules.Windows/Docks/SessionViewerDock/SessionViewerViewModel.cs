@@ -27,10 +27,13 @@ namespace Ame.Modules.Windows.Docks.SessionViewerDock
             this.session = session;
             this.Title = "Session Viewer";
 
-            this.RefreshTreeCommand = new DelegateCommand(() => RefreshTree());
-
             this.Nodes = new ObservableCollection<NodeViewBuilder>();
             this.Nodes.Add(new NodeViewBuilder("Ame Session", this.session));
+
+            this.RefreshTreeCommand = new DelegateCommand(() =>
+            {
+                RefreshTree();
+            });
         }
 
         #endregion constructor
