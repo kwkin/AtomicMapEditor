@@ -355,39 +355,6 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             }
         }
 
-        private bool isTransparent;
-        public bool IsTransparent
-        {
-            get
-            {
-                return this.isTransparent;
-            }
-            set
-            {
-                if (SetProperty(ref this.isTransparent, value))
-                {
-                    this.TilesetModel.IsTransparent = value;
-                    RefreshItemModel();
-                }
-            }
-        }
-
-        private Color transparentColor;
-        public Color TransparentColor
-        {
-            get
-            {
-                return this.transparentColor;
-            }
-            set
-            {
-                if (SetProperty(ref this.transparentColor, value))
-                {
-                    this.TilesetModel.TransparentColor = value;
-                }
-            }
-        }
-
         private Pen gridPen;
         public Pen GridPen
         {
@@ -432,6 +399,39 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                 if (SetProperty(ref this.backgroundPen, value))
                 {
                     RefreshBackground();
+                }
+            }
+        }
+
+        private bool isTransparent;
+        public bool IsTransparent
+        {
+            get
+            {
+                return this.isTransparent;
+            }
+            set
+            {
+                if (SetProperty(ref this.isTransparent, value))
+                {
+                    this.TilesetModel.IsTransparent = value;
+                    RefreshItemModel();
+                }
+            }
+        }
+
+        private Color transparentColor;
+        public Color TransparentColor
+        {
+            get
+            {
+                return this.transparentColor;
+            }
+            set
+            {
+                if (SetProperty(ref this.transparentColor, value))
+                {
+                    this.TilesetModel.TransparentColor = value;
                 }
             }
         }
@@ -748,7 +748,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             {
                 return;
             }
-            EditTilesetInteraction interaction = new EditTilesetInteraction(this.TilesetModel);
+            EditTilesetInteraction interaction = new EditTilesetInteraction(this.TilesetModel, OnNewTilesetWindowClosed);
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
         }
 
@@ -771,6 +771,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                 TilesetModel messageTilesetModel = message.Tileset as TilesetModel;
                 this.Session.CurrentTilesetList.Add(messageTilesetModel);
                 this.TilesetModel = messageTilesetModel;
+                RaisePropertyChanged(nameof(this.TilesetModel));
             }
         }
 

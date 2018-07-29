@@ -24,8 +24,7 @@ using Prism.Mvvm;
 
 namespace Ame.Modules.Windows.Interactions.TilesetProperties
 {
-    // TODO add image of tileset
-    // TODO modify item editor advanced propeties upon changing
+    // TODO create a second window with two accept button types
     public class TilesetPropertiesViewModel : BindableBase, IInteractionRequestAware
     {
         #region fields
@@ -35,7 +34,7 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
 
         private int tilesetPixelWidth;
         private int tilesetPixelHeight;
-
+        private bool isMouseDown;
         private CoordinateTransform itemTransform;
         private long updatePositionLabelDelay = Global.defaultUpdatePositionLabelDelay;
         private Stopwatch updatePositionLabelStopWatch;
@@ -65,10 +64,8 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
             this.drawingGroup.Children.Add(this.tilesetImage);
             this.drawingGroup.Children.Add(this.gridLines);
             this.TileImage = new DrawingImage(this.drawingGroup);
-
             this.ZoomLevels = this.scrollModel.ZoomLevels;
             this.ZoomIndex = this.scrollModel.ZoomIndex;
-
             this.updatePositionLabelStopWatch = Stopwatch.StartNew();
 
             this.HandleLeftClickDownCommand = new DelegateCommand<object>((point) =>
@@ -264,8 +261,6 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
 
         #region methods
 
-        private bool isMouseDown;
-
         public void HandleLeftClickUp(Point selectPoint)
         {
             if (this.ItemImage == null)
@@ -310,7 +305,7 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
                 UpdatePositionLabel(pixelPoint);
                 if (this.IsSelectingTransparency && this.isMouseDown)
                 {
-                    PickTransparentColor(pixelPoint);
+                    this.TransparentColor = ImageUtils.ColorAt(this.ItemImage, pixelPoint);
                 }
             }
         }
@@ -321,20 +316,12 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
             {
                 return;
             }
-            PickTransparentColor(pixelPoint);
+            this.TransparentColor = ImageUtils.ColorAt(this.ItemImage, pixelPoint);
             Mat transparentImage = ImageUtils.ColorToTransparent(this.ItemImage, this.TransparentColor);
             using (DrawingContext context = this.tilesetImage.Open())
             {
                 context.DrawDrawing(ImageUtils.MatToImageDrawing(transparentImage));
             }
-            RaisePropertyChanged(nameof(this.TransparentColor));
-        }
-
-
-        private void PickTransparentColor(Point pixelPoint)
-        {
-            byte[] colorsBGR = this.ItemImage.GetData((int)pixelPoint.Y, (int)pixelPoint.X);
-            this.TransparentColor = Color.FromRgb(colorsBGR[2], colorsBGR[1], colorsBGR[0]);
             RaisePropertyChanged(nameof(this.TransparentColor));
         }
 
