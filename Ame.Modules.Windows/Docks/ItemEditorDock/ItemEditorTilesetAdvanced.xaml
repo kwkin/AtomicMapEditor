@@ -44,7 +44,8 @@
                  Grid.Column="3"
                  Grid.ColumnSpan="3"
                  VerticalAlignment="Center"
-                 Text="{Binding TilesetModel.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                 Text="{Binding TilesetModel.Name, Mode=TwoWay, UpdateSourceTrigger=Default}"
+                 actions:InputBindingsManager.UpdatePropertySourceWhenEnterPressed="TextBox.Text">
         </TextBox>
 
         <extcomp:IconButton x:Name="deleteItemButton"

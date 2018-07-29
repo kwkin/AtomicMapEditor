@@ -23,17 +23,23 @@ namespace Ame.Infrastructure.Models
         public AmeSession()
         {
             this.MapList = new ObservableCollection<Map>();
+            this.CurrentLayerList = new ObservableCollection<ILayer>();
+            this.CurrentTilesetList = new ObservableCollection<TilesetModel>();
         }
 
         public AmeSession(ObservableCollection<Map> MapList)
         {
             this.MapList = MapList;
+            this.CurrentLayerList = new ObservableCollection<ILayer>();
+            this.CurrentTilesetList = new ObservableCollection<TilesetModel>();
         }
 
         public AmeSession(Map Map)
         {
             this.MapList = new ObservableCollection<Map>();
             this.MapList.Add(Map);
+            this.CurrentLayerList = new ObservableCollection<ILayer>();
+            this.CurrentTilesetList = new ObservableCollection<TilesetModel>();
         }
 
         #endregion constructor

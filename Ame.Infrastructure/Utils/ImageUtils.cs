@@ -127,6 +127,12 @@ namespace Ame.Infrastructure.Utils
             return true;
         }
 
+        public static System.Windows.Media.Color ColorAt(Mat image, System.Windows.Point pixelPoint)
+        {
+            byte[] colorsBGR = image.GetData((int)pixelPoint.Y, (int)pixelPoint.X);
+            return System.Windows.Media.Color.FromRgb(colorsBGR[2], colorsBGR[1], colorsBGR[0]);
+        }
+
         public static Mat ColorToTransparent(Mat image, System.Windows.Media.Color transparentColor)
         {
             Mat trasparentMask = new Mat();
