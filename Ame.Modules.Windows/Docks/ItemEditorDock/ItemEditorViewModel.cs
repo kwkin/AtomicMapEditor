@@ -154,7 +154,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             });
             this.ChangeItemCommand = new DelegateCommand(() =>
             {
-                UpdateItemModel();
+                RefreshItemModel();
             });
             this.UpdateModelCommand = new DelegateCommand(() =>
             {
@@ -374,6 +374,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             set
             {
                 this.TilesetModel.IsTransparent = value;
+                RefreshItemModel();
             }
         }
 
@@ -553,7 +554,41 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                     context.DrawDrawing(ImageUtils.MatToImageDrawing(transparentImage));
                 }
             }
-            RaisePropertyChanged(nameof(this.TransparentColor));
+        }
+
+        public void RefreshItemModel()
+        {
+            ChangeItemModel(this.TilesetModel);
+        }
+
+        public void ChangeItemModel(TilesetModel tilesetModel)
+        {
+            if (!this.Session.CurrentTilesetList.Contains(tilesetModel))
+            {
+                this.Session.CurrentTilesetList.Add(tilesetModel);
+            }
+            this.tilesetModel = tilesetModel;
+            this.tilesetModel.TransparentColor = this.TilesetModel.TransparentColor;
+            this.tilesetModel.IsTransparent = this.TilesetModel.IsTransparent;
+            this.Session.CurrentTileset = this.TilesetModel;
+            this.ItemImage = CvInvoke.Imread(this.TilesetModel.SourcePath, Emgu.CV.CvEnum.ImreadModes.Unchanged);
+            this.itemTransform = new CoordinateTransform();
+            this.itemTransform.SetPixelToTile(this.TilesetModel.TileWidth, this.TilesetModel.TileHeight);
+            this.itemTransform.SetSlectionToPixel(this.TilesetModel.TileWidth / 2, this.TilesetModel.TileHeight / 2);
+            Mat drawingMat = this.ItemImage;
+            if (this.IsTransparent)
+            {
+                drawingMat = ImageUtils.ColorToTransparent(this.ItemImage, this.TransparentColor);
+            }
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                using (DrawingContext context = this.tilesetImage.Open())
+                {
+                    context.DrawDrawing(ImageUtils.MatToImageDrawing(drawingMat));
+                }
+            }), DispatcherPriority.Render);
+            RefreshBackground();
+            RefreshGrid();
         }
 
         public void RefreshGrid()
@@ -568,8 +603,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                 {
                     DrawingGroup group = gridParameters.CreateGrid();
                     this.gridLines.Children = group.Children;
-                }),
-                DispatcherPriority.Render);
+                }), DispatcherPriority.Render);
             }
             else
             {
@@ -607,8 +641,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                     context.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Transparent, 0), drawingRect);
                     context.DrawRectangle(backgroundBrush, backgroundPen, backgroundRectangle);
                 }
-            }),
-            DispatcherPriority.Render);
+            }), DispatcherPriority.Render);
         }
 
         public void ZoomIn()
@@ -640,39 +673,6 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
         public void AddImage()
         {
             Console.WriteLine("Add Image");
-        }
-
-        public void UpdateItemModel()
-        {
-            ChangeItemModel(this.TilesetModel);
-        }
-
-        public void ChangeItemModel(TilesetModel tilesetModel)
-        {
-            if (!this.Session.CurrentTilesetList.Contains(tilesetModel))
-            {
-                this.Session.CurrentTilesetList.Add(tilesetModel);
-            }
-            this.TilesetModel = tilesetModel;
-            this.Session.CurrentTileset = this.TilesetModel;
-            this.ItemImage = CvInvoke.Imread(this.TilesetModel.SourcePath, Emgu.CV.CvEnum.ImreadModes.Unchanged);
-            this.itemTransform = new CoordinateTransform();
-            this.itemTransform.SetPixelToTile(this.TilesetModel.TileWidth, this.TilesetModel.TileHeight);
-            this.itemTransform.SetSlectionToPixel(this.TilesetModel.TileWidth / 2, this.TilesetModel.TileHeight / 2);
-
-            this.TransparentColor = this.TilesetModel.TransparentColor;
-            this.IsTransparent = this.TilesetModel.IsTransparent;
-            Mat drawingMat = this.ItemImage;
-            if (this.IsTransparent)
-            {
-                drawingMat = ImageUtils.ColorToTransparent(this.ItemImage, this.TransparentColor);
-            }
-            using (DrawingContext context = this.tilesetImage.Open())
-            {
-                context.DrawDrawing(ImageUtils.MatToImageDrawing(drawingMat));
-            }
-            RefreshBackground();
-            RefreshGrid();
         }
 
         private void ComputeSelectLinesFromPixels(Point pixelPoint1, Point pixelPoint2)
@@ -710,7 +710,6 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             }
             transformedPosition = GeometryUtils.CreateIntPoint(transformedPosition);
             this.PositionText = (transformedPosition.X + ", " + transformedPosition.Y);
-            RaisePropertyChanged(nameof(this.PositionText));
             updatePositionLabelStopWatch.Restart();
         }
 
