@@ -17,14 +17,28 @@ namespace Ame.Components.Behaviors
 
         #region constructor
 
+        public static ScrollModel DefaultScrollModel()
+        {
+            ScrollModel scrollModel = new ScrollModel();
+            ObservableCollection<ZoomLevel> ZoomLevels = ZoomLevel.CreateZoomList(0.125, 0.25, 0.5, 1, 2, 4, 8, 16, 32);
+            scrollModel.ZoomLevels = ZoomLevels;
+            scrollModel.ZoomIndex = 3;
+            return scrollModel;
+        }
+
+        public ScrollModel()
+        {
+            this.ZoomLevels = new ObservableCollection<ZoomLevel>();
+            this.ZoomIndex = 0;
+        }
+
         #endregion constructor
 
 
         #region properties
 
         public ObservableCollection<ZoomLevel> ZoomLevels { get; set; }
-
-        public int ZoomIndex { get; set; } = -1;
+        public int ZoomIndex { get; set; }
 
         #endregion properties
 

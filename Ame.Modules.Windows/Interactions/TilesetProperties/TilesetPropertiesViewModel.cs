@@ -56,7 +56,7 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
                 throw new ArgumentNullException("eventAggregator");
             }
             this.eventAggregator = eventAggregator;
-            this.scrollModel = new ScrollModel();
+            this.scrollModel = ScrollModel.DefaultScrollModel();
 
             this.WindowTitle = "New Map";
             this.drawingGroup = new DrawingGroup();
@@ -66,20 +66,8 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
             this.drawingGroup.Children.Add(this.gridLines);
             this.TileImage = new DrawingImage(this.drawingGroup);
 
-            if (this.scrollModel.ZoomLevels == null)
-            {
-                this.ZoomLevels = ZoomLevel.CreateZoomList(0.125, 0.25, 0.5, 1, 2, 4, 8, 16, 32);
-                this.scrollModel.ZoomLevels = this.ZoomLevels;
-            }
-            else
-            {
-                this.ZoomLevels = this.scrollModel.ZoomLevels;
-            }
-            if (this.scrollModel.ZoomIndex < 0 || this.scrollModel.ZoomIndex >= this.ZoomLevels.Count)
-            {
-                this.ZoomIndex = 3;
-                this.scrollModel.ZoomIndex = this.ZoomIndex;
-            }
+            this.ZoomLevels = this.scrollModel.ZoomLevels;
+            this.ZoomIndex = this.scrollModel.ZoomIndex;
 
             this.updatePositionLabelStopWatch = Stopwatch.StartNew();
 

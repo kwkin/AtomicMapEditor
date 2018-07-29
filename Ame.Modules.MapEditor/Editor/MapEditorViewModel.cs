@@ -6,7 +6,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 using Ame.Components.Behaviors;
 using Ame.Infrastructure.BaseTypes;
@@ -47,7 +46,8 @@ namespace Ame.Modules.MapEditor.Editor
 
         #region constructor
 
-        public MapEditorViewModel(IEventAggregator eventAggregator, Map map) : this(eventAggregator, map, new ScrollModel())
+        public MapEditorViewModel(IEventAggregator eventAggregator, Map map)
+            : this(eventAggregator, map, ScrollModel.DefaultScrollModel())
         {
         }
 
@@ -88,20 +88,8 @@ namespace Ame.Modules.MapEditor.Editor
             this.backgroundBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#b8e5ed"));
             this.backgroundPen = new Pen(Brushes.Transparent, 0);
             redrawBackground();
-            if (this.scrollModel.ZoomLevels == null)
-            {
-                this.ZoomLevels = ZoomLevel.CreateZoomList(0.125, 0.25, 0.5, 1, 2, 4, 8, 16, 32);
-                this.scrollModel.ZoomLevels = this.ZoomLevels;
-            }
-            else
-            {
-                this.ZoomLevels = this.scrollModel.ZoomLevels;
-            }
-            if (this.scrollModel.ZoomIndex < 0 || this.scrollModel.ZoomIndex >= this.ZoomLevels.Count)
-            {
-                this.ZoomIndex = 3;
-                this.scrollModel.ZoomIndex = this.ZoomIndex;
-            }
+            this.ZoomLevels = this.scrollModel.ZoomLevels;
+            this.ZoomIndex = this.scrollModel.ZoomIndex;
             this.Scale = ScaleType.Tile;
             this.PositionText = "0, 0";
             this.updatePositionLabelStopWatch = Stopwatch.StartNew();
@@ -146,7 +134,7 @@ namespace Ame.Modules.MapEditor.Editor
             this.eventAggregator.GetEvent<UpdateBrushEvent>().Subscribe((brushEvent) =>
             {
                 UpdateBrushImage(brushEvent);
-            }, 
+            },
             ThreadOption.PublisherThread);
         }
 
@@ -235,7 +223,6 @@ namespace Ame.Modules.MapEditor.Editor
 
         public void HandleLeftClickUp(Point selectPoint)
         {
-
         }
 
         public void HandleMouseMove(Point position)

@@ -51,15 +51,18 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
 
         #region constructor
 
-        public ItemEditorViewModel(IEventAggregator eventAggregator, AmeSession session) : this(eventAggregator, session, new TilesetModel(), new ScrollModel())
+        public ItemEditorViewModel(IEventAggregator eventAggregator, AmeSession session)
+            : this(eventAggregator, session, new TilesetModel(), ScrollModel.DefaultScrollModel())
         {
         }
 
-        public ItemEditorViewModel(IEventAggregator eventAggregator, AmeSession session, TilesetModel tilesetModel) : this(eventAggregator, session, tilesetModel, new ScrollModel())
+        public ItemEditorViewModel(IEventAggregator eventAggregator, AmeSession session, TilesetModel tilesetModel)
+            : this(eventAggregator, session, tilesetModel, ScrollModel.DefaultScrollModel())
         {
         }
 
-        public ItemEditorViewModel(IEventAggregator eventAggregator, AmeSession session, IScrollModel scrollModel) : this(eventAggregator, session, new TilesetModel(), scrollModel)
+        public ItemEditorViewModel(IEventAggregator eventAggregator, AmeSession session, IScrollModel scrollModel)
+            : this(eventAggregator, session, new TilesetModel(), scrollModel)
         {
         }
 
@@ -92,22 +95,9 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             this.scrollModel = scrollModel;
             this.Session = session;
             this.TilesetModel = tilesetModel;
-
-            // TODO create default scroll modes, add a factory method
-            if (this.scrollModel.ZoomLevels == null)
-            {
-                this.ZoomLevels = ZoomLevel.CreateZoomList(0.125, 0.25, 0.5, 1, 2, 4, 8, 16, 32);
-                this.scrollModel.ZoomLevels = this.ZoomLevels;
-            }
-            else
-            {
-                this.ZoomLevels = this.scrollModel.ZoomLevels;
-            }
-            if (this.scrollModel.ZoomIndex < 0 || this.scrollModel.ZoomIndex >= this.ZoomLevels.Count)
-            {
-                this.ZoomIndex = 3;
-                this.scrollModel.ZoomIndex = this.ZoomIndex;
-            }
+            
+            this.ZoomLevels = this.scrollModel.ZoomLevels;
+            this.ZoomIndex = this.scrollModel.ZoomIndex;
             this.Scale = ScaleType.Tile;
             this.PositionText = "0, 0";
             this.GridPen = new Pen(Brushes.Orange, 1);

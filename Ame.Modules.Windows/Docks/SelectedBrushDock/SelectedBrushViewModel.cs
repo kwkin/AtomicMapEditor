@@ -41,7 +41,8 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
 
         #region constructor
 
-        public SelectedBrushViewModel(IEventAggregator eventAggregator) : this(eventAggregator, new ScrollModel())
+        public SelectedBrushViewModel(IEventAggregator eventAggregator)
+            : this(eventAggregator, ScrollModel.DefaultScrollModel())
         {
         }
 
@@ -71,23 +72,8 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
             RenderOptions.SetEdgeMode(this.selectedBrushImage, EdgeMode.Aliased);
 
             this.gridModel = new PaddedGridRenderable();
-
-            if (this.scrollModel.ZoomLevels == null)
-            {
-                this.ZoomLevels = ZoomLevel.CreateZoomList(0.125, 0.25, 0.5, 1, 2, 4, 8, 16, 32);
-                this.scrollModel.ZoomLevels = this.ZoomLevels;
-                this.ZoomIndex = 3;
-                this.scrollModel.ZoomIndex = this.ZoomIndex;
-            }
-            else
-            {
-                this.ZoomLevels = this.scrollModel.ZoomLevels;
-                if (this.scrollModel.ZoomIndex < 0 || this.scrollModel.ZoomIndex >= this.ZoomLevels.Count)
-                {
-                    this.ZoomIndex = 3;
-                    this.scrollModel.ZoomIndex = this.ZoomIndex;
-                }
-            }
+            this.ZoomLevels = this.scrollModel.ZoomLevels;
+            this.ZoomIndex = this.scrollModel.ZoomIndex;
             this.Scale = ScaleType.Pixel;
             this.PositionText = "0, 0";
             this.updatePositionLabelStopWatch = Stopwatch.StartNew();

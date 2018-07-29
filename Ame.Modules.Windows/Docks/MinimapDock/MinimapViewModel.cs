@@ -27,7 +27,7 @@ namespace Ame.Modules.Windows.Docks.MinimapDock
         #region constructor
 
         public MinimapViewModel(IEventAggregator eventAggregator)
-            : this(eventAggregator, new ScrollModel())
+            : this(eventAggregator, ScrollModel.DefaultScrollModel())
         {
         }
 

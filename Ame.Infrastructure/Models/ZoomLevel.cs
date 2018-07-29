@@ -40,7 +40,7 @@ namespace Ame.Infrastructure.Models
 
 
         #region methods
-        
+
         public static ObservableCollection<ZoomLevel> CreateZoomList(params double[] levels)
         {
             ObservableCollection<ZoomLevel> zoomLevels = new ObservableCollection<ZoomLevel>();
