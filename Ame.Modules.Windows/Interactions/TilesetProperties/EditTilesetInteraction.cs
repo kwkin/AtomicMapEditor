@@ -68,9 +68,7 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
             }
             Confirmation tilesetConfirmation = new Confirmation();
             tilesetConfirmation.Title = this.Title;
-
-            TilesetInteractionMessage message = new TilesetInteractionMessage(this.TilesetModel, true);
-            tilesetConfirmation.Content = message;
+            tilesetConfirmation.Content = this.TilesetModel;
 
             InteractionRequestTrigger trigger = new InteractionRequestTrigger();
             InteractionRequest<INotification> interaction = new InteractionRequest<INotification>();
@@ -85,7 +83,7 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
             PopupWindowAction action = new PopupWindowAction();
             action.IsModal = true;
             action.CenterOverAssociatedObject = true;
-            action.WindowContent = new TilesetPropertiesWindow();
+            action.WindowContent = new EditTilesetWindow();
 
             // TODO get these properties via a static method in the view model
             Style style = new Style();

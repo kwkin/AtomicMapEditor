@@ -107,7 +107,6 @@
     <Compile Include="Messages\CloseDockMessage.cs" />
     <Compile Include="Messages\Interactions\LayerInteractionMessage.cs" />
     <Compile Include="Messages\Interactions\MapInteractionMessage.cs" />
-    <Compile Include="Messages\Interactions\TilesetInteractionMessage.cs" />
     <Compile Include="Models\DrawingBrushes\BrushAction.cs" />
     <Compile Include="Models\DrawingBrushes\CircleBrushTool.cs" />
     <Compile Include="Models\IItem.cs" />

@@ -144,8 +144,14 @@
     <Compile Include="Docks\ProjectExplorerDock\ProjectExplorerViewModel.cs" />
     <Compile Include="Docks\SelectedBrushDock\SelectedBrushCreator.cs" />
     <Compile Include="Interactions\TilesetProperties\NewTilesetInteraction.cs" />
+    <Compile Include="Interactions\TilesetProperties\NewTilesetWindow.xaml.cs">
+      <DependentUpon>NewTilesetWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Interactions\TilesetProperties\TilesetPropertiesGeneral.xaml.cs">
       <DependentUpon>TilesetPropertiesGeneral.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interactions\TilesetProperties\TilesetViewer.xaml.cs">
+      <DependentUpon>TilesetViewer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interactions\WindowInteractionCreatorTemplate.cs" />
     <Compile Include="Interactions\LayerProperties\EditLayerInteraction.cs" />
@@ -177,8 +183,8 @@
       <DependentUpon>PreferencesMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interactions\Preferences\PreferencesViewModel.cs" />
-    <Compile Include="Interactions\TilesetProperties\TilesetPropertiesWindow.xaml.cs">
-      <DependentUpon>TilesetPropertiesWindow.xaml</DependentUpon>
+    <Compile Include="Interactions\TilesetProperties\EditTilesetWindow.xaml.cs">
+      <DependentUpon>EditTilesetWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interactions\TilesetProperties\EditTilesetInteraction.cs" />
     <Compile Include="Interactions\TilesetProperties\TilesetPropertiesMetadata.xaml.cs">
@@ -296,7 +302,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Interactions\TilesetProperties\NewTilesetWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Interactions\TilesetProperties\TilesetPropertiesGeneral.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interactions\TilesetProperties\TilesetViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -444,7 +458,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interactions\TilesetProperties\TilesetPropertiesWindow.xaml">
+    <Page Include="Interactions\TilesetProperties\EditTilesetWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

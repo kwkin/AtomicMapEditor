@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Ame.Modules.Windows.Interactions.TilesetProperties
 {
     /// <summary>
-    /// Interaction logic for TilesetEditor.xaml
+    /// Interaction logic for TilesetViewer.xaml
     /// </summary>
-    public partial class TilesetPropertiesWindow : UserControl
+    public partial class TilesetViewer : UserControl
     {
-        public TilesetPropertiesWindow()
+        public TilesetViewer()
         {
             InitializeComponent();
         }

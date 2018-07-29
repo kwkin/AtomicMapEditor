@@ -767,8 +767,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             IConfirmation confirmation = notification as IConfirmation;
             if (confirmation.Confirmed)
             {
-                TilesetInteractionMessage message = confirmation.Content as TilesetInteractionMessage;
-                TilesetModel messageTilesetModel = message.Tileset as TilesetModel;
+                TilesetModel messageTilesetModel = confirmation.Content as TilesetModel;
                 this.Session.CurrentTilesetList.Add(messageTilesetModel);
                 this.TilesetModel = messageTilesetModel;
                 RaisePropertyChanged(nameof(this.TilesetModel));

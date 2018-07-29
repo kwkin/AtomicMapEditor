@@ -145,11 +145,9 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
             set
             {
                 this.notification = value as IConfirmation;
-                TilesetInteractionMessage message = this.notification.Content as TilesetInteractionMessage;
-                this.TilesetModel = message.Tileset;
+                this.TilesetModel = this.notification.Content as TilesetModel;
                 UpdateUI();
                 UpdateItemImage();
-                this.AcceptButtonText = message.IsEditing ? "Update" : "Create";
                 if (this.TilesetModel != null)
                 {
                     UpdateMetadata();

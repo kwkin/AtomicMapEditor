@@ -61,9 +61,7 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
         {
             Confirmation tilesetConfirmation = new Confirmation();
             tilesetConfirmation.Title = this.Title;
-
-            TilesetInteractionMessage message = new TilesetInteractionMessage(this.tilesetModel, false);
-            tilesetConfirmation.Content = message;
+            tilesetConfirmation.Content = this.tilesetModel;
 
             InteractionRequestTrigger trigger = new InteractionRequestTrigger();
             InteractionRequest<INotification> interaction = new InteractionRequest<INotification>();
@@ -78,7 +76,7 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
             PopupWindowAction action = new PopupWindowAction();
             action.IsModal = true;
             action.CenterOverAssociatedObject = true;
-            action.WindowContent = new TilesetPropertiesWindow();
+            action.WindowContent = new NewTilesetWindow();
 
             Style style = new Style();
             style.TargetType = typeof(Window);
@@ -95,8 +93,7 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
             IConfirmation confirmation = notification as IConfirmation;
             if (confirmation.Confirmed)
             {
-                TilesetInteractionMessage message = confirmation.Content as TilesetInteractionMessage;
-                TilesetModel tilesetModel = message.Tileset as TilesetModel;
+                TilesetModel tilesetModel = confirmation.Content as TilesetModel;
                 this.session.CurrentTilesetList.Add(tilesetModel);
             }
         }

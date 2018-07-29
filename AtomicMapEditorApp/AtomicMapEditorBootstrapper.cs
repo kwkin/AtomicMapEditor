@@ -66,7 +66,8 @@ namespace Ame
             
             ViewModelLocationProvider.Register<MapPropertiesWindow, MapPropertiesViewModel>();
             ViewModelLocationProvider.Register<LayerPropertiesWindow, LayerPropertiesViewModel>();
-            ViewModelLocationProvider.Register<TilesetPropertiesWindow, TilesetPropertiesViewModel>();
+            ViewModelLocationProvider.Register<EditTilesetWindow, TilesetPropertiesViewModel>();
+            ViewModelLocationProvider.Register<NewTilesetWindow, TilesetPropertiesViewModel>();
             ViewModelLocationProvider.Register<PreferencesMenu, PreferencesViewModel>();
 
         }
