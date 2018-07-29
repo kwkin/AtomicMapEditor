@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="Ame.Modules.Windows.Interactions.MapProperties.EditMapWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Ame.Modules.Windows.Interactions.MapProperties"
+             xmlns:Behaviors="clr-namespace:Ame.Components.Behaviors;assembly=Ame.Components"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=Ame.Components"
+             mc:Ignorable="d"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             MinWidth="400">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="25" />
+        </Grid.RowDefinitions>
+
+        <TabControl x:Name="tabControl"
+                    Margin="4,0,4,4"
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    Grid.ColumnSpan="3">
+            <TabItem Header="General">
+                <ScrollViewer x:Name="scrollGeneral">
+                    <local:MapPropertiesGeneral x:Name="GeneralTab" />
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="Metadata">
+                <local:MapPropertiesMetadata x:Name="MetadataTab" />
+            </TabItem>
+        </TabControl>
+
+        <StackPanel Grid.Row="1"
+                    FlowDirection="RightToLeft"
+                    Orientation="Horizontal">
+            <Button x:Name="oKButton"
+                    Margin="2,0,2,2"
+                    Content="Update"
+                    Width="130"
+                    IsDefault="True"
+                    Command="{Binding SetMapPropertiesCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
+            <Button x:Name="cancelButton"
+                    Margin="2,0,2,2"
+                    Content="Cancel"
+                    Width="130"
+                    IsCancel="True"
+                    Command="{Binding CloseWindowCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
+        </StackPanel>
+    </Grid>
+</UserControl>

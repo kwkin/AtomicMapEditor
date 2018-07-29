@@ -82,7 +82,7 @@ namespace Ame.Modules.Windows.Interactions.MapProperties
             PopupWindowAction action = new PopupWindowAction();
             action.IsModal = true;
             action.CenterOverAssociatedObject = true;
-            action.WindowContent = new MapPropertiesWindow();
+            action.WindowContent = new EditMapWindow();
 
             Style style = new Style();
             style.TargetType = typeof(Window);

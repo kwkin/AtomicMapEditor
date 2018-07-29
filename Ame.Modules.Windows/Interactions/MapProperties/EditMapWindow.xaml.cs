@@ -18,9 +18,9 @@ namespace Ame.Modules.Windows.Interactions.MapProperties
     /// <summary>
     /// Interaction logic for MapEditor.xaml
     /// </summary>
-    public partial class MapPropertiesWindow : UserControl
+    public partial class EditMapWindow : UserControl
     {
-        public MapPropertiesWindow()
+        public EditMapWindow()
         {
             InitializeComponent();
         }

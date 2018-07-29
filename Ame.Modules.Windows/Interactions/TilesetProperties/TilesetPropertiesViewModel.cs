@@ -12,7 +12,6 @@ using System.Windows.Threading;
 using Ame.Components.Behaviors;
 using Ame.Infrastructure.Attributes;
 using Ame.Infrastructure.Core;
-using Ame.Infrastructure.Messages.Interactions;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Utils;
 using Emgu.CV;
@@ -153,11 +152,8 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
                     UpdateMetadata();
                 }
                 RaisePropertyChanged(nameof(this.Notification));
-                RaisePropertyChanged(nameof(this.AcceptButtonText));
             }
         }
-
-        public string AcceptButtonText { get; set; }
 
         public TilesetModel TilesetModel { get; set; }
         public DrawingImage TileImage { get; set; }

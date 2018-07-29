@@ -2,7 +2,6 @@
 using System.Windows;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Exceptions;
-using Ame.Infrastructure.Messages.Interactions;
 using Ame.Infrastructure.Models;
 using Prism.Events;
 using Prism.Interactivity;
@@ -68,9 +67,7 @@ namespace Ame.Modules.Windows.Interactions.LayerProperties
             }
             Confirmation confirmation = new Confirmation();
             confirmation.Title = this.Title;
-
-            LayerInteractionMessage message = new LayerInteractionMessage(this.Layer as Layer, true);
-            confirmation.Content = message;
+            confirmation.Content = this.Layer;
 
             InteractionRequestTrigger trigger = new InteractionRequestTrigger();
             InteractionRequest<INotification> interaction = new InteractionRequest<INotification>();
@@ -85,7 +82,7 @@ namespace Ame.Modules.Windows.Interactions.LayerProperties
             PopupWindowAction action = new PopupWindowAction();
             action.IsModal = true;
             action.CenterOverAssociatedObject = true;
-            action.WindowContent = new LayerPropertiesWindow();
+            action.WindowContent = new EditLayerWindow();
 
             Style style = new Style();
             style.TargetType = typeof(Window);

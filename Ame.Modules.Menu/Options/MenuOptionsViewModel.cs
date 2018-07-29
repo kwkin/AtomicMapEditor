@@ -5,12 +5,12 @@ using System.Windows.Input;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
-using Ame.Modules.Windows.Docks.ProjectExplorerDock;
 using Ame.Modules.Windows.Docks.ClipboardDock;
 using Ame.Modules.Windows.Docks.ItemEditorDock;
 using Ame.Modules.Windows.Docks.ItemListDock;
 using Ame.Modules.Windows.Docks.LayerListDock;
 using Ame.Modules.Windows.Docks.MinimapDock;
+using Ame.Modules.Windows.Docks.ProjectExplorerDock;
 using Ame.Modules.Windows.Docks.SelectedBrushDock;
 using Ame.Modules.Windows.Docks.SessionViewerDock;
 using Ame.Modules.Windows.Docks.ToolboxDock;
@@ -211,11 +211,11 @@ namespace Ame.Modules.Menu.Options
             {
                 SampleView();
             });
-            this.CollisionsViewCommand = new DelegateCommand(() => 
+            this.CollisionsViewCommand = new DelegateCommand(() =>
             {
                 CollisionsView();
             });
-            this.ZoomInCommand = new DelegateCommand(() => 
+            this.ZoomInCommand = new DelegateCommand(() =>
             {
                 ZoomIn();
             });
@@ -227,7 +227,7 @@ namespace Ame.Modules.Menu.Options
             {
                 ZoomTool();
             });
-            this.FitMapToWindowCommand = new DelegateCommand(() => 
+            this.FitMapToWindowCommand = new DelegateCommand(() =>
             {
                 FitMapToWindow();
             });
@@ -243,7 +243,7 @@ namespace Ame.Modules.Menu.Options
             {
                 ShowGrid();
             });
-            this.ShowRulerCommand = new DelegateCommand(() => 
+            this.ShowRulerCommand = new DelegateCommand(() =>
             {
                 ShowRuler();
             });
@@ -261,11 +261,11 @@ namespace Ame.Modules.Menu.Options
             {
                 OpenItemListDock();
             });
-            this.OpenLayerListDockCommand = new DelegateCommand(() => 
+            this.OpenLayerListDockCommand = new DelegateCommand(() =>
             {
                 OpenLayerListDock();
             });
-            this.OpenToolboxDockCommand = new DelegateCommand(() => 
+            this.OpenToolboxDockCommand = new DelegateCommand(() =>
             {
                 OpenToolboxDock();
             });
@@ -273,7 +273,7 @@ namespace Ame.Modules.Menu.Options
             {
                 OpenMinimapDock();
             });
-            this.OpenClipboardDockCommand = new DelegateCommand(() => 
+            this.OpenClipboardDockCommand = new DelegateCommand(() =>
             {
                 OpenClipboardDock();
             });
@@ -744,7 +744,7 @@ namespace Ame.Modules.Menu.Options
             OpenDockMessage dock = new OpenDockMessage(typeof(SelectedBrushViewModel));
             this.eventAggregator.GetEvent<OpenDockEvent>().Publish(dock);
         }
-        
+
         public void OpenProjectExplorerDock()
         {
             OpenDockMessage dock = new OpenDockMessage(typeof(ProjectExplorerViewModel));

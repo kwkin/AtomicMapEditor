@@ -5,7 +5,6 @@ using System.Linq;
 using System.Windows.Data;
 using System.Windows.Input;
 using Ame.Infrastructure.Attributes;
-using Ame.Infrastructure.Messages.Interactions;
 using Ame.Infrastructure.Models;
 using Prism.Commands;
 using Prism.Interactivity.InteractionRequest;
@@ -85,18 +84,14 @@ namespace Ame.Modules.Windows.Interactions.LayerProperties
             set
             {
                 this.notification = value as Confirmation;
-                LayerInteractionMessage message = this.notification.Content as LayerInteractionMessage;
-                this.Layer = message.Layer;
+                this.Layer = this.notification.Content as Layer;
                 UpdateUI();
-                this.AcceptButtonText = message.IsEditing ? "Update" : "Create";
                 UpdateMetadata();
                 RaisePropertyChanged(nameof(this.Notification));
-                RaisePropertyChanged(nameof(this.AcceptButtonText));
             }
         }
 
         public Action FinishInteraction { get; set; }
-        public string AcceptButtonText { get; set; }
 
         private Layer Layer { get; set; }
 
@@ -183,6 +178,8 @@ namespace Ame.Modules.Windows.Interactions.LayerProperties
             this.Position = this.Layer.Position;
             this.ScrollRate = this.Layer.ScrollRate;
             this.Description = this.Layer.Description;
+
+            RaisePropertyChanged(nameof(this.Name));
         }
 
         private void UpdateMetadata()

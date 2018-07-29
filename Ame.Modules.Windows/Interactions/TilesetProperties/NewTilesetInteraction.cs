@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Ame.Infrastructure.BaseTypes;
-using Ame.Infrastructure.Messages.Interactions;
 using Ame.Infrastructure.Models;
 using Prism.Events;
 using Prism.Interactivity;

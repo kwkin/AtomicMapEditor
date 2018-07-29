@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="Ame.Modules.Windows.Interactions.LayerProperties.NewLayerWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Ame.Modules.Windows.Interactions.LayerProperties"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="25" />
+        </Grid.RowDefinitions>
+
+        <TabControl x:Name="tabControl"
+                    Margin="4,0,4,4"
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    Grid.ColumnSpan="3">
+            <TabItem Header="General">
+                <ScrollViewer x:Name="scrollGeneral">
+                    <local:LayerPropertiesGeneral x:Name="GeneralTab" />
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="Metadata">
+                <local:LayerPropertiesMetadata x:Name="MetadataTab" />
+            </TabItem>
+        </TabControl>
+
+
+        <StackPanel Grid.Row="1"
+                    FlowDirection="RightToLeft"
+                    Orientation="Horizontal">
+            <Button x:Name="createButton"
+                    Content="Create"
+                    Margin="2,0,2,2"
+                    Width="130"
+                    IsDefault="True"
+                    Command="{Binding SetLayerPropertiesCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
+            <Button x:Name="cancelButton"
+                    Margin="2,0,2,2"
+                    Content="Cancel"
+                    Width="130"
+                    IsCancel="True"
+                    Command="{Binding CloseWindowCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
+        </StackPanel>
+    </Grid>
+</UserControl>

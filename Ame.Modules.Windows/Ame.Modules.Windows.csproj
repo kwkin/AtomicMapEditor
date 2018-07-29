@@ -143,6 +143,12 @@
     <Compile Include="Docks\ProjectExplorerDock\ProjectExplorerCreator.cs" />
     <Compile Include="Docks\ProjectExplorerDock\ProjectExplorerViewModel.cs" />
     <Compile Include="Docks\SelectedBrushDock\SelectedBrushCreator.cs" />
+    <Compile Include="Interactions\LayerProperties\NewLayerWindow.xaml.cs">
+      <DependentUpon>NewLayerWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interactions\MapProperties\NewMapWindow.xaml.cs">
+      <DependentUpon>NewMapWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Interactions\TilesetProperties\NewTilesetInteraction.cs" />
     <Compile Include="Interactions\TilesetProperties\NewTilesetWindow.xaml.cs">
       <DependentUpon>NewTilesetWindow.xaml</DependentUpon>
@@ -155,8 +161,8 @@
     </Compile>
     <Compile Include="Interactions\WindowInteractionCreatorTemplate.cs" />
     <Compile Include="Interactions\LayerProperties\EditLayerInteraction.cs" />
-    <Compile Include="Interactions\LayerProperties\LayerPropertiesWindow.xaml.cs">
-      <DependentUpon>LayerPropertiesWindow.xaml</DependentUpon>
+    <Compile Include="Interactions\LayerProperties\EditLayerWindow.xaml.cs">
+      <DependentUpon>EditLayerWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interactions\LayerProperties\LayerPropertiesGeneral.xaml.cs">
       <DependentUpon>LayerPropertiesGeneral.xaml</DependentUpon>
@@ -174,8 +180,8 @@
       <DependentUpon>MapPropertiesMetadata.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interactions\MapProperties\MapPropertiesViewModel.cs" />
-    <Compile Include="Interactions\MapProperties\MapPropertiesWindow.xaml.cs">
-      <DependentUpon>MapPropertiesWindow.xaml</DependentUpon>
+    <Compile Include="Interactions\MapProperties\EditMapWindow.xaml.cs">
+      <DependentUpon>EditMapWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interactions\MapProperties\NewMapInteraction.cs" />
     <Compile Include="Interactions\Preferences\PreferenceOptionsInteraction.cs" />
@@ -299,6 +305,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Docks\ProjectExplorerDock\ProjectExplorer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interactions\LayerProperties\NewLayerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interactions\MapProperties\NewMapWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -430,7 +444,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Interactions\LayerProperties\LayerPropertiesWindow.xaml">
+    <Page Include="Interactions\LayerProperties\EditLayerWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -450,7 +464,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Interactions\MapProperties\MapPropertiesWindow.xaml">
+    <Page Include="Interactions\MapProperties\EditMapWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

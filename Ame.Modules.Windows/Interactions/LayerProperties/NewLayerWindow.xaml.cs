@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Ame.Modules.Windows.Interactions.LayerProperties
 {
     /// <summary>
-    /// Interaction logic for LayerEditor.xaml
+    /// Interaction logic for NewLayerWindow.xaml
     /// </summary>
-    public partial class LayerPropertiesWindow : UserControl
+    public partial class NewLayerWindow : UserControl
     {
-        public LayerPropertiesWindow()
+        public NewLayerWindow()
         {
             InitializeComponent();
         }

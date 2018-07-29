@@ -2,7 +2,6 @@
 using System.Windows;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Exceptions;
-using Ame.Infrastructure.Messages.Interactions;
 using Ame.Infrastructure.Models;
 using Prism.Events;
 using Prism.Interactivity;

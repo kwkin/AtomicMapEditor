@@ -40,7 +40,7 @@
                VerticalAlignment="Center"
                Content="Name:" />
         <TextBox x:Name="nameTextBox"
-                 Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                 Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  Grid.Row="0"
                  Grid.Column="3"
                  Grid.ColumnSpan="3"

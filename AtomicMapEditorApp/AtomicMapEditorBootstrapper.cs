@@ -64,8 +64,10 @@ namespace Ame
             ViewModelLocationProvider.Register<MapEditorRibbon, MapEditorRibbonViewModel>();
             ViewModelLocationProvider.Register<WindowManager, WindowManagerViewModel>();
             
-            ViewModelLocationProvider.Register<MapPropertiesWindow, MapPropertiesViewModel>();
-            ViewModelLocationProvider.Register<LayerPropertiesWindow, LayerPropertiesViewModel>();
+            ViewModelLocationProvider.Register<EditMapWindow, MapPropertiesViewModel>();
+            ViewModelLocationProvider.Register<NewMapWindow, MapPropertiesViewModel>();
+            ViewModelLocationProvider.Register<EditLayerWindow, LayerPropertiesViewModel>();
+            ViewModelLocationProvider.Register<NewLayerWindow, LayerPropertiesViewModel>();
             ViewModelLocationProvider.Register<EditTilesetWindow, TilesetPropertiesViewModel>();
             ViewModelLocationProvider.Register<NewTilesetWindow, TilesetPropertiesViewModel>();
             ViewModelLocationProvider.Register<PreferencesMenu, PreferencesViewModel>();

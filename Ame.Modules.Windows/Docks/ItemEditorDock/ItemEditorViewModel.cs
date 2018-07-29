@@ -12,7 +12,6 @@ using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Core;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
-using Ame.Infrastructure.Messages.Interactions;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Utils;
 using Ame.Modules.Windows.Interactions.TilesetProperties;
@@ -95,7 +94,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             this.scrollModel = scrollModel;
             this.Session = session;
             this.TilesetModel = tilesetModel;
-            
+
             this.ZoomLevels = this.scrollModel.ZoomLevels;
             this.ZoomIndex = this.scrollModel.ZoomIndex;
             this.Scale = ScaleType.Tile;

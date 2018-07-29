@@ -44,6 +44,7 @@ namespace Ame.Modules.Windows.Interactions.MapProperties
 
         #endregion Properties
 
+
         #region methods
 
         public void UpdateMissingContent(AmeSession session)
@@ -74,7 +75,7 @@ namespace Ame.Modules.Windows.Interactions.MapProperties
             PopupWindowAction action = new PopupWindowAction();
             action.IsModal = true;
             action.CenterOverAssociatedObject = true;
-            action.WindowContent = new MapPropertiesWindow();
+            action.WindowContent = new NewMapWindow();
 
             Style style = new Style();
             style.TargetType = typeof(Window);
