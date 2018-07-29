@@ -365,28 +365,36 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             }
         }
 
+        private bool isTransparent;
         public bool IsTransparent
         {
             get
             {
-                return this.TilesetModel.IsTransparent;
+                return this.isTransparent;
             }
             set
             {
-                this.TilesetModel.IsTransparent = value;
-                RefreshItemModel();
+                if (SetProperty(ref this.isTransparent, value))
+                {
+                    this.TilesetModel.IsTransparent = value;
+                    RefreshItemModel();
+                }
             }
         }
 
+        private Color transparentColor;
         public Color TransparentColor
         {
             get
             {
-                return this.TilesetModel.TransparentColor;
+                return this.transparentColor;
             }
             set
             {
-                this.TilesetModel.TransparentColor = value;
+                if (SetProperty(ref this.transparentColor, value))
+                {
+                    this.TilesetModel.TransparentColor = value;
+                }
             }
         }
 
