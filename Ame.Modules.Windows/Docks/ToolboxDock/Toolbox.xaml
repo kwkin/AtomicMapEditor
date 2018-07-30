@@ -6,6 +6,7 @@
              xmlns:conv="clr-namespace:Ame.Infrastructure.Converters;assembly=Ame.Infrastructure"
              xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=Ame.Components"
              xmlns:local="clr-namespace:Ame.Modules.Windows.Docks.ToolboxDock"
+             xmlns:brushes="clr-namespace:Ame.Infrastructure.DrawingTools;assembly=Ame.Infrastructure"
              mc:Ignorable="d"
              d:DesignHeight="300">
     <Grid>
@@ -25,19 +26,29 @@
                                      ToolTip="Stamp: Tile Tool"
                                      GroupName="ToolBoxToolSelection"
                                      Command="{Binding ToolButtonCommand}"
-                                     CommandParameter="Stamp"
+                                     CommandParameter="{x:Type brushes:StampTool}"
                                      Style="{StaticResource {x:Type ToggleButton}}"
                                      ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_pencil_black_24dp.png"
                                      ImageStretch="None">
             </extcomp:IconRadioButton>
 
             <extcomp:IconRadioButton x:Name="brushButton"
-                                     ToolTip="Brush: Draws th selected tiles to the map"
+                                     ToolTip="Brush: Draws the selected tiles to the map"
                                      GroupName="ToolBoxToolSelection"
                                      Command="{Binding ToolButtonCommand}"
-                                     CommandParameter="Brush"
+                                     CommandParameter="{x:Type brushes:BrushTool}"
                                      Style="{StaticResource {x:Type ToggleButton}}"
                                      ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_brush_black_24dp.png"
+                                     ImageStretch="None">
+            </extcomp:IconRadioButton>
+
+            <extcomp:IconRadioButton x:Name="eraserButton"
+                                     ToolTip="Eraser: Erase tiles to background"
+                                     GroupName="ToolBoxToolSelection"
+                                     Command="{Binding ToolButtonCommand}"
+                                     CommandParameter="{x:Type brushes:EraserTool}"
+                                     Style="{StaticResource {x:Type ToggleButton}}"
+                                     ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_eraser_black_24dp.png"
                                      ImageStretch="None">
             </extcomp:IconRadioButton>
 
@@ -45,7 +56,7 @@
                                      ToolTip="Select: Moves the selected tiles"
                                      GroupName="ToolBoxToolSelection"
                                      Command="{Binding ToolButtonCommand}"
-                                     CommandParameter="Select"
+                                     CommandParameter="{x:Type brushes:SelectTool}"
                                      Style="{StaticResource {x:Type ToggleButton}}"
                                      ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_hand_black_24dp.png"
                                      ImageStretch="None">
@@ -55,7 +66,7 @@
                                      ToolTip="Fill: Fills the area with the given tile"
                                      GroupName="ToolBoxToolSelection"
                                      Command="{Binding ToolButtonCommand}"
-                                     CommandParameter="Fill"
+                                     CommandParameter="{x:Type brushes:FillTool}"
                                      Style="{StaticResource {x:Type ToggleButton}}"
                                      ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_fill_black_24dp.png"
                                      ImageStretch="None">
@@ -65,7 +76,7 @@
                                      ToolTip="Picker: Sets the current tile to the selected tile"
                                      GroupName="ToolBoxToolSelection"
                                      Command="{Binding ToolButtonCommand}"
-                                     CommandParameter="Picker"
+                                     CommandParameter="{x:Type brushes:PickerTool}"
                                      Style="{StaticResource {x:Type ToggleButton}}"
                                      ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_eyedropper_variant_black_24dp.png"
                                      ImageStretch="None">
@@ -75,7 +86,7 @@
                                      ToolTip="Circle Selection: Select an elliptical region"
                                      GroupName="ToolBoxToolSelection"
                                      Command="{Binding ToolButtonCommand}"
-                                     CommandParameter="Circle Selection"
+                                     CommandParameter="{x:Type brushes:CircleSelectionTool}"
                                      Style="{StaticResource {x:Type ToggleButton}}"
                                      ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_vector_circle_black_24dp.png"
                                      ImageStretch="None">
@@ -85,7 +96,7 @@
                                      ToolTip="Rectangular Selection: Select a rectangular region"
                                      GroupName="ToolBoxToolSelection"
                                      Command="{Binding ToolButtonCommand}"
-                                     CommandParameter="Rectangular Selection"
+                                     CommandParameter="{x:Type brushes:RectangularSelectionTool}"
                                      Style="{StaticResource {x:Type ToggleButton}}"
                                      ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_vector_square_black_24dp.png"
                                      ImageStretch="None">
@@ -95,7 +106,7 @@
                                      ToolTip="Tile Selection: Select regions with a similar tile"
                                      GroupName="ToolBoxToolSelection"
                                      Command="{Binding ToolButtonCommand}"
-                                     CommandParameter="Tile Selection"
+                                     CommandParameter="{x:Type brushes:TileSelectionTool}"
                                      Style="{StaticResource {x:Type ToggleButton}}"
                                      ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_border_all_black_24dp.png"
                                      ImageStretch="None">
@@ -105,7 +116,7 @@
                                      ToolTip="Free Selection: Select a hand-drawn region using free and polynomial segments"
                                      GroupName="ToolBoxToolSelection"
                                      Command="{Binding ToolButtonCommand}"
-                                     CommandParameter="Free Selection"
+                                     CommandParameter="{x:Type brushes:FreeSelectionTool}"
                                      Style="{StaticResource {x:Type ToggleButton}}"
                                      ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_vector_polygon_black_24dp.png"
                                      ImageStretch="None">
@@ -115,7 +126,7 @@
                                      ToolTip="Tile Collision: Sets the collision type of an entire tile"
                                      GroupName="ToolBoxToolSelection"
                                      Command="{Binding ToolButtonCommand}"
-                                     CommandParameter="Tile Collision"
+                                     CommandParameter="{x:Type brushes:TileCollisionTool}"
                                      Style="{StaticResource {x:Type ToggleButton}}"
                                      ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_collisions_black_24dp.png"
                                      ImageStretch="None">
@@ -128,6 +139,7 @@
             <Grid>
                 <local:ToolboxStampPanel Visibility="{Binding IsChecked, ElementName=stampButton, Converter={StaticResource BoolToVisConverter}}" />
                 <local:ToolboxBrushPanel Visibility="{Binding IsChecked, ElementName=brushButton, Converter={StaticResource BoolToVisConverter}}" />
+                <local:ToolboxEraserPanel Visibility="{Binding IsChecked, ElementName=eraserButton, Converter={StaticResource BoolToVisConverter}}" />
                 <local:ToolboxSelectPanel Visibility="{Binding IsChecked, ElementName=selectButton, Converter={StaticResource BoolToVisConverter}}" />
                 <local:ToolboxFillPanel Visibility="{Binding IsChecked, ElementName=fillButton, Converter={StaticResource BoolToVisConverter}}" />
                 <local:ToolboxCircleSelectionPanel Visibility="{Binding IsChecked, ElementName=circleSelectionButton, Converter={StaticResource BoolToVisConverter}}" />

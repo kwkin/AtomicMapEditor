@@ -143,6 +143,9 @@
     <Compile Include="Docks\ProjectExplorerDock\ProjectExplorerCreator.cs" />
     <Compile Include="Docks\ProjectExplorerDock\ProjectExplorerViewModel.cs" />
     <Compile Include="Docks\SelectedBrushDock\SelectedBrushCreator.cs" />
+    <Compile Include="Docks\ToolboxDock\ToolboxEraserPanel.xaml.cs">
+      <DependentUpon>ToolboxEraserPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Interactions\LayerProperties\NewLayerWindow.xaml.cs">
       <DependentUpon>NewLayerWindow.xaml</DependentUpon>
     </Compile>
@@ -305,6 +308,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Docks\ProjectExplorerDock\ProjectExplorer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Docks\ToolboxDock\ToolboxEraserPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

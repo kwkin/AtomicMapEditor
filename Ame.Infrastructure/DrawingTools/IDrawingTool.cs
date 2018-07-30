@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media;
-using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Models;
 
-namespace Ame.Infrastructure.Models.DrawingBrushes
+namespace Ame.Infrastructure.DrawingTools
 {
     public interface IDrawingTool
     {
@@ -16,13 +15,13 @@ namespace Ame.Infrastructure.Models.DrawingBrushes
         string ToolName { get; set; }
         BrushModel Brush { get; set; }
 
-        #endregion
+        #endregion properties
 
 
         #region methods
 
-        void Apply(Map map, Point tilePosition);
+        void Apply(Map map, Point pixelPosition);
 
-        #endregion
+        #endregion methods
     }
 }

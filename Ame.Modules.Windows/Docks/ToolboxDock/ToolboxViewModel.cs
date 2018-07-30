@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Windows.Input;
 using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.DrawingTools;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
+using Ame.Infrastructure.Models;
 using Prism.Commands;
 using Prism.Events;
 
@@ -12,21 +14,32 @@ namespace Ame.Modules.Windows.Docks.ToolboxDock
     {
         #region fields
 
-        public IEventAggregator eventAggregator;
+        private IEventAggregator eventAggregator;
+        private AmeSession session;
 
         #endregion fields
 
 
         #region constructor
 
-        public ToolboxViewModel(IEventAggregator eventAggregator)
+        public ToolboxViewModel(IEventAggregator eventAggregator, AmeSession session)
         {
-            this.eventAggregator = eventAggregator;
-            this.Title = "Tools";
-
-            this.ToolButtonCommand = new DelegateCommand<string>((s) =>
+            if (eventAggregator == null)
             {
-                SetToolboxTitle(s);
+                throw new ArgumentNullException("eventAggregator");
+            }
+            if (session == null)
+            {
+                throw new ArgumentNullException("session");
+            }
+            this.eventAggregator = eventAggregator;
+            this.session = session;
+
+            this.Title = "Tool";
+
+            this.ToolButtonCommand = new DelegateCommand<Type>((brush) =>
+            {
+                this.DrawingTool = Activator.CreateInstance(brush) as IDrawingTool;
             });
         }
 
@@ -37,8 +50,42 @@ namespace Ame.Modules.Windows.Docks.ToolboxDock
 
         public ICommand ToolButtonCommand { get; private set; }
 
-        public bool StampButtonValue { get; set; }
-        public bool BrushButtonValue { get; set; }
+        private IDrawingTool drawingTool;
+        public IDrawingTool DrawingTool
+        {
+            get
+            {
+                return this.drawingTool;
+            }
+            set
+            {
+                if (SetProperty(ref this.drawingTool, value))
+                {
+                    SetToolboxTitle();
+                }
+            }
+        }
+
+        private bool isEraser;
+        public bool IsEraser
+        {
+            get
+            {
+                return this.isEraser;
+            }
+            set
+            {
+                if (SetProperty(ref this.isEraser, value))
+                {
+                    if (typeof(IEraserTool).IsAssignableFrom(this.DrawingTool.GetType()))
+                    {
+                        IEraserTool erasorTool = this.DrawingTool as IEraserTool;
+                        erasorTool.IsErasing = value;
+                        this.session.DrawingTool = this.DrawingTool;
+                    }
+                }
+            }
+        }
 
         #endregion properties
 
@@ -51,15 +98,15 @@ namespace Ame.Modules.Windows.Docks.ToolboxDock
             this.eventAggregator.GetEvent<CloseDockEvent>().Publish(closeMessage);
         }
 
-        public void SetToolboxTitle(string brushTitle)
+        public void SetToolboxTitle()
         {
-            if (!string.IsNullOrEmpty(brushTitle))
+            if (!string.IsNullOrEmpty(this.DrawingTool.ToolName))
             {
-                this.Title = "Tools - " + brushTitle;
+                this.Title = "Tool - " + this.DrawingTool.ToolName;
             }
             else
             {
-                this.Title = "Tools";
+                this.Title = "Tool";
             }
         }
 

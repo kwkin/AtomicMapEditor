@@ -13,7 +13,7 @@ using Ame.Infrastructure.Core;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
-using Ame.Infrastructure.Models.DrawingBrushes;
+using Ame.Infrastructure.DrawingTools;
 using Ame.Infrastructure.Utils;
 using Prism.Commands;
 using Prism.Events;
@@ -25,9 +25,9 @@ namespace Ame.Modules.MapEditor.Editor
         #region fields
 
         private IEventAggregator eventAggregator;
+        private AmeSession session;
         private IScrollModel scrollModel;
-
-        private IDrawingTool drawingTool;
+        
         private BrushModel brush;
         private CoordinateTransform imageTransform;
         public int zoomIndex;
@@ -46,16 +46,20 @@ namespace Ame.Modules.MapEditor.Editor
 
         #region constructor
 
-        public MapEditorViewModel(IEventAggregator eventAggregator, Map map)
-            : this(eventAggregator, map, ScrollModel.DefaultScrollModel())
+        public MapEditorViewModel(IEventAggregator eventAggregator, AmeSession session, Map map)
+            : this(eventAggregator, session, map, ScrollModel.DefaultScrollModel())
         {
         }
 
-        public MapEditorViewModel(IEventAggregator eventAggregator, Map map, ScrollModel scrollModel)
+        public MapEditorViewModel(IEventAggregator eventAggregator, AmeSession session, Map map, ScrollModel scrollModel)
         {
             if (eventAggregator == null)
             {
                 throw new ArgumentNullException("eventAggregator");
+            }
+            if (session == null)
+            {
+                throw new ArgumentNullException("session");
             }
             if (map == null)
             {
@@ -66,11 +70,11 @@ namespace Ame.Modules.MapEditor.Editor
                 throw new ArgumentNullException("scrollModel");
             }
             this.eventAggregator = eventAggregator;
+            this.session = session;
             this.Map = map;
             this.scrollModel = scrollModel;
 
             this.CurrentLayer = this.Map.CurrentLayer as Layer;
-            this.drawingTool = new StampTool();
             this.imageTransform = new CoordinateTransform();
             this.imageTransform.SetPixelToTile(this.Map.TileWidth, this.Map.TileHeight);
             this.imageTransform.SetSlectionToPixel(this.Map.TileWidth / 2, this.Map.TileHeight / 2);
@@ -205,6 +209,14 @@ namespace Ame.Modules.MapEditor.Editor
             }
         }
 
+        private IDrawingTool DrawingTool
+        {
+            get
+            {
+                return this.session.DrawingTool;
+            }
+        }
+
         #endregion properties
 
 
@@ -238,7 +250,7 @@ namespace Ame.Modules.MapEditor.Editor
         public void UpdateBrushImage(BrushModel brushModel)
         {
             this.brush = brushModel;
-            this.drawingTool.Brush = this.brush;
+            this.DrawingTool.Brush = this.brush;
         }
 
         public void DrawGrid()
@@ -313,7 +325,7 @@ namespace Ame.Modules.MapEditor.Editor
                 return;
             }
             Point tilePoint = this.imageTransform.PixelToTopLeftTileEdge(point);
-            this.drawingTool.Apply(this.Map, tilePoint);
+            this.DrawingTool.Apply(this.Map, tilePoint);
         }
 
         private void redrawBackground()

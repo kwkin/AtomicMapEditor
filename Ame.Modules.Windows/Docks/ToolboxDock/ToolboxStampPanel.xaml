@@ -31,11 +31,12 @@
         <WrapPanel Grid.Row="0"
                    Grid.Column="0"
                    Grid.ColumnSpan="6">
-            <extcomp:IconButton x:Name="eraserButton"
+            <extcomp:IconToggleButton x:Name="eraserButton"
                                 ToolTip="Eraser: Erase tiles using the brush settings"
                                 ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_eraser_black_24dp.png"
-                                ImageStretch="None">
-            </extcomp:IconButton>
+                                ImageStretch="None"
+                                IsChecked="{Binding IsEraser}">
+            </extcomp:IconToggleButton>
             <extcomp:IconButton x:Name="snapToGridButton"
                                 ToolTip="Snap to Grid: Snaps the tile to the grid"
                                 ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_grid_black_24dp.png"

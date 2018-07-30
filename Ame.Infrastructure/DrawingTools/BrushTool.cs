@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using Ame.Infrastructure.Models;
 
-namespace Ame.Infrastructure.Models.DrawingBrushes
+namespace Ame.Infrastructure.DrawingTools
 {
-    public class CircleBrushTool : IDrawingTool
+    public class BrushTool : IDrawingTool
     {
         #region fields
 
@@ -17,11 +18,11 @@ namespace Ame.Infrastructure.Models.DrawingBrushes
 
         #region constructor
 
-        public CircleBrushTool()
+        public BrushTool()
         {
         }
 
-        public CircleBrushTool(BrushModel brush)
+        public BrushTool(BrushModel brush)
         {
             this.Brush = brush;
         }
@@ -31,7 +32,7 @@ namespace Ame.Infrastructure.Models.DrawingBrushes
 
         #region properties
 
-        public string ToolName { get; set; } = "Circle Brush";
+        public string ToolName { get; set; } = "Brush";
         public BrushModel Brush { get; set; }
         public int radius { get; set; } = 5;
 

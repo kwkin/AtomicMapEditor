@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Ame.Infrastructure.DrawingTools;
 
 namespace Ame.Infrastructure.Models
 {
@@ -25,6 +26,7 @@ namespace Ame.Infrastructure.Models
             this.MapList = new ObservableCollection<Map>();
             this.CurrentLayerList = new ObservableCollection<ILayer>();
             this.CurrentTilesetList = new ObservableCollection<TilesetModel>();
+            this.DrawingTool = new StampTool();
         }
 
         public AmeSession(ObservableCollection<Map> MapList)
@@ -32,6 +34,7 @@ namespace Ame.Infrastructure.Models
             this.MapList = MapList;
             this.CurrentLayerList = new ObservableCollection<ILayer>();
             this.CurrentTilesetList = new ObservableCollection<TilesetModel>();
+            this.DrawingTool = new StampTool();
         }
 
         public AmeSession(Map Map)
@@ -40,6 +43,7 @@ namespace Ame.Infrastructure.Models
             this.MapList.Add(Map);
             this.CurrentLayerList = new ObservableCollection<ILayer>();
             this.CurrentTilesetList = new ObservableCollection<TilesetModel>();
+            this.DrawingTool = new StampTool();
         }
 
         #endregion constructor
@@ -179,6 +183,19 @@ namespace Ame.Infrastructure.Models
             get
             {
                 return this.CurrentTilesetList.IndexOf(this.CurrentTileset);
+            }
+        }
+
+        private IDrawingTool drawingTool;
+        public IDrawingTool DrawingTool
+        {
+            get
+            {
+                return this.drawingTool;
+            }
+            set
+            {
+                this.drawingTool = value;
             }
         }
 

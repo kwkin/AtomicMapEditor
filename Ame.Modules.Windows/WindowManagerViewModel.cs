@@ -89,7 +89,7 @@ namespace Ame.Modules.Windows
                 new SelectedBrushCreator(this.eventAggregator),
                 new ProjectExplorerCreator(this.eventAggregator, this.session),
                 new SessionViewerCreator(this.eventAggregator, this.session),
-                new ToolboxCreator(this.eventAggregator),
+                new ToolboxCreator(this.eventAggregator, this.session),
                 new MapEditorCreator(this.eventAggregator, this.session)
             };
             this.dockCreator = new DockCreator(dockCreators);

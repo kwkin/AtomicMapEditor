@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
-namespace Ame.Infrastructure.Models.DrawingBrushes
+namespace Ame.Infrastructure.DrawingTools
 {
-    public class BrushAction
+    public class DrawAction
     {
         #region fields
 
@@ -16,7 +16,7 @@ namespace Ame.Infrastructure.Models.DrawingBrushes
 
         #region constructor
 
-        public BrushAction(string name, Stack<ImageDrawing> tiles)
+        public DrawAction(string name, Stack<ImageDrawing> tiles)
         {
             this.Name = name;
             this.Tiles = tiles;

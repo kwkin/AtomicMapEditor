@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Media;
 using Ame.Infrastructure.Attributes;
-using Ame.Infrastructure.Models.DrawingBrushes;
+using Ame.Infrastructure.DrawingTools;
 
 namespace Ame.Infrastructure.Models
 {
@@ -37,8 +37,8 @@ namespace Ame.Infrastructure.Models
             Layer initialLayer = new Layer("Layer #0", this.TileWidth, this.TileHeight, this.RowCount, this.ColumnCount);
             this.LayerList.Add(initialLayer);
 
-            this.UndoQueue = new Stack<BrushAction>();
-            this.RedoQueue = new Stack<BrushAction>();
+            this.UndoQueue = new Stack<DrawAction>();
+            this.RedoQueue = new Stack<DrawAction>();
             for (int xIndex = 0; xIndex < this.TileWidth; ++xIndex)
             {
                 for (int yIndex = 0; yIndex < this.TileHeight; ++yIndex)
@@ -65,8 +65,8 @@ namespace Ame.Infrastructure.Models
             Layer initialLayer = new Layer("Layer #0", this.TileWidth, this.TileHeight, this.RowCount, this.ColumnCount);
             this.LayerList.Add(initialLayer);
 
-            this.UndoQueue = new Stack<BrushAction>();
-            this.RedoQueue = new Stack<BrushAction>();
+            this.UndoQueue = new Stack<DrawAction>();
+            this.RedoQueue = new Stack<DrawAction>();
             for (int xIndex = 0; xIndex < this.TileWidth; ++xIndex)
             {
                 for (int yIndex = 0; yIndex < this.TileHeight; ++yIndex)
@@ -92,8 +92,8 @@ namespace Ame.Infrastructure.Models
             Layer initialLayer = new Layer("Layer #0", this.TileWidth, this.TileHeight, this.RowCount, this.ColumnCount);
             this.LayerList.Add(initialLayer);
 
-            this.UndoQueue = new Stack<BrushAction>();
-            this.RedoQueue = new Stack<BrushAction>();
+            this.UndoQueue = new Stack<DrawAction>();
+            this.RedoQueue = new Stack<DrawAction>();
             for (int xIndex = 0; xIndex < this.TileWidth; ++xIndex)
             {
                 for (int yIndex = 0; yIndex < this.TileHeight; ++yIndex)
@@ -251,8 +251,8 @@ namespace Ame.Infrastructure.Models
             }
         }
 
-        public Stack<BrushAction> UndoQueue { get; set; }
-        public Stack<BrushAction> RedoQueue { get; set; }
+        public Stack<DrawAction> UndoQueue { get; set; }
+        public Stack<DrawAction> RedoQueue { get; set; }
 
         #endregion properties
 
@@ -310,9 +310,9 @@ namespace Ame.Infrastructure.Models
             return groups.Count<Layer>();
         }
 
-        public void Draw(BrushAction action)
+        public void Draw(DrawAction action)
         {
-            BrushAction undoAction = applyAction(action);
+            DrawAction undoAction = applyAction(action);
             this.UndoQueue.Push(undoAction);
             this.RedoQueue.Clear();
         }
@@ -323,8 +323,8 @@ namespace Ame.Infrastructure.Models
             {
                 return;
             }
-            BrushAction undoAction = this.UndoQueue.Pop();
-            BrushAction redoAction = applyAction(undoAction);
+            DrawAction undoAction = this.UndoQueue.Pop();
+            DrawAction redoAction = applyAction(undoAction);
             this.RedoQueue.Push(redoAction);
         }
 
@@ -334,12 +334,12 @@ namespace Ame.Infrastructure.Models
             {
                 return;
             }
-            BrushAction redoAction = this.RedoQueue.Pop();
-            BrushAction undoAction = applyAction(redoAction);
+            DrawAction redoAction = this.RedoQueue.Pop();
+            DrawAction undoAction = applyAction(redoAction);
             this.UndoQueue.Push(undoAction);
         }
 
-        private BrushAction applyAction(BrushAction action)
+        private DrawAction applyAction(DrawAction action)
         {
             Stack<ImageDrawing> previousTiles = new Stack<ImageDrawing>();
             foreach (ImageDrawing tile in action.Tiles)
@@ -350,7 +350,7 @@ namespace Ame.Infrastructure.Models
                     previousTiles.Push(previousTile);
                 }
             }
-            BrushAction revertAction = new BrushAction(action.Name, previousTiles);
+            DrawAction revertAction = new DrawAction(action.Name, previousTiles);
             return revertAction;
         }
         

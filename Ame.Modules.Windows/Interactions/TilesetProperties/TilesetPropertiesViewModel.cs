@@ -23,7 +23,6 @@ using Prism.Mvvm;
 
 namespace Ame.Modules.Windows.Interactions.TilesetProperties
 {
-    // TODO create a second window with two accept button types
     public class TilesetPropertiesViewModel : BindableBase, IInteractionRequestAware
     {
         #region fields

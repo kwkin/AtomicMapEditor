@@ -11,7 +11,8 @@ namespace Ame.Modules.MapEditor.Editor
     {
         #region fields
 
-        public IEventAggregator eventAggregator;
+        private IEventAggregator eventAggregator;
+        private AmeSession session;
 
         #endregion fields
 
@@ -33,6 +34,7 @@ namespace Ame.Modules.MapEditor.Editor
             map = map ?? new Map(mapTitle);
 
             this.eventAggregator = eventAggregator;
+            this.session = session;
             this.Map = map;
             this.ScrollModel = scrollModel;
         }
@@ -55,11 +57,11 @@ namespace Ame.Modules.MapEditor.Editor
             DockViewModelTemplate template;
             if (this.ScrollModel != null)
             {
-                template = new MapEditorViewModel(this.eventAggregator, this.Map, this.ScrollModel);
+                template = new MapEditorViewModel(this.eventAggregator, this.session, this.Map, this.ScrollModel);
             }
             else
             {
-                template = new MapEditorViewModel(this.eventAggregator, this.Map);
+                template = new MapEditorViewModel(this.eventAggregator, this.session, this.Map);
             }
             return template;
         }
