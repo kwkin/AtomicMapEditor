@@ -327,6 +327,10 @@ namespace Ame.Modules.Menu.Ribbon
         private void OnNewTilesetWindowClosed(INotification notification)
         {
             IConfirmation confirmation = notification as IConfirmation;
+            if (Mouse.OverrideCursor == Cursors.Pen)
+            {
+                Mouse.OverrideCursor = null;
+            }
             if (confirmation.Confirmed)
             {
                 TilesetModel tilesetModel = confirmation.Content as TilesetModel;

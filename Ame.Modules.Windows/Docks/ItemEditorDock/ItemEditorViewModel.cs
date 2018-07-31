@@ -157,7 +157,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             {
                 RefreshRuler();
             });
-            this.ZoomOutCommand = new DelegateCommand(() =>
+            this.ZoomInCommand = new DelegateCommand(() =>
             {
                 ZoomIn();
             });
@@ -498,7 +498,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             if (this.updatePositionLabelStopWatch.ElapsedMilliseconds > this.updatePositionLabelDelay)
             {
                 UpdatePositionLabel(pixelPoint);
-                if (this.IsSelectingTransparency)
+                if (this.IsSelectingTransparency && this.isMouseDown)
                 {
                     this.TransparentColor = ImageUtils.ColorAt(this.ItemImage, pixelPoint);
                 }
@@ -764,6 +764,10 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
         private void OnNewTilesetWindowClosed(INotification notification)
         {
             IConfirmation confirmation = notification as IConfirmation;
+            if (Mouse.OverrideCursor == Cursors.Pen)
+            {
+                Mouse.OverrideCursor = null;
+            }
             if (confirmation.Confirmed)
             {
                 TilesetModel messageTilesetModel = confirmation.Content as TilesetModel;

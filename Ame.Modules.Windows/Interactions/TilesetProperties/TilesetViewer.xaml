@@ -16,6 +16,9 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Ame.Modules.Windows;component/Interactions/TilesetProperties/TilesetViewerContextMenu.xaml" />
+            </ResourceDictionary.MergedDictionaries>
             <conv:MouseEventToPointConverter x:Key="MouseEventToPointConverter" />
             <conv:IntegerToBooleanConverter x:Key="CountToEnabledConverter"
                                             ComparisonValue="0"
@@ -83,6 +86,16 @@
                 </i:Interaction.Triggers>
 
                 <Grid x:Name="scrollViewerGrid">
+                    <Grid.ContextMenu>
+                        <ContextMenu>
+                            <ContextMenu.ItemsSource>
+                                <CompositeCollection>
+                                    <CollectionContainer Collection="{StaticResource TilesetViewerContextMenu}" />
+                                </CompositeCollection>
+                            </ContextMenu.ItemsSource>
+                        </ContextMenu>
+                    </Grid.ContextMenu>
+                    
                     <Image x:Name="itemImage"
                            Source="{Binding TileImage}"
                            VerticalAlignment="Center"

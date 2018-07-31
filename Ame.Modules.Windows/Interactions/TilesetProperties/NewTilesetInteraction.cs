@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Models;
 using Prism.Events;
@@ -90,6 +91,10 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
         private void OnNewTilesetWindowClosed(INotification notification)
         {
             IConfirmation confirmation = notification as IConfirmation;
+            if (Mouse.OverrideCursor == Cursors.Pen)
+            {
+                Mouse.OverrideCursor = null;
+            }
             if (confirmation.Confirmed)
             {
                 TilesetModel tilesetModel = confirmation.Content as TilesetModel;

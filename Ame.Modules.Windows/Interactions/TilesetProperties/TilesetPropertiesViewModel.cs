@@ -40,6 +40,7 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
         private DrawingGroup drawingGroup;
         private DrawingGroup tilesetImage;
         private DrawingGroup gridLines;
+        private DrawingGroup extendedBorder;
 
         #endregion fields
 
@@ -59,6 +60,8 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
             this.drawingGroup = new DrawingGroup();
             this.tilesetImage = new DrawingGroup();
             this.gridLines = new DrawingGroup();
+            this.extendedBorder = new DrawingGroup();
+            this.drawingGroup.Children.Add(this.extendedBorder);
             this.drawingGroup.Children.Add(this.tilesetImage);
             this.drawingGroup.Children.Add(this.gridLines);
             this.TileImage = new DrawingImage(this.drawingGroup);
@@ -106,6 +109,26 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
             {
                 BrowseSource();
             });
+            this.ShowGridCommand = new DelegateCommand(() =>
+            {
+                RefreshGrid();
+            });
+            this.ShowRulerCommand = new DelegateCommand(() =>
+            {
+                RefreshRuler();
+            });
+            this.ZoomInCommand = new DelegateCommand(() =>
+            {
+                ZoomIn();
+            });
+            this.ZoomOutCommand = new DelegateCommand(() =>
+            {
+                ZoomOut();
+            });
+            this.SetZoomCommand = new DelegateCommand<ZoomLevel>((zoomLevel) =>
+            {
+                SetZoom(zoomLevel);
+            });
         }
 
         #endregion constructor
@@ -123,20 +146,13 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
         public ICommand MoveMetadataUpCommand { get; private set; }
         public ICommand MoveMetadataDownCommand { get; private set; }
         public ICommand BrowseSourceCommand { get; set; }
+        public ICommand ShowGridCommand { get; private set; }
+        public ICommand ShowRulerCommand { get; private set; }
+        public ICommand ZoomInCommand { get; private set; }
+        public ICommand ZoomOutCommand { get; private set; }
+        public ICommand SetZoomCommand { get; private set; }
 
-        public string WindowTitle { get; set; }
-        public string Name { get; set; }
-        public string SourcePath { get; set; }
-        public bool IsTransparent { get; set; }
-        public Color TransparentColor { get; set; }
-        public int TileWidth { get; set; }
-        public int TileHeight { get; set; }
-        public int OffsetX { get; set; }
-        public int OffsetY { get; set; }
-        public int PaddingX { get; set; }
-        public int PaddingY { get; set; }
-
-        public IConfirmation notification { get; set; }
+        private IConfirmation notification;
         public INotification Notification
         {
             get { return this.notification; }
@@ -145,7 +161,7 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
                 this.notification = value as IConfirmation;
                 this.TilesetModel = this.notification.Content as TilesetModel;
                 UpdateUI();
-                UpdateItemImage();
+                RefreshItemImage();
                 if (this.TilesetModel != null)
                 {
                     UpdateMetadata();
@@ -154,19 +170,241 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
             }
         }
 
-        public TilesetModel TilesetModel { get; set; }
-        public DrawingImage TileImage { get; set; }
+        public Action FinishInteraction { get; set; }
 
-        public ICollectionView GroupedProperties { get; set; }
-        public ICollectionView TilesetMetadata { get; set; }
-        public ObservableCollection<MetadataProperty> MetadataList { get; set; }
+        private Mat itemImage;
+        public Mat ItemImage
+        {
+            get
+            {
+                return this.itemImage;
+            }
+            set
+            {
+                SetProperty(ref this.itemImage, value);
+            }
+        }
 
-        public MetadataProperty selectedMetadata;
+        private TilesetModel tilesetModel;
+        public TilesetModel TilesetModel
+        {
+            get
+            {
+                return this.tilesetModel;
+            }
+            set
+            {
+                SetProperty(ref this.tilesetModel, value);
+            }
+        }
+
+        private DrawingImage tileImage;
+        public DrawingImage TileImage
+        {
+            get
+            {
+                return this.tileImage;
+            }
+            set
+            {
+                SetProperty(ref this.tileImage, value);
+            }
+        }
+
+        private string windowTitle;
+        public string WindowTitle
+        {
+            get
+            {
+                return this.windowTitle;
+            }
+            set
+            {
+                SetProperty(ref this.windowTitle, value);
+            }
+        }
+
+        private string name;
+        public string Name
+        {
+            get
+            {
+                return this.name;
+            }
+            set
+            {
+                SetProperty(ref this.name, value);
+            }
+        }
+
+        private string sourcePath;
+        public string SourcePath
+        {
+            get
+            {
+                return this.sourcePath;
+            }
+            set
+            {
+                SetProperty(ref this.sourcePath, value);
+            }
+        }
+
+        private bool isTransparent;
+        public bool IsTransparent
+        {
+            get
+            {
+                return this.isTransparent;
+            }
+            set
+            {
+                if (SetProperty(ref this.isTransparent, value))
+                {
+                    RefreshItemImage();
+                }
+            }
+        }
+
+        private Color transparentColor;
+        public Color TransparentColor
+        {
+            get
+            {
+                return this.transparentColor;
+            }
+            set
+            {
+                if (SetProperty(ref this.transparentColor, value))
+                {
+                    RefreshItemImage();
+                }
+            }
+        }
+
+        private int tileWidth;
+        public int TileWidth
+        {
+            get
+            {
+                return this.tileWidth;
+            }
+            set
+            {
+                SetProperty(ref this.tileWidth, value);
+            }
+        }
+
+        private int tileHeight;
+        public int TileHeight
+        {
+            get
+            {
+                return this.tileHeight;
+            }
+            set
+            {
+                SetProperty(ref this.tileHeight, value);
+            }
+        }
+
+        private int offsetX;
+        public int OffsetX
+        {
+            get
+            {
+                return this.offsetX;
+            }
+            set
+            {
+                SetProperty(ref this.offsetX, value);
+            }
+        }
+
+        private int offsetY;
+        public int OffsetY
+        {
+            get
+            {
+                return this.offsetY;
+            }
+            set
+            {
+                SetProperty(ref this.offsetY, value);
+            }
+        }
+
+        private int paddingX;
+        public int PaddingX
+        {
+            get
+            {
+                return this.paddingX;
+            }
+            set
+            {
+                SetProperty(ref this.paddingX, value);
+            }
+        }
+
+        private int paddingY;
+        public int PaddingY
+        {
+            get
+            {
+                return this.paddingY;
+            }
+            set
+            {
+                SetProperty(ref this.paddingY, value);
+            }
+        }
+
+        private ICollectionView groupedProperties;
+        public ICollectionView GroupedProperties
+        {
+            get
+            {
+                return this.groupedProperties;
+            }
+            set
+            {
+                SetProperty(ref this.groupedProperties, value);
+            }
+        }
+
+        private ICollectionView tilesetMetadata;
+        public ICollectionView TilesetMetadata
+        {
+            get
+            {
+                return this.tilesetMetadata;
+            }
+            set
+            {
+                SetProperty(ref this.tilesetMetadata, value);
+            }
+        }
+
+        private ObservableCollection<MetadataProperty> metadataList;
+        public ObservableCollection<MetadataProperty> MetadataList
+        {
+            get
+            {
+                return this.metadataList;
+            }
+            set
+            {
+                SetProperty(ref this.metadataList, value);
+            }
+        }
+
+        private MetadataProperty selectedMetadata;
         public MetadataProperty SelectedMetadata
         {
             get
             {
-                return selectedMetadata;
+                return this.selectedMetadata;
             }
             set
             {
@@ -180,7 +418,7 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
         {
             get
             {
-                return isCustomSelected;
+                return this.isCustomSelected;
             }
             set
             {
@@ -188,10 +426,44 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
             }
         }
 
-        public bool IsGridOn { get; set; }
-        public ScaleType Scale { get; set; }
-        public string PositionText { get; set; }
-        public ObservableCollection<ZoomLevel> ZoomLevels { get; set; }
+        private bool isGridOn;
+        public bool IsGridOn
+        {
+            get
+            {
+                return this.isGridOn;
+            }
+            set
+            {
+                SetProperty(ref this.isGridOn, value);
+            }
+        }
+
+        private ScaleType scale;
+        public ScaleType Scale
+        {
+            get
+            {
+                return this.scale;
+            }
+            set
+            {
+                SetProperty(ref this.scale, value);
+            }
+        }
+
+        private string positionText;
+        public string PositionText
+        {
+            get
+            {
+                return this.positionText;
+            }
+            set
+            {
+                SetProperty(ref this.positionText, value);
+            }
+        }
 
         private int zoomIndex;
         public int ZoomIndex
@@ -204,10 +476,71 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
                     this.gridLines.Children.Clear();
                     Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        DrawGrid();
+                        RefreshGrid();
                     }),
                     DispatcherPriority.Background);
                 }
+            }
+        }
+
+        private Pen gridPen;
+        public Pen GridPen
+        {
+            get
+            {
+                return gridPen;
+            }
+            set
+            {
+                if (SetProperty(ref this.gridPen, value))
+                {
+                    RefreshGrid();
+                }
+            }
+        }
+
+        private Brush backgroundBrush;
+        public Brush BackgroundBrush
+        {
+            get
+            {
+                return backgroundBrush;
+            }
+            set
+            {
+                if (SetProperty(ref this.backgroundBrush, value))
+                {
+                    RefreshBackground();
+                }
+            }
+        }
+
+        private Pen backgroundPen;
+        public Pen BackgroundPen
+        {
+            get
+            {
+                return backgroundPen;
+            }
+            set
+            {
+                if (SetProperty(ref this.backgroundPen, value))
+                {
+                    RefreshBackground();
+                }
+            }
+        }
+
+        private ObservableCollection<ZoomLevel> zoomLevels;
+        public ObservableCollection<ZoomLevel> ZoomLevels
+        {
+            get
+            {
+                return zoomLevels;
+            }
+            set
+            {
+                SetProperty(ref this.zoomLevels, value);
             }
         }
 
@@ -234,89 +567,10 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
             }
         }
 
-        private Mat itemImage;
-        public Mat ItemImage
-        {
-            get
-            {
-                return this.itemImage;
-            }
-            set
-            {
-                SetProperty(ref this.itemImage, value);
-            }
-        }
-
-        public Action FinishInteraction { get; set; }
-
         #endregion properties
 
 
         #region methods
-
-        public void HandleLeftClickUp(Point selectPoint)
-        {
-            if (this.ItemImage == null)
-            {
-                return;
-            }
-            this.isMouseDown = false;
-            GeneralTransform selectToPixel = GeometryUtils.CreateTransform(this.itemTransform.pixelToSelect.Inverse);
-            Point pixelPoint = selectToPixel.Transform(selectPoint);
-            if (this.IsSelectingTransparency)
-            {
-                SelectTransparency(pixelPoint);
-                this.IsSelectingTransparency = false;
-            }
-        }
-
-        public void HandleLeftClickDown(Point selectPoint)
-        {
-            if (this.ItemImage == null)
-            {
-                return;
-            }
-            this.isMouseDown = true;
-            GeneralTransform selectToPixel = GeometryUtils.CreateTransform(this.itemTransform.pixelToSelect.Inverse);
-            selectPoint = selectToPixel.Transform(selectPoint);
-            if (!ImageUtils.Intersects(this.ItemImage, selectPoint))
-            {
-                return;
-            }
-        }
-
-        public void HandleMouseMove(Point selectPosition)
-        {
-            if (this.ItemImage == null)
-            {
-                return;
-            }
-            GeneralTransform selectToPixel = GeometryUtils.CreateTransform(this.itemTransform.pixelToSelect.Inverse);
-            Point pixelPoint = selectToPixel.Transform(selectPosition);
-            if (this.updatePositionLabelStopWatch.ElapsedMilliseconds > this.updatePositionLabelDelay)
-            {
-                UpdatePositionLabel(pixelPoint);
-                if (this.IsSelectingTransparency && this.isMouseDown)
-                {
-                    this.TransparentColor = ImageUtils.ColorAt(this.ItemImage, pixelPoint);
-                }
-            }
-        }
-
-        public void SelectTransparency(Point pixelPoint)
-        {
-            if (!ImageUtils.Intersects(this.ItemImage, pixelPoint))
-            {
-                return;
-            }
-            this.TransparentColor = ImageUtils.ColorAt(this.ItemImage, pixelPoint);
-            Mat transparentImage = ImageUtils.ColorToTransparent(this.ItemImage, this.TransparentColor);
-            using (DrawingContext context = this.tilesetImage.Open())
-            {
-                context.DrawDrawing(ImageUtils.MatToImageDrawing(transparentImage));
-            }
-            RaisePropertyChanged(nameof(this.TransparentColor));
-        }
 
         private void SetTileset()
         {
@@ -371,6 +625,215 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
             this.TilesetModel.PaddingY = this.PaddingY;
             this.TilesetModel.PixelHeight = this.tilesetPixelHeight;
             this.TilesetModel.PixelWidth = this.tilesetPixelWidth;
+        }
+
+        public void HandleLeftClickUp(Point selectPoint)
+        {
+            this.isMouseDown = false;
+            bool wasSelectingTransparency = this.IsSelectingTransparency;
+            this.IsSelectingTransparency = false;
+            GeneralTransform selectToPixel = GeometryUtils.CreateTransform(this.itemTransform.pixelToSelect.Inverse);
+            Point pixelPoint = selectToPixel.Transform(selectPoint);
+            if (wasSelectingTransparency)
+            {
+                SelectTransparency(pixelPoint);
+            }
+        }
+
+        public void HandleLeftClickDown(Point selectPoint)
+        {
+            this.isMouseDown = true;
+            if (this.ItemImage == null)
+            {
+                return;
+            }
+            GeneralTransform selectToPixel = GeometryUtils.CreateTransform(this.itemTransform.pixelToSelect.Inverse);
+            selectPoint = selectToPixel.Transform(selectPoint);
+        }
+
+        public void HandleMouseMove(Point selectPoint)
+        {
+            if (this.ItemImage == null)
+            {
+                return;
+            }
+            GeneralTransform selectToPixel = GeometryUtils.CreateTransform(this.itemTransform.pixelToSelect.Inverse);
+            Point pixelPoint = selectToPixel.Transform(selectPoint);
+            if (this.updatePositionLabelStopWatch.ElapsedMilliseconds > this.updatePositionLabelDelay)
+            {
+                UpdatePositionLabel(pixelPoint);
+                if (this.IsSelectingTransparency && this.isMouseDown)
+                {
+                    this.TransparentColor = ImageUtils.ColorAt(this.ItemImage, pixelPoint);
+                }
+            }
+        }
+
+        public void SelectTransparency(Point pixelPoint)
+        {
+            if (!ImageUtils.Intersects(this.ItemImage, pixelPoint))
+            {
+                return;
+            }
+            this.TransparentColor = ImageUtils.ColorAt(this.ItemImage, pixelPoint);
+            if (this.IsTransparent)
+            {
+                Mat transparentImage = ImageUtils.ColorToTransparent(this.ItemImage, this.TransparentColor);
+                using (DrawingContext context = this.tilesetImage.Open())
+                {
+                    context.DrawDrawing(ImageUtils.MatToImageDrawing(transparentImage));
+                }
+            }
+        }
+
+        private void BrowseSource()
+        {
+            OpenFileDialog openTilesetDilog = new OpenFileDialog();
+            openTilesetDilog.Title = "Select a Tileset";
+            openTilesetDilog.Filter = ImageExtension.GetOpenFileImageExtensions();
+            if (openTilesetDilog.ShowDialog() == true)
+            {
+                string tileFilePath = openTilesetDilog.FileName;
+                if (File.Exists(tileFilePath))
+                {
+                    this.SourcePath = tileFilePath;
+                    RefreshItemImage();
+                    RaisePropertyChanged(nameof(this.SourcePath));
+                }
+            }
+        }
+
+        public void RefreshItemImage()
+        {
+            if (string.IsNullOrEmpty(this.SourcePath))
+            {
+                return;
+            }
+            this.ItemImage = CvInvoke.Imread(this.SourcePath, Emgu.CV.CvEnum.ImreadModes.Unchanged);
+            this.tilesetPixelWidth = this.ItemImage.Width;
+            this.tilesetPixelHeight = this.ItemImage.Height;
+
+            DrawingGroup newGroup = ImageUtils.MatToDrawingGroup(this.ItemImage);
+            this.TilesetModel.TilesetImage = newGroup;
+            this.itemTransform = new CoordinateTransform();
+            this.itemTransform.SetPixelToTile(this.TilesetModel.TileWidth, this.TilesetModel.TileHeight);
+            this.itemTransform.SetSlectionToPixel(this.TilesetModel.TileWidth / 2, this.TilesetModel.TileHeight / 2);
+            Mat drawingMat = this.ItemImage;
+            if (this.IsTransparent)
+            {
+                drawingMat = ImageUtils.ColorToTransparent(this.ItemImage, this.TransparentColor);
+            }
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                using (DrawingContext context = this.tilesetImage.Open())
+                {
+                    context.DrawDrawing(ImageUtils.MatToImageDrawing(drawingMat));
+                }
+            }), DispatcherPriority.Render);
+            RefreshBackground();
+            RefreshGrid();
+        }
+
+        public void RefreshGrid()
+        {
+            if (this.IsGridOn)
+            {
+                PaddedGridRenderable gridParameters = new PaddedGridRenderable(this.ItemImage.Width, this.ItemImage.Height);
+                gridParameters.TileWidth = this.TileWidth;
+                gridParameters.TileHeight = this.tileHeight;
+                gridParameters.OffsetX = this.OffsetX;
+                gridParameters.OffsetY = this.OffsetY;
+                gridParameters.PaddingX = this.PaddingX;
+                gridParameters.PaddingY = this.PaddingY;
+                double thickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
+                gridParameters.DrawingPen.Thickness = thickness < Global.maxGridThickness ? thickness : Global.maxGridThickness;
+
+                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    DrawingGroup group = gridParameters.CreateGrid();
+                    this.gridLines.Children = group.Children;
+                }), DispatcherPriority.Render);
+            }
+            else
+            {
+                this.gridLines.Children.Clear();
+            }
+        }
+
+        public void RefreshRuler()
+        {
+            Console.WriteLine("Draw Ruler");
+        }
+
+        public void RefreshBackground()
+        {
+            Size extendedSize = new Size();
+            extendedSize.Width = this.ItemImage.Width + this.TileWidth;
+            extendedSize.Height = this.ItemImage.Height + this.TileHeight;
+            Point extendedPoint = new Point();
+            extendedPoint.X = -this.TileWidth / 2;
+            extendedPoint.Y = -this.TileHeight / 2;
+            Rect drawingRect = new Rect(extendedPoint, extendedSize);
+
+            Size backgroundSize = new Size();
+            backgroundSize.Width = this.ItemImage.Width;
+            backgroundSize.Height = this.ItemImage.Height;
+            Point backgroundPoint = new Point();
+            backgroundPoint.X = 0;
+            backgroundPoint.Y = 0;
+            Rect backgroundRectangle = new Rect(backgroundPoint, backgroundSize);
+
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                using (DrawingContext context = this.extendedBorder.Open())
+                {
+                    context.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Transparent, 0), drawingRect);
+                    context.DrawRectangle(backgroundBrush, backgroundPen, backgroundRectangle);
+                }
+            }), DispatcherPriority.Render);
+        }
+
+        public void ZoomIn()
+        {
+            this.ZoomIndex = this.scrollModel.ZoomIn();
+        }
+
+        public void ZoomOut()
+        {
+            this.ZoomIndex = this.scrollModel.ZoomOut();
+        }
+
+        public void SetZoom(int zoomIndex)
+        {
+            this.ZoomIndex = this.scrollModel.SetZoom(zoomIndex);
+        }
+
+        public void SetZoom(ZoomLevel zoomLevel)
+        {
+            this.ZoomIndex = this.scrollModel.SetZoom(zoomLevel);
+        }
+
+        private void UpdatePositionLabel(Point position)
+        {
+            Point transformedPosition = new Point(0, 0);
+            if (this.TileImage != null)
+            {
+                switch (Scale)
+                {
+                    case ScaleType.Pixel:
+                        transformedPosition = position;
+                        break;
+
+                    case ScaleType.Tile:
+                        GeneralTransform transform = GeometryUtils.CreateTransform(this.itemTransform.pixelToTile);
+                        transformedPosition = transform.Transform(position);
+                        break;
+                }
+            }
+            transformedPosition = GeometryUtils.CreateIntPoint(transformedPosition);
+            this.PositionText = (transformedPosition.X + ", " + transformedPosition.Y);
+            RaisePropertyChanged(nameof(this.PositionText));
+            updatePositionLabelStopWatch.Restart();
         }
 
         private void UpdateMetadata()
@@ -461,92 +924,6 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
                 this.MetadataList.Move(currentIndex, currentIndex + 1);
                 this.TilesetMetadata.Refresh();
             }
-        }
-
-        private void BrowseSource()
-        {
-            OpenFileDialog openTilesetDilog = new OpenFileDialog();
-            openTilesetDilog.Title = "Select a Tileset";
-            openTilesetDilog.Filter = ImageExtension.GetOpenFileImageExtensions();
-            if (openTilesetDilog.ShowDialog() == true)
-            {
-                string tileFilePath = openTilesetDilog.FileName;
-                if (File.Exists(tileFilePath))
-                {
-                    this.SourcePath = tileFilePath;
-                    UpdateItemImage();
-                    RaisePropertyChanged(nameof(this.SourcePath));
-                }
-            }
-        }
-
-        public void UpdateItemImage()
-        {
-            if (string.IsNullOrEmpty(this.SourcePath))
-            {
-                return;
-            }
-            this.ItemImage = CvInvoke.Imread(this.SourcePath, Emgu.CV.CvEnum.ImreadModes.Unchanged);
-            this.tilesetPixelWidth = this.ItemImage.Width;
-            this.tilesetPixelHeight = this.ItemImage.Height;
-
-            DrawingGroup newGroup = ImageUtils.MatToDrawingGroup(this.ItemImage);
-            this.TilesetModel.TilesetImage = newGroup;
-            this.itemTransform = new CoordinateTransform();
-            this.itemTransform.SetPixelToTile(this.TilesetModel.TileWidth, this.TilesetModel.TileHeight);
-            this.itemTransform.SetSlectionToPixel(this.TilesetModel.TileWidth / 2, this.TilesetModel.TileHeight / 2);
-
-            using (DrawingContext context = this.tilesetImage.Open())
-            {
-                context.DrawDrawing(this.TilesetModel.TilesetImage);
-            }
-        }
-
-        public void DrawGrid()
-        {
-            DrawGrid(this.IsGridOn);
-        }
-
-        public void DrawGrid(bool drawGrid)
-        {
-            this.IsGridOn = drawGrid;
-            if (this.IsGridOn)
-            {
-                PaddedGridRenderable gridParameters = new PaddedGridRenderable(this.TilesetModel);
-                double thickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
-                gridParameters.DrawingPen.Thickness = thickness < Global.maxGridThickness ? thickness : Global.maxGridThickness;
-                DrawingGroup group = gridParameters.CreateGrid();
-                this.gridLines.Children = group.Children;
-            }
-            else
-            {
-                this.gridLines.Children.Clear();
-            }
-            RaisePropertyChanged(nameof(this.IsGridOn));
-            RaisePropertyChanged(nameof(this.TileImage));
-        }
-
-        private void UpdatePositionLabel(Point position)
-        {
-            Point transformedPosition = new Point(0, 0);
-            if (this.TileImage != null)
-            {
-                switch (Scale)
-                {
-                    case ScaleType.Pixel:
-                        transformedPosition = position;
-                        break;
-
-                    case ScaleType.Tile:
-                        GeneralTransform transform = GeometryUtils.CreateTransform(this.itemTransform.pixelToTile);
-                        transformedPosition = transform.Transform(position);
-                        break;
-                }
-            }
-            transformedPosition = GeometryUtils.CreateIntPoint(transformedPosition);
-            this.PositionText = (transformedPosition.X + ", " + transformedPosition.Y);
-            RaisePropertyChanged(nameof(this.PositionText));
-            updatePositionLabelStopWatch.Restart();
         }
 
         #endregion methods
