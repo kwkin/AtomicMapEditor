@@ -14,8 +14,7 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
-            <conv:NullOrEmptyToBooleanConverter x:Key="NullOrEmptyToBooleanConverter"
-                                                IsInversed="True" />
+            <conv:NullOrEmptyToBooleanConverter x:Key="StringToIsValidFileConvertor" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -43,7 +42,7 @@
                     Margin="2,0,2,2"
                     IsDefault="True"
                     Width="130"
-                    IsEnabled="{Binding FileSourcePath, Converter={StaticResource NullOrEmptyToBooleanConverter}}"
+                    IsEnabled="{Binding IsSourceLoaded}"
                     Command="{Binding SetTilesetCommand}"
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
             <Button x:Name="cancelButton"

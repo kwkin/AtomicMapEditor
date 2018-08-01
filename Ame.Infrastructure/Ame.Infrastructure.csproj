@@ -102,6 +102,7 @@
     <Compile Include="BaseTypes\DockViewModelTemplate.cs" />
     <Compile Include="Converters\InterfaceTypeToInstance.cs" />
     <Compile Include="Converters\NullOrEmptyToBooleanConverter.cs" />
+    <Compile Include="Converters\StringToIsValidFileConvertor.cs" />
     <Compile Include="DrawingTools\CircleSelectionTool.cs" />
     <Compile Include="DrawingTools\EraserTool.cs" />
     <Compile Include="DrawingTools\FillTool.cs" />

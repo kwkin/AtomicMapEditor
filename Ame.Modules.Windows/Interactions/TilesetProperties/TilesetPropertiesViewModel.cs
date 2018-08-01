@@ -165,6 +165,10 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
                 if (this.TilesetModel != null)
                 {
                     UpdateMetadata();
+                    if (File.Exists(this.TilesetModel.SourcePath))
+                    {
+                        this.IsSourceLoaded = true;
+                    }
                 }
                 RaisePropertyChanged(nameof(this.Notification));
             }
@@ -567,6 +571,19 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
             }
         }
 
+        private bool isSourceLoaded;
+        public bool IsSourceLoaded
+        {
+            get
+            {
+                return this.isSourceLoaded;
+            }
+            set
+            {
+                SetProperty(ref this.isSourceLoaded, value);
+            }
+        }
+
         #endregion properties
 
 
@@ -696,6 +713,7 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
                 string tileFilePath = openTilesetDilog.FileName;
                 if (File.Exists(tileFilePath))
                 {
+                    this.IsSourceLoaded = true;
                     this.SourcePath = tileFilePath;
                     RefreshItemImage();
                     RaisePropertyChanged(nameof(this.SourcePath));

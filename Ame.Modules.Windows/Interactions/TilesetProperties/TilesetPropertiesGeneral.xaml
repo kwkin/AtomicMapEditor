@@ -8,9 +8,17 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=Ame.Components"
              xmlns:actions="clr-namespace:Ame.Infrastructure.Actions;assembly=Ame.Infrastructure"
+             xmlns:conv="clr-namespace:Ame.Infrastructure.Converters;assembly=Ame.Infrastructure"
              mc:Ignorable="d"
-             d:DesignHeight="280" 
+             d:DesignHeight="280"
              d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <conv:NullOrEmptyToBooleanConverter x:Key="StringToIsValidFileConvertor"
+                                                IsInversed="True" />
+        </ResourceDictionary>
+    </UserControl.Resources>
 
     <Grid VerticalAlignment="Top"
           MinHeight="280">
@@ -62,7 +70,8 @@
                  Grid.Column="3"
                  Grid.ColumnSpan="2"
                  VerticalAlignment="Center"
-                 Text="{Binding SourcePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                 Text="{Binding SourcePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 actions:InputBindingsManager.UpdatePropertySourceWhenEnterPressed="TextBox.Text" />
         <Button x:Name="sourceButton"
                 Grid.Row="1"
                 Grid.Column="5"
@@ -70,13 +79,14 @@
                 Content="Browse..."
                 Command="{Binding BrowseSourceCommand}"/>
 
-        <CheckBox x:Name="useTransparentColorPicker"
+        <CheckBox x:Name="UseTransparentColorPicker"
                   Grid.Row="2"
                   Grid.Column="3"
                   Grid.ColumnSpan="2"
                   HorizontalAlignment="Left"
                   VerticalAlignment="Center"
                   Content="Use Transparent"
+                  IsEnabled="{Binding IsSourceLoaded}"
                   IsChecked="{Binding IsTransparent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <Grid Grid.Row="2"
               Grid.Column="6">
@@ -88,6 +98,7 @@
             <extcomp:IconToggleButton x:Name="pickerButton"
                                       ToolTip="Select a transparency color"
                                       IsChecked="{Binding IsSelectingTransparency}"
+                                      IsEnabled="{Binding IsChecked, ElementName=UseTransparentColorPicker}"
                                       ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_eyedropper_variant_black_24dp.png"
                                       ImageStretch="None">
             </extcomp:IconToggleButton>
@@ -96,6 +107,7 @@
                               Grid.Column="1"
                               VerticalAlignment="Center"
                               ColorMode="ColorCanvas"
+                              IsEnabled="{Binding IsChecked, ElementName=UseTransparentColorPicker}"
                               SelectedColor="{Binding TransparentColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
         <Label x:Name="sizeLabel"

@@ -564,9 +564,9 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             {
                 this.Session.CurrentTilesetList.Add(tilesetModel);
             }
-            this.tilesetModel = tilesetModel;
-            this.tilesetModel.TransparentColor = this.TilesetModel.TransparentColor;
-            this.tilesetModel.IsTransparent = this.TilesetModel.IsTransparent;
+            this.TilesetModel = tilesetModel;
+            this.IsTransparent = tilesetModel.IsTransparent;
+            this.TransparentColor = tilesetModel.TransparentColor;
             this.Session.CurrentTileset = this.TilesetModel;
             this.ItemImage = CvInvoke.Imread(this.TilesetModel.SourcePath, Emgu.CV.CvEnum.ImreadModes.Unchanged);
             this.itemTransform = new CoordinateTransform();
@@ -773,6 +773,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                 TilesetModel messageTilesetModel = confirmation.Content as TilesetModel;
                 this.Session.CurrentTilesetList.Add(messageTilesetModel);
                 this.TilesetModel = messageTilesetModel;
+                ChangeItemModel(this.tilesetModel);
                 RaisePropertyChanged(nameof(this.TilesetModel));
             }
         }
