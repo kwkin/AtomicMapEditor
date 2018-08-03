@@ -188,6 +188,58 @@ namespace Ame.Modules.Windows.Docks.ToolboxDock
             }
         }
 
+        private int maxTileWidth;
+        public int MaxTileWidth
+        {
+            get
+            {
+                return this.maxTileWidth;
+            }
+            set
+            {
+                SetProperty(ref this.maxTileWidth, value);
+            }
+        }
+
+        private int maxTilHeight;
+        public int MaxTileHeight
+        {
+            get
+            {
+                return this.maxTilHeight;
+            }
+            set
+            {
+                SetProperty(ref this.maxTilHeight, value);
+            }
+        }
+
+        private int maxTileOffsetX;
+        public int MaxTileOffsetX
+        {
+            get
+            {
+                return this.maxTileOffsetX;
+            }
+            set
+            {
+                SetProperty(ref this.maxTileOffsetX, value);
+            }
+        }
+
+        private int maxTileOffsetY;
+        public int MaxTileOffsetY
+        {
+            get
+            {
+                return this.maxTileOffsetY;
+            }
+            set
+            {
+                SetProperty(ref this.maxTileOffsetY, value);
+            }
+        }
+
         private PaddedBrushModel brushModel;
         public PaddedBrushModel BrushModel
         {
@@ -242,6 +294,7 @@ namespace Ame.Modules.Windows.Docks.ToolboxDock
             RaisePropertyChanged(nameof(this.brushTileWidth));
             RaisePropertyChanged(nameof(this.brushTileOffsetX));
             RaisePropertyChanged(nameof(this.brushTileOffsetY));
+            UpdateStampLimits();
         }
 
         private void UpdateBrushModel()
@@ -250,12 +303,24 @@ namespace Ame.Modules.Windows.Docks.ToolboxDock
             this.BrushModel.SetWidthWithColumns(this.BrushColumnCount, this.BrushTileWidth);
             this.BrushModel.TileOffsetX = this.BrushTileOffsetX;
             this.BrushModel.TileOffsetY = this.BrushTileOffsetY;
+            UpdateStampLimits();
             PublishBrushModel();
         }
 
         private void PublishBrushModel()
         {
             this.eventAggregator.GetEvent<UpdatePaddedBrushEvent>().Publish(this.BrushModel);
+        }
+
+        private void UpdateStampLimits()
+        {
+            if (this.session.CurrentTileset != null)
+            {
+                this.MaxTileWidth = this.session.CurrentTileset.ColumnCount() - this.BrushTileOffsetX;
+                this.MaxTileHeight = this.session.CurrentTileset.RowCount() - this.BrushTileOffsetY;
+                this.MaxTileOffsetX = this.session.CurrentTileset.ColumnCount() - this.BrushColumnCount;
+                this.MaxTileOffsetY = this.session.CurrentTileset.RowCount() - this.BrushRowCount;
+            }
         }
 
         #endregion methods

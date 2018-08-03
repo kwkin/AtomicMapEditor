@@ -9,6 +9,8 @@
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300">
+    
+    <!-- TODO: bind max and min steppers to tileset + selection -->
     <Grid MinHeight="175"
           MaxHeight="175"
           VerticalAlignment="Top">
@@ -67,8 +69,8 @@
                             Grid.Column="3"
                             VerticalAlignment="Center"
                             Increment="1"
-                            Maximum="2048"
-                            Minimum="0"
+                            Maximum="{Binding MaxTileWidth}"
+                            Minimum="1"
                             Value="{Binding BrushColumnCount}"/>
         <Label x:Name="heightLabel"
                Grid.Row="1"
@@ -81,8 +83,8 @@
                             Grid.Column="6"
                             VerticalAlignment="Center"
                             Increment="1"
-                            Maximum="2048"
-                            Minimum="0"
+                            Maximum="{Binding MaxTileHeight}"
+                            Minimum="1"
                             Value="{Binding BrushRowCount}" />
 
         <Label x:Name="positionLabel"
@@ -102,9 +104,9 @@
                             Grid.Row="2"
                             Grid.Column="3"
                             VerticalAlignment="Center"
-                            Increment="0"
-                            Maximum="2048"
-                            Minimum="1"
+                            Increment="1"
+                            Maximum="{Binding MaxTileOffsetX}"
+                            Minimum="0"
                             Value="{Binding BrushTileOffsetX}" />
         <Label x:Name="yPositionLabel"
                Grid.Row="2"
@@ -117,7 +119,7 @@
                             Grid.Column="6"
                             VerticalAlignment="Center"
                             Increment="1"
-                            Maximum="2048"
+                            Maximum="{Binding MaxTileOffsetY}"
                             Minimum="0"
                             Value="{Binding BrushTileOffsetY}" />
     </Grid>
