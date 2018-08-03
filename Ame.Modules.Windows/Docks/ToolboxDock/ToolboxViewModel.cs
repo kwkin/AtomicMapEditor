@@ -41,6 +41,11 @@ namespace Ame.Modules.Windows.Docks.ToolboxDock
             {
                 this.DrawingTool = Activator.CreateInstance(brush) as IDrawingTool;
             });
+
+            this.eventAggregator.GetEvent<NewPaddedBrushEvent>().Subscribe((brushModel) =>
+            {
+                this.BrushModel = brushModel;
+            }, ThreadOption.PublisherThread);
         }
 
         #endregion constructor
@@ -87,6 +92,118 @@ namespace Ame.Modules.Windows.Docks.ToolboxDock
             }
         }
 
+        private int brushColumnCount;
+        public int BrushColumnCount
+        {
+            get
+            {
+                return this.brushColumnCount;
+            }
+            set
+            {
+                if (SetProperty(ref this.brushColumnCount, value))
+                {
+                    UpdateBrushModel();
+                }
+            }
+        }
+
+        private int brushRowCount;
+        public int BrushRowCount
+        {
+            get
+            {
+                return this.brushRowCount;
+            }
+            set
+            {
+                if (SetProperty(ref this.brushRowCount, value))
+                {
+                    UpdateBrushModel();
+                }
+            }
+        }
+
+        private int brushTileWidth;
+        public int BrushTileWidth
+        {
+            get
+            {
+                return this.brushTileWidth;
+            }
+            set
+            {
+                if (SetProperty(ref this.brushTileWidth, value))
+                {
+                    UpdateBrushModel();
+                }
+            }
+        }
+
+        private int brushTileHeight;
+        public int BrushTileHeight
+        {
+            get
+            {
+                return this.brushTileHeight;
+            }
+            set
+            {
+                if (SetProperty(ref this.brushTileHeight, value))
+                {
+                    UpdateBrushModel();
+                }
+            }
+        }
+
+        private int brushTileOffsetX;
+        public int BrushTileOffsetX
+        {
+            get
+            {
+                return this.brushTileOffsetX;
+            }
+            set
+            {
+                if (SetProperty(ref this.brushTileOffsetX, value))
+                {
+                    UpdateBrushModel();
+                }
+            }
+        }
+
+        private int brushTileOffsetY;
+        public int BrushTileOffsetY
+        {
+            get
+            {
+                return this.brushTileOffsetY;
+            }
+            set
+            {
+                if (SetProperty(ref this.brushTileOffsetY, value))
+                {
+                    UpdateBrushModel();
+                }
+            }
+        }
+
+        private PaddedBrushModel brushModel;
+        public PaddedBrushModel BrushModel
+        {
+            get
+            {
+                return this.brushModel;
+            }
+            set
+            {
+                if (SetProperty(ref this.brushModel, value))
+                {
+                    UpdateBrushProperties(this.brushModel);
+                }
+            }
+        }
+
         #endregion properties
 
 
@@ -108,6 +225,37 @@ namespace Ame.Modules.Windows.Docks.ToolboxDock
             {
                 this.Title = "Tool";
             }
+        }
+
+        private void UpdateBrushProperties(PaddedBrushModel brushModel)
+        {
+            this.brushColumnCount = this.BrushModel.ColumnCount();
+            this.brushRowCount = this.BrushModel.RowCount();
+            this.brushTileHeight = this.BrushModel.TileHeight;
+            this.brushTileWidth = this.BrushModel.TileWidth;
+            this.brushTileOffsetX = this.BrushModel.TileOffsetX;
+            this.brushTileOffsetY = this.BrushModel.TileOffsetY;
+
+            RaisePropertyChanged(nameof(this.BrushColumnCount));
+            RaisePropertyChanged(nameof(this.brushRowCount));
+            RaisePropertyChanged(nameof(this.brushTileHeight));
+            RaisePropertyChanged(nameof(this.brushTileWidth));
+            RaisePropertyChanged(nameof(this.brushTileOffsetX));
+            RaisePropertyChanged(nameof(this.brushTileOffsetY));
+        }
+
+        private void UpdateBrushModel()
+        {
+            this.BrushModel.SetHeightWithRows(this.BrushRowCount, this.BrushTileHeight);
+            this.BrushModel.SetWidthWithColumns(this.BrushColumnCount, this.BrushTileWidth);
+            this.BrushModel.TileOffsetX = this.BrushTileOffsetX;
+            this.BrushModel.TileOffsetY = this.BrushTileOffsetY;
+            PublishBrushModel();
+        }
+
+        private void PublishBrushModel()
+        {
+            this.eventAggregator.GetEvent<UpdatePaddedBrushEvent>().Publish(this.BrushModel);
         }
 
         #endregion methods

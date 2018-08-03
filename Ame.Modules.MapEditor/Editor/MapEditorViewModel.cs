@@ -28,7 +28,7 @@ namespace Ame.Modules.MapEditor.Editor
         private AmeSession session;
         private IScrollModel scrollModel;
         
-        private BrushModel brush;
+        private PaddedBrushModel brush;
         private CoordinateTransform imageTransform;
         public int zoomIndex;
         private long updatePositionLabelDelay = Global.defaultUpdatePositionLabelDelay;
@@ -135,11 +135,10 @@ namespace Ame.Modules.MapEditor.Editor
                 HandleLeftClickUp((Point)point);
             });
 
-            this.eventAggregator.GetEvent<UpdateBrushEvent>().Subscribe((brushEvent) =>
+            this.eventAggregator.GetEvent<NewPaddedBrushEvent>().Subscribe((brushEvent) =>
             {
                 UpdateBrushImage(brushEvent);
-            },
-            ThreadOption.PublisherThread);
+            }, ThreadOption.PublisherThread);
         }
 
         #endregion constructor
@@ -247,7 +246,7 @@ namespace Ame.Modules.MapEditor.Editor
             }
         }
 
-        public void UpdateBrushImage(BrushModel brushModel)
+        public void UpdateBrushImage(PaddedBrushModel brushModel)
         {
             this.brush = brushModel;
             this.DrawingTool.Brush = this.brush;

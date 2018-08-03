@@ -68,7 +68,8 @@
                             VerticalAlignment="Center"
                             Increment="1"
                             Maximum="2048"
-                            Minimum="1" />
+                            Minimum="0"
+                            Value="{Binding BrushColumnCount}"/>
         <Label x:Name="heightLabel"
                Grid.Row="1"
                Grid.Column="4"
@@ -81,7 +82,8 @@
                             VerticalAlignment="Center"
                             Increment="1"
                             Maximum="2048"
-                            Minimum="1" />
+                            Minimum="0"
+                            Value="{Binding BrushRowCount}" />
 
         <Label x:Name="positionLabel"
                Grid.Row="2"
@@ -100,9 +102,10 @@
                             Grid.Row="2"
                             Grid.Column="3"
                             VerticalAlignment="Center"
-                            Increment="1"
+                            Increment="0"
                             Maximum="2048"
-                            Minimum="1" />
+                            Minimum="1"
+                            Value="{Binding BrushTileOffsetX}" />
         <Label x:Name="yPositionLabel"
                Grid.Row="2"
                Grid.Column="4"
@@ -115,46 +118,7 @@
                             VerticalAlignment="Center"
                             Increment="1"
                             Maximum="2048"
-                            Minimum="1" />
-
-        <ComboBox x:Name="scaleComboBox"
-                  Grid.Row="3"
-                  Grid.Column="5"
-                  VerticalAlignment="Center"
-                  SelectedIndex="0" />
-
-        <Label x:Name="tileSizeLabel"
-               Grid.Row="4"
-               Grid.Column="0"
-               Grid.ColumnSpan="2"
-               HorizontalAlignment="Left"
-               VerticalAlignment="Center"
-               Content="Tile Size:" />
-        <Label x:Name="xTileSizeLabel"
-               Grid.Row="4"
-               Grid.Column="2"
-               HorizontalAlignment="Right"
-               VerticalAlignment="Center"
-               Content="X:" />
-        <xctk:IntegerUpDown x:Name="xTileSizeLabelStepper"
-                            Grid.Row="4"
-                            Grid.Column="3"
-                            VerticalAlignment="Center"
-                            Increment="1"
-                            Maximum="2048"
-                            Minimum="1" />
-        <Label x:Name="yTileSizeLabel"
-               Grid.Row="4"
-               Grid.Column="4"
-               HorizontalAlignment="Right"
-               VerticalAlignment="Center"
-               Content="Y:" />
-        <xctk:IntegerUpDown x:Name="yTileSizeLabelStepper"
-                            Grid.Row="4"
-                            Grid.Column="6"
-                            VerticalAlignment="Center"
-                            Increment="1"
-                            Maximum="2048"
-                            Minimum="1" />
+                            Minimum="0"
+                            Value="{Binding BrushTileOffsetY}" />
     </Grid>
 </UserControl>

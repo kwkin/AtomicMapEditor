@@ -169,6 +169,11 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             {
                 SetZoom(zoomLevel);
             });
+
+            this.eventAggregator.GetEvent<UpdatePaddedBrushEvent>().Subscribe((brushModel) =>
+            {
+                UpdatePaddedBrushModel(brushModel);
+            }, ThreadOption.PublisherThread);
         }
 
         #endregion constructor
@@ -537,7 +542,8 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             Size pixelSize = GeometryUtils.TransformInt(pixelToTile.Inverse, tileSize);
 
             this.DrawSelectLinesFromPixels(topLeftPixel, pixelSize);
-            BrushModel brushModel = new BrushModel((int)tileSize.Width, (int)tileSize.Height, this.TilesetModel.TileWidth, this.TilesetModel.TileHeight);
+            PaddedBrushModel brushModel = new PaddedBrushModel(this.TilesetModel, (int)topLeftTile.X, (int)topLeftTile.Y);
+            brushModel.PixelSize = pixelSize;
             Mat croppedImage = BrushUtils.CropImage(this.ItemImage, topLeftPixel, pixelSize);
 
             if (this.IsTransparent)
@@ -546,7 +552,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             }
             brushModel.TileImage(croppedImage);
 
-            this.eventAggregator.GetEvent<UpdateBrushEvent>().Publish(brushModel);
+            this.eventAggregator.GetEvent<NewPaddedBrushEvent>().Publish(brushModel);
         }
 
         public void SelectTransparency(Point pixelPoint)
@@ -600,6 +606,17 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             }), DispatcherPriority.Render);
             RefreshBackground();
             RefreshGrid();
+        }
+
+        public void UpdatePaddedBrushModel(PaddedBrushModel model)
+        {
+            int pixelOffsetX = model.TileOffsetX * model.TileWidth;
+            int pixelOffsetY = model.TileOffsetY * model.TileHeight;
+            this.TilesetModel.TileSize = model.TileSize;
+
+            Point pixelOffset = new Point(pixelOffsetX, pixelOffsetY);
+            Point pixelEnd = new Point(pixelOffsetX + model.PixelWidth - 1, pixelOffsetY + model.PixelHeight - 1);
+            SelectTiles(pixelOffset, pixelEnd);
         }
 
         public void RefreshGrid()

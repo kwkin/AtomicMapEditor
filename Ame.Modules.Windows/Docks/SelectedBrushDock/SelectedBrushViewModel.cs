@@ -99,7 +99,10 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
                 this.ZoomIndex = this.scrollModel.SetZoom(zoomLevel);
             });
 
-            this.eventAggregator.GetEvent<UpdateBrushEvent>().Subscribe(UpdateBrushImage);
+            this.eventAggregator.GetEvent<NewPaddedBrushEvent>().Subscribe((brushEvent) =>
+            {
+                UpdateBrushImage(brushEvent);
+            }, ThreadOption.UIThread);
         }
 
         #endregion constructor
@@ -210,7 +213,7 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
             this.updatePositionLabelStopWatch.Restart();
         }
 
-        private void UpdateBrushImage(BrushModel brushModel)
+        private void UpdateBrushImage(PaddedBrushModel brushModel)
         {
             using (DrawingContext context = this.selectedBrushImage.Open())
             {

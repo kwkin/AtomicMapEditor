@@ -6,7 +6,7 @@
     <Style x:Key="ButtonSpinnerIncrementStyle"
            TargetType="{x:Type RepeatButton}">
         <Setter Property="Background"
-                Value="{DynamicResource PrimaryBrush1}" />
+                Value="{DynamicResource PrimaryBrush4}" />
         <Setter Property="Cursor"
                 Value="Hand" />
         <Setter Property="Focusable"
@@ -76,7 +76,7 @@
     <Style x:Key="ButtonSpinnerDecrementStyle"
            TargetType="{x:Type RepeatButton}">
         <Setter Property="Background"
-                Value="{DynamicResource PrimaryBrush1}" />
+                Value="{DynamicResource PrimaryBrush4}" />
         <Setter Property="Cursor"
                 Value="Hand" />
         <Setter Property="Focusable"

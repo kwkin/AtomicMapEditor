@@ -12,9 +12,9 @@
     <Color x:Key="PrimaryColor3">#f3f3f3</Color>
     <Color x:Key="PrimaryColor4">#878787</Color>
 
-    <Color x:Key="PrimaryTextColor1">#121212</Color>
-    <Color x:Key="PrimaryTextColor2">#121212</Color>
-    <Color x:Key="PrimaryTextColor3">#121212</Color>
+    <Color x:Key="PrimaryTextColor1">#565656</Color>
+    <Color x:Key="PrimaryTextColor2">#565656</Color>
+    <Color x:Key="PrimaryTextColor3">#565656</Color>
 
     <Color x:Key="PrimaryAccentColor1">#3f51b5</Color>
     <Color x:Key="PrimaryAccentColor2">#3f51b5</Color>
@@ -25,8 +25,8 @@
     <Color x:Key="HoverColor2">#c9c9c9</Color>
     <Color x:Key="HoverColor3">#656565</Color>
 
-    <Color x:Key="HoverTextColor1">#242424</Color>
-    <Color x:Key="HoverTextColor2">#242424</Color>
+    <Color x:Key="HoverTextColor1">#656565</Color>
+    <Color x:Key="HoverTextColor2">#656565</Color>
     <Color x:Key="HoverTextColor3">#242424</Color>
 
     <Color x:Key="HoverAccentColor1">#5668d4</Color>
@@ -38,9 +38,9 @@
     <Color x:Key="PressColor2">#656565</Color>
     <Color x:Key="PressColor3">#565656</Color>
 
-    <Color x:Key="PressTextColor1">#3a3a3a</Color>
-    <Color x:Key="PressTextColor2">#3a3a3a</Color>
-    <Color x:Key="PressTextColor3">#3a3a3a</Color>
+    <Color x:Key="PressTextColor1">#787878</Color>
+    <Color x:Key="PressTextColor2">#787878</Color>
+    <Color x:Key="PressTextColor3">#787878</Color>
 
     <Color x:Key="PressAccentColor1">#6a7bde</Color>
     <Color x:Key="PressAccentColor2">#6a7bde</Color>
