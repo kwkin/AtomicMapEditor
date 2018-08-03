@@ -3,6 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Ame">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Dark;component/Styles/CoreControls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Dark;component/Styles/ExtendedToolkitControls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Dark;component/Styles/AvalonDockControls.xaml" />
+
+                <!--<ResourceDictionary Source="pack://application:,,,/Ame.Themes.Dark;component/Styles/Core/DarkPalette.xaml" />-->
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Dark;component/Styles/Core/LightPalette.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Dark;component/Styles/Core/Effects.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Dark;component/Styles/Core/Fonts.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

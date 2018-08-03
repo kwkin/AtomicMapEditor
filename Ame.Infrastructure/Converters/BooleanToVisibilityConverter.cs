@@ -27,6 +27,7 @@ namespace Ame.Infrastructure.Converters
         #region properties
 
         public bool Collapse { get; set; }
+        public bool IsInversed { get; set; }
 
         #endregion properties
 
@@ -35,7 +36,7 @@ namespace Ame.Infrastructure.Converters
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            bool booleanValue = (bool)value;
+            bool booleanValue = ((bool)(value) ^ IsInversed);
             Visibility visibility;
             if (booleanValue)
             {
@@ -55,7 +56,7 @@ namespace Ame.Infrastructure.Converters
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             Visibility visibility = (Visibility)value;
-            return visibility == Visibility.Visible;
+            return (visibility == Visibility.Visible) ^ IsInversed;
         }
 
         #endregion methods

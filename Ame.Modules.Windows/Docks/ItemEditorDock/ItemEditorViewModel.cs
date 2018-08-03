@@ -435,6 +435,19 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             }
         }
 
+        private bool isSourceLoaded;
+        public bool IsSourceLoaded
+        {
+            get
+            {
+                return this.isSourceLoaded;
+            }
+            set
+            {
+                SetProperty(ref this.isSourceLoaded, value);
+            }
+        }
+
         #endregion properties
 
 
@@ -565,6 +578,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                 this.Session.CurrentTilesetList.Add(tilesetModel);
             }
             this.TilesetModel = tilesetModel;
+            this.IsSourceLoaded = true;
             this.IsTransparent = tilesetModel.IsTransparent;
             this.TransparentColor = tilesetModel.TransparentColor;
             this.Session.CurrentTileset = this.TilesetModel;

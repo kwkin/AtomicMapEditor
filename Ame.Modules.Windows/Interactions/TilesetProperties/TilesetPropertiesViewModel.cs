@@ -595,6 +595,11 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
             {
                 return;
             }
+            if (!File.Exists(this.SourcePath))
+            {
+                MessageBox.Show("Error. Source Path is invalid.", "Error");
+                return;
+            }
             UpdateTilesetModel();
             if (this.notification != null)
             {
@@ -723,7 +728,7 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
 
         public void RefreshItemImage()
         {
-            if (string.IsNullOrEmpty(this.SourcePath))
+            if (!File.Exists(this.SourcePath))
             {
                 return;
             }

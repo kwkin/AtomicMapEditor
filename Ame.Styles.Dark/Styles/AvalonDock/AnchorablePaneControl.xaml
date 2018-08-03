@@ -1,0 +1,88 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:xcad="http://avalondock.codeplex.com">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Dark;component/Styles/AvalonDock/AnchorableItemContainer.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- ############################### Anchorable Pane Control Style ############################### -->
+    <Style x:Key="AnchorablePaneControlStyle"
+           TargetType="{x:Type xcad:LayoutAnchorablePaneControl}">
+        <Setter Property="Background"
+                Value="{DynamicResource PrimaryBackgroundBrush2}" />
+        <Setter Property="BorderBrush"
+                Value="{DynamicResource PrimaryBrush2}" />
+        <Setter Property="BorderThickness"
+                Value="1" />
+        <Setter Property="FontFamily"
+                Value="{DynamicResource PrimaryFontFamily}" />
+        <Setter Property="FontSize"
+                Value="{DynamicResource PrimaryFontSize}" />
+        <Setter Property="FontWeight"
+                Value="{DynamicResource PrimaryFontWeight}" />
+        <Setter Property="Foreground"
+                Value="{DynamicResource PrimaryTextBrush2}" />
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <xcad:LayoutAnchorableTabItem Model="{Binding}" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <xcad:LayoutAnchorableControl Model="{Binding}" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerStyle"
+                Value="{StaticResource AnchorableTabItemContainer}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type xcad:LayoutAnchorablePaneControl}">
+                    <Grid x:Name="Root"
+                          ClipToBounds="true"
+                          SnapsToDevicePixels="true">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Border Background="Transparent"
+                                Grid.RowSpan="2" />
+                        <Border x:Name="ContentPanel"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="{TemplateBinding Background}"
+                                Grid.Column="0"
+                                KeyboardNavigation.DirectionalNavigation="Contained"
+                                Grid.Row="0"
+                                KeyboardNavigation.TabIndex="2"
+                                KeyboardNavigation.TabNavigation="Cycle">
+                            <ContentPresenter x:Name="PART_SelectedContentHost"
+                                              ContentSource="SelectedContent"
+                                              Margin="{TemplateBinding Padding}"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </Border>
+                        <xcad:AnchorablePaneTabPanel x:Name="HeaderPanel"
+                                                     Margin="2,0,2,2"
+                                                     IsItemsHost="true"
+                                                     Grid.Row="1"
+                                                     KeyboardNavigation.TabIndex="1"
+                                                     Panel.ZIndex="1" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled"
+                                 Value="false">
+                            <Setter Property="Foreground"
+                                    Value="{DynamicResource PrimaryBackgroundBrush2}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

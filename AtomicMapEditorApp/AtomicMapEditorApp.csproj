@@ -154,6 +154,10 @@
       <Project>{cbcd8c26-e73d-4c60-829c-f573edf4cceb}</Project>
       <Name>Ame.Resources</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ame.Styles.Dark\Ame.Themes.Dark.csproj">
+      <Project>{b56d723e-b83e-43bf-a013-2fd70ec918ce}</Project>
+      <Name>Ame.Themes.Dark</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
