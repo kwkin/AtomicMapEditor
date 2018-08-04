@@ -7,6 +7,8 @@
            TargetType="{x:Type CheckBox}">
         <Setter Property="Background"
                 Value="{DynamicResource TransparentBrush}" />
+        <Setter Property="BorderBrush"
+                Value="{DynamicResource PrimaryTextLineBrush}" />
         <Setter Property="Cursor"
                 Value="Hand" />
         <Setter Property="Foreground"
@@ -37,107 +39,47 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal" />
-                                <VisualState x:Name="MouseOver" />
-                                <VisualState x:Name="Pressed" />
-                                <VisualState x:Name="Disabled">
-                                    <Storyboard>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity"
-                                                                       Storyboard.TargetName="Root">
-                                            <DiscreteDoubleKeyFrame KeyTime="0"
-                                                                    Value="0.35" />
-                                        </DoubleAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                            </VisualStateGroup>
-                            <VisualStateGroup x:Name="CheckStates">
-                                <VisualState x:Name="Checked">
-                                    <Storyboard>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SelectionBorder"
-                                                                       Storyboard.TargetProperty="Opacity">
-                                            <EasingDoubleKeyFrame KeyTime="0"
-                                                                  Value="1" />
-                                        </DoubleAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background"
-                                                                       Storyboard.TargetName="ButtonBackground">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{DynamicResource HoverAccentBrush1}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SelectionChecked"
-                                                                       Storyboard.TargetProperty="Width">
-                                            <EasingDoubleKeyFrame KeyTime="0"
-                                                                  Value="14" />
-                                        </DoubleAnimationUsingKeyFrames>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SelectionChecked"
-                                                                       Storyboard.TargetProperty="Height">
-                                            <EasingDoubleKeyFrame KeyTime="0"
-                                                                  Value="14" />
-                                        </DoubleAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="Unchecked" />
-                                <VisualState x:Name="Indeterminate">
-                                    <Storyboard>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SelectionBorder"
-                                                                       Storyboard.TargetProperty="Opacity">
-                                            <EasingDoubleKeyFrame KeyTime="0"
-                                                                  Value="1" />
-                                        </DoubleAnimationUsingKeyFrames>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SelectionIndeterminate"
-                                                                       Storyboard.TargetProperty="Width">
-                                            <EasingDoubleKeyFrame KeyTime="0"
-                                                                  Value="8" />
-                                        </DoubleAnimationUsingKeyFrames>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SelectionIndeterminate"
-                                                                       Storyboard.TargetProperty="Height">
-                                            <EasingDoubleKeyFrame KeyTime="0"
-                                                                  Value="8" />
-                                        </DoubleAnimationUsingKeyFrames>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SelectionIndeterminate"
-                                                                       Storyboard.TargetProperty="Opacity">
-                                            <EasingDoubleKeyFrame KeyTime="0"
-                                                                  Value="1" />
-                                        </DoubleAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-
-                        <!-- Assets -->
                         <Border x:Name="ButtonBackground"
                                 Background="{TemplateBinding Background}"
-                                BorderBrush="{DynamicResource PrimaryBrush1}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="2"
                                 CornerRadius="2"
+                                Grid.Column="0"
+                                Height="16"
+                                Width="16">
+                        </Border>
+                        <Border x:Name="HoverBorder"
+                                Background="{DynamicResource Background}"
+                                BorderBrush="{DynamicResource HoverTextLineBrush}"
+                                BorderThickness="2"
+                                CornerRadius="2"
+                                Opacity="0"
                                 Grid.Column="0"
                                 Height="16"
                                 Width="16">
                         </Border>
                         <Border x:Name="SelectionBorder"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{DynamicResource PressAccentBrush1}"
-                                BorderThickness="2"
+                                Background="{DynamicResource PressTextLineBrush}"
+                                BorderBrush="{DynamicResource PressTextLineBrush}"
                                 CornerRadius="2"
+                                Opacity="0"
                                 Grid.Column="0"
                                 Height="16"
-                                Opacity="0"
                                 Width="16">
                         </Border>
+                        
                         <Path x:Name="SelectionChecked"
-                              Data="M 200 200 L 100 300 L 350 550 L 700 150 L 600 50 L 350 350 L 200 200 "
-                              Fill="{DynamicResource PrimaryBrush3}"
+                              Data="M 6,12 C 6,12 4,14 4,14 4,14 10,20 10,20 10,20 22,8 22,8 22,8 20,6 20,6 20,6 10,16 10,16 10,16 6,12 6,12 Z"
+                              Fill="{DynamicResource PrimaryBrush1}"
                               Height="0"
                               Stretch="Uniform"
-                              Stroke="{DynamicResource PrimaryBrush3}"
                               UseLayoutRounding="False"
                               Width="0" />
                         <Border x:Name="SelectionIndeterminate"
                                 Opacity="0"
                                 Width="0"
                                 Height="0"
-                                Background="{DynamicResource PressAccentBrush1}"
+                                Background="{DynamicResource PrimaryBrush1}"
                                 BorderThickness="0"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
@@ -153,6 +95,82 @@
                                               Content="{TemplateBinding Content}" />
                         </ContentControl>
 
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="HoverBorder"
+                                                                       Storyboard.TargetProperty="Opacity">
+                                            <EasingDoubleKeyFrame KeyTime="0"
+                                                                  Value="1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed" />
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity"
+                                                                       Storyboard.TargetName="Root">
+                                            <DiscreteDoubleKeyFrame KeyTime="0"
+                                                                    Value="{DynamicResource DisabledOpacity}" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            
+                            <VisualStateGroup x:Name="CheckStates">
+                                <VisualState x:Name="Checked">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SelectionBorder"
+                                                                       Storyboard.TargetProperty="Opacity">
+                                            <EasingDoubleKeyFrame KeyTime="0"
+                                                                  Value="1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background"
+                                                                       Storyboard.TargetName="ButtonBackground">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{DynamicResource PressTextLineBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SelectionChecked"
+                                                                       Storyboard.TargetProperty="Width">
+                                            <EasingDoubleKeyFrame KeyTime="0"
+                                                                  Value="12" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SelectionChecked"
+                                                                       Storyboard.TargetProperty="Height">
+                                            <EasingDoubleKeyFrame KeyTime="0"
+                                                                  Value="12" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Unchecked" />
+                                <VisualState x:Name="Indeterminate">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SelectionBorder"
+                                                                       Storyboard.TargetProperty="Opacity">
+                                            <EasingDoubleKeyFrame KeyTime="0"
+                                                                  Value="1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background"
+                                                                       Storyboard.TargetName="ButtonBackground">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{DynamicResource PressTextLineBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SelectionIndeterminate"
+                                                                       Storyboard.TargetProperty="Width">
+                                            <EasingDoubleKeyFrame KeyTime="0"
+                                                                  Value="8" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SelectionIndeterminate"
+                                                                       Storyboard.TargetProperty="Height">
+                                            <EasingDoubleKeyFrame KeyTime="0"
+                                                                  Value="8" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

@@ -46,6 +46,20 @@
     <Color x:Key="PressAccentColor2">#6a7bde</Color>
     <Color x:Key="PressAccentColor3">#6a7bde</Color>
 
+    <Color x:Key="PrimaryTextLineColor">#878787</Color>
+    <Color x:Key="HoverTextLineColor">#5668d4</Color>
+    <Color x:Key="PressTextLineColor">#697df4</Color>
+
+
+    <sys:Double x:Key="DisabledOpacity">0.35</sys:Double>
+
+    <SolidColorBrush x:Key="PrimaryTextLineBrush"
+                     Color="{StaticResource PrimaryTextLineColor}" />
+    <SolidColorBrush x:Key="HoverTextLineBrush"
+                     Color="{StaticResource HoverTextLineColor}" />
+    <SolidColorBrush x:Key="PressTextLineBrush"
+                     Color="{StaticResource PressTextLineColor}" />
+
     <!-- ############################### Primary Theme Brushes ############################### -->
     <SolidColorBrush x:Key="TransparentBrush"
                      Color="#00FFFFFF" />
@@ -62,6 +76,7 @@
                      Color="{StaticResource PrimaryColor3}" />
     <SolidColorBrush x:Key="PrimaryBrush4"
                      Color="{StaticResource PrimaryColor4}" />
+    
 
     <SolidColorBrush x:Key="PrimaryTextBrush1"
                      Color="{StaticResource PrimaryTextColor1}" />
