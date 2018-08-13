@@ -1,0 +1,102 @@
+﻿<UserControl x:Class="WpfComponentApp.UI.Panes.BoxesPane"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:WpfComponentApp.UI.Panes"
+             mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             Width="340">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/CheckBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/RadioButton.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/Label.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Panes/Card.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Panes/CardSeparator.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid Style="{DynamicResource CardStyle}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Label Content="Boxes Pane"
+               Grid.Row="0"
+               Style="{DynamicResource PrimaryMidAccentTitleStyle}" />
+        <StackPanel Orientation="Vertical"
+                    Grid.Row="1"
+                    Margin="10">
+            <TextBlock Text="Check Boxes can have two or three states. By default, Check Boxes have two states, but the third state can be enabled by setting IsThreeState to true."
+                       TextWrapping="Wrap"
+                       Margin="0 0 0 10" />
+            <StackPanel Orientation="Horizontal">
+                <CheckBox Content=""
+                          IsChecked="True"
+                          Style="{DynamicResource PrimaryLightCheckBoxStyle}"/>
+                <CheckBox Content="Two State"
+                          Style="{DynamicResource PrimaryMidCheckBoxStyle}" />
+                <CheckBox Content="Three State"
+                          IsThreeState="True"
+                          IsChecked="{x:Null}"
+                          Style="{DynamicResource PrimaryDarkCheckBoxStyle}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <CheckBox Content=""
+                          IsChecked="True"
+                          Style="{DynamicResource SecondaryLightCheckBoxStyle}" />
+                <CheckBox Content="Two State"
+                          Style="{DynamicResource SecondaryMidCheckBoxStyle}" />
+                <CheckBox Content="Three State"
+                          IsThreeState="True"
+                          IsChecked="{x:Null}"
+                          Style="{DynamicResource SecondaryDarkCheckBoxStyle}" />
+            </StackPanel>
+
+            <Separator Style="{DynamicResource CardSeparatorStyle}" />
+            <TextBlock Text="Radio Buttons can also have two or three states. "
+                       TextWrapping="Wrap"
+                       Margin="0 0 0 10" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <RadioButton Content="Option A"
+                                 GroupName="PrimaryRadioButtons"
+                                 Style="{DynamicResource PrimaryLightRadioButtonStyle}" />
+                    <RadioButton Content="Option B"
+                                 IsChecked="True"
+                                 GroupName="PrimaryRadioButtons"
+                                 Style="{DynamicResource PrimaryMidRadioButtonStyle}" />
+                    <RadioButton Content="Three State"
+                                 IsThreeState="True"
+                                 IsChecked="{x:Null}"
+                                 GroupName="PrimaryRadioButtons"
+                                 Style="{DynamicResource PrimaryDarkRadioButtonStyle}" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="1">
+                    <RadioButton Content="Option A"
+                                 GroupName="SecondaryRadioButtons"
+                                 Style="{DynamicResource SecondaryLightRadioButtonStyle}" />
+                    <RadioButton Content="Option B"
+                                 IsChecked="True"
+                                 GroupName="SecondaryRadioButtons"
+                                 Style="{DynamicResource SecondaryMidRadioButtonStyle}" />
+                    <RadioButton Content="Three State"
+                                 IsThreeState="True"
+                                 IsChecked="{x:Null}"
+                                 GroupName="SecondaryRadioButtons"
+                                 Style="{DynamicResource SecondaryDarkRadioButtonStyle}" />
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</UserControl>

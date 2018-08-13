@@ -154,9 +154,9 @@
       <Project>{cbcd8c26-e73d-4c60-829c-f573edf4cceb}</Project>
       <Name>Ame.Resources</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Ame.Styles.Dark\Ame.Themes.Dark.csproj">
-      <Project>{b56d723e-b83e-43bf-a013-2fd70ec918ce}</Project>
-      <Name>Ame.Themes.Dark</Name>
+    <ProjectReference Include="..\Ame.Themes.Material\Ame.Themes.Material.csproj">
+      <Project>{610a46aa-c3ee-4b9f-adc0-a8f9e0eca3f1}</Project>
+      <Name>Ame.Themes.Material</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

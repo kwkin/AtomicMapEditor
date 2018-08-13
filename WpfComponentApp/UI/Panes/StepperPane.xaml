@@ -1,0 +1,176 @@
+﻿<UserControl x:Class="WpfComponentApp.UI.Panes.StepperPane"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:WpfComponentApp.UI.Panes"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             Width="340">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/ExtendedToolkit/NumericUpDown.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/Label.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Panes/Card.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Panes/CardSeparator.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid Style="{DynamicResource CardStyle}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Label Content="Stepper Pane"
+               Grid.Row="0"
+               Style="{DynamicResource PrimaryMidAccentTitleStyle}" />
+        <StackPanel Orientation="Vertical"
+                    Grid.Row="1"
+                    Margin="10">
+            <TextBlock Text="Steppers are numeric text boxes with an increment and decrement button. Various data types can be represented in a numeric text box."
+                       TextWrapping="Wrap" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Label Content="Integer:"
+                       Grid.Row="0"
+                       Grid.Column="0" />
+                <xctk:IntegerUpDown Minimum="-10"
+                                    Maximum="10"
+                                    Value="0"
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Style="{DynamicResource PrimaryLightNumericUpDownStyle}" />
+                <xctk:IntegerUpDown Minimum="-10"
+                                    Maximum="10"
+                                    Value="0"
+                                    Grid.Row="1"
+                                    Grid.Column="2"
+                                    Style="{DynamicResource SecondaryLightFilledNumericUpDownStyle}" />
+
+                <Label Content="Double:"
+                       Grid.Row="2"
+                       Grid.Column="0" />
+                <xctk:DoubleUpDown Minimum="-25"
+                                   Maximum="25"
+                                   Value="2.5"
+                                   Increment="2.5"
+                                   Grid.Row="3"
+                                   Grid.Column="0"
+                                   Style="{DynamicResource PrimaryMidNumericUpDownStyle}" />
+                <xctk:DoubleUpDown Minimum="-25"
+                                   Maximum="25"
+                                   Value="2.5"
+                                   Increment="2.5"
+                                   Grid.Row="3"
+                                   Grid.Column="2"
+                                   Style="{DynamicResource SecondaryMidFilledNumericUpDownStyle}" />
+
+                <Label Content="Byte:"
+                       Grid.Row="4"
+                       Grid.Column="0" />
+                <xctk:ByteUpDown Minimum="0"
+                                 Maximum="7"
+                                 Value="0"
+                                 Grid.Row="5"
+                                 Grid.Column="0"
+                                 Style="{DynamicResource PrimaryDarkNumericUpDownStyle}" />
+                <xctk:ByteUpDown Minimum="0"
+                                 Maximum="7"
+                                 Value="0"
+                                 Grid.Row="5"
+                                 Grid.Column="2"
+                                 Style="{DynamicResource SecondaryDarkFilledNumericUpDownStyle}" />
+            </Grid>
+
+            <Separator Style="{DynamicResource CardSeparatorStyle}" />
+            <TextBlock Text="Steppers can also be accented."
+                       TextWrapping="Wrap" />
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Label Content="Long:"
+                       Grid.Row="0"
+                       Grid.Column="0" />
+                <xctk:LongUpDown Minimum="-10"
+                                 Maximum="10"
+                                 Value="0"
+                                 Grid.Row="1"
+                                 Grid.Column="0"
+                                 Style="{DynamicResource PrimaryLightAccentNumericUpDownStyle}" />
+                <xctk:LongUpDown Minimum="-10"
+                                 Maximum="10"
+                                 Value="0"
+                                 Grid.Row="1"
+                                 Grid.Column="2"
+                                 Style="{DynamicResource SecondaryLightFillAccentNumericUpDownStyle}" />
+
+                <Label Content="Short:"
+                       Grid.Row="2"
+                       Grid.Column="0" />
+                <xctk:ShortUpDown Minimum="-254"
+                                  Maximum="255"
+                                  Value="0"
+                                  Increment="25"
+                                  Grid.Row="3"
+                                  Grid.Column="0"
+                                  Style="{DynamicResource PrimaryMidAccentNumericUpDownStyle}" />
+                <xctk:ShortUpDown Minimum="-254"
+                                  Maximum="255"
+                                  Value="0"
+                                  Increment="25"
+                                  Grid.Row="3"
+                                  Grid.Column="2"
+                                  Style="{DynamicResource SecondaryMidFillAccentNumericUpDownStyle}" />
+
+                <Label Content="Decimal:"
+                       Grid.Row="4"
+                       Grid.Column="0" />
+                <xctk:DecimalUpDown Minimum="-254"
+                                    Maximum="255"
+                                    Value="0"
+                                    Increment="25"
+                                    Grid.Row="5"
+                                    Grid.Column="0"
+                                    Style="{DynamicResource PrimaryDarkAccentNumericUpDownStyle}" />
+                <xctk:DecimalUpDown Minimum="-254"
+                                    Maximum="255"
+                                    Value="0"
+                                    Increment="25"
+                                    Grid.Row="5"
+                                    Grid.Column="2"
+                                    Style="{DynamicResource SecondaryDarkFillAccentNumericUpDownStyle}" />
+            </Grid>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,112 @@
+﻿<UserControl x:Class="WpfComponentApp.UI.Panes.ExpanderPane"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:WpfComponentApp.UI.Panes"
+             mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             Width="340">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/ToggleButton.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/Expander.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/Label.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Panes/Card.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Panes/CardSeparator.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid Style="{DynamicResource CardStyle}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Label Content="Expander Pane"
+               Grid.Row="0"
+               Style="{DynamicResource PrimaryMidAccentTitleStyle}" />
+        <StackPanel Orientation="Vertical"
+                    Grid.Row="1"
+                    Margin="10">
+            <TextBlock Text="Expanders can be expanded in four directions: up, down, left, and right."
+                       TextWrapping="Wrap" />
+            <Grid ShowGridLines="True">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"
+                                   MinHeight="150" />
+                    <RowDefinition Height="*"
+                                   MinHeight="150" />
+                </Grid.RowDefinitions>
+
+                <Expander Header="Down"
+                          ExpandDirection="Down"
+                          IsExpanded="True"
+                          Grid.Column="0"
+                          Grid.Row="0">
+                    <StackPanel>
+                        <Button Content="Button 1"
+                                Style="{DynamicResource PrimaryLightRaisedButtonStyle}" />
+                        <Button Content="Button 2"
+                                Style="{DynamicResource PrimaryMidRaisedButtonStyle}" />
+                        <Button Content="Button 3"
+                                Style="{DynamicResource PrimaryDarkRaisedButtonStyle}" />
+                    </StackPanel>
+                </Expander>
+
+                <Expander Style="{DynamicResource PrimaryDarkExpanderStyle}"
+                          Header="Up"
+                          ExpandDirection="Up"
+                          IsExpanded="True"
+                          Grid.Column="1"
+                          Grid.Row="0">
+                    <StackPanel>
+                        <CheckBox Content="CheckBox 1" />
+                        <CheckBox Content="CheckBox 2" />
+                        <CheckBox Content="CheckBox 3" />
+                    </StackPanel>
+                </Expander>
+
+                <Expander Style="{DynamicResource SecondaryMidExpanderStyle}"
+                          Header="Left"
+                          ExpandDirection="Left"
+                          IsExpanded="True"
+                          Grid.Column="0"
+                          Grid.Row="1">
+                    <StackPanel>
+                        <RadioButton Content="CheckBox 1"
+                                     GroupName="ExpanderGroup" />
+                        <RadioButton Content="CheckBox 2"
+                                     GroupName="ExpanderGroup" />
+                        <RadioButton Content="CheckBox 3"
+                                     GroupName="ExpanderGroup" />
+                    </StackPanel>
+                </Expander>
+
+                <Expander Style="{DynamicResource SecondaryDarkBorderExpanderStyle}"
+                          Header="Right"
+                          ExpandDirection="Right"
+                          IsExpanded="True"
+                          Grid.Column="1"
+                          Grid.Row="1">
+                    <StackPanel>
+                        <ToggleButton Content="Toggle 1"
+                                      Style="{DynamicResource SecondaryLightToggleButtonStyle}" />
+                        <ToggleButton Content="Toggle 2"
+                                      Style="{DynamicResource SecondaryMidToggleButtonStyle}" />
+                        <ToggleButton Content="Toggle 3"
+                                      Style="{DynamicResource SecondaryDarkToggleButtonStyle}" />
+                    </StackPanel>
+                </Expander>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</UserControl>

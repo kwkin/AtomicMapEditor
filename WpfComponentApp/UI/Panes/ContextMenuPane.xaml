@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="WpfComponentApp.UI.Panes.ContextMenuPane"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:WpfComponentApp.UI.Panes"
+             mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             Width="340">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/Label.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Panes/Card.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Panes/CardSeparator.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid Style="{DynamicResource CardStyle}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Label Content="Context Menu Pane"
+               Grid.Row="0"
+               Style="{DynamicResource PrimaryMidAccentTitleStyle}" />
+        <StackPanel Orientation="Vertical"
+                    Grid.Row="1"
+                    Margin="10">
+            <TextBlock Text="Context menus will be displayed when right clicking the component. The context menu can have multiple items, such as text, shortcut combinations, and images."
+                       TextWrapping="Wrap" />
+            <Button Content="Right Click Me">
+                <Button.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Item 1" />
+                        <MenuItem Header="Item 2">
+                            <MenuItem Header="SubItem 1" />
+                            <MenuItem Header="SubItem 2"
+                                      InputGestureText="Ctrl+2" />
+                        </MenuItem>
+                        <Separator />
+                        <MenuItem Header="Item 3"
+                                  InputGestureText="Ctrl+3" />
+                        <MenuItem Header="Item 4"
+                                  InputGestureText="Ctrl+4" />
+                        <Separator />
+                        <MenuItem Header="Item 5">
+                            <MenuItem.Icon>
+                                <Image Source="pack://application:,,,/WpfComponentApp;component/Icons/zoom-out16x16.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Item 5"
+                                  InputGestureText="Ctrl+6">
+                            <MenuItem.Icon>
+                                <Image Source="pack://application:,,,/WpfComponentApp;component/Icons/zoom-in16x16.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </ContextMenu>
+                </Button.ContextMenu>
+            </Button>
+
+            <Separator Style="{DynamicResource CardSeparatorStyle}" />
+            <TextBlock Text="Tooltips are displayed after hovering over the component for a short amount of time."
+                       TextWrapping="Wrap" />
+            <Button Content="Hover Over Me"
+                    ToolTip="This is a tooltip." />
+        </StackPanel>
+    </Grid>
+</UserControl>

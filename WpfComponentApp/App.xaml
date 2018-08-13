@@ -1,7 +1,8 @@
-﻿<Application x:Class="Ame.App"
+﻿<Application x:Class="WpfComponentApp.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Ame">
+             xmlns:local="clr-namespace:WpfComponentApp"
+             StartupUri="pack://application:,,,/WpfComponentApp;component/UI/MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

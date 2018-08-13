@@ -1,0 +1,76 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/Button.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/ToggleButton.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/RepeatButton.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/CheckBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/RadioButton.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/TextBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/ComboBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/Label.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/TextBlock.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/Slider.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/ScrollBar.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/ToolTip.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/TabItem.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/TabControl.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/ListBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/Expander.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/Menu.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/ProgressBar.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/TreeView.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- ############################### Core Styles ############################### -->
+    <Style BasedOn="{StaticResource PrimaryMidRaisedButtonStyle}"
+           TargetType="{x:Type Button}" />
+    <Style BasedOn="{StaticResource PrimaryMidToggleButtonStyle}"
+           TargetType="{x:Type ToggleButton}" />
+    <Style BasedOn="{StaticResource PrimaryMidRepeatButtonStyle}"
+           TargetType="{x:Type RepeatButton}" />
+    <Style BasedOn="{StaticResource PrimaryMidCheckBoxStyle}"
+           TargetType="{x:Type CheckBox}" />
+    <Style BasedOn="{StaticResource PrimaryMidRadioButtonStyle}"
+           TargetType="{x:Type RadioButton}" /> 
+    <Style BasedOn="{StaticResource PrimaryMidTextBoxStyle}"
+           TargetType="{x:Type TextBox}" />
+    <Style BasedOn="{StaticResource PrimaryMidComboBoxStyle}"
+           TargetType="{x:Type ComboBox}" />
+    <Style BasedOn="{StaticResource PrimaryMidComboBoxItemStyle}"
+           TargetType="{x:Type ComboBoxItem}" />
+    <Style BasedOn="{StaticResource MainMidLabelStyle}"
+           TargetType="{x:Type Label}" />
+    <Style BasedOn="{StaticResource PrimaryMidSliderStyle}"
+           TargetType="{x:Type Slider}" />
+    <Style BasedOn="{StaticResource ScrollBarStyle}"
+           TargetType="{x:Type ScrollBar}" />
+    <Style BasedOn="{StaticResource ScrollViewerStyle}"
+           TargetType="{x:Type ScrollViewer}" />
+    <Style BasedOn="{StaticResource ToolTipStyle}"
+           TargetType="{x:Type ToolTip}" />
+    <Style BasedOn="{StaticResource TabControlStyle}"
+           TargetType="{x:Type TabControl}" />
+    <Style BasedOn="{StaticResource TabPanelStyle}"
+           TargetType="{x:Type TabPanel}" />
+    <Style BasedOn="{StaticResource PrimaryMidTabItemStyle}"
+           TargetType="{x:Type TabItem}" />
+    <Style BasedOn="{StaticResource PrimaryDarkListBoxStyle}"
+           TargetType="{x:Type ListBox}" />
+    <Style BasedOn="{StaticResource PrimaryMidExpanderStyle}"
+           TargetType="{x:Type Expander}" />
+    <Style BasedOn="{StaticResource MenuItemStyle}"
+           TargetType="{x:Type MenuItem}" />
+    <Style BasedOn="{StaticResource MenuStyle}"
+           TargetType="{x:Type Menu}" />
+    <Style BasedOn="{StaticResource ContextMenuStyle}"
+           TargetType="{x:Type ContextMenu}" />
+    <Style BasedOn="{StaticResource PrimaryMidProgressBarStyle}"
+           TargetType="{x:Type ProgressBar}" />
+    <Style BasedOn="{StaticResource PrimaryMidTreeViewItemStyle}"
+           TargetType="{x:Type TreeViewItem}" />
+    <Style BasedOn="{StaticResource TreeViewStyle}"
+           TargetType="{x:Type TreeView}" />
+</ResourceDictionary>

@@ -1,0 +1,74 @@
+﻿<UserControl x:Class="WpfComponentApp.UI.Docks.TreeViewDock"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:WpfComponentApp.UI.Docks"
+             mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Panes/Card.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/Label.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/TreeView.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Panes/CardSeparator.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid Style="{DynamicResource CardStyle}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Label Content="Tree View Dock"
+               Grid.Row="0"
+               Style="{DynamicResource PrimaryMidAccentTitleStyle}" />
+        <StackPanel Orientation="Vertical"
+                    Grid.Row="1"
+                    Margin="10">
+            <TextBlock Text="Tree view items can contain text, images, and more."
+                       TextWrapping="Wrap" />
+            <TreeView>
+                <TreeViewItem Header="Text Item 1"
+                              Style="{StaticResource PrimaryLightTreeViewItemStyle}" />
+                <TreeViewItem Header="Text Item 2"
+                              Style="{StaticResource PrimaryMidTreeViewItemStyle}" />
+                <TreeViewItem Header="Text Item 3"
+                              Style="{StaticResource PrimaryDarkTreeViewItemStyle}" />
+                <TreeViewItem Header="Parent Item 3">
+                    <TreeViewItem Header="Sub Item 1" />
+                    <TreeViewItem Header="Sub Item 2" />
+                    <TreeViewItem Header="Sub Item 3" />
+                </TreeViewItem>
+                <TreeViewItem Style="{StaticResource SecondaryLightTreeViewItemStyle}">
+                    <TreeViewItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="pack://application:,,,/WpfComponentApp;component/Icons/zoom-in16x16.png" />
+                            <Label Content="Image Item 1" />
+                        </StackPanel>
+                    </TreeViewItem.Header>
+                </TreeViewItem>
+                <TreeViewItem Style="{StaticResource SecondaryMidTreeViewItemStyle}">
+                    <TreeViewItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="pack://application:,,,/WpfComponentApp;component/Icons/zoom-out16x16.png" />
+                            <Label Content="Image Item 2" />
+                        </StackPanel>
+                    </TreeViewItem.Header>
+                </TreeViewItem>
+                <TreeViewItem Style="{StaticResource SecondaryDarkTreeViewItemStyle}">
+                    <TreeViewItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="pack://application:,,,/WpfComponentApp;component/Icons/zoom16x16.png" />
+                            <Label Content="Image Item 3" />
+                        </StackPanel>
+                    </TreeViewItem.Header>
+                </TreeViewItem>
+            </TreeView>
+        </StackPanel>
+    </Grid>
+</UserControl>

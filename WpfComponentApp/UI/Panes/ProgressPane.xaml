@@ -1,0 +1,136 @@
+﻿<UserControl x:Class="WpfComponentApp.UI.Panes.ProgressPane"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:WpfComponentApp.UI.Panes"
+             mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             Width="340">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/ProgressBar.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/Label.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Panes/Card.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Panes/CardSeparator.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid Style="{DynamicResource CardStyle}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Label Content="Progress Pane"
+               Grid.Row="0"
+               Style="{DynamicResource PrimaryMidAccentTitleStyle}" />
+        <StackPanel Orientation="Vertical"
+                    Grid.Row="1"
+                    Margin="10">
+            <TextBlock Text="Progress can be indicated in two styles: a bar and a wheel. Each type have an indeterminate state."
+                       TextWrapping="Wrap" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Label Content="20% Progress"
+                       Grid.Row="0"
+                       Grid.Column="0" />
+                <ProgressBar Orientation="Horizontal"
+                             Height="16"
+                             Value="20"
+                             Grid.Row="0"
+                             Grid.Column="1"
+                             Style="{DynamicResource PrimaryLightProgressBarStyle}" />
+
+                <Label Content="75% Progress"
+                       Grid.Row="1"
+                       Grid.Column="0" />
+                <ProgressBar Orientation="Horizontal"
+                             Height="16"
+                             Value="75"
+                             Grid.Row="1"
+                             Grid.Column="1"
+                             Style="{DynamicResource PrimaryMidProgressBarStyle}" />
+            </Grid>
+
+            <Separator Style="{DynamicResource CardSeparatorStyle}" />
+            <TextBlock Text="Progress Bars can also be oriented vertically"
+                       TextWrapping="Wrap" />
+            <Grid Height="80">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Label Content="40% Progress"
+                       Grid.Row="0"
+                       Grid.Column="0" />
+                <ProgressBar Orientation="Vertical"
+                             Value="40"
+                             HorizontalAlignment="Center"
+                             Width="16"
+                             Grid.Row="1"
+                             Grid.Column="0"
+                             Style="{DynamicResource PrimaryDarkProgressBarStyle}" />
+
+                <Label Content="Indeterminate"
+                       Grid.Row="0"
+                       Grid.Column="1" />
+                <ProgressBar Orientation="Vertical"
+                             IsIndeterminate="True"
+                             HorizontalAlignment="Center"
+                             Width="16"
+                             Grid.Row="1"
+                             Grid.Column="1"
+                             Style="{DynamicResource SecondaryLightProgressBarStyle}" />
+            </Grid>
+
+            <Separator Style="{DynamicResource CardSeparatorStyle}" />
+            <TextBlock Text="Like progress bars, wheels can have an indeterminate state."
+                       TextWrapping="Wrap" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Label Content="40% Progress"
+                       Grid.Row="0"
+                       Grid.Column="0" />
+                <ProgressBar Value="40"
+                             Height="16"
+                             Grid.Row="0"
+                             Grid.Column="1"
+                             Style="{DynamicResource SecondaryMidProgressBarStyle}" />
+
+                <Label Content="Indeterminate"
+                       Grid.Row="1"
+                       Grid.Column="0" />
+                <ProgressBar IsIndeterminate="True"
+                             Height="16"
+                             Grid.Row="1"
+                             Grid.Column="1"
+                             Style="{DynamicResource SecondaryDarkProgressBarStyle}" />
+            </Grid>
+        </StackPanel>
+    </Grid>
+</UserControl>

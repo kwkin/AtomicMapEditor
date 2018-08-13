@@ -1,0 +1,117 @@
+﻿<UserControl x:Class="WpfComponentApp.UI.Panes.LabelPane"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:WpfComponentApp.UI.Panes"
+             mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             Width="340">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/CheckBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/RadioButton.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/Label.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Panes/Card.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Panes/CardSeparator.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid Style="{DynamicResource CardStyle}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Label Content="Label Pane"
+               Grid.Row="0"
+               Style="{DynamicResource PrimaryMidAccentTitleStyle}" />
+        <StackPanel Orientation="Vertical"
+                    Grid.Row="1"
+                    Margin="10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                
+                <Label Content="Label"
+                       Grid.Row="0"
+                       Grid.Column="0"
+                       Style="{DynamicResource MainSmallLabelStyle}" />
+                <Label Content="Label"
+                       Grid.Row="1"
+                       Grid.Column="0"
+                       Style="{DynamicResource MainMidLabelStyle}" />
+                <Label Content="Label"
+                       Grid.Row="2"
+                       Grid.Column="0"
+                       Style="{DynamicResource MainLargeLabelStyle}" />
+                <Label Content="Label"
+                       Grid.Row="3"
+                       Grid.Column="0"
+                       Style="{DynamicResource MainTitleLabelStyle}" />
+
+
+                <Label Content="Label"
+                       Grid.Row="0"
+                       Grid.Column="1"
+                       Style="{DynamicResource PrimarySmallLabelStyle}" />
+                <Label Content="Label"
+                       Grid.Row="1"
+                       Grid.Column="1"
+                       Style="{DynamicResource PrimaryMidLabelStyle}" />
+                <Label Content="Label"
+                       Grid.Row="2"
+                       Grid.Column="1"
+                       Style="{DynamicResource PrimaryLargeLabelStyle}" />
+                <Label Content="Label"
+                       Grid.Row="3"
+                       Grid.Column="1"
+                       Style="{DynamicResource PrimaryTitleLabelStyle}" />
+
+                <Label Content="Label"
+                       Grid.Row="0"
+                       Grid.Column="2"
+                       Style="{DynamicResource SecondarySmallLabelStyle}" />
+                <Label Content="Label"
+                       Grid.Row="1"
+                       Grid.Column="2"
+                       Style="{DynamicResource SecondaryMidLabelStyle}" />
+                <Label Content="Label"
+                       Grid.Row="2"
+                       Grid.Column="2"
+                       Style="{DynamicResource SecondaryLargeLabelStyle}" />
+                <Label Content="Label"
+                       Grid.Row="3"
+                       Grid.Column="2"
+                       Style="{DynamicResource SecondaryTitleLabelStyle}" />
+            </Grid>
+
+            <Separator Style="{DynamicResource CardSeparatorStyle}" />
+            
+            <Label Content="Accent Title Label"
+                   Style="{DynamicResource PrimaryMidAccentTitleStyle}" />
+            <Label Content="Accent Title Label"
+                   Style="{DynamicResource PrimaryLightAccentTitleStyle}" />
+            <Label Content="Accent Title Label"
+                   Style="{DynamicResource PrimaryDarkAccentTitleStyle}" />
+            <Label Content="Accent Title Label"
+                   Style="{DynamicResource SecondaryLightAccentTitleStyle}" />
+            <Label Content="Accent Title Label"
+                   Style="{DynamicResource SecondaryMidAccentTitleStyle}" />
+            <Label Content="Accent Title Label"
+                   Style="{DynamicResource SecondaryDarkAccentTitleStyle}" />
+        </StackPanel>
+    </Grid>
+</UserControl>

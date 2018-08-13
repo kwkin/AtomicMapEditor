@@ -1,0 +1,100 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- ############################### Main ############################### -->
+    <sys:Double x:Key="DisabledOpacity">0.30</sys:Double>
+    <SolidColorBrush x:Key="TransparentBrush"
+                     Color="#00ffffff" />
+
+    <Color x:Key="MainLightColor">#ffffff</Color>
+    <Color x:Key="MainLightTextColor">#787878</Color>
+    <Color x:Key="MainMidColor">#f6f6f6</Color>
+    <Color x:Key="MainMidTextColor">#656565</Color>
+    <Color x:Key="MainDarkColor">#989898</Color>
+    <Color x:Key="MainDarkTextColor">#202020</Color>
+    <SolidColorBrush x:Key="MainLightBrush"
+                     Color="{StaticResource MainLightColor}" />
+    <SolidColorBrush x:Key="MainLightTextBrush"
+                     Color="{StaticResource MainLightTextColor}" />
+    <SolidColorBrush x:Key="MainMidBrush"
+                     Color="{StaticResource MainMidColor}" />
+    <SolidColorBrush x:Key="MainMidTextBrush"
+                     Color="{StaticResource MainMidTextColor}" />
+    <SolidColorBrush x:Key="MainDarkBrush"
+                     Color="{StaticResource MainDarkColor}" />
+    <SolidColorBrush x:Key="MainDarkTextBrush"
+                     Color="{StaticResource MainDarkTextColor}" />
+
+    <!-- ############################### Base ############################### -->
+    <Color x:Key="BaseLightColor">#f6f6f6</Color>
+    <Color x:Key="BaseLightTextColor">#000000</Color>
+    <Color x:Key="BaseMidColor">#dcdcdc</Color>
+    <Color x:Key="BaseMidTextColor">#000000</Color>
+    <Color x:Key="BaseDarkColor">#ababab</Color>
+    <Color x:Key="BaseDarkTextColor">#000000</Color>
+    <SolidColorBrush x:Key="BaseLightBrush"
+                     Color="{StaticResource BaseLightColor}" />
+    <SolidColorBrush x:Key="BaseLightTextBrush"
+                     Color="{StaticResource BaseLightTextColor}" />
+    <SolidColorBrush x:Key="BaseMidBrush"
+                     Color="{StaticResource BaseMidColor}" />
+    <SolidColorBrush x:Key="BaseMidTextBrush"
+                     Color="{StaticResource BaseMidTextColor}" />
+    <SolidColorBrush x:Key="BaseDarkBrush"
+                     Color="{StaticResource BaseDarkColor}" />
+    <SolidColorBrush x:Key="BaseDarkTextBrush"
+                     Color="{StaticResource BaseDarkTextColor}" />
+
+    <!-- ############################### Primary ############################### -->
+    <Color x:Key="PrimaryLightColor">#6f74dd</Color>
+    <Color x:Key="PrimaryLightTextColor">#ffffff</Color>
+    <Color x:Key="PrimaryMidColor">#3949ab</Color>
+    <Color x:Key="PrimaryMidTextColor">#ffffff</Color>
+    <Color x:Key="PrimaryDarkColor">#00227b</Color>
+    <Color x:Key="PrimaryDarkTextColor">#ffffff</Color>
+    <SolidColorBrush x:Key="PrimaryLightBrush"
+                     Color="{StaticResource PrimaryLightColor}" />
+    <SolidColorBrush x:Key="PrimaryLightTextBrush"
+                     Color="{StaticResource PrimaryLightTextColor}" />
+    <SolidColorBrush x:Key="PrimaryMidBrush"
+                     Color="{StaticResource PrimaryMidColor}" />
+    <SolidColorBrush x:Key="PrimaryMidTextBrush"
+                     Color="{StaticResource PrimaryMidTextColor}" />
+    <SolidColorBrush x:Key="PrimaryDarkBrush"
+                     Color="{StaticResource PrimaryDarkColor}" />
+    <SolidColorBrush x:Key="PrimaryDarkTextBrush"
+                     Color="{StaticResource PrimaryDarkTextColor}" />
+
+    <!-- ############################### Secondary ############################### -->
+    <Color x:Key="SecondaryLightColor">#ff6f60</Color>
+    <Color x:Key="SecondaryLightTextColor">#ffffff</Color>
+    <Color x:Key="SecondaryMidColor">#e53935</Color>
+    <Color x:Key="SecondaryMidTextColor">#ffffff</Color>
+    <Color x:Key="SecondaryDarkColor">#ab000d</Color>
+    <Color x:Key="SecondaryDarkTextColor">#ffffff</Color>
+    <SolidColorBrush x:Key="SecondaryLightBrush"
+                     Color="{StaticResource SecondaryLightColor}" />
+    <SolidColorBrush x:Key="SecondaryLightTextBrush"
+                     Color="{StaticResource SecondaryLightTextColor}" />
+    <SolidColorBrush x:Key="SecondaryMidBrush"
+                     Color="{StaticResource SecondaryMidColor}" />
+    <SolidColorBrush x:Key="SecondaryMidTextBrush"
+                     Color="{StaticResource SecondaryMidTextColor}" />
+    <SolidColorBrush x:Key="SecondaryDarkBrush"
+                     Color="{StaticResource SecondaryDarkColor}" />
+    <SolidColorBrush x:Key="SecondaryDarkTextBrush"
+                     Color="{StaticResource SecondaryDarkTextColor}" />
+
+    <!-- ############################### Fill Feedback ############################### -->
+    <sys:Double x:Key="WeakFillOpacity">0.10</sys:Double>
+    <sys:Double x:Key="MidFillOpacity">0.30</sys:Double>
+    <sys:Double x:Key="StrongFillOpacity">0.40</sys:Double>
+
+    <Color x:Key="FillFeedbackMidColor">#ffffffff</Color>
+    <Color x:Key="FillFeedbackDarkColor">#ff656565</Color>
+    <SolidColorBrush x:Key="FillFeedbackMidBrush"
+                     Color="{StaticResource FillFeedbackMidColor}" />
+    <SolidColorBrush x:Key="FillFeedbackDarkBrush"
+                     Color="{StaticResource FillFeedbackDarkColor}" />
+</ResourceDictionary>
