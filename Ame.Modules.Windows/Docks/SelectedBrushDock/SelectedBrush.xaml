@@ -15,6 +15,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/Button.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Ame.Modules.Windows;component/Docks/SelectedBrushDock/SelectedBrushContextMenu.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <conv:MouseEventToPointConverter x:Key="MouseEventToPointConverter" />
@@ -33,12 +34,13 @@
         </Grid.RowDefinitions>
 
         <WrapPanel Grid.Row="0">
-            <extcomp:IconToggleButton x:Name="showCollisionsButton"
-                                      ToolTip="Toggle Collisions: Toggles the collision overlay."
-                                      Command="{Binding NewProjectCommand}"
-                                      ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_collisions_black_24dp.png"
-                                      ImageStretch="None">
-            </extcomp:IconToggleButton>
+            <ToggleButton x:Name="showCollisionsButton"
+                          Style="{DynamicResource PrimaryMidIconToggleButtonStyle}"
+                          ToolTip="Toggle Collisions: Toggles the collision overlay."
+                          Command="{Binding NewProjectCommand}">
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_collisions_black_24dp.png"
+                       Stretch="None" />
+            </ToggleButton>
         </WrapPanel>
 
         <Separator Grid.Row="1" />
@@ -58,11 +60,11 @@
                                             PassEventArgsToCommand="True" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
-            
+
             <Grid x:Name="scrollViewerGrid"
                   HorizontalAlignment="Center"
                   VerticalAlignment="Center">
-                
+
                 <Grid.ContextMenu>
                     <ContextMenu>
                         <ContextMenu.ItemsSource>

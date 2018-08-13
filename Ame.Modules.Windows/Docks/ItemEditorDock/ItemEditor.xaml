@@ -17,12 +17,14 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/ToggleButton.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Ame.Modules.Windows;component/Docks/ItemEditorDock/ItemEditorContextMenu.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <conv:MouseEventToPointConverter x:Key="MouseEventToPointConverter" />
             <conv:BooleanToVisiblityConverter x:Key="BoolToVisConverter"
                                               Collapse="True" />
-            <conv:IntegerToBooleanConverter x:Key="CountToEnabledConverter" 
+            <conv:IntegerToBooleanConverter x:Key="CountToEnabledConverter"
                                             ComparisonValue="0"
                                             IsInversed="True" />
             <conv:NullToBooleanConverter x:Key="NullToBooleanConverter"
@@ -35,7 +37,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
@@ -51,43 +53,48 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <extcomp:IconButton x:Name="addTilesetButton"
-                                Grid.Column="0"
-                                ToolTip="Add a tileset"
-                                Command="{Binding AddTilesetCommand}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_note_add_black_24dp.png">
-            </extcomp:IconButton>
+            <Button x:Name="addTilesetButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    Grid.Column="0"
+                    ToolTip="Add a tileset"
+                    Command="{Binding AddTilesetCommand}">
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_note_add_black_24dp.png" />
+            </Button>
 
-            <extcomp:IconButton x:Name="addImageButton"
-                                Grid.Column="1"
-                                ToolTip="Add an image"
-                                Command="{Binding AddImageCommand}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_image_black_24dp.png">
-            </extcomp:IconButton>
+            <Button x:Name="addImageButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    Grid.Column="1"
+                    ToolTip="Add an image"
+                    Command="{Binding AddImageCommand}">
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_image_black_24dp.png" />
+            </Button>
 
-            <extcomp:IconButton x:Name="editCollisionsButton"
-                                Grid.Column="2"
-                                ToolTip="Open the item in the collision editor"
-                                IsEnabled="{Binding ItemImage, Converter={StaticResource NullToBooleanConverter}}"
-                                Command="{Binding EditCollisionsCommand}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_collisions_black_24dp.png">
-            </extcomp:IconButton>
+            <Button x:Name="editCollisionsButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    Grid.Column="2"
+                    ToolTip="Open the item in the collision editor"
+                    IsEnabled="{Binding ItemImage, Converter={StaticResource NullToBooleanConverter}}"
+                    Command="{Binding EditCollisionsCommand}">
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_collisions_black_24dp.png" />
+            </Button>
 
-            <extcomp:IconButton x:Name="cropButton"
-                                Grid.Column="3"
-                                ToolTip="Open the item in the crop editor"
-                                IsEnabled="{Binding ItemImage, Converter={StaticResource NullToBooleanConverter}}"
-                                Command="{Binding CropCommand}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_crop_black_24dp.png">
-            </extcomp:IconButton>
+            <Button x:Name="cropButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    Grid.Column="3"
+                    ToolTip="Open the item in the crop editor"
+                    IsEnabled="{Binding ItemImage, Converter={StaticResource NullToBooleanConverter}}"
+                    Command="{Binding CropCommand}">
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_crop_black_24dp.png" />
+            </Button>
 
-            <extcomp:IconButton x:Name="viewPropertiesButton"
-                                Grid.Column="4"
-                                ToolTip="View the item's properties"
-                                IsEnabled="{Binding ItemImage, Converter={StaticResource NullToBooleanConverter}}"
-                                Command="{Binding ViewPropertiesCommand}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_eye_black_24dp.png">
-            </extcomp:IconButton>
+            <Button x:Name="viewPropertiesButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    Grid.Column="4"
+                    ToolTip="View the item's properties"
+                    IsEnabled="{Binding ItemImage, Converter={StaticResource NullToBooleanConverter}}"
+                    Command="{Binding ViewPropertiesCommand}">
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_eye_black_24dp.png" />
+            </Button>
 
             <ComboBox x:Name="itemListComboBox"
                       Grid.Column="5"
@@ -104,15 +111,16 @@
                 </i:Interaction.Triggers>
             </ComboBox>
 
-            <extcomp:IconToggleButton x:Name="itemAdvancedOptionsToggle"
-                                      Grid.Column="6"
-                                      IsEnabled="{Binding ItemImage, Converter={StaticResource NullToBooleanConverter}}"
-                                      ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
-            </extcomp:IconToggleButton>
+            <ToggleButton x:Name="itemAdvancedOptionsToggle"
+                          Style="{DynamicResource PrimaryMidIconToggleButtonStyle}"
+                          Grid.Column="6"
+                          IsEnabled="{Binding ItemImage, Converter={StaticResource NullToBooleanConverter}}">
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png" />
+            </ToggleButton>
         </Grid>
 
         <Separator Grid.Row="1" />
-        
+
         <Grid Grid.Row="2"
               Visibility="{Binding IsChecked, ElementName=itemAdvancedOptionsToggle, Converter={StaticResource BoolToVisConverter}}">
 
@@ -222,7 +230,7 @@
                       ItemsSource="{Binding ZoomLevels}"
                       SelectedIndex="{Binding ZoomIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       IsEnabled="{Binding ZoomLevels.Count, Converter={StaticResource CountToEnabledConverter}}"
-                      DisplayMemberPath="description"/>
+                      DisplayMemberPath="description" />
         </Grid>
     </Grid>
 </UserControl>

@@ -15,6 +15,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/Button.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Ame.Modules.Windows;component/Docks/MinimapDock/MinimapContextMenu.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <conv:MouseEventToPointConverter x:Key="MouseEventToPointConverter" />
@@ -42,26 +43,29 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <extcomp:IconButton x:Name="fitMinimapButton"
-                                Grid.Column="0"
-                                ToolTip="Fit the minimap to the dock size"
-                                Command="{Binding FitMinimapCommand}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_arrow_expand_black_24dp.png">
-            </extcomp:IconButton>
+            <Button x:Name="fitMinimapButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    Grid.Column="0"
+                    ToolTip="Fit the minimap to the dock size"
+                    Command="{Binding FitMinimapCommand}">
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_arrow_expand_black_24dp.png" />
+            </Button>
 
-            <extcomp:IconButton x:Name="toggleGridButton"
-                                Grid.Column="1"
-                                ToolTip="Toggle the grid overlay on the minimap"
-                                Command="{Binding ToggleGridCommand}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_grid_black_24dp.png">
-            </extcomp:IconButton>
+            <Button x:Name="toggleGridButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    Grid.Column="1"
+                    ToolTip="Toggle the grid overlay on the minimap"
+                    Command="{Binding ToggleGridCommand}">
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_grid_black_24dp.png" />
+            </Button>
 
-            <extcomp:IconButton x:Name="toggleCollisionButton"
-                                Grid.Column="2"
-                                ToolTip="Toggle the collision overlay on the minimap"
-                                Command="{Binding ToggleCollisionCommand}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_collisions_black_24dp.png">
-            </extcomp:IconButton>
+            <Button x:Name="toggleCollisionButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    Grid.Column="2"
+                    ToolTip="Toggle the collision overlay on the minimap"
+                    Command="{Binding ToggleCollisionCommand}">
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_collisions_black_24dp.png" />
+            </Button>
 
             <Label x:Name="zoomRatioLabel"
                    Grid.Column="4"
@@ -144,7 +148,8 @@
                       Width="65"
                       VerticalAlignment="Center"
                       ItemsSource="{Binding Source={actions:EnumBindingSourceExtension {x:Type models:ScaleType}}}"
-                      SelectedItem="{Binding Scale, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                      SelectedItem="{Binding Scale, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            </ComboBox>
             <ComboBox x:Name="zoomComboBox"
                       Grid.Column="2"
                       Width="65"
@@ -152,7 +157,8 @@
                       ItemsSource="{Binding ZoomLevels}"
                       SelectedIndex="{Binding ZoomIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       IsEnabled="{Binding ZoomLevels.Count, Converter={StaticResource CountToEnabledConverter}}"
-                      DisplayMemberPath="description" />
+                      DisplayMemberPath="description">
+            </ComboBox>
         </Grid>
     </Grid>
 </UserControl>

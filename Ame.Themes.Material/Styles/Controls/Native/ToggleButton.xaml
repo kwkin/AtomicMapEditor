@@ -346,7 +346,6 @@
                             </Ellipse.RenderTransform>
                         </Ellipse>
 
-
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualStateGroup.Transitions>
@@ -543,6 +542,222 @@
         <Setter Property="Background"
                 Value="{DynamicResource SecondaryDarkBrush}" />
         <Setter Property="BorderBrush"
+                Value="{DynamicResource SecondaryDarkBrush}" />
+    </Style>
+
+    <!-- ############################### Icon Toggle Button ############################### -->
+    <Style x:Key="PrimaryMidIconToggleButtonStyle"
+           TargetType="{x:Type ToggleButton}">
+        <Setter Property="Cursor"
+                Value="Hand" />
+        <Setter Property="Background"
+                Value="{DynamicResource PrimaryMidBrush}" />
+        <Setter Property="BorderBrush"
+                Value="{DynamicResource TransparentBrush}" />
+        <Setter Property="Foreground"
+                Value="{DynamicResource PrimaryMidBrush}" />
+        <Setter Property="BorderThickness"
+                Value="0" />
+        <Setter Property="FontFamily"
+                Value="{DynamicResource PrimaryFontFamily}" />
+        <Setter Property="FontSize"
+                Value="{DynamicResource PrimaryFontSize}" />
+        <Setter Property="FontWeight"
+                Value="{DynamicResource PrimaryFontWeight}" />
+        <Setter Property="logic:FillAssist.Feedback"
+                Value="{DynamicResource FillFeedbackDarkBrush}" />
+        <Setter Property="HorizontalAlignment"
+                Value="Center" />
+        <Setter Property="VerticalAlignment"
+                Value="Center" />
+        <Setter Property="Padding"
+                Value="4 4 4 4" />
+        <Setter Property="MinHeight"
+                Value="32" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Grid x:Name="Root">
+                        <ContentPresenter x:Name="ContentPresenter"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          Margin="{TemplateBinding Padding}">
+                        </ContentPresenter>
+                        
+                        <Border x:Name="Ripple"
+                                Background="{TemplateBinding logic:FillAssist.Feedback}"
+                                BorderThickness="0"
+                                CornerRadius="4"
+                                Opacity="0">
+                        </Border>
+
+                        <Border x:Name="SelectedBackground"
+                                Background="{TemplateBinding Background}"
+                                BorderThickness="0"
+                                CornerRadius="4"
+                                Opacity="0">
+                        </Border>
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition GeneratedDuration="0:0:0.1"
+                                                      To="MouseOver">
+                                        <Storyboard>
+                                            <DoubleAnimation Duration="0:0:0.1"
+                                                             Storyboard.TargetName="Ripple"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             To="{DynamicResource WeakFillOpacity}">
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </VisualTransition>
+
+                                    <VisualTransition GeneratedDuration="0:0:0.1"
+                                                      To="Pressed">
+                                        <Storyboard>
+                                            <DoubleAnimation Duration="0:0:0.1"
+                                                             Storyboard.TargetName="Ripple"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             To="{DynamicResource MidFillOpacity}">
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </VisualTransition>
+                                </VisualStateGroup.Transitions>
+
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Ripple"
+                                                                       Storyboard.TargetProperty="Opacity">
+                                            <DiscreteDoubleKeyFrame KeyTime="0"
+                                                                    Value="{DynamicResource WeakFillOpacity}" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Ripple"
+                                                                       Storyboard.TargetProperty="Opacity">
+                                            <DiscreteDoubleKeyFrame KeyTime="0"
+                                                                    Value="{DynamicResource MidFillOpacity}" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Root"
+                                                                       Storyboard.TargetProperty="Opacity">
+                                            <DiscreteDoubleKeyFrame KeyTime="0"
+                                                                    Value="{DynamicResource DisabledOpacity}" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+
+                            <VisualStateGroup x:Name="FocusStates">
+                                <VisualState x:Name="Focused" />
+                                <VisualState x:Name="Unfocused" />
+                            </VisualStateGroup>
+
+                            <VisualStateGroup x:Name="CheckStates">
+
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition GeneratedDuration="0:0:0.1"
+                                                      To="MouseOver">
+                                        <Storyboard>
+                                            <DoubleAnimation Duration="0:0:0.1"
+                                                             Storyboard.TargetName="SelectedBackground"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             To="{DynamicResource MidFillOpacity}">
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </VisualTransition>
+
+                                    <VisualTransition GeneratedDuration="0:0:0.1"
+                                                      To="Pressed">
+                                        <Storyboard>
+                                            <DoubleAnimation Duration="0:0:0.1"
+                                                             Storyboard.TargetName="SelectedBackground"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             To="{DynamicResource StrongFillOpacity}">
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </VisualTransition>
+                                </VisualStateGroup.Transitions>
+
+                                <VisualState x:Name="Checked">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SelectedBackground"
+                                                                       Storyboard.TargetProperty="Opacity">
+                                            <DiscreteDoubleKeyFrame KeyTime="0"
+                                                                    Value="{DynamicResource MidFillOpacity}" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Unchecked" />
+                                <VisualState x:Name="Indeterminate">
+                                    <Storyboard>
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SelectedBackground"
+                                                                           Storyboard.TargetProperty="Opacity">
+                                                <DiscreteDoubleKeyFrame KeyTime="0"
+                                                                        Value="{DynamicResource StrongFillOpacity}" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="PrimaryLightIconButtonStyle"
+           TargetType="{x:Type ToggleButton}"
+           BasedOn="{StaticResource PrimaryMidIconToggleButtonStyle}">
+        <Setter Property="Background"
+                Value="{DynamicResource PrimaryLightBrush}" />
+        <Setter Property="Foreground"
+                Value="{DynamicResource PrimaryLightBrush}" />
+    </Style>
+
+    <Style x:Key="PrimaryDarkIconButtonStyle"
+           TargetType="{x:Type ToggleButton}"
+           BasedOn="{StaticResource PrimaryMidIconToggleButtonStyle}">
+        <Setter Property="Background"
+                Value="{DynamicResource PrimaryDarkBrush}" />
+        <Setter Property="Foreground"
+                Value="{DynamicResource PrimaryDarkBrush}" />
+    </Style>
+
+    <Style x:Key="SecondaryLightIconButtonStyle"
+           TargetType="{x:Type ToggleButton}"
+           BasedOn="{StaticResource PrimaryMidIconToggleButtonStyle}">
+        <Setter Property="Background"
+                Value="{DynamicResource SecondaryLightBrush}" />
+        <Setter Property="Foreground"
+                Value="{DynamicResource SecondaryLightBrush}" />
+    </Style>
+
+    <Style x:Key="SecondaryMidIconButtonStyle"
+           TargetType="{x:Type ToggleButton}"
+           BasedOn="{StaticResource PrimaryMidIconToggleButtonStyle}">
+        <Setter Property="Background"
+                Value="{DynamicResource SecondaryMidBrush}" />
+        <Setter Property="Foreground"
+                Value="{DynamicResource SecondaryMidBrush}" />
+    </Style>
+
+    <Style x:Key="SecondaryDarkIconButtonStyle"
+           TargetType="{x:Type ToggleButton}"
+           BasedOn="{StaticResource PrimaryMidIconToggleButtonStyle}">
+        <Setter Property="Background"
+                Value="{DynamicResource SecondaryDarkBrush}" />
+        <Setter Property="Foreground"
                 Value="{DynamicResource SecondaryDarkBrush}" />
     </Style>
 </ResourceDictionary>

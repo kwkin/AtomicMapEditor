@@ -13,9 +13,10 @@
              d:DesignHeight="300"
              d:DesignWidth="300">
     <UserControl.Resources>
+        <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/Button.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Ame.Modules.Windows;component/Docks/ItemListDock/ItemListContextMenu.xaml" />
     </UserControl.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -36,51 +37,58 @@
             </Grid.ColumnDefinitions>
 
 
-            <extcomp:IconButton x:Name="addTilesetButton"
-                                Grid.Column="0"
-                                ToolTip="Add Tileset"
-                                Command="{Binding AddTilesetCommand}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_note_add_black_24dp.png">
-            </extcomp:IconButton>
+            <Button x:Name="addTilesetButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    Grid.Column="0"
+                    ToolTip="Add Tileset"
+                    Command="{Binding AddTilesetCommand}">
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_note_add_black_24dp.png" />
+            </Button>
 
-            <extcomp:IconButton x:Name="addImageButton"
-                                Grid.Column="1"
-                                ToolTip="Add Image"
-                                Command="{Binding AddImageCommand}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_image_black_24dp.png">
-            </extcomp:IconButton>
+            <Button x:Name="addImageButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    Grid.Column="1"
+                    ToolTip="Add Image"
+                    Command="{Binding AddImageCommand}">
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_image_black_24dp.png" />
+            </Button>
 
-            <extcomp:IconToggleButton x:Name="showImagesToggleButton"
-                                      Grid.Column="2"
-                                      ToolTip="Edit Collisions"
-                                      ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_eye_black_24dp.png">
-            </extcomp:IconToggleButton>
+            <ToggleButton x:Name="showImagesToggleButton"
+                          Style="{DynamicResource PrimaryMidIconToggleButtonStyle}"
+                          Grid.Column="2"
+                          ToolTip="Edit Collisions">
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_eye_black_24dp.png" />
+            </ToggleButton>
 
-            <extcomp:IconToggleButton x:Name="showTilesetsToggleButton"
-                                      Grid.Column="3"
-                                      ToolTip="Crop"
-                                      ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_grid_black_24dp.png">
-            </extcomp:IconToggleButton>
+            <ToggleButton x:Name="showTilesetsToggleButton"
+                          Style="{DynamicResource PrimaryMidIconToggleButtonStyle}"
+                          Grid.Column="3"
+                          ToolTip="Crop">
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_grid_black_24dp.png" />
+            </ToggleButton>
 
-            <extcomp:IconButton x:Name="viewPropertiesButton"
-                                Grid.Column="4"
-                                ToolTip="Edit Properties"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_eye_black_24dp.png">
-            </extcomp:IconButton>
+            <Button x:Name="viewPropertiesButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    Grid.Column="4"
+                    ToolTip="Edit Properties">
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_eye_black_24dp.png" />
+            </Button>
 
             <TextBox x:Name="itemListComboBox"
+                     Style="{DynamicResource PrimaryIconButtonStyle}"
                      Grid.Column="5"
                      VerticalAlignment="Center">
             </TextBox>
 
-            <extcomp:IconButton x:Name="deleteItemButton"
-                                Grid.Column="6"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png">
-            </extcomp:IconButton>
+            <Button x:Name="deleteItemButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    Grid.Column="6">
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png" />
+            </Button>
         </Grid>
 
         <Separator Grid.Row="1" />
-        
+
         <ScrollViewer x:Name="tilesetScrollViewer"
                       VerticalScrollBarVisibility="Visible"
                       Grid.Column="0"
@@ -105,7 +113,7 @@
                     </HierarchicalDataTemplate>
 
                     <DataTemplate DataType="{x:Type models:TilesetModel}">
-                        <local:ItemListEntry >
+                        <local:ItemListEntry>
                             <local:ItemListEntry.ContextMenu>
                                 <ContextMenu DataContext="{Binding DataContext, Source={actions:RootObjectSource}}">
                                     <ContextMenu.ItemsSource>
@@ -120,7 +128,7 @@
                         </local:ItemListEntry>
                     </DataTemplate>
                 </TreeView.Resources>
-                
+
                 <extcomp:StretchingTreeView.ContextMenu>
                     <ContextMenu>
                         <ContextMenu.ItemsSource>

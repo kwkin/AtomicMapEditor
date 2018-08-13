@@ -10,6 +10,14 @@
              xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=Ame.Components"
              mc:Ignorable="d"
              d:DesignHeight="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/Button.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -18,12 +26,12 @@
         </Grid.RowDefinitions>
 
         <WrapPanel Grid.Row="0">
-            <extcomp:IconButton x:Name="refreshButton"
-                                ToolTip="Refresh: Refreshes the session viewer tree."
-                                Command="{Binding RefreshTreeCommand}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_refresh_black_24dp.png"
-                                ImageStretch="None">
-            </extcomp:IconButton>
+            <Button x:Name="refreshButton"
+                    ToolTip="Refresh: Refreshes the session viewer tree."
+                    Command="{Binding RefreshTreeCommand}">
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_refresh_black_24dp.png"
+                       Stretch="None" />
+            </Button>
         </WrapPanel>
 
         <Separator Grid.Row="1" />

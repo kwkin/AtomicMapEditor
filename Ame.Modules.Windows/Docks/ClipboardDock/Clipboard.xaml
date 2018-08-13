@@ -11,6 +11,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/Button.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Ame.Modules.Windows;component/Docks/ClipboardDock/ClipboardContextMenu.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -35,52 +36,58 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <extcomp:IconButton x:Name="pasteButton"
-                                Grid.Column="0"
-                                ToolTip="Paste the current selection"
-                                Command="{Binding PasteCommand}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_content_paste_black_24dp.png">
-            </extcomp:IconButton>
+            <Button x:Name="pasteButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    Grid.Column="0"
+                    ToolTip="Paste the current selection"
+                    Command="{Binding PasteCommand}">
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_content_paste_black_24dp.png" />
+            </Button>
 
-            <extcomp:IconButton x:Name="filterMapsButton"
-                                Grid.Column="1"
-                                ToolTip="Toggle maps from displaying in the clipboard"
-                                Command="{Binding FilterMapsButton}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_map_black_24dp.png">
-            </extcomp:IconButton>
+            <Button x:Name="filterMapsButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    Grid.Column="1"
+                    ToolTip="Toggle maps from displaying in the clipboard"
+                    Command="{Binding FilterMapsButton}">
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_map_black_24dp.png" />
+            </Button>
 
-            <extcomp:IconButton x:Name="filterTilesButton"
-                                Grid.Column="2"
-                                ToolTip="Toggle tiles from displaying in the clipboard"
-                                Command="{Binding FilterTilesButton}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_grid_black_24dp.png">
-            </extcomp:IconButton>
+            <Button x:Name="filterTilesButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    Grid.Column="2"
+                    ToolTip="Toggle tiles from displaying in the clipboard"
+                    Command="{Binding FilterTilesButton}">
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_grid_black_24dp.png" />
+            </Button>
 
-            <extcomp:IconButton x:Name="filterImagesButton"
-                                Grid.Column="3"
-                                ToolTip="Toggle images from displaying in the clipboard"
-                                Command="{Binding FilterImagesButton}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_image_black_24dp.png">
-            </extcomp:IconButton>
+            <Button x:Name="filterImagesButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    Grid.Column="3"
+                    ToolTip="Toggle images from displaying in the clipboard"
+                    Command="{Binding FilterImagesButton}">
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_image_black_24dp.png" />
+            </Button>
 
-            <extcomp:IconButton x:Name="sortClipboardButton"
-                                Grid.Column="4"
-                                ToolTip="Sorts the items in the clipboard"
-                                Command="{Binding SortButton}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_sort_variant_black_24dp.png">
-            </extcomp:IconButton>
+            <Button x:Name="sortClipboardButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    Grid.Column="4"
+                    ToolTip="Sorts the items in the clipboard"
+                    Command="{Binding SortButton}">
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_sort_variant_black_24dp.png" />
+            </Button>
 
             <TextBox x:Name="searchClipboardTextbox"
                      Grid.Column="5"
                      VerticalAlignment="Center">
             </TextBox>
 
-            <extcomp:IconButton x:Name="deleteClipboardItemButton"
-                                Grid.Column="6"
-                                ToolTip="Removes the current selection from the clipboard"
-                                Command="{Binding SortButton}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_delete_black_24dp.png">
-            </extcomp:IconButton>
+            <Button x:Name="deleteClipboardItemButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    Grid.Column="6"
+                    ToolTip="Removes the current selection from the clipboard"
+                    Command="{Binding SortButton}">
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_delete_black_24dp.png" />
+            </Button>
         </Grid>
 
         <Separator Grid.Row="1" />
