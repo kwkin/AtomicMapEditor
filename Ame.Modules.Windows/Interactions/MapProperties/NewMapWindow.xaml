@@ -10,9 +10,18 @@
              d:DesignHeight="300"
              d:DesignWidth="300">
 
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/Button.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="25" />
         </Grid.RowDefinitions>
 
@@ -32,10 +41,13 @@
             </TabItem>
         </TabControl>
 
-        <StackPanel Grid.Row="1"
+        <Separator Grid.Row="1" />
+
+        <StackPanel Grid.Row="2"
                     FlowDirection="RightToLeft"
                     Orientation="Horizontal">
             <Button x:Name="oKButton"
+                    Style="{StaticResource PrimaryDarkFlatButtonStyle}"
                     Margin="2,0,2,2"
                     Content="Create"
                     Width="130"
@@ -43,6 +55,7 @@
                     Command="{Binding SetMapPropertiesCommand}"
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
             <Button x:Name="cancelButton"
+                    Style="{StaticResource PrimaryDarkFlatButtonStyle}"
                     Margin="2,0,2,2"
                     Content="Cancel"
                     Width="130"

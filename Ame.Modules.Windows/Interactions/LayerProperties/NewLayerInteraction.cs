@@ -78,9 +78,9 @@ namespace Ame.Modules.Windows.Interactions.LayerProperties
             Style style = new Style();
             style.TargetType = typeof(Window);
             style.Setters.Add(new Setter(FrameworkElement.MinWidthProperty, 420.0));
-            style.Setters.Add(new Setter(FrameworkElement.MinHeightProperty, 380.0));
+            style.Setters.Add(new Setter(FrameworkElement.MinHeightProperty, 400.0));
             style.Setters.Add(new Setter(FrameworkElement.WidthProperty, 420.0));
-            style.Setters.Add(new Setter(FrameworkElement.HeightProperty, 380.0));
+            style.Setters.Add(new Setter(FrameworkElement.HeightProperty, 400.0));
             action.WindowStyle = style;
             return action;
         }

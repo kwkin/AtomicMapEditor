@@ -13,8 +13,12 @@
              d:DesignHeight="300"
              d:DesignWidth="300">
     <UserControl.Resources>
-        <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/Button.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/Ame.Modules.Windows;component/Docks/ItemListDock/ItemListContextMenu.xaml" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.Modules.Windows;component/Docks/ItemListDock/ItemListContextMenu.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid>
@@ -75,7 +79,6 @@
             </Button>
 
             <TextBox x:Name="itemListComboBox"
-                     Style="{DynamicResource PrimaryIconButtonStyle}"
                      Grid.Column="5"
                      VerticalAlignment="Center">
             </TextBox>

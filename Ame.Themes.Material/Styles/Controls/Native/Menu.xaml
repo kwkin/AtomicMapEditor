@@ -45,7 +45,14 @@
             </Border>
             <ContentPresenter Margin="8,2,8,2"
                               ContentSource="Header"
+                              TextBlock.FontFamily="{TemplateBinding FontFamily}"
+                              TextBlock.FontSize="{TemplateBinding FontSize}"
+                              TextBlock.FontWeight="{TemplateBinding FontWeight}"
+                              TextBlock.Foreground="{DynamicResource PrimaryMidTextBrush}"
                               RecognizesAccessKey="True">
+                <ContentPresenter.Resources>
+                    <Style TargetType="{x:Type TextBlock}" />
+                </ContentPresenter.Resources>
             </ContentPresenter>
             <Popup x:Name="Popup"
                    Placement="Bottom"
@@ -535,5 +542,16 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style x:Key="PrimaryMidMenuStyle"
+           TargetType="{x:Type Menu}"
+           BasedOn="{StaticResource MenuStyle}">
+        <Setter Property="Background"
+                Value="{DynamicResource PrimaryMidBrush}" />
+        <Setter Property="BorderBrush"
+                Value="{DynamicResource PrimaryMidBrush}" />
+        <Setter Property="Foreground"
+                Value="{DynamicResource PrimaryMidTextBrush}" />
     </Style>
 </ResourceDictionary>

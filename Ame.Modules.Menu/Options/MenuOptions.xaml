@@ -8,15 +8,20 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d">
     <UserControl.Resources>
-        <conv:DoubleToZoomLevelConverter x:Key="DoubleToZoomLevelConverter" />
-        <CollectionViewSource Source="{Binding Path=RecentlyClosedDockItems}"
-                              x:Key="RecentlyClosedDocksMenu" />
-        <CollectionViewSource Source="{Binding Path=RecentlFileItems}"
-                              x:Key="RecentFilesMenu" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/Menu.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <conv:DoubleToZoomLevelConverter x:Key="DoubleToZoomLevelConverter" />
+            <CollectionViewSource Source="{Binding Path=RecentlyClosedDockItems}"
+                                  x:Key="RecentlyClosedDocksMenu" />
+            <CollectionViewSource Source="{Binding Path=RecentlFileItems}"
+                                  x:Key="RecentFilesMenu" />
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid>
-        <Menu>
+        <Menu Style="{StaticResource PrimaryMidMenuStyle}">
             <MenuItem Header="File">
                 <MenuItem Header="New..."
                           InputGestureText="Ctrl+N"
@@ -398,7 +403,7 @@
                               Command="{Binding SetZoomCommand}"
                               CommandParameter="{Binding Source=0.125, Converter={StaticResource DoubleToZoomLevelConverter}}">
                     </MenuItem>
-                </MenuItem> 
+                </MenuItem>
                 <Separator />
                 <MenuItem Header="Preset">
                     <MenuItem.Icon>

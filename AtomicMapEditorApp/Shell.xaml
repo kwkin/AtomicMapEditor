@@ -6,7 +6,7 @@
         xmlns:prism="http://prismlibrary.com/"
         xmlns:inf="clr-namespace:Ame.Infrastructure.Core;assembly=Ame.Infrastructure"
         mc:Ignorable="d"
-        Title="MainWindow"
+        Title="Atomic Map Editor"
         Height="1080"
         Width="1920">
     <Grid HorizontalAlignment="Stretch"

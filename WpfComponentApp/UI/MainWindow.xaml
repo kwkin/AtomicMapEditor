@@ -8,7 +8,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
         mc:Ignorable="d"
-        Title="MainWindow"
+        Title="Atomic Map Editor"
         Height="1080"
         Width="1975">
     <Grid>

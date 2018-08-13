@@ -15,6 +15,10 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/TextBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/ToggleButton.xaml" />
+            </ResourceDictionary.MergedDictionaries>
             <conv:NullOrEmptyToBooleanConverter x:Key="StringToIsValidFileConvertor"
                                                 IsInversed="True" />
         </ResourceDictionary>
@@ -77,17 +81,18 @@
                 Grid.Column="5"
                 VerticalAlignment="Center"
                 Content="Browse..."
-                Command="{Binding BrowseSourceCommand}"/>
+                Command="{Binding BrowseSourceCommand}" />
 
-        <CheckBox x:Name="UseTransparentColorPicker"
-                  Grid.Row="2"
-                  Grid.Column="3"
-                  Grid.ColumnSpan="2"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
-                  Content="Use Transparent"
-                  IsEnabled="{Binding IsSourceLoaded}"
-                  IsChecked="{Binding IsTransparent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <ToggleButton x:Name="UseTransparentColorPicker"
+                      Style="{StaticResource PrimaryMidToggleSwitchStyle}"
+                      Grid.Row="2"
+                      Grid.Column="3"
+                      Grid.ColumnSpan="2"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Center"
+                      Content="Use Transparent"
+                      IsEnabled="{Binding IsSourceLoaded}"
+                      IsChecked="{Binding IsTransparent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <Grid Grid.Row="2"
               Grid.Column="6">
             <Grid.ColumnDefinitions>
@@ -261,6 +266,7 @@
                VerticalAlignment="Center"
                Content="Description:" />
         <TextBox x:Name="descriptionTextBox"
+                 Style="{StaticResource PrimaryMidAccentTextAreaStyle}"
                  Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
                  Grid.Row="6"
                  Grid.RowSpan="3"
