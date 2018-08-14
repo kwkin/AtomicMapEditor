@@ -72,7 +72,20 @@ namespace Ame.Modules.Windows.Interactions.LayerProperties
         public int OffsetY { get; set; }
         public int TileWidth { get; set; }
         public int TileHeight { get; set; }
-        public ScaleType Scale { get; set; }
+
+        private ScaleType scale;
+        public ScaleType Scale
+        {
+            get
+            {
+                return this.scale;
+            }
+            set
+            {
+                SetProperty(ref this.scale, value);
+            }
+        }
+
         public LayerPosition Position { get; set; }
         public double ScrollRate { get; set; }
         public string Description { get; set; }

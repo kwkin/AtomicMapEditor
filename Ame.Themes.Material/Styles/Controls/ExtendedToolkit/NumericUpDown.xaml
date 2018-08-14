@@ -29,7 +29,7 @@
         <Setter Property="HorizontalContentAlignment"
                 Value="Center" />
         <Setter Property="MinHeight"
-                Value="20" />
+                Value="28" />
         <Setter Property="MinWidth"
                 Value="20" />
         <Setter Property="VerticalContentAlignment"
@@ -175,7 +175,7 @@
         <Setter Property="HorizontalContentAlignment"
                 Value="Center" />
         <Setter Property="MinHeight"
-                Value="20" />
+                Value="28" />
         <Setter Property="MinWidth"
                 Value="20" />
         <Setter Property="VerticalContentAlignment"

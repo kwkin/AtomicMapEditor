@@ -34,6 +34,7 @@ namespace Ame.Infrastructure.Models
             this.Rows = rows;
             this.Columns = columns;
             this.Position = LayerPosition.Base;
+            this.Scale = ScaleType.Tile;
             this.occupiedTiles = new List<Tile>();
             ResetLayerItems();
         }
@@ -46,6 +47,7 @@ namespace Ame.Infrastructure.Models
             this.Rows = rows;
             this.Columns = columns;
             this.Position = LayerPosition.Base;
+            this.Scale = ScaleType.Tile;
             this.occupiedTiles = new List<Tile>();
             ResetLayerItems();
         }
