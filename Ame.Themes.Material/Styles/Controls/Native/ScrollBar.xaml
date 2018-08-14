@@ -460,7 +460,8 @@
                         <ScrollContentPresenter x:Name="ScrollContentPresenter"
                                                 Cursor="{TemplateBinding Cursor}"
                                                 ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                Margin="{TemplateBinding Padding}" />
+                                                Margin="{TemplateBinding Padding}">
+                        </ScrollContentPresenter>
                         <ScrollBar x:Name="PART_VerticalScrollBar"
                                    Width="12"
                                    Grid.Row="0"

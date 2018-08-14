@@ -264,7 +264,7 @@
     <Resource Include="Icons\zoom16x16.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Ame.Themes\Ame.Themes.Material.csproj">
+    <ProjectReference Include="..\Ame.Themes.Material\Ame.Themes.Material.csproj">
       <Project>{610a46aa-c3ee-4b9f-adc0-a8f9e0eca3f1}</Project>
       <Name>Ame.Themes.Material</Name>
     </ProjectReference>

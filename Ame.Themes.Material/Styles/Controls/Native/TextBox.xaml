@@ -23,7 +23,7 @@
         <Setter Property="TextWrapping"
                 Value="NoWrap" />
         <Setter Property="Padding"
-                Value="2 8 2 4" />
+                Value="2 2 2 4" />
         <Setter Property="MinHeight"
                 Value="28" />
         <Setter Property="Template">

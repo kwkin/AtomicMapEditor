@@ -80,9 +80,9 @@ namespace Ame.Modules.Windows.Interactions.MapProperties
             Style style = new Style();
             style.TargetType = typeof(Window);
             style.Setters.Add(new Setter(FrameworkElement.MinWidthProperty, 420.0));
-            style.Setters.Add(new Setter(FrameworkElement.MinHeightProperty, 380.0));
+            style.Setters.Add(new Setter(FrameworkElement.MinHeightProperty, 475.0));
             style.Setters.Add(new Setter(FrameworkElement.WidthProperty, 420.0));
-            style.Setters.Add(new Setter(FrameworkElement.HeightProperty, 380.0));
+            style.Setters.Add(new Setter(FrameworkElement.HeightProperty, 475.0));
             action.WindowStyle = style;
             return action;
         }

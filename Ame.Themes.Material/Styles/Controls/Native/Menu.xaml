@@ -43,7 +43,7 @@
                     BorderThickness="0"
                     Opacity="0">
             </Border>
-            <ContentPresenter Margin="8,2,8,2"
+            <ContentPresenter Margin="8,4,8,4"
                               ContentSource="Header"
                               TextBlock.FontFamily="{TemplateBinding FontFamily}"
                               TextBlock.FontSize="{TemplateBinding FontSize}"

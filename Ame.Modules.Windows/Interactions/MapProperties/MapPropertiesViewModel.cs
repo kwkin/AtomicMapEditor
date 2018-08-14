@@ -74,7 +74,19 @@ namespace Ame.Modules.Windows.Interactions.MapProperties
         public int Rows { get; set; }
         public int TileWidth { get; set; }
         public int TileHeight { get; set; }
-        public ScaleType Scale { get; set; }
+
+        private ScaleType scale;
+        public ScaleType Scale
+        {
+            get
+            {
+                return this.scale;
+            }
+            set
+            {
+                SetProperty(ref this.scale, value);
+            }
+        }
         public int PixelScale { get; set; }
         public string Description { get; set; }
 

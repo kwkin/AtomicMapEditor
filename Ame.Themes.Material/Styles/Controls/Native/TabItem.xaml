@@ -14,8 +14,6 @@
                 Value="{DynamicResource PrimaryMidTextBrush}" />
         <Setter Property="BorderThickness"
                 Value="0 0 0 3" />
-        <Setter Property="Cursor"
-                Value="Hand" />
         <Setter Property="FontFamily"
                 Value="{DynamicResource PrimaryFontFamily}" />
         <Setter Property="FontSize"
@@ -43,12 +41,14 @@
                                 BorderThickness="{TemplateBinding BorderThickness}">
                         </Border>
                         <Border x:Name="SelectedBorder"
+                                Cursor="Hand"
                                 Opacity="0"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}">
                         </Border>
                         <ContentPresenter x:Name="ContentPresenter"
+                                          Cursor="Hand"
                                           ContentSource="Header"
                                           HorizontalAlignment="Center"
                                           Margin="{TemplateBinding Padding}"
