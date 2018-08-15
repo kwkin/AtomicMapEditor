@@ -81,9 +81,9 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
             Style style = new Style();
             style.TargetType = typeof(Window);
             style.Setters.Add(new Setter(FrameworkElement.MinWidthProperty, 720.0));
-            style.Setters.Add(new Setter(FrameworkElement.MinHeightProperty, 450.0));
+            style.Setters.Add(new Setter(FrameworkElement.MinHeightProperty, 480.0));
             style.Setters.Add(new Setter(FrameworkElement.WidthProperty, 720.0));
-            style.Setters.Add(new Setter(FrameworkElement.HeightProperty, 450.0));
+            style.Setters.Add(new Setter(FrameworkElement.HeightProperty, 480.0));
             action.WindowStyle = style;
             return action;
         }

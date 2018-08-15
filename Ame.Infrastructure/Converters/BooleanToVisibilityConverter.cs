@@ -42,7 +42,7 @@ namespace Ame.Infrastructure.Converters
             {
                 visibility = Visibility.Visible;
             }
-            else if (Collapse)
+            else if (this.Collapse)
             {
                 visibility = Visibility.Collapsed;
             }

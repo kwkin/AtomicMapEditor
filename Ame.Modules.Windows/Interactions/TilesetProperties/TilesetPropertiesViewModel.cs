@@ -652,6 +652,10 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
         public void HandleLeftClickUp(Point selectPoint)
         {
             this.isMouseDown = false;
+            if (this.ItemImage == null)
+            {
+                return;
+            }
             bool wasSelectingTransparency = this.IsSelectingTransparency;
             this.IsSelectingTransparency = false;
             GeneralTransform selectToPixel = GeometryUtils.CreateTransform(this.itemTransform.pixelToSelect.Inverse);

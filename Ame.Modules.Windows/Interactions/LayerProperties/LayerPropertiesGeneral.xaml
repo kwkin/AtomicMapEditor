@@ -21,6 +21,9 @@
                 <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/ExtendedToolkit/NumericUpDown.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <conv:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+            <conv:EnumToVisibilityConverter x:Key="EnumToVisibleConverter"
+                                            EqualVisibility="Visible"
+                                            NotEqualVisibility="Collapsed" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -52,12 +55,12 @@
 
         <Label x:Name="nameLabel"
                Style="{StaticResource MainSmallLabelStyle}"
-               Content="Name:"
+               Content="Name"
                Grid.Row="0"
                Grid.Column="0"
                HorizontalAlignment="Right"
                VerticalAlignment="Center"
-               Margin="0 0 0 10" />
+               Margin="0 0 5 10" />
         <TextBox x:Name="nameTextBox"
                  Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  Grid.Row="0"
@@ -68,12 +71,12 @@
 
         <Label x:Name="rowLabel"
                Style="{StaticResource MainSmallLabelStyle}"
-               Content="Rows:"
+               Content="Rows"
                Grid.Row="1"
                Grid.Column="0"
                HorizontalAlignment="Right"
                VerticalAlignment="Center"
-               Margin="0 0 0 10" />
+               Margin="0 0 5 10" />
         <xctk:IntegerUpDown x:Name="columnIntStepper"
                             Value="{Binding Columns, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Grid.Row="1"
@@ -85,12 +88,12 @@
                             Margin="0 0 0 10" />
         <Label x:Name="columnLabel"
                Style="{StaticResource MainSmallLabelStyle}"
-               Content="Columns:"
+               Content="Columns"
                Grid.Row="1"
                Grid.Column="2"
                HorizontalAlignment="Right"
                VerticalAlignment="Center"
-               Margin="0 0 0 10" />
+               Margin="0 0 5 10" />
         <xctk:IntegerUpDown x:Name="rowIntStepper"
                             Value="{Binding Rows, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Grid.Row="1"
@@ -112,51 +115,51 @@
 
         <Label x:Name="tileWidthLabel"
                Style="{StaticResource MainSmallLabelStyle}"
-               IsEnabled="{Binding Scale, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:ScaleType.Tile}}"
-               Content="Tile Width:"
+               Content="Tile Width"
                Grid.Row="3"
                Grid.Column="0"
                HorizontalAlignment="Right"
                VerticalAlignment="Center"
-               Margin="0 0 0 10" />
+               Margin="0 0 5 10"
+               Visibility="{Binding Scale, Converter={StaticResource EnumToVisibleConverter}, ConverterParameter={x:Static models:ScaleType.Tile}}" />
         <xctk:IntegerUpDown x:Name="tileWidthIntStepper"
                             Value="{Binding TileWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            IsEnabled="{Binding Scale, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:ScaleType.Tile}}"
                             Grid.Row="3"
                             Grid.Column="1"
                             VerticalAlignment="Center"
                             Increment="1"
                             Maximum="2048"
                             Minimum="1"
-                            Margin="0 0 0 10" />
+                            Margin="0 0 0 10"
+                            Visibility="{Binding Scale, Converter={StaticResource EnumToVisibleConverter}, ConverterParameter={x:Static models:ScaleType.Tile}}" />
         <Label x:Name="tileHeightLabel"
                Style="{StaticResource MainSmallLabelStyle}"
-               IsEnabled="{Binding Scale, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:ScaleType.Tile}}"
-               Content="Tile Height:"
+               Content="Tile Height"
                Grid.Row="3"
                Grid.Column="2"
                HorizontalAlignment="Right"
                VerticalAlignment="Center"
-               Margin="0 0 0 10" />
+               Margin="0 0 5 10"
+               Visibility="{Binding Scale, Converter={StaticResource EnumToVisibleConverter}, ConverterParameter={x:Static models:ScaleType.Tile}}" />
         <xctk:IntegerUpDown x:Name="tileHeightIntStepper"
                             Value="{Binding TileHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            IsEnabled="{Binding Scale, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:ScaleType.Tile}}"
                             Grid.Row="3"
                             Grid.Column="3"
                             VerticalAlignment="Center"
                             Increment="1"
                             Maximum="2048"
                             Minimum="1"
-                            Margin="0 0 0 10" />
+                            Margin="0 0 0 10"
+                            Visibility="{Binding Scale, Converter={StaticResource EnumToVisibleConverter}, ConverterParameter={x:Static models:ScaleType.Tile}}" />
 
         <Label x:Name="offsetXLabel"
                Style="{StaticResource MainSmallLabelStyle}"
-               Content="X Offset:"
+               Content="X Offset"
                Grid.Row="4"
                Grid.Column="0"
                HorizontalAlignment="Right"
                VerticalAlignment="Center"
-               Margin="0 0 0 10" />
+               Margin="0 0 5 10" />
         <xctk:IntegerUpDown x:Name="offsetXIntStepper"
                             Value="{Binding OffsetX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Grid.Row="4"
@@ -168,12 +171,12 @@
                             Margin="0 0 0 10" />
         <Label x:Name="offsetYLabel"
                Style="{StaticResource MainSmallLabelStyle}"
-               Content="Y Offset:"
+               Content="Y Offset"
                Grid.Row="4"
                Grid.Column="2"
                HorizontalAlignment="Right"
                VerticalAlignment="Center"
-               Margin="0 0 0 10" />
+               Margin="0 0 5 10" />
         <xctk:IntegerUpDown x:Name="offsetYIntStepper"
                             Value="{Binding OffsetY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Grid.Row="4"
@@ -186,12 +189,12 @@
 
         <Label x:Name="positionLabel"
                Style="{StaticResource MainSmallLabelStyle}"
-               Content="Position:"
+               Content="Position"
                Grid.Row="5"
                Grid.Column="0"
                HorizontalAlignment="Right"
                VerticalAlignment="Center"
-               Margin="0 0 0 10" />
+               Margin="0 0 5 10" />
         <ComboBox x:Name="positionComboBox"
                   Grid.Row="5"
                   Grid.Column="1"
@@ -202,12 +205,12 @@
 
         <Label x:Name="scrollRateFromLabel"
                Style="{StaticResource MainSmallLabelStyle}"
-               Content="Scroll Rate:"
+               Content="Scroll Rate"
                Grid.Row="6"
                Grid.Column="0"
                HorizontalAlignment="Right"
                VerticalAlignment="Center"
-               Margin="0 0 0 10" />
+               Margin="0 0 5 10" />
         <xctk:DoubleUpDown x:Name="scrollRateFromStepper"
                            Value="{Binding ScrollRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                            Grid.Row="6"
@@ -220,13 +223,13 @@
                            Margin="0 0 0 10" />
 
         <Label x:Name="desciptionLabel"
-               Content="Description:"
+               Content="Description"
                Style="{StaticResource MainSmallLabelStyle}"
                Grid.Row="7"
                Grid.Column="0"
                HorizontalAlignment="Right"
                VerticalAlignment="Top"
-               Margin="0 0 0 10" />
+               Margin="0 0 5 10"  />
         <TextBox x:Name="descriptionTextBox"
                  Style="{StaticResource PrimaryMidTextAreaStyle}"
                  Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"

@@ -30,7 +30,7 @@
 
     <Grid Grid.Row="0">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"
+            <ColumnDefinition Width="2*"
                               MinWidth="360" />
             <ColumnDefinition Width="5" />
             <ColumnDefinition Width="*"
@@ -38,7 +38,7 @@
         </Grid.ColumnDefinitions>
 
         <TabControl x:Name="tabControl"
-                    Margin="4,0,4,4"
+                    Margin="0 0 0 4"
                     Grid.Column="0"
                     Grid.Row="0">
             <TabItem Header="General">

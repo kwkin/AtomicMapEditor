@@ -22,21 +22,21 @@
                 <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/ExtendedToolkit/NumericUpDown.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <conv:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+            <conv:EnumToVisibilityConverter x:Key="EnumToVisibleConverter"
+                                            EqualVisibility="Visible"
+                                            NotEqualVisibility="Collapsed" />
         </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid VerticalAlignment="Top"
           Margin="8 4 8 4">
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="72" />
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="72" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -50,45 +50,49 @@
                Content="Name"
                Grid.Row="0"
                Grid.Column="0"
-               VerticalAlignment="Center" />
+               HorizontalAlignment="Right"
+               VerticalAlignment="Center"
+               Margin="0 0 5 10" />
         <TextBox x:Name="nameTextBox"
                  Style="{StaticResource PrimaryMidTextBoxStyle}"
                  Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
-                 Grid.Row="1"
-                 Grid.Column="0"
-                 Grid.ColumnSpan="2"
+                 Grid.Row="0"
+                 Grid.Column="1"
+                 Grid.ColumnSpan="3"
                  VerticalAlignment="Center"
                  Margin="0 0 0 10" />
 
         <Label x:Name="rowLabel"
                Style="{StaticResource MainSmallLabelStyle}"
                Content="Rows"
-               Grid.Row="2"
+               Grid.Row="1"
                Grid.Column="0"
-               VerticalAlignment="Center" />
-        <Label x:Name="columnLabel"
-               Style="{StaticResource MainSmallLabelStyle}"
-               Content="Columns"
-               Grid.Row="2"
-               Grid.Column="1"
+               HorizontalAlignment="Right"
                VerticalAlignment="Center"
-               Margin="5 0 0 0" />
-        
+               Margin="0 0 5 10" />
         <xctk:IntegerUpDown x:Name="rowIntStepper"
                             Style="{StaticResource PrimaryLightNumericUpDownStyle}"
                             Value="{Binding Rows}"
-                            Grid.Row="3"
-                            Grid.Column="0"
+                            Grid.Row="1"
+                            Grid.Column="1"
                             VerticalAlignment="Center"
                             Increment="1"
                             Maximum="2048"
                             Minimum="1"
                             Margin="0 0 5 10" />
+        <Label x:Name="columnLabel"
+               Style="{StaticResource MainSmallLabelStyle}"
+               Content="Columns"
+               Grid.Row="1"
+               Grid.Column="2"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Center"
+               Margin="5 0 0 10" />
         <xctk:IntegerUpDown x:Name="columnIntStepper"
                             Style="{StaticResource PrimaryLightNumericUpDownStyle}"
                             Value="{Binding Columns}"
-                            Grid.Row="3"
-                            Grid.Column="1"
+                            Grid.Row="1"
+                            Grid.Column="3"
                             VerticalAlignment="Center"
                             Increment="1"
                             Maximum="2048"
@@ -99,62 +103,67 @@
                   Style="{StaticResource PrimaryMidComboBoxStyle}"
                   SelectedItem="{Binding Scale, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   ItemsSource="{Binding Source={actions:EnumBindingSourceExtension {x:Type models:ScaleType}}}"
-                  Grid.Row="4"
-                  Grid.Column="0"
+                  Grid.Row="2"
+                  Grid.Column="1"
                   VerticalAlignment="Center"
                   SelectedIndex="0"
                   Margin="0 0 5 10" />
 
         <Label x:Name="tileWidthLabel"
                Style="{StaticResource MainSmallLabelStyle}"
-               IsEnabled="{Binding Scale, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:ScaleType.Tile}}"
                Content="Tile Width"
-               Grid.Row="5"
+               Grid.Row="3"
                Grid.Column="0"
-               VerticalAlignment="Center" />
-        <Label x:Name="tileHeightLabel"
-               Style="{StaticResource MainSmallLabelStyle}"
-               IsEnabled="{Binding Scale, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:ScaleType.Tile}}"
-               Content="Tile Height"
-               Grid.Row="5"
-               Grid.Column="1"
+               HorizontalAlignment="Right"
                VerticalAlignment="Center"
-               Margin="5 0 0 0" />
+               Margin="0 0 5 10"
+               Visibility="{Binding Scale, Converter={StaticResource EnumToVisibleConverter}, ConverterParameter={x:Static models:ScaleType.Tile}}" />
         <xctk:IntegerUpDown x:Name="tileWidthIntStepper"
                             Style="{StaticResource PrimaryLightNumericUpDownStyle}"
                             Value="{Binding TileWidth}"
-                            IsEnabled="{Binding Scale, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:ScaleType.Tile}}"
-                            Grid.Row="6"
-                            Grid.Column="0"
-                            VerticalAlignment="Center"
-                            Increment="1"
-                            Maximum="2048"
-                            Minimum="1"
-                            Margin="0 0 5 10" />
-        <xctk:IntegerUpDown x:Name="tileHeightIntStepper"
-                            Style="{StaticResource PrimaryLightNumericUpDownStyle}"
-                            Value="{Binding TileHeight}"
-                            IsEnabled="{Binding Scale, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:ScaleType.Tile}}"
-                            Grid.Row="6"
+                            Grid.Row="3"
                             Grid.Column="1"
                             VerticalAlignment="Center"
                             Increment="1"
                             Maximum="2048"
                             Minimum="1"
-                            Margin="5 0 0 10" />
+                            Margin="0 0 5 10"
+                            Visibility="{Binding Scale, Converter={StaticResource EnumToVisibleConverter}, ConverterParameter={x:Static models:ScaleType.Tile}}" />
+        <Label x:Name="tileHeightLabel"
+               Style="{StaticResource MainSmallLabelStyle}"
+               Content="Tile Height"
+               Grid.Row="3"
+               Grid.Column="2"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Center"
+               Margin="5 0 0 10"
+               Visibility="{Binding Scale, Converter={StaticResource EnumToVisibleConverter}, ConverterParameter={x:Static models:ScaleType.Tile}}" />
+        <xctk:IntegerUpDown x:Name="tileHeightIntStepper"
+                            Style="{StaticResource PrimaryLightNumericUpDownStyle}"
+                            Value="{Binding TileHeight}"
+                            Grid.Row="3"
+                            Grid.Column="3"
+                            VerticalAlignment="Center"
+                            Increment="1"
+                            Maximum="2048"
+                            Minimum="1"
+                            Margin="5 0 0 10"
+                            Visibility="{Binding Scale, Converter={StaticResource EnumToVisibleConverter}, ConverterParameter={x:Static models:ScaleType.Tile}}" />
 
         <Label x:Name="pixelRatioLabel"
                Style="{StaticResource MainSmallLabelStyle}"
                Content="Pixel Scale"
-               Grid.Row="7"
+               Grid.Row="4"
                Grid.Column="0"
-               VerticalAlignment="Center" />
+               HorizontalAlignment="Right"
+               VerticalAlignment="Center"
+               Margin="0 0 5 10" />
         <xctk:IntegerUpDown x:Name="pixelToIntStepper"
                             Style="{StaticResource PrimaryLightNumericUpDownStyle}"
                             Value="{Binding PixelRatio}"
-                            Grid.Row="8"
-                            Grid.Column="0"
-                            Grid.ColumnSpan="2"
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="3"
                             VerticalAlignment="Center"
                             Increment="1"
                             Maximum="2048"
@@ -164,15 +173,17 @@
         <Label x:Name="desciptionLabel"
                Style="{StaticResource MainSmallLabelStyle}"
                Content="Description"
-               Grid.Row="9"
+               Grid.Row="5"
                Grid.Column="0"
-               VerticalAlignment="Center" />
+               HorizontalAlignment="Right"
+               VerticalAlignment="Center"
+               Margin="0 0 5 10" />
         <TextBox x:Name="descriptionTextBox"
                  Style="{StaticResource PrimaryMidTextAreaStyle}"
                  Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
-                 Grid.Row="10"
-                 Grid.Column="0"
-                 Grid.ColumnSpan="2"
+                 Grid.Row="5"
+                 Grid.Column="1"
+                 Grid.ColumnSpan="3"
                  Height="72"
                  Margin="0 0 0 10" />
 

@@ -647,6 +647,13 @@
                         </Popup>
                     </Grid>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled"
+                                 Value="False">
+                            <Setter TargetName="Root"
+                                    Property="Opacity"
+                                    Value="{DynamicResource DisabledOpacity}" />
+                        </Trigger>
+                        
                         <Trigger Property="DisplayColorAndName"
                                  Value="True">
                             <Setter TargetName="ColorOnly"
