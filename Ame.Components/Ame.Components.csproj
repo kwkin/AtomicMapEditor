@@ -95,6 +95,10 @@
       <Project>{9d27d8dc-5cd8-46d9-b702-efeb6d66f236}</Project>
       <Name>Ame.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ame.Themes.Material\Ame.Themes.Material.csproj">
+      <Project>{610a46aa-c3ee-4b9f-adc0-a8f9e0eca3f1}</Project>
+      <Name>Ame.Themes.Material</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

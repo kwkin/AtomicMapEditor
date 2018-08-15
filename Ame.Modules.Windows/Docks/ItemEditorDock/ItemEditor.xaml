@@ -17,6 +17,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/ScrollBar.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/Button.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/ToggleButton.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Ame.Modules.Windows;component/Docks/ItemEditorDock/ItemEditorContextMenu.xaml" />
@@ -148,6 +149,7 @@
         </Grid>
 
         <extcomp:ExtendedScrollViewer x:Name="itemScrollViewer"
+                                      Style="{StaticResource ScrollViewerStyle}"
                                       Grid.Column="0"
                                       Grid.Row="3"
                                       HorizontalScrollBarVisibility="Visible"

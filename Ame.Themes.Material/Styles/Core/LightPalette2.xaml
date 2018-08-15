@@ -47,11 +47,11 @@
                      Color="{StaticResource BaseDarkTextColor}" />
 
     <!-- ############################### Primary ############################### -->
-    <Color x:Key="PrimaryLightColor">#718792</Color>
+    <Color x:Key="PrimaryLightColor">#8695ac</Color>
     <Color x:Key="PrimaryLightTextColor">#ffffff</Color>
-    <Color x:Key="PrimaryMidColor">#455a64</Color>
+    <Color x:Key="PrimaryMidColor">#414f63</Color>
     <Color x:Key="PrimaryMidTextColor">#ffffff</Color>
-    <Color x:Key="PrimaryDarkColor">#1c313a</Color>
+    <Color x:Key="PrimaryDarkColor">#0d1116</Color>
     <Color x:Key="PrimaryDarkTextColor">#ffffff</Color>
     <SolidColorBrush x:Key="PrimaryLightBrush"
                      Color="{StaticResource PrimaryLightColor}" />
@@ -67,11 +67,11 @@
                      Color="{StaticResource PrimaryDarkTextColor}" />
 
     <!-- ############################### Secondary ############################### -->
-    <Color x:Key="SecondaryLightColor">#ff77a9</Color>
+    <Color x:Key="SecondaryLightColor">#ff8e9b</Color>
     <Color x:Key="SecondaryLightTextColor">#ffffff</Color>
-    <Color x:Key="SecondaryMidColor">#ec407a</Color>
+    <Color x:Key="SecondaryMidColor">#f06373</Color>
     <Color x:Key="SecondaryMidTextColor">#ffffff</Color>
-    <Color x:Key="SecondaryDarkColor">##b4004e</Color>
+    <Color x:Key="SecondaryDarkColor">#ab000d</Color>
     <Color x:Key="SecondaryDarkTextColor">#ffffff</Color>
     <SolidColorBrush x:Key="SecondaryLightBrush"
                      Color="{StaticResource SecondaryLightColor}" />

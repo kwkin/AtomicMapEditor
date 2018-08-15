@@ -14,6 +14,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/ScrollBar.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Ame.Modules.MapEditor;component/Editor/MapEditorContextMenu.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <conv:MouseEventToPointConverter x:Key="MouseEventToPointConverter" />
@@ -30,6 +31,7 @@
         </Grid.RowDefinitions>
 
         <extcomp:ExtendedScrollViewer x:Name="itemScrollViewer"
+                                      Style="{StaticResource ScrollViewerStyle}"
                                       HorizontalScrollBarVisibility="Visible"
                                       VerticalScrollBarVisibility="Visible"
                                       ZoomIndex="{Binding ZoomIndex}"

@@ -15,6 +15,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/ScrollBar.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/Button.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Ame.Modules.Windows;component/Docks/SelectedBrushDock/SelectedBrushContextMenu.xaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -46,6 +47,7 @@
         <Separator Grid.Row="1" />
 
         <extcomp:ExtendedScrollViewer x:Name="itemScrollViewer"
+                                      Style="{StaticResource ScrollViewerStyle}"
                                       Grid.Row="2"
                                       Grid.Column="0"
                                       HorizontalScrollBarVisibility="Visible"

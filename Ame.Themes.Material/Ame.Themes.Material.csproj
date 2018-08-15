@@ -168,6 +168,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Styles\Core\LightPalette2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Styles\Core\PurplePalette.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -462,6 +462,10 @@
                                                 ContentTemplate="{TemplateBinding ContentTemplate}"
                                                 Margin="{TemplateBinding Padding}">
                         </ScrollContentPresenter>
+                        <Border Grid.Column="1"
+                                Grid.Row="1"
+                                Background="{DynamicResource TransparentBrush}">
+                        </Border>
                         <ScrollBar x:Name="PART_VerticalScrollBar"
                                    Width="12"
                                    Grid.Row="0"
