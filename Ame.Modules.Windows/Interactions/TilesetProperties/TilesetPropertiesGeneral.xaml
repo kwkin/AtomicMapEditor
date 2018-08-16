@@ -74,32 +74,40 @@
                VerticalAlignment="Center"
                Margin="0 0 5 10">
         </Label>
-        <TextBox x:Name="sourceTextBox"
-                 Grid.Row="1"
-                 Grid.Column="1"
-                 Grid.ColumnSpan="2"
-                 VerticalAlignment="Center"
-                 Text="{Binding SourcePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                 actions:InputBindingsManager.UpdatePropertySourceWhenEnterPressed="TextBox.Text"
-                 Margin="0 0 0 10">
-        </TextBox>
-        <Button x:Name="sourceButton"
-                Style="{DynamicResource SecondaryMidRaisedButtonStyle}"
-                Content="Browse..."
-                Grid.Row="1"
-                Grid.Column="3"
-                MinHeight="24"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Center"
-                Command="{Binding BrowseSourceCommand}"
-                Margin="0 0 0 10">
-        </Button>
+        <Grid Grid.Row="1"
+              Grid.Column="1"
+              Grid.ColumnSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="sourceTextBox"
+                     Grid.Row="0"
+                     Grid.Column="0"
+                     Grid.ColumnSpan="1"
+                     VerticalAlignment="Center"
+                     Text="{Binding SourcePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     actions:InputBindingsManager.UpdatePropertySourceWhenEnterPressed="TextBox.Text"
+                     Margin="0 0 0 10">
+            </TextBox>
+            <Button x:Name="sourceButton"
+                    Style="{DynamicResource SecondaryMidRaisedButtonStyle}"
+                    Content="Browse..."
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    MinHeight="24"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    Command="{Binding BrowseSourceCommand}"
+                    Margin="0 0 0 10">
+            </Button>
+        </Grid>
 
         <Label x:Name="UseTransparencyLabel"
                Content="Use Transparency"
                Grid.Row="2"
                Grid.Column="1"
-               Grid.ColumnSpan="3"
+               Grid.ColumnSpan="2"
                HorizontalAlignment="Left"
                VerticalAlignment="Center"
                IsEnabled="{Binding IsSourceLoaded}"
@@ -109,7 +117,6 @@
                       Style="{StaticResource SecondaryMidToggleSwitchStyle}"
                       Grid.Row="2"
                       Grid.Column="3"
-                      Grid.ColumnSpan="2"
                       HorizontalAlignment="Right"
                       VerticalAlignment="Center"
                       IsEnabled="{Binding IsSourceLoaded}"

@@ -126,8 +126,8 @@
               Visibility="{Binding IsChecked, ElementName=itemAdvancedOptionsToggle, Converter={StaticResource BoolToVisConverter}}">
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="210"
-                               MaxHeight="210" />
+                <RowDefinition Height="195"
+                               MaxHeight="195" />
                 <RowDefinition />
             </Grid.RowDefinitions>
 
@@ -144,7 +144,7 @@
                           HorizontalAlignment="Stretch"
                           Height="5"
                           Grid.Row="1"
-                          ResizeBehavior="CurrentAndNext">
+                          ResizeBehavior="PreviousAndCurrent">
             </GridSplitter>
         </Grid>
 

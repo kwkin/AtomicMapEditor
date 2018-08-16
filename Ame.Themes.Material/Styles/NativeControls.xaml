@@ -22,6 +22,7 @@
         <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/Menu.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/ProgressBar.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/TreeView.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/DataGrid.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <!-- ############################### Core Styles ############################### -->
@@ -73,4 +74,15 @@
            TargetType="{x:Type TreeViewItem}" />
     <Style BasedOn="{StaticResource TreeViewStyle}"
            TargetType="{x:Type TreeView}" />
+    
+    <Style BasedOn="{StaticResource DataGridStyle}"
+           TargetType="{x:Type DataGrid}" />
+    <Style BasedOn="{StaticResource DataGridRowStyle}"
+           TargetType="{x:Type DataGridRow}" />
+    <Style BasedOn="{StaticResource DataGridRowHeaderStyle}"
+           TargetType="{x:Type DataGridRowHeader}" />
+    <Style BasedOn="{StaticResource DataGridColumnHeaderStyle}"
+           TargetType="{x:Type DataGridColumnHeader}" />
+    <Style BasedOn="{StaticResource DataGridCellStyle}"
+           TargetType="{x:Type DataGridCell}" />
 </ResourceDictionary>

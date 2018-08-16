@@ -72,6 +72,7 @@
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="UILogic\BrushAnimation.cs" />
     <Compile Include="UILogic\ColorPickerAvailableColors.cs" />
+    <Compile Include="UILogic\DataGridAssist.cs" />
     <Compile Include="UILogic\DropShadowAnimation.cs" />
     <Compile Include="UILogic\FillAssist.cs" />
   </ItemGroup>
@@ -89,6 +90,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Styles\Controls\ExtendedToolkit\NumericUpDown.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\Controls\Native\DataGrid.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
