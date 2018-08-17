@@ -737,7 +737,10 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
                 }
             }
             transformedPosition = GeometryUtils.CreateIntPoint(transformedPosition);
-            this.PositionText = (transformedPosition.X + ", " + transformedPosition.Y);
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                this.PositionText = (transformedPosition.X + ", " + transformedPosition.Y);
+            }), DispatcherPriority.Render);
             updatePositionLabelStopWatch.Restart();
         }
 

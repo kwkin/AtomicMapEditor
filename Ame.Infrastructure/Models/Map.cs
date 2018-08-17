@@ -202,6 +202,10 @@ namespace Ame.Infrastructure.Models
             {
                 return this.Grid.PixelWidth;
             }
+            set
+            {
+                this.Grid.PixelWidth = value;
+            }
         }
 
         [MetadataProperty(MetadataType.Property, "Pixel Height")]
@@ -210,6 +214,10 @@ namespace Ame.Infrastructure.Models
             get
             {
                 return this.Grid.PixelHeight;
+            }
+            set
+            {
+                this.Grid.PixelHeight = value;
             }
         }
 
@@ -238,6 +246,19 @@ namespace Ame.Infrastructure.Models
             get
             {
                 return this.LayerList.Count;
+            }
+        }
+
+        public Size PixelSize
+        {
+            get
+            {
+                return new Size(this.PixelWidth, this.PixelHeight);
+            }
+            set
+            {
+                this.PixelWidth = (int)value.Width;
+                this.PixelHeight = (int)value.Height;
             }
         }
 

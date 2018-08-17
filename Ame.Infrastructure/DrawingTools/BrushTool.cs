@@ -82,6 +82,16 @@ namespace Ame.Infrastructure.DrawingTools
             //map.Draw(action);
         }
 
+        public void DrawHoverSample(DrawingGroup drawingArea, Point pixelPosition, Rect boundaries)
+        {
+            return;
+        }
+
+        public bool HasHoverSample()
+        {
+            return false;
+        }
+
         #endregion methods
     }
 }

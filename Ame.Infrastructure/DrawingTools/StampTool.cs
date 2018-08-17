@@ -79,6 +79,35 @@ namespace Ame.Infrastructure.DrawingTools
             map.Draw(action);
         }
 
+        public void DrawHoverSample(DrawingGroup drawingArea, Point pixelPosition, Rect boundaries)
+        {
+            using (DrawingContext context = drawingArea.Open())
+            {
+                foreach (ImageDrawing drawing in this.Brush.Tiles)
+                {
+                    ImageDrawing adjustedDrawing = new ImageDrawing();
+                    adjustedDrawing.ImageSource = drawing.ImageSource;
+                    Point adjustedPoint = new Point(pixelPosition.X + drawing.Rect.X, pixelPosition.Y + drawing.Rect.Y);
+                    Rect adjustedRect = new Rect(adjustedPoint, this.Brush.TileSize);
+                    adjustedDrawing.Rect = adjustedRect;
+
+                    if (adjustedDrawing.Bounds.X < boundaries.X
+                        || adjustedDrawing.Bounds.Y < boundaries.Y
+                        || adjustedDrawing.Bounds.X >= boundaries.Width
+                        || adjustedDrawing.Bounds.Y >= boundaries.Height)
+                    {
+                        continue;
+                    }
+                    context.DrawDrawing(adjustedDrawing);
+                }
+            }
+        }
+
+        public bool HasHoverSample()
+        {
+            return true;
+        }
+
         #endregion methods
     }
 }

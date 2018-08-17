@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using Ame.Infrastructure.Models;
 
 namespace Ame.Infrastructure.DrawingTools
@@ -53,6 +54,16 @@ namespace Ame.Infrastructure.DrawingTools
         public void CopySelected()
         {
             throw new NotImplementedException();
+        }
+
+        public void DrawHoverSample(DrawingGroup drawingArea, Point pixelPosition, Rect boundaries)
+        {
+            return;
+        }
+
+        public bool HasHoverSample()
+        {
+            return false;
         }
 
         #endregion methods
