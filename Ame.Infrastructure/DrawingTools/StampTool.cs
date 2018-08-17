@@ -81,6 +81,10 @@ namespace Ame.Infrastructure.DrawingTools
 
         public void DrawHoverSample(DrawingGroup drawingArea, Point pixelPosition, Rect boundaries)
         {
+            if (this.IsErasing)
+            {
+                return;
+            }
             using (DrawingContext context = drawingArea.Open())
             {
                 foreach (ImageDrawing drawing in this.Brush.Tiles)

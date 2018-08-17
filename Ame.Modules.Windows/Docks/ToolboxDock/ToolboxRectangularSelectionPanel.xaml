@@ -9,6 +9,14 @@
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/Button.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
     <Grid MinHeight="105"
           MaxHeight="105"
           VerticalAlignment="Top">
@@ -29,26 +37,30 @@
         <WrapPanel Grid.Row="0"
                    Grid.Column="0"
                    Grid.ColumnSpan="6">
-            <extcomp:IconButton x:Name="snapToGridButton"
-                                ToolTip="Snap to Grid: Snaps the tile to the grid"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_grid_black_24dp.png"
-                                ImageStretch="None">
-            </extcomp:IconButton>
-            <extcomp:IconButton x:Name="editAllLayersButton"
-                                ToolTip="Edit All Layers: Affect all visible layers"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_layers_black_24dp.png"
-                                ImageStretch="None">
-            </extcomp:IconButton>
-            <extcomp:IconButton x:Name="expandFromCenterButton"
-                                ToolTip="Expand from Center: Expands the selection from the clicked point"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_arrow_expand_all_black_24dp.png"
-                                ImageStretch="None">
-            </extcomp:IconButton>
-            <extcomp:IconButton x:Name="iterateButton"
-                                ToolTip="Iterate: Continue Selection"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_play_black_24dp.png"
-                                ImageStretch="None">
-            </extcomp:IconButton>
+            <Button x:Name="snapToGridButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    ToolTip="Snap to Grid: Snaps the tile to the grid">
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_grid_black_24dp.png"
+                       Stretch="None" />
+            </Button>
+            <Button x:Name="editAllLayersButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    ToolTip="Edit All Layers: Affect all visible layers">
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_layers_black_24dp.png"
+                       Stretch="None" />
+            </Button>
+            <Button x:Name="expandFromCenterButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    ToolTip="Expand from Center: Expands the selection from the clicked point">
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_arrow_expand_all_black_24dp.png"
+                       Stretch="None" />
+            </Button>
+            <Button x:Name="iterateButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    ToolTip="Iterate: Continue Selection">
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_play_black_24dp.png"
+                       Stretch="None" />
+            </Button>
         </WrapPanel>
 
         <Label x:Name="sizeLabel"

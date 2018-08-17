@@ -7,6 +7,14 @@
              xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=Ame.Components"
              xmlns:Behaviors="clr-namespace:Ame.Components.Behaviors;assembly=Ame.Components"
              mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Controls/Native/Button.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
     <Grid x:Name="propertiesGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -14,34 +22,38 @@
         </Grid.RowDefinitions>
 
         <WrapPanel Grid.Row="0">
-            <extcomp:IconButton x:Name="addPropertyButton"
-                                ToolTip="Add Property: Add a custom property."
-                                Command="{Binding AddCustomMetaDataCommand}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
-                                ImageStretch="None">
-            </extcomp:IconButton>
+            <Button x:Name="addPropertyButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    ToolTip="Add Property: Add a custom property."
+                    Command="{Binding AddCustomMetaDataCommand}">
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                       Stretch="None" />
+            </Button>
 
-            <extcomp:IconButton x:Name="moveUpButton"
-                                ToolTip="Merge Up: Moves the property up in the list."
-                                Command="{Binding MoveMetadataUpCommand}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_arrow_up_black_24dp.png"
-                                ImageStretch="None">
-            </extcomp:IconButton>
+            <Button x:Name="moveUpButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    ToolTip="Merge Up: Moves the property up in the list."
+                    Command="{Binding MoveMetadataUpCommand}">
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_arrow_up_black_24dp.png"
+                       Stretch="None" />
+            </Button>
 
-            <extcomp:IconButton x:Name="moveDownButton"
-                                ToolTip="Move Down: Moves the property down in the list."
-                                Command="{Binding MoveMetadataDownCommand}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_arrow_down_black_24dp.png"
-                                ImageStretch="None">
-            </extcomp:IconButton>
+            <Button x:Name="moveDownButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    ToolTip="Move Down: Moves the property down in the list."
+                    Command="{Binding MoveMetadataDownCommand}">
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_arrow_down_black_24dp.png"
+                       Stretch="None" />
+            </Button>
 
-            <extcomp:IconButton x:Name="deleteButton"
-                                ToolTip="Delete: Deletes the selected custom property."
-                                Command="{Binding RemoveCustomMetadataCommand}"
-                                IsEnabled="{Binding IsCustomSelected}"
-                                ImageSource="pack://application:,,,/Ame.Resources;component/Icons/ic_delete_black_24dp.png"
-                                ImageStretch="None">
-            </extcomp:IconButton>
+            <Button x:Name="deleteButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    ToolTip="Delete: Deletes the selected custom property."
+                    Command="{Binding RemoveCustomMetadataCommand}"
+                    IsEnabled="{Binding IsCustomSelected}">
+                <Image Source="pack://application:,,,/Ame.Resources;component/Icons/ic_add_circle_black_24dp.png"
+                       Stretch="None" />
+            </Button>
         </WrapPanel>
 
         <DataGrid Grid.Row="1"
