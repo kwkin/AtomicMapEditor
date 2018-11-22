@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Text;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
+using Ame.Infrastructure.Utils;
 using Ame.Modules.Windows.Docks.ClipboardDock;
 using Ame.Modules.Windows.Docks.ItemEditorDock;
 using Ame.Modules.Windows.Docks.ItemListDock;
@@ -16,9 +19,12 @@ using Ame.Modules.Windows.Docks.SessionViewerDock;
 using Ame.Modules.Windows.Docks.ToolboxDock;
 using Ame.Modules.Windows.Interactions.LayerProperties;
 using Ame.Modules.Windows.Interactions.MapProperties;
+using Ame.Modules.Windows.Interactions.Popup;
 using Ame.Modules.Windows.Interactions.Preferences;
+using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Events;
+using Prism.Interactivity.InteractionRequest;
 using Prism.Mvvm;
 
 namespace Ame.Modules.Menu.Options
@@ -316,6 +322,8 @@ namespace Ame.Modules.Menu.Options
             {
                 TestAddClosedDocks();
             });
+
+            this.ConfirmationRequest = new InteractionRequest<IConfirmation>();
         }
 
         #endregion constructor
@@ -412,6 +420,8 @@ namespace Ame.Modules.Menu.Options
 
         public ICommand TestAddClosedDocksCommand { get; private set; }
 
+        public InteractionRequest<IConfirmation> ConfirmationRequest { get; set; }
+
         #endregion properties
 
 
@@ -446,7 +456,43 @@ namespace Ame.Modules.Menu.Options
 
         public void ExportAsFile()
         {
-            Console.WriteLine("Export As");
+            OpenFileDialog exportMapDialog = new OpenFileDialog();
+            exportMapDialog.Title = "Export Map";
+            exportMapDialog.Filter = ExportMapExtension.GetOpenFileExportMapExtensions();
+            if (exportMapDialog.ShowDialog() == true)
+            {
+                string tileFilePath = exportMapDialog.FileName;
+                if (File.Exists(tileFilePath))
+                {
+                    StringBuilder overwriteMessage = new StringBuilder("The file ");
+                    overwriteMessage.Append(exportMapDialog.SafeFileName);
+                    overwriteMessage.AppendLine(" already exists.");
+                    overwriteMessage.Append("Do you want to overwrite the file?");
+
+                    ConfirmationWindow confirmationPopup = new ConfirmationWindow();
+                    PopupInteraction interaction = new PopupInteraction(confirmationPopup, OnDialogClosed);
+                    interaction.Title = "Overwrite";
+                    interaction.Message = overwriteMessage.ToString();
+                    this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
+                }
+                else
+                {
+                }
+            }
+        }
+
+
+        private void OnDialogClosed(INotification confirmation)
+        {
+            Confirmation confirm = confirmation as Confirmation;
+            if (confirm.Confirmed)
+            {
+                Console.WriteLine("Export...");
+            }
+            else
+            {
+
+            }
         }
 
         public void ImportFile()
@@ -563,38 +609,38 @@ namespace Ame.Modules.Menu.Options
 
         public void NewGroup()
         {
-            NotificationMessage<Notification> newLayerGroupMessage = new NotificationMessage<Notification>(Notification.NewLayerGroup, "LayerGroup");
-            this.eventAggregator.GetEvent<NotificationEvent<Notification>>().Publish(newLayerGroupMessage);
+            NotificationMessage<LayerNotification> newLayerGroupMessage = new NotificationMessage<LayerNotification>(LayerNotification.NewLayerGroup, "LayerGroup");
+            this.eventAggregator.GetEvent<NotificationEvent<LayerNotification>>().Publish(newLayerGroupMessage);
         }
 
         public void DuplicateLayer()
         {
-            NotificationMessage<Notification> message = new NotificationMessage<Notification>(Notification.DuplicateCurrentLayer);
-            this.eventAggregator.GetEvent<NotificationEvent<Notification>>().Publish(message);
+            NotificationMessage<LayerNotification> message = new NotificationMessage<LayerNotification>(LayerNotification.DuplicateCurrentLayer);
+            this.eventAggregator.GetEvent<NotificationEvent<LayerNotification>>().Publish(message);
         }
 
         public void MergeLayerDown()
         {
-            NotificationMessage<Notification> message = new NotificationMessage<Notification>(Notification.MergeCurrentLayerDown);
-            this.eventAggregator.GetEvent<NotificationEvent<Notification>>().Publish(message);
+            NotificationMessage<LayerNotification> message = new NotificationMessage<LayerNotification>(LayerNotification.MergeCurrentLayerDown);
+            this.eventAggregator.GetEvent<NotificationEvent<LayerNotification>>().Publish(message);
         }
 
         public void MergeLayerUp()
         {
-            NotificationMessage<Notification> message = new NotificationMessage<Notification>(Notification.MergeCurrentLayerDown);
-            this.eventAggregator.GetEvent<NotificationEvent<Notification>>().Publish(message);
+            NotificationMessage<LayerNotification> message = new NotificationMessage<LayerNotification>(LayerNotification.MergeCurrentLayerDown);
+            this.eventAggregator.GetEvent<NotificationEvent<LayerNotification>>().Publish(message);
         }
 
         public void MergeVisible()
         {
-            NotificationMessage<Notification> message = new NotificationMessage<Notification>(Notification.MergeVisibleLayers);
-            this.eventAggregator.GetEvent<NotificationEvent<Notification>>().Publish(message);
+            NotificationMessage<LayerNotification> message = new NotificationMessage<LayerNotification>(LayerNotification.MergeVisibleLayers);
+            this.eventAggregator.GetEvent<NotificationEvent<LayerNotification>>().Publish(message);
         }
 
         public void DeleteLayer()
         {
-            NotificationMessage<Notification> message = new NotificationMessage<Notification>(Notification.DeleteCurrentLayer);
-            this.eventAggregator.GetEvent<NotificationEvent<Notification>>().Publish(message);
+            NotificationMessage<LayerNotification> message = new NotificationMessage<LayerNotification>(LayerNotification.DeleteCurrentLayer);
+            this.eventAggregator.GetEvent<NotificationEvent<LayerNotification>>().Publish(message);
         }
 
         public void EditLayerProperties()

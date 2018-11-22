@@ -35,7 +35,7 @@ namespace Ame.Modules.Windows
             this.eventAggregator = eventAggregator;
             this.session = session;
             
-            this.eventAggregator.GetEvent<NotificationEvent<Notification>>().Subscribe(
+            this.eventAggregator.GetEvent<NotificationEvent<LayerNotification>>().Subscribe(
                 NotificationReceived,
                 ThreadOption.PublisherThread);
         }
@@ -50,32 +50,32 @@ namespace Ame.Modules.Windows
 
         #region methods
 
-        private void NotificationReceived(NotificationMessage<Notification> notification)
+        private void NotificationReceived(NotificationMessage<LayerNotification> notification)
         {
             Map currentMap = this.session.CurrentMap;
             switch (notification.Content)
             {
-                case Notification.MergeCurrentLayerDown:
+                case LayerNotification.MergeCurrentLayerDown:
                     currentMap.MergeCurrentLayerDown();
                     break;
 
-                case Notification.MergeCurrentLayerUp:
+                case LayerNotification.MergeCurrentLayerUp:
                     currentMap.MergeCurrentLayerUp();
                     break;
 
-                case Notification.MergeVisibleLayers:
+                case LayerNotification.MergeVisibleLayers:
                     currentMap.MergeVisibleLayers();
                     break;
 
-                case Notification.DeleteCurrentLayer:
+                case LayerNotification.DeleteCurrentLayer:
                     currentMap.DeleteCurrentLayer();
                     break;
 
-                case Notification.DuplicateCurrentLayer:
+                case LayerNotification.DuplicateCurrentLayer:
                     currentMap.DuplicateCurrentLayer();
                     break;
 
-                case Notification.NewLayerGroup:
+                case LayerNotification.NewLayerGroup:
                     currentMap.NewLayerGroup();
                     break;
 

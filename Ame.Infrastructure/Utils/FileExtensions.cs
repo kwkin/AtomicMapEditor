@@ -29,6 +29,14 @@ namespace Ame.Infrastructure.Utils
     }
 
 
+    public enum ExportMapExtensions
+    {
+        PNG = OpenFileExtensions.PNG,
+        JPEG = OpenFileExtensions.JPEG,
+        TIFF = OpenFileExtensions.TIFF
+    }
+
+
     public static class ImageExtension
     {
         #region methods
@@ -45,7 +53,26 @@ namespace Ame.Infrastructure.Utils
 
             return openFileFormatBuilder.ToString();
         }
+        #endregion methods
+    }
 
+
+    public static class ExportMapExtension
+    {
+        #region methods
+
+        public static string GetOpenFileExportMapExtensions()
+        {
+            StringBuilder openFileFormatBuilder = new StringBuilder();
+            foreach (OpenFileExtensions extension in Enum.GetValues(typeof(ImageExtensions)))
+            {
+                openFileFormatBuilder.Append(extension.GetOpenFileFormat());
+                openFileFormatBuilder.Append("|");
+            }
+            openFileFormatBuilder.Append("All Files (*.*)|*.*");
+
+            return openFileFormatBuilder.ToString();
+        }
         #endregion methods
     }
 

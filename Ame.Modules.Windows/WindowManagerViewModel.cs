@@ -279,7 +279,7 @@ namespace Ame.Modules.Windows
                 this.Documents.Remove(message.Dock as EditorViewModelTemplate);
             }
         }
-
+        
         private void OpenWindow(IWindowInteraction interaction)
         {
             string title = interaction.Title;

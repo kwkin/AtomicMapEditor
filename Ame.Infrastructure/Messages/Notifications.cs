@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ame.Infrastructure.Messages
 {
-    public enum Notification
+    public enum LayerNotification
     {
         MergeCurrentLayerDown,
         MergeCurrentLayerUp,
