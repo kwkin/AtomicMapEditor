@@ -389,8 +389,12 @@ namespace Ame.Modules.MapEditor.Editor
             this.eventAggregator.GetEvent<CloseDockEvent>().Publish(closeMessage);
         }
 
-        public override void ExportAs(string path)
+        public override void ExportAs(string path, BitmapEncoder encoder)
         {
+            if (encoder == null)
+            {
+                return;
+            }
             // Remove the hover sample
             this.HoverSampleOpacity = 0;
 
@@ -402,9 +406,6 @@ namespace Ame.Modules.MapEditor.Editor
 
             var bitmap = new RenderTargetBitmap((int)width, (int)height, 96, 96, PixelFormats.Pbgra32);
             bitmap.Render(drawingImage);
-
-            // TODO add other encoder types
-            var encoder = new PngBitmapEncoder();
             encoder.Frames.Add(BitmapFrame.Create(bitmap));
 
             using (var stream = new FileStream(path, FileMode.Create))

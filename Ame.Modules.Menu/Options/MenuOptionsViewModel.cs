@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
@@ -38,6 +39,7 @@ namespace Ame.Modules.Menu.Options
         private ObservableCollection<MenuItem> recentFileItems = new ObservableCollection<MenuItem>();
 
         private string fileName;
+        private string fileType;
 
         #endregion fields
 
@@ -464,6 +466,7 @@ namespace Ame.Modules.Menu.Options
             if (exportMapDialog.ShowDialog() == true)
             {
                 this.fileName = exportMapDialog.FileName;
+                this.fileType = exportMapDialog.Filter;
                 if (File.Exists(this.fileName))
                 {
                     StringBuilder overwriteMessage = new StringBuilder("The file ");
@@ -479,7 +482,7 @@ namespace Ame.Modules.Menu.Options
                 }
                 else
                 {
-                    ExportAs(this.fileName);
+                    ExportAs(this.fileName, this.fileType);
                 }
             }
         }
@@ -831,19 +834,21 @@ namespace Ame.Modules.Menu.Options
             RecentlyClosedDockItems.Add(closedDock1);
             RecentlyClosedDockItems.Add(closedDock2);
         }
-        
+
         private void OnExportOverrideClosed(INotification confirmation)
         {
             Confirmation confirm = confirmation as Confirmation;
             if (confirm.Confirmed)
             {
-                ExportAs(this.fileName);
+                ExportAs(this.fileName, this.fileType);
             }
         }
 
-        private void ExportAs(string path)
+        private void ExportAs(string path, string type)
         {
             StateMessage message = new StateMessage(path);
+            BitmapEncoder encoder = ExportMapExtension.getEncoder(type);
+            message.Encoder = encoder;
             NotificationMessage<StateMessage> notification = new NotificationMessage<StateMessage>(message);
             this.eventAggregator.GetEvent<NotificationEvent<StateMessage>>().Publish(notification);
         }

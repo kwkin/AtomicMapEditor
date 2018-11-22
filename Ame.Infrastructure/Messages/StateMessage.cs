@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace Ame.Infrastructure.Messages
 {
@@ -26,6 +27,7 @@ namespace Ame.Infrastructure.Messages
         #region Properties
 
         public string Path { get; set; }
+        public BitmapEncoder Encoder { get; set; }
 
         #endregion Properties
 

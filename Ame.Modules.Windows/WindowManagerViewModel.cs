@@ -370,7 +370,7 @@ namespace Ame.Modules.Windows
         private void ExportAs(NotificationMessage<StateMessage> message)
         {
             StateMessage content = message.Content;
-            this.ActiveDocument.ExportAs(content.Path);
+            this.ActiveDocument.ExportAs(content.Path, content.Encoder);
         }
 
         #endregion methods

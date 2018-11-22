@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 using Ame.Infrastructure.Attributes;
+using System.Windows.Media.Imaging;
 
 namespace Ame.Infrastructure.Utils
 {
@@ -64,7 +65,7 @@ namespace Ame.Infrastructure.Utils
         public static string GetOpenFileExportMapExtensions()
         {
             StringBuilder openFileFormatBuilder = new StringBuilder();
-            foreach (OpenFileExtensions extension in Enum.GetValues(typeof(ImageExtensions)))
+            foreach (OpenFileExtensions extension in Enum.GetValues(typeof(ExportMapExtensions)))
             {
                 openFileFormatBuilder.Append(extension.GetOpenFileFormat());
                 openFileFormatBuilder.Append("|");
@@ -73,6 +74,28 @@ namespace Ame.Infrastructure.Utils
 
             return openFileFormatBuilder.ToString();
         }
+
+        public static BitmapEncoder getEncoder(string type)
+        {
+            BitmapEncoder encoder;
+            switch (type)
+            {
+                case "PNG":
+                    encoder = new PngBitmapEncoder();
+                    break;
+                case "JPEG":
+                    encoder = new JpegBitmapEncoder();
+                    break;
+                case "TIFF":
+                    encoder = new TiffBitmapEncoder();
+                    break;
+                default:
+                    encoder = new PngBitmapEncoder();
+                    break;
+            }
+            return encoder;
+        }
+
         #endregion methods
     }
 

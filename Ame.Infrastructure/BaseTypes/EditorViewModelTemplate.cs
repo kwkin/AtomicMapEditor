@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Models;
 
@@ -32,7 +33,7 @@ namespace Ame.Infrastructure.BaseTypes
         public abstract void SetZoom(int zoomIndex);
         public abstract void SetZoom(ZoomLevel zoomLevel);
         public abstract object GetContent();
-        public abstract void ExportAs(string path);
+        public abstract void ExportAs(string path, BitmapEncoder encoder);
 
         #endregion methods
     }
