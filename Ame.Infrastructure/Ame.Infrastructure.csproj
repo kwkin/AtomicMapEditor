@@ -124,6 +124,7 @@
     <Compile Include="Messages\CloseDockMessage.cs" />
     <Compile Include="DrawingTools\BrushAction.cs" />
     <Compile Include="DrawingTools\BrushTool.cs" />
+    <Compile Include="Messages\StateMessage.cs" />
     <Compile Include="Models\IItem.cs" />
     <Compile Include="Models\GridModel.cs" />
     <Compile Include="BaseTypes\DockCreatorTemplate.cs" />

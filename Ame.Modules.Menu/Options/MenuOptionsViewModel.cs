@@ -37,6 +37,8 @@ namespace Ame.Modules.Menu.Options
         private ObservableCollection<MenuItem> recentlyClosedDockItems = new ObservableCollection<MenuItem>();
         private ObservableCollection<MenuItem> recentFileItems = new ObservableCollection<MenuItem>();
 
+        private string fileName;
+
         #endregion fields
 
 
@@ -456,13 +458,13 @@ namespace Ame.Modules.Menu.Options
 
         public void ExportAsFile()
         {
-            OpenFileDialog exportMapDialog = new OpenFileDialog();
+            SaveFileDialog exportMapDialog = new SaveFileDialog();
             exportMapDialog.Title = "Export Map";
             exportMapDialog.Filter = ExportMapExtension.GetOpenFileExportMapExtensions();
             if (exportMapDialog.ShowDialog() == true)
             {
-                string tileFilePath = exportMapDialog.FileName;
-                if (File.Exists(tileFilePath))
+                this.fileName = exportMapDialog.FileName;
+                if (File.Exists(this.fileName))
                 {
                     StringBuilder overwriteMessage = new StringBuilder("The file ");
                     overwriteMessage.Append(exportMapDialog.SafeFileName);
@@ -470,28 +472,15 @@ namespace Ame.Modules.Menu.Options
                     overwriteMessage.Append("Do you want to overwrite the file?");
 
                     ConfirmationWindow confirmationPopup = new ConfirmationWindow();
-                    PopupInteraction interaction = new PopupInteraction(confirmationPopup, OnDialogClosed);
+                    PopupInteraction interaction = new PopupInteraction(confirmationPopup, OnExportOverrideClosed);
                     interaction.Title = "Overwrite";
                     interaction.Message = overwriteMessage.ToString();
                     this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
                 }
                 else
                 {
+                    ExportAs(this.fileName);
                 }
-            }
-        }
-
-
-        private void OnDialogClosed(INotification confirmation)
-        {
-            Confirmation confirm = confirmation as Confirmation;
-            if (confirm.Confirmed)
-            {
-                Console.WriteLine("Export...");
-            }
-            else
-            {
-
             }
         }
 
@@ -841,6 +830,22 @@ namespace Ame.Modules.Menu.Options
 
             RecentlyClosedDockItems.Add(closedDock1);
             RecentlyClosedDockItems.Add(closedDock2);
+        }
+        
+        private void OnExportOverrideClosed(INotification confirmation)
+        {
+            Confirmation confirm = confirmation as Confirmation;
+            if (confirm.Confirmed)
+            {
+                ExportAs(this.fileName);
+            }
+        }
+
+        private void ExportAs(string path)
+        {
+            StateMessage message = new StateMessage(path);
+            NotificationMessage<StateMessage> notification = new NotificationMessage<StateMessage>(message);
+            this.eventAggregator.GetEvent<NotificationEvent<StateMessage>>().Publish(notification);
         }
 
         #endregion methods

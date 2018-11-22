@@ -32,6 +32,7 @@ namespace Ame.Infrastructure.BaseTypes
         public abstract void SetZoom(int zoomIndex);
         public abstract void SetZoom(ZoomLevel zoomLevel);
         public abstract object GetContent();
+        public abstract void ExportAs(string path);
 
         #endregion methods
     }

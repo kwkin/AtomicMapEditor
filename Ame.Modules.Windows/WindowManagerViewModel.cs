@@ -31,7 +31,6 @@ using Prism.Mvvm;
 
 namespace Ame.Modules.Windows
 {
-    // TODO Set current dock to newly created dock
     public class WindowManagerViewModel : BindableBase, ILayoutViewModel
     {
         #region fields
@@ -126,9 +125,13 @@ namespace Ame.Modules.Windows
             {
                 ViewNotificationReceived(messge);
             }, ThreadOption.PublisherThread);
-            this.eventAggregator.GetEvent<NotificationEvent<ZoomLevel>>().Subscribe((messge) =>
+            this.eventAggregator.GetEvent<NotificationEvent<ZoomLevel>>().Subscribe((message) =>
             {
-                SetZoomLevel(messge);
+                SetZoomLevel(message);
+            }, ThreadOption.PublisherThread);
+            this.eventAggregator.GetEvent<NotificationEvent<StateMessage>>().Subscribe((message) =>
+            {
+                ExportAs(message);
             }, ThreadOption.PublisherThread);
         }
 
@@ -362,6 +365,12 @@ namespace Ame.Modules.Windows
         private void SetZoomLevel(NotificationMessage<ZoomLevel> notification)
         {
             this.ActiveDocument.SetZoom(notification.Content);
+        }
+
+        private void ExportAs(NotificationMessage<StateMessage> message)
+        {
+            StateMessage content = message.Content;
+            this.ActiveDocument.ExportAs(content.Path);
         }
 
         #endregion methods

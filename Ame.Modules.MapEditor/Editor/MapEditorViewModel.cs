@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Ame.Components.Behaviors;
 using Ame.Infrastructure.BaseTypes;
@@ -23,7 +25,9 @@ namespace Ame.Modules.MapEditor.Editor
     public class MapEditorViewModel : EditorViewModelTemplate
     {
         #region fields
-        
+
+        private const double hoverSampleOpacity = 0.7;
+
         private IEventAggregator eventAggregator;
         private AmeSession session;
         private IScrollModel scrollModel;
@@ -103,7 +107,7 @@ namespace Ame.Modules.MapEditor.Editor
             this.Scale = ScaleType.Tile;
             this.PositionText = "0, 0";
             this.updatePositionLabelStopWatch = Stopwatch.StartNew();
-            this.HoverSampleOpacity = 0.7;
+            this.HoverSampleOpacity = hoverSampleOpacity;
 
             this.ShowGridCommand = new DelegateCommand(() =>
             {
@@ -383,6 +387,31 @@ namespace Ame.Modules.MapEditor.Editor
         {
             CloseDockMessage closeMessage = new CloseDockMessage(this);
             this.eventAggregator.GetEvent<CloseDockEvent>().Publish(closeMessage);
+        }
+
+        public override void ExportAs(string path)
+        {
+            // Remove the hover sample
+            this.HoverSampleOpacity = 0;
+
+            // Export image as a png
+            var drawingImage = new System.Windows.Controls.Image { Source = this.DrawingCanvas };
+            var width = this.DrawingCanvas.Width;
+            var height = this.DrawingCanvas.Height;
+            drawingImage.Arrange(new Rect(0, 0, width, height));
+
+            var bitmap = new RenderTargetBitmap((int)width, (int)height, 96, 96, PixelFormats.Pbgra32);
+            bitmap.Render(drawingImage);
+
+            // TODO add other encoder types
+            var encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(bitmap));
+
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                encoder.Save(stream);
+            }
+            this.HoverSampleOpacity = hoverSampleOpacity;
         }
 
         private void Draw(Point point)

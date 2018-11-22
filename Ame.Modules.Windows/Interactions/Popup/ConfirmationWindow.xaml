@@ -55,14 +55,11 @@
                     Width="130"
                     IsCancel="True"
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
-
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
                         <ei:ChangePropertyAction PropertyName="Confirmed"
                                                  TargetObject="{Binding}"
                                                  Value="True" />
-                        <!--<ei:CallMethodAction TargetObject="{Binding ElementName=confirmationWindow}"
-                                             MethodName="FinishInteraction" />-->
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Button>
@@ -80,8 +77,6 @@
                         <ei:ChangePropertyAction PropertyName="Confirmed"
                                                  TargetObject="{Binding}"
                                                  Value="False" />
-                        <!--<ei:CallMethodAction TargetObject="{Binding ElementName=confirmationWindow}"
-                                             MethodName="FinishInteraction" />-->
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Button>

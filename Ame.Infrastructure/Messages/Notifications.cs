@@ -21,4 +21,9 @@ namespace Ame.Infrastructure.Messages
         ZoomInDocument,
         ZoomOutDocument,
     }
+
+    public enum StateNotification
+    {
+        ExportAs
+    }
 }
