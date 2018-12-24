@@ -121,9 +121,16 @@
     <Compile Include="Events\NewPaddedBrushEvent.cs" />
     <Compile Include="Events\UpdatePaddedBrushEvent.cs" />
     <Compile Include="Exceptions\InteractionConfigurationException.cs" />
+    <Compile Include="Files\MapXMLTags.cs" />
+    <Compile Include="Files\TilesetXMLTags.cs" />
+    <Compile Include="Files\TileXMLTags.cs" />
+    <Compile Include="Files\XMLExporter.cs" />
+    <Compile Include="Files\AmeXMLTags.cs" />
+    <Compile Include="Files\LayerXMLTags.cs" />
     <Compile Include="Messages\CloseDockMessage.cs" />
     <Compile Include="DrawingTools\BrushAction.cs" />
     <Compile Include="DrawingTools\BrushTool.cs" />
+    <Compile Include="Messages\SaveMessage.cs" />
     <Compile Include="Messages\StateMessage.cs" />
     <Compile Include="Models\IItem.cs" />
     <Compile Include="Models\GridModel.cs" />

@@ -90,7 +90,7 @@ namespace Ame.Modules.MapEditor.Editor
             this.drawingGroup = new DrawingGroup();
             this.mapBackground = new DrawingGroup();
             this.hoverSample = new DrawingGroup();
-            this.layerItems = this.Map.CurrentLayer.LayerGroup;
+            this.layerItems = this.Map.CurrentLayer.Group;
             this.gridLines = new DrawingGroup();
             this.drawingGroup.Children.Add(this.mapBackground);
             this.drawingGroup.Children.Add(this.layerItems);
@@ -99,7 +99,7 @@ namespace Ame.Modules.MapEditor.Editor
             this.DrawingCanvas = new DrawingImage(this.drawingGroup);
             RenderOptions.SetEdgeMode(this.hoverSample, EdgeMode.Aliased);
 
-            this.backgroundBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#b8e5ed"));
+            this.backgroundBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom(this.Map.BackgroundColor));
             this.backgroundPen = new Pen(Brushes.Transparent, 0);
             redrawBackground();
             this.ZoomLevels = this.scrollModel.ZoomLevels;
@@ -397,8 +397,6 @@ namespace Ame.Modules.MapEditor.Editor
             }
             // Remove the hover sample
             this.HoverSampleOpacity = 0;
-
-            // Export image as a png
             var drawingImage = new System.Windows.Controls.Image { Source = this.DrawingCanvas };
             var width = this.DrawingCanvas.Width;
             var height = this.DrawingCanvas.Height;

@@ -44,9 +44,9 @@ namespace Ame.Infrastructure.Models
                 for (int yIndex = 0; yIndex < this.TileHeight; ++yIndex)
                 {
                     Point position = new Point(xIndex * 32, yIndex * 32);
-                    Rect rect = new Rect(position, new Size(32, 32));
-                    ImageDrawing emptyTile = new ImageDrawing(new DrawingImage(), rect);
-                    this.CurrentLayer.LayerItems.Add(emptyTile);
+                    Tile emptyTile = Tile.emptyTile(position);
+                    this.CurrentLayer.LayerItems.Add(emptyTile.Image);
+                    this.CurrentLayer.TileIDs.Add(emptyTile);
                 }
             }
         }
@@ -72,9 +72,9 @@ namespace Ame.Infrastructure.Models
                 for (int yIndex = 0; yIndex < this.TileHeight; ++yIndex)
                 {
                     Point position = new Point(xIndex * 32, yIndex * 32);
-                    Rect rect = new Rect(position, new Size(32, 32));
-                    ImageDrawing emptyTile = new ImageDrawing(new DrawingImage(), rect);
-                    this.CurrentLayer.LayerItems.Add(emptyTile);
+                    Tile emptyTile = Tile.emptyTile(position);
+                    this.CurrentLayer.LayerItems.Add(emptyTile.Image);
+                    this.CurrentLayer.TileIDs.Add(emptyTile);
                 }
             }
         }
@@ -99,9 +99,9 @@ namespace Ame.Infrastructure.Models
                 for (int yIndex = 0; yIndex < this.TileHeight; ++yIndex)
                 {
                     Point position = new Point(xIndex * 32, yIndex * 32);
-                    Rect rect = new Rect(position, new Size(32, 32));
-                    ImageDrawing emptyTile = new ImageDrawing(new DrawingImage(), rect);
-                    this.CurrentLayer.LayerItems.Add(emptyTile);
+                    Tile emptyTile = Tile.emptyTile(position);
+                    this.CurrentLayer.LayerItems.Add(emptyTile.Image);
+                    this.CurrentLayer.TileIDs.Add(emptyTile);
                 }
             }
         }
@@ -232,7 +232,7 @@ namespace Ame.Infrastructure.Models
 
         public ObservableCollection<ILayer> LayerList { get; set; }
         public int SelectedLayerIndex { get; set; }
-
+        
         public Layer CurrentLayer
         {
             get
@@ -274,6 +274,8 @@ namespace Ame.Infrastructure.Models
 
         public Stack<DrawAction> UndoQueue { get; set; }
         public Stack<DrawAction> RedoQueue { get; set; }
+
+        public string BackgroundColor { get; set; } = "#b8e5ed";
 
         #endregion properties
 
@@ -362,10 +364,10 @@ namespace Ame.Infrastructure.Models
 
         private DrawAction applyAction(DrawAction action)
         {
-            Stack<ImageDrawing> previousTiles = new Stack<ImageDrawing>();
-            foreach (ImageDrawing tile in action.Tiles)
+            Stack<Tile> previousTiles = new Stack<Tile>();
+            foreach (Tile tile in action.Tiles)
             {
-                ImageDrawing previousTile = Draw(tile);
+                Tile previousTile = Draw(tile);
                 if (previousTile != null)
                 {
                     previousTiles.Push(previousTile);
@@ -375,7 +377,7 @@ namespace Ame.Infrastructure.Models
             return revertAction;
         }
         
-        private ImageDrawing Draw(ImageDrawing tile)
+        private Tile Draw(Tile tile)
         {
             if (tile.Bounds.X < 0
                 || tile.Bounds.Y < 0 
@@ -385,9 +387,12 @@ namespace Ame.Infrastructure.Models
                 return null;
             }
             int previousTileIndex = (int)(tile.Bounds.X / this.TileWidth) + (int)(tile.Bounds.Y / this.TileHeight) * this.ColumnCount;
-            ImageDrawing previousTile = this.CurrentLayer.LayerItems[previousTileIndex] as ImageDrawing;
-            this.CurrentLayer.LayerItems[previousTileIndex] = tile;
-            previousTile.Rect = tile.Bounds;
+            ImageDrawing previousImage = this.CurrentLayer.LayerItems[previousTileIndex] as ImageDrawing;
+            Tile previousTileID = this.CurrentLayer.TileIDs[previousTileIndex];
+            this.CurrentLayer.LayerItems[previousTileIndex] = tile.Image;
+            this.CurrentLayer.TileIDs[previousTileIndex] = tile;
+            previousImage.Rect = tile.Bounds;
+            Tile previousTile = new Tile(previousImage, previousTileID.TilesetID, previousTileID.TileID);
             return previousTile;
         }
 

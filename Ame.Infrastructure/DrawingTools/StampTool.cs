@@ -51,16 +51,19 @@ namespace Ame.Infrastructure.DrawingTools
             }
             else
             {
-                Stack<ImageDrawing> tiles = new Stack<ImageDrawing>();
+                Stack<Tile> tiles = new Stack<Tile>();
 
-                foreach (ImageDrawing drawing in this.Brush.Tiles)
+                foreach (Tile drawing in this.Brush.Tiles)
                 {
                     ImageDrawing adjustedDrawing = new ImageDrawing();
-                    adjustedDrawing.ImageSource = drawing.ImageSource;
-                    Point adjustedPoint = new Point(pixelPosition.X + drawing.Rect.X, pixelPosition.Y + drawing.Rect.Y);
+                    adjustedDrawing.ImageSource = drawing.Image.ImageSource;
+                    // Check if Rect can be replaced with bounds
+                    Point adjustedPoint = new Point(pixelPosition.X + drawing.Image.Rect.X, pixelPosition.Y + drawing.Image.Rect.Y);
                     Rect adjustedRect = new Rect(adjustedPoint, this.Brush.TileSize);
                     adjustedDrawing.Rect = adjustedRect;
-                    tiles.Push(adjustedDrawing);
+
+                    Tile adjustedTile = new Tile(adjustedDrawing, drawing.TilesetID, drawing.TileID);
+                    tiles.Push(adjustedTile);
                 }
                 DrawAction action = new DrawAction(this.ToolName, tiles);
                 map.Draw(action);
@@ -69,10 +72,9 @@ namespace Ame.Infrastructure.DrawingTools
         
         public void Erase(Map map, Point pixelPosition)
         {
-            Stack<ImageDrawing> tiles = new Stack<ImageDrawing>();
-
-            Rect rect = new Rect(pixelPosition, new Size(32, 32));
-            ImageDrawing emptyTile = new ImageDrawing(new DrawingImage(), rect);
+            Stack<Tile> tiles = new Stack<Tile>();
+            
+            Tile emptyTile = Tile.emptyTile(pixelPosition);
             tiles.Push(emptyTile);
 
             DrawAction action = new DrawAction(this.ToolName, tiles);
@@ -87,11 +89,12 @@ namespace Ame.Infrastructure.DrawingTools
             }
             using (DrawingContext context = drawingArea.Open())
             {
-                foreach (ImageDrawing drawing in this.Brush.Tiles)
+                foreach (Tile drawing in this.Brush.Tiles)
                 {
                     ImageDrawing adjustedDrawing = new ImageDrawing();
-                    adjustedDrawing.ImageSource = drawing.ImageSource;
-                    Point adjustedPoint = new Point(pixelPosition.X + drawing.Rect.X, pixelPosition.Y + drawing.Rect.Y);
+                    adjustedDrawing.ImageSource = drawing.Image.ImageSource;
+                    // Check if Rect can be replaced with bounds
+                    Point adjustedPoint = new Point(pixelPosition.X + drawing.Image.Rect.X, pixelPosition.Y + drawing.Image.Rect.Y);
                     Rect adjustedRect = new Rect(adjustedPoint, this.Brush.TileSize);
                     adjustedDrawing.Rect = adjustedRect;
 

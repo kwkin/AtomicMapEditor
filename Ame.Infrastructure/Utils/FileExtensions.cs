@@ -11,6 +11,12 @@ namespace Ame.Infrastructure.Utils
 {
     public enum OpenFileExtensions
     {
+        [FileExtensionAttribute("AME", "*.ame")]
+        AME,
+
+        [FileExtensionAttribute("XML", "*.xml")]
+        XML,
+
         [FileExtensionAttribute("PNG", "*.png")]
         PNG,
 
@@ -19,6 +25,13 @@ namespace Ame.Infrastructure.Utils
 
         [FileExtensionAttribute("TIFF", "*.tif", "*.tiff")]
         TIFF
+    }
+
+
+    public enum SaveExtensions
+    {
+        AME = OpenFileExtensions.AME,
+        XML = OpenFileExtensions.XML
     }
 
 
@@ -35,6 +48,26 @@ namespace Ame.Infrastructure.Utils
         PNG = OpenFileExtensions.PNG,
         JPEG = OpenFileExtensions.JPEG,
         TIFF = OpenFileExtensions.TIFF
+    }
+
+
+    public static class SaveExtension
+    {
+        #region methods
+
+        public static string GetOpenFileSaveExtensions()
+        {
+            StringBuilder openFileFormatBuilder = new StringBuilder();
+            foreach (OpenFileExtensions extension in Enum.GetValues(typeof(SaveExtensions)))
+            {
+                openFileFormatBuilder.Append(extension.GetOpenFileFormat());
+                openFileFormatBuilder.Append("|");
+            }
+            openFileFormatBuilder.Append("All Files (*.*)|*.*");
+
+            return openFileFormatBuilder.ToString();
+        }
+        #endregion methods
     }
 
 

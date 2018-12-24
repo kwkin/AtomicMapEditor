@@ -217,9 +217,9 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
         {
             using (DrawingContext context = this.selectedBrushImage.Open())
             {
-                foreach (ImageDrawing tile in brushModel.Tiles)
+                foreach (Tile tile in brushModel.Tiles)
                 {
-                    context.DrawDrawing(tile);
+                    context.DrawDrawing(tile.Image);
                 }
             }
             this.gridModel.SetHeightWithRows(brushModel.RowCount(), brushModel.TileHeight);

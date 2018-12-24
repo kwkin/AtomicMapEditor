@@ -11,6 +11,7 @@ namespace Ame.Infrastructure.Models
     [Serializable]
     public class Tile
     {
+        // TODO make the image drawing and IDs consistent with their use
         #region fields
 
         #endregion fields
@@ -18,10 +19,17 @@ namespace Ame.Infrastructure.Models
 
         #region constructor
 
-        public Tile(Point position, ImageDrawing tileImage)
+        public Tile(int tilesetID, int tileID)
         {
-            this.Position = position;
-            this.TileImage = tileImage;
+            this.TilesetID = tilesetID;
+            this.TileID = tileID;
+        }
+
+        public Tile(ImageDrawing image, int tilesetID, int tileID)
+        {
+            this.Image = image;
+            this.TilesetID = tilesetID;
+            this.TileID = tileID;
         }
 
         #endregion constructor
@@ -29,19 +37,15 @@ namespace Ame.Infrastructure.Models
 
         #region properties
 
-        public Point Position { get; set; }
-
-        [NonSerialized]
-        private ImageDrawing tileImage;
-        public ImageDrawing TileImage
+        public ImageDrawing Image { get; set; }
+        public int TilesetID { get; set; }
+        public int TileID { get; set; }
+        
+        public Rect Bounds
         {
             get
             {
-                return this.tileImage;
-            }
-            set
-            {
-                this.tileImage = value;
+                return this.Image.Bounds;
             }
         }
 
@@ -49,6 +53,14 @@ namespace Ame.Infrastructure.Models
 
 
         #region methods
+
+        public static Tile emptyTile(Point pixelPosition)
+        {
+            // TODO fix this size
+            Rect rect = new Rect(pixelPosition, new Size(32, 32));
+            ImageDrawing emptyTile = new ImageDrawing(new DrawingImage(), rect);
+            return new Tile(emptyTile, -1, -1);
+        }
 
         #endregion methods
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace Ame.Infrastructure.Models
 {
@@ -14,7 +15,7 @@ namespace Ame.Infrastructure.Models
                 
         #region properties
 
-        string LayerName { get; set; }
+        string Name { get; set; }
         bool IsImmutable { get; set; }
         bool IsVisible { get; set; }
 
@@ -22,6 +23,8 @@ namespace Ame.Infrastructure.Models
 
 
         #region methods
+
+        void SerializeXML(XmlWriter writer);
 
         #endregion methods
     }

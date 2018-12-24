@@ -127,6 +127,17 @@ namespace Ame.Infrastructure.Models
             this.PixelHeight = this.TileHeight * rows;
         }
 
+        // TODO implement
+        public virtual void TileXFromPixel(int pixelPoint)
+        {
+
+        }
+
+        public virtual void TileYFromPixel(int pixelPoint)
+        {
+
+        }
+
         public Point BindPoint(Point point)
         {
             Point boundPoint = GeometryUtils.CopyPoint(point);
@@ -169,6 +180,17 @@ namespace Ame.Infrastructure.Models
                 boundPoint.Y = this.PixelHeight;
             }
             return boundPoint;
+        }
+
+        public int getID(int pixelX, int pixelY)
+        {
+            return (pixelY / this.TileHeight) * ColumnCount() + (pixelX / this.TileWidth);
+
+        }
+
+        public int getID(Point pixelPoint)
+        {
+            return ((int)pixelPoint.Y / this.TileHeight) * ColumnCount() + ((int)pixelPoint.X / this.TileWidth);
         }
     }
 

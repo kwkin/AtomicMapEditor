@@ -56,7 +56,7 @@ namespace Ame.Modules.Windows.Interactions.LayerProperties
         public void UpdateMissingContent(AmeSession session)
         {
             this.Layer = this.Layer ?? session.CurrentLayer;
-            this.Title = this.Title ?? string.Format("Edit Layer - {0}", this.Layer.LayerName);
+            this.Title = this.Title ?? string.Format("Edit Layer - {0}", this.Layer.Name);
         }
 
         public void RaiseNotification(DependencyObject parent)

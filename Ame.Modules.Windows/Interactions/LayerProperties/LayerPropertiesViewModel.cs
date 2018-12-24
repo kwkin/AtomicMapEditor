@@ -165,7 +165,7 @@ namespace Ame.Modules.Windows.Interactions.LayerProperties
 
         private void UpdateLayerProperties(Layer layer)
         {
-            layer.LayerName = this.Name;
+            layer.Name = this.Name;
             layer.Columns = this.Columns;
             layer.Rows = this.Rows;
             layer.OffsetX = this.OffsetX;
@@ -180,7 +180,7 @@ namespace Ame.Modules.Windows.Interactions.LayerProperties
 
         private void UpdateUI()
         {
-            this.Name = this.Layer.LayerName;
+            this.Name = this.Layer.Name;
             this.Columns = this.Layer.Columns;
             this.Rows = this.Layer.Rows;
             this.OffsetX = this.Layer.OffsetX;

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using Ame.Infrastructure.Files;
 
 namespace Ame.Infrastructure.Models
 {
@@ -17,12 +19,12 @@ namespace Ame.Infrastructure.Models
 
         public LayerGroup(string layerGroupName)
         {
-            this.LayerName = layerGroupName;
+            this.Name = layerGroupName;
         }
 
         public LayerGroup(string layerGroupName, IList<ILayer> layers)
         {
-            this.LayerName = layerGroupName;
+            this.Name = layerGroupName;
             this.Layers = layers;
         }
 
@@ -31,7 +33,7 @@ namespace Ame.Infrastructure.Models
 
         #region properties
 
-        public string LayerName { get; set; }
+        public string Name { get; set; }
         public bool IsImmutable { get; set; }
         public bool IsVisible { get; set; }
         public IList<ILayer> Layers { get; set; }
@@ -40,6 +42,11 @@ namespace Ame.Infrastructure.Models
 
 
         #region methods
+        
+        public void SerializeXML(XmlWriter writer)
+        {
+            XMLTagMethods.WriteElement(writer, AmeXMLTags.NAME, this.Name);
+        }
 
         #endregion methods
     }

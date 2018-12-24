@@ -3,24 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Media;
-using Ame.Infrastructure.Models;
 
-namespace Ame.Infrastructure.DrawingTools
+namespace Ame.Infrastructure.Files
 {
-    public class DrawAction
+    public class TileXMLTags
     {
         #region fields
+
+        public const string nodeName = "tile";
 
         #endregion fields
 
 
         #region constructor
 
-        public DrawAction(string name, Stack<Tile> tiles)
+        public TileXMLTags()
         {
-            this.Name = name;
-            this.Tiles = tiles;
+
         }
 
         #endregion constructor
@@ -28,13 +27,15 @@ namespace Ame.Infrastructure.DrawingTools
 
         #region properties
 
-        public string Name { get; set; }
-        public Stack<Tile> Tiles { get; set; }
-
         #endregion properties
 
 
         #region methods
+        
+        public void write()
+        {
+
+        }
 
         #endregion methods
     }

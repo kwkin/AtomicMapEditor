@@ -550,7 +550,10 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             {
                 croppedImage = ImageUtils.ColorToTransparent(croppedImage, this.TransparentColor);
             }
-            brushModel.TileImage(croppedImage);
+            int tilesetID = this.Session.CurrentTileset.ID;
+
+            int tileID = this.TilesetModel.getID(topLeftPixel);
+            brushModel.TileImage(croppedImage, tilesetID, topLeftPixel, this.TilesetModel);
 
             this.eventAggregator.GetEvent<NewPaddedBrushEvent>().Publish(brushModel);
         }

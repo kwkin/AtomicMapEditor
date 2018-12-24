@@ -23,19 +23,19 @@ namespace Ame.Infrastructure.Models
         public PaddedBrushModel()
             : base()
         {
-            this.Tiles = new List<ImageDrawing>();
+            this.Tiles = new List<Tile>();
         }
 
         public PaddedBrushModel(int pixelWidth, int pixelHeight)
             : base(pixelWidth, pixelHeight)
         {
-            this.Tiles = new List<ImageDrawing>();
+            this.Tiles = new List<Tile>();
         }
 
         public PaddedBrushModel(int columns, int rows, int tileWidth, int tileHeight)
             : base(columns, rows, tileWidth, tileHeight)
         {
-            this.Tiles = new List<ImageDrawing>();
+            this.Tiles = new List<Tile>();
         }
 
         public PaddedBrushModel(int columns, int rows, int tileWidth, int tileHeight, int tileOffsetX, int tileOfsetY)
@@ -48,13 +48,13 @@ namespace Ame.Infrastructure.Models
         public PaddedBrushModel(TilesetModel tileset)
             : base(tileset.ColumnCount(), tileset.RowCount(), tileset.TileWidth, tileset.TileHeight)
         {
-            this.Tiles = new List<ImageDrawing>();
+            this.Tiles = new List<Tile>();
         }
 
         public PaddedBrushModel(TilesetModel tileset, int tileOffsetX, int tileOffsetY)
             : base(tileset.ColumnCount(), tileset.RowCount(), tileset.TileWidth, tileset.TileHeight)
         {
-            this.Tiles = new List<ImageDrawing>();
+            this.Tiles = new List<Tile>();
             this.TileOffsetX = tileOffsetX;
             this.TileOffsetY = tileOffsetY;
         }

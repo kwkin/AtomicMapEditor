@@ -46,13 +46,18 @@ namespace Ame.Modules.Menu.Options
 
         #region constructor
 
-        public MenuOptionsViewModel(IEventAggregator eventAggregator)
+        public MenuOptionsViewModel(IEventAggregator eventAggregator, AmeSession session)
         {
             if (eventAggregator == null)
             {
                 throw new ArgumentNullException("eventAggregator");
             }
+            if (session == null)
+            {
+                throw new ArgumentNullException("session");
+            }
             this.eventAggregator = eventAggregator;
+            this.Session = session;
 
             // File bindings
             this.NewFileCommand = new DelegateCommand(() =>
@@ -347,6 +352,8 @@ namespace Ame.Modules.Menu.Options
             set { recentFileItems = value; }
         }
 
+        public AmeSession Session { get; set; }
+
         public bool IsShowGrid { get; set; }
         public bool IsShowRuler { get; set; }
         public bool IsShowScrollBar { get; set; }
@@ -450,7 +457,18 @@ namespace Ame.Modules.Menu.Options
 
         public void SaveAsFile()
         {
-            Console.WriteLine("Save As");
+            SaveFileDialog saveMapDialog = new SaveFileDialog();
+            saveMapDialog.Title = "Save File";
+            saveMapDialog.Filter = SaveExtension.GetOpenFileSaveExtensions();
+            if (saveMapDialog.ShowDialog() == true)
+            {
+                this.fileName = saveMapDialog.FileName;
+                this.fileType = saveMapDialog.Filter;
+
+                SaveMessage message = new SaveMessage(this.fileName, this.Session.CurrentMap);
+                NotificationMessage<SaveMessage> notification = new NotificationMessage<SaveMessage>(message);
+                this.eventAggregator.GetEvent<NotificationEvent<SaveMessage>>().Publish(notification);
+            }
         }
 
         public void ExportFile()
@@ -467,23 +485,12 @@ namespace Ame.Modules.Menu.Options
             {
                 this.fileName = exportMapDialog.FileName;
                 this.fileType = exportMapDialog.Filter;
-                if (File.Exists(this.fileName))
-                {
-                    StringBuilder overwriteMessage = new StringBuilder("The file ");
-                    overwriteMessage.Append(exportMapDialog.SafeFileName);
-                    overwriteMessage.AppendLine(" already exists.");
-                    overwriteMessage.Append("Do you want to overwrite the file?");
 
-                    ConfirmationWindow confirmationPopup = new ConfirmationWindow();
-                    PopupInteraction interaction = new PopupInteraction(confirmationPopup, OnExportOverrideClosed);
-                    interaction.Title = "Overwrite";
-                    interaction.Message = overwriteMessage.ToString();
-                    this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
-                }
-                else
-                {
-                    ExportAs(this.fileName, this.fileType);
-                }
+                StateMessage message = new StateMessage(this.fileName);
+                BitmapEncoder encoder = ExportMapExtension.getEncoder(this.fileType);
+                message.Encoder = encoder;
+                NotificationMessage<StateMessage> notification = new NotificationMessage<StateMessage>(message);
+                this.eventAggregator.GetEvent<NotificationEvent<StateMessage>>().Publish(notification);
             }
         }
 
@@ -834,25 +841,7 @@ namespace Ame.Modules.Menu.Options
             RecentlyClosedDockItems.Add(closedDock1);
             RecentlyClosedDockItems.Add(closedDock2);
         }
-
-        private void OnExportOverrideClosed(INotification confirmation)
-        {
-            Confirmation confirm = confirmation as Confirmation;
-            if (confirm.Confirmed)
-            {
-                ExportAs(this.fileName, this.fileType);
-            }
-        }
-
-        private void ExportAs(string path, string type)
-        {
-            StateMessage message = new StateMessage(path);
-            BitmapEncoder encoder = ExportMapExtension.getEncoder(type);
-            message.Encoder = encoder;
-            NotificationMessage<StateMessage> notification = new NotificationMessage<StateMessage>(message);
-            this.eventAggregator.GetEvent<NotificationEvent<StateMessage>>().Publish(notification);
-        }
-
+        
         #endregion methods
     }
 }

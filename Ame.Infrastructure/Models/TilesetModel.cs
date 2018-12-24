@@ -58,6 +58,8 @@ namespace Ame.Infrastructure.Models
 
         // TODO look into changing the structure of IItems
         // TODO Instead of a tree, just have the list. Declare a property indicating the group
+        public int ID { get; set; } = -1;
+
         [MetadataProperty(MetadataType.Property, "Name")]
         public string Name { get; set; }
 

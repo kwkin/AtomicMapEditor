@@ -10,6 +10,7 @@ using System.Windows.Threading;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Core;
 using Ame.Infrastructure.Events;
+using Ame.Infrastructure.Files;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
 using Ame.Modules.MapEditor.Editor;
@@ -128,6 +129,10 @@ namespace Ame.Modules.Windows
             this.eventAggregator.GetEvent<NotificationEvent<ZoomLevel>>().Subscribe((message) =>
             {
                 SetZoomLevel(message);
+            }, ThreadOption.PublisherThread);
+            this.eventAggregator.GetEvent<NotificationEvent<SaveMessage>>().Subscribe((message) =>
+            {
+                SaveAs(message);
             }, ThreadOption.PublisherThread);
             this.eventAggregator.GetEvent<NotificationEvent<StateMessage>>().Subscribe((message) =>
             {
@@ -365,6 +370,13 @@ namespace Ame.Modules.Windows
         private void SetZoomLevel(NotificationMessage<ZoomLevel> notification)
         {
             this.ActiveDocument.SetZoom(notification.Content);
+        }
+
+        private void SaveAs(NotificationMessage<SaveMessage> message)
+        {
+            SaveMessage content = message.Content;
+            XMLExporter exporter = new XMLExporter(content.Path, content.Map);
+            exporter.Export();
         }
 
         private void ExportAs(NotificationMessage<StateMessage> message)

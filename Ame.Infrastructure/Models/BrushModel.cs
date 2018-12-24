@@ -22,25 +22,25 @@ namespace Ame.Infrastructure.Models
         public BrushModel()
             : base()
         {
-            this.Tiles = new List<ImageDrawing>();
+            this.Tiles = new List<Tile>();
         }
 
         public BrushModel(int pixelWidth, int pixelHeight)
             : base(pixelWidth, pixelHeight)
         {
-            this.Tiles = new List<ImageDrawing>();
+            this.Tiles = new List<Tile>();
         }
 
         public BrushModel(int columns, int rows, int tileWidth, int tileHeight)
             : base(columns, rows, tileWidth, tileHeight)
         {
-            this.Tiles = new List<ImageDrawing>();
+            this.Tiles = new List<Tile>();
         }
 
         public BrushModel(TilesetModel tileset)
             : base(tileset.ColumnCount(), tileset.RowCount(), tileset.TileWidth, tileset.TileHeight)
         {
-            this.Tiles = new List<ImageDrawing>();
+            this.Tiles = new List<Tile>();
         }
 
         #endregion constructor
@@ -48,28 +48,32 @@ namespace Ame.Infrastructure.Models
 
         #region properties
 
-        public List<ImageDrawing> Tiles { get; set; }
+        public List<Tile> Tiles { get; set; }
 
         #endregion properties
 
 
         #region methods
 
-        public void TileImage(Mat image)
+        public void TileImage(Mat tilesImage, int tilesetID, Point pixelPoint, TilesetModel tilesetModel)
         {
             this.Tiles.Clear();
-            int colCount = image.Cols / this.TileWidth;
-            int rowCount = image.Rows / this.TileHeight;
+            int colCount = tilesImage.Cols / this.TileWidth;
+            int rowCount = tilesImage.Rows / this.TileHeight;
             for (int rowIndex = 0; rowIndex < rowCount; ++rowIndex)
             {
                 for (int colIndex = 0; colIndex < colCount; ++colIndex)
                 {
                     Size tileSize = this.TileSize;
                     Point topLeftPoint = new Point(colIndex * this.TileWidth, rowIndex * this.TileHeight);
-                    Mat tile = BrushUtils.CropImage(image, topLeftPoint, tileSize);
+                    Mat tileImage = BrushUtils.CropImage(tilesImage, topLeftPoint, tileSize);
                     Rect drawingRect = new Rect(topLeftPoint, tileSize);
-                    ImageDrawing drawing = ImageUtils.MatToImageDrawing(tile, drawingRect);
-                    this.Tiles.Add(drawing);
+                    ImageDrawing drawing = ImageUtils.MatToImageDrawing(tileImage, drawingRect);
+                    
+                    Point offsetPoint = Point.Add(pixelPoint, (Vector)topLeftPoint);
+                    int tileID = tilesetModel.getID(offsetPoint);
+                    Tile tile = new Tile(drawing, tilesetID, tileID);
+                    this.Tiles.Add(tile);
                 }
             }
         }
