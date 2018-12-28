@@ -8,6 +8,7 @@ namespace Ame.Infrastructure.Core
 {
     public static class Global
     {
+        public static readonly int version = 1;
         public static readonly string applicationName = "AtomicMapEditor";
 
         public static readonly double maxGridThickness = 0.5;

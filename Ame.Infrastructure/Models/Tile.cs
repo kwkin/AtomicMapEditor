@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using System.Xml.Serialization;
 
 namespace Ame.Infrastructure.Models
 {
-    [Serializable]
+    [XmlRoot("Tiles")]
     public class Tile
     {
         // TODO make the image drawing and IDs consistent with their use
@@ -18,6 +19,11 @@ namespace Ame.Infrastructure.Models
 
 
         #region constructor
+
+        public Tile()
+        {
+
+        }
 
         public Tile(int tilesetID, int tileID)
         {
@@ -37,10 +43,13 @@ namespace Ame.Infrastructure.Models
 
         #region properties
 
+        [XmlIgnore]
         public ImageDrawing Image { get; set; }
+
         public int TilesetID { get; set; }
         public int TileID { get; set; }
-        
+
+        [XmlIgnore]
         public Rect Bounds
         {
             get
@@ -56,7 +65,6 @@ namespace Ame.Infrastructure.Models
 
         public static Tile emptyTile(Point pixelPosition)
         {
-            // TODO fix this size
             Rect rect = new Rect(pixelPosition, new Size(32, 32));
             ImageDrawing emptyTile = new ImageDrawing(new DrawingImage(), rect);
             return new Tile(emptyTile, -1, -1);

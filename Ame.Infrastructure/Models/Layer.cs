@@ -10,10 +10,11 @@ using System.Windows.Media;
 using Ame.Infrastructure.Attributes;
 using System.Xml;
 using Ame.Infrastructure.Files;
+using System.Xml.Serialization;
 
 namespace Ame.Infrastructure.Models
 {
-    [Serializable]
+    [XmlRoot("Layer")]
     public class Layer : ILayer, INotifyPropertyChanged
     {
         #region fields
@@ -25,6 +26,18 @@ namespace Ame.Infrastructure.Models
 
 
         #region constructor
+
+        public Layer()
+        {
+            this.Name = "";
+            this.TileWidth = 32;
+            this.TileHeight = 32;
+            this.Rows = 32;
+            this.Columns = 32;
+            this.Position = LayerPosition.Base;
+            this.Scale = ScaleType.Tile;
+            ResetLayerItems();
+        }
 
         public Layer(int tileWidth, int tileHeight, int rows, int columns)
         {
@@ -54,8 +67,12 @@ namespace Ame.Infrastructure.Models
 
 
         #region properties
+        
+        [XmlAttribute]
+        public int ID { get; set; } = -1;
 
-        private string name { get; set; }
+        [field: NonSerialized]
+        private string name;
 
         [MetadataProperty(MetadataType.Property, "Name")]
         public string Name
@@ -106,10 +123,11 @@ namespace Ame.Infrastructure.Models
 
         public bool IsImmutable { get; set; }
         public bool IsVisible { get; set; }
-
-        [NonSerialized]
+        
+        [field: NonSerialized]
         private DrawingGroup group;
 
+        [XmlIgnore]
         [IgnoreNodeBuilder]
         public DrawingGroup Group
         {
@@ -123,25 +141,23 @@ namespace Ame.Infrastructure.Models
             }
         }
 
+        [XmlIgnore]
         [IgnoreNodeBuilder]
         public DrawingCollection LayerItems
         {
             get
             {
-                return this.group.Children;
+                DrawingCollection children = null;
+                if (this.group != null)
+                {
+                    children = this.group.Children;
+                }
+                return children;
             }
         }
-        
-        private IList<Tile> tileIDs;
 
-        [IgnoreNodeBuilder]
-        public IList<Tile> TileIDs
-        {
-            get
-            {
-                return this.tileIDs;
-            }
-        }
+        [XmlElement(ElementName = "tiles")]
+        public TileCollection TileIDs { get; set; }
 
         #endregion properties
 
@@ -158,42 +174,6 @@ namespace Ame.Infrastructure.Models
             return this.TileHeight * this.Rows;
         }
 
-        public void SerializeXML(XmlWriter writer)
-        {
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.NAME, this.Name);
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.GROUP, this.Group);
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.ROWS, this.Rows);
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.COLUMNS, this.Columns);
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.TILEWIDTH, this.TileWidth);
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.TILEHEIGHT, this.TileHeight);
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.XOFFSET, this.OffsetX);
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.YOFFSET, this.OffsetY);
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.POSITION, this.Position);
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.SCROLLRATE, this.ScrollRate);
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.DESCRIPTION, this.Description);
-
-            writer.WriteStartElement("tiles");
-            //string[] tilePositions = new string[this.Group.Children.Count() * 2];
-            //int index = 0;
-            //foreach (Drawing collection in this.Group.Children)
-            //{
-            //    tilePositions[index++] = collection.Bounds.X.ToString();
-            //    tilePositions[index++] = collection.Bounds.Y.ToString();
-            //}
-            //XMLTagMethods.WriteElement(writer, AmeXMLTags.POSITIONS, string.Join(",", tilePositions));
-
-            int[] tileIDs = new int[this.TileIDs.Count() * 2];
-            int index = 0;
-            foreach (Tile tile in this.TileIDs)
-            {
-                tileIDs[index++] = tile.TilesetID;
-                tileIDs[index++] = tile.TileID;
-            }
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.POSITIONS, string.Join(",", tileIDs));
-
-            writer.WriteEndElement();
-        }
-
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             if (PropertyChanged != null)
@@ -205,7 +185,7 @@ namespace Ame.Infrastructure.Models
         private void ResetLayerItems()
         {
             this.Group = new DrawingGroup();
-            this.tileIDs = new List<Tile>();
+            this.TileIDs = new TileCollection();
             RenderOptions.SetEdgeMode(this.Group, EdgeMode.Aliased);
         }
         

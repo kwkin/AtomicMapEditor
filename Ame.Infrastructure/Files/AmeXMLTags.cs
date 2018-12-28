@@ -10,80 +10,101 @@ namespace Ame.Infrastructure.Files
 {
     public enum AmeXMLTags
     {
-        [XMLTagAttribute("version")]
-        VERSION,
+        [XMLTagAttribute("Map")]
+        Map,
 
-        [XMLTagAttribute("name")]
-        NAME,
+        [XMLTagAttribute("Tilesets")]
+        Tilesets,
 
-        [XMLTagAttribute("author")]
-        AUTHOR,
+        [XMLTagAttribute("Tileset")]
+        Tileset,
 
-        [XMLTagAttribute("rows")]
-        ROWS,
+        [XMLTagAttribute("Tiles")]
+        Tiles,
 
-        [XMLTagAttribute("columns")]
-        COLUMNS,
+        [XMLTagAttribute("Layers")]
+        Layers,
 
-        [XMLTagAttribute("tileWidth")]
-        TILEWIDTH,
+        [XMLTagAttribute("Layer")]
+        Layer,
 
-        [XMLTagAttribute("tileHeight")]
-        TILEHEIGHT,
+        [XMLTagAttribute("Version")]
+        Version,
 
-        [XMLTagAttribute("scale")]
-        SCALE,
+        [XMLTagAttribute("Name")]
+        Name,
 
-        [XMLTagAttribute("backgroundColor")]
-        BACKGROUNDCOLOR,
+        [XMLTagAttribute("Author")]
+        Author,
 
-        [XMLTagAttribute("description")]
-        DESCRIPTION,
+        [XMLTagAttribute("Rows")]
+        Rows,
 
-        [XMLTagAttribute("id")]
+        [XMLTagAttribute("Columns")]
+        Columns,
+
+        [XMLTagAttribute("TileWidth")]
+        TileWidth,
+
+        [XMLTagAttribute("TileHeight")]
+        TileHeight,
+
+        [XMLTagAttribute("Scale")]
+        Scale,
+
+        [XMLTagAttribute("BackgroundColor")]
+        BackgroundColor,
+
+        [XMLTagAttribute("Description")]
+        Description,
+
+        [XMLTagAttribute("ID")]
         ID,
 
-        [XMLTagAttribute("source")]
-        SOURCE,
+        [XMLTagAttribute("Source")]
+        Source,
 
-        [XMLTagAttribute("isTransparent")]
-        ISTRANSPARENT,
+        [XMLTagAttribute("IsTransparent")]
+        IsTransparent,
 
-        [XMLTagAttribute("transparentColor")]
-        TRANSPARENTCOLOR,
+        [XMLTagAttribute("TransparentColor")]
+        TransparentColor,
 
-        [XMLTagAttribute("width")]
-        WIDTH,
+        [XMLTagAttribute("Width")]
+        Width,
 
-        [XMLTagAttribute("height")]
-        HEIGHT,
+        [XMLTagAttribute("Height")]
+        Height,
 
-        [XMLTagAttribute("xOffset")]
-        XOFFSET,
+        [XMLTagAttribute("XOffset")]
+        XOffset,
 
-        [XMLTagAttribute("yOffset")]
-        YOFFSET,
+        [XMLTagAttribute("YOffset")]
+        YOffset,
 
-        [XMLTagAttribute("xPadding")]
-        XPADDING,
+        [XMLTagAttribute("XPadding")]
+        XPadding,
 
-        [XMLTagAttribute("yPadding")]
-        YPADDING,
+        [XMLTagAttribute("YPadding")]
+        YPadding,
 
-        [XMLTagAttribute("group")]
-        GROUP,
+        [XMLTagAttribute("Group")]
+        Group,
 
-        [XMLTagAttribute("position")]
-        POSITION,
+        [XMLTagAttribute("Position")]
+        Position,
 
-        [XMLTagAttribute("scrollRate")]
-        SCROLLRATE,
+        [XMLTagAttribute("ScrollRate")]
+        ScrollRate,
 
-        [XMLTagAttribute("tilesetIds")]
-        TILESETIDS,
+        [XMLTagAttribute("TilesetIds")]
+        TilesetIDs,
 
-        [XMLTagAttribute("positions")]
-        POSITIONS,
+        [XMLTagAttribute("Positions")]
+        Positions,
+
+        [XMLTagAttribute("Null")]
+        Null,
     }
 
     public class XMLTagAttribute : Attribute
@@ -107,6 +128,19 @@ namespace Ame.Infrastructure.Files
 
     public static class XMLTagMethods
     {
+        public static AmeXMLTags GetTag(string tag)
+        {
+            AmeXMLTags ameTag = AmeXMLTags.Null;
+            foreach (AmeXMLTags currentTag in Enum.GetValues(typeof(AmeXMLTags)))
+            {
+                if (GetName(currentTag) == tag)
+                {
+                    ameTag = currentTag;
+                    break;
+                }
+            }
+            return ameTag;
+        }
 
         public static string GetName(this AmeXMLTags tag)
         {
@@ -114,19 +148,24 @@ namespace Ame.Infrastructure.Files
             return string.Format("{0}", attr.Name);
         }
 
-        public static void WriteElement(XmlWriter xmlWriter, AmeXMLTags tags, object value)
+        public static void WriteStartElement(XmlWriter xmlWriter, AmeXMLTags tag)
+        {
+            xmlWriter.WriteStartElement(GetName(tag));
+        }
+
+        public static void WriteElement(XmlWriter xmlWriter, AmeXMLTags tag, object value)
         {
             if (value != null)
             {
-                xmlWriter.WriteElementString(GetName(tags), value.ToString());
+                xmlWriter.WriteElementString(GetName(tag), value.ToString());
             }
         }
 
-        public static void WriteAttribute(XmlWriter xmlWriter, AmeXMLTags tags, object value)
+        public static void WriteAttribute(XmlWriter xmlWriter, AmeXMLTags tag, object value)
         {
             if (value != null)
             {
-                xmlWriter.WriteAttributeString(GetName(tags), value.ToString());
+                xmlWriter.WriteAttributeString(GetName(tag), value.ToString());
             }
         }
 

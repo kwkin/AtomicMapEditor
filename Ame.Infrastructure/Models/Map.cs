@@ -6,12 +6,17 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Media;
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 using Ame.Infrastructure.Attributes;
+using Ame.Infrastructure.Core;
 using Ame.Infrastructure.DrawingTools;
+using Ame.Infrastructure.Files;
 
 namespace Ame.Infrastructure.Models
 {
-    public class Map : INotifyPropertyChanged
+    public class Map : INotifyPropertyChanged, IXmlSerializable
     {
         #region fields
 
@@ -26,6 +31,8 @@ namespace Ame.Infrastructure.Models
 
         public Map()
         {
+            this.Author = "";
+            this.Version = Global.version;
             this.Name = "";
             this.Grid = new GridModel(32, 32, 32, 32);
             this.Scale = ScaleType.Tile;
@@ -55,6 +62,8 @@ namespace Ame.Infrastructure.Models
         {
             this.Name = name;
 
+            this.Author = "";
+            this.Version = Global.version;
             this.Grid = new GridModel(32, 32, 32, 32);
             this.Scale = ScaleType.Tile;
             this.PixelScale = 1;
@@ -83,6 +92,9 @@ namespace Ame.Infrastructure.Models
         {
             this.Name = name;
             this.Grid = new GridModel(width, height, 32, 32);
+
+            this.Author = "";
+            this.Version = Global.version;
             this.Scale = ScaleType.Tile;
             this.PixelScale = 1;
             this.Description = "";
@@ -230,6 +242,13 @@ namespace Ame.Infrastructure.Models
         [MetadataProperty(MetadataType.Property)]
         public string Description { get; set; }
 
+        // TODO move these two properties to another class
+        [MetadataProperty(MetadataType.Property)]
+        public string Author { get; set; }
+
+        [MetadataProperty(MetadataType.Property)]
+        public int Version { get; set; }
+
         public ObservableCollection<ILayer> LayerList { get; set; }
         public int SelectedLayerIndex { get; set; }
         
@@ -271,11 +290,12 @@ namespace Ame.Infrastructure.Models
                 return this.TilesetList.Count;
             }
         }
-
+        
         public Stack<DrawAction> UndoQueue { get; set; }
+        
         public Stack<DrawAction> RedoQueue { get; set; }
-
-        public string BackgroundColor { get; set; } = "#b8e5ed";
+        
+        public Color BackgroundColor { get; set; } = (Color)ColorConverter.ConvertFromString("#b8e5ed");
 
         #endregion properties
 
@@ -394,6 +414,109 @@ namespace Ame.Infrastructure.Models
             previousImage.Rect = tile.Bounds;
             Tile previousTile = new Tile(previousImage, previousTileID.TilesetID, previousTileID.TileID);
             return previousTile;
+        }
+
+        public XmlSchema GetSchema()
+        {
+            return null;
+        }
+
+        public void ReadXml(XmlReader reader)
+        {
+            XmlSerializer tilesetSerializer = new XmlSerializer(typeof(TilesetModel));
+            XmlSerializer layerSerializer = new XmlSerializer(typeof(Layer));
+            while (reader.Read())
+            {
+                if (reader.IsStartElement())
+                {
+                    AmeXMLTags tag = XMLTagMethods.GetTag(reader.Name);
+                    if (reader.Read() && tag != AmeXMLTags.Null)
+                    {
+                        string value = reader.Value;
+                        switch (tag)
+                        {
+                            case AmeXMLTags.Version:
+                                this.Version = int.Parse(value);
+                                break;
+                            case AmeXMLTags.Name:
+                                this.Name = value;
+                                break;
+                            case AmeXMLTags.Author:
+                                this.Author = value;
+                                break;
+                            case AmeXMLTags.Rows:
+                                this.RowCount = int.Parse(value);
+                                break;
+                            case AmeXMLTags.Columns:
+                                this.ColumnCount = int.Parse(value);
+                                break;
+                            case AmeXMLTags.TileWidth:
+                                this.TileWidth = int.Parse(value);
+                                break;
+                            case AmeXMLTags.TileHeight:
+                                this.TileHeight = int.Parse(value);
+                                break;
+                            case AmeXMLTags.Scale:
+                                ScaleType xmlScale;
+                                Enum.TryParse(value, out xmlScale);
+                                this.Scale = xmlScale;
+                                break;
+                            case AmeXMLTags.BackgroundColor:
+                                this.BackgroundColor = (Color)ColorConverter.ConvertFromString(value);
+                                break;
+                            case AmeXMLTags.Description:
+                                this.Description = value;
+                                break;
+                            case AmeXMLTags.Tilesets:
+                                while (reader.IsStartElement())
+                                {
+                                    this.TilesetList.Add((TilesetModel)tilesetSerializer.Deserialize(reader));
+                                }
+                                break;
+                            case AmeXMLTags.Layers:
+                                while (reader.IsStartElement())
+                                {
+                                    this.LayerList.Add((Layer)layerSerializer.Deserialize(reader));
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+
+        public void WriteXml(XmlWriter writer)
+        {
+            XMLTagMethods.WriteElement(writer, AmeXMLTags.Version, this.Version);
+            XMLTagMethods.WriteElement(writer, AmeXMLTags.Name, this.Name);
+            XMLTagMethods.WriteElement(writer, AmeXMLTags.Author, this.Author);
+            XMLTagMethods.WriteElement(writer, AmeXMLTags.Rows, this.RowCount);
+            XMLTagMethods.WriteElement(writer, AmeXMLTags.Columns, this.ColumnCount);
+            XMLTagMethods.WriteElement(writer, AmeXMLTags.TileWidth, this.TileWidth);
+            XMLTagMethods.WriteElement(writer, AmeXMLTags.TileHeight, this.TileHeight);
+            XMLTagMethods.WriteElement(writer, AmeXMLTags.Scale, this.Scale);
+            XMLTagMethods.WriteElement(writer, AmeXMLTags.BackgroundColor, this.BackgroundColor);
+            XMLTagMethods.WriteElement(writer, AmeXMLTags.Description, this.Description);
+
+            XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
+            ns.Add("", "");
+            XMLTagMethods.WriteStartElement(writer, AmeXMLTags.Tilesets);
+            XmlSerializer serializeTileset = new XmlSerializer(typeof(TilesetModel));
+            foreach (TilesetModel tileset in this.TilesetList)
+            {
+                serializeTileset.Serialize(writer, tileset, ns);
+            }
+            writer.WriteEndElement();
+
+            XMLTagMethods.WriteStartElement(writer, AmeXMLTags.Layers);
+            XmlSerializer serializerLayer = new XmlSerializer(typeof(Layer));
+            foreach (Layer layer in this.LayerList)
+            {
+                serializerLayer.Serialize(writer, layer, ns);
+            }
+            writer.WriteEndElement();
         }
 
         #endregion methods

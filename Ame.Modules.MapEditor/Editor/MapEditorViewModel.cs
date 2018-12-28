@@ -99,7 +99,8 @@ namespace Ame.Modules.MapEditor.Editor
             this.DrawingCanvas = new DrawingImage(this.drawingGroup);
             RenderOptions.SetEdgeMode(this.hoverSample, EdgeMode.Aliased);
 
-            this.backgroundBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom(this.Map.BackgroundColor));
+            
+            this.backgroundBrush = new SolidColorBrush(this.Map.BackgroundColor);
             this.backgroundPen = new Pen(Brushes.Transparent, 0);
             redrawBackground();
             this.ZoomLevels = this.scrollModel.ZoomLevels;

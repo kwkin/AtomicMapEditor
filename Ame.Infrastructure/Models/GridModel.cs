@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Xml.Serialization;
 using Ame.Infrastructure.Attributes;
 using Ame.Infrastructure.Utils;
 
@@ -40,9 +41,11 @@ namespace Ame.Infrastructure.Models
 
         #region properties
 
+        [XmlIgnore]
         [MetadataProperty(MetadataType.Property, "Width")]
         public int PixelWidth { get; set; } = 1;
 
+        [XmlIgnore]
         [MetadataProperty(MetadataType.Property, "Height")]
         public int PixelHeight { get; set; } = 1;
 
@@ -54,6 +57,7 @@ namespace Ame.Infrastructure.Models
 
         public ScaleType Scale { get; set; } = ScaleType.Tile;
 
+        [XmlIgnore]
         public Size PixelSize
         {
             get
@@ -67,6 +71,7 @@ namespace Ame.Infrastructure.Models
             }
         }
 
+        [XmlIgnore]
         public Size TileSize
         {
             get

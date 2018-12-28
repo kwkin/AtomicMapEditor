@@ -102,19 +102,19 @@ namespace Ame.Modules.Windows.Docks.ItemListDock
 
             this.Items = new ObservableCollection<IItem>();
             ItemGroup itemGroup1 = new ItemGroup("Item Group #1");
-            itemGroup1.Items.Add(new TilesetModel("Tileset #1"));
-            itemGroup1.Items.Add(new TilesetModel("Tileset #2"));
+            itemGroup1.Items.Add(new TilesetModel(1, "Tileset #1"));
+            itemGroup1.Items.Add(new TilesetModel(2, "Tileset #2"));
 
             ItemGroup itemGroup2 = new ItemGroup("Item Group #2");
-            itemGroup2.Items.Add(new TilesetModel("Tileset #3"));
+            itemGroup2.Items.Add(new TilesetModel(3, "Tileset #3"));
             ItemGroup itemGroup3 = new ItemGroup("Item Group #3");
-            itemGroup3.Items.Add(new TilesetModel("Tileset #4"));
+            itemGroup3.Items.Add(new TilesetModel(4, "Tileset #4"));
             itemGroup2.Items.Add(itemGroup3);
-            itemGroup2.Items.Add(new TilesetModel("Tileset #5"));
+            itemGroup2.Items.Add(new TilesetModel(5, "Tileset #5"));
 
             this.Items.Add(itemGroup1);
             this.Items.Add(itemGroup2);
-            this.Items.Add(new TilesetModel("Tileset #6"));
+            this.Items.Add(new TilesetModel(6, "Tileset #6"));
         }
 
         #endregion constructor
@@ -157,8 +157,9 @@ namespace Ame.Modules.Windows.Docks.ItemListDock
 
         public void AddTileset()
         {
-            string modelName = string.Format("Tileset #{0}", GetTilesetModelCount(this.Items) + 1);
-            TilesetModel model = new TilesetModel(modelName);
+            int tilesetCount = GetTilesetModelCount(this.Items);
+            string modelName = string.Format("Tileset #{0}", tilesetCount + 1);
+            TilesetModel model = new TilesetModel(tilesetCount, modelName);
             if (this.Item != null && (this.Item is ItemGroup))
             {
                 this.Item.Items.Add(model);

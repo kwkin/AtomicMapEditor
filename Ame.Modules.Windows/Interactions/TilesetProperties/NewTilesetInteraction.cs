@@ -53,7 +53,7 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
             this.session = session;
             this.Title = "New Tileset";
             string newTilesetName = string.Format("Tileset #{0}", session.CurrentTilesetCount);
-            this.tilesetModel = new TilesetModel(newTilesetName);
+            this.tilesetModel = new TilesetModel(session.CurrentTilesetCount, newTilesetName);
             this.Callback = this.Callback ?? OnNewTilesetWindowClosed;
         }
 

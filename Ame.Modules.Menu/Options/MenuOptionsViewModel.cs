@@ -447,7 +447,18 @@ namespace Ame.Modules.Menu.Options
 
         public void OpenFile()
         {
-            Console.WriteLine("Open File");
+            OpenFileDialog openMapDialog = new OpenFileDialog();
+            openMapDialog.Title = "Open Map";
+            openMapDialog.Filter = SaveExtension.GetOpenFileSaveExtensions();
+            if (openMapDialog.ShowDialog() == true)
+            {
+                this.fileName = openMapDialog.FileName;
+                this.fileType = openMapDialog.Filter;
+
+                OpenMessage message = new OpenMessage(this.fileName);
+                NotificationMessage<OpenMessage> notification = new NotificationMessage<OpenMessage>(message);
+                this.eventAggregator.GetEvent<NotificationEvent<OpenMessage>>().Publish(notification);
+            }
         }
 
         public void SaveFile()
@@ -458,7 +469,7 @@ namespace Ame.Modules.Menu.Options
         public void SaveAsFile()
         {
             SaveFileDialog saveMapDialog = new SaveFileDialog();
-            saveMapDialog.Title = "Save File";
+            saveMapDialog.Title = "Save Map";
             saveMapDialog.Filter = SaveExtension.GetOpenFileSaveExtensions();
             if (saveMapDialog.ShowDialog() == true)
             {

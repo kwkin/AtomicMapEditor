@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using Ame.Infrastructure.Converters;
 
 namespace Ame.Infrastructure.Models
@@ -11,10 +12,12 @@ namespace Ame.Infrastructure.Models
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
     public enum ScaleType
     {
-        [Description("px")]
+        [XmlEnum(Name = "px")]
+        [Description("Px")]
         Pixel,
 
-        [Description("tile")]
+        [XmlEnum(Name = "tile")]
+        [Description("Tile")]
         Tile
     }
 }

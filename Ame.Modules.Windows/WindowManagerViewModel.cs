@@ -134,6 +134,10 @@ namespace Ame.Modules.Windows
             {
                 SaveAs(message);
             }, ThreadOption.PublisherThread);
+            this.eventAggregator.GetEvent<NotificationEvent<OpenMessage>>().Subscribe((message) =>
+            {
+                OpenMap(message);
+            }, ThreadOption.PublisherThread);
             this.eventAggregator.GetEvent<NotificationEvent<StateMessage>>().Subscribe((message) =>
             {
                 ExportAs(message);
@@ -377,6 +381,13 @@ namespace Ame.Modules.Windows
             SaveMessage content = message.Content;
             XMLExporter exporter = new XMLExporter(content.Path, content.Map);
             exporter.Export();
+        }
+
+        private void OpenMap(NotificationMessage<OpenMessage> message)
+        {
+            OpenMessage content = message.Content;
+            XMLImporter importer = new XMLImporter(content.Path);
+            this.session.MapList[0] = importer.Import();
         }
 
         private void ExportAs(NotificationMessage<StateMessage> message)

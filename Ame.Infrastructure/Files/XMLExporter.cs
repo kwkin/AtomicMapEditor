@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Xml.Serialization;
 using Ame.Infrastructure.Models;
 
 namespace Ame.Infrastructure.Files
@@ -52,32 +53,20 @@ namespace Ame.Infrastructure.Files
                 NewLineChars = "\r\n",
                 NewLineHandling = NewLineHandling.Replace
             };
+            XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
+            ns.Add("", "");
+
+            XmlSerializer serializerMap = new XmlSerializer(typeof(Map));
+            XmlSerializer serializerTileset = new XmlSerializer(typeof(TilesetModel));
+            XmlSerializer serializerLayer = new XmlSerializer(typeof(Layer));
+
             using (FileStream fileStream = new FileStream(this.FilePath, FileMode.Create))
             {
                 using (StreamWriter streamWriter = new StreamWriter(fileStream))
                 {
                     using (XmlWriter writer = XmlWriter.Create(streamWriter, settings))
                     {
-                        writer.WriteStartElement(MapXMLTags.nodeName);
-                        MapXMLTags mapXML = new MapXMLTags(this.Map);
-                        mapXML.write(writer);
-                        writer.WriteStartElement("tilesets");
-                        foreach (TilesetModel tileset in this.Map.TilesetList)
-                        {
-                            TilesetXMLTags tilesetXML = new TilesetXMLTags(tileset);
-                            tilesetXML.write(writer);
-                        }
-                        writer.WriteEndElement();
-
-                        writer.WriteStartElement("layers");
-                        foreach (ILayer layer in this.Map.LayerList)
-                        {
-                            LayerXMLTags layerXML = new LayerXMLTags(layer);
-                            layerXML.write(writer);
-                        }
-                        writer.WriteEndElement();
-                        
-                        writer.WriteEndElement();
+                        serializerMap.Serialize(writer, this.Map, ns);
                     }
                 }
             }

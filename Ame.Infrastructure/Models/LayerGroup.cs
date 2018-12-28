@@ -42,11 +42,6 @@ namespace Ame.Infrastructure.Models
 
 
         #region methods
-        
-        public void SerializeXML(XmlWriter writer)
-        {
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.NAME, this.Name);
-        }
 
         #endregion methods
     }

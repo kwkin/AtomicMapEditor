@@ -24,8 +24,6 @@ namespace Ame.Infrastructure.Models
 
         #region methods
 
-        void SerializeXML(XmlWriter writer);
-
         #endregion methods
     }
 }
