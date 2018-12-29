@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Ame.Infrastructure.BaseTypes;
@@ -387,7 +388,16 @@ namespace Ame.Modules.Windows
         {
             OpenMessage content = message.Content;
             XMLImporter importer = new XMLImporter(content.Path);
-            this.session.MapList[0] = importer.Import();
+            Map importedMap = importer.Import();
+
+            OpenDockMessage openEditorMessage = new OpenDockMessage(typeof(MapEditorViewModel), importedMap);
+            foreach (TilesetModel tileset in importedMap.TilesetList)
+            {
+                this.session.CurrentTilesetList.Add(tileset);
+            }
+            this.session.CurrentLayerList = importedMap.LayerList;
+            CollectionViewSource.GetDefaultView(this.session.CurrentLayerList).Refresh();
+            this.eventAggregator.GetEvent<OpenDockEvent>().Publish(openEditorMessage);
         }
 
         private void ExportAs(NotificationMessage<StateMessage> message)

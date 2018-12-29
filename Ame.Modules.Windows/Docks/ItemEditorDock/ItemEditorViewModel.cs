@@ -552,7 +552,7 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             }
             int tilesetID = this.Session.CurrentTileset.ID;
 
-            int tileID = this.TilesetModel.getID(topLeftPixel);
+            int tileID = this.TilesetModel.GetID(topLeftPixel);
             brushModel.TileImage(croppedImage, tilesetID, topLeftPixel, this.TilesetModel);
 
             this.eventAggregator.GetEvent<NewPaddedBrushEvent>().Publish(brushModel);

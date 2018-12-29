@@ -91,6 +91,7 @@ namespace Ame.Infrastructure.Models
             }
         }
 
+        // TODO have a consistent naming for columns/rows. Sometimes these are named ColumnCount/RowCount
         [MetadataProperty(MetadataType.Property)]
         public int Columns { get; set; }
 
@@ -124,20 +125,18 @@ namespace Ame.Infrastructure.Models
         public bool IsImmutable { get; set; }
         public bool IsVisible { get; set; }
         
-        [field: NonSerialized]
-        private DrawingGroup group;
-
         [XmlIgnore]
         [IgnoreNodeBuilder]
         public DrawingGroup Group
         {
             get
             {
-                return this.group;
+                return this.TileIDs.Group;
             }
+
             set
             {
-                this.group = value;
+                this.TileIDs.Group = value;
             }
         }
 
@@ -148,9 +147,9 @@ namespace Ame.Infrastructure.Models
             get
             {
                 DrawingCollection children = null;
-                if (this.group != null)
+                if (this.TileIDs.Group != null)
                 {
-                    children = this.group.Children;
+                    children = this.TileIDs.Group.Children;
                 }
                 return children;
             }
@@ -174,21 +173,26 @@ namespace Ame.Infrastructure.Models
             return this.TileHeight * this.Rows;
         }
 
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        public void ResetLayerItems()
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private void ResetLayerItems()
-        {
-            this.Group = new DrawingGroup();
             this.TileIDs = new TileCollection();
+            this.Group = new DrawingGroup();
+            this.TileIDs.reset(this.TileWidth, this.TileHeight);
             RenderOptions.SetEdgeMode(this.Group, EdgeMode.Aliased);
         }
+
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
         
+        public Point getPointFromIndex(int id)
+        {
+            int pointX = (id % this.Columns) * this.TileWidth;
+            int pointY = (int)Math.Floor((double)(id / this.Rows)) * this.TileHeight;
+            return new Point(pointX, pointY);
+        }
+
         #endregion methods
     }
 }

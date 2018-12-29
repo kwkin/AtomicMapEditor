@@ -4,12 +4,17 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
 using System.Xml.Serialization;
 using Ame.Infrastructure.Attributes;
+using Ame.Infrastructure.Utils;
+using Emgu.CV;
 
 namespace Ame.Infrastructure.Models
 {
+    // TODO use ImageDrawing.ClipGeometry instead of normal cropping
+    // TODO create a custom xerializer class to set the ignored parameters
     public class TilesetModel : PaddedGrid, IItem
     {
         #region fields
@@ -72,6 +77,9 @@ namespace Ame.Infrastructure.Models
         public string SourcePath { get; set; }
 
         [XmlIgnore]
+        public Mat MatImage;
+
+        [XmlIgnore]
         public DrawingGroup TilesetImage;
 
         public bool IsTransparent { get; set; }
@@ -88,6 +96,26 @@ namespace Ame.Infrastructure.Models
         public DrawingContext Open()
         {
             return this.TilesetImage.Open();
+        }
+
+        public void RefreshTilesetImage()
+        {
+            this.MatImage = CvInvoke.Imread(this.SourcePath, Emgu.CV.CvEnum.ImreadModes.Unchanged);
+            this.TilesetImage = ImageUtils.MatToDrawingGroup(this.MatImage);
+            this.PixelSize = GeometryUtils.DrawingToWindowSize(this.MatImage.Size);
+        }
+
+        public ImageDrawing GetByID(int id, Point startPoint)
+        {
+            Point topLeftTile = GetPointByID(id);
+            Size sizeOfTile = this.TileSize;
+
+            RectangleGeometry geometry = new RectangleGeometry(new Rect(topLeftTile, sizeOfTile));
+            
+            Mat croppedImage = BrushUtils.CropImage(this.MatImage, topLeftTile, sizeOfTile);
+            Rect drawingRect = new Rect(startPoint, sizeOfTile);
+            ImageDrawing drawing = ImageUtils.MatToImageDrawing(croppedImage, drawingRect);
+            return drawing;
         }
 
         #endregion methods

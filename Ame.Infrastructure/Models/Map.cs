@@ -40,22 +40,8 @@ namespace Ame.Infrastructure.Models
             this.Description = "";
             this.LayerList = new ObservableCollection<ILayer>();
             this.TilesetList = new ObservableCollection<TilesetModel>();
-
-            Layer initialLayer = new Layer("Layer #0", this.TileWidth, this.TileHeight, this.RowCount, this.ColumnCount);
-            this.LayerList.Add(initialLayer);
-
             this.UndoQueue = new Stack<DrawAction>();
             this.RedoQueue = new Stack<DrawAction>();
-            for (int xIndex = 0; xIndex < this.TileWidth; ++xIndex)
-            {
-                for (int yIndex = 0; yIndex < this.TileHeight; ++yIndex)
-                {
-                    Point position = new Point(xIndex * 32, yIndex * 32);
-                    Tile emptyTile = Tile.emptyTile(position);
-                    this.CurrentLayer.LayerItems.Add(emptyTile.Image);
-                    this.CurrentLayer.TileIDs.Add(emptyTile);
-                }
-            }
         }
 
         public Map(string name)
@@ -409,7 +395,7 @@ namespace Ame.Infrastructure.Models
             int previousTileIndex = (int)(tile.Bounds.X / this.TileWidth) + (int)(tile.Bounds.Y / this.TileHeight) * this.ColumnCount;
             ImageDrawing previousImage = this.CurrentLayer.LayerItems[previousTileIndex] as ImageDrawing;
             Tile previousTileID = this.CurrentLayer.TileIDs[previousTileIndex];
-            this.CurrentLayer.LayerItems[previousTileIndex] = tile.Image;
+            //this.CurrentLayer.LayerItems[previousTileIndex] = tile.Image;
             this.CurrentLayer.TileIDs[previousTileIndex] = tile;
             previousImage.Rect = tile.Bounds;
             Tile previousTile = new Tile(previousImage, previousTileID.TilesetID, previousTileID.TileID);
@@ -427,6 +413,7 @@ namespace Ame.Infrastructure.Models
             XmlSerializer layerSerializer = new XmlSerializer(typeof(Layer));
             while (reader.Read())
             {
+                // TODO: fix error with reading end tags that denote a start and end <example/>
                 if (reader.IsStartElement())
                 {
                     AmeXMLTags tag = XMLTagMethods.GetTag(reader.Name);
@@ -470,13 +457,18 @@ namespace Ame.Infrastructure.Models
                             case AmeXMLTags.Tilesets:
                                 while (reader.IsStartElement())
                                 {
-                                    this.TilesetList.Add((TilesetModel)tilesetSerializer.Deserialize(reader));
+                                    TilesetModel tileset = (TilesetModel)tilesetSerializer.Deserialize(reader);
+                                    this.TilesetList.Add(tileset);
+                                    tileset.RefreshTilesetImage();
                                 }
                                 break;
                             case AmeXMLTags.Layers:
                                 while (reader.IsStartElement())
                                 {
-                                    this.LayerList.Add((Layer)layerSerializer.Deserialize(reader));
+                                    Layer layer = (Layer)layerSerializer.Deserialize(reader);
+                                    layer.TileIDs.reset(layer.TileWidth, layer.TileHeight);
+                                    this.LayerList.Add(layer);
+                                    layer.TileIDs.refreshDrawing(this.TilesetList, layer);
                                 }
                                 break;
                             default:

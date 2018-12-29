@@ -71,7 +71,7 @@ namespace Ame.Infrastructure.Models
                     ImageDrawing drawing = ImageUtils.MatToImageDrawing(tileImage, drawingRect);
                     
                     Point offsetPoint = Point.Add(pixelPoint, (Vector)topLeftPoint);
-                    int tileID = tilesetModel.getID(offsetPoint);
+                    int tileID = tilesetModel.GetID(offsetPoint);
                     Tile tile = new Tile(drawing, tilesetID, tileID);
                     this.Tiles.Add(tile);
                 }

@@ -187,15 +187,23 @@ namespace Ame.Infrastructure.Models
             return boundPoint;
         }
 
-        public int getID(int pixelX, int pixelY)
+        // TODO factor in padding and offset
+        public int GetID(int pixelX, int pixelY)
         {
             return (pixelY / this.TileHeight) * ColumnCount() + (pixelX / this.TileWidth);
 
         }
 
-        public int getID(Point pixelPoint)
+        public int GetID(Point pixelPoint)
         {
             return ((int)pixelPoint.Y / this.TileHeight) * ColumnCount() + ((int)pixelPoint.X / this.TileWidth);
+        }
+
+        public Point GetPointByID(int id)
+        {
+            int pointX = (id % ColumnCount()) * this.TileWidth;
+            int pointY = (int)Math.Floor((double)(id / ColumnCount())) * this.TileHeight;
+            return new Point(pointX, pointY);
         }
     }
 
