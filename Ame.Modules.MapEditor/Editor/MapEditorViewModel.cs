@@ -86,7 +86,7 @@ namespace Ame.Modules.MapEditor.Editor
             this.imageTransform.SetPixelToTile(this.Map.TileWidth, this.Map.TileHeight);
             this.imageTransform.SetSlectionToPixel(this.Map.TileWidth / 2, this.Map.TileHeight / 2);
 
-            this.Title = map.Name;
+            this.Title = this.Map.Name;
             this.drawingGroup = new DrawingGroup();
             this.mapBackground = new DrawingGroup();
             this.hoverSample = new DrawingGroup();
@@ -98,7 +98,6 @@ namespace Ame.Modules.MapEditor.Editor
             this.drawingGroup.Children.Add(this.gridLines);
             this.DrawingCanvas = new DrawingImage(this.drawingGroup);
             RenderOptions.SetEdgeMode(this.hoverSample, EdgeMode.Aliased);
-
             
             this.backgroundBrush = new SolidColorBrush(this.Map.BackgroundColor);
             this.backgroundPen = new Pen(Brushes.Transparent, 0);

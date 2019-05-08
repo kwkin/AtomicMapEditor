@@ -399,7 +399,7 @@ namespace Ame.Infrastructure.Models
             int previousTileIndex = (int)(tile.Bounds.X / this.TileWidth) + (int)(tile.Bounds.Y / this.TileHeight) * this.ColumnCount;
             ImageDrawing previousImage = this.CurrentLayer.LayerItems[previousTileIndex] as ImageDrawing;
             Tile previousTileID = this.CurrentLayer.TileIDs[previousTileIndex];
-            //this.CurrentLayer.LayerItems[previousTileIndex] = tile.Image;
+
             this.CurrentLayer.TileIDs[previousTileIndex] = tile;
             previousImage.Rect = tile.Bounds;
             Tile previousTile = new Tile(previousImage, previousTileID.TilesetID, previousTileID.TileID);

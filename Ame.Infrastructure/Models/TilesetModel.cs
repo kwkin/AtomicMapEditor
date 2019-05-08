@@ -117,6 +117,10 @@ namespace Ame.Infrastructure.Models
             RectangleGeometry geometry = new RectangleGeometry(new Rect(topLeftTile, sizeOfTile));
             
             Mat croppedImage = BrushUtils.CropImage(this.MatImage, topLeftTile, sizeOfTile);
+            if (this.IsTransparent)
+            {
+                croppedImage = ImageUtils.ColorToTransparent(croppedImage, this.TransparentColor);
+            }
             Rect drawingRect = new Rect(startPoint, sizeOfTile);
             ImageDrawing drawing = ImageUtils.MatToImageDrawing(croppedImage, drawingRect);
             return drawing;
@@ -182,7 +186,7 @@ namespace Ame.Infrastructure.Models
                             case AmeXMLTags.IsTransparent:
                                 this.IsTransparent = bool.Parse(value);
                                 break;
-                            case AmeXMLTags.BackgroundColor:
+                            case AmeXMLTags.TransparentColor:
                                 this.TransparentColor = (Color)ColorConverter.ConvertFromString(value);
                                 break;
                             default:

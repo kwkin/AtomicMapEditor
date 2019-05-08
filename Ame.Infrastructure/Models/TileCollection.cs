@@ -30,28 +30,14 @@ namespace Ame.Infrastructure.Models
         {
             this.Group = new DrawingGroup();
             this.Tiles = new ObservableCollection<Tile>();
-            this.Tiles.CollectionChanged += (sender, e) =>
-            {
-                int index = e.NewStartingIndex;
-                if (((Tile)e.NewItems[0]).Image != null)
-                {
-                    this.LayerItems[index] = ((Tile)e.NewItems[0]).Image;
-                }
-            };
+            this.initializeTiles();
         }
 
         public TileCollection(ObservableCollection<Tile> tiles)
         {
             this.Group = new DrawingGroup();
             this.Tiles = tiles;
-            this.Tiles.CollectionChanged += (sender, e) =>
-            {
-                int index = e.NewStartingIndex;
-                if (((Tile)e.NewItems[0]).Image != null)
-                {
-                    this.LayerItems[index] = ((Tile)e.NewItems[0]).Image;
-                }
-            };
+            this.initializeTiles();
         }
 
         #endregion constructor
@@ -174,7 +160,6 @@ namespace Ame.Infrastructure.Models
                 Point topLeft = layer.getPointFromIndex(index);
                 if (tile.TilesetID == -1)
                 {
-
                     tile.Image = Tile.emptyTile(topLeft).Image;
                 }
                 else
@@ -200,6 +185,19 @@ namespace Ame.Infrastructure.Models
                     this.LayerItems.Add(emptyTile.Image);
                 }
             }
+        }
+
+        private void initializeTiles()
+        {
+            this.Tiles.CollectionChanged += (sender, e) =>
+            {
+                int index = e.NewStartingIndex;
+                if (((Tile)e.NewItems[0]).Image != null)
+                {
+                    this.LayerItems[index] = ((Tile)e.NewItems[0]).Image;
+                }
+            };
+            RenderOptions.SetEdgeMode(this.Group, EdgeMode.Aliased);
         }
 
         #endregion methods
