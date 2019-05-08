@@ -746,6 +746,8 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
             this.itemTransform.SetPixelToTile(this.TilesetModel.TileWidth, this.TilesetModel.TileHeight);
             this.itemTransform.SetSlectionToPixel(this.TilesetModel.TileWidth / 2, this.TilesetModel.TileHeight / 2);
             Mat drawingMat = this.ItemImage;
+
+            this.isGridOn = true;
             if (this.IsTransparent)
             {
                 drawingMat = ImageUtils.ColorToTransparent(this.ItemImage, this.TransparentColor);

@@ -11,6 +11,7 @@ using Ame.Infrastructure.Attributes;
 using System.Xml;
 using Ame.Infrastructure.Files;
 using System.Xml.Serialization;
+using System.Xml.Schema;
 
 namespace Ame.Infrastructure.Models
 {
@@ -191,6 +192,49 @@ namespace Ame.Infrastructure.Models
             int pointX = (id % this.Columns) * this.TileWidth;
             int pointY = (int)Math.Floor((double)(id / this.Rows)) * this.TileHeight;
             return new Point(pointX, pointY);
+        }
+
+        public XmlSchema GetSchema()
+        {
+            return null;
+        }
+
+        public void ReadXml(XmlReader reader)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void WriteXml(XmlWriter writer)
+        {
+            XMLTagMethods.WriteElement(writer, AmeXMLTags.Name, this.Name);
+            XMLTagMethods.WriteElement(writer, AmeXMLTags.Columns, this.Columns);
+            XMLTagMethods.WriteElement(writer, AmeXMLTags.Rows, this.Rows);
+            if (this.TileWidth != 0)
+            {
+                XMLTagMethods.WriteElement(writer, AmeXMLTags.TileWidth, this.TileWidth);
+            }
+            if (this.TileHeight != 0)
+            {
+                XMLTagMethods.WriteElement(writer, AmeXMLTags.TileHeight, this.TileHeight);
+            }
+            if (this.OffsetX != 0)
+            {
+                XMLTagMethods.WriteElement(writer, AmeXMLTags.OffsetX, this.OffsetX);
+            }
+            if (this.OffsetY != 0)
+            {
+                XMLTagMethods.WriteElement(writer, AmeXMLTags.OffsetY, this.OffsetY);
+            }
+            XMLTagMethods.WriteElement(writer, AmeXMLTags.Position, this.Position);
+            XMLTagMethods.WriteElement(writer, AmeXMLTags.Scale, this.Scale);
+            if (this.ScrollRate != 0)
+            {
+                XMLTagMethods.WriteElement(writer, AmeXMLTags.ScrollRate, this.ScrollRate);
+            }
+
+            XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
+            ns.Add("", "");
+            XMLTagMethods.WriteStartElement(writer, AmeXMLTags.Layers);
         }
 
         #endregion methods

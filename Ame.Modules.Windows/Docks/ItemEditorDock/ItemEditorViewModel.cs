@@ -105,6 +105,8 @@ namespace Ame.Modules.Windows.Docks.ItemEditorDock
             this.updatePositionLabelStopWatch = Stopwatch.StartNew();
             this.selectLineStopWatch = Stopwatch.StartNew();
 
+            this.isGridOn = true;
+
             this.HandleLeftClickDownCommand = new DelegateCommand<object>((point) =>
             {
                 HandleLeftClickDown((Point)point);

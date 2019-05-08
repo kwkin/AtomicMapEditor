@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Windows;
 using System.Windows.Media;
 using System.Xml;
@@ -16,6 +18,7 @@ using Ame.Infrastructure.Files;
 
 namespace Ame.Infrastructure.Models
 {
+    [XmlRoot("Map")]
     public class Map : INotifyPropertyChanged, IXmlSerializable
     {
         #region fields
@@ -38,7 +41,7 @@ namespace Ame.Infrastructure.Models
             this.Scale = ScaleType.Tile;
             this.PixelScale = 1;
             this.Description = "";
-            this.LayerList = new ObservableCollection<ILayer>();
+            this.LayerList = new LayerCollection();
             this.TilesetList = new ObservableCollection<TilesetModel>();
             this.UndoQueue = new Stack<DrawAction>();
             this.RedoQueue = new Stack<DrawAction>();
@@ -54,7 +57,7 @@ namespace Ame.Infrastructure.Models
             this.Scale = ScaleType.Tile;
             this.PixelScale = 1;
             this.Description = "";
-            this.LayerList = new ObservableCollection<ILayer>();
+            this.LayerList = new LayerCollection();
             this.TilesetList = new ObservableCollection<TilesetModel>();
 
             Layer initialLayer = new Layer("Layer #0", this.TileWidth, this.TileHeight, this.RowCount, this.ColumnCount);
@@ -84,7 +87,7 @@ namespace Ame.Infrastructure.Models
             this.Scale = ScaleType.Tile;
             this.PixelScale = 1;
             this.Description = "";
-            this.LayerList = new ObservableCollection<ILayer>();
+            this.LayerList = new LayerCollection();
             this.TilesetList = new ObservableCollection<TilesetModel>();
 
             Layer initialLayer = new Layer("Layer #0", this.TileWidth, this.TileHeight, this.RowCount, this.ColumnCount);
@@ -235,7 +238,7 @@ namespace Ame.Infrastructure.Models
         [MetadataProperty(MetadataType.Property)]
         public int Version { get; set; }
 
-        public ObservableCollection<ILayer> LayerList { get; set; }
+        public LayerCollection LayerList { get; set; }
         public int SelectedLayerIndex { get; set; }
         
         public Layer CurrentLayer
@@ -267,6 +270,7 @@ namespace Ame.Infrastructure.Models
             }
         }
 
+        // TODO create a tilesetModelCollection and a LayerCollection
         public ObservableCollection<TilesetModel> TilesetList { get; set; }
 
         public int TilesetCount
@@ -410,14 +414,24 @@ namespace Ame.Infrastructure.Models
         public void ReadXml(XmlReader reader)
         {
             XmlSerializer tilesetSerializer = new XmlSerializer(typeof(TilesetModel));
-            XmlSerializer layerSerializer = new XmlSerializer(typeof(Layer));
-            while (reader.Read())
+            XmlSerializer layerCollectionSerializer = new XmlSerializer(typeof(LayerCollection));
+            int level = 1;
+            while (reader.Read() && level > 0)
             {
                 // TODO: fix error with reading end tags that denote a start and end <example/>
-                if (reader.IsStartElement())
+                if (reader.IsStartElement() && !reader.IsEmptyElement)
                 {
+                    level++;
                     AmeXMLTags tag = XMLTagMethods.GetTag(reader.Name);
-                    if (reader.Read() && tag != AmeXMLTags.Null)
+                    if (tag == AmeXMLTags.Layers)
+                    {
+                        this.LayerList = (LayerCollection)layerCollectionSerializer.Deserialize(reader);
+                        foreach (Layer layer in this.LayerList)
+                        {
+                            layer.TileIDs.refreshDrawing(this.TilesetList, layer);
+                        }
+                    }
+                    else if (reader.Read() && tag != AmeXMLTags.Null)
                     {
                         string value = reader.Value;
                         switch (tag)
@@ -462,20 +476,23 @@ namespace Ame.Infrastructure.Models
                                     tileset.RefreshTilesetImage();
                                 }
                                 break;
-                            case AmeXMLTags.Layers:
-                                while (reader.IsStartElement())
-                                {
-                                    Layer layer = (Layer)layerSerializer.Deserialize(reader);
-                                    layer.TileIDs.reset(layer.TileWidth, layer.TileHeight);
-                                    this.LayerList.Add(layer);
-                                    layer.TileIDs.refreshDrawing(this.TilesetList, layer);
-                                }
-                                break;
                             default:
                                 break;
                         }
                     }
                 }
+                else if (reader.NodeType == XmlNodeType.EndElement)
+                {
+                    level--;
+                }
+            }
+            try
+            {
+                isValid(this);
+            }
+            catch(FileFormatException exception)
+            {
+                throw new FileFormatException("Error when reading file. " + exception.Message);
             }
         }
 
@@ -509,6 +526,42 @@ namespace Ame.Infrastructure.Models
                 serializerLayer.Serialize(writer, layer, ns);
             }
             writer.WriteEndElement();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="map"></param>
+        /// <returns></returns>
+        /// <exception cref="FileFormatException">Thrown when there is an invalid parameter in the map</exception>
+        public static bool isValid(Map map)
+        {
+            StringBuilder errorMessage = new StringBuilder("");
+            if (map.Version < 1)
+            {
+                errorMessage.AppendLine("Version must be be at least 1.");
+            }
+            else if (map.RowCount < 1)
+            {
+                errorMessage.AppendLine("Rows must be be at least 1.");
+            }
+            else if (map.ColumnCount < 1)
+            {
+                errorMessage.AppendLine("Columns must be be at least 1.");
+            }
+            else if (map.TileWidth < 1)
+            {
+                errorMessage.AppendLine("Tile Width must be be at least 1.");
+            }
+            else if (map.TileHeight < 1)
+            {
+                errorMessage.AppendLine("Tile Height must be be at least 1.");
+            }
+            if (errorMessage.ToString() != string.Empty)
+            {
+                throw new FileFormatException(errorMessage.ToString());
+            }
+            return true;
         }
 
         #endregion methods

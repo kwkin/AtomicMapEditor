@@ -6,8 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using System.Xml;
+using System.Xml.Schema;
 using System.Xml.Serialization;
 using Ame.Infrastructure.Attributes;
+using Ame.Infrastructure.Files;
 using Ame.Infrastructure.Utils;
 using Emgu.CV;
 
@@ -15,7 +18,8 @@ namespace Ame.Infrastructure.Models
 {
     // TODO use ImageDrawing.ClipGeometry instead of normal cropping
     // TODO create a custom xerializer class to set the ignored parameters
-    public class TilesetModel : PaddedGrid, IItem
+    [XmlRoot("Tileset")]
+    public class TilesetModel : PaddedGrid, IItem, IXmlSerializable
     {
         #region fields
 
@@ -116,6 +120,112 @@ namespace Ame.Infrastructure.Models
             Rect drawingRect = new Rect(startPoint, sizeOfTile);
             ImageDrawing drawing = ImageUtils.MatToImageDrawing(croppedImage, drawingRect);
             return drawing;
+        }
+
+        public XmlSchema GetSchema()
+        {
+            throw null;
+        }
+
+        public void ReadXml(XmlReader reader)
+        {
+            if (!reader.IsStartElement() || reader.Name != XMLTagMethods.GetName(AmeXMLTags.Tileset))
+            {
+                StringBuilder errorMessage = new StringBuilder();
+                errorMessage.Append("Cannot deserialize Tileset. The tag initial tag is set to ");
+                errorMessage.Append(reader.Name);
+                throw new InvalidOperationException(errorMessage.ToString());
+            }
+            // TODO check what happens when this is set incorrectly or not set at all
+            this.ID = int.Parse(reader.GetAttribute(XMLTagMethods.GetName(AmeXMLTags.ID)));
+            int level = 1;
+            while (reader.Read() && level > 0)
+            {
+                if (reader.IsStartElement())
+                {
+                    level++;
+                    AmeXMLTags tag = XMLTagMethods.GetTag(reader.Name);
+                    if (reader.Read() && tag != AmeXMLTags.Null)
+                    {
+                        string value = reader.Value;
+                        switch (tag)
+                        {
+                            case AmeXMLTags.Name:
+                                this.Name = value;
+                                break;
+                            case AmeXMLTags.Source:
+                                this.SourcePath = value;
+                                break;
+                            case AmeXMLTags.TileWidth:
+                                this.TileWidth = int.Parse(value);
+                                break;
+                            case AmeXMLTags.TileHeight:
+                                this.TileHeight = int.Parse(value);
+                                break;
+                            case AmeXMLTags.Scale:
+                                ScaleType xmlScale;
+                                Enum.TryParse(value, out xmlScale);
+                                this.Scale = xmlScale;
+                                break;
+                            case AmeXMLTags.OffsetX:
+                                this.OffsetX = int.Parse(value);
+                                break;
+                            case AmeXMLTags.OffsetY:
+                                this.OffsetY = int.Parse(value);
+                                break;
+                            case AmeXMLTags.PaddingX:
+                                this.PaddingX = int.Parse(value);
+                                break;
+                            case AmeXMLTags.PaddingY:
+                                this.PaddingY = int.Parse(value);
+                                break;
+                            case AmeXMLTags.IsTransparent:
+                                this.IsTransparent = bool.Parse(value);
+                                break;
+                            case AmeXMLTags.BackgroundColor:
+                                this.TransparentColor = (Color)ColorConverter.ConvertFromString(value);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+                else if (reader.NodeType == XmlNodeType.EndElement)
+                {
+                    level--;
+                }
+            }
+        }
+
+        public void WriteXml(XmlWriter writer)
+        {
+            XMLTagMethods.WriteAttribute(writer, AmeXMLTags.ID, this.ID);
+            XMLTagMethods.WriteElement(writer, AmeXMLTags.Name, this.Name);
+            XMLTagMethods.WriteElement(writer, AmeXMLTags.Source, this.SourcePath);
+            XMLTagMethods.WriteElement(writer, AmeXMLTags.TileWidth, this.TileWidth);
+            XMLTagMethods.WriteElement(writer, AmeXMLTags.TileHeight, this.TileHeight);
+            XMLTagMethods.WriteElement(writer, AmeXMLTags.Scale, this.Scale);
+            if (this.OffsetX != 0)
+            {
+                XMLTagMethods.WriteElement(writer, AmeXMLTags.OffsetX, this.OffsetX);
+            }
+            if (this.OffsetY != 0)
+            {
+                XMLTagMethods.WriteElement(writer, AmeXMLTags.OffsetY, this.OffsetY);
+            }
+            if (this.PaddingX != 0)
+            {
+                XMLTagMethods.WriteElement(writer, AmeXMLTags.PaddingX, this.PaddingX);
+            }
+            if (this.PaddingY != 0)
+            {
+                XMLTagMethods.WriteElement(writer, AmeXMLTags.PaddingY, this.PaddingY);
+            }
+            XMLTagMethods.WriteElement(writer, AmeXMLTags.IsTransparent, this.IsTransparent);
+            if (this.IsTransparent)
+            {
+                XMLTagMethods.WriteElement(writer, AmeXMLTags.TransparentColor, this.TransparentColor);
+            }
         }
 
         #endregion methods

@@ -78,7 +78,7 @@ namespace Ame.Modules.Windows
             ObservableCollection<ILayer> layerList = null;
             if (this.session.CurrentMap != null)
             {
-                layerList = this.session.CurrentMap.LayerList;
+                layerList = this.session.CurrentMap.LayerList.Layers;
             }
             DockCreatorTemplate[] dockCreators = new DockCreatorTemplate[]
             {
@@ -395,7 +395,7 @@ namespace Ame.Modules.Windows
             {
                 this.session.CurrentTilesetList.Add(tileset);
             }
-            this.session.CurrentLayerList = importedMap.LayerList;
+            this.session.CurrentLayerList = importedMap.LayerList.Layers;
             CollectionViewSource.GetDefaultView(this.session.CurrentLayerList).Refresh();
             this.eventAggregator.GetEvent<OpenDockEvent>().Publish(openEditorMessage);
         }

@@ -77,16 +77,16 @@ namespace Ame.Infrastructure.Files
         Height,
 
         [XMLTagAttribute("XOffset")]
-        XOffset,
+        OffsetX,
 
         [XMLTagAttribute("YOffset")]
-        YOffset,
+        OffsetY,
 
         [XMLTagAttribute("XPadding")]
-        XPadding,
+        PaddingX,
 
         [XMLTagAttribute("YPadding")]
-        YPadding,
+        PaddingY,
 
         [XMLTagAttribute("Group")]
         Group,

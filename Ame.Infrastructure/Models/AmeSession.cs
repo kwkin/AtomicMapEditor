@@ -103,7 +103,7 @@ namespace Ame.Infrastructure.Models
             set
             {
                 this.currentMap = value;
-                this.CurrentLayerList = this.currentMap.LayerList;
+                this.CurrentLayerList = this.currentMap.LayerList.Layers;
                 this.CurrentLayer = this.currentMap.CurrentLayer;
                 this.CurrentTilesetList = this.currentMap.TilesetList;
                 NotifyPropertyChanged();
