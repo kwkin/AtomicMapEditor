@@ -18,8 +18,7 @@ namespace Ame.Modules.Windows.Serializer
     public class DockLayoutViewModel
     {
         #region fields
-
-        private const string LayoutFileName = "Layout.config";
+        
         private ILayoutViewModel layoutParent = null;
         private IEventAggregator eventAggregator;
 
@@ -152,7 +151,7 @@ namespace Ame.Modules.Windows.Serializer
             try
             {
                 this.layoutParent.IsBusy = true;
-                string layoutFile = Path.Combine(this.layoutParent.AppDataDirectory, DockLayoutViewModel.LayoutFileName);
+                string layoutFile = Path.Combine(this.layoutParent.AppDataDirectory, Global.LayoutFileName);
                 if (!File.Exists(layoutFile))
                 {
                     throw new FileNotFoundException("Layout file not found");
@@ -236,7 +235,7 @@ namespace Ame.Modules.Windows.Serializer
                 return;
             }
 
-            string layoutFile = System.IO.Path.Combine(this.layoutParent.AppDataDirectory, DockLayoutViewModel.LayoutFileName);
+            string layoutFile = System.IO.Path.Combine(this.layoutParent.AppDataDirectory, Global.LayoutFileName);
             File.WriteAllText(layoutFile, xmlLayout);
         }
 

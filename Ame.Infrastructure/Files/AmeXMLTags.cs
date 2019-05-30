@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using Ame.Infrastructure.Models;
 
 namespace Ame.Infrastructure.Files
 {
@@ -12,6 +14,9 @@ namespace Ame.Infrastructure.Files
     {
         [XMLTagAttribute("Map")]
         Map,
+
+        [XMLTagAttribute("Maps")]
+        Maps,
 
         [XMLTagAttribute("Tilesets")]
         Tilesets,
@@ -103,6 +108,12 @@ namespace Ame.Infrastructure.Files
         [XMLTagAttribute("Positions")]
         Positions,
 
+        [XMLTagAttribute("LastMapDirectory")]
+        LastMapDirectory,
+
+        [XMLTagAttribute("LastTilesetDirectory")]
+        LastTilesetDirectory,
+
         [XMLTagAttribute("Null")]
         Null,
     }
@@ -159,6 +170,16 @@ namespace Ame.Infrastructure.Files
             {
                 xmlWriter.WriteElementString(GetName(tag), value.ToString());
             }
+        }
+
+        public static void WriteElements<T>(XmlWriter xmlWriter, AmeXMLTags parentTag, AmeXMLTags childTag, IList<T> items)
+        {
+            xmlWriter.WriteStartElement(GetName(parentTag));
+            foreach (object item in items)
+            {
+                xmlWriter.WriteElementString(GetName(childTag), item.ToString());
+            }
+            xmlWriter.WriteEndElement();
         }
 
         public static void WriteAttribute(XmlWriter xmlWriter, AmeXMLTags tag, object value)

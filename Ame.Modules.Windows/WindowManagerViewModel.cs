@@ -156,10 +156,6 @@ namespace Ame.Modules.Windows
         public ObservableCollection<EditorViewModelTemplate> Documents { get; private set; }
         public ObservableCollection<DockViewModelTemplate> Anchorables { get; private set; }
 
-        public ContentControl MapWindowView { get; set; }
-        public ContentControl LayerWindowView { get; set; }
-        public ContentControl TilesetWindowView { get; set; }
-
         private bool isBusy;
         public bool IsBusy
         {
@@ -225,6 +221,9 @@ namespace Ame.Modules.Windows
         {
             get
             {
+                Window window = Window.GetWindow(this.WindowManager);
+                window.Closing += CloseApplication;
+
                 string documentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                 string directoryPath = Path.Combine(documentPath, Global.applicationName);
                 try
@@ -246,6 +245,15 @@ namespace Ame.Modules.Windows
 
 
         #region methods
+
+        public void CloseApplication(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            // TODO move session to a standard directory
+            string documentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string directoryPath = Path.Combine(documentPath, Global.SessionFileName);
+            XMLExporter exporter = new XMLExporter(directoryPath, this.session);
+            exporter.ExportSession();
+        }
 
         private void OpenDock(OpenDockMessage message)
         {
@@ -387,6 +395,7 @@ namespace Ame.Modules.Windows
         private void OpenMap(NotificationMessage<OpenMessage> message)
         {
             OpenMessage content = message.Content;
+            this.session.LastMapDirectory = Directory.GetParent(content.Path).FullName;
             XMLImporter importer = new XMLImporter(content.Path);
             Map importedMap = importer.Import();
 

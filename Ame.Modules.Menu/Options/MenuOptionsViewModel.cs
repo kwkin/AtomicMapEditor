@@ -450,6 +450,7 @@ namespace Ame.Modules.Menu.Options
             OpenFileDialog openMapDialog = new OpenFileDialog();
             openMapDialog.Title = "Open Map";
             openMapDialog.Filter = SaveExtension.GetOpenFileSaveExtensions();
+            openMapDialog.InitialDirectory = this.Session.LastMapDirectory;
             if (openMapDialog.ShowDialog() == true)
             {
                 this.fileName = openMapDialog.FileName;

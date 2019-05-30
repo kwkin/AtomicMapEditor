@@ -129,6 +129,20 @@ namespace Ame.Infrastructure.Models
             }
         }
 
+        [MetadataProperty(MetadataType.Property)]
+        private string file;
+        public string File
+        {
+            get
+            {
+                return this.file;
+            }
+            set
+            {
+                this.file = value;
+            }
+        }
+
         public GridModel Grid { get; set; }
 
         [MetadataProperty(MetadataType.Property)]

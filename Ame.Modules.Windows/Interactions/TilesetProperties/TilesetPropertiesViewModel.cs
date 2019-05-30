@@ -29,6 +29,7 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
 
         private IEventAggregator eventAggregator;
         private IScrollModel scrollModel;
+        private AmeSession session;
 
         private int tilesetPixelWidth;
         private int tilesetPixelHeight;
@@ -47,7 +48,7 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
 
         #region constructor
 
-        public TilesetPropertiesViewModel(IEventAggregator eventAggregator)
+        public TilesetPropertiesViewModel(IEventAggregator eventAggregator, AmeSession session)
         {
             if (eventAggregator == null)
             {
@@ -55,6 +56,7 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
             }
             this.eventAggregator = eventAggregator;
             this.scrollModel = ScrollModel.DefaultScrollModel();
+            this.session = session;
 
             this.WindowTitle = "New Map";
             this.drawingGroup = new DrawingGroup();
@@ -716,6 +718,7 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
         {
             OpenFileDialog openTilesetDilog = new OpenFileDialog();
             openTilesetDilog.Title = "Select a Tileset";
+            openTilesetDilog.InitialDirectory = this.session.LastTilesetDirectory;
             openTilesetDilog.Filter = ImageExtension.GetOpenFileImageExtensions();
             if (openTilesetDilog.ShowDialog() == true)
             {
@@ -724,6 +727,7 @@ namespace Ame.Modules.Windows.Interactions.TilesetProperties
                 {
                     this.IsSourceLoaded = true;
                     this.SourcePath = tileFilePath;
+                    this.session.LastTilesetDirectory = Directory.GetParent(tileFilePath).FullName;
                     RefreshItemImage();
                     RaisePropertyChanged(nameof(this.SourcePath));
                 }
