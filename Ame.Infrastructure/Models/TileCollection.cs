@@ -40,10 +40,29 @@ namespace Ame.Infrastructure.Models
 
             public TileCollection Generate()
             {
-                TileCollection collection = new TileCollection();
+                // TODO reevaluate the interface
+                throw new NotImplementedException();
+            }
+
+            public TileCollection Generate(Layer layer, ObservableCollection<TilesetModel> tilesetList)
+            {
+                TileCollection collection = new TileCollection(layer);
                 for (int index = 0; index < this.Positions.Count - 1; index += 2)
                 {
-                    collection.Tiles.Add(new Tile(this.Positions[index], this.Positions[index + 1]));
+                    Tile tile = new Tile(this.Positions[index], this.Positions[index + 1]);
+
+                    Point topLeft = layer.getPointFromIndex(index / 2);
+                    IEnumerable<TilesetModel> models = tilesetList.Where(tileset => tileset.ID == tile.TilesetID);
+                    if (models.Count() != 0)
+                    {
+                        tile.Image = models.First().GetByID(tile.TileID, topLeft);
+                    }
+                    else
+                    {
+                        tile.Image = Tile.emptyTile(topLeft).Image;
+                    }
+
+                    collection.Tiles.Add(tile);
                 }
                 return collection;
             }
@@ -56,18 +75,37 @@ namespace Ame.Infrastructure.Models
 
         #region constructor
 
-        public TileCollection()
+        public TileCollection(Layer layer)
+            : this(layer.TileWidth, layer.TileHeight, layer.Rows, layer.Columns)
+        {
+        }
+
+        public TileCollection(int tileWidth, int tileHeight, int rows, int columns)
         {
             this.Group = new DrawingGroup();
             this.Tiles = new ObservableCollection<Tile>();
-            this.initializeTiles();
+            this.TileWidth = tileWidth;
+            this.TileHeight = tileHeight;
+            this.Rows = rows;
+            this.Colummns = columns;
+
+            this.Tiles.CollectionChanged += TilesCollectionChanged;
+            RenderOptions.SetEdgeMode(this.Group, EdgeMode.Aliased);
+
+            this.Initialize();
         }
 
-        public TileCollection(ObservableCollection<Tile> tiles)
+        public TileCollection(ObservableCollection<Tile> tiles, int tileWidth, int tileHeight, int rows, int columns)
         {
             this.Group = new DrawingGroup();
             this.Tiles = tiles;
-            this.initializeTiles();
+            this.TileWidth = tileWidth;
+            this.TileHeight = tileHeight;
+            this.Rows = rows;
+            this.Colummns = columns;
+
+            this.Tiles.CollectionChanged += TilesCollectionChanged;
+            RenderOptions.SetEdgeMode(this.Group, EdgeMode.Aliased);
         }
 
         #endregion constructor
@@ -75,7 +113,6 @@ namespace Ame.Infrastructure.Models
 
         #region properties
         
-        [field: NonSerialized]
         private DrawingGroup group;
         
         [IgnoreNodeBuilder]
@@ -119,6 +156,59 @@ namespace Ame.Infrastructure.Models
             }
         }
 
+        // TODO maybe keep reference to layer instead?
+        private int tileWidth;
+        public int TileWidth
+        {
+            get
+            {
+                return this.tileWidth;
+            }
+            set
+            {
+                this.tileWidth = value;
+            }
+        }
+
+        private int tileHeight;
+        public int TileHeight
+        {
+            get
+            {
+                return this.tileHeight;
+            }
+            set
+            {
+                this.tileHeight = value;
+            }
+        }
+
+        private int rows;
+        public int Rows
+        {
+            get
+            {
+                return this.rows;
+            }
+            set
+            {
+                this.rows = value;
+            }
+        }
+
+        private int columns;
+        public int Colummns
+        {
+            get
+            {
+                return this.columns;
+            }
+            set
+            {
+                this.columns = value;
+            }
+        }
+
         #endregion properties
 
 
@@ -127,10 +217,6 @@ namespace Ame.Infrastructure.Models
         public void Add(Tile tile)
         {
             this.Tiles.Add(tile);
-            if (Tiles.Count > 1024)
-            {
-                Console.WriteLine("Over");
-            }
         }
 
         public IEnumerator<Tile> GetEnumerator()
@@ -156,48 +242,81 @@ namespace Ame.Infrastructure.Models
                 }
                 else
                 {
-                    // TODO handle error where tileset ID is not found (where.first throws an error)
-                    TilesetModel tilesetModel = tilesetList.Where(tileset => tileset.ID == tile.TilesetID).First();
-                    ImageDrawing drawing = tilesetModel.GetByID(tile.TileID, topLeft);
-                    tile.Image = drawing;
-                }
-                // TODO find a better location to put this
-                if (this.LayerItems.Count > index)
-                {
-                    this.LayerItems[index] = tile.Image;
+                    IEnumerable<TilesetModel> models = tilesetList.Where(tileset => tileset.ID == tile.TilesetID);
+                    if (models.Count() != 0)
+                    {
+                        tile.Image = models.First().GetByID(tile.TileID, topLeft);
+                    }
+                    else
+                    {
+                        tile.Image = Tile.emptyTile(topLeft).Image;
+                    }
                 }
                 index++;
             }
         }
 
-        public void reset(int tileWidth, int tileHeight)
+        /// <summary>
+        /// Replaces all tiles with empty tiles
+        /// </summary>
+        public void Clear()
         {
-            this.LayerItems.Clear();
-            for (int xIndex = 0; xIndex < tileWidth; ++xIndex)
+            int index = 0;
+            for (int xIndex = 0; xIndex < this.Colummns; ++xIndex)
             {
-                for (int yIndex = 0; yIndex < tileHeight; ++yIndex)
+                for (int yIndex = 0; yIndex < this.Rows; ++yIndex)
                 {
-                    Point position = new Point(xIndex * 32, yIndex * 32);
+                    Point position = new Point(xIndex * this.tileWidth, yIndex * this.TileHeight);
                     Tile emptyTile = Tile.emptyTile(position);
-                    this.LayerItems.Add(emptyTile.Image);
+                    this.Tiles[index++] = emptyTile;
                 }
             }
         }
 
-        private void initializeTiles()
+        public void Resize(int rows, int cols)
         {
-            this.Tiles.CollectionChanged += (sender, e) =>
+            // TODO implement
+        }
+
+        private void Initialize()
+        {
+            this.Tiles.Clear();
+            for (int xIndex = 0; xIndex < this.Colummns; ++xIndex)
             {
-                int index = e.NewStartingIndex;
-                if (e.Action == NotifyCollectionChangedAction.Add)
+                for (int yIndex = 0; yIndex < this.Rows; ++yIndex)
                 {
-                    if (((Tile)e.NewItems[0]).Image != null)
-                    {
-                        this.LayerItems[index] = ((Tile)e.NewItems[0]).Image;
-                    }
+                    Point position = new Point(xIndex * this.tileWidth, yIndex * this.TileHeight);
+                    Tile emptyTile = Tile.emptyTile(position);
+                    this.Tiles.Add(emptyTile);
                 }
-            };
-            RenderOptions.SetEdgeMode(this.Group, EdgeMode.Aliased);
+            }
+        }
+
+        private void TilesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    foreach (Tile tile in e.NewItems)
+                    {
+                        this.LayerItems.Add(tile.Image);
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    foreach (Tile tile in e.OldItems)
+                    {
+                        this.LayerItems.Remove(tile.Image);
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Replace:
+                    this.LayerItems[e.NewStartingIndex] = ((Tile)e.NewItems[0]).Image;
+                    break;
+                case NotifyCollectionChangedAction.Reset:
+                    this.LayerItems.Clear();
+                    break;
+                default:
+                    break;
+            }
         }
 
         #endregion methods

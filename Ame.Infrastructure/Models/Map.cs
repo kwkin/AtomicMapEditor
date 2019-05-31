@@ -100,14 +100,12 @@ namespace Ame.Infrastructure.Models
                 map.Scale = this.Scale;
                 map.BackgroundColor = this.BackgroundColor;
                 map.Description = this.Description;
-                map.TilesetList = new ObservableCollection<TilesetModel>();
                 foreach (TilesetModel.TilesetJson tilesetJson in this.TilesetList)
                 {
                     TilesetModel tileset = tilesetJson.Generate();
                     map.TilesetList.Add(tileset);
                     tileset.RefreshTilesetImage();
                 }
-                map.LayerList = new ObservableCollection<ILayer>();
                 foreach (Layer.LayerJson layer in this.LayerList)
                 {
                     map.LayerList.Add(layer.Generate(map.TilesetList));

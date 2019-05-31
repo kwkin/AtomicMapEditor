@@ -94,9 +94,10 @@ namespace Ame.Modules.MapEditor.Editor
             this.hoverSample = new DrawingGroup();
 
             this.layerItems = new DrawingGroup();
-            this.layerItems.Children.Add(this.Map.CurrentLayer.Group);
-
-            this.layerItems = this.Map.CurrentLayer.Group;
+            foreach (Layer layer in this.Map.LayerList)
+            {
+                this.layerItems.Children.Add(layer.Group);
+            }
 
             this.gridLines = new DrawingGroup();
             this.drawingGroup.Children.Add(this.mapBackground);

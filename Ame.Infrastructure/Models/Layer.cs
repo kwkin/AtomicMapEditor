@@ -85,23 +85,7 @@ namespace Ame.Infrastructure.Models
 
             public Layer Generate()
             {
-                Layer layer = new Layer();
-                layer.ID = this.ID;
-                layer.Name = this.Name;
-                layer.Columns = this.Columns;
-                layer.Rows = this.Rows;
-                layer.TileWidth = this.TileWidth;
-                layer.TileHeight = this.TileHeight;
-                layer.OffsetX = this.OffsetX;
-                layer.OffsetY = this.OffsetY;
-                layer.Position = this.Position;
-                layer.Scale = this.Scale;
-                layer.ScrollRate = this.ScrollRate;
-                layer.IsImmutable = this.IsImmutable;
-                layer.IsVisible = this.IsVisible;
-                layer.TileIDs = this.Tiles.Generate();
-                layer.TileIDs.reset(layer.TileWidth, layer.TileHeight);
-                return layer;
+                throw new NotImplementedException();
             }
 
             public Layer Generate(ObservableCollection<TilesetModel> tilesetList)
@@ -120,9 +104,8 @@ namespace Ame.Infrastructure.Models
                 layer.ScrollRate = this.ScrollRate;
                 layer.IsImmutable = this.IsImmutable;
                 layer.IsVisible = this.IsVisible;
-                layer.TileIDs = this.Tiles.Generate();
-                layer.TileIDs.reset(layer.TileWidth, layer.TileHeight);
-                layer.TileIDs.RefreshDrawing(tilesetList, layer);
+                layer.TileIDs = this.Tiles.Generate(layer, tilesetList);
+                //layer.TileIDs.RefreshDrawing(tilesetList, layer);
                 return layer;
             }
         }
@@ -146,7 +129,7 @@ namespace Ame.Infrastructure.Models
             this.Columns = 32;
             this.Position = LayerPosition.Base;
             this.Scale = ScaleType.Tile;
-            ResetLayerItems();
+            this.TileIDs = this.TileIDs ?? new TileCollection(this);
         }
 
         public Layer(int tileWidth, int tileHeight, int rows, int columns)
@@ -158,7 +141,7 @@ namespace Ame.Infrastructure.Models
             this.Columns = columns;
             this.Position = LayerPosition.Base;
             this.Scale = ScaleType.Tile;
-            ResetLayerItems();
+            this.TileIDs = this.TileIDs ?? new TileCollection(this);
         }
 
         public Layer(string layerName, int tileWidth, int tileHeight, int rows, int columns)
@@ -170,7 +153,7 @@ namespace Ame.Infrastructure.Models
             this.Columns = columns;
             this.Position = LayerPosition.Base;
             this.Scale = ScaleType.Tile;
-            ResetLayerItems();
+            this.TileIDs = this.TileIDs ?? new TileCollection(this);
         }
 
         #endregion constructor
@@ -277,12 +260,9 @@ namespace Ame.Infrastructure.Models
             return this.TileHeight * this.Rows;
         }
 
-        public void ResetLayerItems()
+        public void Clear()
         {
-            this.TileIDs = new TileCollection();
-            this.Group = new DrawingGroup();
-            this.TileIDs.reset(this.TileWidth, this.TileHeight);
-            RenderOptions.SetEdgeMode(this.Group, EdgeMode.Aliased);
+            this.TileIDs.Clear();
         }
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
