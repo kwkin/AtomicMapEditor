@@ -4,13 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Xml.Serialization;
 using Ame.Infrastructure.Attributes;
 using Ame.Infrastructure.Utils;
 
 namespace Ame.Infrastructure.Models
 {
-    [Serializable]
     public class GridModel
     {
         #region fields
@@ -40,12 +38,10 @@ namespace Ame.Infrastructure.Models
 
 
         #region properties
-
-        [XmlIgnore]
+        
         [MetadataProperty(MetadataType.Property, "Width")]
         public int PixelWidth { get; set; } = 1;
-
-        [XmlIgnore]
+        
         [MetadataProperty(MetadataType.Property, "Height")]
         public int PixelHeight { get; set; } = 1;
 
@@ -56,8 +52,7 @@ namespace Ame.Infrastructure.Models
         public int TileHeight { get; set; } = 1;
 
         public ScaleType Scale { get; set; } = ScaleType.Tile;
-
-        [XmlIgnore]
+        
         public Size PixelSize
         {
             get
@@ -70,8 +65,7 @@ namespace Ame.Infrastructure.Models
                 this.PixelHeight = (int)value.Height;
             }
         }
-
-        [XmlIgnore]
+        
         public Size TileSize
         {
             get

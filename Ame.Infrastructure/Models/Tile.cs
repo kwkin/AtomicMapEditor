@@ -7,17 +7,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
-using System.Xml.Serialization;
 
 namespace Ame.Infrastructure.Models
 {
-    [XmlRoot("Tiles")]
     public class Tile : INotifyPropertyChanged
     {
         // TODO make the image drawing and IDs consistent with their use
         #region fields
-
-        [field: NonSerialized]
+            
         public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion fields
@@ -49,8 +46,6 @@ namespace Ame.Infrastructure.Models
         #region properties
         
         private ImageDrawing image;
-
-        [XmlIgnore]
         public ImageDrawing Image
         {
             get
@@ -66,8 +61,7 @@ namespace Ame.Infrastructure.Models
 
         public int TilesetID { get; set; }
         public int TileID { get; set; }
-
-        [XmlIgnore]
+        
         public Rect Bounds
         {
             get

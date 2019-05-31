@@ -6,9 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
-using System.Xml;
-using System.Xml.Schema;
-using System.Xml.Serialization;
 using Ame.Infrastructure.Attributes;
 using Ame.Infrastructure.Utils;
 using Emgu.CV;
@@ -18,7 +15,6 @@ namespace Ame.Infrastructure.Models
 {
     // TODO use ImageDrawing.ClipGeometry instead of normal cropping
     // TODO create a custom xerializer class to set the ignored parameters
-    [XmlRoot("Tileset")]
     public class TilesetModel : PaddedGrid, IItem
     {
         [JsonObject(MemberSerialization.OptIn)]
@@ -130,7 +126,6 @@ namespace Ame.Infrastructure.Models
 
         // TODO look into changing the structure of IItems
         // TODO Instead of a tree, just have the list. Declare a property indicating the group
-        [XmlAttribute]
         public int ID { get; set; } = -1;
 
         [MetadataProperty(MetadataType.Property, "Name")]
@@ -138,17 +133,11 @@ namespace Ame.Infrastructure.Models
 
         [MetadataProperty(MetadataType.Property, "Source Path")]
         public string SourcePath { get; set; }
-
-        [XmlIgnore]
+        
         public Mat MatImage;
-
-        [XmlIgnore]
         public DrawingGroup TilesetImage;
-
         public bool IsTransparent { get; set; }
         public Color TransparentColor { get; set; }
-
-        [XmlIgnore]
         public ObservableCollection<IItem> Items { get; set; }
                         
         #endregion properties

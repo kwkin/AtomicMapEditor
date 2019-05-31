@@ -9,13 +9,16 @@ using System.Windows.Media.Imaging;
 
 namespace Ame.Infrastructure.Utils
 {
-    public enum OpenFileExtensions
+    public enum FileExtensions
     {
         [FileExtensionAttribute("AME", "*.ame")]
         AME,
 
         [FileExtensionAttribute("XML", "*.xml")]
         XML,
+
+        [FileExtensionAttribute("JSON", "*.json")]
+        JSON,
 
         [FileExtensionAttribute("PNG", "*.png")]
         PNG,
@@ -30,24 +33,24 @@ namespace Ame.Infrastructure.Utils
 
     public enum SaveExtensions
     {
-        AME = OpenFileExtensions.AME,
-        XML = OpenFileExtensions.XML
+        AME = FileExtensions.AME,
+        JSON = FileExtensions.JSON
     }
 
 
     public enum ImageExtensions
     {
-        PNG = OpenFileExtensions.PNG,
-        JPEG = OpenFileExtensions.JPEG,
-        TIFF = OpenFileExtensions.TIFF
+        PNG = FileExtensions.PNG,
+        JPEG = FileExtensions.JPEG,
+        TIFF = FileExtensions.TIFF
     }
 
 
     public enum ExportMapExtensions
     {
-        PNG = OpenFileExtensions.PNG,
-        JPEG = OpenFileExtensions.JPEG,
-        TIFF = OpenFileExtensions.TIFF
+        PNG = FileExtensions.PNG,
+        JPEG = FileExtensions.JPEG,
+        TIFF = FileExtensions.TIFF
     }
 
 
@@ -58,7 +61,7 @@ namespace Ame.Infrastructure.Utils
         public static string GetOpenFileSaveExtensions()
         {
             StringBuilder openFileFormatBuilder = new StringBuilder();
-            foreach (OpenFileExtensions extension in Enum.GetValues(typeof(SaveExtensions)))
+            foreach (FileExtensions extension in Enum.GetValues(typeof(SaveExtensions)))
             {
                 openFileFormatBuilder.Append(extension.GetOpenFileFormat());
                 openFileFormatBuilder.Append("|");
@@ -78,7 +81,7 @@ namespace Ame.Infrastructure.Utils
         public static string GetOpenFileImageExtensions()
         {
             StringBuilder openFileFormatBuilder = new StringBuilder();
-            foreach (OpenFileExtensions extension in Enum.GetValues(typeof(ImageExtensions)))
+            foreach (FileExtensions extension in Enum.GetValues(typeof(ImageExtensions)))
             {
                 openFileFormatBuilder.Append(extension.GetOpenFileFormat());
                 openFileFormatBuilder.Append("|");
@@ -98,7 +101,7 @@ namespace Ame.Infrastructure.Utils
         public static string GetOpenFileExportMapExtensions()
         {
             StringBuilder openFileFormatBuilder = new StringBuilder();
-            foreach (OpenFileExtensions extension in Enum.GetValues(typeof(ExportMapExtensions)))
+            foreach (FileExtensions extension in Enum.GetValues(typeof(ExportMapExtensions)))
             {
                 openFileFormatBuilder.Append(extension.GetOpenFileFormat());
                 openFileFormatBuilder.Append("|");
@@ -136,25 +139,25 @@ namespace Ame.Infrastructure.Utils
     {
         #region methods
 
-        public static string GetNameAndExtensions(this OpenFileExtensions extension)
+        public static string GetNameAndExtensions(this FileExtensions extension)
         {
             FileExtensionAttribute attr = GetAttr(extension);
             return string.Format("{0} ({1})", attr.Name, attr.Extensions);
         }
 
-        public static string GetName(this OpenFileExtensions extension)
+        public static string GetName(this FileExtensions extension)
         {
             FileExtensionAttribute attr = GetAttr(extension);
             return string.Format("{0}", attr.Name);
         }
 
-        public static string[] GetExtensions(this OpenFileExtensions extension)
+        public static string[] GetExtensions(this FileExtensions extension)
         {
             FileExtensionAttribute attr = GetAttr(extension);
             return attr.Extensions;
         }
 
-        public static string GetOpenFileFormat(this OpenFileExtensions extension)
+        public static string GetOpenFileFormat(this FileExtensions extension)
         {
             FileExtensionAttribute attr = GetAttr(extension);
             return string.Format("{0} ({1})|{2}",
@@ -163,14 +166,14 @@ namespace Ame.Infrastructure.Utils
                 string.Join(";", attr.Extensions));
         }
 
-        private static FileExtensionAttribute GetAttr(OpenFileExtensions p)
+        private static FileExtensionAttribute GetAttr(FileExtensions p)
         {
             return (FileExtensionAttribute)Attribute.GetCustomAttribute(ForValue(p), typeof(FileExtensionAttribute));
         }
 
-        private static MemberInfo ForValue(OpenFileExtensions p)
+        private static MemberInfo ForValue(FileExtensions p)
         {
-            return typeof(OpenFileExtensions).GetField(Enum.GetName(typeof(OpenFileExtensions), p));
+            return typeof(FileExtensions).GetField(Enum.GetName(typeof(FileExtensions), p));
         }
 
         #endregion methods

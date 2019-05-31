@@ -18,7 +18,6 @@ namespace Ame.Infrastructure.Models
     public class Map : INotifyPropertyChanged
     {
         // TODO add serializer
-        // TODO add json extension in the file manager when loading and saving maps
         [JsonObject(MemberSerialization.OptIn)]
         public class MapJson
         {
