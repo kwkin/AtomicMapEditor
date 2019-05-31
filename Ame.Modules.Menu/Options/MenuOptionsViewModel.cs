@@ -455,6 +455,7 @@ namespace Ame.Modules.Menu.Options
             {
                 this.fileName = openMapDialog.FileName;
                 this.fileType = openMapDialog.Filter;
+                this.Session.LastMapDirectory = Directory.GetParent(openMapDialog.FileName).FullName;
 
                 OpenMessage message = new OpenMessage(this.fileName);
                 NotificationMessage<OpenMessage> notification = new NotificationMessage<OpenMessage>(message);
@@ -472,10 +473,12 @@ namespace Ame.Modules.Menu.Options
             SaveFileDialog saveMapDialog = new SaveFileDialog();
             saveMapDialog.Title = "Save Map";
             saveMapDialog.Filter = SaveExtension.GetOpenFileSaveExtensions();
+            saveMapDialog.InitialDirectory = this.Session.LastMapDirectory;
             if (saveMapDialog.ShowDialog() == true)
             {
                 this.fileName = saveMapDialog.FileName;
                 this.fileType = saveMapDialog.Filter;
+                this.Session.LastMapDirectory = Directory.GetParent(saveMapDialog.FileName).FullName;
 
                 SaveMessage message = new SaveMessage(this.fileName, this.Session.CurrentMap);
                 NotificationMessage<SaveMessage> notification = new NotificationMessage<SaveMessage>(message);

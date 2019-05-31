@@ -396,8 +396,6 @@ namespace Ame.Modules.Windows
         {
             // TODO set the initial directory
             OpenMessage content = message.Content;
-            this.session.LastMapDirectory = Directory.GetParent(content.Path).FullName;
-
             Map.MapJson mapJson = JsonConvert.DeserializeObject<Map.MapJson>(File.ReadAllText(content.Path));
             Map importedMap = mapJson.Generate();
 
