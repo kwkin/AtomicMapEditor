@@ -29,12 +29,6 @@ namespace Ame.Infrastructure.Files
             this.Map = map;
         }
 
-        public XMLExporter(string file, AmeSession session)
-        {
-            this.FilePath = file;
-            this.Session = session;
-        }
-
         #endregion constructor
 
 
@@ -74,34 +68,6 @@ namespace Ame.Infrastructure.Files
                     using (XmlWriter writer = XmlWriter.Create(streamWriter, settings))
                     {
                         serializerMap.Serialize(writer, this.Map, ns);
-                    }
-                }
-            }
-        }
-
-        public void ExportSession()
-        {
-            XmlDocument document = new XmlDocument();
-            StringBuilder sringBuilder = new StringBuilder();
-            XmlWriterSettings settings = new XmlWriterSettings
-            {
-                Indent = true,
-                IndentChars = "  ",
-                NewLineChars = "\r\n",
-                NewLineHandling = NewLineHandling.Replace
-            };
-            XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
-            ns.Add("", "");
-
-            XmlSerializer serializerSession = new XmlSerializer(typeof(AmeSession));
-
-            using (FileStream fileStream = new FileStream(this.FilePath, FileMode.Create))
-            {
-                using (StreamWriter streamWriter = new StreamWriter(fileStream))
-                {
-                    using (XmlWriter writer = XmlWriter.Create(streamWriter, settings))
-                    {
-                        serializerSession.Serialize(writer, this.Session, ns);
                     }
                 }
             }

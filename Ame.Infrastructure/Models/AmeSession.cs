@@ -13,13 +13,63 @@ using System.Xml.Schema;
 using Ame.Infrastructure.Files;
 using Ame.Infrastructure.Core;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace Ame.Infrastructure.Models
 {
     // TODO change xml to a more automated solution
-    [XmlRoot("Session")]
-    public class AmeSession : INotifyPropertyChanged, IXmlSerializable
+    public class AmeSession : INotifyPropertyChanged
     {
+        [JsonObject(MemberSerialization.OptIn)]
+        public class AmeSessionXML
+        {
+            public AmeSessionXML()
+            {
+            }
+                
+            public AmeSessionXML(AmeSession session)
+            {
+                this.CurrentMap = session.CurrentMapIndex;
+                this.OpenedTilesetFiles = new List<string>();
+                foreach (Map map in session.MapList)
+                {
+                    this.OpenedTilesetFiles.Add(map.SourcePath);
+                }
+                this.OpenedTilesetFiles = new List<string>();
+                foreach (TilesetModel tileset in session.CurrentTilesetList)
+                {
+                    this.OpenedTilesetFiles.Add(tileset.SourcePath);
+                }
+                this.LastMapDirectory = session.LastMapDirectory;
+                this.LastTilesetDirectory = session.LastTilesetDirectory;
+
+            }
+            
+            [JsonProperty(PropertyName = "CurrentMap")]
+            public int CurrentMap { get; set; }
+
+            [JsonProperty(PropertyName = "OpenedMaps")]
+            public IList<string> OpenedMapFiles { get; set; }
+
+            [JsonProperty(PropertyName = "OpenedTilesets")]
+            public IList<string> OpenedTilesetFiles { get; set; }
+
+            [JsonProperty(PropertyName = "MapDirectory")]
+            public string LastMapDirectory { get; set; }
+
+            [JsonProperty(PropertyName = "TilesetDirectory")]
+            public string LastTilesetDirectory { get; set; }
+
+            public AmeSession Generate()
+            {
+                // TODO load maps, tilesets, and other properties
+                AmeSession session = new AmeSession();
+                session.LastMapDirectory = this.LastMapDirectory;
+                session.lastTilesetDirectory = this.LastTilesetDirectory;
+                return session;
+            }
+        }
+
         #region fields
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -262,60 +312,26 @@ namespace Ame.Infrastructure.Models
             this.CurrentMap = this.MapList[currentIndex];
         }
 
+        public void SerializeFile(string file)
+        {
+            AmeSessionXML xml = new AmeSessionXML(this);
+
+            JsonSerializer serializer = new JsonSerializer();
+            serializer.Formatting = Newtonsoft.Json.Formatting.Indented;
+            serializer.NullValueHandling = NullValueHandling.Ignore;
+
+            using (StreamWriter stream = new StreamWriter(file))
+            using (JsonWriter writer = new JsonTextWriter(stream))
+            {
+                serializer.Serialize(writer, xml);
+            }
+        }
+
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        public XmlSchema GetSchema()
-        {
-            return null;
-        }
-
-        public void ReadXml(XmlReader reader)
-        {
-            while(reader.Read())
-            {
-                AmeXMLTags tag = XMLTagMethods.GetTag(reader.Name);
-                if (reader.IsStartElement() && !reader.IsEmptyElement)
-                {
-                    if (reader.Read())
-                    {
-                        string value = reader.Value;
-                        switch (tag)
-                        {
-                            case AmeXMLTags.Version:
-                                break;
-                            case AmeXMLTags.Maps:
-                                break;
-                            case AmeXMLTags.Tilesets:
-                                break;
-                            case AmeXMLTags.LastMapDirectory:
-                                this.LastMapDirectory = value;
-                                break;
-                            case AmeXMLTags.LastTilesetDirectory:
-                                this.LastTilesetDirectory = value;
-                                break;
-                        }
-                    }
-                }
-            }
-        }
-
-        public void WriteXml(XmlWriter writer)
-        {
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.Version, Global.version);
-            IList<string> mapNames = new List<string>();
-            foreach (Map map in this.mapList)
-            {
-                mapNames.Add(map.File);
-            }
-            XMLTagMethods.WriteElements<Map>(writer, AmeXMLTags.Maps, AmeXMLTags.Source, this.MapList);
-            XMLTagMethods.WriteElements<TilesetModel>(writer, AmeXMLTags.Tilesets, AmeXMLTags.Source, this.CurrentTilesetList);
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.LastMapDirectory, this.LastMapDirectory);
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.LastTilesetDirectory, this.LastTilesetDirectory);
-        }
-
+        
         #endregion methods
     }
 }

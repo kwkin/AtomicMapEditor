@@ -250,9 +250,10 @@ namespace Ame.Modules.Windows
         {
             // TODO move session to a standard directory
             string documentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            string directoryPath = Path.Combine(documentPath, Global.SessionFileName);
-            XMLExporter exporter = new XMLExporter(directoryPath, this.session);
-            exporter.ExportSession();
+            string directoryPath = Path.Combine(documentPath, Global.applicationName);
+            string sessionFile = Path.Combine(directoryPath, Global.sessionFileName);
+
+            this.session.SerializeFile(sessionFile);
         }
 
         private void OpenDock(OpenDockMessage message)

@@ -131,7 +131,7 @@ namespace Ame.Infrastructure.Models
 
         [MetadataProperty(MetadataType.Property)]
         private string file;
-        public string File
+        public string SourcePath
         {
             get
             {

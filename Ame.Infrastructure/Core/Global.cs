@@ -11,8 +11,8 @@ namespace Ame.Infrastructure.Core
         public static readonly int version = 1;
         public static readonly string applicationName = "AtomicMapEditor";
 
-        public static string SessionFileName = "Session.config";
-        public static string LayoutFileName = "Layout.config";
+        public static string sessionFileName = "Session.config";
+        public static string layoutFileName = "Layout.config";
 
         public static readonly double maxGridThickness = 0.5;
         public static readonly long defaultUpdatePositionLabelDelay = 30;

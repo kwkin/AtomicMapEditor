@@ -15,9 +15,9 @@ using Prism.Mvvm;
 using Prism.Unity;
 using Ame.Modules.Windows.Interactions.Preferences;
 using Ame.Modules.Menu.Ribbon;
-using System.Xml.Serialization;
 using System.IO;
 using Ame.Infrastructure.Core;
+using Newtonsoft.Json;
 
 namespace Ame
 {
@@ -54,12 +54,13 @@ namespace Ame
             Application.Current.MainWindow = (Window)this.Shell;
             Application.Current.MainWindow.Show();
 
+            // TODO standardize paths
             string documentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             string directoryPath = Path.Combine(documentPath, Global.applicationName);
-            string sessionFile = Path.Combine(directoryPath, Global.SessionFileName);
-            XmlSerializer serializer = new XmlSerializer(typeof(AmeSession));
-            StreamReader reader = new StreamReader(sessionFile);
-            AmeSession session = (AmeSession)serializer.Deserialize(reader);
+            string sessionFile = Path.Combine(directoryPath, Global.sessionFileName);
+            AmeSession.AmeSessionXML sessionXML = JsonConvert.DeserializeObject<AmeSession.AmeSessionXML>(File.ReadAllText(sessionFile));
+            AmeSession session = sessionXML.Generate();
+
             this.Container.RegisterInstance<AmeSession>(session);
             this.SessionManager = this.Container.Resolve<SessionManager>();
         }
