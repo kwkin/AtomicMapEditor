@@ -58,8 +58,8 @@ namespace Ame
             string documentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             string directoryPath = Path.Combine(documentPath, Global.applicationName);
             string sessionFile = Path.Combine(directoryPath, Global.sessionFileName);
-            AmeSession.AmeSessionXML sessionXML = JsonConvert.DeserializeObject<AmeSession.AmeSessionXML>(File.ReadAllText(sessionFile));
-            AmeSession session = sessionXML.Generate();
+            AmeSession.AmeSessionJson sessionJson = JsonConvert.DeserializeObject<AmeSession.AmeSessionJson>(File.ReadAllText(sessionFile));
+            AmeSession session = sessionJson.Generate();
 
             this.Container.RegisterInstance<AmeSession>(session);
             this.SessionManager = this.Container.Resolve<SessionManager>();

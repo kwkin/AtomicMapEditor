@@ -10,17 +10,76 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using Ame.Infrastructure.Attributes;
-using Ame.Infrastructure.Files;
 using Ame.Infrastructure.Utils;
 using Emgu.CV;
+using Newtonsoft.Json;
 
 namespace Ame.Infrastructure.Models
 {
     // TODO use ImageDrawing.ClipGeometry instead of normal cropping
     // TODO create a custom xerializer class to set the ignored parameters
     [XmlRoot("Tileset")]
-    public class TilesetModel : PaddedGrid, IItem, IXmlSerializable
+    public class TilesetModel : PaddedGrid, IItem
     {
+        [JsonObject(MemberSerialization.OptIn)]
+        public class TilesetJson
+        {
+            public TilesetJson()
+            {
+            }
+
+            public TilesetJson(TilesetModel model)
+            {
+                this.ID = model.ID;
+                this.Name = model.Name;
+                this.SourcePath = model.SourcePath;
+                this.TileWidth = model.TileWidth;
+                this.TileHeight = model.TileHeight;
+                this.Scale = model.Scale;
+                this.IsTransparent = model.IsTransparent;
+                this.TransparentColor = model.TransparentColor;
+            }
+
+            [JsonProperty(PropertyName = "ID")]
+            public int ID { get; set; }
+
+            [JsonProperty(PropertyName = "Name")]
+            public string Name { get; set; }
+
+            [JsonProperty(PropertyName = "Source")]
+            public string SourcePath { get; set; }
+
+            [JsonProperty(PropertyName = "TileWidth")]
+            public int TileWidth { get; set; }
+
+            [JsonProperty(PropertyName = "TileHeight")]
+            public int TileHeight { get; set; }
+
+            [JsonProperty(PropertyName = "Scale")]
+            public ScaleType Scale { get; set; }
+
+            [JsonProperty(PropertyName = "IsTransparent")]
+            public bool IsTransparent { get; set; }
+
+            [JsonProperty(PropertyName = "TransparentColor")]
+            public Color TransparentColor { get; set; }
+
+            public TilesetModel Generate()
+            {
+                TilesetModel tileset = new TilesetModel();
+                tileset.ID = this.ID;
+                tileset.Name = this.Name;
+                tileset.SourcePath = this.SourcePath;
+                tileset.TileWidth = this.TileWidth;
+                tileset.TileHeight = this.TileHeight;
+                tileset.Scale = this.Scale;
+                tileset.IsTransparent = this.IsTransparent;
+                tileset.TransparentColor = this.TransparentColor;
+                return tileset;
+            }
+        }
+
+
         #region fields
 
         #endregion fields
@@ -124,112 +183,6 @@ namespace Ame.Infrastructure.Models
             Rect drawingRect = new Rect(startPoint, sizeOfTile);
             ImageDrawing drawing = ImageUtils.MatToImageDrawing(croppedImage, drawingRect);
             return drawing;
-        }
-
-        public XmlSchema GetSchema()
-        {
-            throw null;
-        }
-
-        public void ReadXml(XmlReader reader)
-        {
-            if (!reader.IsStartElement() || reader.Name != XMLTagMethods.GetName(AmeXMLTags.Tileset))
-            {
-                StringBuilder errorMessage = new StringBuilder();
-                errorMessage.Append("Cannot deserialize Tileset. The tag initial tag is set to ");
-                errorMessage.Append(reader.Name);
-                throw new InvalidOperationException(errorMessage.ToString());
-            }
-            // TODO check what happens when this is set incorrectly or not set at all
-            this.ID = int.Parse(reader.GetAttribute(XMLTagMethods.GetName(AmeXMLTags.ID)));
-            int level = 1;
-            while (reader.Read() && level > 0)
-            {
-                if (reader.IsStartElement())
-                {
-                    level++;
-                    AmeXMLTags tag = XMLTagMethods.GetTag(reader.Name);
-                    if (reader.Read() && tag != AmeXMLTags.Null)
-                    {
-                        string value = reader.Value;
-                        switch (tag)
-                        {
-                            case AmeXMLTags.Name:
-                                this.Name = value;
-                                break;
-                            case AmeXMLTags.Source:
-                                this.SourcePath = value;
-                                break;
-                            case AmeXMLTags.TileWidth:
-                                this.TileWidth = int.Parse(value);
-                                break;
-                            case AmeXMLTags.TileHeight:
-                                this.TileHeight = int.Parse(value);
-                                break;
-                            case AmeXMLTags.Scale:
-                                ScaleType xmlScale;
-                                Enum.TryParse(value, out xmlScale);
-                                this.Scale = xmlScale;
-                                break;
-                            case AmeXMLTags.OffsetX:
-                                this.OffsetX = int.Parse(value);
-                                break;
-                            case AmeXMLTags.OffsetY:
-                                this.OffsetY = int.Parse(value);
-                                break;
-                            case AmeXMLTags.PaddingX:
-                                this.PaddingX = int.Parse(value);
-                                break;
-                            case AmeXMLTags.PaddingY:
-                                this.PaddingY = int.Parse(value);
-                                break;
-                            case AmeXMLTags.IsTransparent:
-                                this.IsTransparent = bool.Parse(value);
-                                break;
-                            case AmeXMLTags.TransparentColor:
-                                this.TransparentColor = (Color)ColorConverter.ConvertFromString(value);
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }
-                else if (reader.NodeType == XmlNodeType.EndElement)
-                {
-                    level--;
-                }
-            }
-        }
-
-        public void WriteXml(XmlWriter writer)
-        {
-            XMLTagMethods.WriteAttribute(writer, AmeXMLTags.ID, this.ID);
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.Name, this.Name);
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.Source, this.SourcePath);
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.TileWidth, this.TileWidth);
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.TileHeight, this.TileHeight);
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.Scale, this.Scale);
-            if (this.OffsetX != 0)
-            {
-                XMLTagMethods.WriteElement(writer, AmeXMLTags.OffsetX, this.OffsetX);
-            }
-            if (this.OffsetY != 0)
-            {
-                XMLTagMethods.WriteElement(writer, AmeXMLTags.OffsetY, this.OffsetY);
-            }
-            if (this.PaddingX != 0)
-            {
-                XMLTagMethods.WriteElement(writer, AmeXMLTags.PaddingX, this.PaddingX);
-            }
-            if (this.PaddingY != 0)
-            {
-                XMLTagMethods.WriteElement(writer, AmeXMLTags.PaddingY, this.PaddingY);
-            }
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.IsTransparent, this.IsTransparent);
-            if (this.IsTransparent)
-            {
-                XMLTagMethods.WriteElement(writer, AmeXMLTags.TransparentColor, this.TransparentColor);
-            }
         }
 
         #endregion methods

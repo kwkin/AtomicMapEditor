@@ -7,27 +7,22 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Ame.Infrastructure.DrawingTools;
-using System.Xml.Serialization;
-using System.Xml;
-using System.Xml.Schema;
-using Ame.Infrastructure.Files;
 using Ame.Infrastructure.Core;
 using System.IO;
 using Newtonsoft.Json;
 
 namespace Ame.Infrastructure.Models
 {
-    // TODO change xml to a more automated solution
     public class AmeSession : INotifyPropertyChanged
     {
         [JsonObject(MemberSerialization.OptIn)]
-        public class AmeSessionXML
+        public class AmeSessionJson
         {
-            public AmeSessionXML()
+            public AmeSessionJson()
             {
             }
                 
-            public AmeSessionXML(AmeSession session)
+            public AmeSessionJson(AmeSession session)
             {
                 this.CurrentMap = session.CurrentMapIndex;
                 this.OpenedTilesetFiles = new List<string>();
@@ -161,7 +156,7 @@ namespace Ame.Infrastructure.Models
             set
             {
                 this.currentMap = value;
-                this.CurrentLayerList = this.currentMap.LayerList.Layers;
+                this.CurrentLayerList = this.currentMap.LayerList;
                 this.CurrentLayer = this.currentMap.CurrentLayer;
                 this.CurrentTilesetList = this.currentMap.TilesetList;
                 NotifyPropertyChanged();
@@ -312,9 +307,10 @@ namespace Ame.Infrastructure.Models
             this.CurrentMap = this.MapList[currentIndex];
         }
 
+        // TODO add an interface for this
         public void SerializeFile(string file)
         {
-            AmeSessionXML xml = new AmeSessionXML(this);
+            AmeSessionJson json = new AmeSessionJson(this);
 
             JsonSerializer serializer = new JsonSerializer();
             serializer.Formatting = Newtonsoft.Json.Formatting.Indented;
@@ -323,7 +319,7 @@ namespace Ame.Infrastructure.Models
             using (StreamWriter stream = new StreamWriter(file))
             using (JsonWriter writer = new JsonTextWriter(stream))
             {
-                serializer.Serialize(writer, xml);
+                serializer.Serialize(writer, json);
             }
         }
 

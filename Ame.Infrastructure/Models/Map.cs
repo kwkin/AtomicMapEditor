@@ -8,19 +8,114 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Media;
-using System.Xml;
-using System.Xml.Schema;
-using System.Xml.Serialization;
 using Ame.Infrastructure.Attributes;
 using Ame.Infrastructure.Core;
 using Ame.Infrastructure.DrawingTools;
-using Ame.Infrastructure.Files;
+using Newtonsoft.Json;
 
 namespace Ame.Infrastructure.Models
 {
-    [XmlRoot("Map")]
-    public class Map : INotifyPropertyChanged, IXmlSerializable
+    public class Map : INotifyPropertyChanged
     {
+        [JsonObject(MemberSerialization.OptIn)]
+        public class MapJson
+        {
+            public MapJson()
+            {
+            }
+
+            public MapJson(Map map)
+            {
+                this.Version = map.Version;
+                this.Name = map.Name;
+                this.Author = map.Author;
+                this.Rows = map.RowCount;
+                this.Columns = map.ColumnCount;
+                this.TileWidth = map.TileWidth;
+                this.TileHeight = map.TileHeight;
+                this.Scale = map.Scale;
+                this.BackgroundColor = map.BackgroundColor;
+                this.Description = map.Description;
+                this.TilesetList = new List<TilesetModel.TilesetJson>();
+                foreach (TilesetModel model in map.TilesetList)
+                {
+                    this.TilesetList.Add(new TilesetModel.TilesetJson(model));
+                }
+                this.LayerList = new List<Layer.LayerJson>();
+                foreach (ILayer layer in map.LayerList)
+                {
+                    // TODO fix the conversion
+                    this.LayerList.Add(new Layer.LayerJson((Layer)layer));
+                }
+            }
+
+            // TODO change to a string
+            [JsonProperty(PropertyName = "Version")]
+            public int Version { get; set; }
+
+            [JsonProperty(PropertyName = "Name")]
+            public string Name { get; set; }
+
+            [JsonProperty(PropertyName = "Author")]
+            public string Author { get; set; }
+
+            [JsonProperty(PropertyName = "Rows")]
+            public int Rows { get; set; }
+
+            [JsonProperty(PropertyName = "Columns")]
+            public int Columns { get; set; }
+
+            [JsonProperty(PropertyName = "TileWidth")]
+            public int TileWidth { get; set; }
+
+            [JsonProperty(PropertyName = "TileHeight")]
+            public int TileHeight { get; set; }
+
+            [JsonProperty(PropertyName = "Scale")]
+            public ScaleType Scale { get; set; }
+
+            [JsonProperty(PropertyName = "Color")]
+            public Color BackgroundColor { get; set; }
+
+            [JsonProperty(PropertyName = "Description")]
+            public string Description { get; set; }
+
+            [JsonProperty(PropertyName = "Tilesets")]
+            public IList<TilesetModel.TilesetJson> TilesetList { get; set; }
+
+            [JsonProperty(PropertyName = "Layers")]
+            public IList<Layer.LayerJson> LayerList { get; set; }
+
+            public Map Generate()
+            {
+                Map map = new Map();
+                map.Version = this.Version;
+                map.Name = this.Name;
+                map.Author = this.Author;
+                map.RowCount = this.Rows;
+                map.ColumnCount = this.Columns;
+                map.TileWidth = this.TileWidth;
+                map.TileHeight = this.TileHeight;
+                map.Scale = this.Scale;
+                map.BackgroundColor = this.BackgroundColor;
+                map.Description = this.Description;
+                map.TilesetList = new ObservableCollection<TilesetModel>();
+                foreach (TilesetModel.TilesetJson tilesetJson in this.TilesetList)
+                {
+                    TilesetModel tileset = tilesetJson.Generate();
+                    map.TilesetList.Add(tileset);
+                    tileset.RefreshTilesetImage();
+                }
+                map.LayerList = new ObservableCollection<ILayer>();
+                foreach (Layer.LayerJson layer in this.LayerList)
+                {
+                    map.LayerList.Add(layer.Generate(map.TilesetList));
+                }
+                return map;
+            }
+        }
+
+
         #region fields
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -41,7 +136,7 @@ namespace Ame.Infrastructure.Models
             this.Scale = ScaleType.Tile;
             this.PixelScale = 1;
             this.Description = "";
-            this.LayerList = new LayerCollection();
+            this.LayerList = new ObservableCollection<ILayer>();
             this.TilesetList = new ObservableCollection<TilesetModel>();
             this.UndoQueue = new Stack<DrawAction>();
             this.RedoQueue = new Stack<DrawAction>();
@@ -57,7 +152,7 @@ namespace Ame.Infrastructure.Models
             this.Scale = ScaleType.Tile;
             this.PixelScale = 1;
             this.Description = "";
-            this.LayerList = new LayerCollection();
+            this.LayerList = new ObservableCollection<ILayer>();
             this.TilesetList = new ObservableCollection<TilesetModel>();
 
             Layer initialLayer = new Layer("Layer #0", this.TileWidth, this.TileHeight, this.RowCount, this.ColumnCount);
@@ -87,7 +182,7 @@ namespace Ame.Infrastructure.Models
             this.Scale = ScaleType.Tile;
             this.PixelScale = 1;
             this.Description = "";
-            this.LayerList = new LayerCollection();
+            this.LayerList = new ObservableCollection<ILayer>();
             this.TilesetList = new ObservableCollection<TilesetModel>();
 
             Layer initialLayer = new Layer("Layer #0", this.TileWidth, this.TileHeight, this.RowCount, this.ColumnCount);
@@ -252,7 +347,8 @@ namespace Ame.Infrastructure.Models
         [MetadataProperty(MetadataType.Property)]
         public int Version { get; set; }
 
-        public LayerCollection LayerList { get; set; }
+        // TODO change to an observable list
+        public ObservableCollection<ILayer> LayerList { get; set; }
         public int SelectedLayerIndex { get; set; }
         
         public Layer CurrentLayer
@@ -419,129 +515,7 @@ namespace Ame.Infrastructure.Models
             Tile previousTile = new Tile(previousImage, previousTileID.TilesetID, previousTileID.TileID);
             return previousTile;
         }
-
-        public XmlSchema GetSchema()
-        {
-            return null;
-        }
-
-        public void ReadXml(XmlReader reader)
-        {
-            XmlSerializer tilesetSerializer = new XmlSerializer(typeof(TilesetModel));
-            XmlSerializer layerCollectionSerializer = new XmlSerializer(typeof(LayerCollection));
-            int level = 1;
-            while (reader.Read() && level > 0)
-            {
-                // TODO: fix error with reading end tags that denote a start and end <example/>
-                if (reader.IsStartElement() && !reader.IsEmptyElement)
-                {
-                    level++;
-                    AmeXMLTags tag = XMLTagMethods.GetTag(reader.Name);
-                    if (tag == AmeXMLTags.Layers)
-                    {
-                        this.LayerList = (LayerCollection)layerCollectionSerializer.Deserialize(reader);
-                        foreach (Layer layer in this.LayerList)
-                        {
-                            layer.TileIDs.refreshDrawing(this.TilesetList, layer);
-                        }
-                    }
-                    else if (reader.Read() && tag != AmeXMLTags.Null)
-                    {
-                        string value = reader.Value;
-                        switch (tag)
-                        {
-                            case AmeXMLTags.Version:
-                                this.Version = int.Parse(value);
-                                break;
-                            case AmeXMLTags.Name:
-                                this.Name = value;
-                                break;
-                            case AmeXMLTags.Author:
-                                this.Author = value;
-                                break;
-                            case AmeXMLTags.Rows:
-                                this.RowCount = int.Parse(value);
-                                break;
-                            case AmeXMLTags.Columns:
-                                this.ColumnCount = int.Parse(value);
-                                break;
-                            case AmeXMLTags.TileWidth:
-                                this.TileWidth = int.Parse(value);
-                                break;
-                            case AmeXMLTags.TileHeight:
-                                this.TileHeight = int.Parse(value);
-                                break;
-                            case AmeXMLTags.Scale:
-                                ScaleType xmlScale;
-                                Enum.TryParse(value, out xmlScale);
-                                this.Scale = xmlScale;
-                                break;
-                            case AmeXMLTags.BackgroundColor:
-                                this.BackgroundColor = (Color)ColorConverter.ConvertFromString(value);
-                                break;
-                            case AmeXMLTags.Description:
-                                this.Description = value;
-                                break;
-                            case AmeXMLTags.Tilesets:
-                                while (reader.IsStartElement())
-                                {
-                                    TilesetModel tileset = (TilesetModel)tilesetSerializer.Deserialize(reader);
-                                    this.TilesetList.Add(tileset);
-                                    tileset.RefreshTilesetImage();
-                                }
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }
-                else if (reader.NodeType == XmlNodeType.EndElement)
-                {
-                    level--;
-                }
-            }
-            try
-            {
-                isValid(this);
-            }
-            catch(FileFormatException exception)
-            {
-                throw new FileFormatException("Error when reading file. " + exception.Message);
-            }
-        }
-
-        public void WriteXml(XmlWriter writer)
-        {
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.Version, this.Version);
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.Name, this.Name);
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.Author, this.Author);
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.Rows, this.RowCount);
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.Columns, this.ColumnCount);
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.TileWidth, this.TileWidth);
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.TileHeight, this.TileHeight);
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.Scale, this.Scale);
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.BackgroundColor, this.BackgroundColor);
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.Description, this.Description);
-
-            XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
-            ns.Add("", "");
-            XMLTagMethods.WriteStartElement(writer, AmeXMLTags.Tilesets);
-            XmlSerializer serializeTileset = new XmlSerializer(typeof(TilesetModel));
-            foreach (TilesetModel tileset in this.TilesetList)
-            {
-                serializeTileset.Serialize(writer, tileset, ns);
-            }
-            writer.WriteEndElement();
-
-            XMLTagMethods.WriteStartElement(writer, AmeXMLTags.Layers);
-            XmlSerializer serializerLayer = new XmlSerializer(typeof(Layer));
-            foreach (Layer layer in this.LayerList)
-            {
-                serializerLayer.Serialize(writer, layer, ns);
-            }
-            writer.WriteEndElement();
-        }
-
+        
         /// <summary>
         /// 
         /// </summary>
@@ -576,6 +550,21 @@ namespace Ame.Infrastructure.Models
                 throw new FileFormatException(errorMessage.ToString());
             }
             return true;
+        }
+
+        public void SerializeFile(string file)
+        {
+            MapJson json = new MapJson(this);
+
+            JsonSerializer serializer = new JsonSerializer();
+            serializer.Formatting = Newtonsoft.Json.Formatting.Indented;
+            serializer.NullValueHandling = NullValueHandling.Ignore;
+
+            using (StreamWriter stream = new StreamWriter(file))
+            using (JsonWriter writer = new JsonTextWriter(stream))
+            {
+                serializer.Serialize(writer, json);
+            }
         }
 
         #endregion methods

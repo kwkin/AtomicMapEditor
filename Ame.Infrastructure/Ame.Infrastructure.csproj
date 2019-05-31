@@ -127,9 +127,6 @@
     <Compile Include="Events\NewPaddedBrushEvent.cs" />
     <Compile Include="Events\UpdatePaddedBrushEvent.cs" />
     <Compile Include="Exceptions\InteractionConfigurationException.cs" />
-    <Compile Include="Files\XMLExporter.cs" />
-    <Compile Include="Files\AmeXMLTags.cs" />
-    <Compile Include="Files\XMLImporter.cs" />
     <Compile Include="Messages\CloseDockMessage.cs" />
     <Compile Include="DrawingTools\BrushAction.cs" />
     <Compile Include="DrawingTools\BrushTool.cs" />
@@ -155,7 +152,6 @@
     <Compile Include="Models\ILayer.cs" />
     <Compile Include="Models\ItemGroup.cs" />
     <Compile Include="Models\Layer.cs" />
-    <Compile Include="Models\LayerCollection.cs" />
     <Compile Include="Models\LayerGroup.cs" />
     <Compile Include="Models\LayerPosition.cs" />
     <Compile Include="Converters\ActiveDocumentConverter.cs" />

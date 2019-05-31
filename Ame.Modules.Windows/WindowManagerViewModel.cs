@@ -11,7 +11,6 @@ using System.Windows.Threading;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Core;
 using Ame.Infrastructure.Events;
-using Ame.Infrastructure.Files;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
 using Ame.Modules.MapEditor.Editor;
@@ -30,6 +29,7 @@ using AvalonDock;
 using AvalonDock.Layout.Serialization;
 using Prism.Events;
 using Prism.Mvvm;
+using Newtonsoft.Json;
 
 namespace Ame.Modules.Windows
 {
@@ -78,7 +78,7 @@ namespace Ame.Modules.Windows
             ObservableCollection<ILayer> layerList = null;
             if (this.session.CurrentMap != null)
             {
-                layerList = this.session.CurrentMap.LayerList.Layers;
+                layerList = this.session.CurrentMap.LayerList;
             }
             DockCreatorTemplate[] dockCreators = new DockCreatorTemplate[]
             {
@@ -389,23 +389,24 @@ namespace Ame.Modules.Windows
         private void SaveAs(NotificationMessage<SaveMessage> message)
         {
             SaveMessage content = message.Content;
-            XMLExporter exporter = new XMLExporter(content.Path, content.Map);
-            exporter.Export();
+            content.Map.SerializeFile(content.Path);
         }
 
         private void OpenMap(NotificationMessage<OpenMessage> message)
         {
+            // TODO set the initial directory
             OpenMessage content = message.Content;
             this.session.LastMapDirectory = Directory.GetParent(content.Path).FullName;
-            XMLImporter importer = new XMLImporter(content.Path);
-            Map importedMap = importer.Import();
+
+            Map.MapJson mapJson = JsonConvert.DeserializeObject<Map.MapJson>(File.ReadAllText(content.Path));
+            Map importedMap = mapJson.Generate();
 
             OpenDockMessage openEditorMessage = new OpenDockMessage(typeof(MapEditorViewModel), importedMap);
             foreach (TilesetModel tileset in importedMap.TilesetList)
             {
                 this.session.CurrentTilesetList.Add(tileset);
             }
-            this.session.CurrentLayerList = importedMap.LayerList.Layers;
+            this.session.CurrentLayerList = importedMap.LayerList;
             CollectionViewSource.GetDefaultView(this.session.CurrentLayerList).Refresh();
             this.eventAggregator.GetEvent<OpenDockEvent>().Publish(openEditorMessage);
         }

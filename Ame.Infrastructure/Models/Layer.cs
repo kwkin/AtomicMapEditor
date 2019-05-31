@@ -8,18 +8,105 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Media;
 using Ame.Infrastructure.Attributes;
-using System.Xml;
-using Ame.Infrastructure.Files;
-using System.Xml.Serialization;
-using System.Xml.Schema;
+using Newtonsoft.Json;
+using System.Collections.ObjectModel;
 
 namespace Ame.Infrastructure.Models
 {
-    [XmlRoot("Layer")]
     public class Layer : ILayer, INotifyPropertyChanged
     {
+        [JsonObject(MemberSerialization.OptIn)]
+        public class LayerJson
+        {
+            public LayerJson()
+            {
+            }
+
+            public LayerJson(Layer layer)
+            {
+                this.ID = layer.ID;
+                this.Name = layer.Name;
+                this.Columns = layer.Columns;
+                this.Rows = layer.Rows;
+                this.TileWidth = layer.TileWidth;
+                this.TileHeight = layer.TileHeight;
+                this.OffsetX = layer.OffsetX;
+                this.OffsetY = layer.OffsetY;
+                this.Position = layer.Position;
+                this.Scale = layer.Scale;
+                this.ScrollRate = layer.ScrollRate;
+                this.IsImmutable = layer.IsImmutable;
+                this.IsVisible = layer.IsVisible;
+                this.Tiles = new TileCollection.TileCollectionJson(layer.TileIDs);
+            }
+
+            [JsonProperty(PropertyName = "ID")]
+            public int ID { get; set; }
+
+            [JsonProperty(PropertyName = "Name")]
+            public string Name { get; set; }
+
+            [JsonProperty(PropertyName = "Columns")]
+            public int Columns { get; set; }
+
+            [JsonProperty(PropertyName = "Rows")]
+            public int Rows { get; set; }
+
+            [JsonProperty(PropertyName = "TileWidth")]
+            public int TileWidth { get; set; }
+
+            [JsonProperty(PropertyName = "TileHeight")]
+            public int TileHeight { get; set; }
+
+            [JsonProperty(PropertyName = "OffsetX")]
+            public int OffsetX { get; set; }
+
+            [JsonProperty(PropertyName = "OffsetY")]
+            public int OffsetY { get; set; }
+
+            [JsonProperty(PropertyName = "Position")]
+            public LayerPosition Position { get; set; }
+
+            [JsonProperty(PropertyName = "Scale")]
+            public ScaleType Scale { get; set; }
+
+            [JsonProperty(PropertyName = "ScrollRate")]
+            public double ScrollRate { get; set; }
+
+            [JsonProperty(PropertyName = "IsImmutable")]
+            public bool IsImmutable { get; set; }
+
+            [JsonProperty(PropertyName = "IsVisible")]
+            public bool IsVisible { get; set; }
+
+            [JsonProperty(PropertyName = "Tiles")]
+            public TileCollection.TileCollectionJson Tiles { get; set; }
+
+            public Layer Generate(ObservableCollection<TilesetModel> tilesetList)
+            {
+                Layer layer = new Layer();
+                layer.ID = this.ID;
+                layer.Name = this.Name;
+                layer.Columns = this.Columns;
+                layer.Rows = this.Rows;
+                layer.TileWidth = this.TileWidth;
+                layer.TileHeight = this.TileHeight;
+                layer.OffsetX = this.OffsetX;
+                layer.OffsetY = this.OffsetY;
+                layer.Position = this.Position;
+                layer.Scale = this.Scale;
+                layer.ScrollRate = this.ScrollRate;
+                layer.IsImmutable = this.IsImmutable;
+                layer.IsVisible = this.IsVisible;
+                layer.TileIDs = this.Tiles.Generate();
+                layer.TileIDs.reset(layer.TileWidth, layer.TileHeight);
+                layer.TileIDs.RefreshDrawing(tilesetList, layer);
+                return layer;
+            }
+        }
+
         #region fields
-        
+
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -69,10 +156,8 @@ namespace Ame.Infrastructure.Models
 
         #region properties
         
-        [XmlAttribute]
         public int ID { get; set; } = -1;
-
-        [field: NonSerialized]
+        
         private string name;
 
         [MetadataProperty(MetadataType.Property, "Name")]
@@ -126,7 +211,6 @@ namespace Ame.Infrastructure.Models
         public bool IsImmutable { get; set; }
         public bool IsVisible { get; set; }
         
-        [XmlIgnore]
         [IgnoreNodeBuilder]
         public DrawingGroup Group
         {
@@ -140,8 +224,7 @@ namespace Ame.Infrastructure.Models
                 this.TileIDs.Group = value;
             }
         }
-
-        [XmlIgnore]
+        
         [IgnoreNodeBuilder]
         public DrawingCollection LayerItems
         {
@@ -155,8 +238,7 @@ namespace Ame.Infrastructure.Models
                 return children;
             }
         }
-
-        [XmlElement(ElementName = "tiles")]
+        
         public TileCollection TileIDs { get; set; }
 
         #endregion properties
@@ -192,49 +274,6 @@ namespace Ame.Infrastructure.Models
             int pointX = (id % this.Columns) * this.TileWidth;
             int pointY = (int)Math.Floor((double)(id / this.Rows)) * this.TileHeight;
             return new Point(pointX, pointY);
-        }
-
-        public XmlSchema GetSchema()
-        {
-            return null;
-        }
-
-        public void ReadXml(XmlReader reader)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void WriteXml(XmlWriter writer)
-        {
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.Name, this.Name);
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.Columns, this.Columns);
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.Rows, this.Rows);
-            if (this.TileWidth != 0)
-            {
-                XMLTagMethods.WriteElement(writer, AmeXMLTags.TileWidth, this.TileWidth);
-            }
-            if (this.TileHeight != 0)
-            {
-                XMLTagMethods.WriteElement(writer, AmeXMLTags.TileHeight, this.TileHeight);
-            }
-            if (this.OffsetX != 0)
-            {
-                XMLTagMethods.WriteElement(writer, AmeXMLTags.OffsetX, this.OffsetX);
-            }
-            if (this.OffsetY != 0)
-            {
-                XMLTagMethods.WriteElement(writer, AmeXMLTags.OffsetY, this.OffsetY);
-            }
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.Position, this.Position);
-            XMLTagMethods.WriteElement(writer, AmeXMLTags.Scale, this.Scale);
-            if (this.ScrollRate != 0)
-            {
-                XMLTagMethods.WriteElement(writer, AmeXMLTags.ScrollRate, this.ScrollRate);
-            }
-
-            XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
-            ns.Add("", "");
-            XMLTagMethods.WriteStartElement(writer, AmeXMLTags.Layers);
         }
 
         #endregion methods
