@@ -217,30 +217,6 @@ namespace Ame.Modules.Windows
             }
         }
 
-        public string AppDataDirectory
-        {
-            get
-            {
-                Window window = Window.GetWindow(this.WindowManager);
-                window.Closing += CloseApplication;
-
-                string documentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                string directoryPath = Path.Combine(documentPath, Global.applicationName);
-                try
-                {
-                    if (Directory.Exists(directoryPath) == false)
-                    {
-                        Directory.CreateDirectory(directoryPath);
-                    }
-                }
-                catch
-                {
-                    directoryPath = string.Empty;
-                }
-                return directoryPath;
-            }
-        }
-
         #endregion properties
 
 
@@ -248,12 +224,7 @@ namespace Ame.Modules.Windows
 
         public void CloseApplication(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            // TODO move session to a standard directory
-            string documentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            string directoryPath = Path.Combine(documentPath, Global.applicationName);
-            string sessionFile = Path.Combine(directoryPath, Global.sessionFileName);
-
-            this.session.SerializeFile(sessionFile);
+            this.session.SerializeFile(Global.SessionFileName);
         }
 
         private void OpenDock(OpenDockMessage message)
@@ -394,7 +365,6 @@ namespace Ame.Modules.Windows
 
         private void OpenMap(NotificationMessage<OpenMessage> message)
         {
-            // TODO set the initial directory
             OpenMessage content = message.Content;
             Map.MapJson mapJson = JsonConvert.DeserializeObject<Map.MapJson>(File.ReadAllText(content.Path));
             Map importedMap = mapJson.Generate();

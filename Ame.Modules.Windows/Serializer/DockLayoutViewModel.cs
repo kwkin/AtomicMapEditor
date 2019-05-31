@@ -151,7 +151,7 @@ namespace Ame.Modules.Windows.Serializer
             try
             {
                 this.layoutParent.IsBusy = true;
-                string layoutFile = Path.Combine(this.layoutParent.AppDataDirectory, Global.layoutFileName);
+                string layoutFile = Global.LayoutFileName;
                 if (!File.Exists(layoutFile))
                 {
                     throw new FileNotFoundException("Layout file not found");
@@ -234,9 +234,8 @@ namespace Ame.Modules.Windows.Serializer
             {
                 return;
             }
-
-            string layoutFile = System.IO.Path.Combine(this.layoutParent.AppDataDirectory, Global.layoutFileName);
-            File.WriteAllText(layoutFile, xmlLayout);
+            
+            File.WriteAllText(Global.LayoutFileName, xmlLayout);
         }
 
         #endregion SaveLayout

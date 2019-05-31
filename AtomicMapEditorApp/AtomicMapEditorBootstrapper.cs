@@ -53,12 +53,8 @@ namespace Ame
             
             Application.Current.MainWindow = (Window)this.Shell;
             Application.Current.MainWindow.Show();
-
-            // TODO standardize paths
-            string documentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            string directoryPath = Path.Combine(documentPath, Global.applicationName);
-            string sessionFile = Path.Combine(directoryPath, Global.sessionFileName);
-            AmeSession.AmeSessionJson sessionJson = JsonConvert.DeserializeObject<AmeSession.AmeSessionJson>(File.ReadAllText(sessionFile));
+            
+            AmeSession.AmeSessionJson sessionJson = JsonConvert.DeserializeObject<AmeSession.AmeSessionJson>(File.ReadAllText(Global.SessionFileName));
             AmeSession session = sessionJson.Generate();
 
             this.Container.RegisterInstance<AmeSession>(session);

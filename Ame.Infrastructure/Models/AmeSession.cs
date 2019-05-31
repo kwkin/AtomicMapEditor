@@ -24,7 +24,7 @@ namespace Ame.Infrastructure.Models
                 
             public AmeSessionJson(AmeSession session)
             {
-                this.Version = Global.version;
+                this.Version = Global.Version;
                 this.CurrentMap = session.CurrentMapIndex;
                 this.OpenedTilesetFiles = new List<string>();
                 foreach (Map map in session.MapList)
@@ -261,11 +261,7 @@ namespace Ame.Infrastructure.Models
         {
             get
             {
-                if (this.lastTilesetDirectory == null)
-                {
-                    string documentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                    this.lastTilesetDirectory = documentPath;
-                }
+                this.lastTilesetDirectory = this.lastTilesetDirectory ?? Global.DefaultFileDirectory;
                 return this.lastTilesetDirectory;
             }
             set
@@ -279,11 +275,7 @@ namespace Ame.Infrastructure.Models
         {
             get
             {
-                if (this.lastMapDirectory == null)
-                {
-                    string documentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                    this.lastMapDirectory = documentPath;
-                }
+                this.lastMapDirectory = this.lastMapDirectory ?? Global.DefaultFileDirectory;
                 return this.lastMapDirectory;
             }
             set

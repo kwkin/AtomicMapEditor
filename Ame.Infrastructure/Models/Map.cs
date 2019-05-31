@@ -130,7 +130,7 @@ namespace Ame.Infrastructure.Models
         public Map()
         {
             this.Author = "";
-            this.Version = Global.version;
+            this.Version = Global.Version;
             this.Name = "";
             this.Grid = new GridModel(32, 32, 32, 32);
             this.Scale = ScaleType.Tile;
@@ -147,7 +147,7 @@ namespace Ame.Infrastructure.Models
             this.Name = name;
 
             this.Author = "";
-            this.Version = Global.version;
+            this.Version = Global.Version;
             this.Grid = new GridModel(32, 32, 32, 32);
             this.Scale = ScaleType.Tile;
             this.PixelScale = 1;
@@ -178,7 +178,7 @@ namespace Ame.Infrastructure.Models
             this.Grid = new GridModel(width, height, 32, 32);
 
             this.Author = "";
-            this.Version = Global.version;
+            this.Version = Global.Version;
             this.Scale = ScaleType.Tile;
             this.PixelScale = 1;
             this.Description = "";
