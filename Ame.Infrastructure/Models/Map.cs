@@ -17,6 +17,8 @@ namespace Ame.Infrastructure.Models
 {
     public class Map : INotifyPropertyChanged
     {
+        // TODO add serializer
+        // TODO add json extension in the file manager when loading and saving maps
         [JsonObject(MemberSerialization.OptIn)]
         public class MapJson
         {
@@ -48,10 +50,9 @@ namespace Ame.Infrastructure.Models
                     this.LayerList.Add(new Layer.LayerJson((Layer)layer));
                 }
             }
-
-            // TODO change to a string
+            
             [JsonProperty(PropertyName = "Version")]
-            public int Version { get; set; }
+            public string Version { get; set; }
 
             [JsonProperty(PropertyName = "Name")]
             public string Name { get; set; }
@@ -345,7 +346,7 @@ namespace Ame.Infrastructure.Models
         public string Author { get; set; }
 
         [MetadataProperty(MetadataType.Property)]
-        public int Version { get; set; }
+        public string Version { get; set; }
 
         // TODO change to an observable list
         public ObservableCollection<ILayer> LayerList { get; set; }
@@ -525,11 +526,7 @@ namespace Ame.Infrastructure.Models
         public static bool isValid(Map map)
         {
             StringBuilder errorMessage = new StringBuilder("");
-            if (map.Version < 1)
-            {
-                errorMessage.AppendLine("Version must be be at least 1.");
-            }
-            else if (map.RowCount < 1)
+            if (map.RowCount < 1)
             {
                 errorMessage.AppendLine("Rows must be be at least 1.");
             }

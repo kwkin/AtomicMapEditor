@@ -24,6 +24,7 @@ namespace Ame.Infrastructure.Models
                 
             public AmeSessionJson(AmeSession session)
             {
+                this.Version = Global.version;
                 this.CurrentMap = session.CurrentMapIndex;
                 this.OpenedTilesetFiles = new List<string>();
                 foreach (Map map in session.MapList)
@@ -39,7 +40,10 @@ namespace Ame.Infrastructure.Models
                 this.LastTilesetDirectory = session.LastTilesetDirectory;
 
             }
-            
+
+            [JsonProperty(PropertyName = "Version")]
+            public string Version { get; set; }
+
             [JsonProperty(PropertyName = "CurrentMap")]
             public int CurrentMap { get; set; }
 
