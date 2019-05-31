@@ -161,16 +161,6 @@ namespace Ame.Infrastructure.Models
 
             this.UndoQueue = new Stack<DrawAction>();
             this.RedoQueue = new Stack<DrawAction>();
-            for (int xIndex = 0; xIndex < this.TileWidth; ++xIndex)
-            {
-                for (int yIndex = 0; yIndex < this.TileHeight; ++yIndex)
-                {
-                    Point position = new Point(xIndex * 32, yIndex * 32);
-                    Tile emptyTile = Tile.emptyTile(position);
-                    this.CurrentLayer.LayerItems.Add(emptyTile.Image);
-                    this.CurrentLayer.TileIDs.Add(emptyTile);
-                }
-            }
         }
 
         public Map(string name, int width, int height)
@@ -191,16 +181,6 @@ namespace Ame.Infrastructure.Models
 
             this.UndoQueue = new Stack<DrawAction>();
             this.RedoQueue = new Stack<DrawAction>();
-            for (int xIndex = 0; xIndex < this.TileWidth; ++xIndex)
-            {
-                for (int yIndex = 0; yIndex < this.TileHeight; ++yIndex)
-                {
-                    Point position = new Point(xIndex * 32, yIndex * 32);
-                    Tile emptyTile = Tile.emptyTile(position);
-                    this.CurrentLayer.LayerItems.Add(emptyTile.Image);
-                    this.CurrentLayer.TileIDs.Add(emptyTile);
-                }
-            }
         }
 
         #endregion constructor
@@ -340,17 +320,38 @@ namespace Ame.Infrastructure.Models
 
         [MetadataProperty(MetadataType.Property)]
         public string Description { get; set; }
-
-        // TODO move these two properties to another class
+        
         [MetadataProperty(MetadataType.Property)]
         public string Author { get; set; }
 
         [MetadataProperty(MetadataType.Property)]
         public string Version { get; set; }
 
-        // TODO change to an observable list
-        public ObservableCollection<ILayer> LayerList { get; set; }
-        public int SelectedLayerIndex { get; set; }
+        private ObservableCollection<ILayer> layerList;
+        public ObservableCollection<ILayer> LayerList
+        {
+            get
+            {
+                return this.layerList;
+            }
+            set
+            {
+                this.layerList = value;
+            }
+        }
+
+        private int selectedLayerIndex;
+        public int SelectedLayerIndex
+        {
+            get
+            {
+                return this.selectedLayerIndex;
+            }
+            set
+            {
+                this.selectedLayerIndex = value;
+            }
+        }
         
         public Layer CurrentLayer
         {
@@ -380,8 +381,7 @@ namespace Ame.Infrastructure.Models
                 this.PixelHeight = (int)value.Height;
             }
         }
-
-        // TODO create a tilesetModelCollection and a LayerCollection
+        
         public ObservableCollection<TilesetModel> TilesetList { get; set; }
 
         public int TilesetCount

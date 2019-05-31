@@ -91,7 +91,7 @@ namespace Ame.Modules.Windows.Interactions.LayerProperties
             if (confirmation.Confirmed)
             {
                 Layer layer = confirmation.Content as Layer;
-                this.session.CurrentLayerList.Add(layer);
+                this.session.CurrentMap.LayerList.Add(layer);
             }
         }
 

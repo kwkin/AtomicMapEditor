@@ -11,6 +11,7 @@ using System.Windows.Media;
 using Ame.Infrastructure.Attributes;
 using Newtonsoft.Json;
 using Ame.Infrastructure.Serialization;
+using System.Collections.Specialized;
 
 namespace Ame.Infrastructure.Models
 {
@@ -126,6 +127,10 @@ namespace Ame.Infrastructure.Models
         public void Add(Tile tile)
         {
             this.Tiles.Add(tile);
+            if (Tiles.Count > 1024)
+            {
+                Console.WriteLine("Over");
+            }
         }
 
         public IEnumerator<Tile> GetEnumerator()
@@ -156,13 +161,18 @@ namespace Ame.Infrastructure.Models
                     ImageDrawing drawing = tilesetModel.GetByID(tile.TileID, topLeft);
                     tile.Image = drawing;
                 }
-                this.LayerItems[index] = tile.Image;
+                // TODO find a better location to put this
+                if (this.LayerItems.Count > index)
+                {
+                    this.LayerItems[index] = tile.Image;
+                }
                 index++;
             }
         }
 
         public void reset(int tileWidth, int tileHeight)
         {
+            this.LayerItems.Clear();
             for (int xIndex = 0; xIndex < tileWidth; ++xIndex)
             {
                 for (int yIndex = 0; yIndex < tileHeight; ++yIndex)
@@ -179,9 +189,12 @@ namespace Ame.Infrastructure.Models
             this.Tiles.CollectionChanged += (sender, e) =>
             {
                 int index = e.NewStartingIndex;
-                if (((Tile)e.NewItems[0]).Image != null)
+                if (e.Action == NotifyCollectionChangedAction.Add)
                 {
-                    this.LayerItems[index] = ((Tile)e.NewItems[0]).Image;
+                    if (((Tile)e.NewItems[0]).Image != null)
+                    {
+                        this.LayerItems[index] = ((Tile)e.NewItems[0]).Image;
+                    }
                 }
             };
             RenderOptions.SetEdgeMode(this.Group, EdgeMode.Aliased);

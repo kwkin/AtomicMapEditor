@@ -19,9 +19,11 @@ using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Utils;
 using Prism.Commands;
 using Prism.Events;
+using System.Collections.Specialized;
 
 namespace Ame.Modules.MapEditor.Editor
 {
+    // TODO get notified when a new layer is added
     public class MapEditorViewModel : EditorViewModelTemplate
     {
         #region fields
@@ -90,13 +92,19 @@ namespace Ame.Modules.MapEditor.Editor
             this.drawingGroup = new DrawingGroup();
             this.mapBackground = new DrawingGroup();
             this.hoverSample = new DrawingGroup();
+
+            this.layerItems = new DrawingGroup();
+            this.layerItems.Children.Add(this.Map.CurrentLayer.Group);
+
             this.layerItems = this.Map.CurrentLayer.Group;
+
             this.gridLines = new DrawingGroup();
             this.drawingGroup.Children.Add(this.mapBackground);
             this.drawingGroup.Children.Add(this.layerItems);
             this.drawingGroup.Children.Add(this.hoverSample);
             this.drawingGroup.Children.Add(this.gridLines);
             this.DrawingCanvas = new DrawingImage(this.drawingGroup);
+
             RenderOptions.SetEdgeMode(this.hoverSample, EdgeMode.Aliased);
             
             this.backgroundBrush = new SolidColorBrush(this.Map.BackgroundColor);
@@ -108,6 +116,17 @@ namespace Ame.Modules.MapEditor.Editor
             this.PositionText = "0, 0";
             this.updatePositionLabelStopWatch = Stopwatch.StartNew();
             this.HoverSampleOpacity = hoverSampleOpacity;
+            
+            this.Map.LayerList.CollectionChanged += (sender, e) =>
+            {
+                if (e.Action == NotifyCollectionChangedAction.Add)
+                {
+                    foreach (Layer layer in e.NewItems)
+                    {
+                        this.layerItems.Children.Add(layer.Group);
+                    }
+                }
+            };
 
             this.ShowGridCommand = new DelegateCommand(() =>
             {

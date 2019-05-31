@@ -223,6 +223,7 @@ namespace Ame.Modules.Windows.Docks.LayerListDock
 
         public void CurrentLayerChanged(ILayer layer)
         {
+            Console.WriteLine("Current Layer changed");
             this.Session.CurrentLayer = layer;
         }
 

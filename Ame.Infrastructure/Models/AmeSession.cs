@@ -123,6 +123,7 @@ namespace Ame.Infrastructure.Models
             }
         }
 
+        // TODO reference the current map
         private ObservableCollection<ILayer> currentLayerList;
         public ObservableCollection<ILayer> CurrentLayerList
         {
@@ -178,6 +179,11 @@ namespace Ame.Infrastructure.Models
             set
             {
                 this.currentLayer = value;
+                int currentLayerIndex = this.CurrentMap.LayerList.IndexOf(this.CurrentLayer);
+                if (currentLayerIndex != -1)
+                {
+                    this.CurrentMap.SelectedLayerIndex = currentLayerIndex;
+                }
                 NotifyPropertyChanged();
             }
         }
