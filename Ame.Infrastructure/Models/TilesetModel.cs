@@ -10,6 +10,7 @@ using Ame.Infrastructure.Attributes;
 using Ame.Infrastructure.Utils;
 using Emgu.CV;
 using Newtonsoft.Json;
+using Ame.Infrastructure.Serialization;
 
 namespace Ame.Infrastructure.Models
 {
@@ -18,7 +19,7 @@ namespace Ame.Infrastructure.Models
     public class TilesetModel : PaddedGrid, IItem
     {
         [JsonObject(MemberSerialization.OptIn)]
-        public class TilesetJson
+        public class TilesetJson : JsonAdapter<TilesetModel>
         {
             public TilesetJson()
             {

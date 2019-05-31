@@ -10,13 +10,14 @@ using System.Windows.Data;
 using System.Windows.Media;
 using Ame.Infrastructure.Attributes;
 using Newtonsoft.Json;
+using Ame.Infrastructure.Serialization;
 
 namespace Ame.Infrastructure.Models
 {
     public class TileCollection : IEnumerable<Tile>
     {
         [JsonObject(MemberSerialization.OptIn)]
-        public class TileCollectionJson
+        public class TileCollectionJson : JsonAdapter<TileCollection>
         {
             public TileCollectionJson()
             {

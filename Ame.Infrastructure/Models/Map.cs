@@ -12,14 +12,15 @@ using Ame.Infrastructure.Attributes;
 using Ame.Infrastructure.Core;
 using Ame.Infrastructure.DrawingTools;
 using Newtonsoft.Json;
+using System.Runtime.Serialization;
+using Ame.Infrastructure.Serialization;
 
 namespace Ame.Infrastructure.Models
 {
     public class Map : INotifyPropertyChanged
     {
-        // TODO add serializer
         [JsonObject(MemberSerialization.OptIn)]
-        public class MapJson
+        public class MapJson : JsonAdapter<Map>
         {
             public MapJson()
             {
@@ -85,7 +86,7 @@ namespace Ame.Infrastructure.Models
 
             [JsonProperty(PropertyName = "Layers")]
             public IList<Layer.LayerJson> LayerList { get; set; }
-
+            
             public Map Generate()
             {
                 Map map = new Map();

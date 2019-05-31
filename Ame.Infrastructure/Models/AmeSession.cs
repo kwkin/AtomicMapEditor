@@ -10,13 +10,14 @@ using Ame.Infrastructure.DrawingTools;
 using Ame.Infrastructure.Core;
 using System.IO;
 using Newtonsoft.Json;
+using Ame.Infrastructure.Serialization;
 
 namespace Ame.Infrastructure.Models
 {
     public class AmeSession : INotifyPropertyChanged
     {
         [JsonObject(MemberSerialization.OptIn)]
-        public class AmeSessionJson
+        public class AmeSessionJson : JsonAdapter<AmeSession>
         {
             public AmeSessionJson()
             {

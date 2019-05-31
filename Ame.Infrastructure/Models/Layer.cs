@@ -10,13 +10,14 @@ using System.Windows.Media;
 using Ame.Infrastructure.Attributes;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
+using Ame.Infrastructure.Serialization;
 
 namespace Ame.Infrastructure.Models
 {
     public class Layer : ILayer, INotifyPropertyChanged
     {
         [JsonObject(MemberSerialization.OptIn)]
-        public class LayerJson
+        public class LayerJson : JsonAdapter<Layer>
         {
             public LayerJson()
             {
@@ -81,6 +82,27 @@ namespace Ame.Infrastructure.Models
 
             [JsonProperty(PropertyName = "Tiles")]
             public TileCollection.TileCollectionJson Tiles { get; set; }
+
+            public Layer Generate()
+            {
+                Layer layer = new Layer();
+                layer.ID = this.ID;
+                layer.Name = this.Name;
+                layer.Columns = this.Columns;
+                layer.Rows = this.Rows;
+                layer.TileWidth = this.TileWidth;
+                layer.TileHeight = this.TileHeight;
+                layer.OffsetX = this.OffsetX;
+                layer.OffsetY = this.OffsetY;
+                layer.Position = this.Position;
+                layer.Scale = this.Scale;
+                layer.ScrollRate = this.ScrollRate;
+                layer.IsImmutable = this.IsImmutable;
+                layer.IsVisible = this.IsVisible;
+                layer.TileIDs = this.Tiles.Generate();
+                layer.TileIDs.reset(layer.TileWidth, layer.TileHeight);
+                return layer;
+            }
 
             public Layer Generate(ObservableCollection<TilesetModel> tilesetList)
             {
