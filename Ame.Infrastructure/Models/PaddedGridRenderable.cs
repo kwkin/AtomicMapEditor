@@ -45,13 +45,13 @@ namespace Ame.Infrastructure.Models
         }
 
         public PaddedGridRenderable(GridModel grid)
-            : base(grid.ColumnCount(), grid.RowCount(), grid.TileWidth, grid.TileHeight)
+            : base(grid.Columns(), grid.Rows(), grid.TileWidth, grid.TileHeight)
         {
 
         }
 
         public PaddedGridRenderable(PaddedGrid grid)
-            : base(grid.ColumnCount(), grid.RowCount(), grid.TileWidth, grid.TileHeight, grid.OffsetX, grid.OffsetY, grid.PaddingX, grid.PaddingY)
+            : base(grid.Columns(), grid.Rows(), grid.TileWidth, grid.TileHeight, grid.OffsetX, grid.OffsetY, grid.PaddingX, grid.PaddingY)
         {
 
         }
@@ -98,8 +98,8 @@ namespace Ame.Infrastructure.Models
         {
             DrawingGroup gridItems = new DrawingGroup();
 
-            int numTilesX = this.ColumnCount();
-            int numTilesY = this.RowCount();
+            int numTilesX = this.Columns();
+            int numTilesY = this.Rows();
 
             Rect border = new Rect();
             border.Size = new Size(this.PixelWidth, this.PixelHeight);
@@ -127,8 +127,8 @@ namespace Ame.Infrastructure.Models
         {
             DrawingGroup gridItems = new DrawingGroup();
 
-            int numTilesX = this.ColumnCount();
-            int numTilesY = this.RowCount();
+            int numTilesX = this.Columns();
+            int numTilesY = this.Rows();
             
             Rect border = new Rect();
             border.Size = new Size(this.TileHeight * numTilesX, this.TileWidth * numTilesY);
@@ -156,8 +156,8 @@ namespace Ame.Infrastructure.Models
         {
             DrawingGroup gridItems = new DrawingGroup();
 
-            int numTilesX = this.ColumnCount();
-            int numTilesY = this.RowCount();
+            int numTilesX = this.Columns();
+            int numTilesY = this.Rows();
             Size tileSize = new Size(this.TileWidth, this.TileHeight);
 
             using (DrawingContext context = gridItems.Open())
@@ -181,8 +181,8 @@ namespace Ame.Infrastructure.Models
         {
             DrawingGroup gridItems = new DrawingGroup();
 
-            int numTilesX = this.ColumnCount();
-            int numTilesY = this.RowCount();
+            int numTilesX = this.Columns();
+            int numTilesY = this.Rows();
             Size tileSize = new Size(this.TileWidth, this.TileHeight);
 
             using (DrawingContext context = gridItems.Open())

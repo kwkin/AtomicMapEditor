@@ -84,12 +84,12 @@ namespace Ame.Infrastructure.Models
 
         #region methods
 
-        public virtual int ColumnCount()
+        public virtual int Columns()
         {
             return this.PixelWidth / this.TileWidth;
         }
 
-        public virtual int RowCount()
+        public virtual int Rows()
         {
             return this.PixelHeight / this.TileHeight;
         }
@@ -184,19 +184,19 @@ namespace Ame.Infrastructure.Models
         // TODO factor in padding and offset
         public int GetID(int pixelX, int pixelY)
         {
-            return (pixelY / this.TileHeight) * ColumnCount() + (pixelX / this.TileWidth);
+            return (pixelY / this.TileHeight) * Columns() + (pixelX / this.TileWidth);
 
         }
 
         public int GetID(Point pixelPoint)
         {
-            return ((int)pixelPoint.Y / this.TileHeight) * ColumnCount() + ((int)pixelPoint.X / this.TileWidth);
+            return ((int)pixelPoint.Y / this.TileHeight) * Columns() + ((int)pixelPoint.X / this.TileWidth);
         }
 
         public Point GetPointByID(int id)
         {
-            int pointX = (id % ColumnCount()) * this.TileWidth;
-            int pointY = (int)Math.Floor((double)(id / ColumnCount())) * this.TileHeight;
+            int pointX = (id % Columns()) * this.TileWidth;
+            int pointY = (int)Math.Floor((double)(id / Columns())) * this.TileHeight;
             return new Point(pointX, pointY);
         }
     }

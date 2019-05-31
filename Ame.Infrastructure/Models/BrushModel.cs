@@ -38,7 +38,7 @@ namespace Ame.Infrastructure.Models
         }
 
         public BrushModel(TilesetModel tileset)
-            : base(tileset.ColumnCount(), tileset.RowCount(), tileset.TileWidth, tileset.TileHeight)
+            : base(tileset.Columns(), tileset.Rows(), tileset.TileWidth, tileset.TileHeight)
         {
             this.Tiles = new List<Tile>();
         }

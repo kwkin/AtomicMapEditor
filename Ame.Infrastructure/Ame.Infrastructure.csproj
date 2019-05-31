@@ -163,6 +163,7 @@
     <Compile Include="Models\PaddedGridRenderable.cs" />
     <Compile Include="Models\Tile.cs" />
     <Compile Include="Models\TileCollection.cs" />
+    <Compile Include="Serialization\JsonAdapter.cs" />
     <Compile Include="Utils\BrushUtils.cs" />
     <Compile Include="Utils\CoordinateTransform.cs" />
     <Compile Include="BaseTypes\DockToolViewModelTemplate.cs" />

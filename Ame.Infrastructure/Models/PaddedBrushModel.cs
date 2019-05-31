@@ -46,13 +46,13 @@ namespace Ame.Infrastructure.Models
         }
 
         public PaddedBrushModel(TilesetModel tileset)
-            : base(tileset.ColumnCount(), tileset.RowCount(), tileset.TileWidth, tileset.TileHeight)
+            : base(tileset.Columns(), tileset.Rows(), tileset.TileWidth, tileset.TileHeight)
         {
             this.Tiles = new List<Tile>();
         }
 
         public PaddedBrushModel(TilesetModel tileset, int tileOffsetX, int tileOffsetY)
-            : base(tileset.ColumnCount(), tileset.RowCount(), tileset.TileWidth, tileset.TileHeight)
+            : base(tileset.Columns(), tileset.Rows(), tileset.TileWidth, tileset.TileHeight)
         {
             this.Tiles = new List<Tile>();
             this.TileOffsetX = tileOffsetX;

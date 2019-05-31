@@ -82,7 +82,7 @@
                             Increment="1"
                             Maximum="{Binding MaxTileWidth}"
                             Minimum="1"
-                            Value="{Binding BrushColumnCount}"/>
+                            Value="{Binding BrushColumns}"/>
         <Label x:Name="heightLabel"
                Grid.Row="1"
                Grid.Column="4"
@@ -96,7 +96,7 @@
                             Increment="1"
                             Maximum="{Binding MaxTileHeight}"
                             Minimum="1"
-                            Value="{Binding BrushRowCount}" />
+                            Value="{Binding BrushRows}" />
 
         <Label x:Name="positionLabel"
                Grid.Row="2"

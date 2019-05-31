@@ -198,8 +198,7 @@ namespace Ame.Infrastructure.Models
                 }
             }
         }
-
-        // TODO have a consistent naming for columns/rows. Sometimes these are named ColumnCount/RowCount
+        
         [MetadataProperty(MetadataType.Property)]
         public int Columns { get; set; }
 

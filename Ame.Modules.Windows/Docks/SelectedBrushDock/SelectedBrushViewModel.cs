@@ -222,8 +222,8 @@ namespace Ame.Modules.Windows.Docks.SelectedBrushDock
                     context.DrawDrawing(tile.Image);
                 }
             }
-            this.gridModel.SetHeightWithRows(brushModel.RowCount(), brushModel.TileHeight);
-            this.gridModel.SetWidthWithColumns(brushModel.ColumnCount(), brushModel.TileWidth);
+            this.gridModel.SetHeightWithRows(brushModel.Rows(), brushModel.TileHeight);
+            this.gridModel.SetWidthWithColumns(brushModel.Columns(), brushModel.TileWidth);
 
             this.imageTransform.SetPixelToTile(this.gridModel.TileWidth, this.gridModel.TileHeight);
             this.imageTransform.SetSlectionToPixel(this.gridModel.TileWidth / 2, this.gridModel.TileHeight / 2);

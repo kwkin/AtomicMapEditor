@@ -92,32 +92,32 @@ namespace Ame.Modules.Windows.Docks.ToolboxDock
             }
         }
 
-        private int brushColumnCount;
-        public int BrushColumnCount
+        private int brushColumns;
+        public int BrushColumns
         {
             get
             {
-                return this.brushColumnCount;
+                return this.brushColumns;
             }
             set
             {
-                if (SetProperty(ref this.brushColumnCount, value))
+                if (SetProperty(ref this.brushColumns, value))
                 {
                     UpdateBrushModel();
                 }
             }
         }
 
-        private int brushRowCount;
-        public int BrushRowCount
+        private int brushRows;
+        public int BrushRows
         {
             get
             {
-                return this.brushRowCount;
+                return this.brushRows;
             }
             set
             {
-                if (SetProperty(ref this.brushRowCount, value))
+                if (SetProperty(ref this.brushRows, value))
                 {
                     UpdateBrushModel();
                 }
@@ -281,15 +281,15 @@ namespace Ame.Modules.Windows.Docks.ToolboxDock
 
         private void UpdateBrushProperties(PaddedBrushModel brushModel)
         {
-            this.brushColumnCount = this.BrushModel.ColumnCount();
-            this.brushRowCount = this.BrushModel.RowCount();
+            this.brushColumns = this.BrushModel.Columns();
+            this.brushRows = this.BrushModel.Rows();
             this.brushTileHeight = this.BrushModel.TileHeight;
             this.brushTileWidth = this.BrushModel.TileWidth;
             this.brushTileOffsetX = this.BrushModel.TileOffsetX;
             this.brushTileOffsetY = this.BrushModel.TileOffsetY;
 
-            RaisePropertyChanged(nameof(this.BrushColumnCount));
-            RaisePropertyChanged(nameof(this.brushRowCount));
+            RaisePropertyChanged(nameof(this.BrushColumns));
+            RaisePropertyChanged(nameof(this.brushRows));
             RaisePropertyChanged(nameof(this.brushTileHeight));
             RaisePropertyChanged(nameof(this.brushTileWidth));
             RaisePropertyChanged(nameof(this.brushTileOffsetX));
@@ -299,8 +299,8 @@ namespace Ame.Modules.Windows.Docks.ToolboxDock
 
         private void UpdateBrushModel()
         {
-            this.BrushModel.SetHeightWithRows(this.BrushRowCount, this.BrushTileHeight);
-            this.BrushModel.SetWidthWithColumns(this.BrushColumnCount, this.BrushTileWidth);
+            this.BrushModel.SetHeightWithRows(this.BrushRows, this.BrushTileHeight);
+            this.BrushModel.SetWidthWithColumns(this.BrushColumns, this.BrushTileWidth);
             this.BrushModel.TileOffsetX = this.BrushTileOffsetX;
             this.BrushModel.TileOffsetY = this.BrushTileOffsetY;
             UpdateStampLimits();
@@ -316,10 +316,10 @@ namespace Ame.Modules.Windows.Docks.ToolboxDock
         {
             if (this.session.CurrentTileset != null)
             {
-                this.MaxTileWidth = this.session.CurrentTileset.ColumnCount() - this.BrushTileOffsetX;
-                this.MaxTileHeight = this.session.CurrentTileset.RowCount() - this.BrushTileOffsetY;
-                this.MaxTileOffsetX = this.session.CurrentTileset.ColumnCount() - this.BrushColumnCount;
-                this.MaxTileOffsetY = this.session.CurrentTileset.RowCount() - this.BrushRowCount;
+                this.MaxTileWidth = this.session.CurrentTileset.Columns() - this.BrushTileOffsetX;
+                this.MaxTileHeight = this.session.CurrentTileset.Rows() - this.BrushTileOffsetY;
+                this.MaxTileOffsetX = this.session.CurrentTileset.Columns() - this.BrushColumns;
+                this.MaxTileOffsetY = this.session.CurrentTileset.Rows() - this.BrushRows;
             }
         }
 

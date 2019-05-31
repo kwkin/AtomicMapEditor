@@ -50,7 +50,7 @@ namespace Ame.Modules.Windows.Interactions.LayerProperties
             Map currentMap = session.CurrentMap;
             this.Title = "New Layer";
             string newLayerName = string.Format("Layer #{0}", currentMap.LayerCount);
-            this.layer = new Layer(newLayerName, currentMap.TileWidth, currentMap.TileHeight, currentMap.RowCount, currentMap.ColumnCount);
+            this.layer = new Layer(newLayerName, currentMap.TileWidth, currentMap.TileHeight, currentMap.Rows, currentMap.Columns);
             this.Callback = this.Callback ?? OnNewLayerWindowClosed;
         }
 

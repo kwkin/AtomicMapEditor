@@ -67,12 +67,12 @@ namespace Ame.Infrastructure.Models
 
         #region methods
 
-        public override int ColumnCount()
+        public override int Columns()
         {
             return (this.PixelWidth - this.OffsetX) / (this.TileWidth + 2 * this.PaddingX);
         }
 
-        public override int RowCount()
+        public override int Rows()
         {
             return (this.PixelHeight - this.OffsetY) / (this.TileHeight + 2 * this.PaddingY);
         }

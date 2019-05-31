@@ -31,8 +31,8 @@ namespace Ame.Infrastructure.Models
                 this.Version = map.Version;
                 this.Name = map.Name;
                 this.Author = map.Author;
-                this.Rows = map.RowCount;
-                this.Columns = map.ColumnCount;
+                this.Rows = map.Rows;
+                this.Columns = map.Columns;
                 this.TileWidth = map.TileWidth;
                 this.TileHeight = map.TileHeight;
                 this.Scale = map.Scale;
@@ -93,8 +93,8 @@ namespace Ame.Infrastructure.Models
                 map.Version = this.Version;
                 map.Name = this.Name;
                 map.Author = this.Author;
-                map.RowCount = this.Rows;
-                map.ColumnCount = this.Columns;
+                map.Rows = this.Rows;
+                map.Columns = this.Columns;
                 map.TileWidth = this.TileWidth;
                 map.TileHeight = this.TileHeight;
                 map.Scale = this.Scale;
@@ -156,7 +156,7 @@ namespace Ame.Infrastructure.Models
             this.LayerList = new ObservableCollection<ILayer>();
             this.TilesetList = new ObservableCollection<TilesetModel>();
 
-            Layer initialLayer = new Layer("Layer #0", this.TileWidth, this.TileHeight, this.RowCount, this.ColumnCount);
+            Layer initialLayer = new Layer("Layer #0", this.TileWidth, this.TileHeight, this.Rows, this.Columns);
             this.LayerList.Add(initialLayer);
 
             this.UndoQueue = new Stack<DrawAction>();
@@ -186,7 +186,7 @@ namespace Ame.Infrastructure.Models
             this.LayerList = new ObservableCollection<ILayer>();
             this.TilesetList = new ObservableCollection<TilesetModel>();
 
-            Layer initialLayer = new Layer("Layer #0", this.TileWidth, this.TileHeight, this.RowCount, this.ColumnCount);
+            Layer initialLayer = new Layer("Layer #0", this.TileWidth, this.TileHeight, this.Rows, this.Columns);
             this.LayerList.Add(initialLayer);
 
             this.UndoQueue = new Stack<DrawAction>();
@@ -242,11 +242,11 @@ namespace Ame.Infrastructure.Models
         public GridModel Grid { get; set; }
 
         [MetadataProperty(MetadataType.Property)]
-        public int ColumnCount
+        public int Columns
         {
             get
             {
-                return this.Grid.ColumnCount();
+                return this.Grid.Columns();
             }
             set
             {
@@ -255,11 +255,11 @@ namespace Ame.Infrastructure.Models
         }
 
         [MetadataProperty(MetadataType.Property)]
-        public int RowCount
+        public int Rows
         {
             get
             {
-                return this.Grid.RowCount();
+                return this.Grid.Rows();
             }
             set
             {
@@ -507,7 +507,7 @@ namespace Ame.Infrastructure.Models
             {
                 return null;
             }
-            int previousTileIndex = (int)(tile.Bounds.X / this.TileWidth) + (int)(tile.Bounds.Y / this.TileHeight) * this.ColumnCount;
+            int previousTileIndex = (int)(tile.Bounds.X / this.TileWidth) + (int)(tile.Bounds.Y / this.TileHeight) * this.Columns;
             ImageDrawing previousImage = this.CurrentLayer.LayerItems[previousTileIndex] as ImageDrawing;
             Tile previousTileID = this.CurrentLayer.TileIDs[previousTileIndex];
 
@@ -526,11 +526,11 @@ namespace Ame.Infrastructure.Models
         public static bool isValid(Map map)
         {
             StringBuilder errorMessage = new StringBuilder("");
-            if (map.RowCount < 1)
+            if (map.Rows < 1)
             {
                 errorMessage.AppendLine("Rows must be be at least 1.");
             }
-            else if (map.ColumnCount < 1)
+            else if (map.Columns < 1)
             {
                 errorMessage.AppendLine("Columns must be be at least 1.");
             }
