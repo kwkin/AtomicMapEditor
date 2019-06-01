@@ -82,7 +82,6 @@ namespace Ame.Infrastructure.Models
         public AmeSession()
         {
             this.MapList = new ObservableCollection<Map>();
-            this.CurrentLayerList = new ObservableCollection<ILayer>();
             this.CurrentTilesetList = new ObservableCollection<TilesetModel>();
             this.DrawingTool = new StampTool();
         }
@@ -90,7 +89,6 @@ namespace Ame.Infrastructure.Models
         public AmeSession(ObservableCollection<Map> MapList)
         {
             this.MapList = MapList;
-            this.CurrentLayerList = new ObservableCollection<ILayer>();
             this.CurrentTilesetList = new ObservableCollection<TilesetModel>();
             this.DrawingTool = new StampTool();
         }
@@ -99,7 +97,6 @@ namespace Ame.Infrastructure.Models
         {
             this.MapList = new ObservableCollection<Map>();
             this.MapList.Add(Map);
-            this.CurrentLayerList = new ObservableCollection<ILayer>();
             this.CurrentTilesetList = new ObservableCollection<TilesetModel>();
             this.DrawingTool = new StampTool();
         }
@@ -124,17 +121,11 @@ namespace Ame.Infrastructure.Models
         }
 
         // TODO reference the current map
-        private ObservableCollection<ILayer> currentLayerList;
         public ObservableCollection<ILayer> CurrentLayerList
         {
             get
             {
-                return this.currentLayerList;
-            }
-            set
-            {
-                this.currentLayerList = value;
-                NotifyPropertyChanged();
+                return this.CurrentMap.LayerList;
             }
         }
 
@@ -162,7 +153,6 @@ namespace Ame.Infrastructure.Models
             set
             {
                 this.currentMap = value;
-                this.CurrentLayerList = this.currentMap.LayerList;
                 this.CurrentLayer = this.currentMap.CurrentLayer;
                 this.CurrentTilesetList = this.currentMap.TilesetList;
                 NotifyPropertyChanged();

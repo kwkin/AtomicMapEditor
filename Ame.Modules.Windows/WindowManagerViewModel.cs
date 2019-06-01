@@ -374,7 +374,7 @@ namespace Ame.Modules.Windows
             {
                 this.session.CurrentTilesetList.Add(tileset);
             }
-            this.session.CurrentLayerList = importedMap.LayerList;
+            this.session.CurrentMap = importedMap;
             CollectionViewSource.GetDefaultView(this.session.CurrentLayerList).Refresh();
             this.eventAggregator.GetEvent<OpenDockEvent>().Publish(openEditorMessage);
         }
