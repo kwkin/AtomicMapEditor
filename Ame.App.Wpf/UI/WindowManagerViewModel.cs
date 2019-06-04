@@ -16,7 +16,6 @@ using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.UILogic;
-using Ame.Infrastructure.BaseTypes;
 using AvalonDock;
 using AvalonDock.Layout.Serialization;
 using Newtonsoft.Json;

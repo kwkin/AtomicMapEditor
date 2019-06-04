@@ -11,10 +11,11 @@ using Ame.Infrastructure.Core;
 using System.IO;
 using Newtonsoft.Json;
 using Ame.Infrastructure.Serialization;
+using Prism.Mvvm;
 
 namespace Ame.Infrastructure.Models
 {
-    public class AmeSession : INotifyPropertyChanged
+    public class AmeSession : BindableBase
     {
         [JsonObject(MemberSerialization.OptIn)]
         public class AmeSessionJson : JsonAdapter<AmeSession>
@@ -71,9 +72,7 @@ namespace Ame.Infrastructure.Models
         }
 
         #region fields
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
+        
         #endregion fields
 
 
@@ -115,8 +114,7 @@ namespace Ame.Infrastructure.Models
             }
             set
             {
-                this.mapList = value;
-                NotifyPropertyChanged();
+                this.SetProperty(ref this.mapList, value);
             }
         }
 
@@ -138,8 +136,7 @@ namespace Ame.Infrastructure.Models
             }
             set
             {
-                this.currentTilesetList = value;
-                NotifyPropertyChanged();
+                this.SetProperty(ref this.currentTilesetList, value);
             }
         }
 
@@ -152,10 +149,9 @@ namespace Ame.Infrastructure.Models
             }
             set
             {
-                this.currentMap = value;
-                this.CurrentLayer = this.currentMap.CurrentLayer;
-                this.CurrentTilesetList = this.currentMap.TilesetList;
-                NotifyPropertyChanged();
+                this.currentLayer = value.CurrentLayer;
+                this.currentTilesetList = value.TilesetList;
+                this.SetProperty(ref this.currentMap, value);
             }
         }
 
@@ -168,13 +164,12 @@ namespace Ame.Infrastructure.Models
             }
             set
             {
-                this.currentLayer = value;
-                int currentLayerIndex = this.CurrentMap.LayerList.IndexOf(this.CurrentLayer);
+                int currentLayerIndex = this.CurrentMap.LayerList.IndexOf(value);
                 if (currentLayerIndex != -1)
                 {
                     this.CurrentMap.SelectedLayerIndex = currentLayerIndex;
                 }
-                NotifyPropertyChanged();
+                this.SetProperty(ref this.currentLayer, value);
             }
         }
 
@@ -187,8 +182,7 @@ namespace Ame.Infrastructure.Models
             }
             set
             {
-                this.currentTileset = value;
-                NotifyPropertyChanged();
+                this.SetProperty(ref this.currentTileset, value);
             }
         }
 
@@ -314,11 +308,6 @@ namespace Ame.Infrastructure.Models
             {
                 serializer.Serialize(writer, json);
             }
-        }
-
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         
         #endregion methods

@@ -1,5 +1,4 @@
 ﻿using Ame.Infrastructure.BaseTypes;
-using Ame.Infrastructure.BaseTypes;
 using Prism.Events;
 using System;
 using System.Collections.Generic;

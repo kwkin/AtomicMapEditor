@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Ame.Components.Behaviors;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Models;
-using Ame.Infrastructure.BaseTypes;
 using Prism.Events;
 
 namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
