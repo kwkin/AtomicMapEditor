@@ -28,13 +28,13 @@
                     Grid.Column="0">
             <extcomp:IconToggleButton x:Name="showLayerToggleButton"
                                       ToolTip="Show: Toggles the layer display"
-                                      Command="{Binding AddTilesetLayerCommand}"
+                                      IsChecked="{Binding Layer.IsVisible}"
                                       ImageSource="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_eye_black_24dp.png">
             </extcomp:IconToggleButton>
 
             <extcomp:IconToggleButton x:Name="lockLayerToggleButton"
                                       ToolTip="Lock: Prevents the layer from being moved and edited"
-                                      Command="{Binding AddTilesetLayerCommand}"
+                                      IsChecked="{Binding Layer.IsImmutable}"
                                       ImageSource="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_lock_black_24dp.png">
             </extcomp:IconToggleButton>
 
@@ -59,7 +59,7 @@
         </StackPanel>
 
         <TextBox x:Name="layerNameLabel"
-                 Text="{Binding LayerName}"
+                 Text="{Binding Layer.Name}"
                  HorizontalAlignment="Left"
                  VerticalAlignment="Center"
                  Grid.Column="1"
@@ -87,7 +87,7 @@
         </TextBox>
 
         <Label x:Name="layerPositionLabel"
-               Content="{Binding Position}"
+               Content="{Binding Layer.Position}"
                HorizontalAlignment="Right"
                Grid.Column="2" />
     </Grid>

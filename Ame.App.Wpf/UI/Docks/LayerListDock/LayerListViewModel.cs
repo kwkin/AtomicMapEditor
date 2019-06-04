@@ -8,6 +8,8 @@ using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,17 +30,12 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         public LayerListViewModel(IEventAggregator eventAggregator, AmeSession session)
         {
-            if (eventAggregator == null)
-            {
-                throw new ArgumentNullException("eventAggregator");
-            }
-            if (session == null)
-            {
-                throw new ArgumentNullException("session");
-            }
+            this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
+            this.Session = session ?? throw new ArgumentNullException("session");
+            this.LayerList = new ObservableCollection<LayerListEntryViewModel>();
             this.Title = "Layer List";
-            this.Session = session;
-            this.eventAggregator = eventAggregator;
+            
+            this.Session.PropertyChanged += CurrentMapChanged;
 
             this.NewLayerCommand = new DelegateCommand(() =>
             {
@@ -119,6 +116,8 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         public ICommand EditCollisionsCommand { get; private set; }
         public ICommand LayerToMapSizeCommand { get; private set; }
         public ICommand CurrentLayerChangedCommand { get; private set; }
+
+        public ObservableCollection<LayerListEntryViewModel> LayerList { get; private set; }
 
         public AmeSession Session { get; set; }
 
@@ -233,6 +232,23 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         {
             CloseDockMessage closeMessage = new CloseDockMessage(this);
             this.eventAggregator.GetEvent<CloseDockEvent>().Publish(closeMessage);
+        }
+
+        public void CurrentMapChanged(object d, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(AmeSession.CurrentMap):
+                    Console.WriteLine("CurrentLayerList changed");
+                    this.LayerList.Clear();
+                    foreach (Layer layer in this.Session.CurrentLayerList)
+                    {
+                        this.LayerList.Add(new LayerListEntryViewModel(this.eventAggregator, layer));
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
 
         private int GetLayerGroupCount()

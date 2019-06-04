@@ -209,8 +209,31 @@ namespace Ame.Infrastructure.Models
         [MetadataProperty(MetadataType.Property)]
         public string Description { get; set; }
 
-        public bool IsImmutable { get; set; }
-        public bool IsVisible { get; set; }
+        private bool isImmutable;
+        public bool IsImmutable
+        {
+            get
+            {
+                return this.isImmutable;
+            }
+            set
+            {
+                this.SetProperty(ref this.isImmutable, value);
+            }
+        }
+
+        private bool isVisible;
+        public bool IsVisible
+        {
+            get
+            {
+                return this.isVisible;
+            }
+            set
+            {
+                this.SetProperty(ref this.isVisible, value);
+            }
+        }
         
         [IgnoreNodeBuilder]
         public DrawingGroup Group

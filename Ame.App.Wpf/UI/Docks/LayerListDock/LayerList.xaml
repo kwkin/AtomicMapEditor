@@ -113,7 +113,7 @@
 
         <ScrollViewer Grid.Row="2">
             <extcomp:StretchingTreeView x:Name="layerTree"
-                                        ItemsSource="{Binding Session.CurrentLayerList}"
+                                        ItemsSource="{Binding LayerList}"
                                         HorizontalContentAlignment="Stretch"
                                         BorderThickness="0">
                 <i:Interaction.Triggers>
@@ -129,7 +129,7 @@
                         <local:LayerListGroup />
                     </HierarchicalDataTemplate>
 
-                    <DataTemplate DataType="{x:Type models:Layer}">
+                    <DataTemplate DataType="{x:Type local:LayerListEntryViewModel}">
                         <local:LayerListEntry>
                             <local:LayerListEntry.ContextMenu>
                                 <ContextMenu DataContext="{Binding DataContext, Source={actions:RootObjectSource}}">
