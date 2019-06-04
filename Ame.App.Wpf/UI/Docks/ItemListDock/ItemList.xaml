@@ -1,0 +1,144 @@
+﻿<UserControl x:Class="Ame.App.Wpf.UI.Docks.ItemListDock.ItemList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:local="clr-namespace:Ame.App.Wpf.UI.Docks.ItemListDock"
+             xmlns:actions="clr-namespace:Ame.App.Wpf.UILogic.Actions"
+             xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=Ame.Components"
+             xmlns:models="clr-namespace:Ame.Infrastructure.Models;assembly=Ame.Infrastructure"
+             mc:Ignorable="d" >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Wpf.Themes.Material;component/Styles/Controls/Native/Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.App.Wpf;component/UI/Docks/ItemListDock/ItemListContextMenu.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0"
+              Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+
+            <Button x:Name="addTilesetButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    Grid.Column="0"
+                    ToolTip="Add Tileset"
+                    Command="{Binding AddTilesetCommand}">
+                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_note_add_black_24dp.png" />
+            </Button>
+
+            <Button x:Name="addImageButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    Grid.Column="1"
+                    ToolTip="Add Image"
+                    Command="{Binding AddImageCommand}">
+                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_image_black_24dp.png" />
+            </Button>
+
+            <ToggleButton x:Name="showImagesToggleButton"
+                          Style="{DynamicResource PrimaryMidIconToggleButtonStyle}"
+                          Grid.Column="2"
+                          ToolTip="Edit Collisions">
+                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_eye_black_24dp.png" />
+            </ToggleButton>
+
+            <ToggleButton x:Name="showTilesetsToggleButton"
+                          Style="{DynamicResource PrimaryMidIconToggleButtonStyle}"
+                          Grid.Column="3"
+                          ToolTip="Crop">
+                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_grid_black_24dp.png" />
+            </ToggleButton>
+
+            <Button x:Name="viewPropertiesButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    Grid.Column="4"
+                    ToolTip="Edit Properties">
+                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_eye_black_24dp.png" />
+            </Button>
+
+            <TextBox x:Name="itemListComboBox"
+                     Grid.Column="5"
+                     VerticalAlignment="Center">
+            </TextBox>
+
+            <Button x:Name="deleteItemButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    Grid.Column="6">
+                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_add_circle_black_24dp.png" />
+            </Button>
+        </Grid>
+
+        <Separator Grid.Row="1" />
+
+        <ScrollViewer x:Name="tilesetScrollViewer"
+                      VerticalScrollBarVisibility="Visible"
+                      Grid.Column="0"
+                      Grid.Row="2"
+                      DataContext="{Binding DataContext, ElementName=itemListDock}">
+
+            <extcomp:StretchingTreeView x:Name="itemTree"
+                                        ItemsSource="{Binding Items}"
+                                        HorizontalContentAlignment="Stretch"
+                                        BorderThickness="0">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectedItemChanged">
+                        <i:InvokeCommandAction Command="{Binding CurrentItemChangedCommand}"
+                                               CommandParameter="{Binding ElementName=itemTree, Path=SelectedItem}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+                <TreeView.Resources>
+                    <HierarchicalDataTemplate DataType="{x:Type models:ItemGroup}"
+                                              ItemsSource="{Binding Path=Items}">
+                        <local:ItemListGroup />
+                    </HierarchicalDataTemplate>
+
+                    <DataTemplate DataType="{x:Type models:TilesetModel}">
+                        <local:ItemListEntry>
+                            <local:ItemListEntry.ContextMenu>
+                                <ContextMenu DataContext="{Binding DataContext, Source={actions:RootObjectSource}}">
+                                    <ContextMenu.ItemsSource>
+                                        <CompositeCollection>
+                                            <CollectionContainer Collection="{StaticResource ItemEntryContextMenu}" />
+                                            <Separator />
+                                            <CollectionContainer Collection="{StaticResource ItemListContextMenu}" />
+                                        </CompositeCollection>
+                                    </ContextMenu.ItemsSource>
+                                </ContextMenu>
+                            </local:ItemListEntry.ContextMenu>
+                        </local:ItemListEntry>
+                    </DataTemplate>
+                </TreeView.Resources>
+
+                <extcomp:StretchingTreeView.ContextMenu>
+                    <ContextMenu>
+                        <ContextMenu.ItemsSource>
+                            <CompositeCollection>
+                                <CollectionContainer Collection="{StaticResource ItemListContextMenu}" />
+                            </CompositeCollection>
+                        </ContextMenu.ItemsSource>
+                    </ContextMenu>
+                </extcomp:StretchingTreeView.ContextMenu>
+            </extcomp:StretchingTreeView>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

@@ -261,3 +261,8 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
+*.ps1
+
+Ame\.App\.Wpf/Properties/Settings\.settings
+
+*.resx

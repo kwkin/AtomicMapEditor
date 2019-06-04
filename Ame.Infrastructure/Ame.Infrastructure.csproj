@@ -1,18 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9D27D8DC-5CD8-46D9-B702-EFEB6D66F236}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{2781CA60-CAD4-4F34-A066-A1A7713DB360}</ProjectGuid>
+    <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Ame.Infrastructure</RootNamespace>
     <AssemblyName>Ame.Infrastructure</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,183 +34,200 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Emgu.CV.UI, Version=3.3.0.2824, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EMGU.CV.3.3.0.2824\lib\net35\Emgu.CV.UI.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Emgu.CV.World, Version=3.3.0.2824, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EMGU.CV.3.3.0.2824\lib\net35\Emgu.CV.World.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Practices.Unity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Core.6.3.0\lib\net45\Prism.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Prism.Unity.Wpf, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Unity.6.3.0\lib\net45\Prism.Unity.Wpf.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Prism.Wpf, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\Prism.Wpf.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
-    <Reference Include="ZedGraph, Version=5.1.5.28844, Culture=neutral, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZedGraph.5.1.5\lib\ZedGraph.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Actions\InputBindingsManager.cs" />
-    <Compile Include="Actions\RootObjectSource.cs" />
     <Compile Include="Attributes\FileExtensionAttribute.cs" />
+    <Compile Include="Attributes\IgnoreNodeBuilderAttribute.cs" />
     <Compile Include="Attributes\MetadataProperty.cs" />
     <Compile Include="Attributes\MetadataPropertyAttribute.cs" />
-    <Compile Include="Actions\EnumBindingSourceExtension.cs" />
     <Compile Include="Attributes\MetadataPropertyUtils.cs" />
-    <Compile Include="Converters\EnumToBooleanConverter.cs" />
-    <Compile Include="Converters\EnumToVisibilityConverter.cs" />
-    <Compile Include="Converters\IntegerToBooleanConverter.cs" />
+    <Compile Include="BaseTypes\DockCreatorTemplate.cs" />
+    <Compile Include="BaseTypes\DockToolViewModelTemplate.cs" />
     <Compile Include="BaseTypes\DockViewModelTemplate.cs" />
-    <Compile Include="Converters\InterfaceTypeToInstance.cs" />
-    <Compile Include="Converters\NullOrEmptyToBooleanConverter.cs" />
-    <Compile Include="Converters\StringToIsValidFileConvertor.cs" />
+    <Compile Include="BaseTypes\EditorViewModelTemplate.cs" />
+    <Compile Include="BaseTypes\IWindowInteraction.cs" />
+    <Compile Include="BaseTypes\NodeViewBuilder.cs" />
+    <Compile Include="Core\Global.cs" />
+    <Compile Include="Core\MessageIds.cs" />
+    <Compile Include="DrawingTools\BrushAction.cs" />
+    <Compile Include="DrawingTools\BrushTool.cs" />
     <Compile Include="DrawingTools\CircleSelectionTool.cs" />
     <Compile Include="DrawingTools\EraserTool.cs" />
     <Compile Include="DrawingTools\FillTool.cs" />
     <Compile Include="DrawingTools\FreeSelectionTool.cs" />
+    <Compile Include="DrawingTools\IDrawingTool.cs" />
     <Compile Include="DrawingTools\IEraserTool.cs" />
     <Compile Include="DrawingTools\ISelectionTool.cs" />
     <Compile Include="DrawingTools\PickerTool.cs" />
     <Compile Include="DrawingTools\RectangularSelectionTool.cs" />
     <Compile Include="DrawingTools\SelectTool.cs" />
+    <Compile Include="DrawingTools\StampTool.cs" />
     <Compile Include="DrawingTools\TileCollisionTool.cs" />
     <Compile Include="DrawingTools\TileSelectionTool.cs" />
     <Compile Include="Events\CloseDockEvent.cs" />
-    <Compile Include="Events\OpenWindowEvent.cs" />
+    <Compile Include="Events\NewLayerEvent.cs" />
     <Compile Include="Events\NewPaddedBrushEvent.cs" />
+    <Compile Include="Events\NotificationActionEvent.cs" />
+    <Compile Include="Events\NotificationEvent.cs" />
+    <Compile Include="Events\OpenDockEvent.cs" />
+    <Compile Include="Events\OpenWindowEvent.cs" />
+    <Compile Include="Events\UpdateBrushEvent.cs" />
     <Compile Include="Events\UpdatePaddedBrushEvent.cs" />
     <Compile Include="Exceptions\InteractionConfigurationException.cs" />
+    <Compile Include="InfrastructureModule.cs" />
     <Compile Include="Messages\CloseDockMessage.cs" />
-    <Compile Include="DrawingTools\BrushAction.cs" />
-    <Compile Include="DrawingTools\BrushTool.cs" />
+    <Compile Include="Messages\NewLayerMessage.cs" />
+    <Compile Include="Messages\NotificationActionMessage.cs" />
+    <Compile Include="Messages\NotificationMessage.cs" />
+    <Compile Include="Messages\Notifications.cs" />
+    <Compile Include="Messages\OpenDockMessage.cs" />
     <Compile Include="Messages\OpenMessage.cs" />
     <Compile Include="Messages\SaveMessage.cs" />
     <Compile Include="Messages\StateMessage.cs" />
-    <Compile Include="Models\IItem.cs" />
-    <Compile Include="Models\GridModel.cs" />
-    <Compile Include="BaseTypes\DockCreatorTemplate.cs" />
-    <Compile Include="Attributes\IgnoreNodeBuilderAttribute.cs" />
-    <Compile Include="BaseTypes\IWindowInteraction.cs" />
-    <Compile Include="BaseTypes\NodeViewBuilder.cs" />
-    <Compile Include="Actions\SetPropertyAction.cs" />
-    <Compile Include="Converters\NullToBooleanConverter.cs" />
-    <Compile Include="Converters\ViewComponentConverter.cs" />
-    <Compile Include="Core\Global.cs" />
-    <Compile Include="Events\NewLayerEvent.cs" />
-    <Compile Include="Messages\NewLayerMessage.cs" />
-    <Compile Include="Messages\Notifications.cs" />
     <Compile Include="Models\AmeSession.cs" />
-    <Compile Include="DrawingTools\IDrawingTool.cs" />
-    <Compile Include="DrawingTools\StampTool.cs" />
+    <Compile Include="Models\BrushModel.cs" />
+    <Compile Include="Models\GridModel.cs" />
+    <Compile Include="Models\IItem.cs" />
     <Compile Include="Models\ILayer.cs" />
     <Compile Include="Models\ItemGroup.cs" />
     <Compile Include="Models\Layer.cs" />
     <Compile Include="Models\LayerGroup.cs" />
     <Compile Include="Models\LayerPosition.cs" />
-    <Compile Include="Converters\ActiveDocumentConverter.cs" />
-    <Compile Include="Events\UpdateBrushEvent.cs" />
-    <Compile Include="Models\BrushModel.cs" />
     <Compile Include="Models\Map.cs" />
     <Compile Include="Models\PaddedBrushModel.cs" />
     <Compile Include="Models\PaddedGrid.cs" />
     <Compile Include="Models\PaddedGridRenderable.cs" />
+    <Compile Include="Models\ScaleType.cs" />
     <Compile Include="Models\Tile.cs" />
     <Compile Include="Models\TileCollection.cs" />
+    <Compile Include="Models\TilesetModel.cs" />
     <Compile Include="Serialization\JsonAdapter.cs" />
+    <Compile Include="UILogic\EnumDescriptionTypeConverter.cs" />
+    <Compile Include="UILogic\ZoomLevel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
     <Compile Include="Utils\BrushUtils.cs" />
     <Compile Include="Utils\CoordinateTransform.cs" />
-    <Compile Include="BaseTypes\DockToolViewModelTemplate.cs" />
-    <Compile Include="BaseTypes\EditorViewModelTemplate.cs" />
-    <Compile Include="Actions\EventToCommand.cs" />
-    <Compile Include="Converters\EnumDescriptionTypeConverter.cs" />
-    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
-    <Compile Include="Converters\DoubleToZoomLevelConverter.cs" />
-    <Compile Include="Converters\MouseEventToPointConverter.cs" />
-    <Compile Include="Converters\NullableValueConverter.cs" />
-    <Compile Include="Core\MessageIds.cs" />
-    <Compile Include="Core\RegionNames.cs" />
-    <Compile Include="Events\NotificationActionEvent.cs" />
-    <Compile Include="Messages\NotificationActionMessage.cs" />
-    <Compile Include="Events\NotificationEvent.cs" />
-    <Compile Include="Messages\NotificationMessage.cs" />
-    <Compile Include="Events\OpenDockEvent.cs" />
-    <Compile Include="Messages\OpenDockMessage.cs" />
-    <Compile Include="Models\ScaleType.cs" />
-    <Compile Include="Models\TilesetModel.cs" />
-    <Compile Include="Models\ZoomLevel.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\FileExtensions.cs" />
     <Compile Include="Utils\GeometryUtils.cs" />
     <Compile Include="Utils\ImageUtils.cs" />
     <Compile Include="Utils\StopWatchExtension.cs" />
     <Compile Include="Utils\Utils.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <PackageReference Include="EMGU.CV">
+      <Version>3.4.3.3016</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="Prism.Wpf" Version="7.1.0.431&#xD;" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\baseline_warning_black_18dp.png" />
+    <Resource Include="Resources\Icons\ic_add_circle_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_application_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_arrow_collapse_vertical_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_arrow_down_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_arrow_expand_all_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_arrow_expand_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_arrow_expand_horizontal_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_arrow_expand_vertical_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_arrow_up_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_border_all_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_brush_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_call_split_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_checkerboard_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_clipboard_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_close_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_close_box_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_collisions_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_content_copy_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_content_cut_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_content_paste_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_content_save_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_crop_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_delete_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_eraser_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_exit_to_app_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_export_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_eyedropper_variant_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_eye_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_eye_off_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_file_document_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_fill_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_folder_download_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_folder_open_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_folder_outline_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_folder_plus_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_grid_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_hand_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_help_circle_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_history_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_image_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_import_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_layers_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_lock_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_magnify_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_magnify_minus_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_magnify_plus_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_map_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_merge_down_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_merge_up_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_minus_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_note_add_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_pencil_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_play_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_plus_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_plus_box_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_redo_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_refresh_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_repeat_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_settings_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_sort_variant_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_square_edit_outline_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_undo_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_vector_circle_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_vector_polygon_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_vector_square_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_window_maximize_black_24dp.png" />
+    <Resource Include="Resources\Icons\ic_window_open_black_24dp.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\EMGU.CV.3.3.0.2824\build\Emgu.CV.targets" Condition="Exists('..\packages\EMGU.CV.3.3.0.2824\build\Emgu.CV.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\EMGU.CV.3.3.0.2824\build\Emgu.CV.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EMGU.CV.3.3.0.2824\build\Emgu.CV.targets'))" />
-  </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

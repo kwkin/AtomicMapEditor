@@ -1,0 +1,161 @@
+﻿<UserControl x:Class="Ame.App.Wpf.UI.Docks.LayerListDock.LayerList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:local="clr-namespace:Ame.App.Wpf.UI.Docks.LayerListDock"
+             xmlns:actions="clr-namespace:Ame.App.Wpf.UILogic.Actions"
+             xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=Ame.Components"
+             xmlns:models="clr-namespace:Ame.Infrastructure.Models;assembly=Ame.Infrastructure"
+             mc:Ignorable="d" >
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Ame.App.Wpf;component/UI/Docks/LayerListDock/LayerListContextMenu.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <UserControl.ContextMenu>
+        <ContextMenu>
+            <ContextMenu.ItemsSource>
+                <CompositeCollection>
+                    <CollectionContainer Collection="{StaticResource LayerListContextMenu}" />
+                </CompositeCollection>
+            </ContextMenu.ItemsSource>
+        </ContextMenu>
+    </UserControl.ContextMenu>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <WrapPanel Grid.Row="0">
+            <Button x:Name="NewLayerButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    ToolTip="New Layer: Adds a new tileset layer"
+                    Command="{Binding NewLayerCommand}">
+                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_plus_box_black_24dp.png"
+                       Stretch="None" />
+            </Button>
+
+            <Button x:Name="AddLayerGroupButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    ToolTip="Add Group: Adds a new layer group"
+                    Command="{Binding NewLayerGroupCommand}">
+                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_folder_plus_black_24dp.png"
+                       Stretch="None" />
+            </Button>
+
+            <Button x:Name="MergeLayerDownButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    ToolTip="Merge Down: Merges the current layer and below layer"
+                    Command="{Binding MergeLayerDownCommand}">
+                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_merge_down_black_24dp.png"
+                       Stretch="None" />
+            </Button>
+
+            <Button x:Name="MergeLayerUpButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    ToolTip="Merge Up: Merges the current layer and above layer"
+                    Command="{Binding MergeLayerUpCommand}">
+                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_merge_up_black_24dp.png"
+                       Stretch="None" />
+            </Button>
+
+            <Button x:Name="MoveLayerDownButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    ToolTip="Move Down: Moves the layer up on the layers order"
+                    Command="{Binding MoveLayerDownCommand}">
+                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_arrow_down_black_24dp.png"
+                       Stretch="None" />
+            </Button>
+
+            <Button x:Name="MoveLayerUpButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    ToolTip="Move Up: Moves the layer up on the layers order"
+                    Command="{Binding MoveLayerUpCommand}">
+                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_arrow_up_black_24dp.png"
+                       Stretch="None" />
+            </Button>
+
+            <Button x:Name="EditLayerButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    ToolTip="Edit: Edit the current layer"
+                    Command="{Binding EditPropertiesCommand}">
+                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_plus_box_black_24dp.png"
+                       Stretch="None" />
+            </Button>
+
+            <Button x:Name="DuplicateLayerButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    ToolTip="Duplicate: Duplicates the current layer"
+                    Command="{Binding DuplicateLayerCommand}">
+                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_content_copy_black_24dp.png"
+                       Stretch="None" />
+            </Button>
+
+            <Button x:Name="RemoveLayerButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    ToolTip="Remove: Removes the layer"
+                    Command="{Binding RemoveLayerCommand}">
+                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_delete_black_24dp.png"
+                       Stretch="None" />
+            </Button>
+        </WrapPanel>
+
+        <Separator Grid.Row="1" />
+
+        <ScrollViewer Grid.Row="2">
+            <extcomp:StretchingTreeView x:Name="layerTree"
+                                        ItemsSource="{Binding Session.CurrentLayerList}"
+                                        HorizontalContentAlignment="Stretch"
+                                        BorderThickness="0">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectedItemChanged">
+                        <i:InvokeCommandAction Command="{Binding CurrentLayerChangedCommand}"
+                                               CommandParameter="{Binding ElementName=layerTree, Path=SelectedItem}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+                <TreeView.Resources>
+                    <HierarchicalDataTemplate DataType="{x:Type models:LayerGroup}"
+                                              ItemsSource="{Binding Path=Layers}">
+                        <local:LayerListGroup />
+                    </HierarchicalDataTemplate>
+
+                    <DataTemplate DataType="{x:Type models:Layer}">
+                        <local:LayerListEntry>
+                            <local:LayerListEntry.ContextMenu>
+                                <ContextMenu DataContext="{Binding DataContext, Source={actions:RootObjectSource}}">
+                                    <ContextMenu.ItemsSource>
+                                        <CompositeCollection>
+                                            <CollectionContainer Collection="{StaticResource LayerContextMenu}" />
+                                            <Separator />
+                                            <CollectionContainer Collection="{StaticResource LayerListContextMenu}" />
+                                        </CompositeCollection>
+                                    </ContextMenu.ItemsSource>
+                                </ContextMenu>
+                            </local:LayerListEntry.ContextMenu>
+                        </local:LayerListEntry>
+                    </DataTemplate>
+                </TreeView.Resources>
+
+                <extcomp:StretchingTreeView.ContextMenu>
+                    <ContextMenu>
+                        <ContextMenu.ItemsSource>
+                            <CompositeCollection>
+                                <CollectionContainer Collection="{StaticResource LayerListContextMenu}" />
+                            </CompositeCollection>
+                        </ContextMenu.ItemsSource>
+                    </ContextMenu>
+                </extcomp:StretchingTreeView.ContextMenu>
+            </extcomp:StretchingTreeView>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

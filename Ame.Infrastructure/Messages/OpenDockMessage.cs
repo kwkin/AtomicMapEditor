@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ame.Infrastructure.BaseTypes;
-using Microsoft.Practices.Unity;
 
 namespace Ame.Infrastructure.Messages
 {

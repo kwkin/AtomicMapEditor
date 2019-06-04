@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
-using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Models;
 
 namespace Ame.Infrastructure.DrawingTools

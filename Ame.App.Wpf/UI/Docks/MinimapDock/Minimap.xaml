@@ -1,0 +1,166 @@
+﻿<UserControl x:Class="Ame.App.Wpf.UI.Docks.MinimapDock.Minimap"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:local="clr-namespace:Ame.App.Wpf.UI.Docks.MinimapDock"
+             xmlns:actions="clr-namespace:Ame.App.Wpf.UILogic.Actions"
+             xmlns:conv="clr-namespace:Ame.App.Wpf.UILogic.Converters"
+             xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=Ame.Components"
+             xmlns:models="clr-namespace:Ame.Infrastructure.Models;assembly=Ame.Infrastructure"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Wpf.Themes.Material;component/Styles/Controls/Native/ScrollBar.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Wpf.Themes.Material;component/Styles/Controls/Native/Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.App.Wpf;component/UI/Docks/MinimapDock/MinimapContextMenu.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <conv:MouseEventToPointConverter x:Key="MouseEventToPointConverter" />
+            <conv:IntegerToBooleanConverter x:Key="CountToEnabledConverter"
+                                            ComparisonValue="0"
+                                            IsInversed="True" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0"
+              Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="fitMinimapButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    Grid.Column="0"
+                    ToolTip="Fit the minimap to the dock size"
+                    Command="{Binding FitMinimapCommand}">
+                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_arrow_expand_black_24dp.png" />
+            </Button>
+
+            <Button x:Name="toggleGridButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    Grid.Column="1"
+                    ToolTip="Toggle the grid overlay on the minimap"
+                    Command="{Binding ToggleGridCommand}">
+                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_grid_black_24dp.png" />
+            </Button>
+
+            <Button x:Name="toggleCollisionButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    Grid.Column="2"
+                    ToolTip="Toggle the collision overlay on the minimap"
+                    Command="{Binding ToggleCollisionCommand}">
+                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_collisions_black_24dp.png" />
+            </Button>
+
+            <Label x:Name="zoomRatioLabel"
+                   Grid.Column="4"
+                   Content="Zoom: 1:4"
+                   Background="Transparent"
+                   BorderBrush="Transparent">
+            </Label>
+        </Grid>
+
+        <Separator Grid.Row="1" />
+
+        <extcomp:ExtendedScrollViewer x:Name="tilesetScrollViewer"
+                                      Style="{StaticResource ScrollViewerStyle}"
+                                      Grid.Column="0"
+                                      Grid.Row="2"
+                                      HorizontalScrollBarVisibility="Visible"
+                                      VerticalScrollBarVisibility="Visible"
+                                      ZoomIndex="{Binding ZoomIndex}"
+                                      ZoomLevels="{Binding ZoomLevels}">
+            <Grid x:Name="scrollViewerGrid">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseMove">
+                        <actions:EventToCommand Command="{Binding UpdatePositionCommand, Mode=OneWay}"
+                                                EventArgsConverter="{StaticResource MouseEventToPointConverter}"
+                                                EventArgsConverterParameter="{Binding ElementName=minimapImage}"
+                                                PassEventArgsToCommand="True" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+                <Canvas x:Name="minimapImage"
+                        Height="500"
+                        Width="500"
+                        VerticalAlignment="Top">
+                    <Canvas.ContextMenu>
+                        <ContextMenu>
+                            <ContextMenu.ItemsSource>
+                                <CompositeCollection>
+                                    <CollectionContainer Collection="{StaticResource MinimapContextMenu}" />
+                                </CompositeCollection>
+                            </ContextMenu.ItemsSource>
+                        </ContextMenu>
+                    </Canvas.ContextMenu>
+                    <Canvas.Background>
+                        <LinearGradientBrush StartPoint="0,0"
+                                             EndPoint="1,1">
+                            <GradientStop Color="Yellow"
+                                          Offset="0.0" />
+                            <GradientStop Color="Red"
+                                          Offset="0.25" />
+                            <GradientStop Color="Blue"
+                                          Offset="0.75" />
+                            <GradientStop Color="Green"
+                                          Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Canvas.Background>
+                </Canvas>
+
+                <Grid.LayoutTransform>
+                    <TransformGroup>
+                        <ScaleTransform x:Name="itemScaleTransform" />
+                    </TransformGroup>
+                </Grid.LayoutTransform>
+            </Grid>
+        </extcomp:ExtendedScrollViewer>
+
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Label x:Name="mousePositionLabel"
+                   Content="{Binding PositionText}"
+                   Grid.Column="0"
+                   Width="65">
+            </Label>
+            <ComboBox x:Name="coordinateComboBox"
+                      Grid.Column="1"
+                      Width="65"
+                      VerticalAlignment="Center"
+                      ItemsSource="{Binding Source={actions:EnumBindingSourceExtension {x:Type models:ScaleType}}}"
+                      SelectedItem="{Binding Scale, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            </ComboBox>
+            <ComboBox x:Name="zoomComboBox"
+                      Grid.Column="2"
+                      Width="65"
+                      VerticalAlignment="Center"
+                      ItemsSource="{Binding ZoomLevels}"
+                      SelectedIndex="{Binding ZoomIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      IsEnabled="{Binding ZoomLevels.Count, Converter={StaticResource CountToEnabledConverter}}"
+                      DisplayMemberPath="description">
+            </ComboBox>
+        </Grid>
+    </Grid>
+</UserControl>
+

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ame.Infrastructure.Models;
+using Ame.Infrastructure.UILogic;
 
 namespace Ame.Components.Behaviors
 {

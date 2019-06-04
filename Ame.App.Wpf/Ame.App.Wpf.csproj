@@ -1,0 +1,552 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{811CF23D-0EA4-41A0-BBE4-D86EA446400A}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Ame.App.Wpf</RootNamespace>
+    <AssemblyName>Ame.App.Wpf</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AvalonDock">
+      <HintPath>..\..\_lib\AvalonDock\Releases\AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UILogic\Actions\EnumBindingSourceExtension.cs" />
+    <Compile Include="UILogic\Actions\EventToCommand.cs" />
+    <Compile Include="UILogic\Actions\InputBindingsManager.cs" />
+    <Compile Include="UILogic\Actions\RootObjectSource.cs" />
+    <Compile Include="UILogic\Actions\SetPropertyAction.cs" />
+    <Compile Include="UILogic\Converters\ActiveDocumentConverter.cs" />
+    <Compile Include="UILogic\Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="UILogic\Converters\DoubleToZoomLevelConverter.cs" />
+    <Compile Include="UILogic\Converters\EnumToBooleanConverter.cs" />
+    <Compile Include="UILogic\Converters\EnumToVisibilityConverter.cs" />
+    <Compile Include="UILogic\Converters\IntegerToBooleanConverter.cs" />
+    <Compile Include="UILogic\Converters\InterfaceTypeToInstance.cs" />
+    <Compile Include="UILogic\Converters\MouseEventToPointConverter.cs" />
+    <Compile Include="UILogic\Converters\NullableValueConverter.cs" />
+    <Compile Include="UILogic\Converters\NullOrEmptyToBooleanConverter.cs" />
+    <Compile Include="UILogic\Converters\NullToBooleanConverter.cs" />
+    <Compile Include="UILogic\Converters\StringToIsValidFileConvertor.cs" />
+    <Compile Include="UILogic\Converters\ViewComponentConverter.cs" />
+    <Compile Include="UI\Docks\ClipboardDock\ClipboardViewModel.cs" />
+    <Compile Include="UI\Docks\ClipboardDock\Clipboard.xaml.cs">
+      <DependentUpon>Clipboard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Docks\ClipboardDock\ClipboardCreator.cs" />
+    <Compile Include="UI\Docks\ClipboardDock\ClipboardItemEntry.xaml.cs">
+      <DependentUpon>ClipboardItemEntry.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Docks\DockCreator.cs" />
+    <Compile Include="UI\Docks\DockStyleSelector.cs" />
+    <Compile Include="UI\Docks\DockTemplateSelector.cs" />
+    <Compile Include="UI\Docks\ItemEditorDock\ItemEditor.xaml.cs">
+      <DependentUpon>ItemEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Docks\ItemEditorDock\ItemEditorCreator.cs" />
+    <Compile Include="UI\Docks\ItemEditorDock\ItemEditorImageAdvanced.xaml.cs">
+      <DependentUpon>ItemEditorImageAdvanced.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Docks\ItemEditorDock\ItemEditorTilesetAdvanced.xaml.cs">
+      <DependentUpon>ItemEditorTilesetAdvanced.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Docks\ItemEditorDock\ItemEditorViewModel.cs" />
+    <Compile Include="UI\Docks\ItemListDock\ItemList.xaml.cs">
+      <DependentUpon>ItemList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Docks\ItemListDock\ItemListCreator.cs" />
+    <Compile Include="UI\Docks\ItemListDock\ItemListEntry.xaml.cs">
+      <DependentUpon>ItemListEntry.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Docks\ItemListDock\ItemListGroup.xaml.cs">
+      <DependentUpon>ItemListGroup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Docks\ItemListDock\ItemListViewModel.cs" />
+    <Compile Include="UI\Docks\LayerListDock\LayerList.xaml.cs">
+      <DependentUpon>LayerList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Docks\LayerListDock\LayerListCreator.cs" />
+    <Compile Include="UI\Docks\LayerListDock\LayerListEntry.xaml.cs">
+      <DependentUpon>LayerListEntry.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Docks\LayerListDock\LayerListGroup.xaml.cs">
+      <DependentUpon>LayerListGroup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Docks\LayerListDock\LayerListViewModel.cs" />
+    <Compile Include="UI\Docks\MinimapDock\Minimap.xaml.cs">
+      <DependentUpon>Minimap.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Docks\MinimapDock\MinimapCreator.cs" />
+    <Compile Include="UI\Docks\MinimapDock\MinimapViewModel.cs" />
+    <Compile Include="UI\Docks\ProjectExplorerDock\ProjectExplorer.xaml.cs">
+      <DependentUpon>ProjectExplorer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Docks\ProjectExplorerDock\ProjectExplorerCreator.cs" />
+    <Compile Include="UI\Docks\ProjectExplorerDock\ProjectExplorerViewModel.cs" />
+    <Compile Include="UI\Docks\SelectedBrushDock\SelectedBrush.xaml.cs">
+      <DependentUpon>SelectedBrush.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Docks\SelectedBrushDock\SelectedBrushCreator.cs" />
+    <Compile Include="UI\Docks\SelectedBrushDock\SelectedBrushViewModel.cs" />
+    <Compile Include="UI\Docks\SessionViewerDock\SessionViewer.xaml.cs">
+      <DependentUpon>SessionViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Docks\SessionViewerDock\SessionViewerCreator.cs" />
+    <Compile Include="UI\Docks\SessionViewerDock\SessionViewerViewModel.cs" />
+    <Compile Include="UI\Docks\ToolboxDock\Toolbox.xaml.cs">
+      <DependentUpon>Toolbox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Docks\ToolboxDock\ToolboxBrushPanel.xaml.cs">
+      <DependentUpon>ToolboxBrushPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Docks\ToolboxDock\ToolboxCircleSelectionPanel.xaml.cs">
+      <DependentUpon>ToolboxCircleSelectionPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Docks\ToolboxDock\ToolboxCreator.cs" />
+    <Compile Include="UI\Docks\ToolboxDock\ToolboxEraserPanel.xaml.cs">
+      <DependentUpon>ToolboxEraserPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Docks\ToolboxDock\ToolboxFillPanel.xaml.cs">
+      <DependentUpon>ToolboxFillPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Docks\ToolboxDock\ToolboxFreeSelection.xaml.cs">
+      <DependentUpon>ToolboxFreeSelection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Docks\ToolboxDock\ToolboxPickerPanel.xaml.cs">
+      <DependentUpon>ToolboxPickerPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Docks\ToolboxDock\ToolboxRectangularSelectionPanel.xaml.cs">
+      <DependentUpon>ToolboxRectangularSelectionPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Docks\ToolboxDock\ToolboxSelectPanel.xaml.cs">
+      <DependentUpon>ToolboxSelectPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Docks\ToolboxDock\ToolboxStampPanel.xaml.cs">
+      <DependentUpon>ToolboxStampPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Docks\ToolboxDock\ToolboxTileCollisionPanel.xaml.cs">
+      <DependentUpon>ToolboxTileCollisionPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Docks\ToolboxDock\ToolboxTileSelectionPanel.xaml.cs">
+      <DependentUpon>ToolboxTileSelectionPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Docks\ToolboxDock\ToolboxViewModel.cs" />
+    <Compile Include="UI\ILayoutViewModel.cs" />
+    <Compile Include="UI\Editor\MapEditor\MapEditorCreator.cs" />
+    <Compile Include="UI\Editor\MapEditor\MapEditorViewModel.cs" />
+    <Compile Include="UI\Editor\MapEditor\MapEditorDocument.xaml.cs">
+      <DependentUpon>MapEditorDocument.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Interactions\MapProperties\EditMapInteraction.cs" />
+    <Compile Include="UI\Interactions\LayerProperties\EditLayerInteraction.cs" />
+    <Compile Include="UI\Interactions\LayerProperties\EditLayerWindow.xaml.cs">
+      <DependentUpon>EditLayerWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Interactions\LayerProperties\LayerPropertiesGeneral.xaml.cs">
+      <DependentUpon>LayerPropertiesGeneral.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Interactions\LayerProperties\LayerPropertiesMetadata.xaml.cs">
+      <DependentUpon>LayerPropertiesMetadata.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Interactions\LayerProperties\LayerPropertiesViewModel.cs" />
+    <Compile Include="UI\Interactions\LayerProperties\NewLayerInteraction.cs" />
+    <Compile Include="UI\Interactions\LayerProperties\NewLayerWindow.xaml.cs">
+      <DependentUpon>NewLayerWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Interactions\MapProperties\EditMapWindow.xaml.cs">
+      <DependentUpon>EditMapWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Interactions\MapProperties\MapPropertiesGeneral.xaml.cs">
+      <DependentUpon>MapPropertiesGeneral.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Interactions\MapProperties\MapPropertiesMetadata.xaml.cs">
+      <DependentUpon>MapPropertiesMetadata.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Interactions\MapProperties\MapPropertiesViewModel.cs" />
+    <Compile Include="UI\Interactions\MapProperties\NewMapInteraction.cs" />
+    <Compile Include="UI\Interactions\MapProperties\NewMapWindow.xaml.cs">
+      <DependentUpon>NewMapWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Interactions\Popup\ConfirmationWindow.xaml.cs">
+      <DependentUpon>ConfirmationWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Interactions\Popup\PopupInteraction.cs" />
+    <Compile Include="UI\Interactions\Preferences\PreferenceOptionsInteraction.cs" />
+    <Compile Include="UI\Interactions\Preferences\PreferencesMenu.xaml.cs">
+      <DependentUpon>PreferencesMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Interactions\Preferences\PreferencesViewModel.cs" />
+    <Compile Include="UI\Interactions\TilesetProperties\EditTilesetInteraction.cs" />
+    <Compile Include="UI\Interactions\TilesetProperties\EditTilesetWindow.xaml.cs">
+      <DependentUpon>EditTilesetWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Interactions\TilesetProperties\NewTilesetInteraction.cs" />
+    <Compile Include="UI\Interactions\TilesetProperties\NewTilesetWindow.xaml.cs">
+      <DependentUpon>NewTilesetWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Interactions\TilesetProperties\TilesetPropertiesGeneral.xaml.cs">
+      <DependentUpon>TilesetPropertiesGeneral.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Interactions\TilesetProperties\TilesetPropertiesMetadata.xaml.cs">
+      <DependentUpon>TilesetPropertiesMetadata.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Interactions\TilesetProperties\TilesetPropertiesViewModel.cs" />
+    <Compile Include="UI\Interactions\TilesetProperties\TilesetViewer.xaml.cs">
+      <DependentUpon>TilesetViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Interactions\WindowInteractionCreatorTemplate.cs" />
+    <Compile Include="UI\Menu\MenuOptions.xaml.cs">
+      <DependentUpon>MenuOptions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Menu\MenuOptionsViewModel.cs" />
+    <Compile Include="UI\Ribbon\MapEditorRibbon.xaml.cs">
+      <DependentUpon>MapEditorRibbon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Ribbon\MapEditorRibbonViewModel.cs" />
+    <Compile Include="UI\Serializer\DockLayoutSerializer.cs" />
+    <Compile Include="UI\Serializer\DockLayoutViewModel.cs" />
+    <Compile Include="UI\SessionManager.cs" />
+    <Compile Include="UI\Shell.xaml.cs">
+      <DependentUpon>Shell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\WindowManager.xaml.cs">
+      <DependentUpon>WindowManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\WindowManagerViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AvalonEdit">
+      <Version>5.0.4</Version>
+    </PackageReference>
+    <PackageReference Include="Extended.Wpf.Toolkit">
+      <Version>3.5.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.SDK.Expression.Blend">
+      <Version>1.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Prism.Core">
+      <Version>7.1.0.431</Version>
+    </PackageReference>
+    <PackageReference Include="Prism.DryIoc" Version="7.1.0.431" />
+    <PackageReference Include="Prism.Wpf">
+      <Version>7.1.0.431</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ame.Components\Ame.Components.csproj">
+      <Project>{9EC73523-62BB-41AF-ADAF-65C7DE2ED5A6}</Project>
+      <Name>Ame.Components</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ame.Infrastructure\Ame.Infrastructure.csproj">
+      <Project>{2781ca60-cad4-4f34-a066-a1a7713db360}</Project>
+      <Name>Ame.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WPF.Themes.Material\Wpf.Themes.Material.csproj">
+      <Project>{4c7a62dc-172e-42f9-a3cb-565d71f38276}</Project>
+      <Name>Wpf.Themes.Material</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="UI\Docks\ClipboardDock\Clipboard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Docks\ClipboardDock\ClipboardContextMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Docks\ClipboardDock\ClipboardItemEntry.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Docks\ItemEditorDock\ItemEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Docks\ItemEditorDock\ItemEditorContextMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Docks\ItemEditorDock\ItemEditorImageAdvanced.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Docks\ItemEditorDock\ItemEditorTilesetAdvanced.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Docks\ItemListDock\ItemList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Docks\ItemListDock\ItemListContextMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Docks\ItemListDock\ItemListEntry.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Docks\ItemListDock\ItemListGroup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Docks\LayerListDock\LayerList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Docks\LayerListDock\LayerListContextMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Docks\LayerListDock\LayerListEntry.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Docks\LayerListDock\LayerListGroup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Docks\MinimapDock\Minimap.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Docks\MinimapDock\MinimapContextMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Docks\ProjectExplorerDock\ProjectExplorer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Docks\SelectedBrushDock\SelectedBrush.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Docks\SelectedBrushDock\SelectedBrushContextMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Docks\SessionViewerDock\SessionViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Docks\ToolboxDock\Toolbox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Docks\ToolboxDock\ToolboxBrushPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Docks\ToolboxDock\ToolboxCircleSelectionPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Docks\ToolboxDock\ToolboxEraserPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Docks\ToolboxDock\ToolboxFillPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Docks\ToolboxDock\ToolboxFreeSelection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Docks\ToolboxDock\ToolboxPickerPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Docks\ToolboxDock\ToolboxRectangularSelectionPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Docks\ToolboxDock\ToolboxSelectPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Docks\ToolboxDock\ToolboxStampPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Docks\ToolboxDock\ToolboxTileCollisionPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Docks\ToolboxDock\ToolboxTileSelectionPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Editor\MapEditor\MapEditorContextMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Editor\MapEditor\MapEditorDocument.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Interactions\LayerProperties\EditLayerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Interactions\LayerProperties\LayerPropertiesGeneral.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Interactions\LayerProperties\LayerPropertiesMetadata.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Interactions\LayerProperties\NewLayerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Interactions\MapProperties\EditMapWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Interactions\MapProperties\MapPropertiesGeneral.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Interactions\MapProperties\MapPropertiesMetadata.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Interactions\MapProperties\NewMapWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Interactions\Popup\ConfirmationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Interactions\Preferences\PreferencesMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Interactions\TilesetProperties\EditTilesetWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Interactions\TilesetProperties\NewTilesetWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Interactions\TilesetProperties\TilesetPropertiesGeneral.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Interactions\TilesetProperties\TilesetPropertiesMetadata.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Interactions\TilesetProperties\TilesetViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Interactions\TilesetProperties\TilesetViewerContextMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Menu\MenuOptions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Ribbon\MapEditorRibbon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Shell.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\WindowManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

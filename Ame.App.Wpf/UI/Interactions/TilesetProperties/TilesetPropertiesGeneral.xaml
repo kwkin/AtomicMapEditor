@@ -1,0 +1,305 @@
+﻿<UserControl x:Class="Ame.App.Wpf.UI.Interactions.TilesetProperties.TilesetPropertiesGeneral"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Ame.App.Wpf.UI.Interactions.TilesetProperties"
+             xmlns:actions="clr-namespace:Ame.App.Wpf.UILogic.Actions"
+             xmlns:conv="clr-namespace:Ame.App.Wpf.UILogic.Converters"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d" >
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Wpf.Themes.Material;component/Styles/Controls/Native/Label.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Wpf.Themes.Material;component/Styles/Controls/Native/TextBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Wpf.Themes.Material;component/Styles/Controls/Native/Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Wpf.Themes.Material;component/Styles/Controls/Native/ToggleButton.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <conv:NullOrEmptyToBooleanConverter x:Key="StringToIsValidFileConvertor"
+                                                IsInversed="True" />
+            <conv:BooleanToVisiblityConverter x:Key="BooleanToVisibleConverter"
+                                              Collapse="True" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid VerticalAlignment="Top">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="72" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="72" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Label x:Name="nameLabel"
+               Style="{StaticResource MainSmallLabelStyle}"
+               Content="Name"
+               Grid.Row="0"
+               Grid.Column="0"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Center"
+               Margin="0 0 5 10">
+        </Label>
+        <TextBox x:Name="NameTextBox"
+                 Grid.Row="0"
+                 Grid.Column="1"
+                 Grid.ColumnSpan="3"
+                 VerticalAlignment="Center"
+                 Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 actions:InputBindingsManager.UpdatePropertySourceWhenEnterPressed="TextBox.Text"
+                 Margin="0 0 0 10">
+        </TextBox>
+
+        <Label x:Name="sourceLabel"
+               Style="{StaticResource MainSmallLabelStyle}"
+               Content="Source"
+               Grid.Row="1"
+               Grid.Column="0"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Center"
+               Margin="0 0 5 10">
+        </Label>
+        <Grid Grid.Row="1"
+              Grid.Column="1"
+              Grid.ColumnSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="sourceTextBox"
+                     Grid.Row="0"
+                     Grid.Column="0"
+                     Grid.ColumnSpan="1"
+                     VerticalAlignment="Center"
+                     Text="{Binding SourcePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     actions:InputBindingsManager.UpdatePropertySourceWhenEnterPressed="TextBox.Text"
+                     Margin="0 0 0 10">
+            </TextBox>
+            <Button x:Name="sourceButton"
+                    Style="{DynamicResource SecondaryMidRaisedButtonStyle}"
+                    Content="Browse..."
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    MinHeight="24"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    Command="{Binding BrowseSourceCommand}"
+                    Margin="0 0 0 10">
+            </Button>
+        </Grid>
+
+        <Label x:Name="UseTransparencyLabel"
+               Content="Use Transparency"
+               Grid.Row="2"
+               Grid.Column="1"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Center"
+               IsEnabled="{Binding IsSourceLoaded}"
+               Margin="0 0 5 10">
+        </Label>
+        <ToggleButton x:Name="UseTransparentColorPicker"
+                      Style="{StaticResource SecondaryMidToggleSwitchStyle}"
+                      Grid.Row="2"
+                      Grid.Column="3"
+                      HorizontalAlignment="Right"
+                      VerticalAlignment="Center"
+                      IsEnabled="{Binding IsSourceLoaded}"
+                      IsChecked="{Binding IsTransparent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      Margin="0 0 0 10">
+        </ToggleButton>
+
+        <ToggleButton x:Name="pickerButton"
+                      Style="{DynamicResource PrimaryMidIconToggleButtonStyle}"
+                      Grid.Row="3"
+                      Grid.Column="2"
+                      HorizontalAlignment="Right"
+                      ToolTip="Select a transparency color"
+                      IsChecked="{Binding IsSelectingTransparency}"
+                      Visibility="{Binding IsChecked, ElementName=UseTransparentColorPicker, Converter={StaticResource BooleanToVisibleConverter}}">
+            <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_eyedropper_variant_black_24dp.png"
+                   Stretch="None" />
+        </ToggleButton>
+        <xctk:ColorPicker x:Name="transparencyColorPicker"
+                          SelectedColor="{Binding TransparentColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          Grid.Row="3"
+                          Grid.Column="3"
+                          VerticalAlignment="Center"
+                          ColorMode="ColorCanvas"
+                          Visibility="{Binding IsChecked, ElementName=UseTransparentColorPicker, Converter={StaticResource BooleanToVisibleConverter}}">
+        </xctk:ColorPicker>
+
+        <Label x:Name="widthLabel"
+               Style="{StaticResource MainSmallLabelStyle}"
+               Content="Width"
+               Grid.Row="4"
+               Grid.Column="0"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Center"
+               Margin="0 0 5 10" />
+        <xctk:IntegerUpDown x:Name="widthIntStepper"
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            Increment="1"
+                            Maximum="2048"
+                            Minimum="1"
+                            Value="{Binding TileWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Margin="0 0 0 10">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="ValueChanged">
+                    <actions:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </xctk:IntegerUpDown>
+        <Label x:Name="heightLabel"
+               Style="{StaticResource MainSmallLabelStyle}"
+               Content="Height"
+               Grid.Row="4"
+               Grid.Column="2"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Center"
+               Margin="0 0 5 10" />
+        <xctk:IntegerUpDown x:Name="heightIntStepper"
+                            Value="{Binding TileHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Grid.Row="4"
+                            Grid.Column="3"
+                            VerticalAlignment="Center"
+                            Increment="1"
+                            Maximum="2048"
+                            Minimum="1"
+                            Margin="0 0 0 10">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="ValueChanged">
+                    <actions:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </xctk:IntegerUpDown>
+
+        <Label x:Name="offsetXLabel"
+               Style="{StaticResource MainSmallLabelStyle}"
+               Content="X Offset"
+               Grid.Row="5"
+               Grid.Column="0"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Center"
+               Margin="0 0 5 10" />
+        <xctk:IntegerUpDown x:Name="offsetXIntStepper"
+                            Value="{Binding OffsetX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Grid.Row="5"
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            Increment="1"
+                            Maximum="2048"
+                            Minimum="0"
+                            Margin="0 0 0 10">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="ValueChanged">
+                    <actions:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </xctk:IntegerUpDown>
+        <Label x:Name="offsetYLabel"
+               Style="{StaticResource MainSmallLabelStyle}"
+               Content="Y Offset"
+               Grid.Row="5"
+               Grid.Column="2"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Center"
+               Margin="0 0 5 10" />
+        <xctk:IntegerUpDown x:Name="offsetYIntStepper"
+                            Value="{Binding OffsetY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Grid.Row="5"
+                            Grid.Column="3"
+                            VerticalAlignment="Center"
+                            Increment="1"
+                            Maximum="2048"
+                            Minimum="0"
+                            Margin="0 0 0 10">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="ValueChanged">
+                    <actions:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </xctk:IntegerUpDown>
+
+        <Label x:Name="paddingXLabel"
+               Style="{StaticResource MainSmallLabelStyle}"
+               Content="X Padding"
+               Grid.Row="6"
+               Grid.Column="0"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Center"
+               Margin="0 0 5 10" />
+        <xctk:IntegerUpDown x:Name="paddingXIntStepper"
+                            Grid.Row="6"
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            Increment="1"
+                            Maximum="2048"
+                            Minimum="0"
+                            Value="{Binding PaddingX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Margin="0 0 0 10">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="ValueChanged">
+                    <actions:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </xctk:IntegerUpDown>
+        <Label x:Name="paddingYLabel"
+               Style="{StaticResource MainSmallLabelStyle}"
+               Content="Y Padding"
+               Grid.Row="6"
+               Grid.Column="2"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Center"
+               Margin="0 0 5 10" />
+        <xctk:IntegerUpDown x:Name="paddingYIntStepper"
+                            Grid.Row="6"
+                            Grid.Column="3"
+                            VerticalAlignment="Center"
+                            Increment="1"
+                            Maximum="2048"
+                            Minimum="0"
+                            Value="{Binding PaddingY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Margin="0 0 0 10">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="ValueChanged">
+                    <actions:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </xctk:IntegerUpDown>
+
+        <Label x:Name="desciptionLabel"
+               Style="{StaticResource MainSmallLabelStyle}"
+               Content="Description"
+               Grid.Row="7"
+               Grid.Column="0"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Top"
+               Margin="0 0 5 10">
+        </Label>
+        <TextBox x:Name="descriptionTextBox"
+                 Style="{StaticResource PrimaryMidAccentTextAreaStyle}"
+                 Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
+                 Grid.Row="7"
+                 Grid.Column="1"
+                 Grid.ColumnSpan="3"
+                 MinHeight="72"
+                 actions:InputBindingsManager.UpdatePropertySourceWhenEnterPressed="TextBox.Text"
+                 Margin="0 0 0 10">
+        </TextBox>
+    </Grid>
+</UserControl>

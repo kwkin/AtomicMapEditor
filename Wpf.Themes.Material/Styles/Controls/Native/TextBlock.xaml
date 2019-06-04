@@ -1,0 +1,34 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xmlns:logic="clr-namespace:Wpf.Themes.Material.UILogic">
+
+    <!-- ############################### Label Style ############################### -->
+    <Style x:Key="MainMidTextBlockStyle"
+           TargetType="{x:Type TextBlock}">
+        <Setter Property="FontFamily"
+                Value="{DynamicResource PrimaryFontFamily}" />
+        <Setter Property="FontSize"
+                Value="{DynamicResource PrimaryFontSize}" />
+        <Setter Property="FontWeight"
+                Value="{DynamicResource PrimaryFontWeight}" />
+        <Setter Property="Foreground"
+                Value="{DynamicResource MainDarkTextBrush}" />
+        <Setter Property="HorizontalAlignment"
+                Value="Left" />
+    </Style>
+
+    <Style x:Key="PrimaryMidTextBlockStyle"
+           TargetType="{x:Type TextBlock}"
+           BasedOn="{StaticResource MainMidTextBlockStyle}">
+        <Setter Property="Foreground"
+                Value="{DynamicResource PrimaryDarkBrush}" />
+    </Style>
+
+    <Style x:Key="SecondaryMidTextBlockStyle"
+           TargetType="{x:Type TextBlock}"
+           BasedOn="{StaticResource MainMidTextBlockStyle}">
+        <Setter Property="Foreground"
+                Value="{DynamicResource SecondaryDarkBrush}" />
+    </Style>
+</ResourceDictionary>

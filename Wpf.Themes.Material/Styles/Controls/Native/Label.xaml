@@ -1,0 +1,213 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xmlns:logic="clr-namespace:Wpf.Themes.Material.UILogic">
+
+    <!-- ############################### Main Label ############################### -->
+    <Style x:Key="MainMidLabelStyle"
+           TargetType="{x:Type Label}">
+        <Setter Property="FontFamily"
+                Value="{DynamicResource PrimaryFontFamily}" />
+        <Setter Property="FontSize"
+                Value="{DynamicResource PrimaryFontSize}" />
+        <Setter Property="FontWeight"
+                Value="{DynamicResource PrimaryFontWeight}" />
+        <Setter Property="Foreground"
+                Value="{DynamicResource MainDarkTextBrush}" />
+        <Setter Property="IsTabStop"
+                Value="False" />
+        <Setter Property="HorizontalContentAlignment"
+                Value="Left" />
+        <Setter Property="Padding"
+                Value="2" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Label}">
+                    <Grid x:Name="Root">
+                        <Border>
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              RecognizesAccessKey="True" />
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled"
+                                 Value="false">
+                            <Setter Property="Opacity"
+                                    Value="{DynamicResource DisabledOpacity}">
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style x:Key="MainSmallLabelStyle"
+           TargetType="{x:Type Label}"
+           BasedOn="{StaticResource MainMidLabelStyle}">
+        <Setter Property="FontSize"
+                Value="{DynamicResource PrimaryFontSizeSmall}" />
+    </Style>
+
+    <Style x:Key="MainLargeLabelStyle"
+           TargetType="{x:Type Label}"
+           BasedOn="{StaticResource MainMidLabelStyle}">
+        <Setter Property="FontSize"
+                Value="{DynamicResource PrimaryFontSizeLarge}" />
+    </Style>
+
+    <Style x:Key="MainTitleLabelStyle"
+           TargetType="{x:Type Label}"
+           BasedOn="{StaticResource MainMidLabelStyle}">
+        <Setter Property="FontSize"
+                Value="{DynamicResource PrimaryFontSizeTitle}" />
+    </Style>
+
+    <!-- ############################### Primary Label ############################### -->
+    <Style x:Key="PrimaryMidLabelStyle"
+           TargetType="{x:Type Label}">
+        <Setter Property="FontFamily"
+                Value="{DynamicResource PrimaryFontFamily}" />
+        <Setter Property="FontSize"
+                Value="{DynamicResource PrimaryFontSize}" />
+        <Setter Property="FontWeight"
+                Value="{DynamicResource PrimaryFontWeight}" />
+        <Setter Property="Foreground"
+                Value="{DynamicResource PrimaryDarkBrush}" />
+        <Setter Property="IsTabStop"
+                Value="False" />
+        <Setter Property="HorizontalContentAlignment"
+                Value="Left" />
+    </Style>
+
+    <Style x:Key="PrimarySmallLabelStyle"
+           TargetType="{x:Type Label}"
+           BasedOn="{StaticResource PrimaryMidLabelStyle}">
+        <Setter Property="FontSize"
+                Value="{DynamicResource PrimaryFontSizeSmall}" />
+    </Style>
+
+    <Style x:Key="PrimaryLargeLabelStyle"
+           TargetType="{x:Type Label}"
+           BasedOn="{StaticResource PrimaryMidLabelStyle}">
+        <Setter Property="FontSize"
+                Value="{DynamicResource PrimaryFontSizeLarge}" />
+    </Style>
+
+    <Style x:Key="PrimaryTitleLabelStyle"
+           TargetType="{x:Type Label}"
+           BasedOn="{StaticResource PrimaryMidLabelStyle}">
+        <Setter Property="FontSize"
+                Value="{DynamicResource PrimaryFontSizeTitle}" />
+    </Style>
+
+    <!-- ############################### Secondary Label ############################### -->
+    <Style x:Key="SecondaryMidLabelStyle"
+           TargetType="{x:Type Label}">
+        <Setter Property="FontFamily"
+                Value="{DynamicResource PrimaryFontFamily}" />
+        <Setter Property="FontSize"
+                Value="{DynamicResource PrimaryFontSize}" />
+        <Setter Property="FontWeight"
+                Value="{DynamicResource PrimaryFontWeight}" />
+        <Setter Property="Foreground"
+                Value="{DynamicResource SecondaryDarkBrush}" />
+        <Setter Property="IsTabStop"
+                Value="False" />
+        <Setter Property="HorizontalContentAlignment"
+                Value="Left" />
+    </Style>
+
+    <Style x:Key="SecondarySmallLabelStyle"
+           TargetType="{x:Type Label}"
+           BasedOn="{StaticResource SecondaryMidLabelStyle}">
+        <Setter Property="FontSize"
+                Value="{DynamicResource PrimaryFontSizeSmall}" />
+    </Style>
+
+    <Style x:Key="SecondaryLargeLabelStyle"
+           TargetType="{x:Type Label}"
+           BasedOn="{StaticResource SecondaryMidLabelStyle}">
+        <Setter Property="FontSize"
+                Value="{DynamicResource PrimaryFontSizeLarge}" />
+    </Style>
+
+    <Style x:Key="SecondaryTitleLabelStyle"
+           TargetType="{x:Type Label}"
+           BasedOn="{StaticResource SecondaryMidLabelStyle}">
+        <Setter Property="FontSize"
+                Value="{DynamicResource PrimaryFontSizeTitle}" />
+    </Style>
+
+
+    <!-- ############################### Accent Title Style ############################### -->
+    <Style x:Key="PrimaryMidAccentTitleStyle"
+           TargetType="{x:Type Label}">
+        <Setter Property="Background"
+                Value="{DynamicResource PrimaryMidBrush}" />
+        <Setter Property="FontFamily"
+                Value="{DynamicResource PrimaryFontFamily}" />
+        <Setter Property="FontSize"
+                Value="{DynamicResource PrimaryFontSizeTitle}" />
+        <Setter Property="FontWeight"
+                Value="{DynamicResource PrimaryFontTitleWeight}" />
+        <Setter Property="Foreground"
+                Value="{DynamicResource PrimaryMidTextBrush}" />
+        <Setter Property="IsTabStop"
+                Value="False" />
+        <Setter Property="HorizontalAlignment"
+                Value="Stretch" />
+        <Setter Property="VerticalAlignment"
+                Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment"
+                Value="Center" />
+        <Setter Property="Padding"
+                Value="10 15 10 15" />
+    </Style>
+
+    <Style x:Key="PrimaryLightAccentTitleStyle"
+           TargetType="{x:Type Label}"
+           BasedOn="{StaticResource PrimaryMidAccentTitleStyle}">
+        <Setter Property="Background"
+                Value="{DynamicResource PrimaryLightBrush}" />
+        <Setter Property="Foreground"
+                Value="{DynamicResource PrimaryLightTextBrush}" />
+    </Style>
+
+    <Style x:Key="PrimaryDarkAccentTitleStyle"
+           TargetType="{x:Type Label}"
+           BasedOn="{StaticResource PrimaryMidAccentTitleStyle}">
+        <Setter Property="Background"
+                Value="{DynamicResource PrimaryDarkBrush}" />
+        <Setter Property="Foreground"
+                Value="{DynamicResource PrimaryDarkTextBrush}" />
+    </Style>
+
+    <Style x:Key="SecondaryLightAccentTitleStyle"
+           TargetType="{x:Type Label}"
+           BasedOn="{StaticResource PrimaryMidAccentTitleStyle}">
+        <Setter Property="Background"
+                Value="{DynamicResource SecondaryLightBrush}" />
+        <Setter Property="Foreground"
+                Value="{DynamicResource SecondaryLightTextBrush}" />
+    </Style>
+
+    <Style x:Key="SecondaryMidAccentTitleStyle"
+           TargetType="{x:Type Label}"
+           BasedOn="{StaticResource PrimaryMidAccentTitleStyle}">
+        <Setter Property="Background"
+                Value="{DynamicResource SecondaryMidBrush}" />
+        <Setter Property="Foreground"
+                Value="{DynamicResource SecondaryMidTextBrush}" />
+    </Style>
+
+    <Style x:Key="SecondaryDarkAccentTitleStyle"
+           TargetType="{x:Type Label}"
+           BasedOn="{StaticResource PrimaryMidAccentTitleStyle}">
+        <Setter Property="Background"
+                Value="{DynamicResource SecondaryDarkBrush}" />
+        <Setter Property="Foreground"
+                Value="{DynamicResource SecondaryDarkTextBrush}" />
+    </Style>
+</ResourceDictionary>

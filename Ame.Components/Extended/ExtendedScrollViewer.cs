@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using Ame.Infrastructure.Models;
+using Ame.Infrastructure.UILogic;
 using Prism.Commands;
 
 namespace Ame.Components.Extended

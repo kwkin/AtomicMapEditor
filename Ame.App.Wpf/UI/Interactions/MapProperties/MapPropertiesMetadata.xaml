@@ -1,0 +1,113 @@
+﻿<UserControl x:Class="Ame.App.Wpf.UI.Interactions.MapProperties.MapPropertiesMetadata"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Ame.App.Wpf.UI.Interactions.MapProperties"
+             xmlns:behaviors="clr-namespace:Ame.Components.Behaviors;assembly=Ame.Components"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Wpf.Themes.Material;component/Styles/Controls/Native/Button.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid x:Name="propertiesGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <WrapPanel Grid.Row="0">
+            <Button x:Name="addPropertyButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    ToolTip="Add Property: Add a custom property."
+                    Command="{Binding AddCustomMetaDataCommand}">
+                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_add_circle_black_24dp.png"
+                       Stretch="None" />
+            </Button>
+
+            <Button x:Name="moveUpButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    ToolTip="Merge Up: Moves the property up in the list."
+                    Command="{Binding MoveMetadataUpCommand}">
+                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_arrow_up_black_24dp.png"
+                       Stretch="None" />
+            </Button>
+
+            <Button x:Name="moveDownButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    ToolTip="Move Down: Moves the property down in the list."
+                    Command="{Binding MoveMetadataDownCommand}">
+                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_arrow_down_black_24dp.png"
+                       Stretch="None" />
+            </Button>
+
+            <Button x:Name="deleteButton"
+                    Style="{DynamicResource PrimaryIconButtonStyle}"
+                    ToolTip="Delete: Deletes the selected custom property."
+                    Command="{Binding RemoveCustomMetadataCommand}"
+                    IsEnabled="{Binding IsCustomSelected}">
+                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_add_circle_black_24dp.png"
+                       Stretch="None" />
+            </Button>
+        </WrapPanel>
+
+        <DataGrid Grid.Row="1"
+                  ItemsSource="{Binding MapMetadata, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding SelectedMetadata}"
+                  SelectionUnit="FullRow"
+                  AutoGenerateColumns="False"
+                  ScrollViewer.VerticalScrollBarVisibility="Visible"
+                  ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                  Width="{Binding Path=Width, ElementName=propertiesGrid}">
+            <i:Interaction.Behaviors>
+                <behaviors:DataGridRowReadOnlyBehavior />
+            </i:Interaction.Behaviors>
+
+            <DataGrid.Resources>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsReadOnly}"
+                                     Value="True">
+                            <Setter Property="behaviors:ReadOnlyService.IsReadOnly"
+                                    Value="True" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.Resources>
+
+            <DataGrid.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                        <Expander IsExpanded="True"
+                                                  Header="{Binding Path=Name}">
+                                            <ItemsPresenter />
+                                        </Expander>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </DataGrid.GroupStyle>
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Property"
+                                    Width="*"
+                                    Binding="{Binding Key}" />
+                <DataGridTextColumn Header="Value"
+                                    Width="2*"
+                                    Binding="{Binding Value}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

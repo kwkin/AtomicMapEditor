@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Models;
+using Ame.Infrastructure.UILogic;
 
 namespace Ame.Infrastructure.BaseTypes
 {

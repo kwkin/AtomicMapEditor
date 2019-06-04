@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using Ame.Infrastructure.Models;
+using Ame.Infrastructure.UILogic;
 
 namespace Ame.Components.Behaviors
 {

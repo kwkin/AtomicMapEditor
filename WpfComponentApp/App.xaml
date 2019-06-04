@@ -6,13 +6,13 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/NativeControls.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/ExtendedToolkitControls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/WPF.Themes.Material;component/Styles/NativeControls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/WPF.Themes.Material;component/Styles/ExtendedToolkitControls.xaml" />
 
-                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Core/Effects.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Core/Fonts.xaml" />
-                <!--<ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Core/LightPalette.xaml" />-->
-                <ResourceDictionary Source="pack://application:,,,/Ame.Themes.Material;component/Styles/Core/LightPalette2.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/WPF.Themes.Material;component/Styles/Core/Effects.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/WPF.Themes.Material;component/Styles/Core/Fonts.xaml" />
+                <!--<ResourceDictionary Source="pack://application:,,,/WPF.Themes.Material;component/Styles/Core/LightPalette.xaml" />-->
+                <ResourceDictionary Source="pack://application:,,,/WPF.Themes.Material;component/Styles/Core/LightPalette2.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
