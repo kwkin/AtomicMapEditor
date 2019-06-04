@@ -14,7 +14,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/Ame.Modules.Windows;component/Interactions/TilesetProperties/TilesetViewerContextMenu.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.App.Wpf;component/UI/Interactions/TilesetProperties/TilesetViewerContextMenu.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <conv:MouseEventToPointConverter x:Key="MouseEventToPointConverter" />
             <conv:IntegerToBooleanConverter x:Key="CountToEnabledConverter"

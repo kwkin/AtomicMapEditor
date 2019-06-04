@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Ame.Infrastructure.BaseTypes;
 
-namespace Ame.Modules.Windows
+namespace Ame.Infrastructure.BaseTypes
 {
     public abstract class DockCreatorTemplate
     {
