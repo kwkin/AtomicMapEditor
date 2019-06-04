@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Prism.Mvvm;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -10,13 +11,11 @@ using System.Windows.Media;
 
 namespace Ame.Infrastructure.Models
 {
-    public class Tile : INotifyPropertyChanged
+    public class Tile : BindableBase
     {
         // TODO make the image drawing and IDs consistent with their use
         #region fields
-            
-        public event PropertyChangedEventHandler PropertyChanged;
-
+        
         #endregion fields
 
 
@@ -54,8 +53,7 @@ namespace Ame.Infrastructure.Models
             }
             set
             {
-                this.image = value;
-                NotifyPropertyChanged();
+                this.SetProperty(ref this.image, value);
             }
         }
 
@@ -80,11 +78,6 @@ namespace Ame.Infrastructure.Models
             Rect rect = new Rect(pixelPosition, new Size(32, 32));
             ImageDrawing emptyTile = new ImageDrawing(new DrawingImage(), rect);
             return new Tile(emptyTile, -1, -1);
-        }
-
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #endregion methods

@@ -11,10 +11,11 @@ using Ame.Infrastructure.Attributes;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using Ame.Infrastructure.Serialization;
+using Prism.Mvvm;
 
 namespace Ame.Infrastructure.Models
 {
-    public class Layer : ILayer, INotifyPropertyChanged
+    public class Layer : BindableBase, ILayer
     {
         [JsonObject(MemberSerialization.OptIn)]
         public class LayerJson : JsonAdapter<Layer>
@@ -111,10 +112,7 @@ namespace Ame.Infrastructure.Models
         }
 
         #region fields
-
-        [field: NonSerialized]
-        public event PropertyChangedEventHandler PropertyChanged;
-
+        
         #endregion fields
 
 
@@ -176,8 +174,7 @@ namespace Ame.Infrastructure.Models
             {
                 if (this.name != value)
                 {
-                    this.name = value;
-                    NotifyPropertyChanged();
+                    this.SetProperty(ref this.name, value);
                 }
             }
         }
@@ -263,11 +260,6 @@ namespace Ame.Infrastructure.Models
         public void Clear()
         {
             this.TileIDs.Clear();
-        }
-
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         
         public Point getPointFromIndex(int id)

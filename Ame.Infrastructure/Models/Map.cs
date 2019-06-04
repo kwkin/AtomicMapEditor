@@ -14,10 +14,11 @@ using Ame.Infrastructure.DrawingTools;
 using Newtonsoft.Json;
 using System.Runtime.Serialization;
 using Ame.Infrastructure.Serialization;
+using Prism.Mvvm;
 
 namespace Ame.Infrastructure.Models
 {
-    public class Map : INotifyPropertyChanged
+    public class Map : BindableBase
     {
         [JsonObject(MemberSerialization.OptIn)]
         public class MapJson : JsonAdapter<Map>
@@ -117,10 +118,6 @@ namespace Ame.Infrastructure.Models
 
         #region fields
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private string name;
-
         #endregion fields
 
 
@@ -187,18 +184,18 @@ namespace Ame.Infrastructure.Models
         #region properties
 
         [MetadataProperty(MetadataType.Property)]
+        private string name;
         public string Name
         {
             get
             {
-                return name;
+                return this.name;
             }
             set
             {
                 if (name != value)
                 {
-                    name = value;
-                    NotifyPropertyChanged();
+                    this.SetProperty(ref this.name, value);
                 }
             }
         }
@@ -433,11 +430,6 @@ namespace Ame.Infrastructure.Models
         {
             ILayer copiedLayer = Utils.Utils.DeepClone<ILayer>(this.CurrentLayer);
             this.LayerList.Add(copiedLayer);
-        }
-
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private int GetLayerGroupCount()
