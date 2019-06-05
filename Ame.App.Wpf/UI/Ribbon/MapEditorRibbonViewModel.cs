@@ -1,4 +1,10 @@
-﻿using Ame.Infrastructure.Models;
+﻿using Ame.App.Wpf.UI.Docks.ItemEditorDock;
+using Ame.App.Wpf.UI.Interactions.LayerProperties;
+using Ame.App.Wpf.UI.Interactions.MapProperties;
+using Ame.App.Wpf.UI.Interactions.TilesetProperties;
+using Ame.Infrastructure.Events;
+using Ame.Infrastructure.Messages;
+using Ame.Infrastructure.Models;
 using Ame.Infrastructure.UILogic;
 using Prism.Commands;
 using Prism.Events;
@@ -194,14 +200,14 @@ namespace Ame.App.Wpf.UI.Ribbon
 
         public void NewMap()
         {
-            //NewMapInteraction interaction = new NewMapInteraction();
-            //this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
+            NewMapInteraction interaction = new NewMapInteraction();
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
         }
 
         public void EditMapProperties()
         {
-            //EditMapInteraction interaction = new EditMapInteraction();
-            //this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
+            EditMapInteraction interaction = new EditMapInteraction();
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
         }
 
         #endregion map methods
@@ -210,14 +216,14 @@ namespace Ame.App.Wpf.UI.Ribbon
 
         public void NewLayer()
         {
-            //NewLayerInteraction interaction = new NewLayerInteraction();
-            //this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
+            NewLayerInteraction interaction = new NewLayerInteraction();
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
         }
 
         public void EditLayerProperties()
         {
-            //EditLayerInteraction interaction = new EditLayerInteraction();
-            //this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
+            EditLayerInteraction interaction = new EditLayerInteraction();
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
         }
 
         #endregion layer methods
@@ -226,8 +232,8 @@ namespace Ame.App.Wpf.UI.Ribbon
 
         public void AddTileset()
         {
-            //NewTilesetInteraction interaction = new NewTilesetInteraction(OnNewTilesetWindowClosed);
-            //this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
+            NewTilesetInteraction interaction = new NewTilesetInteraction(OnNewTilesetWindowClosed);
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
         }
 
         public void AddImage()
@@ -246,20 +252,20 @@ namespace Ame.App.Wpf.UI.Ribbon
 
         public void ZoomIn()
         {
-            //NotificationMessage<ViewNotification> message = new NotificationMessage<ViewNotification>(ViewNotification.ZoomInDocument);
-            //this.eventAggregator.GetEvent<NotificationEvent<ViewNotification>>().Publish(message);
+            NotificationMessage<ViewNotification> message = new NotificationMessage<ViewNotification>(ViewNotification.ZoomInDocument);
+            this.eventAggregator.GetEvent<NotificationEvent<ViewNotification>>().Publish(message);
         }
 
         public void ZoomOut()
         {
-            //NotificationMessage<ViewNotification> message = new NotificationMessage<ViewNotification>(ViewNotification.ZoomOutDocument);
-            //this.eventAggregator.GetEvent<NotificationEvent<ViewNotification>>().Publish(message);
+            NotificationMessage<ViewNotification> message = new NotificationMessage<ViewNotification>(ViewNotification.ZoomOutDocument);
+            this.eventAggregator.GetEvent<NotificationEvent<ViewNotification>>().Publish(message);
         }
 
         public void SetZoom(ZoomLevel zoomLevel)
         {
-            //NotificationMessage<ZoomLevel> message = new NotificationMessage<ZoomLevel>(zoomLevel);
-            //this.eventAggregator.GetEvent<NotificationEvent<ZoomLevel>>().Publish(message);
+            NotificationMessage<ZoomLevel> message = new NotificationMessage<ZoomLevel>(zoomLevel);
+            this.eventAggregator.GetEvent<NotificationEvent<ZoomLevel>>().Publish(message);
         }
 
         #endregion zoom methods
@@ -324,21 +330,21 @@ namespace Ame.App.Wpf.UI.Ribbon
 
         private void OnNewTilesetWindowClosed(INotification notification)
         {
-            //IConfirmation confirmation = notification as IConfirmation;
-            //if (Mouse.OverrideCursor == Cursors.Pen)
-            //{
-            //    Mouse.OverrideCursor = null;
-            //}
-            //if (confirmation.Confirmed)
-            //{
-            //    TilesetModel tilesetModel = confirmation.Content as TilesetModel;
-            //    this.Session.CurrentTilesetList.Add(tilesetModel);
+            IConfirmation confirmation = notification as IConfirmation;
+            if (Mouse.OverrideCursor == Cursors.Pen)
+            {
+                Mouse.OverrideCursor = null;
+            }
+            if (confirmation.Confirmed)
+            {
+                TilesetModel tilesetModel = confirmation.Content as TilesetModel;
+                this.Session.CurrentTilesetList.Add(tilesetModel);
 
-            //    OpenDockMessage message = new OpenDockMessage(typeof(ItemEditorViewModel));
-            //    message.IgnoreIfExists = true;
-            //    message.Content = tilesetModel;
-            //    this.eventAggregator.GetEvent<OpenDockEvent>().Publish(message);
-            //}
+                OpenDockMessage message = new OpenDockMessage(typeof(ItemEditorViewModel));
+                message.IgnoreIfExists = true;
+                message.Content = tilesetModel;
+                this.eventAggregator.GetEvent<OpenDockEvent>().Publish(message);
+            }
         }
 
         #endregion methods
