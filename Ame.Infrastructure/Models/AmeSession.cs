@@ -118,7 +118,6 @@ namespace Ame.Infrastructure.Models
             }
         }
 
-        // TODO reference the current map
         public ObservableCollection<ILayer> CurrentLayerList
         {
             get

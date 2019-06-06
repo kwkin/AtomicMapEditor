@@ -9,6 +9,7 @@ using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -34,7 +35,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             this.Session = session ?? throw new ArgumentNullException("session");
             this.LayerList = new ObservableCollection<LayerListEntryViewModel>();
             this.Title = "Layer List";
-            
+
             this.Session.PropertyChanged += CurrentMapChanged;
 
             this.NewLayerCommand = new DelegateCommand(() =>
@@ -89,9 +90,10 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             {
                 LayerToMapSize();
             });
-            this.CurrentLayerChangedCommand = new DelegateCommand<object>((currentLayer) =>
+            this.CurrentLayerChangedCommand = new DelegateCommand<object>((e) =>
             {
-                CurrentLayerChanged((ILayer)currentLayer);
+                LayerListEntryViewModel currentEntry = e as LayerListEntryViewModel;
+                CurrentLayerChanged(currentEntry.layer);
             });
 
             this.eventAggregator.GetEvent<NewLayerEvent>().Subscribe(AddTilesetLayerMessage);
@@ -224,7 +226,6 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         public void CurrentLayerChanged(ILayer layer)
         {
-            Console.WriteLine("Current Layer changed");
             this.Session.CurrentLayer = layer;
         }
 
@@ -239,12 +240,40 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             switch (e.PropertyName)
             {
                 case nameof(AmeSession.CurrentMap):
-                    Console.WriteLine("CurrentLayerList changed");
                     this.LayerList.Clear();
+                    this.Session.CurrentLayerList.CollectionChanged += UpdateLayerList;
                     foreach (Layer layer in this.Session.CurrentLayerList)
                     {
                         this.LayerList.Add(new LayerListEntryViewModel(this.eventAggregator, layer));
                     }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void UpdateLayerList(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch(e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    foreach(Layer layer in e.NewItems)
+                    {
+                        this.LayerList.Add(new LayerListEntryViewModel(this.eventAggregator, layer));
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    foreach(Layer layer in e.NewItems)
+                    {
+                        IEnumerable<LayerListEntryViewModel> toRemove = this.LayerList.Where(entry => entry.Layer == layer);
+                        foreach (LayerListEntryViewModel entry in toRemove)
+                        {
+                            this.LayerList.Remove(entry);
+                        }
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Move:
+                    // TODO implement
                     break;
                 default:
                     break;
