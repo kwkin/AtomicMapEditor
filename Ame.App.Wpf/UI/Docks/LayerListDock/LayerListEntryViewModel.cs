@@ -26,8 +26,6 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
             this.Layer = layer ?? throw new ArgumentNullException("layer");
-
-            Layer.PropertyChanged += ChangedProperty;
         }
 
         #endregion constructor
@@ -51,22 +49,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
 
         #region methods
-
-        public void ChangedProperty(object d, PropertyChangedEventArgs e)
-        {
-            switch(e.PropertyName)
-            {
-                case nameof(Layer.IsImmutable):
-                    Console.WriteLine("Immutable changed: " + layer.IsImmutable);
-                    break;
-                case nameof(Layer.IsVisible):
-                    Console.WriteLine("Visible changed: " + layer.IsVisible);
-                    break;
-                default:
-                    break;
-            }
-        }
-
+        
         #endregion methods
     }
 }

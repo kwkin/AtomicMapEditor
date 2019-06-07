@@ -125,6 +125,7 @@ namespace Ame.Infrastructure.Models
             this.TileHeight = 32;
             this.Rows = 32;
             this.Columns = 32;
+            this.IsVisible = true;
             this.Position = LayerPosition.Base;
             this.Scale = ScaleType.Tile;
             this.TileIDs = this.TileIDs ?? new TileCollection(this);
@@ -137,6 +138,7 @@ namespace Ame.Infrastructure.Models
             this.TileHeight = tileHeight;
             this.Rows = rows;
             this.Columns = columns;
+            this.IsVisible = true;
             this.Position = LayerPosition.Base;
             this.Scale = ScaleType.Tile;
             this.TileIDs = this.TileIDs ?? new TileCollection(this);
@@ -149,6 +151,7 @@ namespace Ame.Infrastructure.Models
             this.TileHeight = tileHeight;
             this.Rows = rows;
             this.Columns = columns;
+            this.IsVisible = true;
             this.Position = LayerPosition.Base;
             this.Scale = ScaleType.Tile;
             this.TileIDs = this.TileIDs ?? new TileCollection(this);

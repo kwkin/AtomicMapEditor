@@ -36,7 +36,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             this.LayerList = new ObservableCollection<LayerListEntryViewModel>();
             this.Title = "Layer List";
 
-            this.Session.PropertyChanged += CurrentMapChanged;
+            this.Session.PropertyChanged += SessionUpdated;
 
             this.NewLayerCommand = new DelegateCommand(() =>
             {
@@ -69,14 +69,6 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             this.RemoveLayerCommand = new DelegateCommand(() =>
             {
                 RemoveLayer();
-            });
-            this.ShowLayerCommand = new DelegateCommand(() =>
-            {
-                ShowLayer();
-            });
-            this.LockLayerCommand = new DelegateCommand(() =>
-            {
-                LockLayer();
             });
             this.EditPropertiesCommand = new DelegateCommand(() =>
             {
@@ -112,8 +104,6 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         public ICommand MoveLayerUpCommand { get; private set; }
         public ICommand DuplicateLayerCommand { get; private set; }
         public ICommand RemoveLayerCommand { get; private set; }
-        public ICommand ShowLayerCommand { get; private set; }
-        public ICommand LockLayerCommand { get; private set; }
         public ICommand EditPropertiesCommand { get; private set; }
         public ICommand EditCollisionsCommand { get; private set; }
         public ICommand LayerToMapSizeCommand { get; private set; }
@@ -204,16 +194,6 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
         }
 
-        public void ShowLayer()
-        {
-            Console.WriteLine("Show layer");
-        }
-
-        public void LockLayer()
-        {
-            Console.WriteLine("Lock layer");
-        }
-
         public void EditCollisions()
         {
             Console.WriteLine("Edit Collisions");
@@ -235,7 +215,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             this.eventAggregator.GetEvent<CloseDockEvent>().Publish(closeMessage);
         }
 
-        public void CurrentMapChanged(object d, PropertyChangedEventArgs e)
+        public void SessionUpdated(object d, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {

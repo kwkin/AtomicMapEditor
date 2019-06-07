@@ -118,6 +118,7 @@
     <Compile Include="Models\TilesetModel.cs" />
     <Compile Include="Serialization\JsonAdapter.cs" />
     <Compile Include="UILogic\EnumDescriptionTypeConverter.cs" />
+    <Compile Include="UILogic\LayerOrderRenderer.cs" />
     <Compile Include="UILogic\ZoomLevel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

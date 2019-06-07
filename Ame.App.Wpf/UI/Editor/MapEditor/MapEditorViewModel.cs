@@ -23,6 +23,7 @@ using System.Windows.Threading;
 using System.Windows.Media.Imaging;
 using System.IO;
 using Ame.Infrastructure.UILogic;
+using System.ComponentModel;
 
 namespace Ame.App.Wpf.UI.Editor.MapEditor
 {
@@ -37,6 +38,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
         private AmeSession session;
         private IScrollModel scrollModel;
 
+        private LayerOrderRenderer orderer; 
         private PaddedBrushModel brush;
         private CoordinateTransform imageTransform;
         public int zoomIndex;
@@ -65,26 +67,12 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
 
         public MapEditorViewModel(IEventAggregator eventAggregator, AmeSession session, Map map, ScrollModel scrollModel)
         {
-            if (eventAggregator == null)
-            {
-                throw new ArgumentNullException("eventAggregator");
-            }
-            if (session == null)
-            {
-                throw new ArgumentNullException("session");
-            }
-            if (map == null)
-            {
-                throw new ArgumentNullException("map");
-            }
-            if (scrollModel == null)
-            {
-                throw new ArgumentNullException("scrollModel");
-            }
-            this.eventAggregator = eventAggregator;
-            this.session = session;
-            this.Map = map;
-            this.scrollModel = scrollModel;
+            this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
+            this.session = session ?? throw new ArgumentNullException("session");
+            this.Map = map ?? throw new ArgumentNullException("map");
+            this.scrollModel = scrollModel ?? throw new ArgumentNullException("scrollModel");
+
+            this.orderer = new LayerOrderRenderer(this.session);
 
             this.CurrentLayer = this.Map.CurrentLayer as Layer;
             this.imageTransform = new CoordinateTransform();
@@ -100,6 +88,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             foreach (Layer layer in this.Map.LayerList)
             {
                 this.layerItems.Children.Add(layer.Group);
+                layer.PropertyChanged += LayerChanged;
             }
 
             this.gridLines = new DrawingGroup();
@@ -121,16 +110,8 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             this.updatePositionLabelStopWatch = Stopwatch.StartNew();
             this.HoverSampleOpacity = hoverSampleOpacity;
 
-            this.Map.LayerList.CollectionChanged += (sender, e) =>
-            {
-                if (e.Action == NotifyCollectionChangedAction.Add)
-                {
-                    foreach (Layer layer in e.NewItems)
-                    {
-                        this.layerItems.Children.Add(layer.Group);
-                    }
-                }
-            };
+            //this.session.PropertyChanged += SessionChanged;
+            this.Map.LayerList.CollectionChanged += LayerAdded;
 
             this.ShowGridCommand = new DelegateCommand(() =>
             {
@@ -434,6 +415,55 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
                 encoder.Save(stream);
             }
             this.HoverSampleOpacity = hoverSampleOpacity;
+        }
+
+        //private void SessionChanged(object sender, PropertyChangedEventArgs e)
+        //{
+        //    switch(e.PropertyName)
+        //    {
+        //        case nameof(AmeSession.CurrentMap):
+        //            foreach (Layer layer in this.session.CurrentLayerList)
+        //            {
+        //                layer.PropertyChanged += LayerChanged;
+        //            }
+        //            break;
+        //        default:
+        //            break;
+        //    }
+        //}
+
+        private void LayerAdded(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                foreach (Layer layer in e.NewItems)
+                {
+                    this.layerItems.Children.Add(layer.Group);
+                    layer.PropertyChanged += LayerChanged;
+                }
+            }
+        }
+
+        private void LayerChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Layer layer = sender as Layer;
+            switch(e.PropertyName)
+            {
+                case nameof(Layer.IsVisible):
+                    if (layer.IsVisible)
+                    {
+                        int insertIndex = this.orderer.getAffectedIndex(layer);
+                        this.layerItems.Children.Insert(insertIndex, layer.Group);
+                    }
+                    else
+                    {
+                        int removeIndex = this.orderer.getAffectedIndex(layer);
+                        this.layerItems.Children.RemoveAt(removeIndex);
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void Draw(Point point)
