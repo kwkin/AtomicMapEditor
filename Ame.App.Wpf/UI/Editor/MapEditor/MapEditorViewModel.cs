@@ -417,21 +417,6 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             this.HoverSampleOpacity = hoverSampleOpacity;
         }
 
-        //private void SessionChanged(object sender, PropertyChangedEventArgs e)
-        //{
-        //    switch(e.PropertyName)
-        //    {
-        //        case nameof(AmeSession.CurrentMap):
-        //            foreach (Layer layer in this.session.CurrentLayerList)
-        //            {
-        //                layer.PropertyChanged += LayerChanged;
-        //            }
-        //            break;
-        //        default:
-        //            break;
-        //    }
-        //}
-
         private void LayerAdded(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Add)

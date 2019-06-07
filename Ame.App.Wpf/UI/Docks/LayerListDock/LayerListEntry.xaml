@@ -38,24 +38,14 @@
                                       ImageSource="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_lock_black_24dp.png">
             </extcomp:IconToggleButton>
 
-            <Canvas x:Name="tilesetImage"
-                    Height="32"
-                    Width="32"
-                    VerticalAlignment="Top">
-                <Canvas.Background>
-                    <LinearGradientBrush StartPoint="0,0"
-                                         EndPoint="1,1">
-                        <GradientStop Color="Yellow"
-                                      Offset="0.0" />
-                        <GradientStop Color="Red"
-                                      Offset="0.25" />
-                        <GradientStop Color="Blue"
-                                      Offset="0.75" />
-                        <GradientStop Color="Green"
-                                      Offset="1.0" />
-                    </LinearGradientBrush>
-                </Canvas.Background>
-            </Canvas>
+            <Image x:Name="tilesetImage"
+                   Source="{Binding LayerPreview, Mode=OneWay}"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   Width="32"
+                   Height="32"
+                   Stretch="UniformToFill">
+            </Image>
         </StackPanel>
 
         <TextBox x:Name="layerNameLabel"
@@ -87,7 +77,7 @@
         </TextBox>
 
         <Label x:Name="layerPositionLabel"
-               Content="{Binding Layer.Position}"
+               Content="{Binding Layer.Position, Mode=OneWay}"
                HorizontalAlignment="Right"
                Grid.Column="2" />
     </Grid>

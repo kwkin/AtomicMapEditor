@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Ame.App.Wpf.UI.Docks.LayerListDock
 {
@@ -26,6 +28,18 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
             this.Layer = layer ?? throw new ArgumentNullException("layer");
+
+            // TODO bind sizes
+            DrawingGroup drawingGroup = new DrawingGroup();
+            DrawingGroup filled = new DrawingGroup();
+            using (DrawingContext context = filled.Open())
+            {
+                Rect drawingRect = new Rect(0, 0, layer.GetPixelWidth(), layer.GetPixelHeight());
+                context.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Transparent, 0), drawingRect);
+            }
+            drawingGroup.Children.Add(filled);
+            drawingGroup.Children.Add(layer.Group);
+            this.layerPreview = new DrawingImage(drawingGroup);
         }
 
         #endregion constructor
@@ -45,11 +59,21 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             }
         }
 
+        private DrawingImage layerPreview;
+        public DrawingImage LayerPreview
+        {
+            get
+            {
+                return this.layerPreview;
+            }
+        }
+
+
         #endregion properties
 
 
         #region methods
-        
+
         #endregion methods
     }
 }
