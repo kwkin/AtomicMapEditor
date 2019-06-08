@@ -67,10 +67,10 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
 
         public MapEditorViewModel(IEventAggregator eventAggregator, AmeSession session, Map map, ScrollModel scrollModel)
         {
-            this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
-            this.session = session ?? throw new ArgumentNullException("session");
-            this.Map = map ?? throw new ArgumentNullException("map");
-            this.scrollModel = scrollModel ?? throw new ArgumentNullException("scrollModel");
+            this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
+            this.session = session ?? throw new ArgumentNullException("session is null");
+            this.Map = map ?? throw new ArgumentNullException("map is null");
+            this.scrollModel = scrollModel ?? throw new ArgumentNullException("scrollModel is null");
 
             this.orderer = new LayerOrderRenderer(this.session);
 
@@ -113,42 +113,15 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             //this.session.PropertyChanged += SessionChanged;
             this.Map.LayerList.CollectionChanged += LayerAdded;
 
-            this.ShowGridCommand = new DelegateCommand(() =>
-            {
-                DrawGrid(this.IsGridOn);
-            });
-            this.HandleMouseMoveCommand = new DelegateCommand<object>((point) =>
-            {
-                HandleMouseMove((Point)point);
-            });
-            this.UndoCommand = new DelegateCommand(() =>
-            {
-                this.Undo();
-            });
-            this.RedoCommand = new DelegateCommand(() =>
-            {
-                this.Redo();
-            });
-            this.ZoomInCommand = new DelegateCommand(() =>
-            {
-                this.ZoomIndex = this.scrollModel.ZoomIn();
-            });
-            this.ZoomOutCommand = new DelegateCommand(() =>
-            {
-                this.ZoomIndex = this.scrollModel.ZoomOut();
-            });
-            this.SetZoomCommand = new DelegateCommand<ZoomLevel>((zoomLevel) =>
-            {
-                this.ZoomIndex = this.scrollModel.SetZoom(zoomLevel);
-            });
-            this.HandleLeftClickDownCommand = new DelegateCommand<object>((point) =>
-            {
-                HandleLeftClickDown((Point)point);
-            });
-            this.HandleLeftClickUpCommand = new DelegateCommand<object>((point) =>
-            {
-                HandleLeftClickUp((Point)point);
-            });
+            this.ShowGridCommand = new DelegateCommand(() => DrawGrid(this.IsGridOn));
+            this.HandleMouseMoveCommand = new DelegateCommand<object>((point) => HandleMouseMove((Point)point));
+            this.UndoCommand = new DelegateCommand(() => this.Undo());
+            this.RedoCommand = new DelegateCommand(() => this.Redo());
+            this.ZoomInCommand = new DelegateCommand(() => this.ZoomIndex = this.scrollModel.ZoomIn());
+            this.ZoomOutCommand = new DelegateCommand(() => this.ZoomIndex = this.scrollModel.ZoomOut());
+            this.SetZoomCommand = new DelegateCommand<ZoomLevel>((zoomLevel) => this.ZoomIndex = this.scrollModel.SetZoom(zoomLevel));
+            this.HandleLeftClickDownCommand = new DelegateCommand<object>((point) => HandleLeftClickDown((Point)point));
+            this.HandleLeftClickUpCommand = new DelegateCommand<object>((point) => HandleLeftClickUp((Point)point));
 
             this.eventAggregator.GetEvent<NewPaddedBrushEvent>().Subscribe((brushEvent) =>
             {

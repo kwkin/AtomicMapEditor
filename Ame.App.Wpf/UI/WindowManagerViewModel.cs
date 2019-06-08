@@ -33,6 +33,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
 
+// TODO change all icons to use svg paths
 namespace Ame.App.Wpf.UI
 {
     public class WindowManagerViewModel : BindableBase, ILayoutViewModel

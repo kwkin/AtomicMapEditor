@@ -28,30 +28,12 @@ namespace Ame.App.Wpf.UI.Interactions.LayerProperties
         {
             this.WindowTitle = "Layer Editor";
 
-            this.SetLayerPropertiesCommand = new DelegateCommand(() =>
-            {
-                SetLayerProperties();
-            });
-            this.CloseWindowCommand = new DelegateCommand(() =>
-            {
-                CloseWindow();
-            });
-            this.AddCustomMetaDataCommand = new DelegateCommand(() =>
-            {
-                AddCustomProperty();
-            });
-            this.RemoveCustomMetadataCommand = new DelegateCommand(() =>
-            {
-                SetLayerProperties();
-            });
-            this.MoveMetadataUpCommand = new DelegateCommand(() =>
-            {
-                MoveMetadataUp();
-            });
-            this.MoveMetadataDownCommand = new DelegateCommand(() =>
-            {
-                MoveMetadataDown();
-            });
+            this.SetLayerPropertiesCommand = new DelegateCommand(() => SetLayerProperties());
+            this.CloseWindowCommand = new DelegateCommand(() => CloseWindow());
+            this.AddCustomMetaDataCommand = new DelegateCommand(() => AddCustomProperty());
+            this.RemoveCustomMetadataCommand = new DelegateCommand(() => SetLayerProperties());
+            this.MoveMetadataUpCommand = new DelegateCommand(() => MoveMetadataUp());
+            this.MoveMetadataDownCommand = new DelegateCommand(() => MoveMetadataDown());
         }
 
         #endregion constructor

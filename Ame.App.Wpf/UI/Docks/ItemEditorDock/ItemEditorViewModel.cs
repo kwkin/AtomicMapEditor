@@ -71,18 +71,11 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
 
         public ItemEditorViewModel(IEventAggregator eventAggregator, AmeSession session, TilesetModel tilesetModel, IScrollModel scrollModel)
         {
-            if (eventAggregator == null)
-            {
-                throw new ArgumentNullException("eventAggregator");
-            }
-            if (scrollModel == null)
-            {
-                throw new ArgumentNullException("scrollModel");
-            }
-            if (tilesetModel == null)
-            {
-                throw new ArgumentNullException("tilesetModel");
-            }
+            this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
+            this.scrollModel = scrollModel ?? throw new ArgumentNullException("scrollModel is null");
+            this.Session = session ?? throw new ArgumentNullException("session is null");
+            this.TilesetModel = tilesetModel ?? throw new ArgumentNullException("tilesetModel is null");
+
             this.drawingGroup = new DrawingGroup();
             this.tilesetImage = new DrawingGroup();
             this.gridLines = new DrawingGroup();
@@ -93,12 +86,7 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
             this.drawingGroup.Children.Add(this.gridLines);
             this.drawingGroup.Children.Add(this.selectLines);
             this.TileImage = new DrawingImage(this.drawingGroup);
-
-            this.eventAggregator = eventAggregator;
-            this.scrollModel = scrollModel;
-            this.Session = session;
-            this.TilesetModel = tilesetModel;
-
+            
             this.ZoomLevels = this.scrollModel.ZoomLevels;
             this.ZoomIndex = this.scrollModel.ZoomIndex;
             this.Scale = ScaleType.Tile;
@@ -111,70 +99,22 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
 
             this.isGridOn = true;
 
-            this.HandleLeftClickDownCommand = new DelegateCommand<object>((point) =>
-            {
-                HandleLeftClickDown((Point)point);
-            });
-            this.HandleLeftClickUpCommand = new DelegateCommand<object>((point) =>
-            {
-                HandleLeftClickUp((Point)point);
-            });
-            this.HandleMouseMoveCommand = new DelegateCommand<object>((point) =>
-            {
-                HandleMouseMove((Point)point);
-            });
-            this.AddTilesetCommand = new DelegateCommand(() =>
-            {
-                AddTileset();
-            });
-            this.AddImageCommand = new DelegateCommand(() =>
-            {
-                AddImage();
-            });
-            this.RemoveItemCommand = new DelegateCommand(() =>
-            {
-                RemoveItem();
-            });
-            this.ViewPropertiesCommand = new DelegateCommand(() =>
-            {
-                ViewProperties();
-            });
-            this.EditCollisionsCommand = new DelegateCommand(() =>
-            {
-                EditCollisions();
-            });
-            this.CropCommand = new DelegateCommand(() =>
-            {
-                Crop();
-            });
-            this.ChangeItemCommand = new DelegateCommand(() =>
-            {
-                RefreshItemModel();
-            });
-            this.UpdateModelCommand = new DelegateCommand(() =>
-            {
-                UpdateTilesetModel();
-            });
-            this.ShowGridCommand = new DelegateCommand(() =>
-            {
-                RefreshGrid();
-            });
-            this.ShowRulerCommand = new DelegateCommand(() =>
-            {
-                RefreshRuler();
-            });
-            this.ZoomInCommand = new DelegateCommand(() =>
-            {
-                ZoomIn();
-            });
-            this.ZoomOutCommand = new DelegateCommand(() =>
-            {
-                ZoomOut();
-            });
-            this.SetZoomCommand = new DelegateCommand<ZoomLevel>((zoomLevel) =>
-            {
-                SetZoom(zoomLevel);
-            });
+            this.HandleLeftClickDownCommand = new DelegateCommand<object>((point) => HandleLeftClickDown((Point)point));
+            this.HandleLeftClickUpCommand = new DelegateCommand<object>((point) => HandleLeftClickUp((Point)point));
+            this.HandleMouseMoveCommand = new DelegateCommand<object>((point) => HandleMouseMove((Point)point));
+            this.AddTilesetCommand = new DelegateCommand(() => AddTileset());
+            this.AddImageCommand = new DelegateCommand(() => AddImage());
+            this.RemoveItemCommand = new DelegateCommand(() => RemoveItem());
+            this.ViewPropertiesCommand = new DelegateCommand(() => ViewProperties());
+            this.EditCollisionsCommand = new DelegateCommand(() => EditCollisions());
+            this.CropCommand = new DelegateCommand(() => Crop());
+            this.ChangeItemCommand = new DelegateCommand(() => RefreshItemModel());
+            this.UpdateModelCommand = new DelegateCommand(() => UpdateTilesetModel());
+            this.ShowGridCommand = new DelegateCommand(() => RefreshGrid());
+            this.ShowRulerCommand = new DelegateCommand(() => RefreshRuler());
+            this.ZoomInCommand = new DelegateCommand(() => ZoomIn());
+            this.ZoomOutCommand = new DelegateCommand(() => ZoomOut());
+            this.SetZoomCommand = new DelegateCommand<ZoomLevel>((zoomLevel) => SetZoom(zoomLevel));
 
             this.eventAggregator.GetEvent<UpdatePaddedBrushEvent>().Subscribe((brushModel) =>
             {

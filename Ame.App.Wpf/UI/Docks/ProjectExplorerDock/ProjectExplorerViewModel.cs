@@ -28,17 +28,15 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
         public ProjectExplorerViewModel(IEventAggregator eventAggregator, AmeSession session)
         {
-            this.eventAggregator = eventAggregator;
-            this.session = session;
+            this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
+            this.session = session ?? throw new ArgumentNullException("session is null");
+
             this.Title = "Project Explorer";
 
             this.Nodes = new ObservableCollection<NodeViewBuilder>();
             this.Nodes.Add(new NodeViewBuilder("Ame Session", this.session));
 
-            this.RefreshTreeCommand = new DelegateCommand(() =>
-            {
-                RefreshTree();
-            });
+            this.RefreshTreeCommand = new DelegateCommand(() => RefreshTree());
         }
 
         #endregion constructor

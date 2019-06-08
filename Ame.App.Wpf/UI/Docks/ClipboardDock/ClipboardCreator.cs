@@ -21,11 +21,7 @@ namespace Ame.App.Wpf.UI.Docks.ClipboardDock
 
         public ClipboardCreator(IEventAggregator eventAggregator)
         {
-            if (eventAggregator == null)
-            {
-                throw new ArgumentNullException("eventAggregator is null");
-            }
-            this.eventAggregator = eventAggregator;
+            this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
         }
 
         #endregion constructors

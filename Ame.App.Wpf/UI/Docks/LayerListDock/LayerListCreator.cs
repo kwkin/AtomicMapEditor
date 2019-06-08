@@ -22,16 +22,8 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         public LayerListCreator(IEventAggregator eventAggregator, AmeSession session)
         {
-            if (eventAggregator == null)
-            {
-                throw new ArgumentNullException("eventAggregator is null");
-            }
-            if (session == null)
-            {
-                throw new ArgumentNullException("session is null");
-            }
-            this.eventAggregator = eventAggregator;
-            this.Session = session;
+            this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
+            this.Session = session ?? throw new ArgumentNullException("session is null");
         }
 
         #endregion constructors

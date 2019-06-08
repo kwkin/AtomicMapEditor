@@ -26,12 +26,8 @@ namespace Ame.App.Wpf.UI.Docks.SelectedBrushDock
 
         public SelectedBrushCreator(IEventAggregator eventAggregator, ScrollModel scrollModel)
         {
-            if (eventAggregator == null)
-            {
-                throw new ArgumentNullException("eventAggregator is null");
-            }
-            this.eventAggregator = eventAggregator;
-            this.ScrollModel = scrollModel;
+            this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
+            this.ScrollModel = scrollModel ?? throw new ArgumentNullException("scrollmodel is null");
         }
 
         #endregion constructors

@@ -23,12 +23,8 @@ namespace Ame.App.Wpf.UI.Docks.ToolboxDock
 
         public ToolboxCreator(IEventAggregator eventAggregator, AmeSession session)
         {
-            if (eventAggregator == null)
-            {
-                throw new ArgumentNullException("eventAggregator is null");
-            }
-            this.eventAggregator = eventAggregator;
-            this.session = session;
+            this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
+            this.session = session ?? throw new ArgumentNullException("session is null");
         }
 
         #endregion constructors

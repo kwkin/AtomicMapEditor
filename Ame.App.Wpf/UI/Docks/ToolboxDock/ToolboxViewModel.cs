@@ -28,16 +28,8 @@ namespace Ame.App.Wpf.UI.Docks.ToolboxDock
 
         public ToolboxViewModel(IEventAggregator eventAggregator, AmeSession session)
         {
-            if (eventAggregator == null)
-            {
-                throw new ArgumentNullException("eventAggregator");
-            }
-            if (session == null)
-            {
-                throw new ArgumentNullException("session");
-            }
-            this.eventAggregator = eventAggregator;
-            this.session = session;
+            this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
+            this.session = session ?? throw new ArgumentNullException("session");
 
             this.Title = "Tool";
 

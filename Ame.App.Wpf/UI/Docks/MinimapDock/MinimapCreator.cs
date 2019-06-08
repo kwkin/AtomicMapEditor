@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace Ame.App.Wpf.UI.Docks.MinimapDock
 {
-    // TODO determine use of this class
     public class MinimapCreator : DockCreatorTemplate
     {
         #region fields

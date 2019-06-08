@@ -88,39 +88,14 @@ namespace Ame.App.Wpf.UI.Docks.MinimapDock
 
             this.session.PropertyChanged += SessionChanged;
 
-
-            this.FitMinimapCommand = new DelegateCommand(() =>
-            {
-                FitMinimap();
-            });
-            this.ToggleGridCommand = new DelegateCommand(() =>
-            {
-                ToggleGrid();
-            });
-            this.ToggleCollisionCommand = new DelegateCommand(() =>
-            {
-                ToggleCollision();
-            });
-            this.CenterOnPointCommand = new DelegateCommand(() =>
-            {
-                CenterOnPoint();
-            });
-            this.ZoomInCommand = new DelegateCommand(() =>
-            {
-                this.ZoomIndex = this.scrollModel.ZoomIn();
-            });
-            this.ZoomOutCommand = new DelegateCommand(() =>
-            {
-                this.ZoomIndex = this.scrollModel.ZoomOut();
-            });
-            this.SetZoomCommand = new DelegateCommand<ZoomLevel>((zoomLevel) =>
-            {
-                this.ZoomIndex = this.scrollModel.SetZoom(zoomLevel);
-            });
-            this.UpdatePositionCommand = new DelegateCommand<object>((point) =>
-            {
-                UpdatePosition((Point)point);
-            });
+            this.FitMinimapCommand = new DelegateCommand(() => FitMinimap());
+            this.ToggleGridCommand = new DelegateCommand(() => ToggleGrid());
+            this.ToggleCollisionCommand = new DelegateCommand(() => ToggleCollision());
+            this.CenterOnPointCommand = new DelegateCommand(() => CenterOnPoint());
+            this.ZoomInCommand = new DelegateCommand(() => this.ZoomIndex = this.scrollModel.ZoomIn() );
+            this.ZoomOutCommand = new DelegateCommand(() => this.ZoomIndex = this.scrollModel.ZoomOut());
+            this.SetZoomCommand = new DelegateCommand<ZoomLevel>((zoomLevel) => this.ZoomIndex = this.scrollModel.SetZoom(zoomLevel));
+            this.UpdatePositionCommand = new DelegateCommand<object>((point) => UpdatePosition((Point)point));
         }
 
         #endregion constructor

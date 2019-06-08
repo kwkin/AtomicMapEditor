@@ -51,16 +51,9 @@ namespace Ame.App.Wpf.UI.Docks.SelectedBrushDock
 
         public SelectedBrushViewModel(IEventAggregator eventAggregator, IScrollModel scrollModel)
         {
-            if (eventAggregator == null)
-            {
-                throw new ArgumentNullException("eventAggregator");
-            }
-            if (scrollModel == null)
-            {
-                throw new ArgumentNullException("scrollModel");
-            }
-            this.eventAggregator = eventAggregator;
-            this.scrollModel = scrollModel;
+            this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
+            this.scrollModel = scrollModel ?? throw new ArgumentNullException("scrollModel is null");
+
             this.Title = "Selected Brush";
 
             this.imageTransform = new CoordinateTransform();
@@ -81,26 +74,11 @@ namespace Ame.App.Wpf.UI.Docks.SelectedBrushDock
             this.PositionText = "0, 0";
             this.updatePositionLabelStopWatch = Stopwatch.StartNew();
 
-            this.ShowGridCommand = new DelegateCommand(() =>
-            {
-                DrawGrid(this.IsGridOn);
-            });
-            this.HandleMouseMoveCommand = new DelegateCommand<object>((point) =>
-            {
-                HandleMouseMove((Point)point);
-            });
-            this.ZoomInCommand = new DelegateCommand(() =>
-            {
-                this.ZoomIndex = this.scrollModel.ZoomIn();
-            });
-            this.ZoomOutCommand = new DelegateCommand(() =>
-            {
-                this.ZoomIndex = this.scrollModel.ZoomOut();
-            });
-            this.SetZoomCommand = new DelegateCommand<ZoomLevel>((zoomLevel) =>
-            {
-                this.ZoomIndex = this.scrollModel.SetZoom(zoomLevel);
-            });
+            this.ShowGridCommand = new DelegateCommand(() => DrawGrid(this.IsGridOn));
+            this.HandleMouseMoveCommand = new DelegateCommand<object>((point) => HandleMouseMove((Point)point));
+            this.ZoomInCommand = new DelegateCommand(() => this.ZoomIndex = this.scrollModel.ZoomIn());
+            this.ZoomOutCommand = new DelegateCommand(() => this.ZoomIndex = this.scrollModel.ZoomOut());
+            this.SetZoomCommand = new DelegateCommand<ZoomLevel>((zoomLevel) => this.ZoomIndex = this.scrollModel.SetZoom(zoomLevel));
 
             this.eventAggregator.GetEvent<NewPaddedBrushEvent>().Subscribe((brushEvent) =>
             {

@@ -14,6 +14,7 @@ namespace Ame.App.Wpf.UI.Docks.SessionViewerDock
         #region fields
 
         public IEventAggregator eventAggregator;
+        public AmeSession session;
 
         #endregion fields
 
@@ -22,23 +23,14 @@ namespace Ame.App.Wpf.UI.Docks.SessionViewerDock
 
         public SessionViewerCreator(IEventAggregator eventAggregator, AmeSession session)
         {
-            if (eventAggregator == null)
-            {
-                throw new ArgumentNullException("eventAggregator is null");
-            }
-            if (session == null)
-            {
-                throw new ArgumentNullException("session is null");
-            }
-            this.eventAggregator = eventAggregator;
-            this.Session = session;
+            this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
+            this.session = session ?? throw new ArgumentNullException("session is null");
         }
 
         #endregion constructors
 
 
         #region properties
-        public AmeSession Session { get; set; }
 
         #endregion properties
 
@@ -47,7 +39,7 @@ namespace Ame.App.Wpf.UI.Docks.SessionViewerDock
 
         public override DockViewModelTemplate CreateDock()
         {
-            return new SessionViewerViewModel(this.eventAggregator, this.Session);
+            return new SessionViewerViewModel(this.eventAggregator, this.session);
         }
 
         public override bool AppliesTo(Type type)

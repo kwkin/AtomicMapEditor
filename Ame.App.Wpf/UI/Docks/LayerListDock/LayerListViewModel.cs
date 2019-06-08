@@ -31,57 +31,25 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         public LayerListViewModel(IEventAggregator eventAggregator, AmeSession session)
         {
-            this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
-            this.Session = session ?? throw new ArgumentNullException("session");
-            this.LayerList = new ObservableCollection<LayerListEntryViewModel>();
+            this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
+            this.Session = session ?? throw new ArgumentNullException("session is null");
+
             this.Title = "Layer List";
+            this.LayerList = new ObservableCollection<LayerListEntryViewModel>();
 
             this.Session.PropertyChanged += SessionUpdated;
 
-            this.NewLayerCommand = new DelegateCommand(() =>
-            {
-                NewTilesetLayer();
-            });
-            this.NewLayerGroupCommand = new DelegateCommand(() =>
-            {
-                NewLayerGroup();
-            });
-            this.MergeLayerDownCommand = new DelegateCommand(() =>
-            {
-                MergeLayerDown();
-            });
-            this.MergeLayerUpCommand = new DelegateCommand(() =>
-            {
-                MergeLayerUp();
-            });
-            this.MoveLayerDownCommand = new DelegateCommand(() =>
-            {
-                MoveLayerDown();
-            });
-            this.MoveLayerUpCommand = new DelegateCommand(() =>
-            {
-                MoveLayerUp();
-            });
-            this.DuplicateLayerCommand = new DelegateCommand(() =>
-            {
-                DuplicateLayer();
-            });
-            this.RemoveLayerCommand = new DelegateCommand(() =>
-            {
-                RemoveLayer();
-            });
-            this.EditPropertiesCommand = new DelegateCommand(() =>
-            {
-                EditProperties();
-            });
-            this.EditCollisionsCommand = new DelegateCommand(() =>
-            {
-                EditCollisions();
-            });
-            this.LayerToMapSizeCommand = new DelegateCommand(() =>
-            {
-                LayerToMapSize();
-            });
+            this.NewLayerCommand = new DelegateCommand(() => NewTilesetLayer());
+            this.NewLayerGroupCommand = new DelegateCommand(() => NewLayerGroup());
+            this.MergeLayerDownCommand = new DelegateCommand(() => MergeLayerDown());
+            this.MergeLayerUpCommand = new DelegateCommand(() => MergeLayerUp());
+            this.MoveLayerDownCommand = new DelegateCommand(() => MoveLayerDown());
+            this.MoveLayerUpCommand = new DelegateCommand(() => MoveLayerUp());
+            this.DuplicateLayerCommand = new DelegateCommand(() => DuplicateLayer());
+            this.RemoveLayerCommand = new DelegateCommand(() => RemoveLayer());
+            this.EditPropertiesCommand = new DelegateCommand(() => EditProperties());
+            this.EditCollisionsCommand = new DelegateCommand(() => EditCollisions());
+            this.LayerToMapSizeCommand = new DelegateCommand(() => LayerToMapSize());
             this.CurrentLayerChangedCommand = new DelegateCommand<object>((e) =>
             {
                 LayerListEntryViewModel currentEntry = e as LayerListEntryViewModel;

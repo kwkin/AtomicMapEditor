@@ -36,106 +36,41 @@ namespace Ame.App.Wpf.UI.Ribbon
 
         public MapEditorRibbonViewModel(IEventAggregator eventAggregator, AmeSession session)
         {
-            if (eventAggregator == null)
-            {
-                throw new ArgumentNullException("eventAggregator");
-            }
-            if (session == null)
-            {
-                throw new ArgumentNullException("session");
-            }
-            this.eventAggregator = eventAggregator;
-            this.Session = session;
+            this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
+            this.Session = session ?? throw new ArgumentNullException("session");
 
             // Map bindings
-            this.NewMapCommand = new DelegateCommand(() =>
-            {
-                NewMap();
-            });
-            this.EditMapPropertiesCommand = new DelegateCommand(() =>
-            {
-                EditMapProperties();
-            });
+            this.NewMapCommand = new DelegateCommand(() => NewMap());
+            this.EditMapPropertiesCommand = new DelegateCommand(() => EditMapProperties());
 
             // Layer bindings
-            this.NewLayerCommand = new DelegateCommand(() =>
-            {
-                NewLayer();
-            });
-            this.EditLayerPropertiesCommand = new DelegateCommand(() =>
-            {
-                EditLayerProperties();
-            });
+            this.NewLayerCommand = new DelegateCommand(() => NewLayer());
+            this.EditLayerPropertiesCommand = new DelegateCommand(() => EditLayerProperties());
 
             // Item bindings
-            this.AddTilesetCommand = new DelegateCommand(() =>
-            {
-                AddTileset();
-            });
-            this.AddImageCommand = new DelegateCommand(() =>
-            {
-                AddImage();
-            });
-            this.OpenItemListCommand = new DelegateCommand(() =>
-            {
-                OpenItemList();
-            });
+            this.AddTilesetCommand = new DelegateCommand(() => AddTileset());
+            this.AddImageCommand = new DelegateCommand(() => AddImage());
+            this.OpenItemListCommand = new DelegateCommand(() => OpenItemList());
 
             // Zoom bindings
-            this.ZoomInCommand = new DelegateCommand(() =>
-            {
-                ZoomIn();
-            });
-            this.ZoomOutCommand = new DelegateCommand(() =>
-            {
-                ZoomOut();
-            });
-            this.SetZoomCommand = new DelegateCommand<ZoomLevel>((zoomLevel) =>
-            {
-                SetZoom(zoomLevel);
-            });
+            this.ZoomInCommand = new DelegateCommand(() => ZoomIn());
+            this.ZoomOutCommand = new DelegateCommand(() => ZoomOut());
+            this.SetZoomCommand = new DelegateCommand<ZoomLevel>((zoomLevel) => SetZoom(zoomLevel));
 
             // View bindings
-            this.SampleViewCommand = new DelegateCommand(() =>
-            {
-                SampleView();
-            });
-            this.CollisionsViewCommand = new DelegateCommand(() =>
-            {
-                CollisionsView();
-            });
+            this.SampleViewCommand = new DelegateCommand(() => SampleView());
+            this.CollisionsViewCommand = new DelegateCommand(() => CollisionsView());
 
             // Window bindings
-            this.OpenDockCommand = new DelegateCommand(() =>
-            {
-                OpenDock();
-            });
-            this.RecentlyClosedDockCommand = new DelegateCommand(() =>
-            {
-                RecentlyClosedDock();
-            });
-            this.DockPresetCommand = new DelegateCommand(() =>
-            {
-                DockPreset();
-            });
-            this.SnapDockCommand = new DelegateCommand(() =>
-            {
-                SnapDock();
-            });
-            this.HideDocksCommand = new DelegateCommand(() =>
-            {
-                HideDocks();
-            });
+            this.OpenDockCommand = new DelegateCommand(() => OpenDock());
+            this.RecentlyClosedDockCommand = new DelegateCommand(() => RecentlyClosedDock());
+            this.DockPresetCommand = new DelegateCommand(() => DockPreset());
+            this.SnapDockCommand = new DelegateCommand(() => SnapDock());
+            this.HideDocksCommand = new DelegateCommand(() => HideDocks());
 
             // File bindings
-            this.SaveFileCommand = new DelegateCommand(() =>
-            {
-                SaveFile();
-            });
-            this.ExportFileCommand = new DelegateCommand(() =>
-            {
-                ExportFile();
-            });
+            this.SaveFileCommand = new DelegateCommand(() => SaveFile());
+            this.ExportFileCommand = new DelegateCommand(() => ExportFile());
 
             this.ZoomLevels = ZoomLevel.CreateZoomList(0.125, 0.25, 0.5, 1, 2, 4, 8, 16, 32);
             this.ZoomLevels.OrderBy(f => f.zoom);

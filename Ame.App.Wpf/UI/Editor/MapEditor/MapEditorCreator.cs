@@ -29,17 +29,13 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
 
         public MapEditorCreator(IEventAggregator eventAggregator, AmeSession session, Map map, ScrollModel scrollModel)
         {
-            if (eventAggregator == null)
-            {
-                throw new ArgumentNullException("eventAggregator is null");
-            }
-            string mapTitle = string.Format("Map #{0}", session.MapCount);
-            map = map ?? new Map(mapTitle);
+            this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
+            this.session = session ?? throw new ArgumentNullException("session is null");
+            this.ScrollModel = scrollModel ?? throw new ArgumentNullException("scrollModel is null");
 
-            this.eventAggregator = eventAggregator;
-            this.session = session;
-            this.Map = map;
-            this.ScrollModel = scrollModel;
+            string mapTitle = string.Format("Map #{0}", session.MapCount);
+            this.Map = map ?? new Map(mapTitle);
+
         }
 
         #endregion constructors
