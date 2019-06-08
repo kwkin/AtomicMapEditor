@@ -10,37 +10,46 @@ using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Ame.App.Wpf.UI.Docks.MinimapDock
 {
+    // TODO update xaml bindings to be one-way
     public class MinimapViewModel : DockToolViewModelTemplate
     {
         #region fields
 
         private IEventAggregator eventAggregator;
         private IScrollModel scrollModel;
+        private AmeSession session;
+
+        private DrawingGroup minimapLayers;
 
         #endregion fields
 
 
         #region constructor
 
-        public MinimapViewModel(IEventAggregator eventAggregator)
-            : this(eventAggregator, ScrollModel.DefaultScrollModel())
+        public MinimapViewModel(IEventAggregator eventAggregator, AmeSession session)
+            : this(eventAggregator, session, ScrollModel.DefaultScrollModel())
         {
         }
 
-        public MinimapViewModel(IEventAggregator eventAggregator, ScrollModel scrollModel)
+        public MinimapViewModel(IEventAggregator eventAggregator, AmeSession session, ScrollModel scrollModel)
         {
-            this.Title = "Minimap";
-            this.eventAggregator = eventAggregator;
-            this.scrollModel = scrollModel;
+            this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
+            this.session = session ?? throw new ArgumentNullException("session");
+            this.scrollModel = scrollModel ?? throw new ArgumentNullException("scrollModel");
 
+            this.Title = "Minimap";
+            
             if (this.scrollModel.ZoomLevels == null)
             {
                 this.ZoomLevels = ZoomLevel.CreateZoomList(0.125, 0.25, 0.5, 1, 2, 4, 8, 16, 32);
@@ -57,6 +66,28 @@ namespace Ame.App.Wpf.UI.Docks.MinimapDock
             }
             this.Scale = ScaleType.Tile;
             this.PositionText = "0, 0";
+
+            // TODO ensure this works for non-square maps
+            this.minimapLayers = new DrawingGroup();
+            if (this.session.CurrentMap != null)
+            {
+                Map currentMap = this.session.CurrentMap;
+                DrawingGroup filled = new DrawingGroup();
+                using (DrawingContext context = filled.Open())
+                {
+                    Rect drawingRect = new Rect(0, 0, currentMap.PixelWidth, currentMap.PixelHeight);
+                    context.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Transparent, 0), drawingRect);
+                }
+                this.minimapLayers.Children.Add(filled);
+                foreach (Layer layer in this.session.CurrentLayerList)
+                {
+                    this.minimapLayers.Children.Add(layer.Group);
+                }
+            }
+            this.minimapPreview = new DrawingImage(this.minimapLayers);
+
+            this.session.PropertyChanged += SessionChanged;
+
 
             this.FitMinimapCommand = new DelegateCommand(() =>
             {
@@ -119,6 +150,15 @@ namespace Ame.App.Wpf.UI.Docks.MinimapDock
             }
         }
 
+        private DrawingImage minimapPreview;
+        public DrawingImage MinimapPreview
+        {
+            get
+            {
+                return this.minimapPreview;
+            }
+        }
+
         #endregion properties
 
 
@@ -128,6 +168,55 @@ namespace Ame.App.Wpf.UI.Docks.MinimapDock
         {
             CloseDockMessage closeMessage = new CloseDockMessage(this);
             this.eventAggregator.GetEvent<CloseDockEvent>().Publish(closeMessage);
+        }
+
+        private void SessionChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch(e.PropertyName)
+            {
+                case nameof(AmeSession.CurrentMap):
+                    this.minimapLayers.Children.Clear();
+                    Map currentMap = this.session.CurrentMap;
+                    DrawingGroup filled = new DrawingGroup();
+                    using (DrawingContext context = filled.Open())
+                    {
+                        Rect drawingRect = new Rect(0, 0, currentMap.PixelWidth, currentMap.PixelHeight);
+                        context.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Transparent, 0), drawingRect);
+                    }
+                    this.minimapLayers.Children.Add(filled);
+                    foreach (Layer layer in this.session.CurrentLayerList)
+                    {
+                        this.minimapLayers.Children.Add(layer.Group);
+                    }
+                    this.session.CurrentLayerList.CollectionChanged += UpdateLayerPreview;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void UpdateLayerPreview(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    foreach (Layer layer in e.NewItems)
+                    {
+                        this.minimapLayers.Children.Add(layer.Group);
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    foreach (Layer layer in e.NewItems)
+                    {
+                        this.minimapLayers.Children.Remove(layer.Group);
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Move:
+                    // TODO implement
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void FitMinimap()

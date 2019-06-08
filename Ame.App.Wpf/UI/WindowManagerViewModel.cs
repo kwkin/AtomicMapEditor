@@ -88,7 +88,7 @@ namespace Ame.App.Wpf.UI
                 new ItemEditorCreator(this.eventAggregator, this.session),
                 new ItemListCreator(this.eventAggregator, this.session),
                 new LayerListCreator(this.eventAggregator, this.session),
-                new MinimapCreator(this.eventAggregator),
+                new MinimapCreator(this.eventAggregator, this.session),
                 new SelectedBrushCreator(this.eventAggregator),
                 new ProjectExplorerCreator(this.eventAggregator, this.session),
                 new SessionViewerCreator(this.eventAggregator, this.session),

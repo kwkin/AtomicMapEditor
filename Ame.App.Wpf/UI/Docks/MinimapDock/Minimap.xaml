@@ -95,11 +95,13 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
 
-                <Canvas x:Name="minimapImage"
-                        Height="500"
-                        Width="500"
-                        VerticalAlignment="Top">
-                    <Canvas.ContextMenu>
+                <Image x:Name="minimapImage"
+                       Height="500"
+                       Width="500"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Source="{Binding MinimapPreview, Mode=OneWay}">
+                    <Image.ContextMenu>
                         <ContextMenu>
                             <ContextMenu.ItemsSource>
                                 <CompositeCollection>
@@ -107,21 +109,8 @@
                                 </CompositeCollection>
                             </ContextMenu.ItemsSource>
                         </ContextMenu>
-                    </Canvas.ContextMenu>
-                    <Canvas.Background>
-                        <LinearGradientBrush StartPoint="0,0"
-                                             EndPoint="1,1">
-                            <GradientStop Color="Yellow"
-                                          Offset="0.0" />
-                            <GradientStop Color="Red"
-                                          Offset="0.25" />
-                            <GradientStop Color="Blue"
-                                          Offset="0.75" />
-                            <GradientStop Color="Green"
-                                          Offset="1.0" />
-                        </LinearGradientBrush>
-                    </Canvas.Background>
-                </Canvas>
+                    </Image.ContextMenu>
+                </Image>
 
                 <Grid.LayoutTransform>
                     <TransformGroup>

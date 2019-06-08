@@ -122,6 +122,7 @@ namespace Ame.Infrastructure.Models
         {
             get
             {
+                // TODO this nulls all the time. Fix it.
                 return this.CurrentMap.LayerList;
             }
         }
