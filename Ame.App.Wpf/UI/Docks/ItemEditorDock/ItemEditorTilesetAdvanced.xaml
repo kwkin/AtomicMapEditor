@@ -54,7 +54,7 @@
                       Grid.Column="3"
                       HorizontalAlignment="Right"
                       VerticalAlignment="Center"
-                      IsChecked="{Binding IsTransparent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      IsChecked="{Binding TilesetModel.IsTransparent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       Margin="0 0 0 10">
         </ToggleButton>
 
@@ -71,7 +71,7 @@
                    Stretch="None" />
         </ToggleButton>
         <xctk:ColorPicker x:Name="transparencyColorPicker"
-                          SelectedColor="{Binding TransparentColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedColor="{Binding TilesetModel.TransparentColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           Grid.Row="1"
                           Grid.Column="3"
                           VerticalAlignment="Center"

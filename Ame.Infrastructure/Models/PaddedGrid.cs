@@ -50,17 +50,61 @@ namespace Ame.Infrastructure.Models
 
         #region properties
 
+        private int offsetX = 0;
         [MetadataProperty(MetadataType.Property, "Offset X")]
-        public int OffsetX { get; set; } = 0;
+        public int OffsetX
+        {
+            get
+            {
+                return this.offsetX;
+            }
+            set
+            {
+                SetProperty(ref this.offsetX, value);
+            }
+        }
 
+        private int offsetY = 0;
         [MetadataProperty(MetadataType.Property, "Offset Y")]
-        public int OffsetY { get; set; } = 0;
+        public int OffsetY
+        {
+            get
+            {
+                return this.offsetY;
+            }
+            set
+            {
+                SetProperty(ref this.offsetY, value);
+            }
+        }
 
+        private int paddingX = 0;
         [MetadataProperty(MetadataType.Property, "Padding X")]
-        public int PaddingX { get; set; } = 0;
+        public int PaddingX
+        {
+            get
+            {
+                return this.paddingX;
+            }
+            set
+            {
+                SetProperty(ref this.paddingX, value);
+            }
+        }
 
+        private int paddingY = 0;
         [MetadataProperty(MetadataType.Property, "Padding Y")]
-        public int PaddingY { get; set; } = 0;
+        public int PaddingY
+        {
+            get
+            {
+                return this.paddingY;
+            }
+            set
+            {
+                SetProperty(ref this.paddingY, value);
+            }
+        }
 
         #endregion properties
 

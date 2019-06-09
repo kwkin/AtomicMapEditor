@@ -129,16 +129,62 @@ namespace Ame.Infrastructure.Models
         // TODO Instead of a tree, just have the list. Declare a property indicating the group
         public int ID { get; set; } = -1;
 
+        private string name = "";
         [MetadataProperty(MetadataType.Property, "Name")]
-        public string Name { get; set; }
+        public string Name
+        {
+            get
+            {
+                return this.name;
+            }
+            set
+            {
+                SetProperty(ref this.name, value);
+            }
+        }
 
+        private string sourcePath = "";
         [MetadataProperty(MetadataType.Property, "Source Path")]
-        public string SourcePath { get; set; }
-        
-        public Mat MatImage;
-        public DrawingGroup TilesetImage;
-        public bool IsTransparent { get; set; }
-        public Color TransparentColor { get; set; }
+        public string SourcePath
+        {
+            get
+            {
+                return this.sourcePath;
+            }
+            set
+            {
+                SetProperty(ref this.sourcePath, value);
+            }
+        }
+
+        public Mat MatImage { get; set; }
+        public DrawingGroup TilesetImage { get; set; }
+
+        private bool isTransparent = false;
+        public bool IsTransparent
+        {
+            get
+            {
+                return this.isTransparent;
+            }
+            set
+            {
+                SetProperty(ref this.isTransparent, value);
+            }
+        }
+
+        private Color transparentColor;
+        public Color TransparentColor
+        {
+            get
+            {
+                return this.transparentColor;
+            }
+            set
+            {
+                SetProperty(ref this.transparentColor, value);
+            }
+        }
         public ObservableCollection<IItem> Items { get; set; }
                         
         #endregion properties
@@ -156,6 +202,11 @@ namespace Ame.Infrastructure.Models
             this.MatImage = CvInvoke.Imread(this.SourcePath, Emgu.CV.CvEnum.ImreadModes.Unchanged);
             this.TilesetImage = ImageUtils.MatToDrawingGroup(this.MatImage);
             this.PixelSize = GeometryUtils.DrawingToWindowSize(this.MatImage.Size);
+        }
+
+        public ImageDrawing GetByID(int id)
+        {
+            return GetByID(id, new Point(0, 0));
         }
 
         public ImageDrawing GetByID(int id, Point startPoint)

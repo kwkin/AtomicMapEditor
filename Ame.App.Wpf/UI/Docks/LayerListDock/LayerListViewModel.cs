@@ -50,14 +50,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             this.EditPropertiesCommand = new DelegateCommand(() => EditProperties());
             this.EditCollisionsCommand = new DelegateCommand(() => EditCollisions());
             this.LayerToMapSizeCommand = new DelegateCommand(() => LayerToMapSize());
-            this.CurrentLayerChangedCommand = new DelegateCommand<object>((e) =>
-            {
-                LayerListEntryViewModel currentEntry = e as LayerListEntryViewModel;
-                if (currentEntry != null)
-                {
-                    CurrentLayerChanged(currentEntry.layer);
-                }
-            });
+            this.CurrentLayerChangedCommand = new DelegateCommand<object>((entry) => CurrentLayerChanged(entry as LayerListEntryViewModel));
 
             this.eventAggregator.GetEvent<NewLayerEvent>().Subscribe(AddTilesetLayerMessage);
         }
@@ -175,9 +168,12 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             Console.WriteLine("Layer To Map Size");
         }
 
-        public void CurrentLayerChanged(ILayer layer)
+        public void CurrentLayerChanged(LayerListEntryViewModel layerEntry)
         {
-            this.Session.CurrentLayer = layer;
+            if (layerEntry != null)
+            {
+                this.Session.CurrentLayer = layerEntry.layer;
+            }
         }
 
         public override void CloseDock()

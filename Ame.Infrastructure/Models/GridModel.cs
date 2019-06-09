@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using System.Windows;
 using Ame.Infrastructure.Attributes;
 using Ame.Infrastructure.Utils;
+using Prism.Mvvm;
 
 namespace Ame.Infrastructure.Models
 {
-    public class GridModel
+    public class GridModel : BindableBase
     {
         #region fields
 
@@ -38,21 +39,76 @@ namespace Ame.Infrastructure.Models
 
 
         #region properties
-        
+
+        private int pixelWidth = 1;
         [MetadataProperty(MetadataType.Property, "Width")]
-        public int PixelWidth { get; set; } = 1;
-        
+        public int PixelWidth
+        {
+            get
+            {
+                return this.pixelWidth;
+            }
+            set
+            {
+                SetProperty(ref this.pixelWidth, value);
+            }
+        }
+
+        private int pixeHeight = 1;
         [MetadataProperty(MetadataType.Property, "Height")]
-        public int PixelHeight { get; set; } = 1;
+        public int PixelHeight
+        {
+            get
+            {
+                return this.pixeHeight;
+            }
+            set
+            {
+                SetProperty(ref this.pixeHeight, value);
+            }
+        }
 
+        private int tileWidth = 1;
         [MetadataProperty(MetadataType.Property, "Tile Width")]
-        public int TileWidth { get; set; } = 1;
+        public int TileWidth
+        {
+            get
+            {
+                return this.tileWidth;
+            }
+            set
+            {
+                SetProperty(ref this.tileWidth, value);
+            }
+        }
 
+        private int tileHeight = 1;
         [MetadataProperty(MetadataType.Property, "Tile Height")]
-        public int TileHeight { get; set; } = 1;
+        public int TileHeight
+        {
+            get
+            {
+                return this.tileHeight;
+            }
+            set
+            {
+                SetProperty(ref this.tileHeight, value);
+            }
+        }
 
-        public ScaleType Scale { get; set; } = ScaleType.Tile;
-        
+        private ScaleType scale = ScaleType.Tile;
+        public ScaleType Scale
+        {
+            get
+            {
+                return this.scale;
+            }
+            set
+            {
+                SetProperty(ref this.scale, value);
+            }
+        }
+
         public Size PixelSize
         {
             get
