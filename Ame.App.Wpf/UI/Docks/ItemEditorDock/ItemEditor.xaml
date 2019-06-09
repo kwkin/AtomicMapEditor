@@ -55,7 +55,7 @@
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     Grid.Column="0"
                     ToolTip="Add a tileset"
-                    Command="{Binding AddTilesetCommand}">
+                    Command="{Binding AddTilesetCommand, Mode=OneWay}">
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_note_add_black_24dp.png" />
             </Button>
 
@@ -63,7 +63,7 @@
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     Grid.Column="1"
                     ToolTip="Add an image"
-                    Command="{Binding AddImageCommand}">
+                    Command="{Binding AddImageCommand, Mode=OneWay}">
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_image_black_24dp.png" />
             </Button>
 
@@ -72,7 +72,7 @@
                     Grid.Column="2"
                     ToolTip="Open the item in the collision editor"
                     IsEnabled="{Binding ItemImage, Converter={StaticResource NullToBooleanConverter}}"
-                    Command="{Binding EditCollisionsCommand}">
+                    Command="{Binding EditCollisionsCommand, Mode=OneWay}">
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_collisions_black_24dp.png" />
             </Button>
 
@@ -81,7 +81,7 @@
                     Grid.Column="3"
                     ToolTip="Open the item in the crop editor"
                     IsEnabled="{Binding ItemImage, Converter={StaticResource NullToBooleanConverter}}"
-                    Command="{Binding CropCommand}">
+                    Command="{Binding CropCommand, Mode=OneWay}">
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_crop_black_24dp.png" />
             </Button>
 
@@ -90,7 +90,7 @@
                     Grid.Column="4"
                     ToolTip="View the item's properties"
                     IsEnabled="{Binding ItemImage, Converter={StaticResource NullToBooleanConverter}}"
-                    Command="{Binding ViewPropertiesCommand}">
+                    Command="{Binding ViewPropertiesCommand, Mode=OneWay}">
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_eye_black_24dp.png" />
             </Button>
 
@@ -104,7 +104,7 @@
                       VerticalAlignment="Top">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
-                        <i:InvokeCommandAction Command="{Binding ChangeItemCommand}" />
+                        <i:InvokeCommandAction Command="{Binding ChangeItemCommand, Mode=OneWay}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </ComboBox>

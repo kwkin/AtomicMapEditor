@@ -68,7 +68,7 @@
                         Background="Transparent"
                         BorderBrush="Transparent"
                         ToolTip="New Map: Adds a new map"
-                        Command="{Binding NewMapCommand}">
+                        Command="{Binding NewMapCommand, Mode=OneWay}">
                     <StackPanel Orientation="Vertical">
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_map_black_24dp.png" />
                         <Label Padding="0"
@@ -171,7 +171,7 @@
                         Background="Transparent"
                         BorderBrush="Transparent"
                         ToolTip="Add Tileset: Adds a new tileset"
-                        Command="{Binding AddTilesetCommand}">
+                        Command="{Binding AddTilesetCommand, Mode=OneWay}">
                     <StackPanel Orientation="Vertical">
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_note_add_black_24dp.png" />
                         <Label Padding="0"
@@ -184,7 +184,7 @@
                         Background="Transparent"
                         BorderBrush="Transparent"
                         ToolTip="Add Image: Adds a new image"
-                        Command="{Binding AddImageCommand}">
+                        Command="{Binding AddImageCommand, Mode=OneWay}">
                     <StackPanel Orientation="Vertical">
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_image_black_24dp.png" />
                         <Label Padding="0"
@@ -197,7 +197,7 @@
                         Background="Transparent"
                         BorderBrush="Transparent"
                         ToolTip="Open List: Open dock containing a list of active tileset and images"
-                        Command="{Binding OpenItemListCommand}">
+                        Command="{Binding OpenItemListCommand, Mode=OneWay}">
                     <StackPanel Orientation="Vertical">
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_add_circle_black_24dp.png" />
                         <Label Padding="0"
@@ -359,7 +359,7 @@
                         Background="Transparent"
                         BorderBrush="Transparent"
                         ToolTip="Add Dock: Adds a new instance of the selected dock"
-                        Command="{Binding OpenDockCommand}">
+                        Command="{Binding OpenDockCommand, Mode=OneWay}">
                     <StackPanel Orientation="Vertical">
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_application_black_24dp.png" />
                         <Label Padding="0"
@@ -372,7 +372,7 @@
                         Background="Transparent"
                         BorderBrush="Transparent"
                         ToolTip="Recently Closed Dock: Open a recently closed dock"
-                        Command="{Binding RecentlyClosedDockCommand}">
+                        Command="{Binding RecentlyClosedDockCommand, Mode=OneWay}">
                     <StackPanel Orientation="Vertical">
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_close_box_black_24dp.png" />
                         <Label Padding="0"
@@ -385,7 +385,7 @@
                         Background="Transparent"
                         BorderBrush="Transparent"
                         ToolTip="Dock Preset: Sets dock placement to a preset configuration"
-                        Command="{Binding DockPresetCommand}">
+                        Command="{Binding DockPresetCommand, Mode=OneWay}">
                     <StackPanel Orientation="Vertical">
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_window_open_black_24dp.png" />
                         <Label Padding="0"
@@ -398,7 +398,7 @@
                         Background="Transparent"
                         BorderBrush="Transparent"
                         ToolTip="Snap Docks: Snaps all seperated docks to the main window"
-                        Command="{Binding SnapDockCommand}">
+                        Command="{Binding SnapDockCommand, Mode=OneWay}">
                     <StackPanel Orientation="Vertical">
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_checkerboard_black_24dp.png" />
                         <Label Padding="0"
@@ -411,7 +411,7 @@
                         Background="Transparent"
                         BorderBrush="Transparent"
                         ToolTip="Hide Docks: Hide all docks"
-                        Command="{Binding HideDocksCommand}">
+                        Command="{Binding HideDocksCommand, Mode=OneWay}">
                     <StackPanel Orientation="Vertical">
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_eye_off_black_24dp.png" />
                         <Label Padding="0"
@@ -448,7 +448,7 @@
                         Background="Transparent"
                         BorderBrush="Transparent"
                         ToolTip="Save: Save this map"
-                        Command="{Binding SaveFileCommand}">
+                        Command="{Binding SaveFileCommand, Mode=OneWay}">
                     <StackPanel Orientation="Vertical">
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_content_save_black_24dp.png" />
                         <Label Padding="0"
@@ -461,7 +461,7 @@
                         Background="Transparent"
                         BorderBrush="Transparent"
                         ToolTip="Export: Export this map"
-                        Command="{Binding ExportFileCommand}">
+                        Command="{Binding ExportFileCommand, Mode=OneWay}">
                     <StackPanel Orientation="Vertical">
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_export_black_24dp.png" />
                         <Label Padding="0"

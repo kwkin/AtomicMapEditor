@@ -51,6 +51,12 @@ namespace Ame.App.Wpf.UI.Menu
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
             this.Session = session ?? throw new ArgumentNullException("session");
 
+            this.TestAddClosedDocksCommand = new DelegateCommand(() => TestAddClosedDocks());
+            this.ConfirmationRequest = new InteractionRequest<IConfirmation>();
+
+            this.recentlyClosedDockItems = new ObservableCollection<MenuItem>();
+            this.recentFileItems = new ObservableCollection<MenuItem>();
+
             // File bindings
             this.NewFileCommand = new DelegateCommand(() => NewFile());
             this.OpenFileCommand = new DelegateCommand(() => OpenFile());
@@ -129,10 +135,6 @@ namespace Ame.App.Wpf.UI.Menu
             // Help bindings
             this.HelpCommand = new DelegateCommand(() => Help());
             this.AboutCommand = new DelegateCommand(() => About());
-
-            this.TestAddClosedDocksCommand = new DelegateCommand(() => TestAddClosedDocks());
-
-            this.ConfirmationRequest = new InteractionRequest<IConfirmation>();
         }
 
         #endregion constructor
@@ -140,7 +142,7 @@ namespace Ame.App.Wpf.UI.Menu
 
         #region properties
 
-        private ObservableCollection<MenuItem> recentlyClosedDockItems = new ObservableCollection<MenuItem>();
+        private ObservableCollection<MenuItem> recentlyClosedDockItems;
         public ObservableCollection<MenuItem> RecentlyClosedDockItems
         {
             get
@@ -153,7 +155,7 @@ namespace Ame.App.Wpf.UI.Menu
             }
         }
 
-        private ObservableCollection<MenuItem> recentFileItems = new ObservableCollection<MenuItem>();
+        private ObservableCollection<MenuItem> recentFileItems;
         public ObservableCollection<MenuItem> RecentFileItems
         {
             get
@@ -667,8 +669,8 @@ namespace Ame.App.Wpf.UI.Menu
             var closedDock1 = new MenuItem() { Header = "Item Editor", InputGestureText = "Ctrl+1" };
             var closedDock2 = new MenuItem() { Header = "Minimap", InputGestureText = "Ctrl+2" };
 
-            RecentlyClosedDockItems.Add(closedDock1);
-            RecentlyClosedDockItems.Add(closedDock2);
+            this.RecentlyClosedDockItems.Add(closedDock1);
+            this.RecentlyClosedDockItems.Add(closedDock2);
         }
 
         #endregion methods

@@ -41,8 +41,9 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
             this.session = session ?? throw new ArgumentNullException("session is null");
-            this.ScrollModel = scrollModel ?? throw new ArgumentNullException("scroll model is null");
-            this.TilesetModel = tilesetModel ?? throw new ArgumentNullException("tileset model is null");
+
+            this.TilesetModel = tilesetModel;
+            this.ScrollModel = scrollModel;
         }
 
         #endregion constructors

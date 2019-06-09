@@ -42,7 +42,7 @@
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     Grid.Column="0"
                     ToolTip="Add Tileset"
-                    Command="{Binding AddTilesetCommand}">
+                    Command="{Binding AddTilesetCommand, Mode=OneWay}">
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_note_add_black_24dp.png" />
             </Button>
 
@@ -50,7 +50,7 @@
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     Grid.Column="1"
                     ToolTip="Add Image"
-                    Command="{Binding AddImageCommand}">
+                    Command="{Binding AddImageCommand, Mode=OneWay}">
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_image_black_24dp.png" />
             </Button>
 

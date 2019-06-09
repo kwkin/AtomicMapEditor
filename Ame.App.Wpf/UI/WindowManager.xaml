@@ -97,9 +97,9 @@
                         <Setter Property="Title"
                                 Value="{Binding Model.Title}" />
                         <Setter Property="CloseCommand"
-                                Value="{Binding Model.CloseCommand}" />
+                                Value="{Binding Model.CloseCommand, Mode=OneWay}"/>
                         <Setter Property="HideCommand"
-                                Value="{Binding Model.CloseCommand}" />
+                                Value="{Binding Model.CloseCommand, Mode=OneWay}"/>
                         <Setter Property="Visibility"
                                 Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BoolToVisConverter}, ConverterParameter={x:Static Visibility.Hidden}}" />
                         <Setter Property="IsSelected"
@@ -115,7 +115,7 @@
                         <Setter Property="Title"
                                 Value="{Binding Model.Title}" />
                         <Setter Property="CloseCommand"
-                                Value="{Binding Model.CloseCommand}" />
+                                Value="{Binding Model.CloseCommand, Mode=OneWay}"/>
                         <Setter Property="Visibility"
                                 Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BoolToVisConverter}, ConverterParameter={x:Static Visibility.Hidden}}" />
                         <Setter Property="IsSelected"

@@ -6,31 +6,31 @@
     <x:Array Type="{x:Type sys:Object}"
              x:Key="ItemListContextMenu">
         <MenuItem Header="Add Tileset..."
-                  Command="{Binding AddTilesetCommand}">
+                  Command="{Binding AddTilesetCommand, Mode=OneWay}">
             <MenuItem.Icon>
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_note_add_black_24dp.png" />
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Add Image..."
-                  Command="{Binding AddImageCommand}">
+                  Command="{Binding AddImageCommand, Mode=OneWay}">
             <MenuItem.Icon>
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_image_black_24dp.png" />
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Add Directory..."
-                  Command="{Binding AddDirectoryCommand}">
+                  Command="{Binding AddDirectoryCommand, Mode=OneWay}">
             <MenuItem.Icon>
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_folder_download_black_24dp.png" />
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Add Group..."
-                  Command="{Binding AddGroupCommand}">
+                  Command="{Binding AddGroupCommand, Mode=OneWay}">
             <MenuItem.Icon>
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_folder_plus_black_24dp.png" />
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Remove Item"
-                  Command="{Binding RemoveItemCommand}">
+                  Command="{Binding RemoveItemCommand, Mode=OneWay}">
             <MenuItem.Icon>
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_delete_black_24dp.png" />
             </MenuItem.Icon>
@@ -38,33 +38,33 @@
         <Separator />
         <MenuItem Header="Sort">
             <MenuItem Header="Name"
-                      Command="{Binding SortItemListCommand}" />
+                      Command="{Binding SortItemListCommand, Mode=OneWay}"/>
             <MenuItem Header="Total Size"
-                      Command="{Binding SortItemListCommand}" />
+                      Command="{Binding SortItemListCommand, Mode=OneWay}"/>
             <MenuItem Header="Horizontal Size"
-                      Command="{Binding SortItemListCommand}" />
+                      Command="{Binding SortItemListCommand, Mode=OneWay}"/>
             <MenuItem Header="Vertical Size"
-                      Command="{Binding SortItemListCommand}" />
+                      Command="{Binding SortItemListCommand, Mode=OneWay}"/>
             <Separator />
             <MenuItem Header="Descending"
-                      Command="{Binding SortItemListCommand}" />
+                      Command="{Binding SortItemListCommand, Mode=OneWay}"/>
             <MenuItem Header="Ascending"
-                      Command="{Binding SortItemListCommand}" />
+                      Command="{Binding SortItemListCommand, Mode=OneWay}"/>
         </MenuItem>
         <MenuItem Header="Show Tilesets"
                   IsEnabled="True"
-                  Command="{Binding ShowTilesetsCommand}" />
+                  Command="{Binding ShowTilesetsCommand, Mode=OneWay}"/>
         <MenuItem Header="Show Images"
-                  Command="{Binding ShowImagesCommand}" />
+                  Command="{Binding ShowImagesCommand, Mode=OneWay}"/>
         <Separator />
         <MenuItem Header="Zoom In"
-                  Command="{Binding ZoomInCommand}">
+                  Command="{Binding ZoomInCommand, Mode=OneWay}">
             <MenuItem.Icon>
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_magnify_plus_black_24dp.png" />
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Zoom Out"
-                  Command="{Binding ZoomOutCommand}">
+                  Command="{Binding ZoomOutCommand, Mode=OneWay}">
             <MenuItem.Icon>
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_magnify_minus_black_24dp.png" />
             </MenuItem.Icon>
@@ -74,41 +74,41 @@
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_magnify_black_24dp.png" />
             </MenuItem.Icon>
             <MenuItem Header="Very Large (500x500px)"
-                      Command="{Binding SetImageSizeCommand}" />
+                      Command="{Binding SetImageSizeCommand, Mode=OneWay}"/>
             <MenuItem Header="Large (250x250px)"
-                      Command="{Binding SetImageSizeCommand}" />
+                      Command="{Binding SetImageSizeCommand, Mode=OneWay}"/>
             <MenuItem Header="Normal (100x100px)"
-                      Command="{Binding SetImageSizeCommand}" />
+                      Command="{Binding SetImageSizeCommand, Mode=OneWay}"/>
             <MenuItem Header="Small (50x50px)"
-                      Command="{Binding SetImageSizeCommand}" />
+                      Command="{Binding SetImageSizeCommand, Mode=OneWay}"/>
             <MenuItem Header="Very Small (25x25px)"
-                      Command="{Binding SetImageSizeCommand}" />
+                      Command="{Binding SetImageSizeCommand, Mode=OneWay}"/>
         </MenuItem>
         <Separator />
         <MenuItem Header="Expand All"
-                  Command="{Binding ExpandAllCommand}" />
+                  Command="{Binding ExpandAllCommand, Mode=OneWay}"/>
         <MenuItem Header="Collapse All"
-                  Command="{Binding CollapseAllCommand}" />
+                  Command="{Binding CollapseAllCommand, Mode=OneWay}"/>
         <MenuItem Header="Show Groups"
                   IsCheckable="True"
-                  Command="{Binding ShowGroupsCommand}" />
+                  Command="{Binding ShowGroupsCommand, Mode=OneWay}"/>
     </x:Array>
 
     <x:Array Type="{x:Type sys:Object}"
              x:Key="ItemEntryContextMenu">
         <MenuItem Header="View Properties..."
-                  Command="{Binding ViewPropertiesCommand}">
+                  Command="{Binding ViewPropertiesCommand, Mode=OneWay}">
             <MenuItem.Icon>
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_eye_black_24dp.png" />
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Edit Collisions..."
-                  Command="{Binding EditCollisionsCommand}">
+                  Command="{Binding EditCollisionsCommand, Mode=OneWay}">
             <MenuItem.Icon>
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_collisions_black_24dp.png" />
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Rename..."
-                  Command="{Binding RenameItemCommand}" />
+                  Command="{Binding RenameItemCommand, Mode=OneWay}"/>
     </x:Array>
 </ResourceDictionary>

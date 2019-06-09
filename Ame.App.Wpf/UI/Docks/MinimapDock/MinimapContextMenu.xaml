@@ -9,31 +9,31 @@
     <x:Array Type="{x:Type sys:Object}"
              x:Key="MinimapContextMenu">
         <MenuItem Header="Center on Point"
-                  Command="{Binding CenterOnPointCommand}" />
+                  Command="{Binding CenterOnPointCommand, Mode=OneWay}" />
         <Separator />
         <MenuItem Header="Show Collisions"
                   IsCheckable="True"
-                  Command="{Binding ShowCollisionsCommand}" />
+                  Command="{Binding ToggleCollisionCommand, Mode=OneWay}" />
         <MenuItem Header="Show Grid"
                   IsCheckable="True"
-                  Command="{Binding ShowGridCommand}" />
+                  Command="{Binding ToggleGridCommand, Mode=OneWay}" />
         <Separator />
         <MenuItem Header="Zoom In"
-                  Command="{Binding ZoomInCommand}"
+                  Command="{Binding ZoomInCommand, Mode=OneWay}"
                   InputGestureText="Ctrl++">
             <MenuItem.Icon>
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_magnify_plus_black_24dp.png" />
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Zoom Out"
-                  Command="{Binding ZoomOutCommand}"
+                  Command="{Binding ZoomOutCommand, Mode=OneWay}"
                   InputGestureText="Ctrl+-">
             <MenuItem.Icon>
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_magnify_minus_black_24dp.png" />
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Fit to Window"
-                  Command="{Binding ZoomOutCommand}"
+                  Command="{Binding ZoomOutCommand, Mode=OneWay}"
                   InputGestureText="Ctrl+J">
             <MenuItem.Icon>
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_arrow_expand_black_24dp.png" />
@@ -46,55 +46,55 @@
             <MenuItem x:Name="setZoom3200"
                       Header="32:1 (3200%)"
                       InputGestureText="1"
-                      Command="{Binding SetZoomCommand}"
+                      Command="{Binding SetZoomCommand, Mode=OneWay}"
                       CommandParameter="{Binding Source=32, Converter={StaticResource DoubleToZoomLevelConverter}}">
             </MenuItem>
             <MenuItem x:Name="setZoom1600"
                       Header="16:1 (1600%)"
                       InputGestureText="2"
-                      Command="{Binding SetZoomCommand}"
+                      Command="{Binding SetZoomCommand, Mode=OneWay}"
                       CommandParameter="{Binding Source=16, Converter={StaticResource DoubleToZoomLevelConverter}}">
             </MenuItem>
             <MenuItem x:Name="setZoom800"
                       Header="8:1 (800%)"
                       InputGestureText="3"
-                      Command="{Binding SetZoomCommand}"
+                      Command="{Binding SetZoomCommand, Mode=OneWay}"
                       CommandParameter="{Binding Source=8, Converter={StaticResource DoubleToZoomLevelConverter}}">
             </MenuItem>
             <MenuItem x:Name="setZoom400"
                       Header="4:1 (400%)"
                       InputGestureText="4"
-                      Command="{Binding SetZoomCommand}"
+                      Command="{Binding SetZoomCommand, Mode=OneWay}"
                       CommandParameter="{Binding Source=4, Converter={StaticResource DoubleToZoomLevelConverter}}">
             </MenuItem>
             <MenuItem x:Name="setZoom200"
                       Header="2:1 (200%)"
                       InputGestureText="5"
-                      Command="{Binding SetZoomCommand}"
+                      Command="{Binding SetZoomCommand, Mode=OneWay}"
                       CommandParameter="{Binding Source=2, Converter={StaticResource DoubleToZoomLevelConverter}}">
             </MenuItem>
             <MenuItem x:Name="setZoom100"
                       Header="1:1 (100%)"
                       InputGestureText="6"
-                      Command="{Binding SetZoomCommand}"
+                      Command="{Binding SetZoomCommand, Mode=OneWay}"
                       CommandParameter="{Binding Source=1, Converter={StaticResource DoubleToZoomLevelConverter}}">
             </MenuItem>
             <MenuItem x:Name="setZoom50"
                       Header="1:2 (50%)"
                       InputGestureText="7"
-                      Command="{Binding SetZoomCommand}"
+                      Command="{Binding SetZoomCommand, Mode=OneWay}"
                       CommandParameter="{Binding Source=0.5, Converter={StaticResource DoubleToZoomLevelConverter}}">
             </MenuItem>
             <MenuItem x:Name="setZoom25"
                       Header="1:4 (25%)"
                       InputGestureText="8"
-                      Command="{Binding SetZoomCommand}"
+                      Command="{Binding SetZoomCommand, Mode=OneWay}"
                       CommandParameter="{Binding Source=0.25, Converter={StaticResource DoubleToZoomLevelConverter}}">
             </MenuItem>
             <MenuItem x:Name="setZoom12_5"
                       Header="1:8 (12.5%)"
                       InputGestureText="9"
-                      Command="{Binding SetZoomCommand}"
+                      Command="{Binding SetZoomCommand, Mode=OneWay}"
                       CommandParameter="{Binding Source=0.125, Converter={StaticResource DoubleToZoomLevelConverter}}">
             </MenuItem>
         </MenuItem>
@@ -102,27 +102,38 @@
             <MenuItem.Icon>
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_magnify_black_24dp.png" />
             </MenuItem.Icon>
-            <MenuItem Header="1:2"
-                      Command="{Binding SetRatioCommand}"
+            <MenuItem Header="1:1"
+                      Command="{Binding SetRatioCommand, Mode=OneWay}"
+                      CommandParameter="{Binding Source=1}"
                       InputGestureText="1" />
-            <MenuItem Header="1:4"
-                      Command="{Binding SetRatioCommand}"
+            <MenuItem Header="1:2"
+                      Command="{Binding SetRatioCommand, Mode=OneWay}"
+                      CommandParameter="{Binding Source=2}"
                       InputGestureText="2" />
-            <MenuItem Header="1:8"
-                      Command="{Binding SetRatioCommand}"
+            <MenuItem Header="1:4"
+                      Command="{Binding SetRatioCommand, Mode=OneWay}"
+                      CommandParameter="{Binding Source=4}"
                       InputGestureText="3" />
-            <MenuItem Header="1:16"
-                      Command="{Binding SetRatioCommand}"
+            <MenuItem Header="1:8"
+                      Command="{Binding SetRatioCommand, Mode=OneWay}"
+                      CommandParameter="{Binding Source=8}"
                       InputGestureText="4" />
-            <MenuItem Header="1:32"
-                      Command="{Binding SetRatioCommand}"
+            <MenuItem Header="1:16"
+                      Command="{Binding SetRatioCommand, Mode=OneWay}"
+                      CommandParameter="{Binding Source=16}"
                       InputGestureText="5" />
-            <MenuItem Header="1:64"
-                      Command="{Binding SetRatioCommand}"
+            <MenuItem Header="1:32"
+                      Command="{Binding SetRatioCommand, Mode=OneWay}"
+                      CommandParameter="{Binding Source=32}"
                       InputGestureText="6" />
-            <MenuItem Header="1:128"
-                      Command="{Binding SetRatioCommand}"
+            <MenuItem Header="1:64"
+                      Command="{Binding SetRatioCommand, Mode=OneWay}"
+                      CommandParameter="{Binding Source=64}"
                       InputGestureText="7" />
+            <MenuItem Header="1:128"
+                      Command="{Binding SetRatioCommand, Mode=OneWay}"
+                      CommandParameter="{Binding Source=128}"
+                      InputGestureText="8" />
         </MenuItem>
     </x:Array>
 </ResourceDictionary>

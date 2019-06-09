@@ -91,6 +91,7 @@ namespace Ame.App.Wpf.UI.Docks.SelectedBrushDock
 
         #region properties
 
+        public ICommand ShowCollisionsCommand { get; private set; }
         public ICommand ShowGridCommand { get; private set; }
         public ICommand HandleMouseMoveCommand { get; private set; }
         public ICommand ZoomInCommand { get; private set; }

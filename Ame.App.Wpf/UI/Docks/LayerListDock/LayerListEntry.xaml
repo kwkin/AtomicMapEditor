@@ -59,7 +59,7 @@
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
                     <actions:SetPropertyAction PropertyName="IsReadOnly"
-                                               TargetObject="{Binding layerNameLabel}">
+                                               TargetObject="{Binding Text, ElementName=layerNameLabel}">
                         <actions:SetPropertyAction.PropertyValue>
                             <sys:Boolean>False</sys:Boolean>
                         </actions:SetPropertyAction.PropertyValue>
@@ -67,7 +67,7 @@
                 </i:EventTrigger>
                 <i:EventTrigger EventName="LostFocus">
                     <actions:SetPropertyAction PropertyName="IsReadOnly"
-                                               TargetObject="{Binding layerNameLabel}">
+                                               TargetObject="{Binding Text, ElementName=layerNameLabel}">
                         <actions:SetPropertyAction.PropertyValue>
                             <sys:Boolean>True</sys:Boolean>
                         </actions:SetPropertyAction.PropertyValue>

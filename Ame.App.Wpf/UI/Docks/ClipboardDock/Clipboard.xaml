@@ -38,7 +38,7 @@
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     Grid.Column="0"
                     ToolTip="Paste the current selection"
-                    Command="{Binding PasteCommand}">
+                    Command="{Binding PasteCommand, Mode=OneWay}">
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_content_paste_black_24dp.png" />
             </Button>
 

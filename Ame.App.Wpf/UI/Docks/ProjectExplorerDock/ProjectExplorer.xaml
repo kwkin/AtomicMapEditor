@@ -27,25 +27,25 @@
         <WrapPanel Grid.Row="0">
             <Button x:Name="newProjectButton"
                     ToolTip="New Project: Creates a new project."
-                    Command="{Binding NewProjectCommand}">
+                    Command="{Binding NewProjectCommand, Mode=OneWay}">
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_file_document_black_24dp.png"
                        Stretch="None" />
             </Button>
             <Button x:Name="openProjectButton"
                     ToolTip="Open Project: Opens an existing project."
-                    Command="{Binding OpenProjectCommand}">
+                    Command="{Binding OpenProjectCommand, Mode=OneWay}">
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_folder_open_black_24dp.png"
                        Stretch="None" />
             </Button>
             <Button x:Name="viewPropertiesButton"
                     ToolTip="View Properties: Views the current project's properties."
-                    Command="{Binding NewProjectCommand}">
+                    Command="{Binding NewProjectCommand, Mode=OneWay}">
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_eye_black_24dp.png"
                        Stretch="None" />
             </Button>
             <Button x:Name="refreshButton"
                     ToolTip="Refresh: Refreshes the session viewer tree."
-                    Command="{Binding RefreshTreeCommand}">
+                    Command="{Binding RefreshTreeCommand, Mode=OneWay}">
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_refresh_black_24dp.png"
                        Stretch="None" />
             </Button>

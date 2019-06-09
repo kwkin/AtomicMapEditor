@@ -11,19 +11,19 @@
         <MenuItem Header="Show Grid"
                   IsChecked="{Binding IsGridOn}"
                   IsCheckable="True"
-                  Command="{Binding ShowGridCommand}" />
+                  Command="{Binding ShowGridCommand, Mode=OneWay}"/>
         <MenuItem Header="Show Ruler"
                   IsCheckable="True"
-                  Command="{Binding ShowRulerCommand}" />
+                  Command="{Binding ShowRulerCommand, Mode=OneWay}"/>
         <Separator />
         <MenuItem x:Name="zoomInMenuItem"
                   Header="Zoom In"
                   InputGestureText="Ctrl++"
-                  Command="{Binding ZoomInCommand}" />
+                  Command="{Binding ZoomInCommand, Mode=OneWay}"/>
         <MenuItem x:Name="zoomOutMenuItem"
                   Header="Zoom Out"
                   InputGestureText="Ctrl+-"
-                  Command="{Binding ZoomOutCommand}" />
+                  Command="{Binding ZoomOutCommand, Mode=OneWay}"/>
         <MenuItem Header="Set Zoom">
             <MenuItem x:Name="setZoom3200"
                       Header="32:1 (3200%)"

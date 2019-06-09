@@ -17,7 +17,7 @@
             <conv:DoubleToZoomLevelConverter x:Key="DoubleToZoomLevelConverter" />
             <CollectionViewSource Source="{Binding Path=RecentlyClosedDockItems}"
                                   x:Key="RecentlyClosedDocksMenu" />
-            <CollectionViewSource Source="{Binding Path=RecentlFileItems}"
+            <CollectionViewSource Source="{Binding Path=RecentFileItems}"
                                   x:Key="RecentFilesMenu" />
         </ResourceDictionary>
     </UserControl.Resources>
@@ -27,14 +27,14 @@
             <MenuItem Header="File">
                 <MenuItem Header="New..."
                           InputGestureText="Ctrl+N"
-                          Command="{Binding NewFileCommand}">
+                          Command="{Binding NewFileCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_file_document_black_24dp.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Open..."
                           InputGestureText="Ctrl+O"
-                          Command="{Binding OpenFileCommand}">
+                          Command="{Binding OpenFileCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_folder_open_black_24dp.png" />
                     </MenuItem.Icon>
@@ -52,14 +52,14 @@
                 <Separator />
                 <MenuItem Header="Save"
                           InputGestureText="Ctrl+S"
-                          Command="{Binding SaveFileCommand}">
+                          Command="{Binding SaveFileCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_content_save_black_24dp.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Save As..."
                           InputGestureText="Ctrl+Shift+S"
-                          Command="{Binding SaveAsFileCommand}">
+                          Command="{Binding SaveAsFileCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_content_save_black_24dp.png" />
                     </MenuItem.Icon>
@@ -67,28 +67,28 @@
                 <Separator />
                 <MenuItem Header="Export"
                           InputGestureText="Ctrl+E"
-                          Command="{Binding ExportFileCommand}">
+                          Command="{Binding ExportFileCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_export_black_24dp.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Export As..."
                           InputGestureText="Ctrl+Shift+E"
-                          Command="{Binding ExportAsFileCommand}">
+                          Command="{Binding ExportAsFileCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_export_black_24dp.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
                 <MenuItem Header="Import..."
-                          Command="{Binding ImportFileCommand}">
+                          Command="{Binding ImportFileCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_import_black_24dp.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
                 <MenuItem Header="Properties"
-                          Command="{Binding ViewFilePropertiesCommand}">
+                          Command="{Binding ViewFilePropertiesCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_eye_black_24dp.png" />
                     </MenuItem.Icon>
@@ -96,21 +96,21 @@
                 <Separator />
                 <MenuItem Header="Close"
                           InputGestureText="Ctrl+W"
-                          Command="{Binding CloseFileCommand}">
+                          Command="{Binding CloseFileCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_close_black_24dp.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Close All"
                           InputGestureText="Ctrl+Shift+W"
-                          Command="{Binding CloseAllFilesCommand}">
+                          Command="{Binding CloseAllFilesCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_close_black_24dp.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="ExitProgram"
                           InputGestureText="Alt+F4"
-                          Command="{Binding ExitProgramCommand}">
+                          Command="{Binding ExitProgramCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_exit_to_app_black_24dp.png" />
                     </MenuItem.Icon>
@@ -120,14 +120,14 @@
             <MenuItem Header="Edit">
                 <MenuItem Header="Undo"
                           InputGestureText="Ctrl+Z"
-                          Command="{Binding UndoCommand}">
+                          Command="{Binding UndoCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_undo_black_24dp.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Redo"
                           InputGestureText="Ctrl+Y"
-                          Command="{Binding RedoCommand}">
+                          Command="{Binding RedoCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_redo_black_24dp.png" />
                     </MenuItem.Icon>
@@ -140,34 +140,34 @@
                 <Separator />
                 <MenuItem Header="Cut"
                           InputGestureText="Ctrl+X"
-                          Command="{Binding CutCommand}">
+                          Command="{Binding CutCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_content_cut_black_24dp.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Copy"
                           InputGestureText="Ctrl+C"
-                          Command="{Binding CopyCommand}">
+                          Command="{Binding CopyCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_content_copy_black_24dp.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Paste"
                           InputGestureText="Ctrl+P"
-                          Command="{Binding PasteCommand}">
+                          Command="{Binding PasteCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_content_paste_black_24dp.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Open Clipboard..."
-                          Command="{Binding OpenClipboardCommand}">
+                          Command="{Binding OpenClipboardCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_clipboard_black_24dp.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
                 <MenuItem Header="Preferences..."
-                          Command="{Binding OpenPreferencesCommand}">
+                          Command="{Binding OpenPreferencesCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_settings_black_24dp.png" />
                     </MenuItem.Icon>
@@ -177,40 +177,40 @@
             <MenuItem Header="Map">
                 <MenuItem Header="New Map..."
                           InputGestureText="Ctrl+N"
-                          Command="{Binding NewMapCommand}">
+                          Command="{Binding NewMapCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_map_black_24dp.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Duplicate"
                           InputGestureText="Ctrl+D"
-                          Command="{Binding DuplicateMapCommand}">
+                          Command="{Binding DuplicateMapCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_content_copy_black_24dp.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Transform">
                     <MenuItem Header="Flip Horizontally"
-                              Command="{Binding FlipMapHorizontallyCommand}">
+                              Command="{Binding FlipMapHorizontallyCommand, Mode=OneWay}">
                         <MenuItem.Icon>
                             <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_arrow_expand_horizontal_black_24dp.png" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="Flip Vertically"
-                              Command="{Binding FlipMapVerticallyCommand}">
+                              Command="{Binding FlipMapVerticallyCommand, Mode=OneWay}">
                         <MenuItem.Icon>
                             <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_arrow_expand_vertical_black_24dp.png" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="Guillotine"
-                              Command="{Binding GuillotineMapCommand}">
+                              Command="{Binding GuillotineMapCommand, Mode=OneWay}">
                         <MenuItem.Icon>
                             <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_call_split_black_24dp.png" />
                         </MenuItem.Icon>
                     </MenuItem>
                 </MenuItem>
                 <MenuItem Header="Edit Properties..."
-                          Command="{Binding EditMapPropertiesCommand}">
+                          Command="{Binding EditMapPropertiesCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_eye_black_24dp.png" />
                     </MenuItem.Icon>
@@ -220,58 +220,58 @@
             <MenuItem Header="Layer">
                 <MenuItem Header="New Layer"
                           InputGestureText="Ctrl+Shift+N"
-                          Command="{Binding NewLayerCommand}">
+                          Command="{Binding NewLayerCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_plus_box_black_24dp.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="New Group"
-                          Command="{Binding NewGroupCommand}">
+                          Command="{Binding NewGroupCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_folder_plus_black_24dp.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Duplicate Layer"
                           InputGestureText="Ctrl+Shift+D"
-                          Command="{Binding DuplicateLayerCommand}">
+                          Command="{Binding DuplicateLayerCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_content_copy_black_24dp.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Merge Down"
-                          Command="{Binding MergeLayerDownCommand}">
+                          Command="{Binding MergeLayerDownCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_merge_down_black_24dp.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Merge Up"
-                          Command="{Binding MergeLayerUpCommand}">
+                          Command="{Binding MergeLayerUpCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_merge_up_black_24dp.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Merge Visible"
                           InputGestureText="Ctrl+M"
-                          Command="{Binding MergeVisibleCommand}">
+                          Command="{Binding MergeVisibleCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_arrow_collapse_vertical_black_24dp.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Delete Layer"
-                          Command="{Binding DeleteLayerCommand}">
+                          Command="{Binding DeleteLayerCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_delete_black_24dp.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
                 <MenuItem Header="Edit Properties..."
-                          Command="{Binding EditLayerPropertiesCommand}">
+                          Command="{Binding EditLayerPropertiesCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_eye_black_24dp.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Layer To Map"
-                          Command="{Binding LayerToMapCommand}">
+                          Command="{Binding LayerToMapCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_arrow_expand_all_black_24dp.png" />
                     </MenuItem.Icon>
@@ -280,32 +280,32 @@
 
             <MenuItem Header="Item">
                 <MenuItem Header="Add Tileset..."
-                          Command="{Binding AddTilesetCommand}">
+                          Command="{Binding AddTilesetCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_note_add_black_24dp.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Add Image..."
-                          Command="{Binding AddImageCommand}">
+                          Command="{Binding AddImageCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_image_black_24dp.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Add Group..."
-                          Command="{Binding AddGroupCommand}">
+                          Command="{Binding AddGroupCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_folder_plus_black_24dp.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
                 <MenuItem Header="Edit Item Properties"
-                          Command="{Binding EditItemPropertiesCommand}">
+                          Command="{Binding EditItemPropertiesCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_eye_black_24dp.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Edit Item Collisions"
-                          Command="{Binding EditItemCollisionsCommand}">
+                          Command="{Binding EditItemCollisionsCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_eye_black_24dp.png" />
                     </MenuItem.Icon>
@@ -315,13 +315,13 @@
             <MenuItem Header="View">
                 <MenuItem Header="Sample View"
                           InputGestureText="Ctrl+F9"
-                          Command="{Binding SampleViewCommand}">
+                          Command="{Binding SampleViewCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_play_black_24dp.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="View Collisions"
-                          Command="{Binding CollisionsViewCommand}">
+                          Command="{Binding CollisionsViewCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_collisions_black_24dp.png" />
                     </MenuItem.Icon>
@@ -329,20 +329,20 @@
                 <Separator />
                 <MenuItem Header="Zoom In"
                           InputGestureText="Ctrl++"
-                          Command="{Binding ZoomInCommand}">
+                          Command="{Binding ZoomInCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_magnify_plus_black_24dp.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Zoom Out"
                           InputGestureText="Ctrl+-"
-                          Command="{Binding ZoomOutCommand}">
+                          Command="{Binding ZoomOutCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_magnify_minus_black_24dp.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Zoom Tool"
-                          Command="{Binding ZoomToolCommand}">
+                          Command="{Binding ZoomToolCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_magnify_black_24dp.png" />
                     </MenuItem.Icon>
@@ -350,7 +350,7 @@
                 <Separator />
                 <MenuItem Header="Fit Map To Window"
                           InputGestureText="Ctrl+J"
-                          Command="{Binding FitMapToWindowCommand}">
+                          Command="{Binding FitMapToWindowCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_arrow_expand_all_black_24dp.png" />
                     </MenuItem.Icon>
@@ -412,24 +412,24 @@
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_window_open_black_24dp.png" />
                     </MenuItem.Icon>
                     <MenuItem Header="Layer+Tile+Minimap"
-                              Command="{Binding DockPresetViewCommand}">
+                              Command="{Binding DockPresetViewCommand, Mode=OneWay}">
                     </MenuItem>
                 </MenuItem>
                 <Separator />
                 <MenuItem Header="Show Grid"
                           IsCheckable="True"
                           IsChecked="{Binding IsShowGrid, Mode=TwoWay}"
-                          Command="{Binding ShowGridCommand}">
+                          Command="{Binding ShowGridCommand, Mode=OneWay}">
                 </MenuItem>
                 <MenuItem Header="Show Ruler"
                           IsCheckable="True"
                           IsChecked="{Binding IsShowRuler, Mode=TwoWay}"
-                          Command="{Binding ShowRulerCommand}">
+                          Command="{Binding ShowRulerCommand, Mode=OneWay}">
                 </MenuItem>
                 <MenuItem Header="Show ScrollBar"
                           IsCheckable="True"
                           IsChecked="{Binding IsShowScrollBar, Mode=TwoWay}"
-                          Command="{Binding ShowScrollBarCommand}">
+                          Command="{Binding ShowScrollBarCommand, Mode=OneWay}">
                 </MenuItem>
             </MenuItem>
 
@@ -447,54 +447,54 @@
                 <MenuItem Header="Open Dock">
                     <MenuItem Header="Item Editor"
                               InputGestureText="Ctrl+1"
-                              Command="{Binding OpenItemEditorDockCommand}">
+                              Command="{Binding OpenItemEditorDockCommand, Mode=OneWay}">
                     </MenuItem>
                     <MenuItem Header="Item List"
                               InputGestureText="Ctrl+2"
-                              Command="{Binding OpenItemListDockCommand}">
+                              Command="{Binding OpenItemListDockCommand, Mode=OneWay}">
                     </MenuItem>
                     <MenuItem Header="Layer List"
                               InputGestureText="Ctrl+3"
-                              Command="{Binding OpenLayerListDockCommand}">
+                              Command="{Binding OpenLayerListDockCommand, Mode=OneWay}">
                     </MenuItem>
                     <MenuItem Header="Toolbox"
                               InputGestureText="Ctrl+4"
-                              Command="{Binding OpenToolboxDockCommand}">
+                              Command="{Binding OpenToolboxDockCommand, Mode=OneWay}">
                     </MenuItem>
                     <MenuItem Header="Minimap"
                               InputGestureText="Ctrl+5"
-                              Command="{Binding OpenMinimapDockCommand}">
+                              Command="{Binding OpenMinimapDockCommand, Mode=OneWay}">
                     </MenuItem>
                     <MenuItem Header="Clipboard"
                               InputGestureText="Ctrl+6"
-                              Command="{Binding OpenClipboardDockCommand}">
+                              Command="{Binding OpenClipboardDockCommand, Mode=OneWay}">
                     </MenuItem>
                     <MenuItem Header="Undo History"
                               InputGestureText="Ctrl+7"
-                              Command="{Binding OpenUndoHistoryDockCommand}">
+                              Command="{Binding OpenUndoHistoryDockCommand, Mode=OneWay}">
                     </MenuItem>
                     <MenuItem Header="Selected Brush"
                               InputGestureText="Ctrl+8"
-                              Command="{Binding OpenSelectedBrushDockCommand}">
+                              Command="{Binding OpenSelectedBrushDockCommand, Mode=OneWay}">
                     </MenuItem>
                     <MenuItem Header="Project Explorer"
                               InputGestureText="Ctrl+9"
-                              Command="{Binding OpenProjectExplorerDockCommand}">
+                              Command="{Binding OpenProjectExplorerDockCommand, Mode=OneWay}">
                     </MenuItem>
                     <MenuItem Header="Session View"
                               InputGestureText="Ctrl+0"
-                              Command="{Binding OpenSessionViewDockCommand}">
+                              Command="{Binding OpenSessionViewDockCommand, Mode=OneWay}">
                     </MenuItem>
                 </MenuItem>
                 <Separator />
                 <MenuItem Header="Hide Docks"
-                          Command="{Binding HideDocksCommand}">
+                          Command="{Binding HideDocksCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_eye_off_black_24dp.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Single Window"
-                          Command="{Binding SingleWindowCommand}">
+                          Command="{Binding SingleWindowCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_window_maximize_black_24dp.png" />
                     </MenuItem.Icon>
@@ -503,13 +503,13 @@
 
             <MenuItem Header="Help">
                 <MenuItem Header="Help"
-                          Command="{Binding HelpCommand}">
+                          Command="{Binding HelpCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_help_circle_black_24dp.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="About"
-                          Command="{Binding AboutCommand}">
+                          Command="{Binding AboutCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_help_circle_black_24dp.png" />
                     </MenuItem.Icon>

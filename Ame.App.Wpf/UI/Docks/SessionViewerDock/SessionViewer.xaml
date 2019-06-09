@@ -26,7 +26,7 @@
         <WrapPanel Grid.Row="0">
             <Button x:Name="refreshButton"
                     ToolTip="Refresh: Refreshes the session viewer tree."
-                    Command="{Binding RefreshTreeCommand}">
+                    Command="{Binding RefreshTreeCommand, Mode=OneWay}">
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_refresh_black_24dp.png"
                        Stretch="None" />
             </Button>

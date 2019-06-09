@@ -36,7 +36,7 @@
             <ToggleButton x:Name="showCollisionsButton"
                           Style="{DynamicResource PrimaryMidIconToggleButtonStyle}"
                           ToolTip="Toggle Collisions: Toggles the collision overlay."
-                          Command="{Binding NewProjectCommand}">
+                          Command="{Binding ShowCollisionsCommand, Mode=OneWay}">
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_collisions_black_24dp.png"
                        Stretch="None" />
             </ToggleButton>

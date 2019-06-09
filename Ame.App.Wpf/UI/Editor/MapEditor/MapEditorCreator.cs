@@ -31,8 +31,8 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
             this.session = session ?? throw new ArgumentNullException("session is null");
-            this.ScrollModel = scrollModel ?? throw new ArgumentNullException("scrollModel is null");
 
+            this.ScrollModel = scrollModel;
             string mapTitle = string.Format("Map #{0}", session.MapCount);
             this.Map = map ?? new Map(mapTitle);
 

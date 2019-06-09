@@ -90,12 +90,13 @@ namespace Ame.App.Wpf.UI.Docks.MinimapDock
 
             this.FitMinimapCommand = new DelegateCommand(() => FitMinimap());
             this.ToggleGridCommand = new DelegateCommand(() => ToggleGrid());
-            this.ToggleCollisionCommand = new DelegateCommand(() => ToggleCollision());
+            this.ToggleCollisionsCommand = new DelegateCommand(() => ToggleCollisions());
             this.CenterOnPointCommand = new DelegateCommand(() => CenterOnPoint());
             this.ZoomInCommand = new DelegateCommand(() => this.ZoomIndex = this.scrollModel.ZoomIn() );
             this.ZoomOutCommand = new DelegateCommand(() => this.ZoomIndex = this.scrollModel.ZoomOut());
             this.SetZoomCommand = new DelegateCommand<ZoomLevel>((zoomLevel) => this.ZoomIndex = this.scrollModel.SetZoom(zoomLevel));
             this.UpdatePositionCommand = new DelegateCommand<object>((point) => UpdatePosition((Point)point));
+            this.SetRatioCommand = new DelegateCommand<object>((ratio) => UpdateRatio(Convert.ToDouble(ratio)));
         }
 
         #endregion constructor
@@ -105,12 +106,13 @@ namespace Ame.App.Wpf.UI.Docks.MinimapDock
 
         public ICommand FitMinimapCommand { get; private set; }
         public ICommand ToggleGridCommand { get; private set; }
-        public ICommand ToggleCollisionCommand { get; private set; }
+        public ICommand ToggleCollisionsCommand { get; private set; }
         public ICommand CenterOnPointCommand { get; private set; }
         public ICommand UpdatePositionCommand { get; private set; }
         public ICommand ZoomInCommand { get; private set; }
         public ICommand ZoomOutCommand { get; private set; }
         public ICommand SetZoomCommand { get; private set; }
+        public ICommand SetRatioCommand { get; private set; }
 
         public string PositionText { get; set; }
         public ScaleType Scale { get; set; }
@@ -204,7 +206,7 @@ namespace Ame.App.Wpf.UI.Docks.MinimapDock
             Console.WriteLine("Toggle grid minimap");
         }
 
-        private void ToggleCollision()
+        private void ToggleCollisions()
         {
             Console.WriteLine("Toggle collision minimap");
         }
@@ -219,6 +221,11 @@ namespace Ame.App.Wpf.UI.Docks.MinimapDock
             Point transformedPosition = GeometryUtils.CreateIntPoint(position);
             this.PositionText = (transformedPosition.X + ", " + transformedPosition.Y);
             RaisePropertyChanged(nameof(this.PositionText));
+        }
+
+        private void UpdateRatio(double ratio)
+        {
+            Console.WriteLine("Updating Ratio: " + ratio);
         }
 
         #endregion methods

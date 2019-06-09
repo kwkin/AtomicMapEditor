@@ -39,6 +39,9 @@ namespace Ame.App.Wpf.UI.Ribbon
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
             this.Session = session ?? throw new ArgumentNullException("session");
 
+            this.ZoomLevels = ZoomLevel.CreateZoomList(0.125, 0.25, 0.5, 1, 2, 4, 8, 16, 32);
+            this.ZoomLevels.OrderBy(f => f.zoom);
+
             // Map bindings
             this.NewMapCommand = new DelegateCommand(() => NewMap());
             this.EditMapPropertiesCommand = new DelegateCommand(() => EditMapProperties());
@@ -71,9 +74,6 @@ namespace Ame.App.Wpf.UI.Ribbon
             // File bindings
             this.SaveFileCommand = new DelegateCommand(() => SaveFile());
             this.ExportFileCommand = new DelegateCommand(() => ExportFile());
-
-            this.ZoomLevels = ZoomLevel.CreateZoomList(0.125, 0.25, 0.5, 1, 2, 4, 8, 16, 32);
-            this.ZoomLevels.OrderBy(f => f.zoom);
         }
 
         #endregion constructor

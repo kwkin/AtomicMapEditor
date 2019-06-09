@@ -9,38 +9,38 @@
     <x:Array Type="{x:Type sys:Object}"
              x:Key="ItemEditorContextMenu">
         <MenuItem Header="View Properties..."
-                  Command="{Binding ViewPropertiesCommand}">
+                  Command="{Binding ViewPropertiesCommand, Mode=OneWay}">
             <MenuItem.Icon>
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_eye_black_24dp.png" />
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Edit Collisions..."
-                  Command="{Binding EditCollisionsCommand}">
+                  Command="{Binding EditCollisionsCommand, Mode=OneWay}">
             <MenuItem.Icon>
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_collisions_black_24dp.png" />
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Crop..."
-                  Command="{Binding CropCommand}">
+                  Command="{Binding CropCommand, Mode=OneWay}">
             <MenuItem.Icon>
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_crop_black_24dp.png" />
             </MenuItem.Icon>
         </MenuItem>
         <Separator />
         <MenuItem Header="Add Tileset..."
-                  Command="{Binding AddTilesetCommand}">
+                  Command="{Binding AddTilesetCommand, Mode=OneWay}">
             <MenuItem.Icon>
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_note_add_black_24dp.png" />
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Add Image..."
-                  Command="{Binding AddImageCommand}">
+                  Command="{Binding AddImageCommand, Mode=OneWay}">
             <MenuItem.Icon>
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_image_black_24dp.png" />
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Remove Item"
-                  Command="{Binding RemoveItemCommand}">
+                  Command="{Binding RemoveItemCommand, Mode=OneWay}">
             <MenuItem.Icon>
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_delete_black_24dp.png" />
             </MenuItem.Icon>
@@ -49,15 +49,15 @@
         <MenuItem Header="Show Grid"
                   IsChecked="{Binding IsGridOn}"
                   IsCheckable="True"
-                  Command="{Binding ShowGridCommand}" />
+                  Command="{Binding ShowGridCommand, Mode=OneWay}"/>
         <MenuItem Header="Show Ruler"
                   IsCheckable="True"
-                  Command="{Binding ShowRulerCommand}" />
+                  Command="{Binding ShowRulerCommand, Mode=OneWay}"/>
         <Separator />
         <MenuItem x:Name="zoomInMenuItem"
                   Header="Zoom In"
                   InputGestureText="Ctrl++"
-                  Command="{Binding ZoomInCommand}">
+                  Command="{Binding ZoomInCommand, Mode=OneWay}">
             <MenuItem.Icon>
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_magnify_plus_black_24dp.png" />
             </MenuItem.Icon>
@@ -65,7 +65,7 @@
         <MenuItem x:Name="zoomOutMenuItem"
                   Header="Zoom Out"
                   InputGestureText="Ctrl+-"
-                  Command="{Binding ZoomOutCommand}">
+                  Command="{Binding ZoomOutCommand, Mode=OneWay}">
             <MenuItem.Icon>
                 <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_magnify_minus_black_24dp.png" />
             </MenuItem.Icon>
@@ -77,55 +77,55 @@
             <MenuItem x:Name="setZoom3200"
                       Header="32:1 (3200%)"
                       InputGestureText="1"
-                      Command="{Binding SetZoomCommand}"
+                      Command="{Binding SetZoomCommand, Mode=OneWay}"
                       CommandParameter="{Binding Source=32, Converter={StaticResource DoubleToZoomLevelConverter}}">
             </MenuItem>
             <MenuItem x:Name="setZoom1600"
                       Header="16:1 (1600%)"
                       InputGestureText="2"
-                      Command="{Binding SetZoomCommand}"
+                      Command="{Binding SetZoomCommand, Mode=OneWay}"
                       CommandParameter="{Binding Source=16, Converter={StaticResource DoubleToZoomLevelConverter}}">
             </MenuItem>
             <MenuItem x:Name="setZoom800"
                       Header="8:1 (800%)"
                       InputGestureText="3"
-                      Command="{Binding SetZoomCommand}"
+                      Command="{Binding SetZoomCommand, Mode=OneWay}"
                       CommandParameter="{Binding Source=8, Converter={StaticResource DoubleToZoomLevelConverter}}">
             </MenuItem>
             <MenuItem x:Name="setZoom400"
                       Header="4:1 (400%)"
                       InputGestureText="4"
-                      Command="{Binding SetZoomCommand}"
+                      Command="{Binding SetZoomCommand, Mode=OneWay}"
                       CommandParameter="{Binding Source=4, Converter={StaticResource DoubleToZoomLevelConverter}}">
             </MenuItem>
             <MenuItem x:Name="setZoom200"
                       Header="2:1 (200%)"
                       InputGestureText="5"
-                      Command="{Binding SetZoomCommand}"
+                      Command="{Binding SetZoomCommand, Mode=OneWay}"
                       CommandParameter="{Binding Source=2, Converter={StaticResource DoubleToZoomLevelConverter}}">
             </MenuItem>
             <MenuItem x:Name="setZoom100"
                       Header="1:1 (100%)"
                       InputGestureText="6"
-                      Command="{Binding SetZoomCommand}"
+                      Command="{Binding SetZoomCommand, Mode=OneWay}"
                       CommandParameter="{Binding Source=1, Converter={StaticResource DoubleToZoomLevelConverter}}">
             </MenuItem>
             <MenuItem x:Name="setZoom50"
                       Header="1:2 (50%)"
                       InputGestureText="7"
-                      Command="{Binding SetZoomCommand}"
+                      Command="{Binding SetZoomCommand, Mode=OneWay}"
                       CommandParameter="{Binding Source=0.5, Converter={StaticResource DoubleToZoomLevelConverter}}">
             </MenuItem>
             <MenuItem x:Name="setZoom25"
                       Header="1:4 (25%)"
                       InputGestureText="8"
-                      Command="{Binding SetZoomCommand}"
+                      Command="{Binding SetZoomCommand, Mode=OneWay}"
                       CommandParameter="{Binding Source=0.25, Converter={StaticResource DoubleToZoomLevelConverter}}">
             </MenuItem>
             <MenuItem x:Name="setZoom12_5"
                       Header="1:8 (12.5%)"
                       InputGestureText="9"
-                      Command="{Binding SetZoomCommand}"
+                      Command="{Binding SetZoomCommand, Mode=OneWay}"
                       CommandParameter="{Binding Source=0.125, Converter={StaticResource DoubleToZoomLevelConverter}}">
             </MenuItem>
         </MenuItem>
