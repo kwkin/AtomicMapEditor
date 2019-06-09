@@ -53,8 +53,10 @@ namespace Ame.App.Wpf.UILogic.Actions
             object target = TargetObject ?? AssociatedObject;
             PropertyInfo propertyInfo = target.GetType().GetProperty(PropertyName,
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.InvokeMethod);
-
-            propertyInfo.SetValue(target, PropertyValue);
+            if (propertyInfo != null)
+            {
+                propertyInfo.SetValue(target, PropertyValue);
+            }
         }
     }
 }

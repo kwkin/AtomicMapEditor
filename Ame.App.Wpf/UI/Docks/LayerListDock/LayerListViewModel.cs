@@ -53,7 +53,10 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             this.CurrentLayerChangedCommand = new DelegateCommand<object>((e) =>
             {
                 LayerListEntryViewModel currentEntry = e as LayerListEntryViewModel;
-                CurrentLayerChanged(currentEntry.layer);
+                if (currentEntry != null)
+                {
+                    CurrentLayerChanged(currentEntry.layer);
+                }
             });
 
             this.eventAggregator.GetEvent<NewLayerEvent>().Subscribe(AddTilesetLayerMessage);
@@ -221,7 +224,14 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                     }
                     break;
                 case NotifyCollectionChangedAction.Move:
-                    // TODO implement
+                    int oldIndex = e.OldStartingIndex;
+                    int newIndex = e.NewStartingIndex;
+                    if (oldIndex != -1 && newIndex != -1)
+                    {
+                        LayerListEntryViewModel entry = this.LayerList[oldIndex];
+                        this.LayerList[oldIndex] = this.LayerList[newIndex];
+                        this.LayerList[newIndex] = entry;
+                    }
                     break;
                 default:
                     break;

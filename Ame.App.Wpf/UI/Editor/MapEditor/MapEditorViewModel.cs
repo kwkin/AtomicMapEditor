@@ -1,29 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Ame.Components.Behaviors;
+﻿using Ame.Components.Behaviors;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Core;
 using Ame.Infrastructure.DrawingTools;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
+using Ame.Infrastructure.UILogic;
 using Ame.Infrastructure.Utils;
 using Prism.Commands;
 using Prism.Events;
-using System.Collections.Specialized;
-using System.Windows.Media;
-using System.Windows;
-using System.Diagnostics;
+using System;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
-using System.Windows.Threading;
-using System.Windows.Media.Imaging;
-using System.IO;
-using Ame.Infrastructure.UILogic;
+using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
+using System.Windows;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 namespace Ame.App.Wpf.UI.Editor.MapEditor
 {
@@ -65,6 +61,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
         {
         }
 
+        // TODO refactor constructor code
         public MapEditorViewModel(IEventAggregator eventAggregator, AmeSession session, Map map, ScrollModel scrollModel)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
@@ -111,7 +108,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             this.HoverSampleOpacity = hoverSampleOpacity;
 
             //this.session.PropertyChanged += SessionChanged;
-            this.Map.LayerList.CollectionChanged += LayerAdded;
+            this.Map.LayerList.CollectionChanged += LayerListChanged;
 
             this.ShowGridCommand = new DelegateCommand(() => DrawGrid(this.IsGridOn));
             this.HandleMouseMoveCommand = new DelegateCommand<object>((point) => HandleMouseMove((Point)point));
@@ -390,15 +387,41 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             this.HoverSampleOpacity = hoverSampleOpacity;
         }
 
-        private void LayerAdded(object sender, NotifyCollectionChangedEventArgs e)
+        private void LayerListChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            switch(e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    foreach (Layer layer in e.NewItems)
+                    {
+                        this.layerItems.Children.Add(layer.Group);
+                        layer.PropertyChanged += LayerChanged;
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Move:
+                    int oldIndex = e.OldStartingIndex;
+                    int newIndex = e.NewStartingIndex;
+
+                    // TODO integrate with visibility
+                    // TODO make groups work with this
+                    Layer oldLayer = this.session.CurrentLayerList[oldIndex] as Layer;
+                    Layer newLayer = this.session.CurrentLayerList[newIndex] as Layer;
+
+                    int oldGroupIndex = this.layerItems.Children.IndexOf(oldLayer.Group);
+                    int newGroupIndex = this.layerItems.Children.IndexOf(newLayer.Group);
+                    if (oldGroupIndex != -1 && newGroupIndex != -1)
+                    {
+                        Drawing oldLayerImage = this.layerItems.Children[oldGroupIndex];
+                        this.layerItems.Children[oldGroupIndex] = this.layerItems.Children[newGroupIndex];
+                        this.layerItems.Children[newGroupIndex] = oldLayerImage;
+                    }
+                    break;
+                default:
+                    break;
+            }
+
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
-                foreach (Layer layer in e.NewItems)
-                {
-                    this.layerItems.Children.Add(layer.Group);
-                    layer.PropertyChanged += LayerChanged;
-                }
             }
         }
 
