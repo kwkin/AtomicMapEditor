@@ -32,7 +32,6 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
 
         private IEventAggregator eventAggregator;
         private AmeSession session;
-        private IScrollModel scrollModel;
 
         private LayerOrderRenderer orderer; 
         private PaddedBrushModel brush;
@@ -57,7 +56,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
         #region constructor
 
         public MapEditorViewModel(IEventAggregator eventAggregator, AmeSession session, Map map)
-            : this(eventAggregator, session, map, ScrollModel.DefaultScrollModel())
+            : this(eventAggregator, session, map, Components.Behaviors.ScrollModel.DefaultScrollModel())
         {
         }
 
@@ -67,7 +66,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
             this.session = session ?? throw new ArgumentNullException("session is null");
             this.Map = map ?? throw new ArgumentNullException("map is null");
-            this.scrollModel = scrollModel ?? throw new ArgumentNullException("scrollModel is null");
+            this.ScrollModel = scrollModel ?? throw new ArgumentNullException("scrollModel is null");
 
             this.orderer = new LayerOrderRenderer(this.session);
 
@@ -100,8 +99,6 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             this.backgroundBrush = new SolidColorBrush(this.Map.BackgroundColor);
             this.backgroundPen = new Pen(Brushes.Transparent, 0);
             redrawBackground();
-            this.ZoomLevels = this.scrollModel.ZoomLevels;
-            this.ZoomIndex = this.scrollModel.ZoomIndex;
             this.Scale = ScaleType.Tile;
             this.PositionText = "0, 0";
             this.updatePositionLabelStopWatch = Stopwatch.StartNew();
@@ -109,14 +106,15 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
 
             //this.session.PropertyChanged += SessionChanged;
             this.Map.LayerList.CollectionChanged += LayerListChanged;
+            this.ScrollModel.PropertyChanged += ScrollModelChanged;
 
             this.ShowGridCommand = new DelegateCommand(() => DrawGrid(this.IsGridOn));
             this.HandleMouseMoveCommand = new DelegateCommand<object>((point) => HandleMouseMove((Point)point));
             this.UndoCommand = new DelegateCommand(() => this.Undo());
             this.RedoCommand = new DelegateCommand(() => this.Redo());
-            this.ZoomInCommand = new DelegateCommand(() => this.ZoomIndex = this.scrollModel.ZoomIn());
-            this.ZoomOutCommand = new DelegateCommand(() => this.ZoomIndex = this.scrollModel.ZoomOut());
-            this.SetZoomCommand = new DelegateCommand<ZoomLevel>((zoomLevel) => this.ZoomIndex = this.scrollModel.SetZoom(zoomLevel));
+            this.ZoomInCommand = new DelegateCommand(() => this.ScrollModel.ZoomIn());
+            this.ZoomOutCommand = new DelegateCommand(() =>this.ScrollModel.ZoomOut());
+            this.SetZoomCommand = new DelegateCommand<ZoomLevel>((zoomLevel) => this.ScrollModel.SetZoom(zoomLevel));
             this.HandleLeftClickDownCommand = new DelegateCommand<object>((point) => HandleLeftClickDown((Point)point));
             this.HandleLeftClickUpCommand = new DelegateCommand<object>((point) => HandleLeftClickUp((Point)point));
 
@@ -125,7 +123,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
                 UpdateBrushImage(brushEvent);
             }, ThreadOption.PublisherThread);
         }
-
+        
         #endregion constructor
 
 
@@ -185,35 +183,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             }
         }
 
-        private ObservableCollection<ZoomLevel> zoomLevels;
-        public ObservableCollection<ZoomLevel> ZoomLevels
-        {
-            get
-            {
-                return this.zoomLevels;
-            }
-            set
-            {
-                SetProperty(ref this.zoomLevels, value);
-            }
-        }
-
-        public int ZoomIndex
-        {
-            get { return this.zoomIndex; }
-            set
-            {
-                if (SetProperty(ref this.zoomIndex, value))
-                {
-                    this.gridLines.Children.Clear();
-                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        DrawGrid();
-                    }),
-                    DispatcherPriority.Background);
-                }
-            }
-        }
+        public IScrollModel ScrollModel { get; set; }
 
         public Brush BackgroundBrush
         {
@@ -309,7 +279,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             if (this.IsGridOn)
             {
                 PaddedGridRenderable gridParameters = new PaddedGridRenderable(this.Map.Grid);
-                double thickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
+                double thickness = 1 / this.ScrollModel.ZoomLevels[this.ScrollModel.ZoomIndex].zoom;
                 gridParameters.DrawingPen.Thickness = thickness < Global.maxGridThickness ? thickness : Global.maxGridThickness;
                 DrawingGroup group = gridParameters.CreateGrid();
                 this.gridLines.Children = group.Children;
@@ -334,22 +304,22 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
 
         public override void ZoomIn()
         {
-            this.ZoomIndex = this.scrollModel.ZoomIn();
+            this.ScrollModel.ZoomIn();
         }
 
         public override void ZoomOut()
         {
-            this.ZoomIndex = this.scrollModel.ZoomOut();
+            this.ScrollModel.ZoomOut();
         }
 
         public override void SetZoom(int zoomIndex)
         {
-            this.ZoomIndex = this.scrollModel.SetZoom(zoomIndex);
+            this.ScrollModel.SetZoom(zoomIndex);
         }
 
         public override void SetZoom(ZoomLevel zoomLevel)
         {
-            this.ZoomIndex = this.scrollModel.SetZoom(zoomLevel);
+            this.ScrollModel.SetZoom(zoomLevel);
         }
 
         public override object GetContent()
@@ -525,6 +495,22 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
                 this.PositionText = (transformedPosition.X + ", " + transformedPosition.Y);
             }), DispatcherPriority.Render);
             this.updatePositionLabelStopWatch.Restart();
+        }
+        private void ScrollModelChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch(e.PropertyName)
+            {
+                case nameof(ScrollModel.ZoomIndex):
+                    this.gridLines.Children.Clear();
+                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        DrawGrid();
+                    }),
+                    DispatcherPriority.Background);
+                    break;
+                default:
+                    break;
+            }
         }
 
         #endregion methods

@@ -1,10 +1,11 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.UILogic;
 
 namespace Ame.Components.Behaviors
 {
-    public interface IScrollModel
+    public interface IScrollModel : INotifyPropertyChanged
     {
         #region fields
 

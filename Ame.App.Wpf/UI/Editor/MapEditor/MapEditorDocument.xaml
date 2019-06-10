@@ -34,8 +34,8 @@
                                       Style="{StaticResource ScrollViewerStyle}"
                                       HorizontalScrollBarVisibility="Visible"
                                       VerticalScrollBarVisibility="Visible"
-                                      ZoomIndex="{Binding ZoomIndex}"
-                                      ZoomLevels="{Binding ZoomLevels}">
+                                      ZoomIndex="{Binding ScrollModel.ZoomIndex}"
+                                      ZoomLevels="{Binding ScrollModel.ZoomLevels}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseMove">
                     <actions:EventToCommand Command="{Binding HandleMouseMoveCommand, Mode=OneWay}"
@@ -109,9 +109,9 @@
                       Grid.Column="2"
                       Width="65"
                       VerticalAlignment="Center"
-                      ItemsSource="{Binding ZoomLevels}"
-                      SelectedIndex="{Binding ZoomIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                      IsEnabled="{Binding ZoomLevels.Count, Converter={StaticResource CountToEnabledConverter}}"
+                      ItemsSource="{Binding ScrollModel.ZoomLevels}"
+                      SelectedIndex="{Binding ScrollModel.ZoomIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      IsEnabled="{Binding ScrollModel.ZoomLevels.Count, Converter={StaticResource CountToEnabledConverter}}"
                       DisplayMemberPath="description" />
             <Label Grid.Column="3">
                 <TextBlock Text="Dynamically Updating Help Text"
