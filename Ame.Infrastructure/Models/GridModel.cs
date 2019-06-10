@@ -193,7 +193,7 @@ namespace Ame.Infrastructure.Models
 
         }
 
-        public Point BindPoint(Point point)
+        public Point GetPoint(Point point)
         {
             Point boundPoint = GeometryUtils.CopyPoint(point);
             if (point.X < 0)

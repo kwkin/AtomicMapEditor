@@ -6,10 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.UILogic;
+using Prism.Mvvm;
 
 namespace Ame.Components.Behaviors
 {
-    public class ScrollModel : IScrollModel
+    public class ScrollModel : BindableBase, IScrollModel
     {
         #region fields
 
@@ -38,8 +39,31 @@ namespace Ame.Components.Behaviors
 
         #region properties
 
-        public ObservableCollection<ZoomLevel> ZoomLevels { get; set; }
-        public int ZoomIndex { get; set; }
+        private ObservableCollection<ZoomLevel> zoomLevels;
+        public ObservableCollection<ZoomLevel> ZoomLevels
+        {
+            get
+            {
+                return this.zoomLevels;
+            }
+            set
+            {
+                SetProperty(ref this.zoomLevels, value);
+            }
+        }
+
+        private int zoomIndex;
+        public int ZoomIndex
+        {
+            get
+            {
+                return this.zoomIndex;
+            }
+            set
+            {
+                SetProperty(ref this.zoomIndex, value);
+            }
+        }
 
         #endregion properties
 

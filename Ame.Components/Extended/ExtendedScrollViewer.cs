@@ -222,6 +222,10 @@ namespace Ame.Components.Extended
             {
                 this.ZoomIndex += 1;
             }
+            else
+            {
+                this.ZoomIndex = this.ZoomLevels.Count - 1;
+            }
             updateZoom(this.ZoomIndex);
         }
 
@@ -230,6 +234,10 @@ namespace Ame.Components.Extended
             if (this.ZoomIndex > 0)
             {
                 this.ZoomIndex -= 1;
+            }
+            else
+            {
+                this.ZoomIndex = 0;
             }
             updateZoom(this.ZoomIndex);
         }

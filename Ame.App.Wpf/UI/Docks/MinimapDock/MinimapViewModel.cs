@@ -27,7 +27,6 @@ namespace Ame.App.Wpf.UI.Docks.MinimapDock
         #region fields
 
         private IEventAggregator eventAggregator;
-        private IScrollModel scrollModel;
         private AmeSession session;
 
         private DrawingGroup minimapLayers;
@@ -38,32 +37,18 @@ namespace Ame.App.Wpf.UI.Docks.MinimapDock
         #region constructor
 
         public MinimapViewModel(IEventAggregator eventAggregator, AmeSession session)
-            : this(eventAggregator, session, ScrollModel.DefaultScrollModel())
+            : this(eventAggregator, session, Components.Behaviors.ScrollModel.DefaultScrollModel())
         {
         }
 
-        public MinimapViewModel(IEventAggregator eventAggregator, AmeSession session, ScrollModel scrollModel)
+        public MinimapViewModel(IEventAggregator eventAggregator, AmeSession session, IScrollModel scrollModel)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
             this.session = session ?? throw new ArgumentNullException("session");
-            this.scrollModel = scrollModel ?? throw new ArgumentNullException("scrollModel");
+            this.ScrollModel = scrollModel ?? throw new ArgumentNullException("scrollModel");
 
             this.Title = "Minimap";
             
-            if (this.scrollModel.ZoomLevels == null)
-            {
-                this.ZoomLevels = ZoomLevel.CreateZoomList(0.125, 0.25, 0.5, 1, 2, 4, 8, 16, 32);
-                this.scrollModel.ZoomLevels = this.ZoomLevels;
-            }
-            else
-            {
-                this.ZoomLevels = this.scrollModel.ZoomLevels;
-            }
-            if (this.scrollModel.ZoomIndex < 0 || this.scrollModel.ZoomIndex >= this.ZoomLevels.Count)
-            {
-                this.ZoomIndex = 3;
-                this.scrollModel.ZoomIndex = this.ZoomIndex;
-            }
             this.Scale = ScaleType.Tile;
             this.PositionText = "0, 0";
 
@@ -92,9 +77,9 @@ namespace Ame.App.Wpf.UI.Docks.MinimapDock
             this.ToggleGridCommand = new DelegateCommand(() => ToggleGrid());
             this.ToggleCollisionsCommand = new DelegateCommand(() => ToggleCollisions());
             this.CenterOnPointCommand = new DelegateCommand(() => CenterOnPoint());
-            this.ZoomInCommand = new DelegateCommand(() => this.ZoomIndex = this.scrollModel.ZoomIn() );
-            this.ZoomOutCommand = new DelegateCommand(() => this.ZoomIndex = this.scrollModel.ZoomOut());
-            this.SetZoomCommand = new DelegateCommand<ZoomLevel>((zoomLevel) => this.ZoomIndex = this.scrollModel.SetZoom(zoomLevel));
+            this.ZoomInCommand = new DelegateCommand(() => this.ScrollModel.ZoomIn() );
+            this.ZoomOutCommand = new DelegateCommand(() => this.ScrollModel.ZoomOut());
+            this.SetZoomCommand = new DelegateCommand<ZoomLevel>((zoomLevel) => this.ScrollModel.SetZoom(zoomLevel));
             this.UpdatePositionCommand = new DelegateCommand<object>((point) => UpdatePosition((Point)point));
             this.SetRatioCommand = new DelegateCommand<object>((ratio) => UpdateRatio(Convert.ToDouble(ratio)));
         }
@@ -116,16 +101,9 @@ namespace Ame.App.Wpf.UI.Docks.MinimapDock
 
         public string PositionText { get; set; }
         public ScaleType Scale { get; set; }
-        public ObservableCollection<ZoomLevel> ZoomLevels { get; set; }
-        public int zoomIndex;
-        public int ZoomIndex
-        {
-            get { return this.zoomIndex; }
-            set
-            {
-                SetProperty(ref this.zoomIndex, value);
-            }
-        }
+
+
+        public IScrollModel ScrollModel { get; set; }
 
         private DrawingImage minimapPreview;
         public DrawingImage MinimapPreview
@@ -165,14 +143,14 @@ namespace Ame.App.Wpf.UI.Docks.MinimapDock
                     {
                         this.minimapLayers.Children.Add(layer.Group);
                     }
-                    this.session.CurrentLayerList.CollectionChanged += UpdateLayerPreview;
+                    this.session.CurrentLayerList.CollectionChanged += LayerListChanged;
                     break;
                 default:
                     break;
             }
         }
 
-        private void UpdateLayerPreview(object sender, NotifyCollectionChangedEventArgs e)
+        private void LayerListChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)
             {
@@ -189,7 +167,14 @@ namespace Ame.App.Wpf.UI.Docks.MinimapDock
                     }
                     break;
                 case NotifyCollectionChangedAction.Move:
-                    // TODO implement
+                    int oldIndex = e.OldStartingIndex;
+                    int newIndex = e.NewStartingIndex;
+                    if (oldIndex != -1 && newIndex != -1)
+                    {
+                        Drawing layer = this.minimapLayers.Children[oldIndex];
+                        this.minimapLayers.Children[oldIndex] = this.minimapLayers.Children[newIndex];
+                        this.minimapLayers.Children[newIndex] = layer;
+                    }
                     break;
                 default:
                     break;

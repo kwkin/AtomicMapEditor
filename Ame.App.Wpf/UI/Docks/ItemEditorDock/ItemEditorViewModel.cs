@@ -448,8 +448,8 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
 
         public void SelectTiles(Point pixelPoint1, Point pixelPoint2)
         {
-            pixelPoint1 = this.TilesetModel.BindPoint(pixelPoint1);
-            pixelPoint2 = this.TilesetModel.BindPoint(pixelPoint2);
+            pixelPoint1 = this.TilesetModel.GetPoint(pixelPoint1);
+            pixelPoint2 = this.TilesetModel.GetPoint(pixelPoint2);
             GeneralTransform pixelToTile = GeometryUtils.CreateTransform(this.itemTransform.pixelToTile);
             Point tile1 = GeometryUtils.TransformInt(pixelToTile, pixelPoint1);
             Point tile2 = GeometryUtils.TransformInt(pixelToTile, pixelPoint2);
