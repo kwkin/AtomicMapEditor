@@ -11,6 +11,7 @@ using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -27,7 +28,6 @@ namespace Ame.App.Wpf.UI.Docks.SelectedBrushDock
         #region fields
 
         private IEventAggregator eventAggregator;
-        private IScrollModel scrollModel;
 
         private DrawingGroup drawingGroup;
         private DrawingGroup extendedBackground;
@@ -45,14 +45,14 @@ namespace Ame.App.Wpf.UI.Docks.SelectedBrushDock
         #region constructor
 
         public SelectedBrushViewModel(IEventAggregator eventAggregator)
-            : this(eventAggregator, ScrollModel.DefaultScrollModel())
+            : this(eventAggregator, Components.Behaviors.ScrollModel.DefaultScrollModel())
         {
         }
 
         public SelectedBrushViewModel(IEventAggregator eventAggregator, IScrollModel scrollModel)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
-            this.scrollModel = scrollModel ?? throw new ArgumentNullException("scrollModel is null");
+            this.ScrollModel = scrollModel ?? throw new ArgumentNullException("scrollModel is null");
 
             this.Title = "Selected Brush";
 
@@ -68,17 +68,17 @@ namespace Ame.App.Wpf.UI.Docks.SelectedBrushDock
             RenderOptions.SetEdgeMode(this.selectedBrushImage, EdgeMode.Aliased);
 
             this.gridModel = new PaddedGridRenderable();
-            this.ZoomLevels = this.scrollModel.ZoomLevels;
-            this.ZoomIndex = this.scrollModel.ZoomIndex;
             this.Scale = ScaleType.Pixel;
             this.PositionText = "0, 0";
             this.updatePositionLabelStopWatch = Stopwatch.StartNew();
 
+            this.ScrollModel.PropertyChanged += ScrollModelPropertyChanged;
+
             this.ShowGridCommand = new DelegateCommand(() => DrawGrid(this.IsGridOn));
             this.HandleMouseMoveCommand = new DelegateCommand<object>((point) => HandleMouseMove((Point)point));
-            this.ZoomInCommand = new DelegateCommand(() => this.ZoomIndex = this.scrollModel.ZoomIn());
-            this.ZoomOutCommand = new DelegateCommand(() => this.ZoomIndex = this.scrollModel.ZoomOut());
-            this.SetZoomCommand = new DelegateCommand<ZoomLevel>((zoomLevel) => this.ZoomIndex = this.scrollModel.SetZoom(zoomLevel));
+            this.ZoomInCommand = new DelegateCommand(() => this.ScrollModel.ZoomIn());
+            this.ZoomOutCommand = new DelegateCommand(() => this.ScrollModel.ZoomOut());
+            this.SetZoomCommand = new DelegateCommand<ZoomLevel>((zoomLevel) => this.ScrollModel.SetZoom(zoomLevel));
 
             this.eventAggregator.GetEvent<NewPaddedBrushEvent>().Subscribe((brushEvent) =>
             {
@@ -101,25 +101,8 @@ namespace Ame.App.Wpf.UI.Docks.SelectedBrushDock
         public string PositionText { get; set; }
         public ScaleType Scale { get; set; }
         public bool IsGridOn { get; set; }
-        public ObservableCollection<ZoomLevel> ZoomLevels { get; set; }
 
-        public int zoomIndex;
-        public int ZoomIndex
-        {
-            get { return this.zoomIndex; }
-            set
-            {
-                if (SetProperty(ref this.zoomIndex, value))
-                {
-                    this.gridLines.Children.Clear();
-                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        RefreshGrid();
-                    }),
-                    DispatcherPriority.Background);
-                }
-            }
-        }
+        public IScrollModel ScrollModel { get; set; }
 
         public DrawingImage BrushImage { get; set; }
 
@@ -139,7 +122,7 @@ namespace Ame.App.Wpf.UI.Docks.SelectedBrushDock
             if (this.IsGridOn)
             {
                 PaddedGridRenderable gridParameters = new PaddedGridRenderable(this.gridModel);
-                double thickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
+                double thickness = 1 / this.ScrollModel.ZoomLevels[this.ScrollModel.ZoomIndex].zoom;
                 gridParameters.DrawingPen.Thickness = thickness < Global.maxGridThickness ? thickness : Global.maxGridThickness;
                 DrawingGroup group = gridParameters.CreateGrid();
                 this.gridLines.Children = group.Children;
@@ -229,6 +212,16 @@ namespace Ame.App.Wpf.UI.Docks.SelectedBrushDock
             {
                 context.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Transparent, 0), drawingRect);
             }
+        }
+
+        private void ScrollModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            this.gridLines.Children.Clear();
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                RefreshGrid();
+            }),
+            DispatcherPriority.Background);
         }
 
         #endregion methods

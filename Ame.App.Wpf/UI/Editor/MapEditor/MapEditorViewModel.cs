@@ -61,7 +61,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
         }
 
         // TODO refactor constructor code
-        public MapEditorViewModel(IEventAggregator eventAggregator, AmeSession session, Map map, ScrollModel scrollModel)
+        public MapEditorViewModel(IEventAggregator eventAggregator, AmeSession session, Map map, IScrollModel scrollModel)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
             this.session = session ?? throw new ArgumentNullException("session is null");
@@ -106,7 +106,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
 
             //this.session.PropertyChanged += SessionChanged;
             this.Map.LayerList.CollectionChanged += LayerListChanged;
-            this.ScrollModel.PropertyChanged += ScrollModelChanged;
+            this.ScrollModel.PropertyChanged += ScrollModelPropertyChanged;
 
             this.ShowGridCommand = new DelegateCommand(() => DrawGrid(this.IsGridOn));
             this.HandleMouseMoveCommand = new DelegateCommand<object>((point) => HandleMouseMove((Point)point));
@@ -496,7 +496,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             }), DispatcherPriority.Render);
             this.updatePositionLabelStopWatch.Restart();
         }
-        private void ScrollModelChanged(object sender, PropertyChangedEventArgs e)
+        private void ScrollModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch(e.PropertyName)
             {
