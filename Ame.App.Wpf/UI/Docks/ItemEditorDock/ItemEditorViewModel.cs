@@ -33,7 +33,6 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
         #region fields
 
         private IEventAggregator eventAggregator;
-        private IScrollModel scrollModel;
 
         private CoordinateTransform itemTransform;
         private Rect selectionBorder;
@@ -57,12 +56,12 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
         #region constructor
 
         public ItemEditorViewModel(IEventAggregator eventAggregator, AmeSession session)
-            : this(eventAggregator, session, new TilesetModel(), ScrollModel.DefaultScrollModel())
+            : this(eventAggregator, session, new TilesetModel(), Components.Behaviors.ScrollModel.DefaultScrollModel())
         {
         }
 
         public ItemEditorViewModel(IEventAggregator eventAggregator, AmeSession session, TilesetModel tilesetModel)
-            : this(eventAggregator, session, tilesetModel, ScrollModel.DefaultScrollModel())
+            : this(eventAggregator, session, tilesetModel, Components.Behaviors.ScrollModel.DefaultScrollModel())
         {
         }
 
@@ -75,7 +74,7 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
             this.Session = session ?? throw new ArgumentNullException("session is null");
-            this.scrollModel = scrollModel ?? throw new ArgumentNullException("scrollModel is null");
+            this.ScrollModel = scrollModel ?? throw new ArgumentNullException("scrollModel is null");
             this.TilesetModel = tilesetModel ?? throw new ArgumentNullException("tilesetModel is null");
 
             this.drawingGroup = new DrawingGroup();
@@ -89,8 +88,6 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
             this.drawingGroup.Children.Add(this.selectLines);
             this.TileImage = new DrawingImage(this.drawingGroup);
             
-            this.ZoomLevels = this.scrollModel.ZoomLevels;
-            this.ZoomIndex = this.scrollModel.ZoomIndex;
             this.Scale = ScaleType.Tile;
             this.PositionText = "0, 0";
             this.isGridOn = true;
@@ -101,6 +98,7 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
             this.selectLineStopWatch = Stopwatch.StartNew();
 
             this.TilesetModel.PropertyChanged += TilesetPropertyChanged;
+            this.ScrollModel.PropertyChanged += ScrollModelPropertyChanged;
 
             this.HandleLeftClickDownCommand = new DelegateCommand<object>((point) => HandleLeftClickDown((Point)point));
             this.HandleLeftClickUpCommand = new DelegateCommand<object>((point) => HandleLeftClickUp((Point)point));
@@ -214,36 +212,8 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
             }
         }
 
-        private ObservableCollection<ZoomLevel> zoomLevels;
-        public ObservableCollection<ZoomLevel> ZoomLevels
-        {
-            get
-            {
-                return this.zoomLevels;
-            }
-            set
-            {
-                SetProperty(ref this.zoomLevels, value);
-            }
-        }
 
-        private int zoomIndex;
-        public int ZoomIndex
-        {
-            get { return this.zoomIndex; }
-            set
-            {
-                if (SetProperty(ref this.zoomIndex, value))
-                {
-                    this.gridLines.Children.Clear();
-                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        RedrawGrid();
-                    }),
-                    DispatcherPriority.Background);
-                }
-            }
-        }
+        public IScrollModel ScrollModel { get; set; }
 
         private Mat itemImage;
         public Mat ItemImage
@@ -543,7 +513,7 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
             if (this.IsGridOn)
             {
                 PaddedGridRenderable gridParameters = new PaddedGridRenderable(this.TilesetModel);
-                double thickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
+                double thickness = 1 / this.ScrollModel.ZoomLevels[this.ScrollModel.ZoomIndex].zoom;
                 gridParameters.DrawingPen.Thickness = thickness < Global.maxGridThickness ? thickness : Global.maxGridThickness;
 
                 Application.Current.Dispatcher.BeginInvoke(new Action(() =>
@@ -593,22 +563,22 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
 
         public void ZoomIn()
         {
-            this.ZoomIndex = this.scrollModel.ZoomIn();
+            this.ScrollModel.ZoomIn();
         }
 
         public void ZoomOut()
         {
-            this.ZoomIndex = this.scrollModel.ZoomOut();
+            this.ScrollModel.ZoomOut();
         }
 
         public void SetZoom(int zoomIndex)
         {
-            this.ZoomIndex = this.scrollModel.SetZoom(zoomIndex);
+            this.ScrollModel.SetZoom(zoomIndex);
         }
 
         public void SetZoom(ZoomLevel zoomLevel)
         {
-            this.ZoomIndex = this.scrollModel.SetZoom(zoomLevel);
+            this.ScrollModel.SetZoom(zoomLevel);
         }
 
         public void AddTileset()
@@ -734,6 +704,23 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
                 this.TilesetModel = messageTilesetModel;
                 ChangeItemModel(this.tilesetModel);
                 RaisePropertyChanged(nameof(this.TilesetModel));
+            }
+        }
+
+        private void ScrollModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(ScrollModel.ZoomIndex):
+                    this.gridLines.Children.Clear();
+                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        RedrawGrid();
+                    }),
+                    DispatcherPriority.Background);
+                    break;
+                default:
+                    break;
             }
         }
 

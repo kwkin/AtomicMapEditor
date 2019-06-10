@@ -111,7 +111,7 @@ namespace Ame.App.Wpf.UI.Docks.SelectedBrushDock
 
         #region methods
 
-        public void RefreshGrid()
+        public void RedrawGrid()
         {
             DrawGrid(this.IsGridOn);
         }
@@ -194,7 +194,7 @@ namespace Ame.App.Wpf.UI.Docks.SelectedBrushDock
             this.imageTransform.SetSlectionToPixel(this.gridModel.TileWidth / 2, this.gridModel.TileHeight / 2);
 
             redrawExtendedBackground();
-            RefreshGrid();
+            RedrawGrid();
             RaisePropertyChanged(nameof(this.BrushImage));
         }
 
@@ -216,12 +216,19 @@ namespace Ame.App.Wpf.UI.Docks.SelectedBrushDock
 
         private void ScrollModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            this.gridLines.Children.Clear();
-            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            switch (e.PropertyName)
             {
-                RefreshGrid();
-            }),
-            DispatcherPriority.Background);
+                case nameof(ScrollModel.ZoomIndex):
+                    this.gridLines.Children.Clear();
+                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        RedrawGrid();
+                    }),
+                    DispatcherPriority.Background);
+                    break;
+                default:
+                    break;
+            }
         }
 
         #endregion methods
