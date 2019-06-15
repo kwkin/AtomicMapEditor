@@ -11,20 +11,44 @@
         <MenuItem Header="View Properties..."
                   Command="{Binding ViewPropertiesCommand, Mode=OneWay}">
             <MenuItem.Icon>
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_eye_black_24dp.png" />
+                <Viewbox>
+                    <ContentControl Content="{StaticResource ic_VisibilityOn}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                </Viewbox>
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Edit Collisions..."
                   Command="{Binding EditCollisionsCommand, Mode=OneWay}">
             <MenuItem.Icon>
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_collisions_black_24dp.png" />
+                <Viewbox>
+                    <ContentControl Content="{StaticResource ic_Collisions}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                </Viewbox>
             </MenuItem.Icon>
         </MenuItem>
         <Separator />
         <MenuItem Header="Undo"
-                  Command="{Binding UndoCommand, Mode=OneWay}"/>
+                  Command="{Binding UndoCommand, Mode=OneWay}">
+            <MenuItem.Icon>
+                <Viewbox>
+                    <ContentControl Content="{StaticResource ic_Undo}"
+                                            Width="{StaticResource MidIconSize}"
+                                            Height="{StaticResource MidIconSize}"/>
+                </Viewbox>
+            </MenuItem.Icon>
+        </MenuItem>
         <MenuItem Header="Redo"
-                  Command="{Binding RedoCommand, Mode=OneWay}"/>
+                  Command="{Binding RedoCommand, Mode=OneWay}">
+            <MenuItem.Icon>
+                <Viewbox>
+                    <ContentControl Content="{StaticResource ic_Redo}"
+                                            Width="{StaticResource MidIconSize}"
+                                            Height="{StaticResource MidIconSize}"/>
+                </Viewbox>
+            </MenuItem.Icon>
+        </MenuItem>
         <Separator />
         <MenuItem Header="Show Grid"
                   IsChecked="{Binding IsGridOn}"
@@ -39,7 +63,11 @@
                   InputGestureText="Ctrl++"
                   Command="{Binding ZoomInCommand, Mode=OneWay}">
             <MenuItem.Icon>
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_magnify_plus_black_24dp.png" />
+                <Viewbox>
+                    <ContentControl Content="{StaticResource ic_ZoomIn}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                </Viewbox>
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem x:Name="zoomOutMenuItem"
@@ -47,12 +75,20 @@
                   InputGestureText="Ctrl+-"
                   Command="{Binding ZoomOutCommand, Mode=OneWay}">
             <MenuItem.Icon>
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_magnify_minus_black_24dp.png" />
+                <Viewbox>
+                    <ContentControl Content="{StaticResource ic_ZoomOut}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                </Viewbox>
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Set Zoom">
             <MenuItem.Icon>
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_magnify_black_24dp.png" />
+                <Viewbox>
+                    <ContentControl Content="{StaticResource ic_Zoom}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                </Viewbox>
             </MenuItem.Icon>
             <MenuItem x:Name="setZoom3200"
                       Header="32:1 (3200%)"

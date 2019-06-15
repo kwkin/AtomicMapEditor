@@ -36,8 +36,9 @@
                          GroupName="ToolBoxToolSelection"
                          Command="{Binding ToolButtonCommand}"
                          CommandParameter="{x:Type brushes:StampTool}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_pencil_black_24dp.png"
-                       Stretch="None" />
+                <ContentControl Content="{StaticResource ic_Pencil}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
             </RadioButton>
 
             <RadioButton x:Name="brushButton"
@@ -46,8 +47,9 @@
                          GroupName="ToolBoxToolSelection"
                          Command="{Binding ToolButtonCommand}"
                          CommandParameter="{x:Type brushes:BrushTool}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_brush_black_24dp.png"
-                       Stretch="None" />
+                <ContentControl Content="{StaticResource ic_Brush}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
             </RadioButton>
 
             <RadioButton x:Name="eraserButton"
@@ -56,8 +58,9 @@
                          GroupName="ToolBoxToolSelection"
                          Command="{Binding ToolButtonCommand}"
                          CommandParameter="{x:Type brushes:EraserTool}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_eraser_black_24dp.png"
-                       Stretch="None" />
+                <ContentControl Content="{StaticResource ic_Eraser}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
             </RadioButton>
 
             <RadioButton x:Name="selectButton"
@@ -66,8 +69,9 @@
                          GroupName="ToolBoxToolSelection"
                          Command="{Binding ToolButtonCommand}"
                          CommandParameter="{x:Type brushes:SelectTool}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_hand_black_24dp.png"
-                       Stretch="None" />
+                <ContentControl Content="{StaticResource ic_Hand}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
             </RadioButton>
 
             <RadioButton x:Name="fillButton"
@@ -76,8 +80,9 @@
                          GroupName="ToolBoxToolSelection"
                          Command="{Binding ToolButtonCommand}"
                          CommandParameter="{x:Type brushes:FillTool}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_fill_black_24dp.png"
-                       Stretch="None" />
+                <ContentControl Content="{StaticResource ic_Fill}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
             </RadioButton>
 
             <RadioButton x:Name="pickerButton"
@@ -86,8 +91,9 @@
                          GroupName="ToolBoxToolSelection"
                          Command="{Binding ToolButtonCommand}"
                          CommandParameter="{x:Type brushes:PickerTool}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_eyedropper_variant_black_24dp.png"
-                       Stretch="None" />
+                <ContentControl Content="{StaticResource ic_Picker}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
             </RadioButton>
 
             <RadioButton x:Name="circleSelectionButton"
@@ -96,8 +102,9 @@
                          GroupName="ToolBoxToolSelection"
                          Command="{Binding ToolButtonCommand}"
                          CommandParameter="{x:Type brushes:CircleSelectionTool}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_vector_circle_black_24dp.png"
-                       Stretch="None" />
+                <ContentControl Content="{StaticResource ic_SelectionCircle}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
             </RadioButton>
 
             <RadioButton x:Name="rectangularSelectionButton"
@@ -106,8 +113,9 @@
                          GroupName="ToolBoxToolSelection"
                          Command="{Binding ToolButtonCommand}"
                          CommandParameter="{x:Type brushes:RectangularSelectionTool}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_vector_square_black_24dp.png"
-                       Stretch="None" />
+                <ContentControl Content="{StaticResource ic_SelectionSquare}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
             </RadioButton>
 
             <RadioButton x:Name="tileSelectionButton"
@@ -116,8 +124,9 @@
                          GroupName="ToolBoxToolSelection"
                          Command="{Binding ToolButtonCommand}"
                          CommandParameter="{x:Type brushes:TileSelectionTool}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_border_all_black_24dp.png"
-                       Stretch="None" />
+                <ContentControl Content="{StaticResource ic_Border}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
             </RadioButton>
 
             <RadioButton x:Name="freeSelectionButton"
@@ -126,8 +135,9 @@
                          GroupName="ToolBoxToolSelection"
                          Command="{Binding ToolButtonCommand}"
                          CommandParameter="{x:Type brushes:FreeSelectionTool}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_vector_polygon_black_24dp.png"
-                       Stretch="None" />
+                <ContentControl Content="{StaticResource ic_SelectionPoly}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
             </RadioButton>
 
             <RadioButton x:Name="tileCollisionButton"
@@ -136,8 +146,9 @@
                          GroupName="ToolBoxToolSelection"
                          Command="{Binding ToolButtonCommand}"
                          CommandParameter="{x:Type brushes:TileCollisionTool}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_collisions_black_24dp.png"
-                       Stretch="None" />
+                <ContentControl Content="{StaticResource ic_Collisions}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
             </RadioButton>
         </WrapPanel>
 

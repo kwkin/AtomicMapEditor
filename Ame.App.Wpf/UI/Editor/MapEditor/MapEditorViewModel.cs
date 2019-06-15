@@ -104,7 +104,6 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             this.updatePositionLabelStopWatch = Stopwatch.StartNew();
             this.HoverSampleOpacity = hoverSampleOpacity;
 
-            //this.session.PropertyChanged += SessionChanged;
             this.Map.LayerList.CollectionChanged += LayerListChanged;
             this.ScrollModel.PropertyChanged += ScrollModelPropertyChanged;
 

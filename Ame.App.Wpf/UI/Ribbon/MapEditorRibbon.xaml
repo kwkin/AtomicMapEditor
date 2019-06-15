@@ -70,7 +70,9 @@
                         ToolTip="New Map: Adds a new map"
                         Command="{Binding NewMapCommand, Mode=OneWay}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_map_black_24dp.png" />
+                        <ContentControl Content="{StaticResource ic_Map}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
                         <Label Padding="0"
                                Content="New" />
                     </StackPanel>
@@ -84,7 +86,9 @@
                         Command="{Binding EditMapPropertiesCommand}"
                         IsEnabled="{Binding Session.CurrentMap, Converter={StaticResource NullToBooleanConverter}}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_eye_black_24dp.png" />
+                        <ContentControl Content="{StaticResource ic_VisibilityOn}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
                         <Label Padding="0"
                                Content="Properties" />
                     </StackPanel>
@@ -122,7 +126,9 @@
                         Command="{Binding NewLayerCommand}"
                         IsEnabled="{Binding Session.CurrentMap, Converter={StaticResource NullToBooleanConverter}}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_plus_box_black_24dp.png" />
+                        <ContentControl Content="{StaticResource ic_AddBox}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
                         <Label Padding="0"
                                Content="New" />
                     </StackPanel>
@@ -136,7 +142,9 @@
                         Command="{Binding EditLayerPropertiesCommand}"
                         IsEnabled="{Binding Session.CurrentLayer, Converter={StaticResource NullToBooleanConverter}}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_eye_black_24dp.png" />
+                        <ContentControl Content="{StaticResource ic_VisibilityOn}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
                         <Label Padding="0"
                                Content="Properties" />
                     </StackPanel>
@@ -173,7 +181,9 @@
                         ToolTip="Add Tileset: Adds a new tileset"
                         Command="{Binding AddTilesetCommand, Mode=OneWay}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_note_add_black_24dp.png" />
+                        <ContentControl Content="{StaticResource ic_AddNote}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
                         <Label Padding="0"
                                Content="Add Tileset" />
                     </StackPanel>
@@ -186,7 +196,9 @@
                         ToolTip="Add Image: Adds a new image"
                         Command="{Binding AddImageCommand, Mode=OneWay}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_image_black_24dp.png" />
+                        <ContentControl Content="{StaticResource ic_AddImage}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
                         <Label Padding="0"
                                Content="Add Image" />
                     </StackPanel>
@@ -199,7 +211,7 @@
                         ToolTip="Open List: Open dock containing a list of active tileset and images"
                         Command="{Binding OpenItemListCommand, Mode=OneWay}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_add_circle_black_24dp.png" />
+                        <ContentControl Content="{StaticResource ic_AddCircle}"/>
                         <Label Padding="0"
                                Content="Open List" />
                     </StackPanel>
@@ -238,14 +250,20 @@
                         HorizontalContentAlignment="Center"
                         IsEnabled="{Binding Session.CurrentMap, Converter={StaticResource NullToBooleanConverter}}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_minus_black_24dp.png" />
+                        <ContentControl Content="{StaticResource ic_Remove}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
                         <Label Padding="0"
                                Content="Out"
                                HorizontalContentAlignment="Center" />
                     </StackPanel>
                 </Button>
                 <StackPanel>
-                    <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_magnify_black_24dp.png" />
+                    <Viewbox>
+                        <ContentControl Content="{StaticResource ic_Zoom}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                    </Viewbox>
                     <ComboBox x:Name="zoomComboBox"
                               Grid.Column="2"
                               Width="48"
@@ -271,7 +289,9 @@
                         HorizontalContentAlignment="Center"
                         IsEnabled="{Binding Session.CurrentMap, Converter={StaticResource NullToBooleanConverter}}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_plus_black_24dp.png" />
+                        <ContentControl Content="{StaticResource ic_Add}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
                         <Label Padding="0"
                                Content="In"
                                HorizontalContentAlignment="Center" />
@@ -310,7 +330,9 @@
                         Command="{Binding SampleViewCommand}"
                         IsEnabled="{Binding Session.CurrentMap, Converter={StaticResource NullToBooleanConverter}}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_play_black_24dp.png" />
+                        <ContentControl Content="{StaticResource ic_Play}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
                         <Label Padding="0"
                                Content="Sample" />
                     </StackPanel>
@@ -324,7 +346,9 @@
                         Command="{Binding CollisionsViewCommand}"
                         IsEnabled="{Binding Session.CurrentMap, Converter={StaticResource NullToBooleanConverter}}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_collisions_black_24dp.png" />
+                        <ContentControl Content="{StaticResource ic_Collisions}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
                         <Label Padding="0"
                                Content="Collisions" />
                     </StackPanel>
@@ -361,7 +385,9 @@
                         ToolTip="Add Dock: Adds a new instance of the selected dock"
                         Command="{Binding OpenDockCommand, Mode=OneWay}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_application_black_24dp.png" />
+                        <ContentControl Content="{StaticResource ic_AddCircle}"
+                                        Width="{StaticResource MidIconSize}"
+                                        Height="{StaticResource MidIconSize}"/>
                         <Label Padding="0"
                                Content="Add" />
                     </StackPanel>
@@ -374,7 +400,9 @@
                         ToolTip="Recently Closed Dock: Open a recently closed dock"
                         Command="{Binding RecentlyClosedDockCommand, Mode=OneWay}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_close_box_black_24dp.png" />
+                        <ContentControl Content="{StaticResource ic_CloseBox}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
                         <Label Padding="0"
                                Content="Closed" />
                     </StackPanel>
@@ -387,7 +415,9 @@
                         ToolTip="Dock Preset: Sets dock placement to a preset configuration"
                         Command="{Binding DockPresetCommand, Mode=OneWay}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_window_open_black_24dp.png" />
+                        <ContentControl Content="{StaticResource ic_WindowOpen}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
                         <Label Padding="0"
                                Content="Preset" />
                     </StackPanel>
@@ -400,7 +430,9 @@
                         ToolTip="Snap Docks: Snaps all seperated docks to the main window"
                         Command="{Binding SnapDockCommand, Mode=OneWay}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_checkerboard_black_24dp.png" />
+                        <ContentControl Content="{StaticResource ic_Docks}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
                         <Label Padding="0"
                                Content="Snap" />
                     </StackPanel>
@@ -413,7 +445,9 @@
                         ToolTip="Hide Docks: Hide all docks"
                         Command="{Binding HideDocksCommand, Mode=OneWay}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_eye_off_black_24dp.png" />
+                        <ContentControl Content="{StaticResource ic_VisibilityOff}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
                         <Label Padding="0"
                                Content="Hide" />
                     </StackPanel>
@@ -450,7 +484,9 @@
                         ToolTip="Save: Save this map"
                         Command="{Binding SaveFileCommand, Mode=OneWay}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_content_save_black_24dp.png" />
+                        <ContentControl Content="{StaticResource ic_Save}"
+                                            Width="{StaticResource MidIconSize}"
+                                            Height="{StaticResource MidIconSize}"/>
                         <Label Padding="0"
                                Content="Save" />
                     </StackPanel>
@@ -463,7 +499,9 @@
                         ToolTip="Export: Export this map"
                         Command="{Binding ExportFileCommand, Mode=OneWay}">
                     <StackPanel Orientation="Vertical">
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_export_black_24dp.png" />
+                        <ContentControl Content="{StaticResource ic_Export}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
                         <Label Padding="0"
                                Content="Export" />
                     </StackPanel>

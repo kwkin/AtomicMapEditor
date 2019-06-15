@@ -40,72 +40,81 @@
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     ToolTip="New Layer: Adds a new tileset layer"
                     Command="{Binding NewLayerCommand, Mode=OneWay}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_plus_box_black_24dp.png"
-                       Stretch="None" />
+                <ContentControl Content="{StaticResource ic_AddBox}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
             </Button>
 
             <Button x:Name="AddLayerGroupButton"
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     ToolTip="Add Group: Adds a new layer group"
                     Command="{Binding NewLayerGroupCommand, Mode=OneWay}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_folder_plus_black_24dp.png"
-                       Stretch="None" />
+                <ContentControl Content="{StaticResource ic_AddFolder}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
             </Button>
 
             <Button x:Name="MergeLayerDownButton"
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     ToolTip="Merge Down: Merges the current layer and below layer"
                     Command="{Binding MergeLayerDownCommand, Mode=OneWay}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_merge_down_black_24dp.png"
-                       Stretch="None" />
+                <ContentControl Content="{StaticResource ic_MergeDown}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
             </Button>
 
             <Button x:Name="MergeLayerUpButton"
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     ToolTip="Merge Up: Merges the current layer and above layer"
                     Command="{Binding MergeLayerUpCommand, Mode=OneWay}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_merge_up_black_24dp.png"
-                       Stretch="None" />
+                <ContentControl Content="{StaticResource ic_MergeUp}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
             </Button>
 
             <Button x:Name="MoveLayerDownButton"
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     ToolTip="Move Down: Moves the layer up on the layers order"
                     Command="{Binding MoveLayerDownCommand, Mode=OneWay}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_arrow_down_black_24dp.png"
-                       Stretch="None" />
+                <ContentControl Content="{StaticResource ic_ArrowDown}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
             </Button>
 
             <Button x:Name="MoveLayerUpButton"
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     ToolTip="Move Up: Moves the layer up on the layers order"
                     Command="{Binding MoveLayerUpCommand, Mode=OneWay}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_arrow_up_black_24dp.png"
-                       Stretch="None" />
+                <ContentControl Content="{StaticResource ic_ArrowUp}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
             </Button>
 
             <Button x:Name="EditLayerButton"
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     ToolTip="Edit: Edit the current layer"
                     Command="{Binding EditPropertiesCommand, Mode=OneWay}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_plus_box_black_24dp.png"
-                       Stretch="None" />
+                <ContentControl Content="{StaticResource ic_AddBox}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
             </Button>
 
             <Button x:Name="DuplicateLayerButton"
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     ToolTip="Duplicate: Duplicates the current layer"
                     Command="{Binding DuplicateLayerCommand, Mode=OneWay}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_content_copy_black_24dp.png"
-                       Stretch="None" />
+                <ContentControl Content="{StaticResource ic_ContentCopy}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
             </Button>
 
             <Button x:Name="RemoveLayerButton"
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     ToolTip="Remove: Removes the layer"
                     Command="{Binding RemoveLayerCommand, Mode=OneWay}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_delete_black_24dp.png"
-                       Stretch="None" />
+                <ContentControl Content="{StaticResource ic_Delete}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
             </Button>
         </WrapPanel>
 

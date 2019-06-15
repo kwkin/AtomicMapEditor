@@ -37,8 +37,9 @@
                           Style="{DynamicResource PrimaryMidIconToggleButtonStyle}"
                           ToolTip="Toggle Collisions: Toggles the collision overlay."
                           Command="{Binding ShowCollisionsCommand, Mode=OneWay}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_collisions_black_24dp.png"
-                       Stretch="None" />
+                <ContentControl Content="{StaticResource ic_Collisions}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
             </ToggleButton>
         </WrapPanel>
 

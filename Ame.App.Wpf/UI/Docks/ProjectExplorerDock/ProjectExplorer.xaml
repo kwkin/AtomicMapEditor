@@ -28,26 +28,30 @@
             <Button x:Name="newProjectButton"
                     ToolTip="New Project: Creates a new project."
                     Command="{Binding NewProjectCommand, Mode=OneWay}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_file_document_black_24dp.png"
-                       Stretch="None" />
+                <ContentControl Content="{StaticResource ic_Project}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
             </Button>
             <Button x:Name="openProjectButton"
                     ToolTip="Open Project: Opens an existing project."
                     Command="{Binding OpenProjectCommand, Mode=OneWay}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_folder_open_black_24dp.png"
-                       Stretch="None" />
+                <ContentControl Content="{StaticResource ic_FolderOpen}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
             </Button>
             <Button x:Name="viewPropertiesButton"
                     ToolTip="View Properties: Views the current project's properties."
                     Command="{Binding NewProjectCommand, Mode=OneWay}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_eye_black_24dp.png"
-                       Stretch="None" />
+                <ContentControl Content="{StaticResource ic_VisibilityOn}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
             </Button>
             <Button x:Name="refreshButton"
                     ToolTip="Refresh: Refreshes the session viewer tree."
                     Command="{Binding RefreshTreeCommand, Mode=OneWay}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_refresh_black_24dp.png"
-                       Stretch="None" />
+                <ContentControl Content="{StaticResource ic_Refresh}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
             </Button>
         </WrapPanel>
 

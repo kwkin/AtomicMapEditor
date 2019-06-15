@@ -21,7 +21,6 @@ using System.Windows.Media;
 
 namespace Ame.App.Wpf.UI.Docks.MinimapDock
 {
-    // TODO update xaml bindings to be one-way
     public class MinimapViewModel : DockToolViewModelTemplate
     {
         #region fields

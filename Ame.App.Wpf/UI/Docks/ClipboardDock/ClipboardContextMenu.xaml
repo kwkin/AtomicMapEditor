@@ -8,12 +8,20 @@
         <MenuItem Header="Remove Item"
                   Command="{Binding RemoveItemCommand, Mode=OneWay}">
             <MenuItem.Icon>
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_delete_black_24dp.png" />
+                <Viewbox>
+                    <ContentControl Content="{StaticResource ic_Delete}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
+                </Viewbox>
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Sort">
             <MenuItem.Icon>
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_sort_variant_black_24dp.png" />
+                <Viewbox>
+                    <ContentControl Content="{StaticResource ic_Sort}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                </Viewbox>
             </MenuItem.Icon>
             <MenuItem Header="Name"
                       Command="{Binding SortCommand, Mode=OneWay}"/>
@@ -48,18 +56,30 @@
         <MenuItem Header="Zoom In"
                   Command="{Binding ZoomInCommand, Mode=OneWay}">
             <MenuItem.Icon>
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_magnify_plus_black_24dp.png" />
+                <Viewbox>
+                    <ContentControl Content="{StaticResource ic_ZoomIn}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                </Viewbox>
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Zoom Out"
                   Command="{Binding ZoomOutCommand, Mode=OneWay}">
             <MenuItem.Icon>
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_magnify_minus_black_24dp.png" />
+                <Viewbox>
+                    <ContentControl Content="{StaticResource ic_ZoomOut}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                </Viewbox>
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Item Size">
             <MenuItem.Icon>
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_magnify_black_24dp.png" />
+                <Viewbox>
+                    <ContentControl Content="{StaticResource ic_Zoom}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                </Viewbox>
             </MenuItem.Icon>
             <MenuItem Header="Very Large (500x500px)"
                       InputGestureText="1"

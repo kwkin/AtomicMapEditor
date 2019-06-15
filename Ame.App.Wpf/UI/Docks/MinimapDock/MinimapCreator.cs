@@ -23,7 +23,6 @@ namespace Ame.App.Wpf.UI.Docks.MinimapDock
 
         public MinimapCreator(IEventAggregator eventAggregator, AmeSession session)
         {
-            // TODO replace other constuctors with null check
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
             this.session = session ?? throw new ArgumentNullException("session");
         }

@@ -43,13 +43,15 @@
                  Grid.ColumnSpan="3"
                  VerticalAlignment="Center" />
 
-        <extcomp:IconButton x:Name="deleteItemButton"
-                            Grid.Column="0"
-                            Grid.Row="1"
-                            HorizontalAlignment="Left"
-                            ToolTip="Delete Tileset"
-                            ImageSource="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_delete_black_24dp.png">
-        </extcomp:IconButton>
+        <Button x:Name="deleteItemButton"
+                Grid.Column="0"
+                Grid.Row="1"
+                HorizontalAlignment="Left"
+                ToolTip="Delete Tileset">
+            <ContentControl Content="{StaticResource ic_Delete}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
+        </Button>
         <Label x:Name="sourceLabel"
                Grid.Row="1"
                Grid.Column="1"

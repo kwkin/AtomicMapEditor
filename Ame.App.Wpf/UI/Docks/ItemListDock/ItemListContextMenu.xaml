@@ -8,31 +8,51 @@
         <MenuItem Header="Add Tileset..."
                   Command="{Binding AddTilesetCommand, Mode=OneWay}">
             <MenuItem.Icon>
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_note_add_black_24dp.png" />
+                <Viewbox>
+                    <ContentControl Content="{StaticResource ic_AddNote}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                </Viewbox>
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Add Image..."
                   Command="{Binding AddImageCommand, Mode=OneWay}">
             <MenuItem.Icon>
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_image_black_24dp.png" />
+                <Viewbox>
+                    <ContentControl Content="{StaticResource ic_AddImage}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                </Viewbox>
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Add Directory..."
                   Command="{Binding AddDirectoryCommand, Mode=OneWay}">
             <MenuItem.Icon>
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_folder_download_black_24dp.png" />
+                <Viewbox>
+                    <ContentControl Content="{StaticResource ic_AddFolder}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
+                </Viewbox>
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Add Group..."
                   Command="{Binding AddGroupCommand, Mode=OneWay}">
             <MenuItem.Icon>
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_folder_plus_black_24dp.png" />
+                <Viewbox>
+                    <ContentControl Content="{StaticResource ic_AddFolder}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                </Viewbox>
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Remove Item"
                   Command="{Binding RemoveItemCommand, Mode=OneWay}">
             <MenuItem.Icon>
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_delete_black_24dp.png" />
+                <Viewbox>
+                    <ContentControl Content="{StaticResource ic_Delete}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
+                </Viewbox>
             </MenuItem.Icon>
         </MenuItem>
         <Separator />
@@ -60,18 +80,30 @@
         <MenuItem Header="Zoom In"
                   Command="{Binding ZoomInCommand, Mode=OneWay}">
             <MenuItem.Icon>
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_magnify_plus_black_24dp.png" />
+                <Viewbox>
+                    <ContentControl Content="{StaticResource ic_ZoomIn}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                </Viewbox>
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Zoom Out"
                   Command="{Binding ZoomOutCommand, Mode=OneWay}">
             <MenuItem.Icon>
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_magnify_minus_black_24dp.png" />
+                <Viewbox>
+                    <ContentControl Content="{StaticResource ic_ZoomOut}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                </Viewbox>
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Image Size">
             <MenuItem.Icon>
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_magnify_black_24dp.png" />
+                <Viewbox>
+                    <ContentControl Content="{StaticResource ic_Zoom}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                </Viewbox>
             </MenuItem.Icon>
             <MenuItem Header="Very Large (500x500px)"
                       Command="{Binding SetImageSizeCommand, Mode=OneWay}"/>
@@ -99,13 +131,21 @@
         <MenuItem Header="View Properties..."
                   Command="{Binding ViewPropertiesCommand, Mode=OneWay}">
             <MenuItem.Icon>
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_eye_black_24dp.png" />
+                <Viewbox>
+                    <ContentControl Content="{StaticResource ic_VisibilityOn}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                </Viewbox>
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Edit Collisions..."
                   Command="{Binding EditCollisionsCommand, Mode=OneWay}">
             <MenuItem.Icon>
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_collisions_black_24dp.png" />
+                <Viewbox>
+                    <ContentControl Content="{StaticResource ic_Collisions}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                </Viewbox>
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Rename..."

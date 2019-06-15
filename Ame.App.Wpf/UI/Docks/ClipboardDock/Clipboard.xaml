@@ -39,7 +39,9 @@
                     Grid.Column="0"
                     ToolTip="Paste the current selection"
                     Command="{Binding PasteCommand, Mode=OneWay}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_content_paste_black_24dp.png" />
+                <ContentControl Content="{StaticResource ic_ContentPaste}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
             </Button>
 
             <Button x:Name="filterMapsButton"
@@ -47,7 +49,9 @@
                     Grid.Column="1"
                     ToolTip="Toggle maps from displaying in the clipboard"
                     Command="{Binding FilterMapsButton}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_map_black_24dp.png" />
+                <ContentControl Content="{StaticResource ic_Map}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
             </Button>
 
             <Button x:Name="filterTilesButton"
@@ -55,7 +59,9 @@
                     Grid.Column="2"
                     ToolTip="Toggle tiles from displaying in the clipboard"
                     Command="{Binding FilterTilesButton}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_grid_black_24dp.png" />
+                <ContentControl Content="{StaticResource ic_GridOn}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
             </Button>
 
             <Button x:Name="filterImagesButton"
@@ -63,7 +69,9 @@
                     Grid.Column="3"
                     ToolTip="Toggle images from displaying in the clipboard"
                     Command="{Binding FilterImagesButton}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_image_black_24dp.png" />
+                <ContentControl Content="{StaticResource ic_Image}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
             </Button>
 
             <Button x:Name="sortClipboardButton"
@@ -71,7 +79,9 @@
                     Grid.Column="4"
                     ToolTip="Sorts the items in the clipboard"
                     Command="{Binding SortButton}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_sort_variant_black_24dp.png" />
+                <ContentControl Content="{StaticResource ic_Sort}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
             </Button>
 
             <TextBox x:Name="searchClipboardTextbox"
@@ -84,7 +94,9 @@
                     Grid.Column="6"
                     ToolTip="Removes the current selection from the clipboard"
                     Command="{Binding SortButton}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_delete_black_24dp.png" />
+                <ContentControl Content="{StaticResource ic_Delete}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
             </Button>
         </Grid>
 

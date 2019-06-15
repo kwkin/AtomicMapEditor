@@ -48,7 +48,9 @@
                     Grid.Column="0"
                     ToolTip="Fit the minimap to the dock size"
                     Command="{Binding FitMinimapCommand, Mode=OneWay}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_arrow_expand_black_24dp.png" />
+                <ContentControl Content="{StaticResource ic_Expand}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
             </Button>
 
             <Button x:Name="toggleGridButton"
@@ -56,7 +58,9 @@
                     Grid.Column="1"
                     ToolTip="Toggle the grid overlay on the minimap"
                     Command="{Binding ToggleGridCommand, Mode=OneWay}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_grid_black_24dp.png" />
+                <ContentControl Content="{StaticResource ic_GridOn}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
             </Button>
 
             <Button x:Name="toggleCollisionButton"
@@ -64,7 +68,9 @@
                     Grid.Column="2"
                     ToolTip="Toggle the collision overlay on the minimap"
                     Command="{Binding ToggleCollisionCommand, Mode=OneWay}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_collisions_black_24dp.png" />
+                <ContentControl Content="{StaticResource ic_Expand}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
             </Button>
 
             <Label x:Name="zoomRatioLabel"

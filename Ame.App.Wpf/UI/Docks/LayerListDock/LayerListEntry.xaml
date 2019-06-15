@@ -26,17 +26,24 @@
 
         <StackPanel Orientation="Horizontal"
                     Grid.Column="0">
-            <extcomp:IconToggleButton x:Name="showLayerToggleButton"
-                                      ToolTip="Show: Toggles the layer display"
-                                      IsChecked="{Binding Layer.IsVisible}"
-                                      ImageSource="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_eye_black_24dp.png">
-            </extcomp:IconToggleButton>
+            <ToggleButton x:Name="showLayerToggleButton"
+                          Style="{DynamicResource PrimaryMidIconToggleButtonStyle}"
+                          IsChecked="{Binding Layer.IsVisible}"
+                          ToolTip="Show: Toggles the layer display">
+                <ContentControl Content="{StaticResource ic_VisibilityOn}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+            </ToggleButton>
 
-            <extcomp:IconToggleButton x:Name="lockLayerToggleButton"
-                                      ToolTip="Lock: Prevents the layer from being moved and edited"
-                                      IsChecked="{Binding Layer.IsImmutable}"
-                                      ImageSource="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_lock_black_24dp.png">
-            </extcomp:IconToggleButton>
+            <ToggleButton x:Name="lockLayerToggleButton"
+                          Style="{DynamicResource PrimaryMidIconToggleButtonStyle}"
+                          IsChecked="{Binding Layer.IsImmutable}"
+                          ToolTip="Lock: Prevents the layer from being moved and edited"
+                          Command="{Binding AddTilesetLayerCommand, Mode=OneWay}">
+                <ContentControl Content="{StaticResource ic_Lock}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+            </ToggleButton>
 
             <Image x:Name="tilesetImage"
                    Source="{Binding LayerPreview, Mode=OneWay}"

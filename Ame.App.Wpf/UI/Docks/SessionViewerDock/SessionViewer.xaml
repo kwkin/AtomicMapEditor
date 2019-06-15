@@ -27,8 +27,9 @@
             <Button x:Name="refreshButton"
                     ToolTip="Refresh: Refreshes the session viewer tree."
                     Command="{Binding RefreshTreeCommand, Mode=OneWay}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_refresh_black_24dp.png"
-                       Stretch="None" />
+                <ContentControl Content="{StaticResource ic_Refresh}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
             </Button>
         </WrapPanel>
 

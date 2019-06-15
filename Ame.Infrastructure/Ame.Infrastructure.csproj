@@ -150,7 +150,6 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <PackageReference Include="EMGU.CV">
       <Version>3.4.3.3016</Version>
@@ -161,74 +160,10 @@
     <PackageReference Include="Prism.Wpf" Version="7.1.0.431&#xD;" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Icons\baseline_warning_black_18dp.png" />
-    <Resource Include="Resources\Icons\ic_add_circle_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_application_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_arrow_collapse_vertical_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_arrow_down_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_arrow_expand_all_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_arrow_expand_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_arrow_expand_horizontal_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_arrow_expand_vertical_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_arrow_up_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_border_all_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_brush_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_call_split_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_checkerboard_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_clipboard_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_close_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_close_box_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_collisions_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_content_copy_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_content_cut_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_content_paste_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_content_save_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_crop_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_delete_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_eraser_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_exit_to_app_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_export_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_eyedropper_variant_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_eye_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_eye_off_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_file_document_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_fill_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_folder_download_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_folder_open_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_folder_outline_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_folder_plus_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_grid_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_hand_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_help_circle_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_history_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_image_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_import_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_layers_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_lock_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_magnify_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_magnify_minus_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_magnify_plus_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_map_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_merge_down_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_merge_up_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_minus_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_note_add_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_pencil_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_play_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_plus_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_plus_box_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_redo_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_refresh_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_repeat_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_settings_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_sort_variant_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_square_edit_outline_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_undo_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_vector_circle_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_vector_polygon_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_vector_square_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_window_maximize_black_24dp.png" />
-    <Resource Include="Resources\Icons\ic_window_open_black_24dp.png" />
+    <Page Include="Resources\Icons\Icons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

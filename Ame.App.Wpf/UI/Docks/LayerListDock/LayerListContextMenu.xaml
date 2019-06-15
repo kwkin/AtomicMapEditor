@@ -9,13 +9,21 @@
         <MenuItem Header="Edit Properties..."
                   Command="{Binding EditPropertiesCommand, Mode=OneWay}">
             <MenuItem.Icon>
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_square_edit_outline_black_24dp.png" />
+                <Viewbox>
+                    <ContentControl Content="{StaticResource ic_EditSquare}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                </Viewbox>
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Edit Collisions..."
                   Command="{Binding EditCollisionsCommand, Mode=OneWay}">
             <MenuItem.Icon>
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_crop_black_24dp.png" />
+                <Viewbox>
+                    <ContentControl Content="{StaticResource ic_Crop}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                </Viewbox>
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Show Layer"
@@ -29,14 +37,22 @@
         <MenuItem Header="Layer to Map Size"
                   Command="{Binding LayerToMapSizeCommand, Mode=OneWay}">
             <MenuItem.Icon>
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_arrow_expand_all_black_24dp.png" />
+                <Viewbox>
+                    <ContentControl Content="{StaticResource ic_ExpandAll}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                </Viewbox>
             </MenuItem.Icon>
         </MenuItem>
         <Separator />
         <MenuItem Header="Merge Down"
                   Command="{Binding MergeLayerDownCommand }">
             <MenuItem.Icon>
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_merge_down_black_24dp.png" />
+                <Viewbox>
+                    <ContentControl Content="{StaticResource ic_MergeDown}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                </Viewbox>
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Move Up"
@@ -48,7 +64,11 @@
         <MenuItem Header="Move Down"
                   Command="{Binding MoveLayerDownCommand, Mode=OneWay}">
             <MenuItem.Icon>
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_arrow_down_black_24dp.png" />
+                <Viewbox>
+                    <ContentControl Content="{StaticResource ic_ArrowDown}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                </Viewbox>
             </MenuItem.Icon>
         </MenuItem>
     </x:Array>
@@ -59,25 +79,41 @@
         <MenuItem Header="New Layer..."
                   Command="{Binding NewLayerCommand, Mode=OneWay}">
             <MenuItem.Icon>
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_plus_box_black_24dp.png" />
+                <Viewbox>
+                    <ContentControl Content="{StaticResource ic_AddBox}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                </Viewbox>
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="New Group"
                   Command="{Binding NewLayerGroupCommand, Mode=OneWay}">
             <MenuItem.Icon>
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_folder_plus_black_24dp.png" />
+                <Viewbox>
+                    <ContentControl Content="{StaticResource ic_AddFolder}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                </Viewbox>
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Duplicate Layer"
                   Command="{Binding DuplicateLayerCommand, Mode=OneWay}">
             <MenuItem.Icon>
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_content_copy_black_24dp.png" />
+                <Viewbox>
+                    <ContentControl Content="{StaticResource ic_ContentCopy}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                </Viewbox>
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Delete Layer"
                   Command="{Binding RemoveLayerCommand, Mode=OneWay}">
             <MenuItem.Icon>
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_delete_black_24dp.png" />
+                <Viewbox>
+                    <ContentControl Content="{StaticResource ic_Delete}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
+                </Viewbox>
             </MenuItem.Icon>
         </MenuItem>
     </x:Array>

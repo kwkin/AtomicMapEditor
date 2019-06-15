@@ -22,10 +22,11 @@
         </Grid.RowDefinitions>
 
         <!-- Brush Type -->
-        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_add_circle_black_24dp.png"
-               Grid.Row="0"
-               Grid.Column="0"
-               Stretch="None" />
+        <ContentControl Content="{StaticResource ic_AddCircle}"
+                Grid.Row="0"
+                Grid.Column="0"
+                Width="{StaticResource MidIconSize}"
+                Height="{StaticResource MidIconSize}"/>
 
         <ComboBox x:Name="brushTypeComboBox"
                   Grid.Row="0"

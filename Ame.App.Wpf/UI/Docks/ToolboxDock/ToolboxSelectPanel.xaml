@@ -32,20 +32,23 @@
             <Button x:Name="eraserButton"
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     ToolTip="Eraser: Erase tiles using the brush settings">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_eraser_black_24dp.png"
-                       Stretch="None" />
+                <ContentControl Content="{StaticResource ic_Eraser}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
             </Button>
             <Button x:Name="snapToGridButton"
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     ToolTip="Snap to Grid: Snaps the tile to the grid">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_grid_black_24dp.png"
-                       Stretch="None" />
+                <ContentControl Content="{StaticResource ic_GridOn}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
             </Button>
             <Button x:Name="editAllLayersButton"
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     ToolTip="Edit All Layers: Affect all visible layers">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_layers_black_24dp.png"
-                       Stretch="None" />
+                <ContentControl Content="{StaticResource ic_Layers}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
             </Button>
         </WrapPanel>
 
@@ -68,10 +71,11 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_add_circle_black_24dp.png"
-                   Grid.Row="0"
-                   Grid.Column="0"
-                   Stretch="None" />
+            <ContentControl Content="{StaticResource ic_AddCircle}"
+                Grid.Row="0"
+                Grid.Column="0"
+                Width="{StaticResource MidIconSize}"
+                Height="{StaticResource MidIconSize}"/>
 
             <ComboBox x:Name="brushTypeComboBox"
                       Grid.Row="0"
@@ -135,12 +139,15 @@
                       HorizontalAlignment="Left"
                       VerticalAlignment="Center"
                       Content="Dynamic Settings" />
-            <extcomp:IconToggleButton x:Name="brushDynamicOptionsToggle"
-                                      Grid.Row="4"
-                                      Grid.Column="5"
-                                      HorizontalAlignment="Right"
-                                      ImageSource="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_add_circle_black_24dp.png">
-            </extcomp:IconToggleButton>
+            <ToggleButton x:Name="brushDynamicOptionsToggle"
+                          Style="{StaticResource PrimaryMidIconToggleButtonStyle}"
+                          Grid.Row="4"
+                          Grid.Column="5"
+                          HorizontalAlignment="Right">
+                <ContentControl Content="{StaticResource ic_AddCircle}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
+            </ToggleButton>
         </Grid>
 
 

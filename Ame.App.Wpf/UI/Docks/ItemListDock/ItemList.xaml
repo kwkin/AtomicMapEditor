@@ -43,7 +43,9 @@
                     Grid.Column="0"
                     ToolTip="Add Tileset"
                     Command="{Binding AddTilesetCommand, Mode=OneWay}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_note_add_black_24dp.png" />
+                <ContentControl Content="{StaticResource ic_AddNote}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
             </Button>
 
             <Button x:Name="addImageButton"
@@ -51,28 +53,36 @@
                     Grid.Column="1"
                     ToolTip="Add Image"
                     Command="{Binding AddImageCommand, Mode=OneWay}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_image_black_24dp.png" />
+                <ContentControl Content="{StaticResource ic_AddImage}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
             </Button>
 
             <ToggleButton x:Name="showImagesToggleButton"
                           Style="{DynamicResource PrimaryMidIconToggleButtonStyle}"
                           Grid.Column="2"
                           ToolTip="Edit Collisions">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_eye_black_24dp.png" />
+                <ContentControl Content="{StaticResource ic_VisibilityOn}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
             </ToggleButton>
 
             <ToggleButton x:Name="showTilesetsToggleButton"
                           Style="{DynamicResource PrimaryMidIconToggleButtonStyle}"
                           Grid.Column="3"
                           ToolTip="Crop">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_grid_black_24dp.png" />
+                <ContentControl Content="{StaticResource ic_GridOn}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
             </ToggleButton>
 
             <Button x:Name="viewPropertiesButton"
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     Grid.Column="4"
                     ToolTip="Edit Properties">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_eye_black_24dp.png" />
+                <ContentControl Content="{StaticResource ic_VisibilityOn}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
             </Button>
 
             <TextBox x:Name="itemListComboBox"
@@ -83,7 +93,9 @@
             <Button x:Name="deleteItemButton"
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     Grid.Column="6">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_add_circle_black_24dp.png" />
+                <ContentControl Content="{StaticResource ic_AddCircle}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
             </Button>
         </Grid>
 

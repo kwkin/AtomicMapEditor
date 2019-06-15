@@ -21,7 +21,11 @@
                   InputGestureText="Ctrl++"
                   Command="{Binding ZoomInCommand, Mode=OneWay}">
             <MenuItem.Icon>
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_magnify_plus_black_24dp.png" />
+                <Viewbox>
+                    <ContentControl Content="{StaticResource ic_ZoomIn}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                </Viewbox>
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem x:Name="zoomOutMenuItem"
@@ -29,12 +33,20 @@
                   InputGestureText="Ctrl+-"
                   Command="{Binding ZoomOutCommand, Mode=OneWay}">
             <MenuItem.Icon>
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_magnify_minus_black_24dp.png" />
+                <Viewbox>
+                    <ContentControl Content="{StaticResource ic_ZoomOut}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                </Viewbox>
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Set Zoom">
             <MenuItem.Icon>
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_magnify_black_24dp.png" />
+                <Viewbox>
+                    <ContentControl Content="{StaticResource ic_Zoom}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                </Viewbox>
             </MenuItem.Icon>
             <MenuItem x:Name="setZoom3200"
                       Header="32:1 (3200%)"

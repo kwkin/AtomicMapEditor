@@ -27,24 +27,27 @@
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     ToolTip="Add Property: Add a custom property."
                     Command="{Binding AddCustomMetaDataCommand, Mode=OneWay}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_add_circle_black_24dp.png"
-                       Stretch="None" />
+                <ContentControl Content="{StaticResource ic_AddCircle}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
             </Button>
 
             <Button x:Name="moveUpButton"
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     ToolTip="Merge Up: Moves the property up in the list."
                     Command="{Binding MoveMetadataUpCommand, Mode=OneWay}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_arrow_up_black_24dp.png"
-                       Stretch="None" />
+                <ContentControl Content="{StaticResource ic_ArrowUp}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
             </Button>
 
             <Button x:Name="moveDownButton"
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     ToolTip="Move Down: Moves the property down in the list."
                     Command="{Binding MoveMetadataDownCommand, Mode=OneWay}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_arrow_down_black_24dp.png"
-                       Stretch="None" />
+                <ContentControl Content="{StaticResource ic_ArrowDown}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
             </Button>
 
             <Button x:Name="deleteButton"
@@ -52,8 +55,9 @@
                     ToolTip="Delete: Deletes the selected custom property."
                     Command="{Binding RemoveCustomMetadataCommand}"
                     IsEnabled="{Binding IsCustomSelected}">
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_add_circle_black_24dp.png"
-                       Stretch="None" />
+                <ContentControl Content="{StaticResource ic_AddCircle}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
             </Button>
         </WrapPanel>
 

@@ -13,6 +13,9 @@
                 <ResourceDictionary Source="pack://application:,,,/Wpf.Themes.Material;component/Styles/Core/Fonts.xaml" />
                 <!--<ResourceDictionary Source="pack://application:,,,/Wpf.Themes.Material;component/Styles/Core/LightPalette.xaml" />-->
                 <ResourceDictionary Source="pack://application:,,,/Wpf.Themes.Material;component/Styles/Core/LightPalette2.xaml" />
+
+                <ResourceDictionary x:Name="IconsDictionary" 
+                                    Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/Icons.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

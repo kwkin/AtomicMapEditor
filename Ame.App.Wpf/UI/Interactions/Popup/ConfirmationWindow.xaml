@@ -28,13 +28,10 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Image Grid.Column="0"
-                   Width="36"
-                   Height="36"
-                   Margin="32 0 8 0"
-                   Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/baseline_warning_black_18dp.png"
-                   Stretch="Fill">
-            </Image>
+            <ContentControl Grid.Column="0"
+                            Width="36"
+                            Height="36"
+                            Content="{StaticResource ic_Warning}" />
 
             <TextBlock Grid.Column="1"
                        Text="{Binding Content}"

@@ -92,7 +92,7 @@
                     Content="Browse..."
                     Grid.Row="0"
                     Grid.Column="1"
-                    MinHeight="24"
+                    MinHeight="{StaticResource MidIconSize}"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Center"
                     Command="{Binding BrowseSourceCommand}"
@@ -129,8 +129,9 @@
                       ToolTip="Select a transparency color"
                       IsChecked="{Binding IsSelectingTransparency}"
                       Visibility="{Binding IsChecked, ElementName=UseTransparentColorPicker, Converter={StaticResource BooleanToVisibleConverter}}">
-            <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_eyedropper_variant_black_24dp.png"
-                   Stretch="None" />
+            <ContentControl Content="{StaticResource ic_Picker}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
         </ToggleButton>
         <xctk:ColorPicker x:Name="transparencyColorPicker"
                           SelectedColor="{Binding TransparentColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"

@@ -29,19 +29,31 @@
                           InputGestureText="Ctrl+N"
                           Command="{Binding NewFileCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_file_document_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_Project}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Open..."
                           InputGestureText="Ctrl+O"
                           Command="{Binding OpenFileCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_folder_open_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_FolderOpen}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Open Recent">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_folder_outline_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_Open}"
+                                            Width="{StaticResource MidIconSize}"
+                                            Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                     <MenuItem.ItemsSource>
                         <CompositeCollection>
@@ -54,14 +66,22 @@
                           InputGestureText="Ctrl+S"
                           Command="{Binding SaveFileCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_content_save_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_Save}"
+                                            Width="{StaticResource MidIconSize}"
+                                            Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Save As..."
                           InputGestureText="Ctrl+Shift+S"
                           Command="{Binding SaveAsFileCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_content_save_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_Save}"
+                                            Width="{StaticResource MidIconSize}"
+                                            Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
@@ -69,28 +89,44 @@
                           InputGestureText="Ctrl+E"
                           Command="{Binding ExportFileCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_export_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_Export}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Export As..."
                           InputGestureText="Ctrl+Shift+E"
                           Command="{Binding ExportAsFileCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_export_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_Export}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
                 <MenuItem Header="Import..."
                           Command="{Binding ImportFileCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_import_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_Import}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
                 <MenuItem Header="Properties"
                           Command="{Binding ViewFilePropertiesCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_eye_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_VisibilityOn}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
@@ -98,43 +134,68 @@
                           InputGestureText="Ctrl+W"
                           Command="{Binding CloseFileCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_close_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_Close}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Close All"
                           InputGestureText="Ctrl+Shift+W"
                           Command="{Binding CloseAllFilesCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_close_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_Close}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="ExitProgram"
                           InputGestureText="Alt+F4"
                           Command="{Binding ExitProgramCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_exit_to_app_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_ExitApp}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
 
+            <!-- Bind enabled based upon events in the undo and redo queue -->
             <MenuItem Header="Edit">
                 <MenuItem Header="Undo"
                           InputGestureText="Ctrl+Z"
                           Command="{Binding UndoCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_undo_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_Undo}"
+                                            Width="{StaticResource MidIconSize}"
+                                            Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Redo"
                           InputGestureText="Ctrl+Y"
                           Command="{Binding RedoCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_redo_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_Redo}"
+                                            Width="{StaticResource MidIconSize}"
+                                            Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Open History...">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_history_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_History}"
+                                            Width="{StaticResource MidIconSize}"
+                                            Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
@@ -142,34 +203,54 @@
                           InputGestureText="Ctrl+X"
                           Command="{Binding CutCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_content_cut_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_ContentCut}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Copy"
                           InputGestureText="Ctrl+C"
                           Command="{Binding CopyCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_content_copy_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_ContentCopy}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Paste"
                           InputGestureText="Ctrl+P"
                           Command="{Binding PasteCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_content_paste_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_ContentPaste}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Open Clipboard..."
                           Command="{Binding OpenClipboardCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_clipboard_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_Clipboard}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
                 <MenuItem Header="Preferences..."
                           Command="{Binding OpenPreferencesCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_settings_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_Settings}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
@@ -179,40 +260,64 @@
                           InputGestureText="Ctrl+N"
                           Command="{Binding NewMapCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_map_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_Map}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Duplicate"
                           InputGestureText="Ctrl+D"
                           Command="{Binding DuplicateMapCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_content_copy_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_ContentCopy}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Transform">
                     <MenuItem Header="Flip Horizontally"
                               Command="{Binding FlipMapHorizontallyCommand, Mode=OneWay}">
                         <MenuItem.Icon>
-                            <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_arrow_expand_horizontal_black_24dp.png" />
+                            <Viewbox>
+                                <ContentControl Content="{StaticResource ic_FlipHorizontal}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                            </Viewbox>
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="Flip Vertically"
                               Command="{Binding FlipMapVerticallyCommand, Mode=OneWay}">
                         <MenuItem.Icon>
-                            <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_arrow_expand_vertical_black_24dp.png" />
+                            <Viewbox>
+                                <ContentControl Content="{StaticResource ic_FlipVertical}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                            </Viewbox>
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="Guillotine"
                               Command="{Binding GuillotineMapCommand, Mode=OneWay}">
                         <MenuItem.Icon>
-                            <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_call_split_black_24dp.png" />
+                            <Viewbox>
+                                <ContentControl Content="{StaticResource ic_Split}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                            </Viewbox>
                         </MenuItem.Icon>
                     </MenuItem>
                 </MenuItem>
                 <MenuItem Header="Edit Properties..."
                           Command="{Binding EditMapPropertiesCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_eye_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_VisibilityOn}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
@@ -222,58 +327,94 @@
                           InputGestureText="Ctrl+Shift+N"
                           Command="{Binding NewLayerCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_plus_box_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_AddBox}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="New Group"
                           Command="{Binding NewGroupCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_folder_plus_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_AddFolder}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Duplicate Layer"
                           InputGestureText="Ctrl+Shift+D"
                           Command="{Binding DuplicateLayerCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_content_copy_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_ContentCopy}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Merge Down"
                           Command="{Binding MergeLayerDownCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_merge_down_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_MergeDown}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Merge Up"
                           Command="{Binding MergeLayerUpCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_merge_up_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_MergeUp}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Merge Visible"
                           InputGestureText="Ctrl+M"
                           Command="{Binding MergeVisibleCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_arrow_collapse_vertical_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_MergeVisible}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Delete Layer"
                           Command="{Binding DeleteLayerCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_delete_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_Delete}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
                 <MenuItem Header="Edit Properties..."
                           Command="{Binding EditLayerPropertiesCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_eye_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_VisibilityOn}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Layer To Map"
                           Command="{Binding LayerToMapCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_arrow_expand_all_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_ExpandAll}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
@@ -282,32 +423,52 @@
                 <MenuItem Header="Add Tileset..."
                           Command="{Binding AddTilesetCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_note_add_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_AddNote}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Add Image..."
                           Command="{Binding AddImageCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_image_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_AddImage}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Add Group..."
                           Command="{Binding AddGroupCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_folder_plus_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_AddFolder}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
                 <MenuItem Header="Edit Item Properties"
                           Command="{Binding EditItemPropertiesCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_eye_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_VisibilityOn}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Edit Item Collisions"
                           Command="{Binding EditItemCollisionsCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_eye_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_VisibilityOn}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
@@ -317,13 +478,21 @@
                           InputGestureText="Ctrl+F9"
                           Command="{Binding SampleViewCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_play_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_Play}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="View Collisions"
                           Command="{Binding CollisionsViewCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_collisions_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_Collisions}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
@@ -331,20 +500,32 @@
                           InputGestureText="Ctrl++"
                           Command="{Binding ZoomInCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_magnify_plus_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_ZoomIn}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Zoom Out"
                           InputGestureText="Ctrl+-"
                           Command="{Binding ZoomOutCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_magnify_minus_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_ZoomOut}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Zoom Tool"
                           Command="{Binding ZoomToolCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_magnify_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_Zoom}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
@@ -352,12 +533,20 @@
                           InputGestureText="Ctrl+J"
                           Command="{Binding FitMapToWindowCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_arrow_expand_all_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_ExpandAll}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="SetZoom">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_magnify_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_Zoom}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                     <MenuItem Header="32:1 (3200%)"
                               InputGestureText="1"
@@ -409,7 +598,11 @@
                 <Separator />
                 <MenuItem Header="Preset">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_window_open_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_WindowOpen}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                     <MenuItem Header="Layer+Tile+Minimap"
                               Command="{Binding DockPresetViewCommand, Mode=OneWay}">
@@ -436,7 +629,11 @@
             <MenuItem Header="Window">
                 <MenuItem Header="Recently Closed">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_close_box_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_CloseBox}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                     <MenuItem.ItemsSource>
                         <CompositeCollection>
@@ -490,13 +687,21 @@
                 <MenuItem Header="Hide Docks"
                           Command="{Binding HideDocksCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_eye_off_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_VisibilityOff}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Single Window"
                           Command="{Binding SingleWindowCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_window_maximize_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_Application}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
@@ -505,13 +710,21 @@
                 <MenuItem Header="Help"
                           Command="{Binding HelpCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_help_circle_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_Help}"
+                                            Width="{StaticResource MidIconSize}"
+                                            Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="About"
                           Command="{Binding AboutCommand, Mode=OneWay}">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_help_circle_black_24dp.png" />
+                        <Viewbox>
+                            <ContentControl Content="{StaticResource ic_Help}"
+                                            Width="{StaticResource MidIconSize}"
+                                            Height="{StaticResource MidIconSize}"/>
+                        </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>

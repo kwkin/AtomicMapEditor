@@ -67,8 +67,9 @@
                       IsChecked="{Binding IsSelectingTransparency}"
                       IsEnabled="{Binding IsChecked, ElementName=UseTransparentColorPicker}"
                       Margin="0 0 5 10">
-            <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_eyedropper_variant_black_24dp.png"
-                   Stretch="None" />
+            <ContentControl Content="{StaticResource ic_Picker}"
+                                Width="{StaticResource MidIconSize}"
+                                Height="{StaticResource MidIconSize}"/>
         </ToggleButton>
         <xctk:ColorPicker x:Name="transparencyColorPicker"
                           SelectedColor="{Binding TilesetModel.TransparentColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -80,6 +81,7 @@
                           Margin="0 0 0 10">
         </xctk:ColorPicker>
 
+        
         <Label x:Name="widthLabel"
                Style="{StaticResource MainSmallLabelStyle}"
                Content="Width"
@@ -229,8 +231,9 @@
                       Grid.Row="5"
                       HorizontalAlignment="Left"
                       ToolTip="Delete Tileset">
-            <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_delete_black_24dp.png"
-                   Stretch="None" />
+            <ContentControl Content="{StaticResource ic_Delete}"
+                            Width="{StaticResource MidIconSize}"
+                            Height="{StaticResource MidIconSize}"/>
         </Button>
     </Grid>
 </UserControl>
