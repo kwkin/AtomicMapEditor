@@ -53,7 +53,7 @@ namespace Ame.Infrastructure.DrawingTools
             return;
         }
 
-        public void DrawHoverSample(DrawingGroup drawingArea, Point pixelPosition, Rect boundaries)
+        public void DrawHoverSample(DrawingGroup drawingArea, Point pixelPosition)
         {
             return;
         }

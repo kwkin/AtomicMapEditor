@@ -464,8 +464,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
                 return;
             }
             this.lastTilePoint = topLeftTilePixelPoint;
-            Rect boundaries = new Rect(new Point(0, 0), this.Map.PixelSize);
-            this.DrawingTool.DrawHoverSample(this.hoverSample, topLeftTilePixelPoint, boundaries);
+            this.DrawingTool.DrawHoverSample(this.hoverSample, topLeftTilePixelPoint);
         }
 
         private void redrawBackground()
