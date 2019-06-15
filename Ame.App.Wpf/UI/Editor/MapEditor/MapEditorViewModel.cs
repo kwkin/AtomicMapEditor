@@ -243,11 +243,18 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             }
             GeneralTransform selectToPixel = GeometryUtils.CreateTransform(this.imageTransform.pixelToSelect.Inverse);
             Point pixelPoint = selectToPixel.Transform(selectPoint);
-            Draw(pixelPoint);
+            DrawPressed(pixelPoint);
         }
 
         public void HandleLeftClickUp(Point selectPoint)
         {
+            if (this.brush == null)
+            {
+                return;
+            }
+            GeneralTransform selectToPixel = GeometryUtils.CreateTransform(this.imageTransform.pixelToSelect.Inverse);
+            Point pixelPoint = selectToPixel.Transform(selectPoint);
+            DrawReleased(pixelPoint);
         }
 
         public void HandleMouseMove(Point position)
@@ -265,6 +272,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
         {
             this.brush = brushModel;
             this.DrawingTool.Brush = this.brush;
+            this.DrawingTool.Transform = this.imageTransform;
         }
 
         public void DrawGrid()
@@ -416,14 +424,24 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             }
         }
 
-        private void Draw(Point point)
+        private void DrawPressed(Point point)
         {
             if (!ImageUtils.Intersects(this.DrawingCanvas, point))
             {
                 return;
             }
             Point topLeftTilePixelPoint = this.imageTransform.PixelToTopLeftTileEdge(point);
-            this.DrawingTool.Apply(this.Map, topLeftTilePixelPoint);
+            this.DrawingTool.DrawPressed(this.Map, topLeftTilePixelPoint);
+        }
+
+        private void DrawReleased(Point point)
+        {
+            if (!ImageUtils.Intersects(this.DrawingCanvas, point))
+            {
+                return;
+            }
+            Point topLeftTilePixelPoint = this.imageTransform.PixelToTopLeftTileEdge(point);
+            this.DrawingTool.DrawReleased(this.Map, topLeftTilePixelPoint);
         }
 
         private void DrawHover(Point point)

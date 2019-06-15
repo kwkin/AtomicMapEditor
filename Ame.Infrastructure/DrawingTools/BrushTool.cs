@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using Ame.Infrastructure.Models;
+using Ame.Infrastructure.Utils;
 
 namespace Ame.Infrastructure.DrawingTools
 {
@@ -34,6 +35,7 @@ namespace Ame.Infrastructure.DrawingTools
 
         public string ToolName { get; set; } = "Brush";
         public BrushModel Brush { get; set; }
+        public CoordinateTransform Transform { get; set; }
         public int radius { get; set; } = 5;
 
         #endregion properties
@@ -41,7 +43,7 @@ namespace Ame.Infrastructure.DrawingTools
 
         #region methods
 
-        public void Apply(Map map, Point pixelPosition)
+        public void DrawPressed(Map map, Point pixelPosition)
         {
             //Stack<ImageDrawing> tiles = new Stack<ImageDrawing>();
             //int x0 = (int)pixelPosition.X;
@@ -80,6 +82,11 @@ namespace Ame.Infrastructure.DrawingTools
             //Rect rect = new Rect(pixelPosition, this.Brush.TileSize);
             //BrushAction action = new BrushAction(this.ToolName, tiles);
             //map.Draw(action);
+        }
+
+        public void DrawReleased(Map map, Point pixelPosition)
+        {
+            return;
         }
 
         public void DrawHoverSample(DrawingGroup drawingArea, Point pixelPosition, Rect boundaries)

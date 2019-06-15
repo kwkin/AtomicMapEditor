@@ -6,12 +6,15 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using Ame.Infrastructure.Models;
+using Ame.Infrastructure.Utils;
 
 namespace Ame.Infrastructure.DrawingTools
 {
     public class StampTool : IDrawingTool, IEraserTool
     {
         #region fields
+
+        private Point pressPoint;
 
         #endregion fields
 
@@ -23,9 +26,10 @@ namespace Ame.Infrastructure.DrawingTools
 
         }
 
-        public StampTool(BrushModel brush)
+        public StampTool(BrushModel brush, CoordinateTransform transform)
         {
             this.Brush = brush;
+            this.Transform = transform;
         }
 
         #endregion constructor
@@ -35,6 +39,7 @@ namespace Ame.Infrastructure.DrawingTools
 
         public string ToolName { get; set; } = "Stamp";
         public BrushModel Brush { get; set; }
+        public CoordinateTransform Transform { get; set; }
         public bool IsErasing { get; set; }
 
         #endregion properties
@@ -42,33 +47,62 @@ namespace Ame.Infrastructure.DrawingTools
 
         #region methods
 
-        public void Apply(Map map, Point pixelPosition)
+        public void DrawPressed(Map map, Point pixelPosition)
         {
-            if (this.IsErasing)
-            {
-                Erase(map, pixelPosition);
-            }
-            else
-            {
-                Stack<Tile> tiles = new Stack<Tile>();
+            // TODO add erase function
+            this.pressPoint = pixelPosition;
+        }
 
-                foreach (Tile drawing in this.Brush.Tiles)
+        public void DrawReleased(Map map, Point pixelPosition)
+        {
+            Stack<Tile> tiles = new Stack<Tile>();
+
+            Point startTile = this.Transform.pixelToTile.Transform(this.pressPoint);
+            Point stopTile = this.Transform.pixelToTile.Transform(pixelPosition);
+            Vector tileDifference = startTile - stopTile;
+            int horizontalCount = Math.Abs((int)tileDifference.X) + 1;
+            int verticalCount = Math.Abs((int)tileDifference.Y) + 1;
+
+            for (int hIndex = 0; hIndex < horizontalCount; ++hIndex)
+            {
+                for (int vIndex = 0; vIndex < verticalCount; ++vIndex)
                 {
+                    int hTile = hIndex % this.Brush.Columns();
+                    int vTile = vIndex % this.Brush.Rows();
+                    int tileIndex = vTile * this.Brush.Columns() + hTile;
+                    Tile drawing = this.Brush.Tiles[tileIndex];
+
                     ImageDrawing adjustedDrawing = new ImageDrawing();
                     adjustedDrawing.ImageSource = drawing.Image.ImageSource;
-                    // Check if Rect can be replaced with bounds
-                    Point adjustedPoint = new Point(pixelPosition.X + drawing.Image.Rect.X, pixelPosition.Y + drawing.Image.Rect.Y);
+                    // TODO Check if Rect can be replaced with bounds
+                    Point affectedPoint = startTile + new Vector(hIndex, vIndex);
+                    Point affectedPixelPoint = this.Transform.pixelToTile.Inverse.Transform(affectedPoint);
+
+                    Point adjustedPoint = new Point(affectedPixelPoint.X, affectedPixelPoint.Y);
                     Rect adjustedRect = new Rect(adjustedPoint, this.Brush.TileSize);
                     adjustedDrawing.Rect = adjustedRect;
 
                     Tile adjustedTile = new Tile(adjustedDrawing, drawing.TilesetID, drawing.TileID);
                     tiles.Push(adjustedTile);
                 }
-                DrawAction action = new DrawAction(this.ToolName, tiles);
-                map.Draw(action);
             }
+
+            //foreach (Tile drawing in this.Brush.Tiles)
+            //{
+            //    ImageDrawing adjustedDrawing = new ImageDrawing();
+            //    adjustedDrawing.ImageSource = drawing.Image.ImageSource;
+            //    // Check if Rect can be replaced with bounds
+            //    Point adjustedPoint = new Point(pixelPosition.X + drawing.Image.Rect.X, pixelPosition.Y + drawing.Image.Rect.Y);
+            //    Rect adjustedRect = new Rect(adjustedPoint, this.Brush.TileSize);
+            //    adjustedDrawing.Rect = adjustedRect;
+
+            //    Tile adjustedTile = new Tile(adjustedDrawing, drawing.TilesetID, drawing.TileID);
+            //    tiles.Push(adjustedTile);
+            //}
+            DrawAction action = new DrawAction(this.ToolName, tiles);
+            map.Draw(action);
         }
-        
+
         public void Erase(Map map, Point pixelPosition)
         {
             Stack<Tile> tiles = new Stack<Tile>();

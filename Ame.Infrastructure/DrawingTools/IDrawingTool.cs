@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using Ame.Infrastructure.Models;
+using Ame.Infrastructure.Utils;
 
 namespace Ame.Infrastructure.DrawingTools
 {
@@ -15,16 +16,16 @@ namespace Ame.Infrastructure.DrawingTools
 
         string ToolName { get; set; }
         BrushModel Brush { get; set; }
+        CoordinateTransform Transform { get; set; }
 
         #endregion properties
 
 
         #region methods
 
-        void Apply(Map map, Point pixelPosition);
-
+        void DrawPressed(Map map, Point pixelPosition);
+        void DrawReleased(Map map, Point pixelPosition);
         void DrawHoverSample(DrawingGroup drawingArea, Point pixelPosition, Rect boundaries);
-
         bool HasHoverSample();
 
         #endregion methods
