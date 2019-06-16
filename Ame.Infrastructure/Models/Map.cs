@@ -432,12 +432,6 @@ namespace Ame.Infrastructure.Models
             this.LayerList.Add(copiedLayer);
         }
 
-        private int GetLayerGroupCount()
-        {
-            IEnumerable<LayerGroup> groups = this.LayerList.OfType<LayerGroup>();
-            return groups.Count<LayerGroup>();
-        }
-
         public void Draw(DrawAction action)
         {
             DrawAction undoAction = applyAction(action);
@@ -548,7 +542,7 @@ namespace Ame.Infrastructure.Models
             }
         }
 
-        public int GetTotalLayerCount()
+        public int GetLayerCount()
         {
             int totalLayers = 0;
             IEnumerable<ILayer> layers = this.LayerList.Where(layer => typeof(Layer).IsInstanceOfType(layer));
@@ -557,9 +551,22 @@ namespace Ame.Infrastructure.Models
             IEnumerable<ILayer> groups = this.LayerList.Where(layer => typeof(LayerGroup).IsInstanceOfType(layer));
             foreach (LayerGroup group in groups)
             {
-                totalLayers += group.GetChildLayerCount();
+                totalLayers += group.GetLayerCount();
             }
             return totalLayers;
+        }
+
+        public int GetLayerGroupCount()
+        {
+            int totalGroups = 0;;
+
+            IEnumerable<ILayer> groups = this.LayerList.Where(layer => typeof(LayerGroup).IsInstanceOfType(layer));
+            totalGroups += groups.Count();
+            foreach (LayerGroup group in groups)
+            {
+                totalGroups += group.GetLayerCount();
+            }
+            return totalGroups;
         }
 
         #endregion methods

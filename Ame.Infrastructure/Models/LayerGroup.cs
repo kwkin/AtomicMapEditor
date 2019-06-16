@@ -94,7 +94,7 @@ namespace Ame.Infrastructure.Models
             layer.Parent = this;
         }
 
-        public int GetChildLayerCount()
+        public int GetLayerCount()
         {
             int totalLayers = 0;
             IEnumerable<ILayer> layers = this.Layers.Where(layer => typeof(Layer).IsInstanceOfType(layer));
@@ -103,9 +103,22 @@ namespace Ame.Infrastructure.Models
             IEnumerable<ILayer> groups = this.Layers.Where(layer => typeof(LayerGroup).IsInstanceOfType(layer));
             foreach (LayerGroup group in groups)
             {
-                totalLayers += group.GetChildLayerCount();
+                totalLayers += group.GetLayerCount();
             }
             return totalLayers;
+        }
+
+        public int GetLayerGroupCount()
+        {
+            int totalGroups = 0;
+
+            IEnumerable<ILayer> groups = this.Layers.Where(layer => typeof(LayerGroup).IsInstanceOfType(layer));
+            totalGroups += groups.Count();
+            foreach (LayerGroup group in groups)
+            {
+                totalGroups += group.GetLayerGroupCount();
+            }
+            return totalGroups;
         }
 
         private void LayersChanged(object sender, NotifyCollectionChangedEventArgs e)
