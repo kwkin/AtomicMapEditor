@@ -109,7 +109,7 @@ namespace Ame.Infrastructure.Models
                 }
                 foreach (Layer.LayerJson layer in this.LayerList)
                 {
-                    map.LayerList.Add(layer.Generate(map.TilesetList));
+                    map.LayerList.Add(layer.Generate(map));
                 }
                 return map;
             }
@@ -151,7 +151,7 @@ namespace Ame.Infrastructure.Models
             this.LayerList = new ObservableCollection<ILayer>();
             this.TilesetList = new ObservableCollection<TilesetModel>();
 
-            Layer initialLayer = new Layer("Layer #0", this.TileWidth, this.TileHeight, this.Rows, this.Columns);
+            Layer initialLayer = new Layer(this, "Layer #0", this.TileWidth, this.TileHeight, this.Rows, this.Columns);
             this.LayerList.Add(initialLayer);
 
             this.UndoQueue = new Stack<DrawAction>();
@@ -171,7 +171,7 @@ namespace Ame.Infrastructure.Models
             this.LayerList = new ObservableCollection<ILayer>();
             this.TilesetList = new ObservableCollection<TilesetModel>();
 
-            Layer initialLayer = new Layer("Layer #0", this.TileWidth, this.TileHeight, this.Rows, this.Columns);
+            Layer initialLayer = new Layer(this, "Layer #0", this.TileWidth, this.TileHeight, this.Rows, this.Columns);
             this.LayerList.Add(initialLayer);
 
             this.UndoQueue = new Stack<DrawAction>();

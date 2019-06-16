@@ -59,6 +59,7 @@ namespace Ame.Infrastructure.Models
                 this.Group = value;
             }
         }
+        public LayerGroup Parent { get; set; }
 
         #endregion properties
 
@@ -85,6 +86,12 @@ namespace Ame.Infrastructure.Models
                 pixelHeight = Math.Max(pixelHeight, layer.GetPixelHeight());
             }
             return pixelHeight;
+        }
+
+        public void AddWith(ILayer layer)
+        {
+            this.Layers.Add(layer);
+            layer.Parent = this;
         }
 
         private void LayersChanged(object sender, NotifyCollectionChangedEventArgs e)

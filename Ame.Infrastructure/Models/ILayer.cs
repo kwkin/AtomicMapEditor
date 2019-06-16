@@ -21,6 +21,7 @@ namespace Ame.Infrastructure.Models
         bool IsImmutable { get; set; }
         bool IsVisible { get; set; }
         DrawingGroup Group { get; set; }
+        LayerGroup Parent { get; set; }
 
         #endregion properties
 
@@ -30,6 +31,8 @@ namespace Ame.Infrastructure.Models
         int GetPixelWidth();
 
         int GetPixelHeight();
+
+        void AddWith(ILayer layer);
 
         #endregion methods
     }

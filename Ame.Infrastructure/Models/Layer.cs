@@ -89,9 +89,10 @@ namespace Ame.Infrastructure.Models
                 throw new NotImplementedException();
             }
 
-            public Layer Generate(ObservableCollection<TilesetModel> tilesetList)
+            public Layer Generate(Map map)
             {
-                Layer layer = new Layer();
+                ObservableCollection<TilesetModel> tilesetList = map.TilesetList;
+                Layer layer = new Layer(map);
                 layer.ID = this.ID;
                 layer.Name = this.Name;
                 layer.Columns = this.Columns;
@@ -118,8 +119,10 @@ namespace Ame.Infrastructure.Models
 
         #region constructor
 
-        public Layer()
+        public Layer(Map map)
         {
+            this.Map = map;
+
             this.Name = "";
             this.TileWidth = 32;
             this.TileHeight = 32;
@@ -131,8 +134,10 @@ namespace Ame.Infrastructure.Models
             this.TileIDs = this.TileIDs ?? new TileCollection(this);
         }
 
-        public Layer(int tileWidth, int tileHeight, int rows, int columns)
+        public Layer(Map map, int tileWidth, int tileHeight, int rows, int columns)
         {
+            this.Map = map;
+
             this.Name = "";
             this.TileWidth = tileWidth;
             this.TileHeight = tileHeight;
@@ -144,8 +149,10 @@ namespace Ame.Infrastructure.Models
             this.TileIDs = this.TileIDs ?? new TileCollection(this);
         }
 
-        public Layer(string layerName, int tileWidth, int tileHeight, int rows, int columns)
+        public Layer(Map map, string layerName, int tileWidth, int tileHeight, int rows, int columns)
         {
+            this.Map = map;
+
             this.Name = layerName;
             this.TileWidth = tileWidth;
             this.TileHeight = tileHeight;
@@ -268,6 +275,10 @@ namespace Ame.Infrastructure.Models
         
         public TileCollection TileIDs { get; set; }
 
+        public LayerGroup Parent { get; set; }
+
+        public Map Map { get; set; }
+
         #endregion properties
 
 
@@ -293,6 +304,19 @@ namespace Ame.Infrastructure.Models
             int pointX = (id % this.Columns) * this.TileWidth;
             int pointY = (int)Math.Floor((double)(id / this.Rows)) * this.TileHeight;
             return new Point(pointX, pointY);
+        }
+
+        public void AddWith(ILayer layer)
+        {
+            if (this.Parent == null)
+            {
+                // TODO change to insert
+                this.Map.LayerList.Add(layer);
+            }
+            else
+            {
+                this.Parent.AddWith(layer);
+            }
         }
 
         #endregion methods

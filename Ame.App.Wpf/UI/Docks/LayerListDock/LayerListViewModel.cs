@@ -36,31 +36,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
             this.Title = "Layer List";
             this.LayerList = new ObservableCollection<ILayerListEntryViewModel>();
-
-            //Layer layer1a = new Layer("Layer 1a", 32, 32, 32, 32);
-            //this.LayerList.Add(new LayerListLayerViewModel(this.eventAggregator, layer1a));
-            //Layer layer1b = new Layer("Layer 1b", 32, 32, 32, 32);
-            //this.LayerList.Add(new LayerListLayerViewModel(this.eventAggregator, layer1b));
-
-            //LayerGroup layer1c = new LayerGroup("Layer 1c");
-            //LayerListGroupViewModel group1c = new LayerListGroupViewModel(this.eventAggregator, layer1c);
-            //this.LayerList.Add(group1c);
-            //Layer layer2a = new Layer("Layer 2a", 32, 32, 32, 32);
-            //group1c.LayerList.Add(new LayerListLayerViewModel(this.eventAggregator, layer2a));
-            //Layer layer2b = new Layer("Layer 2b", 32, 32, 32, 32);
-            //group1c.LayerList.Add(new LayerListLayerViewModel(this.eventAggregator, layer2b));
-
-            //LayerGroup layer2c = new LayerGroup("Layer 2c");
-            //LayerListGroupViewModel group2c = new LayerListGroupViewModel(this.eventAggregator, layer2c);
-            //group1c.LayerList.Add(group2c);
-            //Layer layer3a = new Layer("Layer 3a", 32, 32, 32, 32);
-            //group2c.LayerList.Add(new LayerListLayerViewModel(this.eventAggregator, layer3a));
-            //Layer layer3b = new Layer("Layer 3b", 32, 32, 32, 32);
-            //group2c.LayerList.Add(new LayerListLayerViewModel(this.eventAggregator, layer3b));
-
-            //Layer layer1d = new Layer("Layer 1d", 32, 32, 32, 32);
-            //this.LayerList.Add(new LayerListLayerViewModel(this.eventAggregator, layer1d));
-
+            
             this.Session.PropertyChanged += SessionUpdated;
 
             this.NewLayerCommand = new DelegateCommand(() => NewTilesetLayer());
@@ -72,7 +48,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             this.EditPropertiesCommand = new DelegateCommand(() => EditProperties());
             this.EditCollisionsCommand = new DelegateCommand(() => EditCollisions());
             this.LayerToMapSizeCommand = new DelegateCommand(() => LayerToMapSize());
-            this.CurrentLayerChangedCommand = new DelegateCommand<object>((entry) => CurrentLayerChanged(entry as LayerListLayerViewModel));
+            this.CurrentLayerChangedCommand = new DelegateCommand<object>((entry) => CurrentLayerChanged(entry as ILayerListEntryViewModel));
 
             this.eventAggregator.GetEvent<NewLayerEvent>().Subscribe(AddTilesetLayerMessage);
         }
@@ -178,11 +154,11 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             Console.WriteLine("Layer To Map Size");
         }
 
-        public void CurrentLayerChanged(LayerListLayerViewModel layerEntry)
+        public void CurrentLayerChanged(ILayerListEntryViewModel layerEntry)
         {
             if (layerEntry != null)
             {
-                this.Session.CurrentLayer = layerEntry.layer;
+                this.Session.CurrentLayer = layerEntry.Layer;
             }
         }
 
@@ -216,7 +192,8 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                 case NotifyCollectionChangedAction.Add:
                     foreach(ILayer layer in e.NewItems)
                     {
-                        this.LayerList.Add(new LayerListLayerViewModel(this.eventAggregator, layer));
+                        ILayerListEntryViewModel entry = LayerListEntryGenerator.Generate(this.eventAggregator, layer);
+                        this.LayerList.Add(entry);
                     }
                     break;
                 case NotifyCollectionChangedAction.Remove:
@@ -242,21 +219,6 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                 default:
                     break;
             }
-        }
-
-        // TODO move this to another class
-        private ILayerListEntryViewModel GenerateEntryViewModel(ILayer layer)
-        {
-            ILayerListEntryViewModel entry = null;
-            if (typeof(Layer).IsInstanceOfType(entry))
-            {
-                entry = new LayerListLayerViewModel(this.eventAggregator, layer);
-            }
-            else if (typeof(LayerGroup).IsInstanceOfType(entry))
-            {
-                entry = new LayerListGroupViewModel(this.eventAggregator, layer);
-            }
-            return entry;
         }
 
         private int GetLayerGroupCount()

@@ -4,6 +4,7 @@ using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,12 +24,14 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         #region constructor
 
-        public LayerListGroupViewModel(IEventAggregator eventAggregator, ILayer layer)
+        public LayerListGroupViewModel(IEventAggregator eventAggregator, LayerGroup layer)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
-            this.Layer = layer ?? throw new ArgumentNullException("layer");
+            this.layer = layer ?? throw new ArgumentNullException("layer");
 
             this.LayerList = new ObservableCollection<ILayerListEntryViewModel>();
+
+            this.layer.Layers.CollectionChanged += LayersChanged;
 
             DrawingGroup drawingGroup = new DrawingGroup();
             DrawingGroup filled = new DrawingGroup();
@@ -47,7 +50,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         #region properties
 
-        public ILayer layer;
+        public LayerGroup layer;
         public ILayer Layer
         {
             get
@@ -56,7 +59,10 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             }
             set
             {
-                this.layer = value;
+                if (typeof(LayerGroup).IsInstanceOfType(value))
+                {
+                    this.layer = value as LayerGroup;
+                }
             }
         }
 
@@ -75,6 +81,42 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
 
         #region methods
+
+        private void LayersChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch(e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    foreach (ILayer layer in e.NewItems)
+                    {
+                        ILayerListEntryViewModel entry = LayerListEntryGenerator.Generate(this.eventAggregator, layer);
+                        this.LayerList.Add(entry);
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    foreach (ILayer layer in e.OldItems)
+                    {
+                        IEnumerable<ILayerListEntryViewModel> toRemove = new ObservableCollection<ILayerListEntryViewModel>(this.LayerList.Where(entry => entry.Layer == layer));
+                        foreach (ILayerListEntryViewModel entry in toRemove)
+                        {
+                            this.LayerList.Remove(entry);
+                        }
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Move:
+                    int oldIndex = e.OldStartingIndex;
+                    int newIndex = e.NewStartingIndex;
+                    if (oldIndex != -1 && newIndex != -1)
+                    {
+                        ILayerListEntryViewModel entry = this.LayerList[oldIndex];
+                        this.LayerList[oldIndex] = this.LayerList[newIndex];
+                        this.LayerList[newIndex] = entry;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
 
         #endregion methods
     }

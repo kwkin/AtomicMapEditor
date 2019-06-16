@@ -59,7 +59,7 @@ namespace Ame.App.Wpf.UI.Interactions.LayerProperties
             Map currentMap = session.CurrentMap;
             this.Title = "New Layer";
             string newLayerName = string.Format("Layer #{0}", currentMap.LayerCount);
-            this.layer = new Layer(newLayerName, currentMap.TileWidth, currentMap.TileHeight, currentMap.Rows, currentMap.Columns);
+            this.layer = new Layer(currentMap, newLayerName, currentMap.TileWidth, currentMap.TileHeight, currentMap.Rows, currentMap.Columns);
             this.Callback = this.Callback ?? OnNewLayerWindowClosed;
         }
 
@@ -100,7 +100,7 @@ namespace Ame.App.Wpf.UI.Interactions.LayerProperties
             if (confirmation.Confirmed)
             {
                 Layer layer = confirmation.Content as Layer;
-                this.session.CurrentMap.LayerList.Add(layer);
+                this.session.CurrentLayer.AddWith(layer);
             }
         }
 

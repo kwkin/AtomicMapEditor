@@ -194,14 +194,6 @@ namespace Ame.App.Wpf.UI.Interactions.LayerProperties
             this.MetadataList.Add(new MetadataProperty(customName, "", MetadataType.Custom));
         }
 
-        private void RemoveCustomProperty()
-        {
-            if (this.SelectedMetadata.Type == MetadataType.Custom)
-            {
-                this.MetadataList.Remove(this.SelectedMetadata);
-            }
-        }
-
         private void MoveMetadataUp()
         {
             int currentIndex = this.LayerMetadata.CurrentPosition;
