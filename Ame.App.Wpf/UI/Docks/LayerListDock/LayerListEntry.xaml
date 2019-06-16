@@ -38,8 +38,7 @@
             <ToggleButton x:Name="lockLayerToggleButton"
                           Style="{DynamicResource PrimaryMidIconToggleButtonStyle}"
                           IsChecked="{Binding Layer.IsImmutable}"
-                          ToolTip="Lock: Prevents the layer from being moved and edited"
-                          Command="{Binding AddTilesetLayerCommand, Mode=OneWay}">
+                          ToolTip="Lock: Prevents the layer from being moved and edited">
                 <ContentControl Content="{StaticResource ic_Lock}"
                                     Width="{StaticResource MidIconSize}"
                                     Height="{StaticResource MidIconSize}"/>

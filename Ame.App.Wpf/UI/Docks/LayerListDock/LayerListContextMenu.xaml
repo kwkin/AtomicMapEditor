@@ -45,20 +45,14 @@
             </MenuItem.Icon>
         </MenuItem>
         <Separator />
-        <MenuItem Header="Merge Down"
-                  Command="{Binding MergeLayerDownCommand }">
-            <MenuItem.Icon>
-                <Viewbox>
-                    <ContentControl Content="{StaticResource ic_MergeDown}"
-                                    Width="{StaticResource MidIconSize}"
-                                    Height="{StaticResource MidIconSize}"/>
-                </Viewbox>
-            </MenuItem.Icon>
-        </MenuItem>
         <MenuItem Header="Move Up"
                   Command="{Binding MoveLayerUpCommand, Mode=OneWay}">
             <MenuItem.Icon>
-                <Image Source="pack://application:,,,/Ame.Infrastructure;component/Resources/Icons/ic_arrow_up_black_24dp.png" />
+                <Viewbox>
+                    <ContentControl Content="{StaticResource ic_ArrowUp}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                </Viewbox>
             </MenuItem.Icon>
         </MenuItem>
         <MenuItem Header="Move Down"

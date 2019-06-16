@@ -3,17 +3,16 @@ using Prism.Events;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace Ame.App.Wpf.UI.Docks.LayerListDock
 {
-    public class LayerListEntryViewModel : BindableBase
+    public class LayerListGroupViewModel : BindableBase, ILayerListEntryViewModel
     {
         #region fields
 
@@ -24,12 +23,13 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         #region constructor
 
-        public LayerListEntryViewModel(IEventAggregator eventAggregator, Layer layer)
+        public LayerListGroupViewModel(IEventAggregator eventAggregator, ILayer layer)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
             this.Layer = layer ?? throw new ArgumentNullException("layer");
 
-            // TODO bind sizes
+            this.LayerList = new ObservableCollection<ILayerListEntryViewModel>();
+
             DrawingGroup drawingGroup = new DrawingGroup();
             DrawingGroup filled = new DrawingGroup();
             using (DrawingContext context = filled.Open())
@@ -46,8 +46,9 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
 
         #region properties
-        public Layer layer;
-        public Layer Layer
+
+        public ILayer layer;
+        public ILayer Layer
         {
             get
             {
@@ -68,6 +69,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             }
         }
 
+        public ObservableCollection<ILayerListEntryViewModel> LayerList { get; private set; }
 
         #endregion properties
 

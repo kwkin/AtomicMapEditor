@@ -63,7 +63,7 @@ namespace Ame.App.Wpf.UI.Docks.MinimapDock
                     context.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Transparent, 0), drawingRect);
                 }
                 this.minimapLayers.Children.Add(filled);
-                foreach (Layer layer in this.session.CurrentLayerList)
+                foreach (ILayer layer in this.session.CurrentLayerList)
                 {
                     this.minimapLayers.Children.Add(layer.Group);
                 }
@@ -138,7 +138,7 @@ namespace Ame.App.Wpf.UI.Docks.MinimapDock
                         context.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Transparent, 0), drawingRect);
                     }
                     this.minimapLayers.Children.Add(filled);
-                    foreach (Layer layer in this.session.CurrentLayerList)
+                    foreach (ILayer layer in this.session.CurrentLayerList)
                     {
                         this.minimapLayers.Children.Add(layer.Group);
                     }
@@ -154,13 +154,13 @@ namespace Ame.App.Wpf.UI.Docks.MinimapDock
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    foreach (Layer layer in e.NewItems)
+                    foreach (ILayer layer in e.NewItems)
                     {
                         this.minimapLayers.Children.Add(layer.Group);
                     }
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    foreach (Layer layer in e.OldItems)
+                    foreach (ILayer layer in e.OldItems)
                     {
                         this.minimapLayers.Children.Remove(layer.Group);
                     }

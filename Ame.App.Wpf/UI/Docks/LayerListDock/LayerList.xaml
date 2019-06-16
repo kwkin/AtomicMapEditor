@@ -115,12 +115,12 @@
                 </i:Interaction.Triggers>
 
                 <TreeView.Resources>
-                    <HierarchicalDataTemplate DataType="{x:Type models:LayerGroup}"
-                                              ItemsSource="{Binding Path=Layers}">
+                    <HierarchicalDataTemplate DataType="{x:Type local:LayerListGroupViewModel}"
+                                              ItemsSource="{Binding Path=LayerList}">
                         <local:LayerListGroup />
                     </HierarchicalDataTemplate>
 
-                    <DataTemplate DataType="{x:Type local:LayerListEntryViewModel}">
+                    <DataTemplate DataType="{x:Type local:LayerListLayerViewModel}">
                         <local:LayerListEntry>
                             <local:LayerListEntry.ContextMenu>
                                 <ContextMenu DataContext="{Binding DataContext, Source={actions:RootObjectSource}}">

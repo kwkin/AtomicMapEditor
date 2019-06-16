@@ -70,7 +70,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
 
             this.orderer = new LayerOrderRenderer(this.session);
 
-            this.CurrentLayer = this.Map.CurrentLayer as Layer;
+            this.CurrentLayer = this.Map.CurrentLayer;
             this.imageTransform = new CoordinateTransform();
             this.imageTransform.SetPixelToTile(this.Map.TileWidth, this.Map.TileHeight);
             this.imageTransform.SetSlectionToPixel(this.Map.TileWidth / 2, this.Map.TileHeight / 2);
@@ -81,7 +81,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             this.hoverSample = new DrawingGroup();
 
             this.layerItems = new DrawingGroup();
-            foreach (Layer layer in this.Map.LayerList)
+            foreach (ILayer layer in this.Map.LayerList)
             {
                 this.layerItems.Children.Add(layer.Group);
                 layer.PropertyChanged += LayerChanged;
@@ -139,7 +139,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
         public ICommand RedoCommand { get; private set; }
 
         public Map Map { get; set; }
-        public Layer CurrentLayer { get; set; }
+        public ILayer CurrentLayer { get; set; }
 
         public DrawingImage DrawingCanvas { get; set; }
 
@@ -369,14 +369,14 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             switch(e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    foreach (Layer layer in e.NewItems)
+                    foreach (ILayer layer in e.NewItems)
                     {
                         this.layerItems.Children.Add(layer.Group);
                         layer.PropertyChanged += LayerChanged;
                     }
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    foreach (Layer layer in e.OldItems)
+                    foreach (ILayer layer in e.OldItems)
                     {
                         this.layerItems.Children.Remove(layer.Group);
                     }
@@ -387,8 +387,8 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
 
                     // TODO integrate with visibility
                     // TODO make groups work with this
-                    Layer oldLayer = this.session.CurrentLayerList[oldIndex] as Layer;
-                    Layer newLayer = this.session.CurrentLayerList[newIndex] as Layer;
+                    ILayer oldLayer = this.session.CurrentLayerList[oldIndex];
+                    ILayer newLayer = this.session.CurrentLayerList[newIndex];
 
                     int oldGroupIndex = this.layerItems.Children.IndexOf(oldLayer.Group);
                     int newGroupIndex = this.layerItems.Children.IndexOf(newLayer.Group);
@@ -410,10 +410,10 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
 
         private void LayerChanged(object sender, PropertyChangedEventArgs e)
         {
-            Layer layer = sender as Layer;
+            ILayer layer = sender as ILayer;
             switch(e.PropertyName)
             {
-                case nameof(Layer.IsVisible):
+                case nameof(ILayer.IsVisible):
                     if (layer.IsVisible)
                     {
                         int insertIndex = this.orderer.getAffectedIndex(layer);

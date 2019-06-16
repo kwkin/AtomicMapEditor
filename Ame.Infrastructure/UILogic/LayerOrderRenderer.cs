@@ -34,7 +34,7 @@ namespace Ame.Infrastructure.UILogic
 
         #region methods
 
-        public int getAffectedIndex(Layer layer)
+        public int getAffectedIndex(ILayer layer)
         {
             int listIndex = this.session.CurrentLayerList.IndexOf(layer);
             int visibleCount = 0;
