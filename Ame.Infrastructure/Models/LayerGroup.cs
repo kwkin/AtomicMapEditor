@@ -61,6 +61,22 @@ namespace Ame.Infrastructure.Models
         }
         public LayerGroup Parent { get; set; }
 
+        public int OffsetX
+        {
+            get
+            {
+                return GetOffsetX();
+            }
+        }
+
+        public int OffsetY
+        {
+            get
+            {
+                return GetOffsetY();
+            }
+        }
+
         #endregion properties
 
 
@@ -151,6 +167,37 @@ namespace Ame.Infrastructure.Models
                 default:
                     break;
             }
+        }
+
+        private int GetOffsetX()
+        {
+            // TODO change to tile width
+            int offsetX = this.GetPixelWidth();
+            if (this.Layers.Count > 0)
+            {
+                offsetX = this.Layers[0].OffsetX;
+                for (int index = 1; index < this.Layers.Count; ++index)
+                {
+                    ILayer layer = this.Layers[index];
+                    offsetX = Math.Min(offsetX, layer.OffsetX);
+                }
+            }
+            return offsetX;
+        }
+
+        private int GetOffsetY()
+        {
+            int offsetY = this.GetPixelHeight();
+            if (this.Layers.Count > 0)
+            {
+                offsetY = this.Layers[0].OffsetY;
+                for (int index = 1; index < this.Layers.Count; ++index)
+                {
+                    ILayer layer = this.Layers[index];
+                    offsetY = Math.Min(offsetY, layer.OffsetY);
+                }
+            }
+            return offsetY;
         }
         
         #endregion methods

@@ -22,12 +22,15 @@ namespace Ame.Infrastructure.Models
         bool IsVisible { get; set; }
         DrawingGroup Group { get; set; }
         LayerGroup Parent { get; set; }
+        int OffsetX { get; }
+        int OffsetY { get; }
 
         #endregion properties
 
 
         #region methods
 
+        // TODO change to a property
         int GetPixelWidth();
 
         int GetPixelHeight();

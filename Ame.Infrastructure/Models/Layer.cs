@@ -17,6 +17,7 @@ namespace Ame.Infrastructure.Models
 {
     public class Layer : BindableBase, ILayer
     {
+        // TODO move to another package
         [JsonObject(MemberSerialization.OptIn)]
         public class LayerJson : JsonAdapter<Layer>
         {
