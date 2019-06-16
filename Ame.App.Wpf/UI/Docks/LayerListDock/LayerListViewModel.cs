@@ -96,9 +96,9 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         public void NewLayerGroup()
         {
-            int layerGroupCount = GetLayerGroupCount();
+            int layerGroupCount = this.Session.CurrentMap.GetLayerGroupCount();
             string newLayerGroupName = string.Format("Layer Group #{0}", layerGroupCount);
-            this.Session.CurrentLayerList.Add(new LayerGroup(newLayerGroupName));
+            this.Session.CurrentLayer.AddWith(new LayerGroup(newLayerGroupName));
         }
 
         public void MoveLayerDown()
