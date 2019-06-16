@@ -69,19 +69,25 @@ namespace Ame.Infrastructure.DrawingTools
             {
                 for (int vIndex = 0; vIndex < verticalCount; ++vIndex)
                 {
-                    int hTile = hIndex % this.Brush.Columns();
-                    int vTile = vIndex % this.Brush.Rows();
-                    int tileIndex = vTile * this.Brush.Columns() + hTile;
-                    Tile drawing = this.Brush.Tiles[tileIndex];
-
-                    ImageDrawing adjustedDrawing = new ImageDrawing();
-                    adjustedDrawing.ImageSource = drawing.Image.ImageSource;
-                    // TODO Check if Rect can be replaced with bounds
                     Point affectedPoint = startTile + new Vector(hIndex, vIndex);
                     Point affectedPixelPoint = this.Transform.pixelToTile.Inverse.Transform(affectedPoint);
-
                     Point adjustedPoint = new Point(affectedPixelPoint.X, affectedPixelPoint.Y);
                     Rect adjustedRect = new Rect(adjustedPoint, this.Brush.TileSize);
+
+                    Tile drawing;
+                    if (!this.IsErasing)
+                    {
+                        int hTile = hIndex % this.Brush.Columns();
+                        int vTile = vIndex % this.Brush.Rows();
+                        int tileIndex = vTile * this.Brush.Columns() + hTile;
+                        drawing = this.Brush.Tiles[tileIndex];
+                    }
+                    else
+                    {
+                        drawing = Tile.emptyTile(affectedPixelPoint);
+                    }
+                    ImageDrawing adjustedDrawing = new ImageDrawing();
+                    adjustedDrawing.ImageSource = drawing.Image.ImageSource;
                     adjustedDrawing.Rect = adjustedRect;
 
                     Tile adjustedTile = new Tile(adjustedDrawing, drawing.TilesetID, drawing.TileID);
@@ -93,6 +99,7 @@ namespace Ame.Infrastructure.DrawingTools
             this.isDrawing = false;
         }
 
+        // TODO use
         public void Erase(Map map, Point pixelPosition)
         {
             Stack<Tile> tiles = new Stack<Tile>();
@@ -108,16 +115,23 @@ namespace Ame.Infrastructure.DrawingTools
         {
             if (!this.isDrawing)
             {
-                Tile drawing = this.Brush.Tiles[0];
                 using (DrawingContext context = drawingArea.Open())
                 {
                     ImageDrawing adjustedDrawing = new ImageDrawing();
-                    adjustedDrawing.ImageSource = drawing.Image.ImageSource;
-                    // Check if Rect can be replaced with bounds
-                    Point adjustedPoint = new Point(pixelPosition.X + drawing.Image.Rect.X, pixelPosition.Y + drawing.Image.Rect.Y);
-                    Rect adjustedRect = new Rect(adjustedPoint, this.Brush.TileSize);
-                    adjustedDrawing.Rect = adjustedRect;
-
+                    if (!this.IsErasing)
+                    {
+                        Tile drawing = this.Brush.Tiles[0];
+                        adjustedDrawing.ImageSource = drawing.Image.ImageSource;
+                        Point adjustedPoint = new Point(pixelPosition.X, pixelPosition.Y);
+                        Rect adjustedRect = new Rect(adjustedPoint, this.Brush.TileSize);
+                        adjustedDrawing.Rect = adjustedRect;
+                    }
+                    else
+                    {
+                        // TODO fix
+                        Tile empty = Tile.emptyTile(pixelPosition);
+                        adjustedDrawing.ImageSource = empty.Image.ImageSource;
+                    }
                     context.DrawDrawing(adjustedDrawing);
                 }
             }
@@ -137,19 +151,26 @@ namespace Ame.Infrastructure.DrawingTools
                     {
                         for (int vIndex = 0; vIndex < verticalCount; ++vIndex)
                         {
-                            int hTile = hIndex % this.Brush.Columns();
-                            int vTile = vIndex % this.Brush.Rows();
-                            int tileIndex = vTile * this.Brush.Columns() + hTile;
-                            Tile drawing = this.Brush.Tiles[tileIndex];
-
-                            ImageDrawing adjustedDrawing = new ImageDrawing();
-                            adjustedDrawing.ImageSource = drawing.Image.ImageSource;
-                            // TODO Check if Rect can be replaced with bounds
                             Point affectedPoint = startTile + new Vector(hIndex, vIndex);
                             Point affectedPixelPoint = this.Transform.pixelToTile.Inverse.Transform(affectedPoint);
 
                             Point adjustedPoint = new Point(affectedPixelPoint.X, affectedPixelPoint.Y);
                             Rect adjustedRect = new Rect(adjustedPoint, this.Brush.TileSize);
+
+                            Tile drawing;
+                            if (!this.IsErasing)
+                            {
+                                int hTile = hIndex % this.Brush.Columns();
+                                int vTile = vIndex % this.Brush.Rows();
+                                int tileIndex = vTile * this.Brush.Columns() + hTile;
+                                drawing = this.Brush.Tiles[tileIndex];
+                            }
+                            else
+                            {
+                                drawing = Tile.emptyTile(affectedPixelPoint);
+                            }
+                            ImageDrawing adjustedDrawing = new ImageDrawing();
+                            adjustedDrawing.ImageSource = drawing.Image.ImageSource;
                             adjustedDrawing.Rect = adjustedRect;
 
                             context.DrawDrawing(adjustedDrawing);

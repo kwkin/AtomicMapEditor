@@ -29,13 +29,14 @@
         </Grid.Resources>
 
         <WrapPanel Grid.Row="0">
-            <Button x:Name="eraserButton"
-                    Style="{DynamicResource PrimaryIconButtonStyle}"
-                    ToolTip="Eraser: Erase tiles using the brush settings">
+            <ToggleButton x:Name="eraserButton"
+                          IsChecked="{Binding IsEraser}"
+                          Style="{DynamicResource PrimaryMidIconToggleButtonStyle}"
+                          ToolTip="Eraser: Erase tiles using the brush settings">
                 <ContentControl Content="{StaticResource ic_Eraser}"
                                 Width="{StaticResource MidIconSize}"
                                 Height="{StaticResource MidIconSize}"/>
-            </Button>
+            </ToggleButton>
             <Button x:Name="snapToGridButton"
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     ToolTip="Snap to Grid: Snaps the tile to the grid">

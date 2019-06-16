@@ -80,9 +80,8 @@ namespace Ame.App.Wpf.UI.Docks.ToolboxDock
                 {
                     if (typeof(IEraserTool).IsAssignableFrom(this.DrawingTool.GetType()))
                     {
-                        IEraserTool erasorTool = this.DrawingTool as IEraserTool;
+                        IEraserTool erasorTool = this.session.DrawingTool as IEraserTool;
                         erasorTool.IsErasing = value;
-                        this.session.DrawingTool = this.DrawingTool;
                     }
                 }
             }

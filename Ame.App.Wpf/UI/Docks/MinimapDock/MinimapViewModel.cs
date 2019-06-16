@@ -160,7 +160,7 @@ namespace Ame.App.Wpf.UI.Docks.MinimapDock
                     }
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    foreach (Layer layer in e.NewItems)
+                    foreach (Layer layer in e.OldItems)
                     {
                         this.minimapLayers.Children.Remove(layer.Group);
                     }

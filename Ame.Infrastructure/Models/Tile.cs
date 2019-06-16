@@ -75,6 +75,7 @@ namespace Ame.Infrastructure.Models
 
         public static Tile emptyTile(Point pixelPosition)
         {
+            // TODO remove 32, 32
             Rect rect = new Rect(pixelPosition, new Size(32, 32));
             ImageDrawing emptyTile = new ImageDrawing(new DrawingImage(), rect);
             return new Tile(emptyTile, -1, -1);

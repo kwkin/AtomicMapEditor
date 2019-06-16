@@ -375,6 +375,12 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
                         layer.PropertyChanged += LayerChanged;
                     }
                     break;
+                case NotifyCollectionChangedAction.Remove:
+                    foreach (Layer layer in e.OldItems)
+                    {
+                        this.layerItems.Children.Remove(layer.Group);
+                    }
+                    break;
                 case NotifyCollectionChangedAction.Move:
                     int oldIndex = e.OldStartingIndex;
                     int newIndex = e.NewStartingIndex;

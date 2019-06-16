@@ -54,24 +54,6 @@
                                     Height="{StaticResource MidIconSize}"/>
             </Button>
 
-            <Button x:Name="MergeLayerDownButton"
-                    Style="{DynamicResource PrimaryIconButtonStyle}"
-                    ToolTip="Merge Down: Merges the current layer and below layer"
-                    Command="{Binding MergeLayerDownCommand, Mode=OneWay}">
-                <ContentControl Content="{StaticResource ic_MergeDown}"
-                                    Width="{StaticResource MidIconSize}"
-                                    Height="{StaticResource MidIconSize}"/>
-            </Button>
-
-            <Button x:Name="MergeLayerUpButton"
-                    Style="{DynamicResource PrimaryIconButtonStyle}"
-                    ToolTip="Merge Up: Merges the current layer and above layer"
-                    Command="{Binding MergeLayerUpCommand, Mode=OneWay}">
-                <ContentControl Content="{StaticResource ic_MergeUp}"
-                                    Width="{StaticResource MidIconSize}"
-                                    Height="{StaticResource MidIconSize}"/>
-            </Button>
-
             <Button x:Name="MoveLayerDownButton"
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     ToolTip="Move Down: Moves the layer up on the layers order"
@@ -92,7 +74,7 @@
 
             <Button x:Name="EditLayerButton"
                     Style="{DynamicResource PrimaryIconButtonStyle}"
-                    ToolTip="Edit: Edit the current layer"
+                    ToolTip="Edit: Edit the current layer's properties"
                     Command="{Binding EditPropertiesCommand, Mode=OneWay}">
                 <ContentControl Content="{StaticResource ic_AddBox}"
                                     Width="{StaticResource MidIconSize}"

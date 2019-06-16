@@ -210,9 +210,9 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                     }
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    foreach(Layer layer in e.NewItems)
+                    foreach(Layer layer in e.OldItems)
                     {
-                        IEnumerable<LayerListEntryViewModel> toRemove = this.LayerList.Where(entry => entry.Layer == layer);
+                        IEnumerable<LayerListEntryViewModel> toRemove = new ObservableCollection<LayerListEntryViewModel>(this.LayerList.Where(entry => entry.Layer == layer));
                         foreach (LayerListEntryViewModel entry in toRemove)
                         {
                             this.LayerList.Remove(entry);
