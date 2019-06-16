@@ -1,4 +1,5 @@
-﻿using Ame.Components.Behaviors;
+﻿using Ame.App.Wpf.UILogic.Actions;
+using Ame.Components.Behaviors;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Core;
 using Ame.Infrastructure.DrawingTools;
@@ -45,6 +46,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
         private DrawingGroup hoverSample;
         private DrawingGroup layerItems;
         private DrawingGroup gridLines;
+        private DrawingGroup layerBoundaries;
         private Brush backgroundBrush;
         private Pen backgroundPen;
 
@@ -79,6 +81,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             this.drawingGroup = new DrawingGroup();
             this.mapBackground = new DrawingGroup();
             this.hoverSample = new DrawingGroup();
+            this.layerBoundaries = new DrawingGroup();
 
             this.layerItems = new DrawingGroup();
             foreach (ILayer layer in this.Map.LayerList)
@@ -86,12 +89,14 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
                 this.layerItems.Children.Add(layer.Group);
                 layer.PropertyChanged += LayerChanged;
             }
+            DrawLayerBoundaries();
 
             this.gridLines = new DrawingGroup();
             this.drawingGroup.Children.Add(this.mapBackground);
             this.drawingGroup.Children.Add(this.layerItems);
             this.drawingGroup.Children.Add(this.hoverSample);
             this.drawingGroup.Children.Add(this.gridLines);
+            this.drawingGroup.Children.Add(this.layerBoundaries);
             this.DrawingCanvas = new DrawingImage(this.drawingGroup);
 
             RenderOptions.SetEdgeMode(this.hoverSample, EdgeMode.Aliased);
@@ -104,9 +109,10 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             this.updatePositionLabelStopWatch = Stopwatch.StartNew();
             this.HoverSampleOpacity = hoverSampleOpacity;
 
+            this.session.PropertyChanged += SessionChanged;
             this.Map.LayerList.CollectionChanged += LayerListChanged;
             this.ScrollModel.PropertyChanged += ScrollModelPropertyChanged;
-
+            
             this.ShowGridCommand = new DelegateCommand(() => DrawGrid(this.IsGridOn));
             this.HandleMouseMoveCommand = new DelegateCommand<object>((point) => HandleMouseMove((Point)point));
             this.UndoCommand = new DelegateCommand(() => this.Undo());
@@ -122,7 +128,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
                 UpdateBrushImage(brushEvent);
             }, ThreadOption.PublisherThread);
         }
-        
+
         #endregion constructor
 
 
@@ -364,6 +370,29 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             this.HoverSampleOpacity = hoverSampleOpacity;
         }
 
+        private void SessionChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(AmeSession.CurrentLayer))
+            {
+                DrawLayerBoundaries();
+            }
+        }
+
+        private void DrawLayerBoundaries()
+        {
+            if (this.session.CurrentLayer != null)
+            {
+                LayerBoundariesRenderable renderer = new LayerBoundariesRenderable(this.session.CurrentLayer);
+
+                double thickness = 4 / this.ScrollModel.ZoomLevels[this.ScrollModel.ZoomIndex].zoom;
+                thickness = thickness < Global.maxGridThickness ? thickness : Global.maxGridThickness;
+                renderer.DrawingPen.Thickness = thickness;
+                renderer.DrawingPenDashed.Thickness = thickness;
+                DrawingGroup group = renderer.CreateBoundaries();
+                this.layerBoundaries.Children = group.Children;
+            }
+        }
+
         private void LayerListChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             switch(e.Action)
@@ -401,10 +430,6 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
                     break;
                 default:
                     break;
-            }
-
-            if (e.Action == NotifyCollectionChangedAction.Add)
-            {
             }
         }
 

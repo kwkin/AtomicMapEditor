@@ -10,6 +10,7 @@ using Ame.Infrastructure.Utils;
 
 namespace Ame.Infrastructure.Models
 {
+    // TODO move to UILogic
     public class PaddedGridRenderable : PaddedGrid
     {
         #region fields

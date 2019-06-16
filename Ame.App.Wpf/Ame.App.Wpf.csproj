@@ -69,6 +69,7 @@
     <Compile Include="UILogic\Actions\EnumBindingSourceExtension.cs" />
     <Compile Include="UILogic\Actions\EventToCommand.cs" />
     <Compile Include="UILogic\Actions\InputBindingsManager.cs" />
+    <Compile Include="UILogic\Actions\LayerBoundariesRenderable.cs" />
     <Compile Include="UILogic\Actions\RootObjectSource.cs" />
     <Compile Include="UILogic\Actions\SetPropertyAction.cs" />
     <Compile Include="UILogic\Converters\ActiveDocumentConverter.cs" />
