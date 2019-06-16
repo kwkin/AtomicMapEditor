@@ -94,6 +94,20 @@ namespace Ame.Infrastructure.Models
             layer.Parent = this;
         }
 
+        public int GetChildLayerCount()
+        {
+            int totalLayers = 0;
+            IEnumerable<ILayer> layers = this.Layers.Where(layer => typeof(Layer).IsInstanceOfType(layer));
+            totalLayers += layers.Count();
+
+            IEnumerable<ILayer> groups = this.Layers.Where(layer => typeof(LayerGroup).IsInstanceOfType(layer));
+            foreach (LayerGroup group in groups)
+            {
+                totalLayers += group.GetChildLayerCount();
+            }
+            return totalLayers;
+        }
+
         private void LayersChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             switch(e.Action)

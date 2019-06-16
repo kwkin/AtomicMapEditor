@@ -438,12 +438,6 @@ namespace Ame.Infrastructure.Models
             return groups.Count<LayerGroup>();
         }
 
-        private int GetLayerCount()
-        {
-            IEnumerable<Layer> groups = this.LayerList.OfType<Layer>();
-            return groups.Count<Layer>();
-        }
-
         public void Draw(DrawAction action)
         {
             DrawAction undoAction = applyAction(action);
@@ -552,6 +546,20 @@ namespace Ame.Infrastructure.Models
             {
                 serializer.Serialize(writer, json);
             }
+        }
+
+        public int GetTotalLayerCount()
+        {
+            int totalLayers = 0;
+            IEnumerable<ILayer> layers = this.LayerList.Where(layer => typeof(Layer).IsInstanceOfType(layer));
+            totalLayers += layers.Count();
+
+            IEnumerable<ILayer> groups = this.LayerList.Where(layer => typeof(LayerGroup).IsInstanceOfType(layer));
+            foreach (LayerGroup group in groups)
+            {
+                totalLayers += group.GetChildLayerCount();
+            }
+            return totalLayers;
         }
 
         #endregion methods
