@@ -84,23 +84,27 @@ namespace Ame.Infrastructure.Models
 
         public int GetPixelWidth()
         {
-            int pixelWidth = 0;
+            int leftmost = this.OffsetX;
+            int rightmost = leftmost;
             foreach (ILayer layer in this.Layers)
             {
-                // TODO incorporate offset
-                pixelWidth = Math.Max(pixelWidth, layer.GetPixelWidth());
+                int width = layer.GetPixelWidth();
+                rightmost = Math.Max(rightmost, width + layer.OffsetX);
             }
+            int pixelWidth = rightmost - leftmost;
             return pixelWidth;
         }
 
         public int GetPixelHeight()
         {
-            int pixelHeight = 0;
+            int topmost = this.OffsetY;
+            int bottommost = topmost;
             foreach (ILayer layer in this.Layers)
             {
-                // TODO incorporate offset
-                pixelHeight = Math.Max(pixelHeight, layer.GetPixelHeight());
+                int height = layer.GetPixelHeight();
+                bottommost = Math.Max(bottommost, height + layer.OffsetY);
             }
+            int pixelHeight = bottommost - topmost;
             return pixelHeight;
         }
 
@@ -172,7 +176,7 @@ namespace Ame.Infrastructure.Models
         private int GetOffsetX()
         {
             // TODO change to tile width
-            int offsetX = this.GetPixelWidth();
+            int offsetX;
             if (this.Layers.Count > 0)
             {
                 offsetX = this.Layers[0].OffsetX;
@@ -182,12 +186,16 @@ namespace Ame.Infrastructure.Models
                     offsetX = Math.Min(offsetX, layer.OffsetX);
                 }
             }
+            else
+            {
+                offsetX = 0;
+            }
             return offsetX;
         }
 
         private int GetOffsetY()
         {
-            int offsetY = this.GetPixelHeight();
+            int offsetY;
             if (this.Layers.Count > 0)
             {
                 offsetY = this.Layers[0].OffsetY;
@@ -196,6 +204,10 @@ namespace Ame.Infrastructure.Models
                     ILayer layer = this.Layers[index];
                     offsetY = Math.Min(offsetY, layer.OffsetY);
                 }
+            }
+            else
+            {
+                offsetY = 0;
             }
             return offsetY;
         }

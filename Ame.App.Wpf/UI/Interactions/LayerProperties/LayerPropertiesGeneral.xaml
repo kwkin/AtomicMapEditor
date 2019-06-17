@@ -76,7 +76,7 @@
                VerticalAlignment="Center"
                Margin="0 0 5 10" />
         <xctk:IntegerUpDown x:Name="columnIntStepper"
-                            Value="{Binding Columns, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Value="{Binding Rows, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Grid.Row="1"
                             Grid.Column="1"
                             VerticalAlignment="Center"
@@ -93,7 +93,7 @@
                VerticalAlignment="Center"
                Margin="0 0 5 10" />
         <xctk:IntegerUpDown x:Name="rowIntStepper"
-                            Value="{Binding Rows, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Value="{Binding Columns, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Grid.Row="1"
                             Grid.Column="3"
                             VerticalAlignment="Center"
