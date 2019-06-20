@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ame.Infrastructure.BaseTypes;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace Ame.Infrastructure.Models
 
         #region properties
 
-        string Name { get; set; }
+        BindableProperty<string> Name { get; set; }
         ObservableCollection<IItem> Items { get; set; }
 
         #endregion properties

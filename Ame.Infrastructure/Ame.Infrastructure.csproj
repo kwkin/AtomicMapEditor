@@ -56,6 +56,7 @@
     <Compile Include="Attributes\MetadataProperty.cs" />
     <Compile Include="Attributes\MetadataPropertyAttribute.cs" />
     <Compile Include="Attributes\MetadataPropertyUtils.cs" />
+    <Compile Include="BaseTypes\BindableProperty.cs" />
     <Compile Include="BaseTypes\DockCreatorTemplate.cs" />
     <Compile Include="BaseTypes\DockToolViewModelTemplate.cs" />
     <Compile Include="BaseTypes\DockViewModelTemplate.cs" />
@@ -113,10 +114,14 @@
     <Compile Include="Models\PaddedGrid.cs" />
     <Compile Include="Models\PaddedGridRenderable.cs" />
     <Compile Include="Models\ScaleType.cs" />
+    <Compile Include="Models\Serializer\Json\AmeSessionJson.cs" />
+    <Compile Include="Models\Serializer\Json\LayerJson.cs" />
+    <Compile Include="Models\Serializer\Json\MapJson.cs" />
+    <Compile Include="Models\Serializer\Json\TileCollectionJson.cs" />
+    <Compile Include="Models\Serializer\Json\TilesetJson.cs" />
     <Compile Include="Models\Tile.cs" />
     <Compile Include="Models\TileCollection.cs" />
     <Compile Include="Models\TilesetModel.cs" />
-    <Compile Include="Serialization\JsonAdapter.cs" />
     <Compile Include="UILogic\EnumDescriptionTypeConverter.cs" />
     <Compile Include="UILogic\LayerOrderRenderer.cs" />
     <Compile Include="UILogic\ZoomLevel.cs" />

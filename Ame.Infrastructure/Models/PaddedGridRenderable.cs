@@ -46,13 +46,13 @@ namespace Ame.Infrastructure.Models
         }
 
         public PaddedGridRenderable(GridModel grid)
-            : base(grid.Columns(), grid.Rows(), grid.TileWidth, grid.TileHeight)
+            : base(grid.Columns(), grid.Rows(), grid.TileWidth.Value, grid.TileHeight.Value)
         {
 
         }
 
         public PaddedGridRenderable(PaddedGrid grid)
-            : base(grid.Columns(), grid.Rows(), grid.TileWidth, grid.TileHeight, grid.OffsetX, grid.OffsetY, grid.PaddingX, grid.PaddingY)
+            : base(grid.Columns(), grid.Rows(), grid.TileWidth.Value, grid.TileHeight.Value, grid.OffsetX.Value, grid.OffsetY.Value, grid.PaddingX.Value, grid.PaddingY.Value)
         {
 
         }
@@ -73,9 +73,9 @@ namespace Ame.Infrastructure.Models
         public DrawingGroup CreateGrid()
         {
             DrawingGroup drawingGroup;
-            if (this.OffsetX == 0 && this.OffsetY == 0)
+            if (this.OffsetX.Value == 0 && this.OffsetY.Value == 0)
             {
-                if (this.PaddingX == 0 && this.PaddingY == 0)
+                if (this.PaddingX.Value == 0 && this.PaddingY.Value == 0)
                 {
                     drawingGroup = CreateGridDefault();
                 }
@@ -84,7 +84,7 @@ namespace Ame.Infrastructure.Models
                     drawingGroup = CreateGridPadding();
                 }
             }
-            else if (this.PaddingX == 0 && this.PaddingY == 0)
+            else if (this.PaddingX.Value == 0 && this.PaddingY.Value == 0)
             {
                 drawingGroup = CreateGridOffset();
             }
@@ -103,21 +103,21 @@ namespace Ame.Infrastructure.Models
             int numTilesY = this.Rows();
 
             Rect border = new Rect();
-            border.Size = new Size(this.PixelWidth, this.PixelHeight);
+            border.Size = new Size(this.PixelWidth.Value, this.PixelHeight.Value);
             border.Location = new Point(0, 0);
             using (DrawingContext context = gridItems.Open())
             {
                 context.DrawRectangle(this.DrawingBrush, this.DrawingPen, border);
                 for (int index = 1; index < numTilesY; ++index)
                 {
-                    Point pointStart = new Point(0, this.TileHeight * index);
-                    Point pointStop = new Point(this.PixelWidth, this.TileHeight * index);
+                    Point pointStart = new Point(0, this.TileHeight.Value * index);
+                    Point pointStop = new Point(this.PixelWidth.Value, this.TileHeight.Value * index);
                     context.DrawLine(this.DrawingPen, pointStart, pointStop);
                 }
                 for (int index = 1; index < numTilesX; ++index)
                 {
-                    Point pointStart = new Point(this.TileWidth * index, 0);
-                    Point pointStop = new Point(this.TileWidth * index, this.PixelHeight);
+                    Point pointStart = new Point(this.TileWidth.Value * index, 0);
+                    Point pointStop = new Point(this.TileWidth.Value * index, this.PixelHeight.Value);
                     context.DrawLine(this.DrawingPen, pointStart, pointStop);
                 }
             }
@@ -132,21 +132,21 @@ namespace Ame.Infrastructure.Models
             int numTilesY = this.Rows();
             
             Rect border = new Rect();
-            border.Size = new Size(this.TileHeight * numTilesX, this.TileWidth * numTilesY);
-            border.Location = new Point(this.OffsetX, this.OffsetY);
+            border.Size = new Size(this.TileHeight.Value * numTilesX, this.TileWidth.Value * numTilesY);
+            border.Location = new Point(this.OffsetX.Value, this.OffsetY.Value);
             using (DrawingContext context = gridItems.Open())
             {
                 context.DrawRectangle(this.DrawingBrush, this.DrawingPen, border);
                 for (int index = 1; index < numTilesY; ++index)
                 {
-                    Point pointStart = new Point(this.OffsetX, this.OffsetY + this.TileHeight * index);
-                    Point pointStop = new Point(numTilesX * this.TileWidth + this.OffsetX, this.OffsetY + this.TileHeight * index);
+                    Point pointStart = new Point(this.OffsetX.Value, this.OffsetY.Value + this.TileHeight.Value * index);
+                    Point pointStop = new Point(numTilesX * this.TileWidth.Value + this.OffsetX.Value, this.OffsetY.Value + this.TileHeight.Value * index);
                     context.DrawLine(this.DrawingPen, pointStart, pointStop);
                 }
                 for (int index = 1; index < numTilesX; ++index)
                 {
-                    Point pointStart = new Point(this.OffsetX + this.TileWidth * index, this.OffsetY);
-                    Point pointStop = new Point(this.OffsetX + this.TileWidth * index, numTilesY * this.TileHeight + this.OffsetY);
+                    Point pointStart = new Point(this.OffsetX.Value + this.TileWidth.Value * index, this.OffsetY.Value);
+                    Point pointStop = new Point(this.OffsetX.Value + this.TileWidth.Value * index, numTilesY * this.TileHeight.Value + this.OffsetY.Value);
                     context.DrawLine(this.DrawingPen, pointStart, pointStop);
                 }
             }
@@ -159,7 +159,7 @@ namespace Ame.Infrastructure.Models
 
             int numTilesX = this.Columns();
             int numTilesY = this.Rows();
-            Size tileSize = new Size(this.TileWidth, this.TileHeight);
+            Size tileSize = new Size(this.TileWidth.Value, this.TileHeight.Value);
 
             using (DrawingContext context = gridItems.Open())
             {
@@ -167,8 +167,8 @@ namespace Ame.Infrastructure.Models
                 {
                     for (int yIndex = 0; yIndex < numTilesY; ++yIndex)
                     {
-                        double locationX = xIndex * this.TileWidth + (2 * this.PaddingX * xIndex + this.PaddingX);
-                        double locationY = yIndex * this.TileHeight + (2 * this.PaddingY * yIndex + this.PaddingY);
+                        double locationX = xIndex * this.TileWidth.Value + (2 * this.PaddingX.Value * xIndex + this.PaddingX.Value);
+                        double locationY = yIndex * this.TileHeight.Value + (2 * this.PaddingY.Value * yIndex + this.PaddingY.Value);
                         Point location = new Point(locationX, locationY);
                         Rect tile = new Rect(location, tileSize);
                         context.DrawRectangle(this.DrawingBrush, this.DrawingPen, tile);
@@ -184,7 +184,7 @@ namespace Ame.Infrastructure.Models
 
             int numTilesX = this.Columns();
             int numTilesY = this.Rows();
-            Size tileSize = new Size(this.TileWidth, this.TileHeight);
+            Size tileSize = new Size(this.TileWidth.Value, this.TileHeight.Value);
 
             using (DrawingContext context = gridItems.Open())
             {
@@ -192,8 +192,8 @@ namespace Ame.Infrastructure.Models
                 {
                     for (int yIndex = 0; yIndex < numTilesY; ++yIndex)
                     {
-                        double locationX = this.OffsetX + xIndex * this.TileWidth + (2 * this.PaddingX * xIndex + this.PaddingX);
-                        double locationY = this.OffsetY + yIndex * this.TileHeight + (2 * this.PaddingY * yIndex + this.PaddingY);
+                        double locationX = this.OffsetX.Value + xIndex * this.TileWidth.Value + (2 * this.PaddingX.Value * xIndex + this.PaddingX.Value);
+                        double locationY = this.OffsetY.Value + yIndex * this.TileHeight.Value + (2 * this.PaddingY.Value * yIndex + this.PaddingY.Value);
                         Point location = new Point(locationX, locationY);
                         Rect tile = new Rect(location, tileSize);
                         context.DrawRectangle(this.DrawingBrush, this.DrawingPen, tile);

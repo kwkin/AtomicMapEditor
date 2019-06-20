@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ame.Infrastructure.BaseTypes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,7 @@ namespace Ame.Infrastructure.Attributes
 
         #endregion fields
 
+        private bool isBindableProperty = false;
 
         #region constructor
 
@@ -24,6 +26,11 @@ namespace Ame.Infrastructure.Attributes
         {
             this.Key = key;
             this.Value = value;
+            if (typeof(PropertyValue).IsInstanceOfType(value))
+            {
+                this.isBindableProperty = true;
+            }
+
             this.Type = type;
             if (type == MetadataType.Custom)
             {
@@ -41,7 +48,24 @@ namespace Ame.Infrastructure.Attributes
         #region properties
 
         public string Key { get; set; }
-        public object Value { get; set; }
+
+        private object value;
+        public object Value
+        {
+            get
+            {
+                object toReturn = this.value;
+                if (this.isBindableProperty)
+                {
+                    toReturn = (this.value as PropertyValue).GetValue();
+                }
+                return toReturn;
+            }
+            set
+            {
+                this.value = value;
+            }
+        }
         public MetadataType Type { get; set; }
         public bool IsReadOnly { get; set; }
 

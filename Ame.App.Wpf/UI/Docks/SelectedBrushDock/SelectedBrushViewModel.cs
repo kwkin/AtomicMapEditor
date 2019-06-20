@@ -187,11 +187,11 @@ namespace Ame.App.Wpf.UI.Docks.SelectedBrushDock
                     context.DrawDrawing(tile.Image);
                 }
             }
-            this.gridModel.SetHeightWithRows(brushModel.Rows(), brushModel.TileHeight);
-            this.gridModel.SetWidthWithColumns(brushModel.Columns(), brushModel.TileWidth);
+            this.gridModel.SetHeightWithRows(brushModel.Rows(), brushModel.TileHeight.Value);
+            this.gridModel.SetWidthWithColumns(brushModel.Columns(), brushModel.TileWidth.Value);
 
-            this.imageTransform.SetPixelToTile(this.gridModel.TileWidth, this.gridModel.TileHeight);
-            this.imageTransform.SetSlectionToPixel(this.gridModel.TileWidth / 2, this.gridModel.TileHeight / 2);
+            this.imageTransform.SetPixelToTile(this.gridModel.TileWidth.Value, this.gridModel.TileHeight.Value);
+            this.imageTransform.SetSlectionToPixel(this.gridModel.TileWidth.Value / 2, this.gridModel.TileHeight.Value / 2);
 
             redrawExtendedBackground();
             RedrawGrid();
@@ -201,11 +201,11 @@ namespace Ame.App.Wpf.UI.Docks.SelectedBrushDock
         private void redrawExtendedBackground()
         {
             Size extendedSize = new Size();
-            extendedSize.Width = this.gridModel.PixelWidth + this.gridModel.TileWidth;
-            extendedSize.Height = this.gridModel.PixelHeight + this.gridModel.TileHeight;
+            extendedSize.Width = this.gridModel.PixelWidth.Value + this.gridModel.TileWidth.Value;
+            extendedSize.Height = this.gridModel.PixelHeight.Value + this.gridModel.TileHeight.Value;
             Point extendedPoint = new Point();
-            extendedPoint.X = -this.gridModel.TileWidth / 2;
-            extendedPoint.Y = -this.gridModel.TileHeight / 2;
+            extendedPoint.X = -this.gridModel.TileWidth.Value / 2;
+            extendedPoint.Y = -this.gridModel.TileHeight.Value / 2;
             Rect drawingRect = new Rect(extendedPoint, extendedSize);
 
             using (DrawingContext context = this.extendedBackground.Open())

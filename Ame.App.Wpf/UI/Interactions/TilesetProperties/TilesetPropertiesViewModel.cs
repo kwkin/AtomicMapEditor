@@ -171,7 +171,7 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
                 if (this.TilesetModel != null)
                 {
                     UpdateMetadata();
-                    if (File.Exists(this.TilesetModel.SourcePath))
+                    if (File.Exists(this.TilesetModel.SourcePath.Value))
                     {
                         this.IsSourceLoaded = true;
                     }
@@ -625,34 +625,34 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
 
         private void UpdateUI()
         {
-            this.Name = this.TilesetModel.Name;
-            this.SourcePath = this.TilesetModel.SourcePath;
-            this.IsTransparent = this.TilesetModel.IsTransparent;
-            this.TransparentColor = this.TilesetModel.TransparentColor;
-            this.TileWidth = this.TilesetModel.TileWidth;
-            this.TileHeight = this.TilesetModel.TileHeight;
-            this.OffsetX = this.TilesetModel.OffsetX;
-            this.OffsetY = this.TilesetModel.OffsetY;
-            this.PaddingX = this.TilesetModel.PaddingX;
-            this.PaddingY = this.TilesetModel.PaddingY;
-            this.tilesetPixelWidth = this.TilesetModel.PixelWidth;
-            this.tilesetPixelHeight = this.TilesetModel.PixelHeight;
+            this.Name = this.TilesetModel.Name.Value;
+            this.SourcePath = this.TilesetModel.SourcePath.Value;
+            this.IsTransparent = this.TilesetModel.IsTransparent.Value;
+            this.TransparentColor = this.TilesetModel.TransparentColor.Value;
+            this.TileWidth = this.TilesetModel.TileWidth.Value;
+            this.TileHeight = this.TilesetModel.TileHeight.Value;
+            this.OffsetX = this.TilesetModel.OffsetX.Value;
+            this.OffsetY = this.TilesetModel.OffsetY.Value;
+            this.PaddingX = this.TilesetModel.PaddingX.Value;
+            this.PaddingY = this.TilesetModel.PaddingY.Value;
+            this.tilesetPixelWidth = this.TilesetModel.PixelWidth.Value;
+            this.tilesetPixelHeight = this.TilesetModel.PixelHeight.Value;
         }
 
         private void UpdateTilesetModel()
         {
-            this.TilesetModel.Name = this.Name;
-            this.TilesetModel.SourcePath = this.SourcePath;
-            this.TilesetModel.IsTransparent = this.IsTransparent;
-            this.TilesetModel.TransparentColor = this.TransparentColor;
-            this.TilesetModel.TileWidth = this.TileWidth;
-            this.TilesetModel.TileHeight = this.TileHeight;
-            this.TilesetModel.OffsetX = this.OffsetX;
-            this.TilesetModel.OffsetY = this.OffsetY;
-            this.TilesetModel.PaddingX = this.PaddingX;
-            this.TilesetModel.PaddingY = this.PaddingY;
-            this.TilesetModel.PixelHeight = this.tilesetPixelHeight;
-            this.TilesetModel.PixelWidth = this.tilesetPixelWidth;
+            this.TilesetModel.Name.Value = this.Name;
+            this.TilesetModel.SourcePath.Value = this.SourcePath;
+            this.TilesetModel.IsTransparent.Value = this.IsTransparent;
+            this.TilesetModel.TransparentColor.Value = this.TransparentColor;
+            this.TilesetModel.TileWidth.Value = this.TileWidth;
+            this.TilesetModel.TileHeight.Value = this.TileHeight;
+            this.TilesetModel.OffsetX.Value = this.OffsetX;
+            this.TilesetModel.OffsetY.Value = this.OffsetY;
+            this.TilesetModel.PaddingX.Value = this.PaddingX;
+            this.TilesetModel.PaddingY.Value = this.PaddingY;
+            this.TilesetModel.PixelHeight.Value = this.tilesetPixelHeight;
+            this.TilesetModel.PixelWidth.Value = this.tilesetPixelWidth;
         }
 
         public void HandleLeftClickUp(Point selectPoint)
@@ -751,8 +751,8 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
             DrawingGroup newGroup = ImageUtils.MatToDrawingGroup(this.ItemImage);
             this.TilesetModel.TilesetImage = newGroup;
             this.itemTransform = new CoordinateTransform();
-            this.itemTransform.SetPixelToTile(this.TilesetModel.TileWidth, this.TilesetModel.TileHeight);
-            this.itemTransform.SetSlectionToPixel(this.TilesetModel.TileWidth / 2, this.TilesetModel.TileHeight / 2);
+            this.itemTransform.SetPixelToTile(this.TilesetModel.TileWidth.Value, this.TilesetModel.TileHeight.Value);
+            this.itemTransform.SetSlectionToPixel(this.TilesetModel.TileWidth.Value / 2, this.TilesetModel.TileHeight.Value / 2);
             Mat drawingMat = this.ItemImage;
 
             this.isGridOn = true;
@@ -776,12 +776,12 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
             if (this.IsGridOn)
             {
                 PaddedGridRenderable gridParameters = new PaddedGridRenderable(this.ItemImage.Width, this.ItemImage.Height);
-                gridParameters.TileWidth = this.TileWidth;
-                gridParameters.TileHeight = this.tileHeight;
-                gridParameters.OffsetX = this.OffsetX;
-                gridParameters.OffsetY = this.OffsetY;
-                gridParameters.PaddingX = this.PaddingX;
-                gridParameters.PaddingY = this.PaddingY;
+                gridParameters.TileWidth.Value = this.TileWidth;
+                gridParameters.TileHeight.Value = this.tileHeight;
+                gridParameters.OffsetX.Value = this.OffsetX;
+                gridParameters.OffsetY.Value = this.OffsetY;
+                gridParameters.PaddingX.Value = this.PaddingX;
+                gridParameters.PaddingY.Value = this.PaddingY;
                 double thickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
                 gridParameters.DrawingPen.Thickness = thickness < Global.maxGridThickness ? thickness : Global.maxGridThickness;
 

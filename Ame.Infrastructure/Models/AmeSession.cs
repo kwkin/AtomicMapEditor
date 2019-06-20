@@ -10,67 +10,14 @@ using Ame.Infrastructure.DrawingTools;
 using Ame.Infrastructure.Core;
 using System.IO;
 using Newtonsoft.Json;
-using Ame.Infrastructure.Serialization;
 using Prism.Mvvm;
+using Ame.Infrastructure.Models.Serializer.Json;
 
 namespace Ame.Infrastructure.Models
 {
+    // TODO change to a bindable property solution
     public class AmeSession : BindableBase
     {
-        [JsonObject(MemberSerialization.OptIn)]
-        public class AmeSessionJson : JsonAdapter<AmeSession>
-        {
-            public AmeSessionJson()
-            {
-            }
-                
-            public AmeSessionJson(AmeSession session)
-            {
-                this.Version = Global.Version;
-                this.CurrentMap = session.CurrentMapIndex;
-                this.OpenedTilesetFiles = new List<string>();
-                foreach (Map map in session.MapList)
-                {
-                    this.OpenedTilesetFiles.Add(map.SourcePath);
-                }
-                this.OpenedTilesetFiles = new List<string>();
-                foreach (TilesetModel tileset in session.CurrentTilesetList)
-                {
-                    this.OpenedTilesetFiles.Add(tileset.SourcePath);
-                }
-                this.LastMapDirectory = session.LastMapDirectory;
-                this.LastTilesetDirectory = session.LastTilesetDirectory;
-
-            }
-
-            [JsonProperty(PropertyName = "Version")]
-            public string Version { get; set; }
-
-            [JsonProperty(PropertyName = "CurrentMap")]
-            public int CurrentMap { get; set; }
-
-            [JsonProperty(PropertyName = "OpenedMaps")]
-            public IList<string> OpenedMapFiles { get; set; }
-
-            [JsonProperty(PropertyName = "OpenedTilesets")]
-            public IList<string> OpenedTilesetFiles { get; set; }
-
-            [JsonProperty(PropertyName = "MapDirectory")]
-            public string LastMapDirectory { get; set; }
-
-            [JsonProperty(PropertyName = "TilesetDirectory")]
-            public string LastTilesetDirectory { get; set; }
-
-            public AmeSession Generate()
-            {
-                // TODO load maps, tilesets, and other properties
-                AmeSession session = new AmeSession();
-                session.LastMapDirectory = this.LastMapDirectory;
-                session.lastTilesetDirectory = this.LastTilesetDirectory;
-                return session;
-            }
-        }
-
         #region fields
         
         #endregion fields

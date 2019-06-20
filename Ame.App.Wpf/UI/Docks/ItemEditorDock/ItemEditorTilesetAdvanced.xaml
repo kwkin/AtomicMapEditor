@@ -54,7 +54,7 @@
                       Grid.Column="3"
                       HorizontalAlignment="Right"
                       VerticalAlignment="Center"
-                      IsChecked="{Binding TilesetModel.IsTransparent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      IsChecked="{Binding TilesetModel.IsTransparent.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       Margin="0 0 0 10">
         </ToggleButton>
 
@@ -72,7 +72,7 @@
                                 Height="{StaticResource MidIconSize}"/>
         </ToggleButton>
         <xctk:ColorPicker x:Name="transparencyColorPicker"
-                          SelectedColor="{Binding TilesetModel.TransparentColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedColor="{Binding TilesetModel.TransparentColor.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           Grid.Row="1"
                           Grid.Column="3"
                           VerticalAlignment="Center"
@@ -92,7 +92,7 @@
                Margin="0 0 5 10">
         </Label>
         <xctk:IntegerUpDown x:Name="widthIntStepper"
-                            Value="{Binding TilesetModel.TileWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Value="{Binding TilesetModel.TileWidth.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Grid.Row="2"
                             Grid.Column="1"
                             VerticalAlignment="Center"
@@ -116,7 +116,7 @@
                VerticalAlignment="Center">
         </Label>
         <xctk:IntegerUpDown x:Name="heightIntStepper"
-                            Value="{Binding TilesetModel.TileHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Value="{Binding TilesetModel.TileHeight.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Grid.Row="2"
                             Grid.Column="3"
                             VerticalAlignment="Center"
@@ -146,7 +146,7 @@
                             Increment="1"
                             Maximum="2048"
                             Minimum="0"
-                            Value="{Binding TilesetModel.OffsetX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Value="{Binding TilesetModel.OffsetX.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Margin="0 0 0 10">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ValueChanged">
@@ -163,7 +163,7 @@
                VerticalAlignment="Center"
                Margin="0 0 5 10" />
         <xctk:IntegerUpDown x:Name="offsetYIntStepper"
-                            Value="{Binding TilesetModel.OffsetY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Value="{Binding TilesetModel.OffsetY.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Grid.Row="3"
                             Grid.Column="3"
                             VerticalAlignment="Center"
@@ -193,7 +193,7 @@
                             Increment="1"
                             Maximum="2048"
                             Minimum="0"
-                            Value="{Binding TilesetModel.PaddingX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Value="{Binding TilesetModel.PaddingX.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Margin="0 0 0 10">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ValueChanged">
@@ -216,7 +216,7 @@
                             Increment="1"
                             Maximum="2048"
                             Minimum="0"
-                            Value="{Binding TilesetModel.PaddingY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Value="{Binding TilesetModel.PaddingY.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Margin="0 0 0 10">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ValueChanged">

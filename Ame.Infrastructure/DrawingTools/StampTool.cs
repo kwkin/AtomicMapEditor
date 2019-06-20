@@ -50,7 +50,6 @@ namespace Ame.Infrastructure.DrawingTools
 
         public void DrawPressed(Map map, Point pixelPosition)
         {
-            // TODO add erase function
             this.pressPoint = pixelPosition;
             this.isDrawing = true;
         }
@@ -72,7 +71,7 @@ namespace Ame.Infrastructure.DrawingTools
                     Point affectedPoint = startTile + new Vector(hIndex, vIndex);
                     Point affectedPixelPoint = this.Transform.pixelToTile.Inverse.Transform(affectedPoint);
                     Point adjustedPoint = new Point(affectedPixelPoint.X, affectedPixelPoint.Y);
-                    Rect adjustedRect = new Rect(adjustedPoint, this.Brush.TileSize);
+                    Rect adjustedRect = new Rect(adjustedPoint, this.Brush.GetTileSize());
 
                     Tile drawing;
                     if (!this.IsErasing)
@@ -123,7 +122,7 @@ namespace Ame.Infrastructure.DrawingTools
                         Tile drawing = this.Brush.Tiles[0];
                         adjustedDrawing.ImageSource = drawing.Image.ImageSource;
                         Point adjustedPoint = new Point(pixelPosition.X, pixelPosition.Y);
-                        Rect adjustedRect = new Rect(adjustedPoint, this.Brush.TileSize);
+                        Rect adjustedRect = new Rect(adjustedPoint, this.Brush.GetTileSize());
                         adjustedDrawing.Rect = adjustedRect;
                     }
                     else
@@ -155,7 +154,7 @@ namespace Ame.Infrastructure.DrawingTools
                             Point affectedPixelPoint = this.Transform.pixelToTile.Inverse.Transform(affectedPoint);
 
                             Point adjustedPoint = new Point(affectedPixelPoint.X, affectedPixelPoint.Y);
-                            Rect adjustedRect = new Rect(adjustedPoint, this.Brush.TileSize);
+                            Rect adjustedRect = new Rect(adjustedPoint, this.Brush.GetTileSize());
 
                             Tile drawing;
                             if (!this.IsErasing)

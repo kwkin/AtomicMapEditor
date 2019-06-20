@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ame.Infrastructure.Attributes
 {
+
     public class MetadataPropertyAttribute : Attribute
     {
         #region constructor

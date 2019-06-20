@@ -98,12 +98,12 @@ namespace Ame.Infrastructure.Utils
         public void SetPixelToTile(PaddedGrid gridModel)
         {
             this.pixelToTileScale = new ScaleTransform();
-            this.pixelToTileScale.ScaleX = 1 / (gridModel.TileWidth + 2 * gridModel.PaddingX);
-            this.pixelToTileScale.ScaleY = 1 / (gridModel.TileHeight + 2 * gridModel.PaddingY);
+            this.pixelToTileScale.ScaleX = 1 / (gridModel.TileWidth.Value + 2 * gridModel.PaddingX.Value);
+            this.pixelToTileScale.ScaleY = 1 / (gridModel.TileHeight.Value + 2 * gridModel.PaddingY.Value);
 
             this.pixelToTileTranslate = new TranslateTransform();
-            this.pixelToTileTranslate.X = -gridModel.OffsetX;
-            this.pixelToTileTranslate.Y = -gridModel.OffsetY;
+            this.pixelToTileTranslate.X = -gridModel.OffsetX.Value;
+            this.pixelToTileTranslate.Y = -gridModel.OffsetY.Value;
 
             this.pixelToTile.Children.Clear();
             this.pixelToTile.Children.Add(this.pixelToTileTranslate);

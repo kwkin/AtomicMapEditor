@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ame.Infrastructure.BaseTypes;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -18,13 +19,13 @@ namespace Ame.Infrastructure.Models
 
         public ItemGroup(string groupName)
         {
-            this.Name = groupName;
+            this.Name.Value = groupName;
             this.Items = new ObservableCollection<IItem>();
         }
 
         public ItemGroup(string groupName, ObservableCollection<IItem> items)
         {
-            this.Name = groupName;
+            this.Name.Value = groupName;
             this.Items = items;
         }
 
@@ -33,7 +34,7 @@ namespace Ame.Infrastructure.Models
 
         #region properties
 
-        public string Name { get; set; }
+        public BindableProperty<string> Name { get; set; } = BindableProperty.Prepare<string>(string.Empty);
         public ObservableCollection<IItem> Items { get; set; }
 
         #endregion properties

@@ -57,7 +57,6 @@ namespace Ame.App.Wpf.UILogic.Actions
             DrawingGroup drawingGroup = new DrawingGroup();
             using (DrawingContext context = drawingGroup.Open())
             {
-                // TODO incorporate offset
                 Point location = new Point(this.Layer.OffsetX, this.Layer.OffsetY);
                 Size size = new Size(this.Layer.GetPixelWidth(), this.Layer.GetPixelHeight());
                 Rect boundaries = new Rect(location, size);

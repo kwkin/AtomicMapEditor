@@ -278,8 +278,8 @@ namespace Ame.App.Wpf.UI.Docks.ToolboxDock
         {
             this.brushColumns = this.BrushModel.Columns();
             this.brushRows = this.BrushModel.Rows();
-            this.brushTileHeight = this.BrushModel.TileHeight;
-            this.brushTileWidth = this.BrushModel.TileWidth;
+            this.brushTileHeight = this.BrushModel.TileHeight.Value;
+            this.brushTileWidth = this.BrushModel.TileWidth.Value;
             this.brushTileOffsetX = this.BrushModel.TileOffsetX;
             this.brushTileOffsetY = this.BrushModel.TileOffsetY;
 

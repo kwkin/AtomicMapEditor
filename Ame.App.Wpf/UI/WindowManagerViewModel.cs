@@ -15,6 +15,7 @@ using Ame.Infrastructure.Core;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
+using Ame.Infrastructure.Models.Serializer.Json;
 using Ame.Infrastructure.UILogic;
 using AvalonDock;
 using AvalonDock.Layout.Serialization;
@@ -33,7 +34,6 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
 
-// TODO change all icons to use svg paths
 namespace Ame.App.Wpf.UI
 {
     public class WindowManagerViewModel : BindableBase, ILayoutViewModel
@@ -369,7 +369,7 @@ namespace Ame.App.Wpf.UI
         private void OpenMap(NotificationMessage<OpenMessage> message)
         {
             OpenMessage content = message.Content;
-            Map.MapJson mapJson = JsonConvert.DeserializeObject<Map.MapJson>(File.ReadAllText(content.Path));
+            MapJson mapJson = JsonConvert.DeserializeObject<MapJson>(File.ReadAllText(content.Path));
             Map importedMap = mapJson.Generate();
 
             OpenDockMessage openEditorMessage = new OpenDockMessage(typeof(MapEditorViewModel), importedMap);

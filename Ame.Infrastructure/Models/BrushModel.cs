@@ -38,7 +38,7 @@ namespace Ame.Infrastructure.Models
         }
 
         public BrushModel(TilesetModel tileset)
-            : base(tileset.Columns(), tileset.Rows(), tileset.TileWidth, tileset.TileHeight)
+            : base(tileset.Columns(), tileset.Rows(), tileset.TileWidth.Value, tileset.TileHeight.Value)
         {
             this.Tiles = new List<Tile>();
         }
@@ -58,14 +58,14 @@ namespace Ame.Infrastructure.Models
         public void TileImage(Mat tilesImage, int tilesetID, Point pixelPoint, TilesetModel tilesetModel)
         {
             this.Tiles.Clear();
-            int colCount = tilesImage.Cols / this.TileWidth;
-            int rowCount = tilesImage.Rows / this.TileHeight;
+            int colCount = tilesImage.Cols / this.TileWidth.Value;
+            int rowCount = tilesImage.Rows / this.TileHeight.Value;
             for (int rowIndex = 0; rowIndex < rowCount; ++rowIndex)
             {
                 for (int colIndex = 0; colIndex < colCount; ++colIndex)
                 {
-                    Size tileSize = this.TileSize;
-                    Point topLeftPoint = new Point(colIndex * this.TileWidth, rowIndex * this.TileHeight);
+                    Size tileSize = this.GetTileSize();
+                    Point topLeftPoint = new Point(colIndex * this.TileWidth.Value, rowIndex * this.TileHeight.Value);
                     Mat tileImage = BrushUtils.CropImage(tilesImage, topLeftPoint, tileSize);
                     Rect drawingRect = new Rect(topLeftPoint, tileSize);
                     ImageDrawing drawing = ImageUtils.MatToImageDrawing(tileImage, drawingRect);

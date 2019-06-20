@@ -13,109 +13,13 @@ using Ame.Infrastructure.Core;
 using Ame.Infrastructure.DrawingTools;
 using Newtonsoft.Json;
 using System.Runtime.Serialization;
-using Ame.Infrastructure.Serialization;
 using Prism.Mvvm;
+using Ame.Infrastructure.Models.Serializer.Json;
 
 namespace Ame.Infrastructure.Models
 {
     public class Map : BindableBase
     {
-        [JsonObject(MemberSerialization.OptIn)]
-        public class MapJson : JsonAdapter<Map>
-        {
-            public MapJson()
-            {
-            }
-
-            public MapJson(Map map)
-            {
-                this.Version = map.Version;
-                this.Name = map.Name;
-                this.Author = map.Author;
-                this.Rows = map.Rows;
-                this.Columns = map.Columns;
-                this.TileWidth = map.TileWidth;
-                this.TileHeight = map.TileHeight;
-                this.Scale = map.Scale;
-                this.BackgroundColor = map.BackgroundColor;
-                this.Description = map.Description;
-                this.TilesetList = new List<TilesetModel.TilesetJson>();
-                foreach (TilesetModel model in map.TilesetList)
-                {
-                    this.TilesetList.Add(new TilesetModel.TilesetJson(model));
-                }
-                this.LayerList = new List<Layer.LayerJson>();
-                foreach (ILayer layer in map.LayerList)
-                {
-                    // TODO fix the conversion
-                    this.LayerList.Add(new Layer.LayerJson((Layer)layer));
-                }
-            }
-            
-            [JsonProperty(PropertyName = "Version")]
-            public string Version { get; set; }
-
-            [JsonProperty(PropertyName = "Name")]
-            public string Name { get; set; }
-
-            [JsonProperty(PropertyName = "Author")]
-            public string Author { get; set; }
-
-            [JsonProperty(PropertyName = "Rows")]
-            public int Rows { get; set; }
-
-            [JsonProperty(PropertyName = "Columns")]
-            public int Columns { get; set; }
-
-            [JsonProperty(PropertyName = "TileWidth")]
-            public int TileWidth { get; set; }
-
-            [JsonProperty(PropertyName = "TileHeight")]
-            public int TileHeight { get; set; }
-
-            [JsonProperty(PropertyName = "Scale")]
-            public ScaleType Scale { get; set; }
-
-            [JsonProperty(PropertyName = "Color")]
-            public Color BackgroundColor { get; set; }
-
-            [JsonProperty(PropertyName = "Description")]
-            public string Description { get; set; }
-
-            [JsonProperty(PropertyName = "Tilesets")]
-            public IList<TilesetModel.TilesetJson> TilesetList { get; set; }
-
-            [JsonProperty(PropertyName = "Layers")]
-            public IList<Layer.LayerJson> LayerList { get; set; }
-            
-            public Map Generate()
-            {
-                Map map = new Map();
-                map.Version = this.Version;
-                map.Name = this.Name;
-                map.Author = this.Author;
-                map.Rows = this.Rows;
-                map.Columns = this.Columns;
-                map.TileWidth = this.TileWidth;
-                map.TileHeight = this.TileHeight;
-                map.Scale = this.Scale;
-                map.BackgroundColor = this.BackgroundColor;
-                map.Description = this.Description;
-                foreach (TilesetModel.TilesetJson tilesetJson in this.TilesetList)
-                {
-                    TilesetModel tileset = tilesetJson.Generate();
-                    map.TilesetList.Add(tileset);
-                    tileset.RefreshTilesetImage();
-                }
-                foreach (Layer.LayerJson layer in this.LayerList)
-                {
-                    map.LayerList.Add(layer.Generate(map));
-                }
-                return map;
-            }
-        }
-
-
         #region fields
 
         #endregion fields
@@ -247,11 +151,11 @@ namespace Ame.Infrastructure.Models
         {
             get
             {
-                return this.Grid.TileWidth;
+                return this.Grid.TileWidth.Value;
             }
             set
             {
-                this.Grid.TileWidth = value;
+                this.Grid.TileWidth.Value = value;
             }
         }
 
@@ -260,11 +164,11 @@ namespace Ame.Infrastructure.Models
         {
             get
             {
-                return this.Grid.TileHeight;
+                return this.Grid.TileHeight.Value;
             }
             set
             {
-                this.Grid.TileHeight = value;
+                this.Grid.TileHeight.Value = value;
             }
         }
 
@@ -273,11 +177,11 @@ namespace Ame.Infrastructure.Models
         {
             get
             {
-                return this.Grid.Scale;
+                return this.Grid.Scale.Value;
             }
             set
             {
-                this.Grid.Scale = value;
+                this.Grid.Scale.Value = value;
             }
         }
 
@@ -286,11 +190,11 @@ namespace Ame.Infrastructure.Models
         {
             get
             {
-                return this.Grid.PixelWidth;
+                return this.Grid.PixelWidth.Value;
             }
             set
             {
-                this.Grid.PixelWidth = value;
+                this.Grid.PixelWidth.Value = value;
             }
         }
 
@@ -299,11 +203,11 @@ namespace Ame.Infrastructure.Models
         {
             get
             {
-                return this.Grid.PixelHeight;
+                return this.Grid.PixelHeight.Value;
             }
             set
             {
-                this.Grid.PixelHeight = value;
+                this.Grid.PixelHeight.Value = value;
             }
         }
 

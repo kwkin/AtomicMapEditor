@@ -97,7 +97,7 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
             this.updatePositionLabelStopWatch = Stopwatch.StartNew();
             this.selectLineStopWatch = Stopwatch.StartNew();
 
-            this.TilesetModel.PropertyChanged += TilesetPropertyChanged;
+            this.TilesetModel.IsTransparent.PropertyChanged += IsTransparentChanged;
             this.ScrollModel.PropertyChanged += ScrollModelPropertyChanged;
 
             this.HandleLeftClickDownCommand = new DelegateCommand<object>((point) => HandleLeftClickDown((Point)point));
@@ -265,10 +265,10 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
             {
                 if (SetProperty(ref this.tilesetModel, value))
                 {
-                    this.tilesetModel.PropertyChanged += TilesetPropertyChanged;
-                    if (!string.IsNullOrEmpty(this.tilesetModel.SourcePath))
+                    this.tilesetModel.IsTransparent.PropertyChanged += IsTransparentChanged;
+                    if (!string.IsNullOrEmpty(this.tilesetModel.SourcePath.Value))
                     {
-                        this.Title = "Item - " + Path.GetFileNameWithoutExtension(this.tilesetModel.Name);
+                        this.Title = "Item - " + Path.GetFileNameWithoutExtension(this.tilesetModel.Name.Value);
                         ChangeItemModel(this.tilesetModel);
                     }
                     else
@@ -405,7 +405,7 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
                 UpdatePositionLabel(pixelPoint);
                 if (this.IsSelectingTransparency && this.isMouseDown)
                 {
-                    this.TilesetModel.TransparentColor = ImageUtils.ColorAt(this.ItemImage, pixelPoint);
+                    this.TilesetModel.TransparentColor.Value = ImageUtils.ColorAt(this.ItemImage, pixelPoint);
                 }
             }
             if (this.isMouseDown
@@ -430,12 +430,12 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
 
             this.DrawSelectLinesFromPixels(topLeftPixel, pixelSize);
             PaddedBrushModel brushModel = new PaddedBrushModel(this.TilesetModel, (int)topLeftTile.X, (int)topLeftTile.Y);
-            brushModel.PixelSize = pixelSize;
+            brushModel.SetPixelSize(pixelSize);
             Mat croppedImage = BrushUtils.CropImage(this.ItemImage, topLeftPixel, pixelSize);
 
-            if (this.TilesetModel.IsTransparent)
+            if (this.TilesetModel.IsTransparent.Value)
             {
-                croppedImage = ImageUtils.ColorToTransparent(croppedImage, this.TilesetModel.TransparentColor);
+                croppedImage = ImageUtils.ColorToTransparent(croppedImage, this.TilesetModel.TransparentColor.Value);
             }
             int tilesetID = this.Session.CurrentTileset.ID;
 
@@ -450,10 +450,10 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
             {
                 return;
             }
-            this.TilesetModel.TransparentColor = ImageUtils.ColorAt(this.ItemImage, pixelPoint);
-            if (this.TilesetModel.IsTransparent)
+            this.TilesetModel.TransparentColor.Value = ImageUtils.ColorAt(this.ItemImage, pixelPoint);
+            if (this.TilesetModel.IsTransparent.Value)
             {
-                Mat transparentImage = ImageUtils.ColorToTransparent(this.ItemImage, this.TilesetModel.TransparentColor);
+                Mat transparentImage = ImageUtils.ColorToTransparent(this.ItemImage, this.TilesetModel.TransparentColor.Value);
                 using (DrawingContext context = this.tilesetImage.Open())
                 {
                     context.DrawDrawing(ImageUtils.MatToImageDrawing(transparentImage));
@@ -477,14 +477,14 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
             this.TilesetModel.IsTransparent = tilesetModel.IsTransparent;
             this.TilesetModel.TransparentColor = tilesetModel.TransparentColor;
             this.Session.CurrentTileset = this.TilesetModel;
-            this.ItemImage = CvInvoke.Imread(this.TilesetModel.SourcePath, Emgu.CV.CvEnum.ImreadModes.Unchanged);
+            this.ItemImage = CvInvoke.Imread(this.TilesetModel.SourcePath.Value, Emgu.CV.CvEnum.ImreadModes.Unchanged);
             this.itemTransform = new CoordinateTransform();
-            this.itemTransform.SetPixelToTile(this.TilesetModel.TileWidth, this.TilesetModel.TileHeight);
-            this.itemTransform.SetSlectionToPixel(this.TilesetModel.TileWidth / 2, this.TilesetModel.TileHeight / 2);
+            this.itemTransform.SetPixelToTile(this.TilesetModel.TileWidth.Value, this.TilesetModel.TileHeight.Value);
+            this.itemTransform.SetSlectionToPixel(this.TilesetModel.TileWidth.Value / 2, this.TilesetModel.TileHeight.Value / 2);
             Mat drawingMat = this.ItemImage;
-            if (this.TilesetModel.IsTransparent)
+            if (this.TilesetModel.IsTransparent.Value)
             {
-                drawingMat = ImageUtils.ColorToTransparent(this.ItemImage, this.TilesetModel.TransparentColor);
+                drawingMat = ImageUtils.ColorToTransparent(this.ItemImage, this.TilesetModel.TransparentColor.Value);
             }
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
@@ -499,12 +499,12 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
 
         public void UpdatePaddedBrushModel(PaddedBrushModel model)
         {
-            int pixelOffsetX = model.TileOffsetX * model.TileWidth;
-            int pixelOffsetY = model.TileOffsetY * model.TileHeight;
-            this.TilesetModel.TileSize = model.TileSize;
+            int pixelOffsetX = model.TileOffsetX * model.TileWidth.Value;
+            int pixelOffsetY = model.TileOffsetY * model.TileHeight.Value;
+            this.TilesetModel.SetTileSize(model.GetTileSize());
 
             Point pixelOffset = new Point(pixelOffsetX, pixelOffsetY);
-            Point pixelEnd = new Point(pixelOffsetX + model.PixelWidth - 1, pixelOffsetY + model.PixelHeight - 1);
+            Point pixelEnd = new Point(pixelOffsetX + model.PixelWidth.Value - 1, pixelOffsetY + model.PixelHeight.Value - 1);
             SelectTiles(pixelOffset, pixelEnd);
         }
 
@@ -536,16 +536,16 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
         public void RedrawBackground()
         {
             Size extendedSize = new Size();
-            extendedSize.Width = this.TilesetModel.PixelWidth + this.TilesetModel.TileWidth;
-            extendedSize.Height = this.TilesetModel.PixelHeight + this.TilesetModel.TileHeight;
+            extendedSize.Width = this.TilesetModel.PixelWidth.Value + this.TilesetModel.TileWidth.Value;
+            extendedSize.Height = this.TilesetModel.PixelHeight.Value + this.TilesetModel.TileHeight.Value;
             Point extendedPoint = new Point();
-            extendedPoint.X = -this.TilesetModel.TileWidth / 2;
-            extendedPoint.Y = -this.TilesetModel.TileHeight / 2;
+            extendedPoint.X = -this.TilesetModel.TileWidth.Value / 2;
+            extendedPoint.Y = -this.TilesetModel.TileHeight.Value / 2;
             Rect drawingRect = new Rect(extendedPoint, extendedSize);
 
             Size backgroundSize = new Size();
-            backgroundSize.Width = this.TilesetModel.PixelWidth;
-            backgroundSize.Height = this.TilesetModel.PixelHeight;
+            backgroundSize.Width = this.TilesetModel.PixelWidth.Value;
+            backgroundSize.Height = this.TilesetModel.PixelHeight.Value;
             Point backgroundPoint = new Point();
             backgroundPoint.X = 0;
             backgroundPoint.Y = 0;
@@ -616,7 +616,7 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
 
         private void UpdateTilesetModel()
         {
-            this.itemTransform.SetPixelToTile(this.TilesetModel.TileWidth, this.TilesetModel.TileHeight, this.TilesetModel.OffsetX, this.TilesetModel.OffsetY, this.TilesetModel.PaddingX, this.TilesetModel.PaddingY);
+            this.itemTransform.SetPixelToTile(this.TilesetModel.TileWidth.Value, this.TilesetModel.TileHeight.Value, this.TilesetModel.OffsetX.Value, this.TilesetModel.OffsetY.Value, this.TilesetModel.PaddingX.Value, this.TilesetModel.PaddingY.Value);
             RedrawGrid();
         }
 
@@ -680,14 +680,9 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
             Console.WriteLine("Remove Item");
         }
 
-        private void TilesetPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void IsTransparentChanged(object sender, PropertyChangedEventArgs e)
         {
-            switch(e.PropertyName)
-            {
-                case nameof(this.TilesetModel.IsTransparent):
-                    RefreshItemModel();
-                    break;
-            }
+            RefreshItemModel();
         }
 
         private void OnNewTilesetWindowClosed(INotification notification)

@@ -109,7 +109,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             this.updatePositionLabelStopWatch = Stopwatch.StartNew();
             this.HoverSampleOpacity = hoverSampleOpacity;
 
-            this.session.PropertyChanged += SessionChanged;
+            this.session.PropertyChanged += SessionPropertyChanged;
             this.Map.LayerList.CollectionChanged += LayerListChanged;
             this.ScrollModel.PropertyChanged += ScrollModelPropertyChanged;
             
@@ -370,10 +370,11 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             this.HoverSampleOpacity = hoverSampleOpacity;
         }
 
-        private void SessionChanged(object sender, PropertyChangedEventArgs e)
+        private void SessionPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(AmeSession.CurrentLayer))
             {
+                Console.WriteLine("Rendering");
                 DrawLayerBoundaries();
             }
         }

@@ -175,7 +175,6 @@ namespace Ame.Infrastructure.Models
 
         private int GetOffsetX()
         {
-            // TODO change to tile width
             int offsetX;
             if (this.Layers.Count > 0)
             {
