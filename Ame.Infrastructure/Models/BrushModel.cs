@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,25 +23,25 @@ namespace Ame.Infrastructure.Models
         public BrushModel()
             : base()
         {
-            this.Tiles = new List<Tile>();
+            this.Tiles = new ObservableCollection<Tile>();
         }
 
         public BrushModel(int pixelWidth, int pixelHeight)
             : base(pixelWidth, pixelHeight)
         {
-            this.Tiles = new List<Tile>();
+            this.Tiles = new ObservableCollection<Tile>();
         }
 
         public BrushModel(int columns, int rows, int tileWidth, int tileHeight)
             : base(columns, rows, tileWidth, tileHeight)
         {
-            this.Tiles = new List<Tile>();
+            this.Tiles = new ObservableCollection<Tile>();
         }
 
         public BrushModel(TilesetModel tileset)
             : base(tileset.Columns(), tileset.Rows(), tileset.TileWidth.Value, tileset.TileHeight.Value)
         {
-            this.Tiles = new List<Tile>();
+            this.Tiles = new ObservableCollection<Tile>();
         }
 
         #endregion constructor
@@ -48,7 +49,7 @@ namespace Ame.Infrastructure.Models
 
         #region properties
 
-        public List<Tile> Tiles { get; set; }
+        public ObservableCollection<Tile> Tiles { get; set; }
 
         #endregion properties
 

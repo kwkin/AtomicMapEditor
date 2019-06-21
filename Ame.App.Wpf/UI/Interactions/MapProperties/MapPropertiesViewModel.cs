@@ -168,8 +168,8 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
 
         private void UpdateMapProperties(Map map)
         {
-            map.Name = this.Name;
-            map.Scale = this.Scale;
+            map.Name.Value = this.Name;
+            map.Scale.Value = this.Scale;
             switch (this.Scale)
             {
                 case ScaleType.Tile:
@@ -185,8 +185,8 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
                     map.Rows = this.Rows;
                     break;
             }
-            map.PixelScale = this.PixelScale;
-            map.Description = this.Description;
+            map.PixelScale.Value = this.PixelScale;
+            map.Description.Value = this.Description;
         }
 
         private void updateUIusingMap()
@@ -196,14 +196,14 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
 
         private void updateUIusingMap(Map map)
         {
-            this.Name = map.Name;
+            this.Name = map.Name.Value;
             this.Columns = map.Columns;
             this.Rows = map.Rows;
             this.TileWidth = map.TileWidth;
             this.TileHeight = map.TileHeight;
-            this.Scale = map.Scale;
-            this.PixelScale = map.PixelScale;
-            this.Description = map.Description;
+            this.Scale = map.Scale.Value;
+            this.PixelScale = map.PixelScale.Value;
+            this.Description = map.Description.Value;
         }
 
         private void UpdateMetadata()

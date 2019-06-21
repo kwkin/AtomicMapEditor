@@ -1,4 +1,5 @@
-﻿using Prism.Mvvm;
+﻿using Ame.Infrastructure.BaseTypes;
+using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,14 +22,14 @@ namespace Ame.Infrastructure.Models
 
         public LayerGroup(string layerGroupName)
         {
-            this.Name = layerGroupName;
+            this.Name.Value = layerGroupName;
             this.Layers = new ObservableCollection<ILayer>();
             this.Layers.CollectionChanged += LayersChanged;
         }
 
         public LayerGroup(string layerGroupName, ObservableCollection<ILayer> layers)
         {
-            this.Name = layerGroupName;
+            this.Name.Value = layerGroupName;
             this.Layers = layers;
             this.Layers.CollectionChanged += LayersChanged;
         }
@@ -38,9 +39,12 @@ namespace Ame.Infrastructure.Models
 
         #region properties
 
-        public string Name { get; set; }
-        public bool IsImmutable { get; set; }
-        public bool IsVisible { get; set; }
+        public BindableProperty<string> Name { get; set; } = BindableProperty.Prepare<string>(string.Empty);
+
+        public BindableProperty<bool> IsImmutable { get; set; } = BindableProperty.Prepare<bool>();
+
+        public BindableProperty<bool> IsVisible { get; set; } = BindableProperty.Prepare<bool>();
+
         public ObservableCollection<ILayer> Layers { get; set; }
 
         private DrawingGroup group;

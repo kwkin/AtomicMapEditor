@@ -13,7 +13,7 @@ using System.Windows.Media;
 
 namespace Ame.App.Wpf.UI.Docks.LayerListDock
 {
-    public class LayerListLayerViewModel : BindableBase, ILayerListEntryViewModel
+    public class LayerListLayerViewModel : ILayerListEntryViewModel
     {
         #region fields
 

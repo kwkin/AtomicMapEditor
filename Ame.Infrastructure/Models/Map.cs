@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 using System.Runtime.Serialization;
 using Prism.Mvvm;
 using Ame.Infrastructure.Models.Serializer.Json;
+using Ame.Infrastructure.BaseTypes;
 
 namespace Ame.Infrastructure.Models
 {
@@ -29,13 +30,13 @@ namespace Ame.Infrastructure.Models
 
         public Map()
         {
-            this.Author = "";
-            this.Version = Global.Version;
-            this.Name = "";
+            this.Author.Value = "";
+            this.Version.Value = Global.Version;
+            this.Name.Value = string.Empty;
             this.Grid = new GridModel(32, 32, 32, 32);
-            this.Scale = ScaleType.Tile;
-            this.PixelScale = 1;
-            this.Description = "";
+            this.Scale.Value = ScaleType.Tile;
+            this.PixelScale.Value = 1;
+            this.Description.Value = "";
             this.LayerList = new ObservableCollection<ILayer>();
             this.TilesetList = new ObservableCollection<TilesetModel>();
             this.UndoQueue = new Stack<DrawAction>();
@@ -44,14 +45,14 @@ namespace Ame.Infrastructure.Models
 
         public Map(string name)
         {
-            this.Name = name;
+            this.Name.Value = name;
 
-            this.Author = "";
-            this.Version = Global.Version;
+            this.Author.Value = "";
+            this.Version.Value = Global.Version;
             this.Grid = new GridModel(32, 32, 32, 32);
-            this.Scale = ScaleType.Tile;
-            this.PixelScale = 1;
-            this.Description = "";
+            this.Scale.Value = ScaleType.Tile;
+            this.PixelScale.Value = 1;
+            this.Description.Value = "";
             this.LayerList = new ObservableCollection<ILayer>();
             this.TilesetList = new ObservableCollection<TilesetModel>();
 
@@ -64,14 +65,14 @@ namespace Ame.Infrastructure.Models
 
         public Map(string name, int width, int height)
         {
-            this.Name = name;
+            this.Name.Value = name;
             this.Grid = new GridModel(width, height, 32, 32);
 
-            this.Author = "";
-            this.Version = Global.Version;
-            this.Scale = ScaleType.Tile;
-            this.PixelScale = 1;
-            this.Description = "";
+            this.Author.Value = "";
+            this.Version.Value = Global.Version;
+            this.Scale.Value = ScaleType.Tile;
+            this.PixelScale.Value = 1;
+            this.Description.Value = "";
             this.LayerList = new ObservableCollection<ILayer>();
             this.TilesetList = new ObservableCollection<TilesetModel>();
 
@@ -88,21 +89,7 @@ namespace Ame.Infrastructure.Models
         #region properties
 
         [MetadataProperty(MetadataType.Property)]
-        private string name;
-        public string Name
-        {
-            get
-            {
-                return this.name;
-            }
-            set
-            {
-                if (name != value)
-                {
-                    this.SetProperty(ref this.name, value);
-                }
-            }
-        }
+        public BindableProperty<string> Name { get; set; } = BindableProperty.Prepare<string>(string.Empty);
 
         [MetadataProperty(MetadataType.Property)]
         private string file;
@@ -173,17 +160,7 @@ namespace Ame.Infrastructure.Models
         }
 
         [MetadataProperty(MetadataType.Property)]
-        public ScaleType Scale
-        {
-            get
-            {
-                return this.Grid.Scale.Value;
-            }
-            set
-            {
-                this.Grid.Scale.Value = value;
-            }
-        }
+        public BindableProperty<ScaleType> Scale { get; set; } = BindableProperty.Prepare<ScaleType>();
 
         [MetadataProperty(MetadataType.Property, "Pixel Width")]
         public int PixelWidth
@@ -212,19 +189,19 @@ namespace Ame.Infrastructure.Models
         }
 
         [MetadataProperty(MetadataType.Property, "Pixel Ratio")]
-        public int PixelRatio { get; set; }
+        public BindableProperty<int> PixelRatio { get; set; } = BindableProperty.Prepare<int>();
 
         [MetadataProperty(MetadataType.Property, "Pixel Scale")]
-        public int PixelScale { get; set; }
+        public BindableProperty<int> PixelScale { get; set; } = BindableProperty.Prepare<int>();
 
         [MetadataProperty(MetadataType.Property)]
-        public string Description { get; set; }
+        public BindableProperty<string> Description { get; set; } = BindableProperty.Prepare<string>(string.Empty);
         
         [MetadataProperty(MetadataType.Property)]
-        public string Author { get; set; }
+        public BindableProperty<string> Author { get; set; } = BindableProperty.Prepare<string>(string.Empty);
 
         [MetadataProperty(MetadataType.Property)]
-        public string Version { get; set; }
+        public BindableProperty<string> Version { get; set; } = BindableProperty.Prepare<string>(string.Empty);
 
         private ObservableCollection<ILayer> layerList;
         public ObservableCollection<ILayer> LayerList
@@ -384,7 +361,7 @@ namespace Ame.Infrastructure.Models
         {
             if (tile.Bounds.X < 0
                 || tile.Bounds.Y < 0 
-                || tile.Bounds.X >= this.PixelWidth 
+                || tile.Bounds.X >= this.PixelWidth
                 || tile.Bounds.Y >= this.PixelHeight)
             {
                 return null;

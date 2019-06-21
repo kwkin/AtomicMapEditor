@@ -77,7 +77,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             this.imageTransform.SetPixelToTile(this.Map.TileWidth, this.Map.TileHeight);
             this.imageTransform.SetSlectionToPixel(this.Map.TileWidth / 2, this.Map.TileHeight / 2);
 
-            this.Title = this.Map.Name;
+            this.Title = this.Map.Name.Value;
             this.drawingGroup = new DrawingGroup();
             this.mapBackground = new DrawingGroup();
             this.hoverSample = new DrawingGroup();
@@ -87,7 +87,10 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             foreach (ILayer layer in this.Map.LayerList)
             {
                 this.layerItems.Children.Add(layer.Group);
-                layer.PropertyChanged += LayerChanged;
+                layer.IsVisible.PropertyChanged += (s, args) =>
+                {
+                    LayerChanged(layer);
+                };
             }
             DrawLayerBoundaries();
 
@@ -402,7 +405,10 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
                     foreach (ILayer layer in e.NewItems)
                     {
                         this.layerItems.Children.Add(layer.Group);
-                        layer.PropertyChanged += LayerChanged;
+                        layer.IsVisible.PropertyChanged += (s, args) =>
+                        {
+                            LayerChanged(layer);
+                        };
                     }
                     break;
                 case NotifyCollectionChangedAction.Remove:
@@ -427,28 +433,6 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
                         Drawing oldLayerImage = this.layerItems.Children[oldGroupIndex];
                         this.layerItems.Children[oldGroupIndex] = this.layerItems.Children[newGroupIndex];
                         this.layerItems.Children[newGroupIndex] = oldLayerImage;
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        private void LayerChanged(object sender, PropertyChangedEventArgs e)
-        {
-            ILayer layer = sender as ILayer;
-            switch(e.PropertyName)
-            {
-                case nameof(ILayer.IsVisible):
-                    if (layer.IsVisible)
-                    {
-                        int insertIndex = this.orderer.getAffectedIndex(layer);
-                        this.layerItems.Children.Insert(insertIndex, layer.Group);
-                    }
-                    else
-                    {
-                        int removeIndex = this.orderer.getAffectedIndex(layer);
-                        this.layerItems.Children.RemoveAt(removeIndex);
                     }
                     break;
                 default:
@@ -497,6 +481,20 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             }
             this.lastTilePoint = topLeftTilePixelPoint;
             this.DrawingTool.DrawHoverSample(this.hoverSample, topLeftTilePixelPoint);
+        }
+
+        private void LayerChanged(ILayer layer)
+        {
+            if (layer.IsVisible.Value)
+            {
+                int insertIndex = this.orderer.getAffectedIndex(layer);
+                this.layerItems.Children.Insert(insertIndex, layer.Group);
+            }
+            else
+            {
+                int removeIndex = this.orderer.getAffectedIndex(layer);
+                this.layerItems.Children.RemoveAt(removeIndex);
+            }
         }
 
         private void redrawBackground()

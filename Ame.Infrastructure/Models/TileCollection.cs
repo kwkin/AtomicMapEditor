@@ -24,7 +24,7 @@ namespace Ame.Infrastructure.Models
         #region constructor
 
         public TileCollection(Layer layer)
-            : this(layer.TileWidth, layer.TileHeight, layer.Rows, layer.Columns)
+            : this(layer.TileWidth.Value, layer.TileHeight.Value, layer.Rows.Value, layer.Columns.Value)
         {
         }
 

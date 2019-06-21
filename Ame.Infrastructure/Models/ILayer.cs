@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ame.Infrastructure.BaseTypes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -13,13 +14,13 @@ namespace Ame.Infrastructure.Models
         #region fields
 
         #endregion fields
-          
-        
+
+
         #region properties
 
-        string Name { get; set; }
-        bool IsImmutable { get; set; }
-        bool IsVisible { get; set; }
+        BindableProperty<string> Name { get; set; }
+        BindableProperty<bool> IsImmutable { get; set; }
+        BindableProperty<bool> IsVisible { get; set; }
         DrawingGroup Group { get; set; }
         LayerGroup Parent { get; set; }
         int OffsetX { get; }

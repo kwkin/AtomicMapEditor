@@ -11,6 +11,7 @@ using Ame.Infrastructure.Attributes;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using Prism.Mvvm;
+using Ame.Infrastructure.BaseTypes;
 
 namespace Ame.Infrastructure.Models
 {
@@ -27,14 +28,14 @@ namespace Ame.Infrastructure.Models
         {
             this.Map = map;
 
-            this.Name = "";
-            this.TileWidth = 32;
-            this.TileHeight = 32;
-            this.Rows = 32;
-            this.Columns = 32;
-            this.IsVisible = true;
-            this.Position = LayerPosition.Base;
-            this.Scale = ScaleType.Tile;
+            this.Name.Value = "";
+            this.TileWidth.Value = 32;
+            this.TileHeight.Value = 32;
+            this.Rows.Value = 32;
+            this.Columns.Value = 32;
+            this.IsVisible.Value = true;
+            this.Position.Value = LayerPosition.Base;
+            this.Scale.Value = ScaleType.Tile;
             this.TileIDs = this.TileIDs ?? new TileCollection(this);
         }
 
@@ -42,14 +43,14 @@ namespace Ame.Infrastructure.Models
         {
             this.Map = map;
 
-            this.Name = "";
-            this.TileWidth = tileWidth;
-            this.TileHeight = tileHeight;
-            this.Rows = rows;
-            this.Columns = columns;
-            this.IsVisible = true;
-            this.Position = LayerPosition.Base;
-            this.Scale = ScaleType.Tile;
+            this.Name.Value = "";
+            this.TileWidth.Value = tileWidth;
+            this.TileHeight.Value = tileHeight;
+            this.Rows.Value = rows;
+            this.Columns.Value = columns;
+            this.IsVisible.Value = true;
+            this.Position.Value = LayerPosition.Base;
+            this.Scale.Value = ScaleType.Tile;
             this.TileIDs = this.TileIDs ?? new TileCollection(this);
         }
 
@@ -57,14 +58,14 @@ namespace Ame.Infrastructure.Models
         {
             this.Map = map;
 
-            this.Name = layerName;
-            this.TileWidth = tileWidth;
-            this.TileHeight = tileHeight;
-            this.Rows = rows;
-            this.Columns = columns;
-            this.IsVisible = true;
-            this.Position = LayerPosition.Base;
-            this.Scale = ScaleType.Tile;
+            this.Name.Value = layerName;
+            this.TileWidth.Value = tileWidth;
+            this.TileHeight.Value = tileHeight;
+            this.Rows.Value = rows;
+            this.Columns.Value = columns;
+            this.IsVisible.Value = true;
+            this.Position.Value = LayerPosition.Base;
+            this.Scale.Value = ScaleType.Tile;
             this.TileIDs = this.TileIDs ?? new TileCollection(this);
         }
 
@@ -75,35 +76,20 @@ namespace Ame.Infrastructure.Models
         
         public int ID { get; set; } = -1;
         
-        private string name;
-
         [MetadataProperty(MetadataType.Property, "Name")]
-        public string Name
-        {
-            get
-            {
-                return this.name;
-            }
-            set
-            {
-                if (this.name != value)
-                {
-                    this.SetProperty(ref this.name, value);
-                }
-            }
-        }
-        
-        [MetadataProperty(MetadataType.Property)]
-        public int Columns { get; set; }
+        public BindableProperty<string> Name { get; set; } = BindableProperty.Prepare<string>(string.Empty);
 
         [MetadataProperty(MetadataType.Property)]
-        public int Rows { get; set; }
+        public BindableProperty<int> Columns { get; set; } = BindableProperty.Prepare<int>();
+
+        [MetadataProperty(MetadataType.Property)]
+        public BindableProperty<int> Rows { get; set; } = BindableProperty.Prepare<int>();
 
         [MetadataProperty(MetadataType.Property, "Tile Width")]
-        public int TileWidth { get; set; }
+        public BindableProperty<int> TileWidth { get; set; } = BindableProperty.Prepare<int>();
 
         [MetadataProperty(MetadataType.Property, "Tile Height")]
-        public int TileHeight { get; set; }
+        public BindableProperty<int> TileHeight { get; set; } = BindableProperty.Prepare<int>();
 
         [MetadataProperty(MetadataType.Property, "Pixel Offset X")]
         public int OffsetX { get; set; }
@@ -112,43 +98,21 @@ namespace Ame.Infrastructure.Models
         public int OffsetY { get; set; }
 
         [MetadataProperty(MetadataType.Property)]
-        public LayerPosition Position { get; set; }
+        public BindableProperty<LayerPosition> Position { get; set; } = BindableProperty.Prepare<LayerPosition>();
 
         [MetadataProperty(MetadataType.Property)]
-        public ScaleType Scale { get; set; }
+        public BindableProperty<ScaleType> Scale { get; set; } = BindableProperty.Prepare<ScaleType>();
 
         [MetadataProperty(MetadataType.Property, "Scroll Rate")]
-        public double ScrollRate { get; set; }
+        public BindableProperty<double> ScrollRate { get; set; } = BindableProperty.Prepare<double>();
 
         [MetadataProperty(MetadataType.Property)]
-        public string Description { get; set; }
+        public BindableProperty<string> Description { get; set; } = BindableProperty.Prepare<string>();
 
-        private bool isImmutable;
-        public bool IsImmutable
-        {
-            get
-            {
-                return this.isImmutable;
-            }
-            set
-            {
-                this.SetProperty(ref this.isImmutable, value);
-            }
-        }
+        public BindableProperty<bool> IsImmutable { get; set; } = BindableProperty.Prepare<bool>();
 
-        private bool isVisible;
-        public bool IsVisible
-        {
-            get
-            {
-                return this.isVisible;
-            }
-            set
-            {
-                this.SetProperty(ref this.isVisible, value);
-            }
-        }
-        
+        public BindableProperty<bool> IsVisible { get; set; } = BindableProperty.Prepare<bool>();
+
         [IgnoreNodeBuilder]
         public DrawingGroup Group
         {
@@ -190,12 +154,12 @@ namespace Ame.Infrastructure.Models
 
         public int GetPixelWidth()
         {
-            return this.TileWidth * this.Columns;
+            return this.TileWidth.Value * this.Columns.Value;
         }
 
         public int GetPixelHeight()
         {
-            return this.TileHeight * this.Rows;
+            return this.TileHeight.Value * this.Rows.Value;
         }
 
         public void Clear()
@@ -205,8 +169,8 @@ namespace Ame.Infrastructure.Models
         
         public Point getPointFromIndex(int id)
         {
-            int pointX = (id % this.Columns) * this.TileWidth;
-            int pointY = (int)Math.Floor((double)(id / this.Rows)) * this.TileHeight;
+            int pointX = (id % this.Columns.Value) * this.TileWidth.Value;
+            int pointY = (int)Math.Floor((double)(id / this.Rows.Value)) * this.TileHeight.Value;
             return new Point(pointX, pointY);
         }
 

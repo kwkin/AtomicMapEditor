@@ -150,32 +150,32 @@ namespace Ame.App.Wpf.UI.Interactions.LayerProperties
 
         private void UpdateLayerProperties(Layer layer)
         {
-            layer.Name = this.Name;
-            layer.Columns = this.Columns;
-            layer.Rows = this.Rows;
+            layer.Name.Value = this.Name;
+            layer.Columns.Value = this.Columns;
+            layer.Rows.Value = this.Rows;
             layer.OffsetX = this.OffsetX * this.TileWidth;
             layer.OffsetY = this.OffsetY * this.TileHeight;
-            layer.TileWidth = this.TileWidth;
-            layer.TileHeight = this.TileHeight;
-            layer.Scale = this.Scale;
-            layer.Position = this.Position;
-            layer.ScrollRate = this.ScrollRate;
-            layer.Description = this.Description;
+            layer.TileWidth.Value = this.TileWidth;
+            layer.TileHeight.Value = this.TileHeight;
+            layer.Scale.Value = this.Scale;
+            layer.Position.Value = this.Position;
+            layer.ScrollRate.Value = this.ScrollRate;
+            layer.Description.Value = this.Description;
         }
 
         private void UpdateUI()
         {
-            this.Name = this.Layer.Name;
-            this.Columns = this.Layer.Columns;
-            this.Rows = this.Layer.Rows;
-            this.OffsetX = this.Layer.OffsetX / this.Layer.TileWidth;
-            this.OffsetY = this.Layer.OffsetY / this.Layer.TileHeight;
-            this.TileWidth = this.Layer.TileWidth;
-            this.TileHeight = this.Layer.TileHeight;
-            this.Scale = this.Layer.Scale;
-            this.Position = this.Layer.Position;
-            this.ScrollRate = this.Layer.ScrollRate;
-            this.Description = this.Layer.Description;
+            this.Name = this.Layer.Name.Value;
+            this.Columns = this.Layer.Columns.Value;
+            this.Rows = this.Layer.Rows.Value;
+            this.OffsetX = this.Layer.OffsetX / this.Layer.TileWidth.Value;
+            this.OffsetY = this.Layer.OffsetY / this.Layer.TileHeight.Value;
+            this.TileWidth = this.Layer.TileWidth.Value;
+            this.TileHeight = this.Layer.TileHeight.Value;
+            this.Scale = this.Layer.Scale.Value;
+            this.Position = this.Layer.Position.Value;
+            this.ScrollRate = this.Layer.ScrollRate.Value;
+            this.Description = this.Layer.Description.Value;
 
             RaisePropertyChanged(nameof(this.Name));
         }

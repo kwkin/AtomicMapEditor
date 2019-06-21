@@ -41,7 +41,7 @@ namespace Ame.Infrastructure.UILogic
             for(int index = 0; index < listIndex; ++index)
             {
                 ILayer currentLayer = this.session.CurrentLayerList[index];
-                if (currentLayer.IsVisible)
+                if (currentLayer.IsVisible.Value)
                 {
                     visibleCount++;
                 }

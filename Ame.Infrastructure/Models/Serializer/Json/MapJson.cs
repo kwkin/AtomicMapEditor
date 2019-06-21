@@ -17,16 +17,16 @@ namespace Ame.Infrastructure.Models.Serializer.Json
 
         public MapJson(Map map)
         {
-            this.Version = map.Version;
-            this.Name = map.Name;
-            this.Author = map.Author;
+            this.Version = map.Version.Value;
+            this.Name = map.Name.Value;
+            this.Author = map.Author.Value;
             this.Rows = map.Rows;
             this.Columns = map.Columns;
             this.TileWidth = map.TileWidth;
             this.TileHeight = map.TileHeight;
-            this.Scale = map.Scale;
+            this.Scale = map.Scale.Value;
             this.BackgroundColor = map.BackgroundColor;
-            this.Description = map.Description;
+            this.Description = map.Description.Value;
             this.TilesetList = new List<TilesetJson>();
             foreach (TilesetModel model in map.TilesetList)
             {
@@ -79,16 +79,16 @@ namespace Ame.Infrastructure.Models.Serializer.Json
         public Map Generate()
         {
             Map map = new Map();
-            map.Version = this.Version;
-            map.Name = this.Name;
-            map.Author = this.Author;
+            map.Version.Value = this.Version;
+            map.Name.Value = this.Name;
+            map.Author.Value = this.Author;
             map.Rows = this.Rows;
             map.Columns = this.Columns;
             map.TileWidth = this.TileWidth;
             map.TileHeight = this.TileHeight;
-            map.Scale = this.Scale;
+            map.Scale.Value = this.Scale;
             map.BackgroundColor = this.BackgroundColor;
-            map.Description = this.Description;
+            map.Description.Value = this.Description;
             foreach (TilesetJson tilesetJson in this.TilesetList)
             {
                 TilesetModel tileset = tilesetJson.Generate();

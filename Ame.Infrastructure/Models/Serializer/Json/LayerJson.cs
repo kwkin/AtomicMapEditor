@@ -18,18 +18,18 @@ namespace Ame.Infrastructure.Models.Serializer.Json
         public LayerJson(Layer layer)
         {
             this.ID = layer.ID;
-            this.Name = layer.Name;
-            this.Columns = layer.Columns;
-            this.Rows = layer.Rows;
-            this.TileWidth = layer.TileWidth;
-            this.TileHeight = layer.TileHeight;
+            this.Name = layer.Name.Value;
+            this.Columns = layer.Columns.Value;
+            this.Rows = layer.Rows.Value;
+            this.TileWidth = layer.TileWidth.Value;
+            this.TileHeight = layer.TileHeight.Value;
             this.OffsetX = layer.OffsetX;
             this.OffsetY = layer.OffsetY;
-            this.Position = layer.Position;
-            this.Scale = layer.Scale;
-            this.ScrollRate = layer.ScrollRate;
-            this.IsImmutable = layer.IsImmutable;
-            this.IsVisible = layer.IsVisible;
+            this.Position = layer.Position.Value;
+            this.Scale = layer.Scale.Value;
+            this.ScrollRate = layer.ScrollRate.Value;
+            this.IsImmutable = layer.IsImmutable.Value;
+            this.IsVisible = layer.IsVisible.Value;
             this.Tiles = new TileCollectionJson(layer.TileIDs);
         }
 
@@ -85,18 +85,18 @@ namespace Ame.Infrastructure.Models.Serializer.Json
             ObservableCollection<TilesetModel> tilesetList = map.TilesetList;
             Layer layer = new Layer(map);
             layer.ID = this.ID;
-            layer.Name = this.Name;
-            layer.Columns = this.Columns;
-            layer.Rows = this.Rows;
-            layer.TileWidth = this.TileWidth;
-            layer.TileHeight = this.TileHeight;
+            layer.Name.Value = this.Name;
+            layer.Columns.Value = this.Columns;
+            layer.Rows.Value = this.Rows;
+            layer.TileWidth.Value = this.TileWidth;
+            layer.TileHeight.Value = this.TileHeight;
             layer.OffsetX = this.OffsetX;
             layer.OffsetY = this.OffsetY;
-            layer.Position = this.Position;
-            layer.Scale = this.Scale;
-            layer.ScrollRate = this.ScrollRate;
-            layer.IsImmutable = this.IsImmutable;
-            layer.IsVisible = this.IsVisible;
+            layer.Position.Value = this.Position;
+            layer.Scale.Value = this.Scale;
+            layer.ScrollRate.Value = this.ScrollRate;
+            layer.IsImmutable.Value = this.IsImmutable;
+            layer.IsVisible.Value = this.IsVisible;
             layer.TileIDs = this.Tiles.Generate(layer, tilesetList);
             return layer;
         }
