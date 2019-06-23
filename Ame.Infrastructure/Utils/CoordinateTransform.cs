@@ -43,7 +43,7 @@ namespace Ame.Infrastructure.Utils
 
         #region configure transforms
 
-        public void SetSlectionToPixel(double offsetX, double offsetY)
+        public void SetSelectionToPixel(double offsetX, double offsetY)
         {
             this.pixelToSelectTranslate.X = offsetX;
             this.pixelToSelectTranslate.Y = offsetY;

@@ -117,7 +117,7 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
             });
             this.ShowGridCommand = new DelegateCommand(() =>
             {
-                RefreshGrid();
+                RedrawGrid();
             });
             this.ShowRulerCommand = new DelegateCommand(() =>
             {
@@ -180,6 +180,8 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
             }
         }
 
+        // TODO remove bindable base and use bindable property
+        // TODO change pixel steppers to labels and use columns/rows to set the size
         public Action FinishInteraction { get; set; }
 
         private Mat itemImage;
@@ -486,7 +488,7 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
                     this.gridLines.Children.Clear();
                     Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        RefreshGrid();
+                        RedrawGrid();
                     }),
                     DispatcherPriority.Background);
                 }
@@ -504,7 +506,7 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
             {
                 if (SetProperty(ref this.gridPen, value))
                 {
-                    RefreshGrid();
+                    RedrawGrid();
                 }
             }
         }
@@ -635,8 +637,8 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
             this.OffsetY = this.TilesetModel.OffsetY.Value;
             this.PaddingX = this.TilesetModel.PaddingX.Value;
             this.PaddingY = this.TilesetModel.PaddingY.Value;
-            this.tilesetPixelWidth = this.TilesetModel.PixelWidth.Value;
-            this.tilesetPixelHeight = this.TilesetModel.PixelHeight.Value;
+            this.tilesetPixelWidth = this.TilesetModel.PixelWidth;
+            this.tilesetPixelHeight = this.TilesetModel.PixelHeight;
         }
 
         private void UpdateTilesetModel()
@@ -651,8 +653,8 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
             this.TilesetModel.OffsetY.Value = this.OffsetY;
             this.TilesetModel.PaddingX.Value = this.PaddingX;
             this.TilesetModel.PaddingY.Value = this.PaddingY;
-            this.TilesetModel.PixelHeight.Value = this.tilesetPixelHeight;
-            this.TilesetModel.PixelWidth.Value = this.tilesetPixelWidth;
+            this.TilesetModel.Columns.Value = this.tilesetPixelWidth / this.TileWidth;
+            this.TilesetModel.Rows.Value = this.tilesetPixelHeight / this.TileHeight;
         }
 
         public void HandleLeftClickUp(Point selectPoint)
@@ -752,7 +754,7 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
             this.TilesetModel.TilesetImage = newGroup;
             this.itemTransform = new CoordinateTransform();
             this.itemTransform.SetPixelToTile(this.TilesetModel.TileWidth.Value, this.TilesetModel.TileHeight.Value);
-            this.itemTransform.SetSlectionToPixel(this.TilesetModel.TileWidth.Value / 2, this.TilesetModel.TileHeight.Value / 2);
+            this.itemTransform.SetSelectionToPixel(this.TilesetModel.TileWidth.Value / 2, this.TilesetModel.TileHeight.Value / 2);
             Mat drawingMat = this.ItemImage;
 
             this.isGridOn = true;
@@ -768,20 +770,17 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
                 }
             }), DispatcherPriority.Render);
             RefreshBackground();
-            RefreshGrid();
+            RedrawGrid();
         }
 
-        public void RefreshGrid()
+        public void RedrawGrid()
         {
             if (this.IsGridOn)
             {
-                PaddedGridRenderable gridParameters = new PaddedGridRenderable(this.ItemImage.Width, this.ItemImage.Height);
-                gridParameters.TileWidth.Value = this.TileWidth;
-                gridParameters.TileHeight.Value = this.tileHeight;
-                gridParameters.OffsetX.Value = this.OffsetX;
-                gridParameters.OffsetY.Value = this.OffsetY;
-                gridParameters.PaddingX.Value = this.PaddingX;
-                gridParameters.PaddingY.Value = this.PaddingY;
+                int columns = this.ItemImage.Width / this.TileWidth;
+                int rows = this.ItemImage.Height / this.TileHeight;
+
+                PaddedGridRenderable gridParameters = new PaddedGridRenderable(columns, rows, this.TileWidth, this.TileHeight, this.OffsetX, this.OffsetY, this.PaddingX, this.PaddingY);
                 double thickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
                 gridParameters.DrawingPen.Thickness = thickness < Global.maxGridThickness ? thickness : Global.maxGridThickness;
 

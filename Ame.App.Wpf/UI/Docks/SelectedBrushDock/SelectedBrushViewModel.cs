@@ -187,11 +187,13 @@ namespace Ame.App.Wpf.UI.Docks.SelectedBrushDock
                     context.DrawDrawing(tile.Image);
                 }
             }
-            this.gridModel.SetHeightWithRows(brushModel.Rows(), brushModel.TileHeight.Value);
-            this.gridModel.SetWidthWithColumns(brushModel.Columns(), brushModel.TileWidth.Value);
+            this.gridModel.Columns = brushModel.Columns;
+            this.gridModel.Rows = brushModel.Rows;
+            this.gridModel.TileWidth = brushModel.TileWidth;
+            this.gridModel.TileHeight = brushModel.TileHeight;
 
             this.imageTransform.SetPixelToTile(this.gridModel.TileWidth.Value, this.gridModel.TileHeight.Value);
-            this.imageTransform.SetSlectionToPixel(this.gridModel.TileWidth.Value / 2, this.gridModel.TileHeight.Value / 2);
+            this.imageTransform.SetSelectionToPixel(this.gridModel.TileWidth.Value / 2, this.gridModel.TileHeight.Value / 2);
 
             redrawExtendedBackground();
             RedrawGrid();
@@ -201,8 +203,8 @@ namespace Ame.App.Wpf.UI.Docks.SelectedBrushDock
         private void redrawExtendedBackground()
         {
             Size extendedSize = new Size();
-            extendedSize.Width = this.gridModel.PixelWidth.Value + this.gridModel.TileWidth.Value;
-            extendedSize.Height = this.gridModel.PixelHeight.Value + this.gridModel.TileHeight.Value;
+            extendedSize.Width = this.gridModel.PixelWidth + this.gridModel.TileWidth.Value;
+            extendedSize.Height = this.gridModel.PixelHeight + this.gridModel.TileHeight.Value;
             Point extendedPoint = new Point();
             extendedPoint.X = -this.gridModel.TileWidth.Value / 2;
             extendedPoint.Y = -this.gridModel.TileHeight.Value / 2;

@@ -430,7 +430,7 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
 
             this.DrawSelectLinesFromPixels(topLeftPixel, pixelSize);
             PaddedBrushModel brushModel = new PaddedBrushModel(this.TilesetModel, (int)topLeftTile.X, (int)topLeftTile.Y);
-            brushModel.SetPixelSize(pixelSize);
+            brushModel.SetSize(tileSize);
             Mat croppedImage = BrushUtils.CropImage(this.ItemImage, topLeftPixel, pixelSize);
 
             if (this.TilesetModel.IsTransparent.Value)
@@ -480,7 +480,7 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
             this.ItemImage = CvInvoke.Imread(this.TilesetModel.SourcePath.Value, Emgu.CV.CvEnum.ImreadModes.Unchanged);
             this.itemTransform = new CoordinateTransform();
             this.itemTransform.SetPixelToTile(this.TilesetModel.TileWidth.Value, this.TilesetModel.TileHeight.Value);
-            this.itemTransform.SetSlectionToPixel(this.TilesetModel.TileWidth.Value / 2, this.TilesetModel.TileHeight.Value / 2);
+            this.itemTransform.SetSelectionToPixel(this.TilesetModel.TileWidth.Value / 2, this.TilesetModel.TileHeight.Value / 2);
             Mat drawingMat = this.ItemImage;
             if (this.TilesetModel.IsTransparent.Value)
             {
@@ -504,7 +504,7 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
             this.TilesetModel.SetTileSize(model.GetTileSize());
 
             Point pixelOffset = new Point(pixelOffsetX, pixelOffsetY);
-            Point pixelEnd = new Point(pixelOffsetX + model.PixelWidth.Value - 1, pixelOffsetY + model.PixelHeight.Value - 1);
+            Point pixelEnd = new Point(pixelOffsetX + model.PixelWidth - 1, pixelOffsetY + model.PixelHeight - 1);
             SelectTiles(pixelOffset, pixelEnd);
         }
 
@@ -536,16 +536,16 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
         public void RedrawBackground()
         {
             Size extendedSize = new Size();
-            extendedSize.Width = this.TilesetModel.PixelWidth.Value + this.TilesetModel.TileWidth.Value;
-            extendedSize.Height = this.TilesetModel.PixelHeight.Value + this.TilesetModel.TileHeight.Value;
+            extendedSize.Width = this.TilesetModel.PixelWidth + this.TilesetModel.TileWidth.Value;
+            extendedSize.Height = this.TilesetModel.PixelHeight + this.TilesetModel.TileHeight.Value;
             Point extendedPoint = new Point();
             extendedPoint.X = -this.TilesetModel.TileWidth.Value / 2;
             extendedPoint.Y = -this.TilesetModel.TileHeight.Value / 2;
             Rect drawingRect = new Rect(extendedPoint, extendedSize);
 
             Size backgroundSize = new Size();
-            backgroundSize.Width = this.TilesetModel.PixelWidth.Value;
-            backgroundSize.Height = this.TilesetModel.PixelHeight.Value;
+            backgroundSize.Width = this.TilesetModel.PixelWidth;
+            backgroundSize.Height = this.TilesetModel.PixelHeight;
             Point backgroundPoint = new Point();
             backgroundPoint.X = 0;
             backgroundPoint.Y = 0;

@@ -173,16 +173,16 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
             switch (this.Scale)
             {
                 case ScaleType.Tile:
-                    map.Columns = this.Columns;
-                    map.Rows = this.Rows;
-                    map.TileHeight = this.TileHeight;
-                    map.TileWidth = this.TileWidth;
+                    map.Columns.Value = this.Columns;
+                    map.Rows.Value = this.Rows;
+                    map.TileHeight.Value = this.TileHeight;
+                    map.TileWidth.Value = this.TileWidth;
                     break;
 
                 case ScaleType.Pixel:
                 default:
-                    map.Columns = this.Columns;
-                    map.Rows = this.Rows;
+                    map.Columns.Value = this.Columns;
+                    map.Rows.Value = this.Rows;
                     break;
             }
             map.PixelScale.Value = this.PixelScale;
@@ -197,10 +197,10 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
         private void updateUIusingMap(Map map)
         {
             this.Name = map.Name.Value;
-            this.Columns = map.Columns;
-            this.Rows = map.Rows;
-            this.TileWidth = map.TileWidth;
-            this.TileHeight = map.TileHeight;
+            this.Columns = map.Columns.Value;
+            this.Rows = map.Rows.Value;
+            this.TileWidth = map.TileWidth.Value;
+            this.TileHeight = map.TileHeight.Value;
             this.Scale = map.Scale.Value;
             this.PixelScale = map.PixelScale.Value;
             this.Description = map.Description.Value;

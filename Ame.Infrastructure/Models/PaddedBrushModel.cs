@@ -47,13 +47,13 @@ namespace Ame.Infrastructure.Models
         }
 
         public PaddedBrushModel(TilesetModel tileset)
-            : base(tileset.Columns(), tileset.Rows(), tileset.TileWidth.Value, tileset.TileHeight.Value)
+            : base(tileset.Columns.Value, tileset.Rows.Value, tileset.TileWidth.Value, tileset.TileHeight.Value)
         {
             this.Tiles = new ObservableCollection<Tile>();
         }
 
         public PaddedBrushModel(TilesetModel tileset, int tileOffsetX, int tileOffsetY)
-            : base(tileset.Columns(), tileset.Rows(), tileset.TileWidth.Value, tileset.TileHeight.Value)
+            : base(tileset.Columns.Value, tileset.Rows.Value, tileset.TileWidth.Value, tileset.TileHeight.Value)
         {
             this.Tiles = new ObservableCollection<Tile>();
             this.TileOffsetX = tileOffsetX;

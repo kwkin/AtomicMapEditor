@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Ame.Infrastructure.BaseTypes
 {
+    // TODO implement a read-only property
     public static class BindableProperty
     {
         public static BindableProperty<T> Prepare<T>([CallerMemberName] string propertyName = "")

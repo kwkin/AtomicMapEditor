@@ -22,8 +22,8 @@ namespace Ame.Infrastructure.Models
 
         public GridModel()
         {
-            this.PixelWidth.Value = 1;
-            this.PixelHeight.Value = 1;
+            this.Columns.Value = 0;
+            this.Rows.Value = 0;
             this.TileWidth.Value = 1;
             this.TileHeight.Value = 1;
             this.Scale.Value = ScaleType.Tile;
@@ -31,8 +31,8 @@ namespace Ame.Infrastructure.Models
 
         public GridModel(int pixelWidth, int pixelHeight)
         {
-            this.PixelWidth.Value = pixelWidth;
-            this.PixelHeight.Value = pixelHeight;
+            this.Columns.Value = pixelWidth;
+            this.Rows.Value = pixelHeight;
             this.TileWidth.Value = 1;
             this.TileHeight.Value = 1;
             this.Scale.Value = ScaleType.Tile;
@@ -40,8 +40,10 @@ namespace Ame.Infrastructure.Models
 
         public GridModel(int columns, int rows, int tileWidth, int tileHeight)
         {
-            SetHeightWithRows(rows, tileHeight);
-            SetWidthWithColumns(columns, tileWidth);
+            this.Columns.Value = columns;
+            this.Rows.Value = rows;
+            this.TileWidth.Value = tileWidth;
+            this.TileHeight.Value = tileHeight;
         }
 
         #endregion constructor
@@ -49,11 +51,11 @@ namespace Ame.Infrastructure.Models
 
         #region properties
 
-        [MetadataProperty(MetadataType.Property, "Width")]
-        public BindableProperty<int> PixelWidth { get; set; } = BindableProperty.Prepare<int>();
+        [MetadataProperty(MetadataType.Property, "Columns")]
+        public BindableProperty<int> Columns { get; set; } = BindableProperty.Prepare<int>();
 
-        [MetadataProperty(MetadataType.Property, "Height")]
-        public BindableProperty<int> PixelHeight { get; set; } = BindableProperty.Prepare<int>();
+        [MetadataProperty(MetadataType.Property, "Rows")]
+        public BindableProperty<int> Rows { get; set; } = BindableProperty.Prepare<int>();
 
         [MetadataProperty(MetadataType.Property, "Tile Width")]
         public BindableProperty<int> TileWidth { get; set; } = BindableProperty.Prepare<int>();
@@ -64,73 +66,51 @@ namespace Ame.Infrastructure.Models
         [MetadataProperty(MetadataType.Property, "Scale")]
         public BindableProperty<ScaleType> Scale { get; set; } = BindableProperty.Prepare<ScaleType>();
 
+        // TODO add a readonlyproperty for pixel width and height
+        public int PixelWidth
+        {
+            get
+            {
+                return GetPixelWidth();
+            }
+        }
+        public int PixelHeight
+        {
+            get
+            {
+                return GetPixelHeight();
+            }
+        }
+
         #endregion properties
 
 
         #region methods
 
-        public virtual int Columns()
+        public virtual int GetPixelWidth()
         {
-            return this.PixelWidth.Value / this.TileWidth.Value;
+            return this.Columns.Value * this.TileWidth.Value;
         }
 
-        public virtual int Rows()
+        public virtual int GetPixelHeight()
         {
-            return this.PixelHeight.Value / this.TileHeight.Value;
-        }
-
-        public virtual double PreciseColumnCount()
-        {
-            return this.PixelWidth.Value / this.TileWidth.Value;
-        }
-
-        public virtual double PreciseRowCount()
-        {
-            return this.PixelHeight.Value / this.TileHeight.Value;
-        }
-
-        public virtual void SetWidthWithColumns(int columns, int tileWidth)
-        {
-            this.TileWidth.Value = tileWidth;
-            this.PixelWidth.Value = this.TileWidth.Value * columns;
-        }
-
-        public virtual void SetHeightWithRows(int rows, int tileHeight)
-        {
-            this.TileHeight.Value = tileHeight;
-            this.PixelHeight.Value = this.TileHeight.Value * rows;
-        }
-
-        public virtual void SetWidthWithColumns(int columns)
-        {
-            this.PixelWidth.Value = this.TileWidth.Value * columns;
-        }
-
-        public virtual void SetHeightWithRows(int rows)
-        {
-            this.PixelHeight.Value = this.TileHeight.Value * rows;
-        }
-
-        // TODO implement
-        public virtual void TileXFromPixel(int pixelPoint)
-        {
-
-        }
-
-        public virtual void TileYFromPixel(int pixelPoint)
-        {
-
+            return this.Rows.Value * this.TileHeight.Value;
         }
 
         public Size GetPixelSize()
         {
-            return new Size(this.PixelWidth.Value, this.PixelHeight.Value);
+            return new Size(GetPixelWidth(), GetPixelHeight());
         }
 
-        public void SetPixelSize(Size size)
+        public Size GetSize()
         {
-            this.PixelWidth.Value = (int)size.Width;
-            this.PixelHeight.Value = (int)size.Height;
+            return new Size(this.Columns.Value, this.Rows.Value);
+        }
+
+        public void SetSize(Size size)
+        {
+            this.Columns.Value = (int)size.Width;
+            this.Rows.Value = (int)size.Height;
         }
 
         public Size GetTileSize()
@@ -144,6 +124,17 @@ namespace Ame.Infrastructure.Models
             this.TileHeight.Value = (int)size.Height;
         }
 
+        // TODO implement methods to calculate horizontal tile index from the pixel point
+        public virtual void TileXFromPixel(int pixelPoint)
+        {
+
+        }
+
+        public virtual void TileYFromPixel(int pixelPoint)
+        {
+
+        }
+
         public Point GetPoint(Point point)
         {
             Point boundPoint = GeometryUtils.CopyPoint(point);
@@ -151,17 +142,17 @@ namespace Ame.Infrastructure.Models
             {
                 boundPoint.X = 0;
             }
-            else if (point.X > this.PixelWidth.Value)
+            else if (point.X > this.PixelWidth)
             {
-                boundPoint.X = this.PixelWidth.Value - 1;
+                boundPoint.X = this.PixelWidth - 1;
             }
             if (point.Y < 0)
             {
                 boundPoint.Y = 0;
             }
-            else if (point.Y > this.PixelHeight.Value)
+            else if (point.Y > this.PixelHeight)
             {
-                boundPoint.Y = this.PixelHeight.Value - 1;
+                boundPoint.Y = this.PixelHeight - 1;
             }
             return boundPoint;
         }
@@ -173,17 +164,17 @@ namespace Ame.Infrastructure.Models
             {
                 boundPoint.X = 0;
             }
-            else if (point.X > this.PixelWidth.Value)
+            else if (point.X > this.PixelWidth)
             {
-                boundPoint.X = this.PixelWidth.Value;
+                boundPoint.X = this.PixelWidth;
             }
             if (point.Y < 0)
             {
                 boundPoint.Y = 0;
             }
-            else if (point.Y > this.PixelHeight.Value)
+            else if (point.Y > this.PixelHeight)
             {
-                boundPoint.Y = this.PixelHeight.Value;
+                boundPoint.Y = this.PixelHeight;
             }
             return boundPoint;
         }
@@ -191,19 +182,19 @@ namespace Ame.Infrastructure.Models
         // TODO factor in padding and offset
         public int GetID(int pixelX, int pixelY)
         {
-            return (pixelY / this.TileHeight.Value) * Columns() + (pixelX / this.TileWidth.Value);
+            return (pixelY / this.TileHeight.Value) * this.Columns.Value + (pixelX / this.TileWidth.Value);
 
         }
 
         public int GetID(Point pixelPoint)
         {
-            return ((int)pixelPoint.Y / this.TileHeight.Value) * Columns() + ((int)pixelPoint.X / this.TileWidth.Value);
+            return ((int)pixelPoint.Y / this.TileHeight.Value) * this.Columns.Value + ((int)pixelPoint.X / this.TileWidth.Value);
         }
 
         public Point GetPointByID(int id)
         {
-            int pointX = (id % Columns()) * this.TileWidth.Value;
-            int pointY = (int)Math.Floor((double)(id / Columns())) * this.TileHeight.Value;
+            int pointX = (id % this.Columns.Value) * this.TileWidth.Value;
+            int pointY = (int)Math.Floor((double)(id / this.Columns.Value)) * this.TileHeight.Value;
             return new Point(pointX, pointY);
         }
     }

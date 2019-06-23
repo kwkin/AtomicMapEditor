@@ -19,7 +19,7 @@ using Ame.Infrastructure.BaseTypes;
 
 namespace Ame.Infrastructure.Models
 {
-    public class Map : BindableBase
+    public class Map : GridModel
     {
         #region fields
 
@@ -29,11 +29,11 @@ namespace Ame.Infrastructure.Models
         #region constructor
 
         public Map()
+            : base(32, 32, 32, 32)
         {
             this.Author.Value = "";
             this.Version.Value = Global.Version;
             this.Name.Value = string.Empty;
-            this.Grid = new GridModel(32, 32, 32, 32);
             this.Scale.Value = ScaleType.Tile;
             this.PixelScale.Value = 1;
             this.Description.Value = "";
@@ -44,29 +44,29 @@ namespace Ame.Infrastructure.Models
         }
 
         public Map(string name)
+            : base(32, 32, 32, 32)
         {
             this.Name.Value = name;
 
             this.Author.Value = "";
             this.Version.Value = Global.Version;
-            this.Grid = new GridModel(32, 32, 32, 32);
             this.Scale.Value = ScaleType.Tile;
             this.PixelScale.Value = 1;
             this.Description.Value = "";
             this.LayerList = new ObservableCollection<ILayer>();
             this.TilesetList = new ObservableCollection<TilesetModel>();
 
-            Layer initialLayer = new Layer(this, "Layer #0", this.TileWidth, this.TileHeight, this.Rows, this.Columns);
+            Layer initialLayer = new Layer(this, "Layer #0", this.TileWidth.Value, this.TileHeight.Value, this.Rows.Value, this.Columns.Value);
             this.LayerList.Add(initialLayer);
 
             this.UndoQueue = new Stack<DrawAction>();
             this.RedoQueue = new Stack<DrawAction>();
         }
 
-        public Map(string name, int width, int height)
+        public Map(string name, int columns, int rows)
+            : base(columns, rows, 32, 32)
         {
             this.Name.Value = name;
-            this.Grid = new GridModel(width, height, 32, 32);
 
             this.Author.Value = "";
             this.Version.Value = Global.Version;
@@ -76,7 +76,7 @@ namespace Ame.Infrastructure.Models
             this.LayerList = new ObservableCollection<ILayer>();
             this.TilesetList = new ObservableCollection<TilesetModel>();
 
-            Layer initialLayer = new Layer(this, "Layer #0", this.TileWidth, this.TileHeight, this.Rows, this.Columns);
+            Layer initialLayer = new Layer(this, "Layer #0", this.TileWidth.Value, this.TileHeight.Value, this.Rows.Value, this.Columns.Value);
             this.LayerList.Add(initialLayer);
 
             this.UndoQueue = new Stack<DrawAction>();
@@ -93,90 +93,7 @@ namespace Ame.Infrastructure.Models
 
         [MetadataProperty(MetadataType.Property)]
         public BindableProperty<string> SourcePath { get; set; } = BindableProperty.Prepare<string>(string.Empty);
-
-        public GridModel Grid { get; set; }
-
-        [MetadataProperty(MetadataType.Property)]
-        public int Columns
-        {
-            get
-            {
-                return this.Grid.Columns();
-            }
-            set
-            {
-                this.Grid.SetWidthWithColumns(value);
-            }
-        }
-
-        [MetadataProperty(MetadataType.Property)]
-        public int Rows
-        {
-            get
-            {
-                return this.Grid.Rows();
-            }
-            set
-            {
-                this.Grid.SetHeightWithRows(value);
-            }
-        }
-
-        [MetadataProperty(MetadataType.Property, "Tile Width")]
-        public int TileWidth
-        {
-            get
-            {
-                return this.Grid.TileWidth.Value;
-            }
-            set
-            {
-                this.Grid.TileWidth.Value = value;
-            }
-        }
-
-        [MetadataProperty(MetadataType.Property, "Tile Height")]
-        public int TileHeight
-        {
-            get
-            {
-                return this.Grid.TileHeight.Value;
-            }
-            set
-            {
-                this.Grid.TileHeight.Value = value;
-            }
-        }
-
-        [MetadataProperty(MetadataType.Property)]
-        public BindableProperty<ScaleType> Scale { get; set; } = BindableProperty.Prepare<ScaleType>();
-
-        [MetadataProperty(MetadataType.Property, "Pixel Width")]
-        public int PixelWidth
-        {
-            get
-            {
-                return this.Grid.PixelWidth.Value;
-            }
-            set
-            {
-                this.Grid.PixelWidth.Value = value;
-            }
-        }
-
-        [MetadataProperty(MetadataType.Property, "Pixel Height")]
-        public int PixelHeight
-        {
-            get
-            {
-                return this.Grid.PixelHeight.Value;
-            }
-            set
-            {
-                this.Grid.PixelHeight.Value = value;
-            }
-        }
-
+        
         [MetadataProperty(MetadataType.Property, "Pixel Ratio")]
         public BindableProperty<int> PixelRatio { get; set; } = BindableProperty.Prepare<int>();
 
@@ -208,19 +125,6 @@ namespace Ame.Infrastructure.Models
             get
             {
                 return this.LayerList.Count;
-            }
-        }
-
-        public Size PixelSize
-        {
-            get
-            {
-                return new Size(this.PixelWidth, this.PixelHeight);
-            }
-            set
-            {
-                this.PixelWidth = (int)value.Width;
-                this.PixelHeight = (int)value.Height;
             }
         }
         
@@ -332,7 +236,7 @@ namespace Ame.Infrastructure.Models
             {
                 return null;
             }
-            int previousTileIndex = (int)(tile.Bounds.X / this.TileWidth) + (int)(tile.Bounds.Y / this.TileHeight) * this.Columns;
+            int previousTileIndex = (int)(tile.Bounds.X / this.TileWidth.Value) + (int)(tile.Bounds.Y / this.TileHeight.Value) * this.Columns.Value;
             ImageDrawing previousImage = this.CurrentLayer.LayerItems[previousTileIndex] as ImageDrawing;
             Tile previousTileID = this.CurrentLayer.TileIDs[previousTileIndex];
 
@@ -351,19 +255,19 @@ namespace Ame.Infrastructure.Models
         public static bool isValid(Map map)
         {
             StringBuilder errorMessage = new StringBuilder("");
-            if (map.Rows < 1)
+            if (map.Rows.Value < 1)
             {
                 errorMessage.AppendLine("Rows must be be at least 1.");
             }
-            else if (map.Columns < 1)
+            else if (map.Columns.Value < 1)
             {
                 errorMessage.AppendLine("Columns must be be at least 1.");
             }
-            else if (map.TileWidth < 1)
+            else if (map.TileWidth.Value < 1)
             {
                 errorMessage.AppendLine("Tile Width must be be at least 1.");
             }
-            else if (map.TileHeight < 1)
+            else if (map.TileHeight.Value < 1)
             {
                 errorMessage.AppendLine("Tile Height must be be at least 1.");
             }

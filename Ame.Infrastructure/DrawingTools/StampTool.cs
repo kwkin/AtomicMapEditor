@@ -76,9 +76,9 @@ namespace Ame.Infrastructure.DrawingTools
                     Tile drawing;
                     if (!this.IsErasing)
                     {
-                        int hTile = hIndex % this.Brush.Columns();
-                        int vTile = vIndex % this.Brush.Rows();
-                        int tileIndex = vTile * this.Brush.Columns() + hTile;
+                        int hTile = hIndex % this.Brush.Columns.Value;
+                        int vTile = vIndex % this.Brush.Rows.Value;
+                        int tileIndex = vTile * this.Brush.Columns.Value + hTile;
                         drawing = this.Brush.Tiles[tileIndex];
                     }
                     else
@@ -159,9 +159,9 @@ namespace Ame.Infrastructure.DrawingTools
                             Tile drawing;
                             if (!this.IsErasing)
                             {
-                                int hTile = hIndex % this.Brush.Columns();
-                                int vTile = vIndex % this.Brush.Rows();
-                                int tileIndex = vTile * this.Brush.Columns() + hTile;
+                                int hTile = hIndex % this.Brush.Columns.Value;
+                                int vTile = vIndex % this.Brush.Rows.Value;
+                                int tileIndex = vTile * this.Brush.Columns.Value + hTile;
                                 drawing = this.Brush.Tiles[tileIndex];
                             }
                             else

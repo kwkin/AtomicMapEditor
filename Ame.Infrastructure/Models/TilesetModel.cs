@@ -99,7 +99,9 @@ namespace Ame.Infrastructure.Models
         {
             this.MatImage = CvInvoke.Imread(this.SourcePath.Value, Emgu.CV.CvEnum.ImreadModes.Unchanged);
             this.TilesetImage = ImageUtils.MatToDrawingGroup(this.MatImage);
-            this.SetPixelSize(GeometryUtils.DrawingToWindowSize(this.MatImage.Size));
+
+            this.Columns.Value = this.MatImage.Size.Width / this.TileWidth.Value;
+            this.Rows.Value = this.MatImage.Size.Height / this.TileHeight.Value;
         }
 
         public ImageDrawing GetByID(int id)

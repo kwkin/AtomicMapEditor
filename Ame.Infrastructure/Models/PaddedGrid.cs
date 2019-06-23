@@ -43,23 +43,19 @@ namespace Ame.Infrastructure.Models
         public PaddedGrid(int columns, int rows, int tileWidth, int tileHeight, int offsetX, int offsetY)
             : base(columns, rows, tileWidth, tileHeight)
         {
-            this.OffsetX.Value = 0;
-            this.OffsetY.Value = 0;
+            this.OffsetX.Value = offsetX;
+            this.OffsetY.Value = offsetY;
             this.PaddingX.Value = 0;
             this.PaddingY.Value = 0;
-            this.SetWidthWithColumns(columns, tileWidth, offsetX);
-            this.SetHeightWithRows(rows, tileHeight, offsetY);
         }
 
         public PaddedGrid(int columns, int rows, int tileWidth, int tileHeight, int offsetX, int offsetY, int paddingX, int paddingY)
             : base(columns, rows, tileWidth, tileHeight)
         {
-            this.OffsetX.Value = 0;
-            this.OffsetY.Value = 0;
-            this.PaddingX.Value = 0;
-            this.PaddingY.Value = 0;
-            this.SetWidthWithColumns(columns, tileWidth, offsetX, paddingX);
-            this.SetHeightWithRows(rows, tileHeight, offsetY, paddingY);
+            this.OffsetX.Value = offsetX;
+            this.OffsetY.Value = offsetY;
+            this.PaddingX.Value = paddingX;
+            this.PaddingY.Value = paddingY;
         }
 
         #endregion constructor
@@ -84,70 +80,14 @@ namespace Ame.Infrastructure.Models
 
         #region methods
 
-        public override int Columns()
+        public override int GetPixelWidth()
         {
-            return (this.PixelWidth.Value - this.OffsetX.Value) / (this.TileWidth.Value + 2 * this.PaddingX.Value);
+            return this.Columns.Value * (this.TileWidth.Value + 2 * this.PaddingX.Value) + this.OffsetX.Value;
         }
 
-        public override int Rows()
+        public override int GetPixelHeight()
         {
-            return (this.PixelHeight.Value - this.OffsetY.Value) / (this.TileHeight.Value + 2 * this.PaddingY.Value);
-        }
-
-        public override double PreciseColumnCount()
-        {
-            double offsetWidth = this.PixelWidth.Value * this.TileWidth.Value - this.OffsetX.Value;
-            double paddedTileWidth = this.TileWidth.Value + 2 * this.PaddingX.Value;
-            return offsetWidth / paddedTileWidth;
-        }
-
-        public override double PreciseRowCount()
-        {
-            double offsetHeight = this.PixelHeight.Value * this.TileHeight.Value - this.OffsetY.Value;
-            double paddedTileHeight = this.TileHeight.Value + 2 * this.PaddingY.Value;
-            return offsetHeight / paddedTileHeight;
-        }
-
-        public override void SetWidthWithColumns(int columns, int tileWidth)
-        {
-            this.TileWidth.Value = tileWidth;
-            this.PixelWidth.Value = columns * (this.TileWidth.Value + 2 * this.PaddingX.Value) + this.OffsetX.Value;
-        }
-
-        public override void SetHeightWithRows(int rows, int tileHeight)
-        {
-            this.TileHeight.Value = tileHeight;
-            this.PixelHeight.Value = rows * (this.TileHeight.Value + 2 * this.PaddingY.Value) + this.OffsetY.Value;
-        }
-
-        public virtual void SetWidthWithColumns(int columns, int tileWidth, int offsetX)
-        {
-            this.TileWidth.Value = tileWidth;
-            this.OffsetX.Value = offsetX;
-            this.PixelWidth.Value = columns * (this.TileWidth.Value + 2 * this.PaddingX.Value) + this.OffsetX.Value;
-        }
-
-        public virtual void SetHeightWithRows(int rows, int tileHeight, int offsetY)
-        {
-            this.TileHeight.Value = tileHeight;
-            this.OffsetY.Value = offsetY;
-            this.PixelHeight.Value = rows * (this.TileHeight.Value + 2 * this.PaddingY.Value) + this.OffsetY.Value;
-        }
-
-        public virtual void SetWidthWithColumns(int columns, int tileWidth, int offsetX, int paddingX)
-        {
-            this.TileWidth.Value = tileWidth;
-            this.OffsetX.Value = offsetX;
-            this.PaddingX.Value = paddingX;
-            this.PixelWidth.Value = columns * (this.TileWidth.Value + 2 * this.PaddingX.Value) + this.OffsetX.Value;
-        }
-
-        public virtual void SetHeightWithRows(int rows, int tileHeight, int offsetY, int paddingY)
-        {
-            this.TileHeight.Value = tileHeight;
-            this.OffsetY.Value = offsetY;
-            this.PaddingY.Value = paddingY;
-            this.PixelHeight.Value = rows * (this.TileHeight.Value + 2 * this.PaddingY.Value) + this.OffsetY.Value;
+            return this.Rows.Value * (this.TileHeight.Value + 2 * this.PaddingY.Value) + this.OffsetY.Value;
         }
 
         #endregion methods

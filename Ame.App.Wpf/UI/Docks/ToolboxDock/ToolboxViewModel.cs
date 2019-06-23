@@ -276,8 +276,8 @@ namespace Ame.App.Wpf.UI.Docks.ToolboxDock
 
         private void UpdateBrushProperties(PaddedBrushModel brushModel)
         {
-            this.brushColumns = this.BrushModel.Columns();
-            this.brushRows = this.BrushModel.Rows();
+            this.brushColumns = this.BrushModel.Columns.Value;
+            this.brushRows = this.BrushModel.Rows.Value;
             this.brushTileHeight = this.BrushModel.TileHeight.Value;
             this.brushTileWidth = this.BrushModel.TileWidth.Value;
             this.brushTileOffsetX = this.BrushModel.TileOffsetX;
@@ -294,8 +294,10 @@ namespace Ame.App.Wpf.UI.Docks.ToolboxDock
 
         private void UpdateBrushModel()
         {
-            this.BrushModel.SetHeightWithRows(this.BrushRows, this.BrushTileHeight);
-            this.BrushModel.SetWidthWithColumns(this.BrushColumns, this.BrushTileWidth);
+            this.BrushModel.Columns.Value = this.BrushColumns;
+            this.BrushModel.TileWidth.Value = this.BrushTileWidth;
+            this.BrushModel.Rows.Value = this.BrushRows;
+            this.BrushModel.TileHeight.Value = this.BrushTileHeight;
             this.BrushModel.TileOffsetX = this.BrushTileOffsetX;
             this.BrushModel.TileOffsetY = this.BrushTileOffsetY;
             UpdateStampLimits();
@@ -311,10 +313,10 @@ namespace Ame.App.Wpf.UI.Docks.ToolboxDock
         {
             if (this.session.CurrentTileset != null)
             {
-                this.MaxTileWidth = this.session.CurrentTileset.Columns() - this.BrushTileOffsetX;
-                this.MaxTileHeight = this.session.CurrentTileset.Rows() - this.BrushTileOffsetY;
-                this.MaxTileOffsetX = this.session.CurrentTileset.Columns() - this.BrushColumns;
-                this.MaxTileOffsetY = this.session.CurrentTileset.Rows() - this.BrushRows;
+                this.MaxTileWidth = this.session.CurrentTileset.Columns.Value - this.BrushTileOffsetX;
+                this.MaxTileHeight = this.session.CurrentTileset.Rows.Value - this.BrushTileOffsetY;
+                this.MaxTileOffsetX = this.session.CurrentTileset.Columns.Value - this.BrushColumns;
+                this.MaxTileOffsetY = this.session.CurrentTileset.Rows.Value - this.BrushRows;
             }
         }
 

@@ -59,7 +59,7 @@ namespace Ame.App.Wpf.UI.Interactions.LayerProperties
             Map currentMap = session.CurrentMap;
             this.Title = "New Layer";
             string newLayerName = string.Format("Layer #{0}", currentMap.GetLayerCount());
-            this.layer = new Layer(currentMap, newLayerName, currentMap.TileWidth, currentMap.TileHeight, currentMap.Rows, currentMap.Columns);
+            this.layer = new Layer(currentMap, newLayerName, currentMap.TileWidth.Value, currentMap.TileHeight.Value, currentMap.Rows.Value, currentMap.Columns.Value);
             this.Callback = this.Callback ?? OnNewLayerWindowClosed;
         }
 

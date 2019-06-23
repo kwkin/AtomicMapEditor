@@ -74,8 +74,8 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
 
             this.CurrentLayer = this.Map.CurrentLayer;
             this.imageTransform = new CoordinateTransform();
-            this.imageTransform.SetPixelToTile(this.Map.TileWidth, this.Map.TileHeight);
-            this.imageTransform.SetSlectionToPixel(this.Map.TileWidth / 2, this.Map.TileHeight / 2);
+            this.imageTransform.SetPixelToTile(this.Map.TileWidth.Value, this.Map.TileHeight.Value);
+            this.imageTransform.SetSelectionToPixel(this.Map.TileWidth.Value / 2, this.Map.TileHeight.Value / 2);
 
             this.Title = this.Map.Name.Value;
             this.drawingGroup = new DrawingGroup();
@@ -294,7 +294,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             this.IsGridOn = drawGrid;
             if (this.IsGridOn)
             {
-                PaddedGridRenderable gridParameters = new PaddedGridRenderable(this.Map.Grid);
+                PaddedGridRenderable gridParameters = new PaddedGridRenderable(this.Map);
                 double thickness = 1 / this.ScrollModel.ZoomLevels[this.ScrollModel.ZoomIndex].zoom;
                 gridParameters.DrawingPen.Thickness = thickness < Global.maxGridThickness ? thickness : Global.maxGridThickness;
                 DrawingGroup group = gridParameters.CreateGrid();
@@ -500,11 +500,11 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
         private void redrawBackground()
         {
             Size extendedSize = new Size();
-            extendedSize.Width = this.Map.PixelWidth + this.Map.TileWidth;
-            extendedSize.Height = this.Map.PixelHeight + this.Map.TileHeight;
+            extendedSize.Width = this.Map.PixelWidth + this.Map.TileWidth.Value;
+            extendedSize.Height = this.Map.PixelHeight + this.Map.TileHeight.Value;
             Point extendedPoint = new Point();
-            extendedPoint.X = -this.Map.TileWidth / 2;
-            extendedPoint.Y = -this.Map.TileHeight / 2;
+            extendedPoint.X = -this.Map.TileWidth.Value / 2;
+            extendedPoint.Y = -this.Map.TileHeight.Value / 2;
             Rect drawingRect = new Rect(extendedPoint, extendedSize);
 
             Point backgroundLocation = new Point(0, 0);
