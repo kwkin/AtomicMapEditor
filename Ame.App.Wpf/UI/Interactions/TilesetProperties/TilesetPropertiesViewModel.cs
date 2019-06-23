@@ -28,7 +28,7 @@ using System.Windows.Threading;
 
 namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
 {
-    public class TilesetPropertiesViewModel : BindableBase, IInteractionRequestAware
+    public class TilesetPropertiesViewModel : IInteractionRequestAware
     {
         #region fields
 
@@ -78,6 +78,8 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
             this.GridPen.PropertyChanged += UpdateGridPen;
             this.BackgroundBrush.PropertyChanged += UpdateBackground;
             this.BackgroundPen.PropertyChanged += UpdateBackground;
+            this.SelectedMetadata.PropertyChanged += SelectedMetadataChanged;
+            this.IsSelectingTransparency.PropertyChanged += IsSelectingTransparencyChanged;
 
             this.HandleLeftClickDownCommand = new DelegateCommand<object>((point) => HandleLeftClickDown((Point)point));
             this.HandleLeftClickUpCommand = new DelegateCommand<object>((point) => HandleLeftClickUp((Point)point));
@@ -135,7 +137,6 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
                         this.IsSourceLoaded.Value = true;
                     }
                 }
-                RaisePropertyChanged(nameof(this.Notification));
             }
         }
 
@@ -170,32 +171,9 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
         public BindableProperty<int> PaddingY { get; set; } = BindableProperty<int>.Prepare();
         public BindableProperty<ICollectionView> TilesetMetadata { get; set; } = BindableProperty<ICollectionView>.Prepare();
 
-        private ObservableCollection<MetadataProperty> metadataList;
-        public ObservableCollection<MetadataProperty> MetadataList
-        {
-            get
-            {
-                return this.metadataList;
-            }
-            set
-            {
-                SetProperty(ref this.metadataList, value);
-            }
-        }
+        public ObservableCollection<MetadataProperty> MetadataList { get; set; }
 
-        private MetadataProperty selectedMetadata;
-        public MetadataProperty SelectedMetadata
-        {
-            get
-            {
-                return this.selectedMetadata;
-            }
-            set
-            {
-                this.IsCustomSelected.Value = value.Type == MetadataType.Custom ? true : false;
-                SetProperty(ref this.selectedMetadata, value);
-            }
-        }
+        public BindableProperty<MetadataProperty> SelectedMetadata { get; set; } = BindableProperty<MetadataProperty>.Prepare();
 
         public BindableProperty<bool> IsCustomSelected { get; set; } = BindableProperty<bool>.Prepare();
 
@@ -210,43 +188,12 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
         public BindableProperty<Pen> GridPen { get; set; } = BindableProperty<Pen>.Prepare();
 
         public BindableProperty<Brush> BackgroundBrush { get; set; } = BindableProperty<Brush>.Prepare();
+
         public BindableProperty<Pen> BackgroundPen { get; set; } = BindableProperty<Pen>.Prepare();
 
-        private ObservableCollection<ZoomLevel> zoomLevels;
-        public ObservableCollection<ZoomLevel> ZoomLevels
-        {
-            get
-            {
-                return zoomLevels;
-            }
-            set
-            {
-                SetProperty(ref this.zoomLevels, value);
-            }
-        }
+        public ObservableCollection<ZoomLevel> ZoomLevels { get; set; }
 
-        private bool isSelectingTransparency;
-        public bool IsSelectingTransparency
-        {
-            get
-            {
-                return this.isSelectingTransparency;
-            }
-            set
-            {
-                if (SetProperty(ref this.isSelectingTransparency, value))
-                {
-                    if (this.isSelectingTransparency)
-                    {
-                        Mouse.OverrideCursor = Cursors.Pen;
-                    }
-                    else
-                    {
-                        Mouse.OverrideCursor = null;
-                    }
-                }
-            }
-        }
+        public BindableProperty<bool> IsSelectingTransparency { get; set; } = BindableProperty<bool>.Prepare();
 
         public BindableProperty<bool> IsSourceLoaded { get; set; } = BindableProperty<bool>.Prepare();
 
@@ -324,8 +271,8 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
             {
                 return;
             }
-            bool wasSelectingTransparency = this.IsSelectingTransparency;
-            this.IsSelectingTransparency = false;
+            bool wasSelectingTransparency = this.IsSelectingTransparency.Value;
+            this.IsSelectingTransparency.Value = false;
             GeneralTransform selectToPixel = GeometryUtils.CreateTransform(this.itemTransform.pixelToSelect.Inverse);
             Point pixelPoint = selectToPixel.Transform(selectPoint);
             if (wasSelectingTransparency)
@@ -356,7 +303,7 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
             if (this.updatePositionLabelStopWatch.ElapsedMilliseconds > this.updatePositionLabelDelay)
             {
                 UpdatePositionLabel(pixelPoint);
-                if (this.IsSelectingTransparency && this.isMouseDown)
+                if (this.IsSelectingTransparency.Value && this.isMouseDown)
                 {
                     this.TransparentColor.Value = ImageUtils.ColorAt(this.ItemImage.Value, pixelPoint);
                 }
@@ -395,7 +342,6 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
                     this.SourcePath.Value = tileFilePath;
                     this.session.LastTilesetDirectory = Directory.GetParent(tileFilePath).FullName;
                     RefreshItemImage();
-                    RaisePropertyChanged(nameof(this.SourcePath));
                 }
             }
         }
@@ -534,6 +480,23 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
             RedrawGrid();
         }
 
+        private void IsSelectingTransparencyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (this.IsSelectingTransparency.Value)
+            {
+                Mouse.OverrideCursor = Cursors.Pen;
+            }
+            else
+            {
+                Mouse.OverrideCursor = null;
+            }
+        }
+
+        private void SelectedMetadataChanged(object sender, PropertyChangedEventArgs e)
+        {
+            this.IsCustomSelected.Value = this.SelectedMetadata.Value.Type == MetadataType.Custom ? true : false;
+        }
+
         private void UpdatePositionLabel(Point position)
         {
             Point transformedPosition = new Point(0, 0);
@@ -553,12 +516,12 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
             }
             transformedPosition = GeometryUtils.CreateIntPoint(transformedPosition);
             this.PositionText.Value = (transformedPosition.X + ", " + transformedPosition.Y);
-            RaisePropertyChanged(nameof(this.PositionText));
             updatePositionLabelStopWatch.Restart();
         }
 
         private void UpdateMetadata()
         {
+            // TODO add custom properties
             this.MetadataList = MetadataPropertyUtils.GetPropertyList(this.TilesetModel.Value);
             this.TilesetMetadata.Value = new ListCollectionView(this.MetadataList);
             this.TilesetMetadata.Value.GroupDescriptions.Add(new PropertyGroupDescription("Type"));
@@ -573,9 +536,9 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
 
         private void RemoveCustomProperty()
         {
-            if (this.SelectedMetadata.Type == MetadataType.Custom)
+            if (this.SelectedMetadata.Value.Type == MetadataType.Custom)
             {
-                this.MetadataList.Remove(this.SelectedMetadata);
+                this.MetadataList.Remove(this.SelectedMetadata.Value);
             }
         }
 

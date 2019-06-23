@@ -127,7 +127,7 @@
                       Grid.Column="2"
                       HorizontalAlignment="Right"
                       ToolTip="Select a transparency color"
-                      IsChecked="{Binding IsSelectingTransparency}"
+                      IsChecked="{Binding IsSelectingTransparency.Value}"
                       Visibility="{Binding IsChecked, ElementName=UseTransparentColorPicker, Converter={StaticResource BooleanToVisibleConverter}}">
             <ContentControl Content="{StaticResource ic_Picker}"
                                 Width="{StaticResource MidIconSize}"
