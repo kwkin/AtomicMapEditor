@@ -16,7 +16,7 @@ namespace Ame.Infrastructure.Models
 {
     // TODO use ImageDrawing.ClipGeometry instead of normal cropping
     // TODO create a custom xerializer class to set the ignored parameters
-    public class TilesetModel : PaddedGrid, IItem
+    public class TilesetModel : PaddedGrid, IItem, IContainsCustomProperties
     {
         #region fields
 
@@ -35,6 +35,7 @@ namespace Ame.Infrastructure.Models
             this.IsTransparent.Value = false;
             this.TilesetImage = new DrawingGroup();
             this.TransparentColor.Value = Colors.Transparent;
+            this.CustomProperties = new ObservableCollection<MetadataProperty>();
         }
 
         public TilesetModel(int id, string name)
@@ -47,6 +48,7 @@ namespace Ame.Infrastructure.Models
             this.IsTransparent.Value = false;
             this.TilesetImage = new DrawingGroup();
             this.TransparentColor.Value = Colors.Transparent;
+            this.CustomProperties = new ObservableCollection<MetadataProperty>();
         }
 
         public TilesetModel(int id, string name, string sourcePath)
@@ -59,6 +61,7 @@ namespace Ame.Infrastructure.Models
             this.IsTransparent.Value = false;
             this.TilesetImage = new DrawingGroup();
             this.TransparentColor.Value = Colors.Transparent;
+            this.CustomProperties = new ObservableCollection<MetadataProperty>();
         }
 
         #endregion constructor
@@ -84,7 +87,10 @@ namespace Ame.Infrastructure.Models
         public BindableProperty<Color> TransparentColor { get; set; } = BindableProperty.Prepare<Color>();
 
         public ObservableCollection<IItem> Items { get; set; }
-                        
+        
+        public ObservableCollection<MetadataProperty> CustomProperties { get; set; }
+
+
         #endregion properties
 
 

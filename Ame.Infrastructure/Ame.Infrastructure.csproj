@@ -61,6 +61,7 @@
     <Compile Include="BaseTypes\DockToolViewModelTemplate.cs" />
     <Compile Include="BaseTypes\DockViewModelTemplate.cs" />
     <Compile Include="BaseTypes\EditorViewModelTemplate.cs" />
+    <Compile Include="BaseTypes\IContainsCustomProperties.cs" />
     <Compile Include="BaseTypes\IWindowInteraction.cs" />
     <Compile Include="BaseTypes\NodeViewBuilder.cs" />
     <Compile Include="Core\Global.cs" />

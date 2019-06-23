@@ -15,7 +15,7 @@ using Ame.Infrastructure.BaseTypes;
 
 namespace Ame.Infrastructure.Models
 {
-    public class Layer : BindableBase, ILayer
+    public class Layer : BindableBase, ILayer, IContainsCustomProperties
     {
         #region fields
         
@@ -37,6 +37,7 @@ namespace Ame.Infrastructure.Models
             this.Position.Value = LayerPosition.Base;
             this.Scale.Value = ScaleType.Tile;
             this.TileIDs = this.TileIDs ?? new TileCollection(this);
+            this.CustomProperties = new ObservableCollection<MetadataProperty>();
         }
 
         public Layer(Map map, int tileWidth, int tileHeight, int rows, int columns)
@@ -52,6 +53,7 @@ namespace Ame.Infrastructure.Models
             this.Position.Value = LayerPosition.Base;
             this.Scale.Value = ScaleType.Tile;
             this.TileIDs = this.TileIDs ?? new TileCollection(this);
+            this.CustomProperties = new ObservableCollection<MetadataProperty>();
         }
 
         public Layer(Map map, string layerName, int tileWidth, int tileHeight, int rows, int columns)
@@ -67,6 +69,7 @@ namespace Ame.Infrastructure.Models
             this.Position.Value = LayerPosition.Base;
             this.Scale.Value = ScaleType.Tile;
             this.TileIDs = this.TileIDs ?? new TileCollection(this);
+            this.CustomProperties = new ObservableCollection<MetadataProperty>();
         }
 
         #endregion constructor
@@ -146,6 +149,8 @@ namespace Ame.Infrastructure.Models
         public LayerGroup Parent { get; set; }
 
         public Map Map { get; set; }
+
+        public ObservableCollection<MetadataProperty> CustomProperties { get; set; }
 
         #endregion properties
 

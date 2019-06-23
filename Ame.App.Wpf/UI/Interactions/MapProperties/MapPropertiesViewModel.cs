@@ -1,4 +1,5 @@
 ﻿using Ame.Infrastructure.Attributes;
+using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Models;
 using Prism.Commands;
 using Prism.Events;
@@ -32,6 +33,8 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
                 throw new ArgumentNullException("eventAggregator");
             }
             this.WindowTitle = "New Map";
+
+            this.SelectedMetadata.PropertyChanged += SelectedMetadataChanged;
 
             this.SetMapPropertiesCommand = new DelegateCommand(() =>
             {
@@ -113,19 +116,7 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
         public ICollectionView MapMetadata { get; set; }
         public ObservableCollection<MetadataProperty> MetadataList { get; set; }
 
-        public MetadataProperty selectedMetadata;
-        public MetadataProperty SelectedMetadata
-        {
-            get
-            {
-                return selectedMetadata;
-            }
-            set
-            {
-                this.IsCustomSelected = value.Type == MetadataType.Custom ? true : false;
-                SetProperty(ref this.selectedMetadata, value);
-            }
-        }
+        public BindableProperty<MetadataProperty> SelectedMetadata { get; set; } = BindableProperty<MetadataProperty>.Prepare();
 
         public bool isCustomSelected;
         public bool IsCustomSelected
@@ -212,20 +203,31 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
             this.MetadataList.Add(new MetadataProperty("Layer Count", this.Map.LayerList.Count, MetadataType.Statistic));
             this.MapMetadata = new ListCollectionView(this.MetadataList);
             this.MapMetadata.GroupDescriptions.Add(new PropertyGroupDescription("Type"));
+            foreach (MetadataProperty property in this.Map.CustomProperties)
+            {
+                this.MetadataList.Add(property);
+            }
+        }
+
+        private void SelectedMetadataChanged(object sender, PropertyChangedEventArgs e)
+        {
+            this.IsCustomSelected = this.SelectedMetadata.Value.Type == MetadataType.Custom ? true : false;
         }
 
         private void AddCustomProperty()
         {
             int customCount = this.MetadataList.Count(p => p.Type == MetadataType.Custom);
             string customName = string.Format("Custom #{0}", customCount);
-            this.MetadataList.Add(new MetadataProperty(customName, "", MetadataType.Custom));
+            MetadataProperty property = new MetadataProperty(customName, "", MetadataType.Custom);
+            this.Map.CustomProperties.Add(property);
+            this.MetadataList.Add(property);
         }
 
         private void RemoveCustomProperty()
         {
-            if (this.SelectedMetadata.Type == MetadataType.Custom)
+            if (this.SelectedMetadata.Value.Type == MetadataType.Custom)
             {
-                this.MetadataList.Remove(this.SelectedMetadata);
+                this.MetadataList.Remove(this.SelectedMetadata.Value);
             }
         }
 

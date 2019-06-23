@@ -19,7 +19,7 @@ using Ame.Infrastructure.BaseTypes;
 
 namespace Ame.Infrastructure.Models
 {
-    public class Map : GridModel
+    public class Map : GridModel, IContainsCustomProperties
     {
         #region fields
 
@@ -39,6 +39,7 @@ namespace Ame.Infrastructure.Models
             this.Description.Value = "";
             this.LayerList = new ObservableCollection<ILayer>();
             this.TilesetList = new ObservableCollection<TilesetModel>();
+            this.CustomProperties = new ObservableCollection<MetadataProperty>();
             this.UndoQueue = new Stack<DrawAction>();
             this.RedoQueue = new Stack<DrawAction>();
         }
@@ -55,6 +56,7 @@ namespace Ame.Infrastructure.Models
             this.Description.Value = "";
             this.LayerList = new ObservableCollection<ILayer>();
             this.TilesetList = new ObservableCollection<TilesetModel>();
+            this.CustomProperties = new ObservableCollection<MetadataProperty>();
 
             Layer initialLayer = new Layer(this, "Layer #0", this.TileWidth.Value, this.TileHeight.Value, this.Rows.Value, this.Columns.Value);
             this.LayerList.Add(initialLayer);
@@ -75,6 +77,7 @@ namespace Ame.Infrastructure.Models
             this.Description.Value = "";
             this.LayerList = new ObservableCollection<ILayer>();
             this.TilesetList = new ObservableCollection<TilesetModel>();
+            this.CustomProperties = new ObservableCollection<MetadataProperty>();
 
             Layer initialLayer = new Layer(this, "Layer #0", this.TileWidth.Value, this.TileHeight.Value, this.Rows.Value, this.Columns.Value);
             this.LayerList.Add(initialLayer);
@@ -143,6 +146,8 @@ namespace Ame.Infrastructure.Models
         public Stack<DrawAction> RedoQueue { get; set; }
 
         public BindableProperty<Color> BackgroundColor { get; set; } = BindableProperty.Prepare<Color>((Color)ColorConverter.ConvertFromString("#b8e5ed"));
+
+        public ObservableCollection<MetadataProperty> CustomProperties { get; set; }
 
         #endregion properties
 

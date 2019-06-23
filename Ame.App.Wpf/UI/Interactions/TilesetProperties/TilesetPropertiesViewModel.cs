@@ -169,6 +169,7 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
         public BindableProperty<int> PaddingX { get; set; } = BindableProperty<int>.Prepare();
 
         public BindableProperty<int> PaddingY { get; set; } = BindableProperty<int>.Prepare();
+
         public BindableProperty<ICollectionView> TilesetMetadata { get; set; } = BindableProperty<ICollectionView>.Prepare();
 
         public ObservableCollection<MetadataProperty> MetadataList { get; set; }
@@ -525,13 +526,19 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
             this.MetadataList = MetadataPropertyUtils.GetPropertyList(this.TilesetModel.Value);
             this.TilesetMetadata.Value = new ListCollectionView(this.MetadataList);
             this.TilesetMetadata.Value.GroupDescriptions.Add(new PropertyGroupDescription("Type"));
+            foreach(MetadataProperty property in this.TilesetModel.Value.CustomProperties)
+            {
+                this.MetadataList.Add(property);
+            }
         }
 
         private void AddCustomProperty()
         {
             int customCount = this.MetadataList.Count(p => p.Type == MetadataType.Custom);
             string customName = string.Format("Custom #{0}", customCount);
-            this.MetadataList.Add(new MetadataProperty(customName, "", MetadataType.Custom));
+            MetadataProperty property = new MetadataProperty(customName, "", MetadataType.Custom);
+            this.TilesetModel.Value.CustomProperties.Add(property);
+            this.MetadataList.Add(property);
         }
 
         private void RemoveCustomProperty()
