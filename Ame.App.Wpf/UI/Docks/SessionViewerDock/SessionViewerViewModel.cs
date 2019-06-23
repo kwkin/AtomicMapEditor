@@ -36,10 +36,7 @@ namespace Ame.App.Wpf.UI.Docks.SessionViewerDock
             this.Nodes = new ObservableCollection<NodeViewBuilder>();
             this.Nodes.Add(new NodeViewBuilder("Ame Session", this.session));
 
-            this.RefreshTreeCommand = new DelegateCommand(() =>
-            {
-                RefreshTree();
-            });
+            this.RefreshTreeCommand = new DelegateCommand(() => RefreshTree());
         }
 
         #endregion constructor

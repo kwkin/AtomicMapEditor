@@ -36,30 +36,12 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
 
             this.SelectedMetadata.PropertyChanged += SelectedMetadataChanged;
 
-            this.SetMapPropertiesCommand = new DelegateCommand(() =>
-            {
-                SetMapProperties();
-            });
-            this.CloseWindowCommand = new DelegateCommand(() =>
-            {
-                CloseWindow();
-            });
-            this.AddCustomMetaDataCommand = new DelegateCommand(() =>
-            {
-                AddCustomProperty();
-            });
-            this.RemoveCustomMetadataCommand = new DelegateCommand(() =>
-            {
-                RemoveCustomProperty();
-            });
-            this.MoveMetadataUpCommand = new DelegateCommand(() =>
-            {
-                MoveMetadataUp();
-            });
-            this.MoveMetadataDownCommand = new DelegateCommand(() =>
-            {
-                MoveMetadataDown();
-            });
+            this.SetMapPropertiesCommand = new DelegateCommand(() => SetMapProperties());
+            this.CloseWindowCommand = new DelegateCommand(() => CloseWindow());
+            this.AddCustomMetaDataCommand = new DelegateCommand(() => AddCustomProperty());
+            this.RemoveCustomMetadataCommand = new DelegateCommand(() => RemoveCustomProperty());
+            this.MoveMetadataUpCommand = new DelegateCommand(() => MoveMetadataUp());
+            this.MoveMetadataDownCommand = new DelegateCommand(() => MoveMetadataDown());
         }
 
         #endregion constructor
