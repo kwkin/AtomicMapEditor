@@ -104,7 +104,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
 
             RenderOptions.SetEdgeMode(this.hoverSample, EdgeMode.Aliased);
 
-            this.backgroundBrush = new SolidColorBrush(this.Map.BackgroundColor);
+            this.backgroundBrush = new SolidColorBrush(this.Map.BackgroundColor.Value);
             this.backgroundPen = new Pen(Brushes.Transparent, 0);
             redrawBackground();
             this.Scale = ScaleType.Tile;

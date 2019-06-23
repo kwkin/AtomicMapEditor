@@ -92,18 +92,7 @@ namespace Ame.Infrastructure.Models
         public BindableProperty<string> Name { get; set; } = BindableProperty.Prepare<string>(string.Empty);
 
         [MetadataProperty(MetadataType.Property)]
-        private string file;
-        public string SourcePath
-        {
-            get
-            {
-                return this.file;
-            }
-            set
-            {
-                this.file = value;
-            }
-        }
+        public BindableProperty<string> SourcePath { get; set; } = BindableProperty.Prepare<string>(string.Empty);
 
         public GridModel Grid { get; set; }
 
@@ -202,38 +191,15 @@ namespace Ame.Infrastructure.Models
 
         [MetadataProperty(MetadataType.Property)]
         public BindableProperty<string> Version { get; set; } = BindableProperty.Prepare<string>(string.Empty);
+        public ObservableCollection<ILayer> LayerList { get; set; }
 
-        private ObservableCollection<ILayer> layerList;
-        public ObservableCollection<ILayer> LayerList
-        {
-            get
-            {
-                return this.layerList;
-            }
-            set
-            {
-                this.layerList = value;
-            }
-        }
-
-        private int selectedLayerIndex;
-        public int SelectedLayerIndex
-        {
-            get
-            {
-                return this.selectedLayerIndex;
-            }
-            set
-            {
-                this.selectedLayerIndex = value;
-            }
-        }
+        public BindableProperty<int> SelectedLayerIndex { get; set; } = BindableProperty.Prepare<int>();
         
         public Layer CurrentLayer
         {
             get
             {
-                return this.LayerList[this.SelectedLayerIndex] as Layer;
+                return this.LayerList[this.SelectedLayerIndex.Value] as Layer;
             }
         }
 
@@ -271,8 +237,8 @@ namespace Ame.Infrastructure.Models
         public Stack<DrawAction> UndoQueue { get; set; }
         
         public Stack<DrawAction> RedoQueue { get; set; }
-        
-        public Color BackgroundColor { get; set; } = (Color)ColorConverter.ConvertFromString("#b8e5ed");
+
+        public BindableProperty<Color> BackgroundColor { get; set; } = BindableProperty.Prepare<Color>((Color)ColorConverter.ConvertFromString("#b8e5ed"));
 
         #endregion properties
 
@@ -296,7 +262,7 @@ namespace Ame.Infrastructure.Models
 
         public void DeleteCurrentLayer()
         {
-            this.LayerList.RemoveAt(this.SelectedLayerIndex);
+            this.LayerList.RemoveAt(this.SelectedLayerIndex.Value);
         }
 
         public void NewLayerGroup()

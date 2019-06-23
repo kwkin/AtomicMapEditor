@@ -22,7 +22,7 @@ namespace Ame.Infrastructure.Models.Serializer.Json
             this.OpenedTilesetFiles = new List<string>();
             foreach (Map map in session.MapList)
             {
-                this.OpenedTilesetFiles.Add(map.SourcePath);
+                this.OpenedTilesetFiles.Add(map.SourcePath.Value);
             }
             this.OpenedTilesetFiles = new List<string>();
             foreach (TilesetModel tileset in session.CurrentTilesetList)

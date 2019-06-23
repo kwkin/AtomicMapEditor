@@ -25,7 +25,7 @@ namespace Ame.Infrastructure.Models.Serializer.Json
             this.TileWidth = map.TileWidth;
             this.TileHeight = map.TileHeight;
             this.Scale = map.Scale.Value;
-            this.BackgroundColor = map.BackgroundColor;
+            this.BackgroundColor = map.BackgroundColor.Value;
             this.Description = map.Description.Value;
             this.TilesetList = new List<TilesetJson>();
             foreach (TilesetModel model in map.TilesetList)
@@ -87,7 +87,7 @@ namespace Ame.Infrastructure.Models.Serializer.Json
             map.TileWidth = this.TileWidth;
             map.TileHeight = this.TileHeight;
             map.Scale.Value = this.Scale;
-            map.BackgroundColor = this.BackgroundColor;
+            map.BackgroundColor.Value = this.BackgroundColor;
             map.Description.Value = this.Description;
             foreach (TilesetJson tilesetJson in this.TilesetList)
             {

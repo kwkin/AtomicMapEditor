@@ -14,6 +14,11 @@ namespace Ame.Infrastructure.BaseTypes
         {
             return new BindableProperty<T>(default(T), propertyName);
         }
+
+        public static BindableProperty<T> Prepare<T>(T intial, [CallerMemberName] string propertyName = "")
+        {
+            return new BindableProperty<T>(intial, propertyName);
+        }
     }
 
     public interface PropertyValue

@@ -114,7 +114,7 @@ namespace Ame.Infrastructure.Models
                 int currentLayerIndex = this.CurrentMap.LayerList.IndexOf(value);
                 if (currentLayerIndex != -1)
                 {
-                    this.CurrentMap.SelectedLayerIndex = currentLayerIndex;
+                    this.CurrentMap.SelectedLayerIndex.Value = currentLayerIndex;
                 }
                 this.SetProperty(ref this.currentLayer, value);
             }
