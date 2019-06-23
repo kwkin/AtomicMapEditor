@@ -44,7 +44,7 @@
                     Margin="2,0,2,2"
                     IsDefault="True"
                     Width="130"
-                    IsEnabled="{Binding IsSourceLoaded}"
+                    IsEnabled="{Binding IsSourceLoaded.Value}"
                     Command="{Binding SetTilesetCommand}"
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
             <Button x:Name="cancelButton"

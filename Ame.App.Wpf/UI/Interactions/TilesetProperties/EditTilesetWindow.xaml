@@ -5,6 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Ame.App.Wpf.UI.Interactions.TilesetProperties"
              xmlns:conv="clr-namespace:Ame.App.Wpf.UILogic.Converters"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" >
 
     <UserControl.Resources>

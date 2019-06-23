@@ -1,5 +1,6 @@
 ﻿using Ame.Components.Behaviors;
 using Ame.Infrastructure.Attributes;
+using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Core;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.UILogic;
@@ -54,15 +55,11 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
 
         public TilesetPropertiesViewModel(IEventAggregator eventAggregator, AmeSession session)
         {
-            if (eventAggregator == null)
-            {
-                throw new ArgumentNullException("eventAggregator");
-            }
-            this.eventAggregator = eventAggregator;
+            this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
             this.scrollModel = ScrollModel.DefaultScrollModel();
             this.session = session;
 
-            this.WindowTitle = "New Map";
+            this.WindowTitle.Value = "New Map";
             this.drawingGroup = new DrawingGroup();
             this.tilesetImage = new DrawingGroup();
             this.gridLines = new DrawingGroup();
@@ -70,71 +67,33 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
             this.drawingGroup.Children.Add(this.extendedBorder);
             this.drawingGroup.Children.Add(this.tilesetImage);
             this.drawingGroup.Children.Add(this.gridLines);
-            this.TileImage = new DrawingImage(this.drawingGroup);
+            this.TileImage.Value = new DrawingImage(this.drawingGroup);
             this.ZoomLevels = this.scrollModel.ZoomLevels;
-            this.ZoomIndex = this.scrollModel.ZoomIndex;
+            this.ZoomIndex.Value = this.scrollModel.ZoomIndex;
             this.updatePositionLabelStopWatch = Stopwatch.StartNew();
 
-            this.HandleLeftClickDownCommand = new DelegateCommand<object>((point) =>
-            {
-                HandleLeftClickDown((Point)point);
-            });
-            this.HandleLeftClickUpCommand = new DelegateCommand<object>((point) =>
-            {
-                HandleLeftClickUp((Point)point);
-            });
-            this.HandleMouseMoveCommand = new DelegateCommand<object>((point) =>
-            {
-                HandleMouseMove((Point)point);
-            });
-            this.SetTilesetCommand = new DelegateCommand(() =>
-            {
-                SetTileset();
-            });
-            this.CloseWindowCommand = new DelegateCommand(() =>
-            {
-                CloseWindow();
-            });
-            this.AddCustomMetaDataCommand = new DelegateCommand(() =>
-            {
-                AddCustomProperty();
-            });
-            this.RemoveCustomMetadataCommand = new DelegateCommand(() =>
-            {
-                RemoveCustomProperty();
-            });
-            this.MoveMetadataUpCommand = new DelegateCommand(() =>
-            {
-                MoveMetadataUp();
-            });
-            this.MoveMetadataDownCommand = new DelegateCommand(() =>
-            {
-                MoveMetadataDown();
-            });
-            this.BrowseSourceCommand = new DelegateCommand(() =>
-            {
-                BrowseSource();
-            });
-            this.ShowGridCommand = new DelegateCommand(() =>
-            {
-                RedrawGrid();
-            });
-            this.ShowRulerCommand = new DelegateCommand(() =>
-            {
-                RefreshRuler();
-            });
-            this.ZoomInCommand = new DelegateCommand(() =>
-            {
-                ZoomIn();
-            });
-            this.ZoomOutCommand = new DelegateCommand(() =>
-            {
-                ZoomOut();
-            });
-            this.SetZoomCommand = new DelegateCommand<ZoomLevel>((zoomLevel) =>
-            {
-                SetZoom(zoomLevel);
-            });
+            this.IsTransparent.PropertyChanged += TransparencyChanged;
+            this.TransparentColor.PropertyChanged += TransparencyChanged;
+            this.ZoomIndex.PropertyChanged += UpdateZoomIndex;
+            this.GridPen.PropertyChanged += UpdateGridPen;
+            this.BackgroundBrush.PropertyChanged += UpdateBackground;
+            this.BackgroundPen.PropertyChanged += UpdateBackground;
+
+            this.HandleLeftClickDownCommand = new DelegateCommand<object>((point) => HandleLeftClickDown((Point)point));
+            this.HandleLeftClickUpCommand = new DelegateCommand<object>((point) => HandleLeftClickUp((Point)point));
+            this.HandleMouseMoveCommand = new DelegateCommand<object>((point) => HandleMouseMove((Point)point));
+            this.SetTilesetCommand = new DelegateCommand(() => SetTileset());
+            this.CloseWindowCommand = new DelegateCommand(() => CloseWindow());
+            this.AddCustomMetaDataCommand = new DelegateCommand(() => AddCustomProperty());
+            this.RemoveCustomMetadataCommand = new DelegateCommand(() => RemoveCustomProperty());
+            this.MoveMetadataUpCommand = new DelegateCommand(() => MoveMetadataUp());
+            this.MoveMetadataDownCommand = new DelegateCommand(() => MoveMetadataDown());
+            this.BrowseSourceCommand = new DelegateCommand(() => BrowseSource());
+            this.ShowGridCommand = new DelegateCommand(() => RedrawGrid());
+            this.ShowRulerCommand = new DelegateCommand(() => RefreshRuler());
+            this.ZoomInCommand = new DelegateCommand(() => ZoomIn());
+            this.ZoomOutCommand = new DelegateCommand(() => ZoomOut());
+            this.SetZoomCommand = new DelegateCommand<ZoomLevel>((zoomLevel) => SetZoom(zoomLevel));
         }
 
         #endregion constructor
@@ -165,238 +124,51 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
             set
             {
                 this.notification = value as IConfirmation;
-                this.TilesetModel = this.notification.Content as TilesetModel;
+                this.TilesetModel.Value = this.notification.Content as TilesetModel;
                 UpdateUI();
                 RefreshItemImage();
-                if (this.TilesetModel != null)
+                if (this.TilesetModel.Value != null)
                 {
                     UpdateMetadata();
-                    if (File.Exists(this.TilesetModel.SourcePath.Value))
+                    if (File.Exists(this.TilesetModel.Value.SourcePath.Value))
                     {
-                        this.IsSourceLoaded = true;
+                        this.IsSourceLoaded.Value = true;
                     }
                 }
                 RaisePropertyChanged(nameof(this.Notification));
             }
         }
 
-        // TODO remove bindable base and use bindable property
-        // TODO change pixel steppers to labels and use columns/rows to set the size
         public Action FinishInteraction { get; set; }
 
-        private Mat itemImage;
-        public Mat ItemImage
-        {
-            get
-            {
-                return this.itemImage;
-            }
-            set
-            {
-                SetProperty(ref this.itemImage, value);
-            }
-        }
+        public BindableProperty<Mat> ItemImage { get; set; } = BindableProperty<Mat>.Prepare();
 
-        private TilesetModel tilesetModel;
-        public TilesetModel TilesetModel
-        {
-            get
-            {
-                return this.tilesetModel;
-            }
-            set
-            {
-                SetProperty(ref this.tilesetModel, value);
-            }
-        }
+        public BindableProperty<TilesetModel> TilesetModel { get; set; } = BindableProperty<TilesetModel>.Prepare();
 
-        private DrawingImage tileImage;
-        public DrawingImage TileImage
-        {
-            get
-            {
-                return this.tileImage;
-            }
-            set
-            {
-                SetProperty(ref this.tileImage, value);
-            }
-        }
+        public BindableProperty<DrawingImage> TileImage { get; set; } = BindableProperty<DrawingImage>.Prepare();
 
-        private string windowTitle;
-        public string WindowTitle
-        {
-            get
-            {
-                return this.windowTitle;
-            }
-            set
-            {
-                SetProperty(ref this.windowTitle, value);
-            }
-        }
+        public BindableProperty<string> WindowTitle { get; set; } = BindableProperty<string>.Prepare();
 
-        private string name;
-        public string Name
-        {
-            get
-            {
-                return this.name;
-            }
-            set
-            {
-                SetProperty(ref this.name, value);
-            }
-        }
+        public BindableProperty<string> Name { get; set; } = BindableProperty<string>.Prepare();
 
-        private string sourcePath;
-        public string SourcePath
-        {
-            get
-            {
-                return this.sourcePath;
-            }
-            set
-            {
-                SetProperty(ref this.sourcePath, value);
-            }
-        }
+        public BindableProperty<string> SourcePath { get; set; } = BindableProperty<string>.Prepare();
 
-        private bool isTransparent;
-        public bool IsTransparent
-        {
-            get
-            {
-                return this.isTransparent;
-            }
-            set
-            {
-                if (SetProperty(ref this.isTransparent, value))
-                {
-                    RefreshItemImage();
-                }
-            }
-        }
+        public BindableProperty<bool> IsTransparent { get; set; } = BindableProperty<bool>.Prepare();
 
-        private Color transparentColor;
-        public Color TransparentColor
-        {
-            get
-            {
-                return this.transparentColor;
-            }
-            set
-            {
-                if (SetProperty(ref this.transparentColor, value))
-                {
-                    RefreshItemImage();
-                }
-            }
-        }
+        public BindableProperty<Color> TransparentColor { get; set; } = BindableProperty<Color>.Prepare();
 
-        private int tileWidth;
-        public int TileWidth
-        {
-            get
-            {
-                return this.tileWidth;
-            }
-            set
-            {
-                SetProperty(ref this.tileWidth, value);
-            }
-        }
+        public BindableProperty<int> TileWidth { get; set; } = BindableProperty<int>.Prepare();
 
-        private int tileHeight;
-        public int TileHeight
-        {
-            get
-            {
-                return this.tileHeight;
-            }
-            set
-            {
-                SetProperty(ref this.tileHeight, value);
-            }
-        }
+        public BindableProperty<int> TileHeight { get; set; } = BindableProperty<int>.Prepare();
 
-        private int offsetX;
-        public int OffsetX
-        {
-            get
-            {
-                return this.offsetX;
-            }
-            set
-            {
-                SetProperty(ref this.offsetX, value);
-            }
-        }
+        public BindableProperty<int> OffsetX { get; set; } = BindableProperty<int>.Prepare();
 
-        private int offsetY;
-        public int OffsetY
-        {
-            get
-            {
-                return this.offsetY;
-            }
-            set
-            {
-                SetProperty(ref this.offsetY, value);
-            }
-        }
+        public BindableProperty<int> OffsetY { get; set; } = BindableProperty<int>.Prepare();
 
-        private int paddingX;
-        public int PaddingX
-        {
-            get
-            {
-                return this.paddingX;
-            }
-            set
-            {
-                SetProperty(ref this.paddingX, value);
-            }
-        }
+        public BindableProperty<int> PaddingX { get; set; } = BindableProperty<int>.Prepare();
 
-        private int paddingY;
-        public int PaddingY
-        {
-            get
-            {
-                return this.paddingY;
-            }
-            set
-            {
-                SetProperty(ref this.paddingY, value);
-            }
-        }
-
-        private ICollectionView groupedProperties;
-        public ICollectionView GroupedProperties
-        {
-            get
-            {
-                return this.groupedProperties;
-            }
-            set
-            {
-                SetProperty(ref this.groupedProperties, value);
-            }
-        }
-
-        private ICollectionView tilesetMetadata;
-        public ICollectionView TilesetMetadata
-        {
-            get
-            {
-                return this.tilesetMetadata;
-            }
-            set
-            {
-                SetProperty(ref this.tilesetMetadata, value);
-            }
-        }
+        public BindableProperty<int> PaddingY { get; set; } = BindableProperty<int>.Prepare();
+        public BindableProperty<ICollectionView> TilesetMetadata { get; set; } = BindableProperty<ICollectionView>.Prepare();
 
         private ObservableCollection<MetadataProperty> metadataList;
         public ObservableCollection<MetadataProperty> MetadataList
@@ -420,128 +192,25 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
             }
             set
             {
-                this.IsCustomSelected = value.Type == MetadataType.Custom ? true : false;
+                this.IsCustomSelected.Value = value.Type == MetadataType.Custom ? true : false;
                 SetProperty(ref this.selectedMetadata, value);
             }
         }
 
-        public bool isCustomSelected;
-        public bool IsCustomSelected
-        {
-            get
-            {
-                return this.isCustomSelected;
-            }
-            set
-            {
-                SetProperty(ref this.isCustomSelected, value);
-            }
-        }
+        public BindableProperty<bool> IsCustomSelected { get; set; } = BindableProperty<bool>.Prepare();
 
-        private bool isGridOn;
-        public bool IsGridOn
-        {
-            get
-            {
-                return this.isGridOn;
-            }
-            set
-            {
-                SetProperty(ref this.isGridOn, value);
-            }
-        }
+        public BindableProperty<bool> IsGridOn { get; set; } = BindableProperty<bool>.Prepare();
 
-        private ScaleType scale;
-        public ScaleType Scale
-        {
-            get
-            {
-                return this.scale;
-            }
-            set
-            {
-                SetProperty(ref this.scale, value);
-            }
-        }
+        public BindableProperty<ScaleType> Scale { get; set; } = BindableProperty<ScaleType>.Prepare();
 
-        private string positionText;
-        public string PositionText
-        {
-            get
-            {
-                return this.positionText;
-            }
-            set
-            {
-                SetProperty(ref this.positionText, value);
-            }
-        }
+        public BindableProperty<string> PositionText { get; set; } = BindableProperty<string>.Prepare();
 
-        private int zoomIndex;
-        public int ZoomIndex
-        {
-            get { return this.zoomIndex; }
-            set
-            {
-                if (SetProperty(ref this.zoomIndex, value))
-                {
-                    this.gridLines.Children.Clear();
-                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        RedrawGrid();
-                    }),
-                    DispatcherPriority.Background);
-                }
-            }
-        }
+        public BindableProperty<int> ZoomIndex { get; set; } = BindableProperty<int>.Prepare();
 
-        private Pen gridPen;
-        public Pen GridPen
-        {
-            get
-            {
-                return gridPen;
-            }
-            set
-            {
-                if (SetProperty(ref this.gridPen, value))
-                {
-                    RedrawGrid();
-                }
-            }
-        }
+        public BindableProperty<Pen> GridPen { get; set; } = BindableProperty<Pen>.Prepare();
 
-        private Brush backgroundBrush;
-        public Brush BackgroundBrush
-        {
-            get
-            {
-                return backgroundBrush;
-            }
-            set
-            {
-                if (SetProperty(ref this.backgroundBrush, value))
-                {
-                    RefreshBackground();
-                }
-            }
-        }
-
-        private Pen backgroundPen;
-        public Pen BackgroundPen
-        {
-            get
-            {
-                return backgroundPen;
-            }
-            set
-            {
-                if (SetProperty(ref this.backgroundPen, value))
-                {
-                    RefreshBackground();
-                }
-            }
-        }
+        public BindableProperty<Brush> BackgroundBrush { get; set; } = BindableProperty<Brush>.Prepare();
+        public BindableProperty<Pen> BackgroundPen { get; set; } = BindableProperty<Pen>.Prepare();
 
         private ObservableCollection<ZoomLevel> zoomLevels;
         public ObservableCollection<ZoomLevel> ZoomLevels
@@ -579,18 +248,7 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
             }
         }
 
-        private bool isSourceLoaded;
-        public bool IsSourceLoaded
-        {
-            get
-            {
-                return this.isSourceLoaded;
-            }
-            set
-            {
-                SetProperty(ref this.isSourceLoaded, value);
-            }
-        }
+        public BindableProperty<bool> IsSourceLoaded { get; set; } = BindableProperty<bool>.Prepare();
 
         #endregion properties
 
@@ -603,7 +261,7 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
             {
                 return;
             }
-            if (!File.Exists(this.SourcePath))
+            if (!File.Exists(this.SourcePath.Value))
             {
                 MessageBox.Show("Error. Source Path is invalid.", "Error");
                 return;
@@ -627,40 +285,42 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
 
         private void UpdateUI()
         {
-            this.Name = this.TilesetModel.Name.Value;
-            this.SourcePath = this.TilesetModel.SourcePath.Value;
-            this.IsTransparent = this.TilesetModel.IsTransparent.Value;
-            this.TransparentColor = this.TilesetModel.TransparentColor.Value;
-            this.TileWidth = this.TilesetModel.TileWidth.Value;
-            this.TileHeight = this.TilesetModel.TileHeight.Value;
-            this.OffsetX = this.TilesetModel.OffsetX.Value;
-            this.OffsetY = this.TilesetModel.OffsetY.Value;
-            this.PaddingX = this.TilesetModel.PaddingX.Value;
-            this.PaddingY = this.TilesetModel.PaddingY.Value;
-            this.tilesetPixelWidth = this.TilesetModel.PixelWidth;
-            this.tilesetPixelHeight = this.TilesetModel.PixelHeight;
+            TilesetModel model = this.TilesetModel.Value;
+            this.Name.Value = model.Name.Value;
+            this.SourcePath.Value = model.SourcePath.Value;
+            this.TileWidth.Value = model.TileWidth.Value;
+            this.TileHeight.Value = model.TileHeight.Value;
+            this.OffsetX.Value = model.OffsetX.Value;
+            this.OffsetY.Value = model.OffsetY.Value;
+            this.PaddingX.Value = model.PaddingX.Value;
+            this.PaddingY.Value = model.PaddingY.Value;
+            this.IsTransparent.Value = model.IsTransparent.Value;
+            this.TransparentColor.Value = model.TransparentColor.Value;
+            this.tilesetPixelWidth = model.PixelWidth;
+            this.tilesetPixelHeight = model.PixelHeight;
         }
 
         private void UpdateTilesetModel()
         {
-            this.TilesetModel.Name.Value = this.Name;
-            this.TilesetModel.SourcePath.Value = this.SourcePath;
-            this.TilesetModel.IsTransparent.Value = this.IsTransparent;
-            this.TilesetModel.TransparentColor.Value = this.TransparentColor;
-            this.TilesetModel.TileWidth.Value = this.TileWidth;
-            this.TilesetModel.TileHeight.Value = this.TileHeight;
-            this.TilesetModel.OffsetX.Value = this.OffsetX;
-            this.TilesetModel.OffsetY.Value = this.OffsetY;
-            this.TilesetModel.PaddingX.Value = this.PaddingX;
-            this.TilesetModel.PaddingY.Value = this.PaddingY;
-            this.TilesetModel.Columns.Value = this.tilesetPixelWidth / this.TileWidth;
-            this.TilesetModel.Rows.Value = this.tilesetPixelHeight / this.TileHeight;
+            TilesetModel model = this.TilesetModel.Value;
+            model.Name.Value = this.Name.Value;
+            model.SourcePath.Value = this.SourcePath.Value;
+            model.IsTransparent.Value = this.IsTransparent.Value;
+            model.TransparentColor.Value = this.TransparentColor.Value;
+            model.TileWidth.Value = this.TileWidth.Value;
+            model.TileHeight.Value = this.TileHeight.Value;
+            model.OffsetX.Value = this.OffsetX.Value;
+            model.OffsetY.Value = this.OffsetY.Value;
+            model.PaddingX.Value = this.PaddingX.Value;
+            model.PaddingY.Value = this.PaddingY.Value;
+            model.Columns.Value = this.tilesetPixelWidth / this.TileWidth.Value;
+            model.Rows.Value = this.tilesetPixelHeight / this.TileHeight.Value;
         }
 
         public void HandleLeftClickUp(Point selectPoint)
         {
             this.isMouseDown = false;
-            if (this.ItemImage == null)
+            if (this.ItemImage.Value == null)
             {
                 return;
             }
@@ -677,7 +337,7 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
         public void HandleLeftClickDown(Point selectPoint)
         {
             this.isMouseDown = true;
-            if (this.ItemImage == null)
+            if (this.ItemImage.Value == null)
             {
                 return;
             }
@@ -687,7 +347,7 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
 
         public void HandleMouseMove(Point selectPoint)
         {
-            if (this.ItemImage == null)
+            if (this.ItemImage.Value == null)
             {
                 return;
             }
@@ -698,21 +358,21 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
                 UpdatePositionLabel(pixelPoint);
                 if (this.IsSelectingTransparency && this.isMouseDown)
                 {
-                    this.TransparentColor = ImageUtils.ColorAt(this.ItemImage, pixelPoint);
+                    this.TransparentColor.Value = ImageUtils.ColorAt(this.ItemImage.Value, pixelPoint);
                 }
             }
         }
 
         public void SelectTransparency(Point pixelPoint)
         {
-            if (!ImageUtils.Intersects(this.ItemImage, pixelPoint))
+            if (!ImageUtils.Intersects(this.ItemImage.Value, pixelPoint))
             {
                 return;
             }
-            this.TransparentColor = ImageUtils.ColorAt(this.ItemImage, pixelPoint);
-            if (this.IsTransparent)
+            this.TransparentColor.Value = ImageUtils.ColorAt(this.ItemImage.Value, pixelPoint);
+            if (this.IsTransparent.Value)
             {
-                Mat transparentImage = ImageUtils.ColorToTransparent(this.ItemImage, this.TransparentColor);
+                Mat transparentImage = ImageUtils.ColorToTransparent(this.ItemImage.Value, this.TransparentColor.Value);
                 using (DrawingContext context = this.tilesetImage.Open())
                 {
                     context.DrawDrawing(ImageUtils.MatToImageDrawing(transparentImage));
@@ -731,8 +391,8 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
                 string tileFilePath = openTilesetDilog.FileName;
                 if (File.Exists(tileFilePath))
                 {
-                    this.IsSourceLoaded = true;
-                    this.SourcePath = tileFilePath;
+                    this.IsSourceLoaded.Value = true;
+                    this.SourcePath.Value = tileFilePath;
                     this.session.LastTilesetDirectory = Directory.GetParent(tileFilePath).FullName;
                     RefreshItemImage();
                     RaisePropertyChanged(nameof(this.SourcePath));
@@ -740,27 +400,32 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
             }
         }
 
+        private void TransparencyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            RefreshItemImage();
+        }
+
         public void RefreshItemImage()
         {
-            if (!File.Exists(this.SourcePath))
+            if (!File.Exists(this.SourcePath.Value))
             {
                 return;
             }
-            this.ItemImage = CvInvoke.Imread(this.SourcePath, Emgu.CV.CvEnum.ImreadModes.Unchanged);
-            this.tilesetPixelWidth = this.ItemImage.Width;
-            this.tilesetPixelHeight = this.ItemImage.Height;
+            this.ItemImage.Value = CvInvoke.Imread(this.SourcePath.Value, Emgu.CV.CvEnum.ImreadModes.Unchanged);
+            this.tilesetPixelWidth = this.ItemImage.Value.Width;
+            this.tilesetPixelHeight = this.ItemImage.Value.Height;
 
-            DrawingGroup newGroup = ImageUtils.MatToDrawingGroup(this.ItemImage);
-            this.TilesetModel.TilesetImage = newGroup;
+            DrawingGroup newGroup = ImageUtils.MatToDrawingGroup(this.ItemImage.Value);
+            this.TilesetModel.Value.TilesetImage = newGroup;
             this.itemTransform = new CoordinateTransform();
-            this.itemTransform.SetPixelToTile(this.TilesetModel.TileWidth.Value, this.TilesetModel.TileHeight.Value);
-            this.itemTransform.SetSelectionToPixel(this.TilesetModel.TileWidth.Value / 2, this.TilesetModel.TileHeight.Value / 2);
-            Mat drawingMat = this.ItemImage;
+            this.itemTransform.SetPixelToTile(this.TilesetModel.Value.TileWidth.Value, this.TilesetModel.Value.TileHeight.Value);
+            this.itemTransform.SetSelectionToPixel(this.TilesetModel.Value.TileWidth.Value / 2, this.TilesetModel.Value.TileHeight.Value / 2);
+            Mat drawingMat = this.ItemImage.Value;
 
-            this.isGridOn = true;
-            if (this.IsTransparent)
+            this.IsGridOn.Value = true;
+            if (this.IsTransparent.Value)
             {
-                drawingMat = ImageUtils.ColorToTransparent(this.ItemImage, this.TransparentColor);
+                drawingMat = ImageUtils.ColorToTransparent(this.ItemImage.Value, this.TransparentColor.Value);
             }
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
@@ -775,13 +440,13 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
 
         public void RedrawGrid()
         {
-            if (this.IsGridOn)
+            if (this.IsGridOn.Value)
             {
-                int columns = this.ItemImage.Width / this.TileWidth;
-                int rows = this.ItemImage.Height / this.TileHeight;
+                int columns = this.ItemImage.Value.Width / this.TileWidth.Value;
+                int rows = this.ItemImage.Value.Height / this.TileHeight.Value;
 
-                PaddedGridRenderable gridParameters = new PaddedGridRenderable(columns, rows, this.TileWidth, this.TileHeight, this.OffsetX, this.OffsetY, this.PaddingX, this.PaddingY);
-                double thickness = 1 / this.ZoomLevels[this.ZoomIndex].zoom;
+                PaddedGridRenderable gridParameters = new PaddedGridRenderable(columns, rows, this.TileWidth.Value, this.TileHeight.Value, this.OffsetX.Value, this.OffsetY.Value, this.PaddingX.Value, this.PaddingY.Value);
+                double thickness = 1 / this.ZoomLevels[this.ZoomIndex.Value].zoom;
                 gridParameters.DrawingPen.Thickness = thickness < Global.maxGridThickness ? thickness : Global.maxGridThickness;
 
                 Application.Current.Dispatcher.BeginInvoke(new Action(() =>
@@ -804,16 +469,16 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
         public void RefreshBackground()
         {
             Size extendedSize = new Size();
-            extendedSize.Width = this.ItemImage.Width + this.TileWidth;
-            extendedSize.Height = this.ItemImage.Height + this.TileHeight;
+            extendedSize.Width = this.ItemImage.Value.Width + this.TileWidth.Value;
+            extendedSize.Height = this.ItemImage.Value.Height + this.TileHeight.Value;
             Point extendedPoint = new Point();
-            extendedPoint.X = -this.TileWidth / 2;
-            extendedPoint.Y = -this.TileHeight / 2;
+            extendedPoint.X = -this.TileWidth.Value / 2;
+            extendedPoint.Y = -this.TileHeight.Value / 2;
             Rect drawingRect = new Rect(extendedPoint, extendedSize);
 
             Size backgroundSize = new Size();
-            backgroundSize.Width = this.ItemImage.Width;
-            backgroundSize.Height = this.ItemImage.Height;
+            backgroundSize.Width = this.ItemImage.Value.Width;
+            backgroundSize.Height = this.ItemImage.Value.Height;
             Point backgroundPoint = new Point();
             backgroundPoint.X = 0;
             backgroundPoint.Y = 0;
@@ -824,37 +489,57 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
                 using (DrawingContext context = this.extendedBorder.Open())
                 {
                     context.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Transparent, 0), drawingRect);
-                    context.DrawRectangle(backgroundBrush, backgroundPen, backgroundRectangle);
+                    context.DrawRectangle(this.BackgroundBrush.Value, this.BackgroundPen.Value, backgroundRectangle);
                 }
             }), DispatcherPriority.Render);
         }
 
         public void ZoomIn()
         {
-            this.ZoomIndex = this.scrollModel.ZoomIn();
+            this.ZoomIndex.Value = this.scrollModel.ZoomIn();
         }
 
         public void ZoomOut()
         {
-            this.ZoomIndex = this.scrollModel.ZoomOut();
+            this.ZoomIndex.Value = this.scrollModel.ZoomOut();
         }
 
         public void SetZoom(int zoomIndex)
         {
-            this.ZoomIndex = this.scrollModel.SetZoom(zoomIndex);
+            this.ZoomIndex.Value = this.scrollModel.SetZoom(zoomIndex);
         }
 
         public void SetZoom(ZoomLevel zoomLevel)
         {
-            this.ZoomIndex = this.scrollModel.SetZoom(zoomLevel);
+            this.ZoomIndex.Value = this.scrollModel.SetZoom(zoomLevel);
+        }
+
+        private void UpdateZoomIndex(object sender, PropertyChangedEventArgs e)
+        {
+            this.gridLines.Children.Clear();
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                RedrawGrid();
+            }),
+            DispatcherPriority.Background);
+        }
+
+        private void UpdateBackground(object sender, PropertyChangedEventArgs e)
+        {
+            RefreshBackground();
+        }
+
+        private void UpdateGridPen(object sender, PropertyChangedEventArgs e)
+        {
+            RedrawGrid();
         }
 
         private void UpdatePositionLabel(Point position)
         {
             Point transformedPosition = new Point(0, 0);
-            if (this.TileImage != null)
+            if (this.TileImage.Value != null)
             {
-                switch (Scale)
+                switch (this.Scale.Value)
                 {
                     case ScaleType.Pixel:
                         transformedPosition = position;
@@ -867,16 +552,16 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
                 }
             }
             transformedPosition = GeometryUtils.CreateIntPoint(transformedPosition);
-            this.PositionText = (transformedPosition.X + ", " + transformedPosition.Y);
+            this.PositionText.Value = (transformedPosition.X + ", " + transformedPosition.Y);
             RaisePropertyChanged(nameof(this.PositionText));
             updatePositionLabelStopWatch.Restart();
         }
 
         private void UpdateMetadata()
         {
-            this.MetadataList = MetadataPropertyUtils.GetPropertyList(this.TilesetModel);
-            this.TilesetMetadata = new ListCollectionView(this.MetadataList);
-            this.TilesetMetadata.GroupDescriptions.Add(new PropertyGroupDescription("Type"));
+            this.MetadataList = MetadataPropertyUtils.GetPropertyList(this.TilesetModel.Value);
+            this.TilesetMetadata.Value = new ListCollectionView(this.MetadataList);
+            this.TilesetMetadata.Value.GroupDescriptions.Add(new PropertyGroupDescription("Type"));
         }
 
         private void AddCustomProperty()
@@ -896,8 +581,8 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
 
         private void MoveMetadataUp()
         {
-            int currentIndex = this.TilesetMetadata.CurrentPosition;
-            MetadataProperty currentItem = this.TilesetMetadata.CurrentItem as MetadataProperty;
+            int currentIndex = this.TilesetMetadata.Value.CurrentPosition;
+            MetadataProperty currentItem = this.TilesetMetadata.Value.CurrentItem as MetadataProperty;
             MetadataType currentItemType = currentItem.Type;
 
             int propertyIndex = 0;
@@ -924,14 +609,14 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
             if (currentIndex > lowestIndex)
             {
                 this.MetadataList.Move(currentIndex, currentIndex - 1);
-                this.TilesetMetadata.Refresh();
+                this.TilesetMetadata.Value.Refresh();
             }
         }
 
         private void MoveMetadataDown()
         {
-            int currentIndex = this.TilesetMetadata.CurrentPosition;
-            MetadataProperty currentItem = this.TilesetMetadata.CurrentItem as MetadataProperty;
+            int currentIndex = this.TilesetMetadata.Value.CurrentPosition;
+            MetadataProperty currentItem = this.TilesetMetadata.Value.CurrentItem as MetadataProperty;
             MetadataType currentItemType = currentItem.Type;
 
             int propertyIndex = 0;
@@ -958,7 +643,7 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
             if (currentIndex < highestIndex)
             {
                 this.MetadataList.Move(currentIndex, currentIndex + 1);
-                this.TilesetMetadata.Refresh();
+                this.TilesetMetadata.Value.Refresh();
             }
         }
 

@@ -54,7 +54,7 @@
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     ToolTip="Delete: Deletes the selected custom property."
                     Command="{Binding RemoveCustomMetadataCommand}"
-                    IsEnabled="{Binding IsCustomSelected}">
+                    IsEnabled="{Binding IsCustomSelected.Value}">
                 <ContentControl Content="{StaticResource ic_AddCircle}"
                                 Width="{StaticResource MidIconSize}"
                                 Height="{StaticResource MidIconSize}"/>
@@ -62,7 +62,7 @@
         </WrapPanel>
 
         <DataGrid Grid.Row="1"
-                  ItemsSource="{Binding TilesetMetadata, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  ItemsSource="{Binding TilesetMetadata.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding SelectedMetadata}"
                   SelectionUnit="FullRow"
                   AutoGenerateColumns="False"

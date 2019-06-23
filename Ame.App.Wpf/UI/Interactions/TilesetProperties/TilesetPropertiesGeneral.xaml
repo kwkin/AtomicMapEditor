@@ -57,7 +57,7 @@
                  Grid.Column="1"
                  Grid.ColumnSpan="3"
                  VerticalAlignment="Center"
-                 Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 Text="{Binding Name.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  actions:InputBindingsManager.UpdatePropertySourceWhenEnterPressed="TextBox.Text"
                  Margin="0 0 0 10">
         </TextBox>
@@ -83,7 +83,7 @@
                      Grid.Column="0"
                      Grid.ColumnSpan="1"
                      VerticalAlignment="Center"
-                     Text="{Binding SourcePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Text="{Binding SourcePath.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      actions:InputBindingsManager.UpdatePropertySourceWhenEnterPressed="TextBox.Text"
                      Margin="0 0 0 10">
             </TextBox>
@@ -107,7 +107,7 @@
                Grid.ColumnSpan="2"
                HorizontalAlignment="Left"
                VerticalAlignment="Center"
-               IsEnabled="{Binding IsSourceLoaded}"
+               IsEnabled="{Binding IsSourceLoaded.Value}"
                Margin="0 0 5 10">
         </Label>
         <ToggleButton x:Name="UseTransparentColorPicker"
@@ -116,8 +116,8 @@
                       Grid.Column="3"
                       HorizontalAlignment="Right"
                       VerticalAlignment="Center"
-                      IsEnabled="{Binding IsSourceLoaded}"
-                      IsChecked="{Binding IsTransparent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      IsEnabled="{Binding IsSourceLoaded.Value}"
+                      IsChecked="{Binding IsTransparent.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       Margin="0 0 0 10">
         </ToggleButton>
 
@@ -134,7 +134,7 @@
                                 Height="{StaticResource MidIconSize}"/>
         </ToggleButton>
         <xctk:ColorPicker x:Name="transparencyColorPicker"
-                          SelectedColor="{Binding TransparentColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedColor="{Binding TransparentColor.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           Grid.Row="3"
                           Grid.Column="3"
                           VerticalAlignment="Center"
@@ -157,11 +157,11 @@
                             Increment="1"
                             Maximum="2048"
                             Minimum="1"
-                            Value="{Binding TileWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Value="{Binding TileWidth.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Margin="0 0 0 10">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ValueChanged">
-                    <actions:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
+                    <actions:EventToCommand Command="{Binding ShowGridCommand, Mode=OneWay}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </xctk:IntegerUpDown>
@@ -174,7 +174,7 @@
                VerticalAlignment="Center"
                Margin="0 0 5 10" />
         <xctk:IntegerUpDown x:Name="heightIntStepper"
-                            Value="{Binding TileHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Value="{Binding TileHeight.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Grid.Row="4"
                             Grid.Column="3"
                             VerticalAlignment="Center"
@@ -184,7 +184,7 @@
                             Margin="0 0 0 10">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ValueChanged">
-                    <actions:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
+                    <actions:EventToCommand Command="{Binding ShowGridCommand, Mode=OneWay}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </xctk:IntegerUpDown>
@@ -198,7 +198,7 @@
                VerticalAlignment="Center"
                Margin="0 0 5 10" />
         <xctk:IntegerUpDown x:Name="offsetXIntStepper"
-                            Value="{Binding OffsetX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Value="{Binding OffsetX.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Grid.Row="5"
                             Grid.Column="1"
                             VerticalAlignment="Center"
@@ -208,7 +208,7 @@
                             Margin="0 0 0 10">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ValueChanged">
-                    <actions:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
+                    <actions:EventToCommand Command="{Binding ShowGridCommand, Mode=OneWay}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </xctk:IntegerUpDown>
@@ -221,7 +221,7 @@
                VerticalAlignment="Center"
                Margin="0 0 5 10" />
         <xctk:IntegerUpDown x:Name="offsetYIntStepper"
-                            Value="{Binding OffsetY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Value="{Binding OffsetY.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Grid.Row="5"
                             Grid.Column="3"
                             VerticalAlignment="Center"
@@ -231,7 +231,7 @@
                             Margin="0 0 0 10">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ValueChanged">
-                    <actions:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
+                    <actions:EventToCommand Command="{Binding ShowGridCommand, Mode=OneWay}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </xctk:IntegerUpDown>
@@ -251,11 +251,11 @@
                             Increment="1"
                             Maximum="2048"
                             Minimum="0"
-                            Value="{Binding PaddingX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Value="{Binding PaddingX.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Margin="0 0 0 10">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ValueChanged">
-                    <actions:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
+                    <actions:EventToCommand Command="{Binding ShowGridCommand, Mode=OneWay}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </xctk:IntegerUpDown>
@@ -274,11 +274,11 @@
                             Increment="1"
                             Maximum="2048"
                             Minimum="0"
-                            Value="{Binding PaddingY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Value="{Binding PaddingY.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Margin="0 0 0 10">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ValueChanged">
-                    <actions:EventToCommand Command="{Binding UpdateModelCommand, Mode=OneWay}" />
+                    <actions:EventToCommand Command="{Binding ShowGridCommand, Mode=OneWay}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </xctk:IntegerUpDown>
@@ -294,7 +294,7 @@
         </Label>
         <TextBox x:Name="descriptionTextBox"
                  Style="{StaticResource PrimaryMidAccentTextAreaStyle}"
-                 Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
+                 Text="{Binding TilesetModel.Description.Value, UpdateSourceTrigger=PropertyChanged}"
                  Grid.Row="7"
                  Grid.Column="1"
                  Grid.ColumnSpan="3"
