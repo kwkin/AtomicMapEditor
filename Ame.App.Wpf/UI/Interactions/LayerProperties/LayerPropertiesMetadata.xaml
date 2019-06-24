@@ -53,7 +53,7 @@
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     ToolTip="Delete: Deletes the selected custom property."
                     Command="{Binding RemoveCustomMetadataCommand}"
-                    IsEnabled="{Binding IsCustomSelected}">
+                    IsEnabled="{Binding IsCustomSelected.Value}">
                 <ContentControl Content="{StaticResource ic_AddCircle}"
                                 Width="{StaticResource MidIconSize}"
                                 Height="{StaticResource MidIconSize}"/>
@@ -62,7 +62,7 @@
 
         <DataGrid Grid.Row="1"
                   ItemsSource="{Binding LayerMetadata, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                  SelectedItem="{Binding SelectedMetadata}"
+                  SelectedItem="{Binding SelectedMetadata.Value}"
                   SelectionUnit="FullRow"
                   AutoGenerateColumns="False"
                   ScrollViewer.VerticalScrollBarVisibility="Visible"

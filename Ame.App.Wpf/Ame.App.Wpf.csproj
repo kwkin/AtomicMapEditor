@@ -68,7 +68,6 @@
     </Compile>
     <Compile Include="UILogic\Actions\EnumBindingSourceExtension.cs" />
     <Compile Include="UILogic\Actions\EventToCommand.cs" />
-    <Compile Include="UILogic\Actions\IConfirmationRequestHandler.cs" />
     <Compile Include="UILogic\Actions\InputBindingsManager.cs" />
     <Compile Include="UILogic\Actions\LayerBoundariesRenderable.cs" />
     <Compile Include="UILogic\Actions\RootObjectSource.cs" />

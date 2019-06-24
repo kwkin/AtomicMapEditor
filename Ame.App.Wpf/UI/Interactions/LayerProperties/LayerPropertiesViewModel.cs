@@ -16,7 +16,7 @@ using System.Windows.Input;
 
 namespace Ame.App.Wpf.UI.Interactions.LayerProperties
 {
-    public class LayerPropertiesViewModel : BindableBase, IInteractionRequestAware
+    public class LayerPropertiesViewModel : IInteractionRequestAware
     {
         #region fields
 
@@ -27,7 +27,7 @@ namespace Ame.App.Wpf.UI.Interactions.LayerProperties
 
         public LayerPropertiesViewModel()
         {
-            this.WindowTitle = "Layer Editor";
+            this.WindowTitle.Value = "Layer Editor";
 
             this.SelectedMetadata.PropertyChanged += SelectedMetadataChanged;
 
@@ -52,31 +52,29 @@ namespace Ame.App.Wpf.UI.Interactions.LayerProperties
         public ICommand MoveMetadataUpCommand { get; private set; }
         public ICommand MoveMetadataDownCommand { get; private set; }
 
-        public string WindowTitle { get; set; }
-        public string Name { get; set; }
-        public int Rows { get; set; }
-        public int Columns { get; set; }
-        public int OffsetX { get; set; }
-        public int OffsetY { get; set; }
-        public int TileWidth { get; set; }
-        public int TileHeight { get; set; }
+        public BindableProperty<string> WindowTitle { get; set; } = BindableProperty<string>.Prepare();
 
-        private ScaleType scale;
-        public ScaleType Scale
-        {
-            get
-            {
-                return this.scale;
-            }
-            set
-            {
-                SetProperty(ref this.scale, value);
-            }
-        }
+        public BindableProperty<string> Name { get; set; } = BindableProperty<string>.Prepare();
 
-        public LayerPosition Position { get; set; }
-        public double ScrollRate { get; set; }
-        public string Description { get; set; }
+        public BindableProperty<int> Rows { get; set; } = BindableProperty<int>.Prepare();
+
+        public BindableProperty<int> Columns { get; set; } = BindableProperty<int>.Prepare();
+
+        public BindableProperty<int> TileWidth { get; set; } = BindableProperty<int>.Prepare();
+
+        public BindableProperty<int> TileHeight { get; set; } = BindableProperty<int>.Prepare();
+
+        public BindableProperty<int> OffsetX { get; set; } = BindableProperty<int>.Prepare();
+
+        public BindableProperty<int> OffsetY { get; set; } = BindableProperty<int>.Prepare();
+
+        public BindableProperty<ScaleType> Scale { get; set; } = BindableProperty<ScaleType>.Prepare();
+
+        public BindableProperty<LayerPosition> Position { get; set; } = BindableProperty<LayerPosition>.Prepare();
+
+        public BindableProperty<double> ScrollRate { get; set; } = BindableProperty<double>.Prepare();
+
+        public BindableProperty<string> Description { get; set; } = BindableProperty<string>.Prepare();
 
         public Confirmation notification { get; set; }
         public INotification Notification
@@ -85,35 +83,26 @@ namespace Ame.App.Wpf.UI.Interactions.LayerProperties
             set
             {
                 this.notification = value as Confirmation;
-                this.Layer = this.notification.Content as Layer;
+                this.Layer.Value = this.notification.Content as Layer;
                 UpdateUI();
-                UpdateMetadata();
-                RaisePropertyChanged(nameof(this.Notification));
+                if (this.Layer.Value != null)
+                {
+                    UpdateMetadata();
+                }
             }
         }
 
         public Action FinishInteraction { get; set; }
 
-        private Layer Layer { get; set; }
+        public BindableProperty<Layer> Layer { get; set; } = BindableProperty<Layer>.Prepare();
 
-        public ICollectionView GroupedProperties { get; set; }
         public ICollectionView LayerMetadata { get; set; }
+
         public ObservableCollection<MetadataProperty> MetadataList { get; set; }
 
         public BindableProperty<MetadataProperty> SelectedMetadata { get; set; } = BindableProperty<MetadataProperty>.Prepare();
 
-        public bool isCustomSelected;
-        public bool IsCustomSelected
-        {
-            get
-            {
-                return isCustomSelected;
-            }
-            set
-            {
-                SetProperty(ref this.isCustomSelected, value);
-            }
-        }
+        public BindableProperty<bool> IsCustomSelected { get; set; } = BindableProperty<bool>.Prepare();
 
         #endregion properties
 
@@ -122,7 +111,7 @@ namespace Ame.App.Wpf.UI.Interactions.LayerProperties
 
         private void SetLayerProperties()
         {
-            UpdateLayerProperties(this.Layer);
+            UpdateLayerProperties(this.Layer.Value);
             if (this.notification != null)
             {
                 this.notification.Confirmed = true;
@@ -141,47 +130,46 @@ namespace Ame.App.Wpf.UI.Interactions.LayerProperties
 
         private void UpdateLayerProperties(Layer layer)
         {
-            layer.Name.Value = this.Name;
-            layer.Columns.Value = this.Columns;
-            layer.Rows.Value = this.Rows;
-            layer.OffsetX = this.OffsetX * this.TileWidth;
-            layer.OffsetY = this.OffsetY * this.TileHeight;
-            layer.TileWidth.Value = this.TileWidth;
-            layer.TileHeight.Value = this.TileHeight;
-            layer.Scale.Value = this.Scale;
-            layer.Position.Value = this.Position;
-            layer.ScrollRate.Value = this.ScrollRate;
-            layer.Description.Value = this.Description;
+            layer.Name.Value = this.Name.Value;
+            layer.Columns.Value = this.Columns.Value;
+            layer.Rows.Value = this.Rows.Value;
+            layer.OffsetX = this.OffsetX.Value * this.TileWidth.Value;
+            layer.OffsetY = this.OffsetY.Value * this.TileHeight.Value;
+            layer.TileWidth.Value = this.TileWidth.Value;
+            layer.TileHeight.Value = this.TileHeight.Value;
+            layer.Scale.Value = this.Scale.Value;
+            layer.Position.Value = this.Position.Value;
+            layer.ScrollRate.Value = this.ScrollRate.Value;
+            layer.Description.Value = this.Description.Value;
         }
 
         private void UpdateUI()
         {
-            this.Name = this.Layer.Name.Value;
-            this.Columns = this.Layer.Columns.Value;
-            this.Rows = this.Layer.Rows.Value;
-            this.OffsetX = this.Layer.OffsetX / this.Layer.TileWidth.Value;
-            this.OffsetY = this.Layer.OffsetY / this.Layer.TileHeight.Value;
-            this.TileWidth = this.Layer.TileWidth.Value;
-            this.TileHeight = this.Layer.TileHeight.Value;
-            this.Scale = this.Layer.Scale.Value;
-            this.Position = this.Layer.Position.Value;
-            this.ScrollRate = this.Layer.ScrollRate.Value;
-            this.Description = this.Layer.Description.Value;
-
-            RaisePropertyChanged(nameof(this.Name));
+            Layer layer = this.Layer.Value;
+            this.Name.Value = layer.Name.Value;
+            this.Columns.Value = layer.Columns.Value;
+            this.Rows.Value = layer.Rows.Value;
+            this.OffsetX.Value = layer.OffsetX / layer.TileWidth.Value;
+            this.OffsetY.Value = layer.OffsetY / layer.TileHeight.Value;
+            this.TileWidth.Value = layer.TileWidth.Value;
+            this.TileHeight.Value = layer.TileHeight.Value;
+            this.Scale.Value = layer.Scale.Value;
+            this.Position.Value = layer.Position.Value;
+            this.ScrollRate.Value = layer.ScrollRate.Value;
+            this.Description.Value = layer.Description.Value;
         }
 
         private void SelectedMetadataChanged(object sender, PropertyChangedEventArgs e)
         {
-            this.IsCustomSelected = this.SelectedMetadata.Value.Type == MetadataType.Custom ? true : false;
+            this.IsCustomSelected.Value = this.SelectedMetadata.Value.Type == MetadataType.Custom ? true : false;
         }
 
         private void UpdateMetadata()
         {
-            this.MetadataList = MetadataPropertyUtils.GetPropertyList(this.Layer);
+            this.MetadataList = MetadataPropertyUtils.GetPropertyList(this.Layer.Value);
             this.LayerMetadata = new ListCollectionView(this.MetadataList);
             this.LayerMetadata.GroupDescriptions.Add(new PropertyGroupDescription("Type"));
-            foreach (MetadataProperty property in this.Layer.CustomProperties)
+            foreach (MetadataProperty property in this.Layer.Value.CustomProperties)
             {
                 this.MetadataList.Add(property);
             }
@@ -192,7 +180,7 @@ namespace Ame.App.Wpf.UI.Interactions.LayerProperties
             int customCount = this.MetadataList.Count(p => p.Type == MetadataType.Custom);
             string customName = string.Format("Custom #{0}", customCount);
             MetadataProperty property = new MetadataProperty(customName, "", MetadataType.Custom);
-            this.Layer.CustomProperties.Add(property);
+            this.Layer.Value.CustomProperties.Add(property);
             this.MetadataList.Add(property);
         }
 
