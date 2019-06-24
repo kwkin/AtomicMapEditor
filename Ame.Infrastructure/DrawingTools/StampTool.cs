@@ -86,7 +86,7 @@ namespace Ame.Infrastructure.DrawingTools
                         drawing = Tile.emptyTile(affectedPixelPoint);
                     }
                     ImageDrawing adjustedDrawing = new ImageDrawing();
-                    adjustedDrawing.ImageSource = drawing.Image.ImageSource;
+                    adjustedDrawing.ImageSource = drawing.Image.Value.ImageSource;
                     adjustedDrawing.Rect = adjustedRect;
 
                     Tile adjustedTile = new Tile(adjustedDrawing, drawing.TilesetID, drawing.TileID);
@@ -120,7 +120,7 @@ namespace Ame.Infrastructure.DrawingTools
                     if (!this.IsErasing)
                     {
                         Tile drawing = this.Brush.Tiles[0];
-                        adjustedDrawing.ImageSource = drawing.Image.ImageSource;
+                        adjustedDrawing.ImageSource = drawing.Image.Value.ImageSource;
                         Point adjustedPoint = new Point(pixelPosition.X, pixelPosition.Y);
                         Rect adjustedRect = new Rect(adjustedPoint, this.Brush.GetTileSize());
                         adjustedDrawing.Rect = adjustedRect;
@@ -129,7 +129,7 @@ namespace Ame.Infrastructure.DrawingTools
                     {
                         // TODO fix
                         Tile empty = Tile.emptyTile(pixelPosition);
-                        adjustedDrawing.ImageSource = empty.Image.ImageSource;
+                        adjustedDrawing.ImageSource = empty.Image.Value.ImageSource;
                     }
                     context.DrawDrawing(adjustedDrawing);
                 }
@@ -169,7 +169,7 @@ namespace Ame.Infrastructure.DrawingTools
                                 drawing = Tile.emptyTile(affectedPixelPoint);
                             }
                             ImageDrawing adjustedDrawing = new ImageDrawing();
-                            adjustedDrawing.ImageSource = drawing.Image.ImageSource;
+                            adjustedDrawing.ImageSource = drawing.Image.Value.ImageSource;
                             adjustedDrawing.Rect = adjustedRect;
 
                             context.DrawDrawing(adjustedDrawing);

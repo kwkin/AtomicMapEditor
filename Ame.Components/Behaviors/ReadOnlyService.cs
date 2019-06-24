@@ -4,21 +4,20 @@ namespace Ame.Components.Behaviors
 {
     public class ReadOnlyService : DependencyObject
     {
-        private static readonly DependencyProperty BehaviorProperty =
+        public static readonly DependencyProperty IsReadOnlyProperty =
             DependencyProperty.RegisterAttached(
                 "IsReadOnly",
                 typeof(bool),
                 typeof(ReadOnlyService),
                 new FrameworkPropertyMetadata(false));
 
-        public static bool GetIsReadOnly(DependencyObject d)
+        public static void SetIsReadOnly(UIElement element, bool value)
         {
-            return (bool)d.GetValue(BehaviorProperty);
+            element.SetValue(IsReadOnlyProperty, value);
         }
-
-        public static void SetIsReadOnly(DependencyObject d, bool value)
+        public static bool GetIsReadOnly(UIElement element)
         {
-            d.SetValue(BehaviorProperty, value);
+            return (bool)element.GetValue(IsReadOnlyProperty);
         }
     }
 }

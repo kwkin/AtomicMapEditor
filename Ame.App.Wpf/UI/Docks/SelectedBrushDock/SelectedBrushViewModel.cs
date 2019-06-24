@@ -184,7 +184,7 @@ namespace Ame.App.Wpf.UI.Docks.SelectedBrushDock
             {
                 foreach (Tile tile in brushModel.Tiles)
                 {
-                    context.DrawDrawing(tile.Image);
+                    context.DrawDrawing(tile.Image.Value);
                 }
             }
             this.gridModel.Columns = brushModel.Columns;

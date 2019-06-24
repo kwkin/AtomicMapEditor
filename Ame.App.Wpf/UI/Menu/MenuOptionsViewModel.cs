@@ -32,7 +32,7 @@ using System.Windows.Media.Imaging;
 
 namespace Ame.App.Wpf.UI.Menu
 {
-    public class MenuOptionsViewModel : BindableBase
+    public class MenuOptionsViewModel
     {
         #region fields
 

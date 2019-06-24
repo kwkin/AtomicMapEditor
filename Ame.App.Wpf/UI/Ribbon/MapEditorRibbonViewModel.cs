@@ -23,7 +23,7 @@ namespace Ame.App.Wpf.UI.Ribbon
     // TODO add the "Add Tileset" command
     // TODO add the "Add Image" command
     // TODO add the "Open Dock" command
-    public class MapEditorRibbonViewModel : BindableBase
+    public class MapEditorRibbonViewModel
     {
         #region fields
 
@@ -83,17 +83,14 @@ namespace Ame.App.Wpf.UI.Ribbon
 
         // Map Menu
         public ICommand NewMapCommand { get; set; }
-
         public ICommand EditMapPropertiesCommand { get; set; }
 
         // Layer Menu
         public ICommand NewLayerCommand { get; set; }
-
         public ICommand EditLayerPropertiesCommand { get; set; }
 
         // Item Menu
         public ICommand AddTilesetCommand { get; set; }
-
         public ICommand AddImageCommand { get; set; }
         public ICommand OpenItemListCommand { get; set; }
 
@@ -105,12 +102,10 @@ namespace Ame.App.Wpf.UI.Ribbon
 
         // View Menu
         public ICommand SampleViewCommand { get; set; }
-
         public ICommand CollisionsViewCommand { get; set; }
 
         // Window Menu
         public ICommand OpenDockCommand { get; set; }
-
         public ICommand RecentlyClosedDockCommand { get; set; }
         public ICommand DockPresetCommand { get; set; }
         public ICommand SnapDockCommand { get; set; }
@@ -118,7 +113,6 @@ namespace Ame.App.Wpf.UI.Ribbon
 
         // File Menu
         public ICommand SaveFileCommand { get; set; }
-
         public ICommand ExportFileCommand { get; set; }
 
         public ObservableCollection<ZoomLevel> ZoomLevels { get; set; }

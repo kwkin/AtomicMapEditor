@@ -1,4 +1,5 @@
-﻿using Prism.Mvvm;
+﻿using Ame.Infrastructure.BaseTypes;
+using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +12,7 @@ using System.Windows.Media;
 
 namespace Ame.Infrastructure.Models
 {
-    public class Tile : BindableBase
+    public class Tile
     {
         // TODO make the image drawing and IDs consistent with their use
         #region fields
@@ -34,7 +35,7 @@ namespace Ame.Infrastructure.Models
 
         public Tile(ImageDrawing image, int tilesetID, int tileID)
         {
-            this.Image = image;
+            this.Image.Value = image;
             this.TilesetID = tilesetID;
             this.TileID = tileID;
         }
@@ -43,19 +44,8 @@ namespace Ame.Infrastructure.Models
 
 
         #region properties
-        
-        private ImageDrawing image;
-        public ImageDrawing Image
-        {
-            get
-            {
-                return this.image;
-            }
-            set
-            {
-                this.SetProperty(ref this.image, value);
-            }
-        }
+
+        public BindableProperty<ImageDrawing> Image { get; set; } = BindableProperty<ImageDrawing>.Prepare();
 
         public int TilesetID { get; set; }
         public int TileID { get; set; }
@@ -64,7 +54,7 @@ namespace Ame.Infrastructure.Models
         {
             get
             {
-                return this.Image.Bounds;
+                return this.Image.Value.Bounds;
             }
         }
 

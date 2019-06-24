@@ -31,7 +31,7 @@
     <xcad:DockingManager x:Name="windowManager"
                          DocumentsSource="{Binding Documents}"
                          AnchorablesSource="{Binding Anchorables}"
-                         ActiveContent="{Binding ActiveDocument, Mode=TwoWay, Converter={StaticResource ActiveDocumentConverter}}"
+                         ActiveContent="{Binding ActiveDocument.Value, Mode=TwoWay, Converter={StaticResource ActiveDocumentConverter}}"
                          serializer:DockLayoutSerializer.LoadLayoutCommand="{Binding DockLayout.LoadLayoutCommand}"
                          serializer:DockLayoutSerializer.SaveLayoutCommand="{Binding DockLayout.SaveLayoutCommand}"
                          Grid.Row="2">

@@ -47,11 +47,11 @@ namespace Ame.Infrastructure.Models.Serializer.Json
                 IEnumerable<TilesetModel> models = tilesetList.Where(tileset => tileset.ID == tile.TilesetID);
                 if (models.Count() != 0)
                 {
-                    tile.Image = models.First().GetByID(tile.TileID, topLeft);
+                    tile.Image.Value = models.First().GetByID(tile.TileID, topLeft);
                 }
                 else
                 {
-                    tile.Image = Tile.emptyTile(topLeft).Image;
+                    tile.Image.Value = Tile.emptyTile(topLeft).Image.Value;
                 }
 
                 collection.Tiles.Add(tile);

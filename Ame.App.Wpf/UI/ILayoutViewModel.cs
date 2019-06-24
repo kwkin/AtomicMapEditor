@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ame.Infrastructure.BaseTypes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace Ame.App.Wpf.UI
 {
     public interface ILayoutViewModel
     {
-        bool IsBusy { get; set; }
+        BindableProperty<bool> IsBusy { get; set; }
     }
 }

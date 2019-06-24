@@ -9,7 +9,7 @@ using System.Windows.Media;
 
 namespace Ame.Infrastructure.Models
 {
-    public interface ILayer : INotifyPropertyChanged
+    public interface ILayer
     {
         #region fields
 

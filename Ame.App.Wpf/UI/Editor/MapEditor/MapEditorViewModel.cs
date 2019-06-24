@@ -24,7 +24,6 @@ using System.Windows.Threading;
 
 namespace Ame.App.Wpf.UI.Editor.MapEditor
 {
-    // TODO get notified when a new layer is added
     public class MapEditorViewModel : EditorViewModelTemplate
     {
         #region fields

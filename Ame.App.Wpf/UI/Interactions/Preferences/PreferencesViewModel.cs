@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Ame.App.Wpf.UI.Interactions.Preferences
 {
-    public class PreferencesViewModel : BindableBase, IInteractionRequestAware
+    public class PreferencesViewModel : IInteractionRequestAware
     {
         #region fields
 

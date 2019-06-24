@@ -15,7 +15,7 @@ using Ame.Infrastructure.BaseTypes;
 
 namespace Ame.Infrastructure.Models
 {
-    public class Layer : BindableBase, ILayer, IContainsCustomProperties
+    public class Layer : ILayer, IContainsCustomProperties
     {
         #region fields
         

@@ -25,6 +25,7 @@ using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -36,7 +37,7 @@ using System.Windows.Threading;
 
 namespace Ame.App.Wpf.UI
 {
-    public class WindowManagerViewModel : BindableBase, ILayoutViewModel
+    public class WindowManagerViewModel : ILayoutViewModel
     {
         #region fields
 
@@ -75,7 +76,7 @@ namespace Ame.App.Wpf.UI
             }
             if (this.Documents.Count > 0)
             {
-                this.ActiveDocument = this.Documents[0];
+                this.ActiveDocument.Value = this.Documents[0];
             }
 
             ObservableCollection<ILayer> layerList = null;
@@ -103,6 +104,11 @@ namespace Ame.App.Wpf.UI
                                       from assemblyType in domainAssembly.GetTypes()
                                       where typeof(DockViewModelTemplate).IsAssignableFrom(assemblyType)
                                       select assemblyType).ToArray();
+
+            this.IsBusy.PropertyChanged += IsBusyChanged;
+            this.ActiveDock.PropertyChanged += ActiveDockPropertyChanged;
+            this.ActiveDocument.PropertyChanged += ActiveDocumentPropertyChanged;
+
 
             this.eventAggregator.GetEvent<OpenDockEvent>().Subscribe((messge) =>
             {
@@ -159,66 +165,11 @@ namespace Ame.App.Wpf.UI
         public ObservableCollection<EditorViewModelTemplate> Documents { get; private set; }
         public ObservableCollection<DockViewModelTemplate> Anchorables { get; private set; }
 
-        private bool isBusy;
-        public bool IsBusy
-        {
-            get { return this.isBusy; }
-            set
-            {
-                if (SetProperty(ref isBusy, value))
-                {
-                    CommandManager.InvalidateRequerySuggested();
-                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        if (value == false)
-                        {
-                            Mouse.OverrideCursor = null;
-                        }
-                        else
-                        {
-                            Mouse.OverrideCursor = Cursors.Wait;
-                        }
-                    }),
-                    DispatcherPriority.Background);
-                }
-            }
-        }
+        public BindableProperty<bool> IsBusy { get; set; } = BindableProperty<bool>.Prepare();
 
-        private DockViewModelTemplate activeDock = null;
-        public DockViewModelTemplate ActiveDock
-        {
-            get { return activeDock; }
-            set
-            {
-                if (SetProperty(ref activeDock, value))
-                {
-                    ActiveDocumentChanged?.Invoke(this, EventArgs.Empty);
-                }
-            }
-        }
+        public BindableProperty<DockViewModelTemplate> ActiveDock { get; set; } = BindableProperty<DockViewModelTemplate>.Prepare();
 
-        private EditorViewModelTemplate activeDocument = null;
-        public EditorViewModelTemplate ActiveDocument
-        {
-            get { return activeDocument; }
-            set
-            {
-                if (SetProperty(ref activeDocument, value))
-                {
-                    if (this.ActiveDocument is MapEditorViewModel)
-                    {
-                        Map selectedMapContent = this.ActiveDocument.GetContent() as Map;
-                        if (!this.session.MapList.Contains(selectedMapContent))
-                        {
-                            this.session.MapList.Add(selectedMapContent);
-                        }
-                        this.session.SetCurrentMap(selectedMapContent);
-                        Console.WriteLine(this.session.CurrentMap.Name);
-                    }
-                    ActiveDocumentChanged?.Invoke(this, EventArgs.Empty);
-                }
-            }
-        }
+        public BindableProperty<EditorViewModelTemplate> ActiveDocument { get; set; } = BindableProperty<EditorViewModelTemplate>.Prepare();
 
         #endregion properties
 
@@ -228,6 +179,43 @@ namespace Ame.App.Wpf.UI
         public void CloseApplication(object sender, System.ComponentModel.CancelEventArgs e)
         {
             this.session.SerializeFile(Global.SessionFileName);
+        }
+
+        private void IsBusyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            CommandManager.InvalidateRequerySuggested();
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (this.IsBusy.Value == false)
+                {
+                    Mouse.OverrideCursor = null;
+                }
+                else
+                {
+                    Mouse.OverrideCursor = Cursors.Wait;
+                }
+            }),
+            DispatcherPriority.Background);
+        }
+
+        private void ActiveDockPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            ActiveDocumentChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void ActiveDocumentPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (this.ActiveDocument.Value is MapEditorViewModel)
+            {
+                Map selectedMapContent = this.ActiveDocument.Value.GetContent() as Map;
+                if (!this.session.MapList.Contains(selectedMapContent))
+                {
+                    this.session.MapList.Add(selectedMapContent);
+                }
+                this.session.SetCurrentMap(selectedMapContent);
+                Console.WriteLine(this.session.CurrentMap.Name);
+            }
+            ActiveDocumentChanged?.Invoke(this, EventArgs.Empty);
         }
 
         private void OpenDock(OpenDockMessage message)
@@ -329,12 +317,12 @@ namespace Ame.App.Wpf.UI
             if (dockViewModel is DockToolViewModelTemplate)
             {
                 this.Anchorables.Add(dockViewModel);
-                this.ActiveDock = dockViewModel;
+                this.ActiveDock.Value = dockViewModel;
             }
             else if (dockViewModel is EditorViewModelTemplate)
             {
                 this.Documents.Add(dockViewModel as EditorViewModelTemplate);
-                this.ActiveDocument = dockViewModel as EditorViewModelTemplate;
+                this.ActiveDocument.Value = dockViewModel as EditorViewModelTemplate;
             }
         }
 
@@ -343,11 +331,11 @@ namespace Ame.App.Wpf.UI
             switch (notification.Content)
             {
                 case ViewNotification.ZoomInDocument:
-                    this.ActiveDocument.ZoomIn();
+                    this.ActiveDocument.Value.ZoomIn();
                     break;
 
                 case ViewNotification.ZoomOutDocument:
-                    this.ActiveDocument.ZoomOut();
+                    this.ActiveDocument.Value.ZoomOut();
                     break;
 
                 default:
@@ -357,7 +345,7 @@ namespace Ame.App.Wpf.UI
 
         private void SetZoomLevel(NotificationMessage<ZoomLevel> notification)
         {
-            this.ActiveDocument.SetZoom(notification.Content);
+            this.ActiveDocument.Value.SetZoom(notification.Content);
         }
 
         private void SaveAs(NotificationMessage<SaveMessage> message)
@@ -385,7 +373,7 @@ namespace Ame.App.Wpf.UI
         private void ExportAs(NotificationMessage<StateMessage> message)
         {
             StateMessage content = message.Content;
-            this.ActiveDocument.ExportAs(content.Path, content.Encoder);
+            this.ActiveDocument.Value.ExportAs(content.Path, content.Encoder);
         }
 
         #endregion methods

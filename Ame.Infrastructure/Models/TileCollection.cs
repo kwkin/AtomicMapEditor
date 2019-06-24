@@ -186,18 +186,18 @@ namespace Ame.Infrastructure.Models
                 Point topLeft = layer.getPointFromIndex(index);
                 if (tile.TilesetID == -1)
                 {
-                    tile.Image = Tile.emptyTile(topLeft).Image;
+                    tile.Image.Value = Tile.emptyTile(topLeft).Image.Value;
                 }
                 else
                 {
                     IEnumerable<TilesetModel> models = tilesetList.Where(tileset => tileset.ID == tile.TilesetID);
                     if (models.Count() != 0)
                     {
-                        tile.Image = models.First().GetByID(tile.TileID, topLeft);
+                        tile.Image.Value = models.First().GetByID(tile.TileID, topLeft);
                     }
                     else
                     {
-                        tile.Image = Tile.emptyTile(topLeft).Image;
+                        tile.Image.Value = Tile.emptyTile(topLeft).Image.Value;
                     }
                 }
                 index++;
@@ -247,17 +247,17 @@ namespace Ame.Infrastructure.Models
                 case NotifyCollectionChangedAction.Add:
                     foreach (Tile tile in e.NewItems)
                     {
-                        this.LayerItems.Add(tile.Image);
+                        this.LayerItems.Add(tile.Image.Value);
                     }
                     break;
                 case NotifyCollectionChangedAction.Remove:
                     foreach (Tile tile in e.OldItems)
                     {
-                        this.LayerItems.Remove(tile.Image);
+                        this.LayerItems.Remove(tile.Image.Value);
                     }
                     break;
                 case NotifyCollectionChangedAction.Replace:
-                    this.LayerItems[e.NewStartingIndex] = ((Tile)e.NewItems[0]).Image;
+                    this.LayerItems[e.NewStartingIndex] = ((Tile)e.NewItems[0]).Image.Value;
                     break;
                 case NotifyCollectionChangedAction.Reset:
                     this.LayerItems.Clear();

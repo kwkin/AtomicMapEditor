@@ -55,7 +55,7 @@ namespace Ame.App.Wpf.UI.Serializer
                 {
                     this.saveLayoutToStringCommand = new DelegateCommand(
                         this.SaveLayoutToString,
-                        () => !this.layoutParent.IsBusy);
+                        () => !this.layoutParent.IsBusy.Value);
                 }
                 return this.saveLayoutToStringCommand;
             }
@@ -70,7 +70,7 @@ namespace Ame.App.Wpf.UI.Serializer
                 {
                     this.loadLayoutFromStringCommand = new DelegateCommand(
                         this.LoadLayoutFromString,
-                        () => !this.layoutParent.IsBusy && !string.IsNullOrEmpty(this.CurrentLayout));
+                        () => !this.layoutParent.IsBusy.Value && !string.IsNullOrEmpty(this.CurrentLayout));
                 }
                 return this.loadLayoutFromStringCommand;
             }
@@ -98,7 +98,7 @@ namespace Ame.App.Wpf.UI.Serializer
                         catch
                         {
                         }
-                        this.layoutParent.IsBusy = false;
+                        this.layoutParent.IsBusy.Value = false;
                     });
                 }
                 return this.loadLayoutCommand;
@@ -152,7 +152,7 @@ namespace Ame.App.Wpf.UI.Serializer
         {
             try
             {
-                this.layoutParent.IsBusy = true;
+                this.layoutParent.IsBusy.Value = true;
                 string layoutFile = Global.LayoutFileName;
                 if (!File.Exists(layoutFile))
                 {
@@ -208,7 +208,7 @@ namespace Ame.App.Wpf.UI.Serializer
             }
             finally
             {
-                this.layoutParent.IsBusy = false;
+                this.layoutParent.IsBusy.Value = false;
             }
         }
 
@@ -222,10 +222,10 @@ namespace Ame.App.Wpf.UI.Serializer
                 MessageIds.SaveWorkspaceLayout,
                 (result) =>
                 {
-                    this.layoutParent.IsBusy = true;
+                    this.layoutParent.IsBusy.Value = true;
                     CommandManager.InvalidateRequerySuggested();
                     this.CurrentLayout = result;
-                    this.layoutParent.IsBusy = false;
+                    this.layoutParent.IsBusy.Value = false;
                 });
             this.eventAggregator.GetEvent<NotificationActionEvent<string>>().Publish(notification);
         }

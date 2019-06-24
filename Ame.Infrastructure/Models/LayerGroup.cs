@@ -11,7 +11,7 @@ using System.Windows.Media;
 
 namespace Ame.Infrastructure.Models
 {
-    public class LayerGroup : BindableBase, ILayer
+    public class LayerGroup : ILayer
     {
         #region fields
 
