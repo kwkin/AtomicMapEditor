@@ -46,7 +46,7 @@ namespace Ame.App.Wpf.UI.Docks.MinimapDock
             this.session = session ?? throw new ArgumentNullException("session");
             this.ScrollModel = scrollModel ?? throw new ArgumentNullException("scrollModel");
 
-            this.Title = "Minimap";
+            this.Title.Value = "Minimap";
             
             this.Scale = ScaleType.Tile;
             this.PositionText = "0, 0";

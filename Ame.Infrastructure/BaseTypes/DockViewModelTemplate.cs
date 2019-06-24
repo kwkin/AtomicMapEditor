@@ -22,34 +22,14 @@ namespace Ame.Infrastructure.BaseTypes
 
 
         #region properties
-        
-        private bool isActive = false;
-        public bool IsActive
-        {
-            get { return this.isActive; }
-            set { SetProperty(ref this.isActive, value); }
-        }
 
-        private bool isSelected = false;
-        public bool IsSelected
-        {
-            get { return this.isSelected; }
-            set { SetProperty(ref this.isSelected, value); }
-        }
+        public BindableProperty<bool> IsActive { get; set; } = BindableProperty<bool>.Prepare();
 
-        private bool isVisible = false;
-        public bool IsVisible
-        {
-            get { return this.isVisible; }
-            set { SetProperty(ref this.isVisible, value); }
-        }
+        public BindableProperty<bool> IsSelected { get; set; } = BindableProperty<bool>.Prepare();
 
-        private string title;
-        public string Title
-        {
-            get { return this.title; }
-            set { SetProperty(ref this.title, value); }
-        }
+        public BindableProperty<bool> IsVisible { get; set; } = BindableProperty<bool>.Prepare();
+
+        public BindableProperty<string> Title { get; set; } = BindableProperty<string>.Prepare();
         
         public string ContentId
         {

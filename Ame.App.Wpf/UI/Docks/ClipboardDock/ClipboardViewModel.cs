@@ -26,7 +26,7 @@ namespace Ame.App.Wpf.UI.Docks.ClipboardDock
         public ClipboardViewModel(IEventAggregator eventAggregator)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
-            this.Title = "Clipboard";
+            this.Title.Value = "Clipboard";
 
             this.RemoveItemCommand = new DelegateCommand(() => RemoveItem());
             this.SortCommand = new DelegateCommand(() => Sort());

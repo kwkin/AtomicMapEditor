@@ -34,7 +34,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
             this.Session = session ?? throw new ArgumentNullException("session is null");
 
-            this.Title = "Layer List";
+            this.Title.Value = "Layer List";
             this.LayerList = new ObservableCollection<ILayerListEntryViewModel>();
             
             this.Session.PropertyChanged += SessionUpdated;

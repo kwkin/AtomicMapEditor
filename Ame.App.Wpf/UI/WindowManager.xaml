@@ -95,17 +95,17 @@
                 <docks:DockStyleSelector.DockWindowStyle>
                     <Style TargetType="{x:Type xcad:LayoutAnchorableItem}">
                         <Setter Property="Title"
-                                Value="{Binding Model.Title}" />
+                                Value="{Binding Model.Title.Value}" />
                         <Setter Property="CloseCommand"
                                 Value="{Binding Model.CloseCommand, Mode=OneWay}"/>
                         <Setter Property="HideCommand"
                                 Value="{Binding Model.CloseCommand, Mode=OneWay}"/>
                         <Setter Property="Visibility"
-                                Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BoolToVisConverter}, ConverterParameter={x:Static Visibility.Hidden}}" />
+                                Value="{Binding Model.IsVisible.Value, Mode=TwoWay, Converter={StaticResource BoolToVisConverter}, ConverterParameter={x:Static Visibility.Hidden}}" />
                         <Setter Property="IsSelected"
-                                Value="{Binding Model.IsSelected, Mode=TwoWay}" />
+                                Value="{Binding Model.IsSelected.Value, Mode=TwoWay}" />
                         <Setter Property="IsActive"
-                                Value="{Binding Model.IsActive, Mode=TwoWay}" />
+                                Value="{Binding Model.IsActiv.Valuee, Mode=TwoWay}" />
                         <Setter Property="ContentId"
                                 Value="{Binding Model.ContentId}" />
                     </Style>
@@ -113,15 +113,15 @@
                 <docks:DockStyleSelector.DocumentStyle>
                     <Style TargetType="{x:Type xcad:LayoutItem}">
                         <Setter Property="Title"
-                                Value="{Binding Model.Title}" />
+                                Value="{Binding Model.Title.Value}" />
                         <Setter Property="CloseCommand"
                                 Value="{Binding Model.CloseCommand, Mode=OneWay}"/>
                         <Setter Property="Visibility"
-                                Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BoolToVisConverter}, ConverterParameter={x:Static Visibility.Hidden}}" />
+                                Value="{Binding Model.IsVisible.Value, Mode=TwoWay, Converter={StaticResource BoolToVisConverter}, ConverterParameter={x:Static Visibility.Hidden}}" />
                         <Setter Property="IsSelected"
-                                Value="{Binding Model.IsSelected, Mode=TwoWay}" />
+                                Value="{Binding Model.IsSelected.Value, Mode=TwoWay}" />
                         <Setter Property="IsActive"
-                                Value="{Binding Model.IsActive, Mode=TwoWay}" />
+                                Value="{Binding Model.IsActive.Value, Mode=TwoWay}" />
                         <Setter Property="ContentId"
                                 Value="{Binding Model.ContentId}" />
                     </Style>

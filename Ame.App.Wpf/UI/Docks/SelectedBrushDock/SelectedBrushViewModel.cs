@@ -54,7 +54,7 @@ namespace Ame.App.Wpf.UI.Docks.SelectedBrushDock
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
             this.ScrollModel = scrollModel ?? throw new ArgumentNullException("scrollModel is null");
 
-            this.Title = "Selected Brush";
+            this.Title.Value = "Selected Brush";
 
             this.imageTransform = new CoordinateTransform();
             this.drawingGroup = new DrawingGroup();
@@ -64,17 +64,17 @@ namespace Ame.App.Wpf.UI.Docks.SelectedBrushDock
             this.drawingGroup.Children.Add(this.selectedBrushImage);
             this.drawingGroup.Children.Add(this.extendedBackground);
             this.drawingGroup.Children.Add(this.gridLines);
-            this.BrushImage = new DrawingImage(this.drawingGroup);
+            this.BrushImage.Value = new DrawingImage(this.drawingGroup);
             RenderOptions.SetEdgeMode(this.selectedBrushImage, EdgeMode.Aliased);
 
             this.gridModel = new PaddedGridRenderable();
-            this.Scale = ScaleType.Pixel;
-            this.PositionText = "0, 0";
+            this.Scale.Value = ScaleType.Pixel;
+            this.PositionText.Value = "0, 0";
             this.updatePositionLabelStopWatch = Stopwatch.StartNew();
 
             this.ScrollModel.PropertyChanged += ScrollModelPropertyChanged;
 
-            this.ShowGridCommand = new DelegateCommand(() => DrawGrid(this.IsGridOn));
+            this.ShowGridCommand = new DelegateCommand(() => DrawGrid(this.IsGridOn.Value));
             this.HandleMouseMoveCommand = new DelegateCommand<object>((point) => HandleMouseMove((Point)point));
             this.ZoomInCommand = new DelegateCommand(() => this.ScrollModel.ZoomIn());
             this.ZoomOutCommand = new DelegateCommand(() => this.ScrollModel.ZoomOut());
@@ -98,13 +98,12 @@ namespace Ame.App.Wpf.UI.Docks.SelectedBrushDock
         public ICommand ZoomOutCommand { get; private set; }
         public ICommand SetZoomCommand { get; private set; }
 
-        public string PositionText { get; set; }
-        public ScaleType Scale { get; set; }
-        public bool IsGridOn { get; set; }
+        public BindableProperty<string> PositionText { get; set; } = BindableProperty<string>.Prepare(string.Empty);
+        public BindableProperty<ScaleType> Scale { get; set; } = BindableProperty<ScaleType>.Prepare();
+        public BindableProperty<bool> IsGridOn { get; set; } = BindableProperty<bool>.Prepare();
+        public BindableProperty<DrawingImage> BrushImage { get; set; } = BindableProperty<DrawingImage>.Prepare();
 
         public IScrollModel ScrollModel { get; set; }
-
-        public DrawingImage BrushImage { get; set; }
 
         #endregion properties
 
@@ -113,13 +112,13 @@ namespace Ame.App.Wpf.UI.Docks.SelectedBrushDock
 
         public void RedrawGrid()
         {
-            DrawGrid(this.IsGridOn);
+            DrawGrid(this.IsGridOn.Value);
         }
 
         public void DrawGrid(bool drawGrid)
         {
-            this.IsGridOn = drawGrid;
-            if (this.IsGridOn)
+            this.IsGridOn.Value = drawGrid;
+            if (this.IsGridOn.Value)
             {
                 PaddedGridRenderable gridParameters = new PaddedGridRenderable(this.gridModel);
                 double thickness = 1 / this.ScrollModel.ZoomLevels[this.ScrollModel.ZoomIndex].zoom;
@@ -131,8 +130,6 @@ namespace Ame.App.Wpf.UI.Docks.SelectedBrushDock
             {
                 this.gridLines.Children.Clear();
             }
-            RaisePropertyChanged(nameof(this.IsGridOn));
-            RaisePropertyChanged(nameof(this.BrushImage));
         }
 
         public void HandleMouseMove(Point position)
@@ -156,7 +153,7 @@ namespace Ame.App.Wpf.UI.Docks.SelectedBrushDock
             Point transformedPosition = new Point(0, 0);
             if (this.BrushImage != null)
             {
-                switch (Scale)
+                switch (this.Scale.Value)
                 {
                     case ScaleType.Pixel:
                         transformedPosition = position;
@@ -172,9 +169,8 @@ namespace Ame.App.Wpf.UI.Docks.SelectedBrushDock
                 }
             }
             transformedPosition = GeometryUtils.CreateIntPoint(transformedPosition);
-            this.PositionText = (transformedPosition.X + ", " + transformedPosition.Y);
+            this.PositionText.Value = (transformedPosition.X + ", " + transformedPosition.Y);
 
-            RaisePropertyChanged(nameof(this.PositionText));
             this.updatePositionLabelStopWatch.Restart();
         }
 
@@ -197,7 +193,6 @@ namespace Ame.App.Wpf.UI.Docks.SelectedBrushDock
 
             redrawExtendedBackground();
             RedrawGrid();
-            RaisePropertyChanged(nameof(this.BrushImage));
         }
 
         private void redrawExtendedBackground()

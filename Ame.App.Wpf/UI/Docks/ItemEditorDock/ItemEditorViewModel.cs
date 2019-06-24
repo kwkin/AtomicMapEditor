@@ -268,12 +268,12 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
                     this.tilesetModel.IsTransparent.PropertyChanged += IsTransparentChanged;
                     if (!string.IsNullOrEmpty(this.tilesetModel.SourcePath.Value))
                     {
-                        this.Title = "Item - " + Path.GetFileNameWithoutExtension(this.tilesetModel.Name.Value);
+                        this.Title.Value = "Item - " + Path.GetFileNameWithoutExtension(this.tilesetModel.Name.Value);
                         ChangeItemModel(this.tilesetModel);
                     }
                     else
                     {
-                        this.Title = "Item Editor";
+                        this.Title.Value = "Item Editor";
                     }
                 }
             }

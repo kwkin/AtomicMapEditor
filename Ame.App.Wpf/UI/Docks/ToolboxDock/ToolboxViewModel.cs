@@ -31,7 +31,7 @@ namespace Ame.App.Wpf.UI.Docks.ToolboxDock
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
             this.session = session ?? throw new ArgumentNullException("session");
 
-            this.Title = "Tool";
+            this.Title.Value = "Tool";
 
             this.ToolButtonCommand = new DelegateCommand<Type>((brush) =>
             {
@@ -266,11 +266,11 @@ namespace Ame.App.Wpf.UI.Docks.ToolboxDock
         {
             if (!string.IsNullOrEmpty(this.DrawingTool.ToolName))
             {
-                this.Title = "Tool - " + this.DrawingTool.ToolName;
+                this.Title.Value = "Tool - " + this.DrawingTool.ToolName;
             }
             else
             {
-                this.Title = "Tool";
+                this.Title.Value = "Tool";
             }
         }
 

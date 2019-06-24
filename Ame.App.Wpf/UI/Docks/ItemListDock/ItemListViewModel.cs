@@ -32,7 +32,7 @@ namespace Ame.App.Wpf.UI.Docks.ItemListDock
         {
             this.eventAggregator = eventAggregator;
             this.Session = session;
-            this.Title = "Item List";
+            this.Title.Value = "Item List";
 
             this.CurrentItemChangedCommand = new DelegateCommand<object>((currentItem) => CurrentItemChanged((IItem)currentItem));
             this.AddTilesetCommand = new DelegateCommand(() => AddTileset());

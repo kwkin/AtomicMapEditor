@@ -76,7 +76,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             this.imageTransform.SetPixelToTile(this.Map.TileWidth.Value, this.Map.TileHeight.Value);
             this.imageTransform.SetSelectionToPixel(this.Map.TileWidth.Value / 2, this.Map.TileHeight.Value / 2);
 
-            this.Title = this.Map.Name.Value;
+            this.Title.Value = this.Map.Name.Value;
             this.drawingGroup = new DrawingGroup();
             this.mapBackground = new DrawingGroup();
             this.hoverSample = new DrawingGroup();

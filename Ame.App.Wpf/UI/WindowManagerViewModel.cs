@@ -246,7 +246,7 @@ namespace Ame.App.Wpf.UI
             dockViewModel = this.dockCreator.CreateDock(message.Type);
             if (!string.IsNullOrEmpty(message.Title))
             {
-                dockViewModel.Title = message.Title;
+                dockViewModel.Title.Value = message.Title;
             }
             AddDockViewModel(dockViewModel);
         }
@@ -313,7 +313,7 @@ namespace Ame.App.Wpf.UI
 
         private void AddDockViewModel(DockViewModelTemplate dockViewModel)
         {
-            dockViewModel.IsVisible = true;
+            dockViewModel.IsVisible.Value = true;
             if (dockViewModel is DockToolViewModelTemplate)
             {
                 this.Anchorables.Add(dockViewModel);

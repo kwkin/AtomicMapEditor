@@ -31,7 +31,7 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
             this.session = session ?? throw new ArgumentNullException("session is null");
 
-            this.Title = "Project Explorer";
+            this.Title.Value = "Project Explorer";
 
             this.Nodes = new ObservableCollection<NodeViewBuilder>();
             this.Nodes.Add(new NodeViewBuilder("Ame Session", this.session));

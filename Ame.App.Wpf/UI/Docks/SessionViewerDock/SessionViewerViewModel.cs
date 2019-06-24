@@ -31,7 +31,7 @@ namespace Ame.App.Wpf.UI.Docks.SessionViewerDock
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
             this.session = session ?? throw new ArgumentNullException("session is null");
 
-            this.Title = "Session Viewer";
+            this.Title.Value = "Session Viewer";
 
             this.Nodes = new ObservableCollection<NodeViewBuilder>();
             this.Nodes.Add(new NodeViewBuilder("Ame Session", this.session));
