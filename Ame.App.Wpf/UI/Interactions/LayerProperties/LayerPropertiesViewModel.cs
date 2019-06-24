@@ -161,7 +161,10 @@ namespace Ame.App.Wpf.UI.Interactions.LayerProperties
 
         private void SelectedMetadataChanged(object sender, PropertyChangedEventArgs e)
         {
-            this.IsCustomSelected.Value = this.SelectedMetadata.Value.Type == MetadataType.Custom ? true : false;
+            if (this.SelectedMetadata.Value != null)
+            {
+                this.IsCustomSelected.Value = this.SelectedMetadata.Value.Type == MetadataType.Custom ? true : false;
+            }
         }
 
         private void UpdateMetadata()

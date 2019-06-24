@@ -63,7 +63,7 @@
 
         <DataGrid Grid.Row="1"
                   ItemsSource="{Binding MapMetadata, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                  SelectedItem="{Binding SelectedMetadata}"
+                  SelectedItem="{Binding SelectedMetadata.Value}"
                   SelectionUnit="FullRow"
                   AutoGenerateColumns="False"
                   ScrollViewer.VerticalScrollBarVisibility="Visible"

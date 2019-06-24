@@ -53,7 +53,7 @@
                Margin="0 0 5 10" />
         <TextBox x:Name="nameTextBox"
                  Style="{StaticResource PrimaryMidTextBoxStyle}"
-                 Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                 Text="{Binding Name.Value, UpdateSourceTrigger=PropertyChanged}"
                  Grid.Row="0"
                  Grid.Column="1"
                  Grid.ColumnSpan="3"
@@ -70,7 +70,7 @@
                Margin="0 0 5 10" />
         <xctk:IntegerUpDown x:Name="rowIntStepper"
                             Style="{StaticResource PrimaryLightNumericUpDownStyle}"
-                            Value="{Binding Rows}"
+                            Value="{Binding Rows.Value}"
                             Grid.Row="1"
                             Grid.Column="1"
                             VerticalAlignment="Center"
@@ -88,7 +88,7 @@
                Margin="5 0 0 10" />
         <xctk:IntegerUpDown x:Name="columnIntStepper"
                             Style="{StaticResource PrimaryLightNumericUpDownStyle}"
-                            Value="{Binding Columns}"
+                            Value="{Binding Columns.Value}"
                             Grid.Row="1"
                             Grid.Column="3"
                             VerticalAlignment="Center"
@@ -99,7 +99,7 @@
 
         <ComboBox x:Name="scaleComboBox"
                   Style="{StaticResource PrimaryMidComboBoxStyle}"
-                  SelectedItem="{Binding Scale, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding Scale.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   ItemsSource="{Binding Source={actions:EnumBindingSourceExtension {x:Type models:ScaleType}}}"
                   Grid.Row="2"
                   Grid.Column="1"
@@ -115,10 +115,10 @@
                HorizontalAlignment="Right"
                VerticalAlignment="Center"
                Margin="0 0 5 10"
-               Visibility="{Binding Scale, Converter={StaticResource EnumToVisibleConverter}, ConverterParameter={x:Static models:ScaleType.Tile}}" />
+               Visibility="{Binding Scale.Value, Converter={StaticResource EnumToVisibleConverter}, ConverterParameter={x:Static models:ScaleType.Tile}}" />
         <xctk:IntegerUpDown x:Name="tileWidthIntStepper"
                             Style="{StaticResource PrimaryLightNumericUpDownStyle}"
-                            Value="{Binding TileWidth}"
+                            Value="{Binding TileWidth.Value}"
                             Grid.Row="3"
                             Grid.Column="1"
                             VerticalAlignment="Center"
@@ -126,7 +126,7 @@
                             Maximum="2048"
                             Minimum="1"
                             Margin="0 0 5 10"
-                            Visibility="{Binding Scale, Converter={StaticResource EnumToVisibleConverter}, ConverterParameter={x:Static models:ScaleType.Tile}}" />
+                            Visibility="{Binding Scale.Value, Converter={StaticResource EnumToVisibleConverter}, ConverterParameter={x:Static models:ScaleType.Tile}}" />
         <Label x:Name="tileHeightLabel"
                Style="{StaticResource MainSmallLabelStyle}"
                Content="Tile Height"
@@ -135,10 +135,10 @@
                HorizontalAlignment="Right"
                VerticalAlignment="Center"
                Margin="5 0 0 10"
-               Visibility="{Binding Scale, Converter={StaticResource EnumToVisibleConverter}, ConverterParameter={x:Static models:ScaleType.Tile}}" />
+               Visibility="{Binding Scale.Value, Converter={StaticResource EnumToVisibleConverter}, ConverterParameter={x:Static models:ScaleType.Tile}}" />
         <xctk:IntegerUpDown x:Name="tileHeightIntStepper"
                             Style="{StaticResource PrimaryLightNumericUpDownStyle}"
-                            Value="{Binding TileHeight}"
+                            Value="{Binding TileHeight.Value}"
                             Grid.Row="3"
                             Grid.Column="3"
                             VerticalAlignment="Center"
@@ -146,7 +146,7 @@
                             Maximum="2048"
                             Minimum="1"
                             Margin="5 0 0 10"
-                            Visibility="{Binding Scale, Converter={StaticResource EnumToVisibleConverter}, ConverterParameter={x:Static models:ScaleType.Tile}}" />
+                            Visibility="{Binding Scale.Value, Converter={StaticResource EnumToVisibleConverter}, ConverterParameter={x:Static models:ScaleType.Tile}}" />
 
         <Label x:Name="pixelRatioLabel"
                Style="{StaticResource MainSmallLabelStyle}"
@@ -158,7 +158,7 @@
                Margin="0 0 5 10" />
         <xctk:IntegerUpDown x:Name="pixelToIntStepper"
                             Style="{StaticResource PrimaryLightNumericUpDownStyle}"
-                            Value="{Binding PixelRatio}"
+                            Value="{Binding PixelRatio.Value}"
                             Grid.Row="4"
                             Grid.Column="1"
                             Grid.ColumnSpan="3"
@@ -178,7 +178,7 @@
                Margin="0 0 5 10" />
         <TextBox x:Name="descriptionTextBox"
                  Style="{StaticResource PrimaryMidTextAreaStyle}"
-                 Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
+                 Text="{Binding Description.Value, UpdateSourceTrigger=PropertyChanged}"
                  Grid.Row="5"
                  Grid.Column="1"
                  Grid.ColumnSpan="3"

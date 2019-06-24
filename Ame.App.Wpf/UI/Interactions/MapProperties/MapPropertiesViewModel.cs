@@ -17,7 +17,7 @@ using System.Windows.Input;
 
 namespace Ame.App.Wpf.UI.Interactions.MapProperties
 {
-    public class MapPropertiesViewModel : BindableBase, IInteractionRequestAware
+    public class MapPropertiesViewModel : IInteractionRequestAware
     {
         #region fields
 
@@ -32,7 +32,7 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
             {
                 throw new ArgumentNullException("eventAggregator");
             }
-            this.WindowTitle = "New Map";
+            this.WindowTitle.Value = "New Map";
 
             this.SelectedMetadata.PropertyChanged += SelectedMetadataChanged;
 
@@ -56,29 +56,25 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
         public ICommand MoveMetadataUpCommand { get; private set; }
         public ICommand MoveMetadataDownCommand { get; private set; }
 
-        public string WindowTitle { get; set; }
-        public string Name { get; set; }
-        public int Columns { get; set; }
-        public int Rows { get; set; }
-        public int TileWidth { get; set; }
-        public int TileHeight { get; set; }
+        public BindableProperty<string> WindowTitle { get; set; } = BindableProperty<string>.Prepare();
 
-        private ScaleType scale;
-        public ScaleType Scale
-        {
-            get
-            {
-                return this.scale;
-            }
-            set
-            {
-                SetProperty(ref this.scale, value);
-            }
-        }
-        public int PixelScale { get; set; }
-        public string Description { get; set; }
+        public BindableProperty<string> Name { get; set; } = BindableProperty<string>.Prepare();
 
-        private Map Map { get; set; }
+        public BindableProperty<int> Rows { get; set; } = BindableProperty<int>.Prepare();
+
+        public BindableProperty<int> Columns { get; set; } = BindableProperty<int>.Prepare();
+
+        public BindableProperty<int> TileWidth { get; set; } = BindableProperty<int>.Prepare();
+
+        public BindableProperty<int> TileHeight { get; set; } = BindableProperty<int>.Prepare();
+
+        public BindableProperty<ScaleType> Scale { get; set; } = BindableProperty<ScaleType>.Prepare();
+
+        public BindableProperty<int> PixelRatio { get; set; } = BindableProperty<int>.Prepare();
+
+        public BindableProperty<string> Description { get; set; } = BindableProperty<string>.Prepare();
+
+        public BindableProperty<Map> Map { get; set; } = BindableProperty<Map>.Prepare();
 
         public IConfirmation notification { get; set; }
         public INotification Notification
@@ -87,10 +83,12 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
             set
             {
                 this.notification = value as IConfirmation;
-                this.Map = this.notification.Content as Map;
+                this.Map.Value = this.notification.Content as Map;
                 updateUIusingMap();
-                UpdateMetadata();
-                RaisePropertyChanged(nameof(this.Notification));
+                if (this.Map.Value != null)
+                {
+                    UpdateMetadata();
+                }
             }
         }
 
@@ -100,18 +98,7 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
 
         public BindableProperty<MetadataProperty> SelectedMetadata { get; set; } = BindableProperty<MetadataProperty>.Prepare();
 
-        public bool isCustomSelected;
-        public bool IsCustomSelected
-        {
-            get
-            {
-                return isCustomSelected;
-            }
-            set
-            {
-                SetProperty(ref this.isCustomSelected, value);
-            }
-        }
+        public BindableProperty<bool> IsCustomSelected { get; set; } = BindableProperty<bool>.Prepare();
 
         public Action FinishInteraction { get; set; }
 
@@ -122,7 +109,7 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
 
         private void SetMapProperties()
         {
-            UpdateMapProperties(this.Map);
+            UpdateMapProperties(this.Map.Value);
             if (this.notification != null)
             {
                 this.notification.Confirmed = true;
@@ -141,51 +128,51 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
 
         private void UpdateMapProperties(Map map)
         {
-            map.Name.Value = this.Name;
-            map.Scale.Value = this.Scale;
-            switch (this.Scale)
+            map.Name.Value = this.Name.Value;
+            map.Scale.Value = this.Scale.Value;
+            switch (this.Scale.Value)
             {
                 case ScaleType.Tile:
-                    map.Columns.Value = this.Columns;
-                    map.Rows.Value = this.Rows;
-                    map.TileHeight.Value = this.TileHeight;
-                    map.TileWidth.Value = this.TileWidth;
+                    map.Columns.Value = this.Columns.Value;
+                    map.Rows.Value = this.Rows.Value;
+                    map.TileHeight.Value = this.TileHeight.Value;
+                    map.TileWidth.Value = this.TileWidth.Value;
                     break;
 
                 case ScaleType.Pixel:
                 default:
-                    map.Columns.Value = this.Columns;
-                    map.Rows.Value = this.Rows;
+                    map.Columns.Value = this.Columns.Value;
+                    map.Rows.Value = this.Rows.Value;
                     break;
             }
-            map.PixelScale.Value = this.PixelScale;
-            map.Description.Value = this.Description;
+            map.PixelScale.Value = this.PixelRatio.Value;
+            map.Description.Value = this.Description.Value;
         }
 
         private void updateUIusingMap()
         {
-            updateUIusingMap(this.Map);
+            updateUIusingMap(this.Map.Value);
         }
 
         private void updateUIusingMap(Map map)
         {
-            this.Name = map.Name.Value;
-            this.Columns = map.Columns.Value;
-            this.Rows = map.Rows.Value;
-            this.TileWidth = map.TileWidth.Value;
-            this.TileHeight = map.TileHeight.Value;
-            this.Scale = map.Scale.Value;
-            this.PixelScale = map.PixelScale.Value;
-            this.Description = map.Description.Value;
+            this.Name.Value = map.Name.Value;
+            this.Columns.Value = map.Columns.Value;
+            this.Rows.Value = map.Rows.Value;
+            this.TileWidth.Value = map.TileWidth.Value;
+            this.TileHeight.Value = map.TileHeight.Value;
+            this.Scale.Value = map.Scale.Value;
+            this.PixelRatio.Value = map.PixelScale.Value;
+            this.Description.Value = map.Description.Value;
         }
 
         private void UpdateMetadata()
         {
-            this.MetadataList = MetadataPropertyUtils.GetPropertyList(this.Map);
-            this.MetadataList.Add(new MetadataProperty("Layer Count", this.Map.LayerList.Count, MetadataType.Statistic));
+            this.MetadataList = MetadataPropertyUtils.GetPropertyList(this.Map.Value);
+            this.MetadataList.Add(new MetadataProperty("Layer Count", this.Map.Value.LayerList.Count, MetadataType.Statistic));
             this.MapMetadata = new ListCollectionView(this.MetadataList);
             this.MapMetadata.GroupDescriptions.Add(new PropertyGroupDescription("Type"));
-            foreach (MetadataProperty property in this.Map.CustomProperties)
+            foreach (MetadataProperty property in this.Map.Value.CustomProperties)
             {
                 this.MetadataList.Add(property);
             }
@@ -193,7 +180,10 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
 
         private void SelectedMetadataChanged(object sender, PropertyChangedEventArgs e)
         {
-            this.IsCustomSelected = this.SelectedMetadata.Value.Type == MetadataType.Custom ? true : false;
+            if (this.SelectedMetadata.Value != null)
+            {
+                this.IsCustomSelected.Value = this.SelectedMetadata.Value.Type == MetadataType.Custom ? true : false;
+            }
         }
 
         private void AddCustomProperty()
@@ -201,7 +191,7 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
             int customCount = this.MetadataList.Count(p => p.Type == MetadataType.Custom);
             string customName = string.Format("Custom #{0}", customCount);
             MetadataProperty property = new MetadataProperty(customName, "", MetadataType.Custom);
-            this.Map.CustomProperties.Add(property);
+            this.Map.Value.CustomProperties.Add(property);
             this.MetadataList.Add(property);
         }
 
