@@ -105,7 +105,7 @@
                         <Setter Property="IsSelected"
                                 Value="{Binding Model.IsSelected.Value, Mode=TwoWay}" />
                         <Setter Property="IsActive"
-                                Value="{Binding Model.IsActiv.Valuee, Mode=TwoWay}" />
+                                Value="{Binding Model.IsActive.Value, Mode=TwoWay}" />
                         <Setter Property="ContentId"
                                 Value="{Binding Model.ContentId}" />
                     </Style>

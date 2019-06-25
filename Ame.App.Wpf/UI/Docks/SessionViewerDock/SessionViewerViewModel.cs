@@ -63,7 +63,6 @@ namespace Ame.App.Wpf.UI.Docks.SessionViewerDock
         {
             this.Nodes = new ObservableCollection<NodeViewBuilder>();
             this.Nodes.Add(new NodeViewBuilder("Ame Session", this.session));
-            RaisePropertyChanged(nameof(this.Nodes));
         }
 
         #endregion methods

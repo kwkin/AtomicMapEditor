@@ -7,6 +7,7 @@ using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,14 +34,25 @@ namespace Ame.App.Wpf.UI.Docks.ToolboxDock
 
             this.Title.Value = "Tool";
 
+            this.DrawingTool.PropertyChanged += DrawingToolChanged;
+            this.IsEraser.PropertyChanged += IsEraserChanged;
+            this.BrushColumns.PropertyChanged += BrushColumnsChanged;
+            this.BrushRows.PropertyChanged += BrushRowsChanged;
+            this.BrushTileWidth.PropertyChanged += BrushTileWidthChanged;
+            this.BrushTileHeight.PropertyChanged += BrushTileHeightChanged;
+            this.BrushTileOffsetX.PropertyChanged += BrushTileOffsetXChanged;
+            this.BrushTileOffsetY.PropertyChanged += BrushTileOffsetYChanged;
+
+            this.BrushModel.PropertyChanged += BrushModelChanged;
+
             this.ToolButtonCommand = new DelegateCommand<Type>((brush) =>
             {
-                this.DrawingTool = Activator.CreateInstance(brush) as IDrawingTool;
+                this.DrawingTool.Value = Activator.CreateInstance(brush) as IDrawingTool;
             });
 
             this.eventAggregator.GetEvent<NewPaddedBrushEvent>().Subscribe((brushModel) =>
             {
-                this.BrushModel = brushModel;
+                this.BrushModel.Value = brushModel;
             }, ThreadOption.PublisherThread);
         }
 
@@ -51,205 +63,31 @@ namespace Ame.App.Wpf.UI.Docks.ToolboxDock
 
         public ICommand ToolButtonCommand { get; private set; }
 
-        private IDrawingTool drawingTool;
-        public IDrawingTool DrawingTool
-        {
-            get
-            {
-                return this.drawingTool;
-            }
-            set
-            {
-                if (SetProperty(ref this.drawingTool, value))
-                {
-                    SetToolboxTitle();
-                }
-            }
-        }
+        public BindableProperty<IDrawingTool> DrawingTool { get; set; } = BindableProperty<IDrawingTool>.Prepare();
 
-        private bool isEraser;
-        public bool IsEraser
-        {
-            get
-            {
-                return this.isEraser;
-            }
-            set
-            {
-                if (SetProperty(ref this.isEraser, value))
-                {
-                    if (typeof(IEraserTool).IsAssignableFrom(this.DrawingTool.GetType()))
-                    {
-                        IEraserTool erasorTool = this.session.DrawingTool as IEraserTool;
-                        erasorTool.IsErasing = value;
-                    }
-                }
-            }
-        }
+        public BindableProperty<bool> IsEraser { get; set; } = BindableProperty<bool>.Prepare();
 
-        private int brushColumns;
-        public int BrushColumns
-        {
-            get
-            {
-                return this.brushColumns;
-            }
-            set
-            {
-                if (SetProperty(ref this.brushColumns, value))
-                {
-                    UpdateBrushModel();
-                }
-            }
-        }
+        public BindableProperty<int> BrushColumns { get; set; } = BindableProperty<int>.Prepare();
 
-        private int brushRows;
-        public int BrushRows
-        {
-            get
-            {
-                return this.brushRows;
-            }
-            set
-            {
-                if (SetProperty(ref this.brushRows, value))
-                {
-                    UpdateBrushModel();
-                }
-            }
-        }
+        public BindableProperty<int> BrushRows { get; set; } = BindableProperty<int>.Prepare();
 
-        private int brushTileWidth;
-        public int BrushTileWidth
-        {
-            get
-            {
-                return this.brushTileWidth;
-            }
-            set
-            {
-                if (SetProperty(ref this.brushTileWidth, value))
-                {
-                    UpdateBrushModel();
-                }
-            }
-        }
+        public BindableProperty<int> BrushTileWidth { get; set; } = BindableProperty<int>.Prepare();
 
-        private int brushTileHeight;
-        public int BrushTileHeight
-        {
-            get
-            {
-                return this.brushTileHeight;
-            }
-            set
-            {
-                if (SetProperty(ref this.brushTileHeight, value))
-                {
-                    UpdateBrushModel();
-                }
-            }
-        }
+        public BindableProperty<int> BrushTileHeight { get; set; } = BindableProperty<int>.Prepare();
 
-        private int brushTileOffsetX;
-        public int BrushTileOffsetX
-        {
-            get
-            {
-                return this.brushTileOffsetX;
-            }
-            set
-            {
-                if (SetProperty(ref this.brushTileOffsetX, value))
-                {
-                    UpdateBrushModel();
-                }
-            }
-        }
+        public BindableProperty<int> BrushTileOffsetX { get; set; } = BindableProperty<int>.Prepare();
 
-        private int brushTileOffsetY;
-        public int BrushTileOffsetY
-        {
-            get
-            {
-                return this.brushTileOffsetY;
-            }
-            set
-            {
-                if (SetProperty(ref this.brushTileOffsetY, value))
-                {
-                    UpdateBrushModel();
-                }
-            }
-        }
+        public BindableProperty<int> BrushTileOffsetY { get; set; } = BindableProperty<int>.Prepare();
 
-        private int maxTileWidth;
-        public int MaxTileWidth
-        {
-            get
-            {
-                return this.maxTileWidth;
-            }
-            set
-            {
-                SetProperty(ref this.maxTileWidth, value);
-            }
-        }
+        public BindableProperty<int> MaxTileWidth { get; set; } = BindableProperty<int>.Prepare();
 
-        private int maxTilHeight;
-        public int MaxTileHeight
-        {
-            get
-            {
-                return this.maxTilHeight;
-            }
-            set
-            {
-                SetProperty(ref this.maxTilHeight, value);
-            }
-        }
+        public BindableProperty<int> MaxTileHeight { get; set; } = BindableProperty<int>.Prepare();
 
-        private int maxTileOffsetX;
-        public int MaxTileOffsetX
-        {
-            get
-            {
-                return this.maxTileOffsetX;
-            }
-            set
-            {
-                SetProperty(ref this.maxTileOffsetX, value);
-            }
-        }
+        public BindableProperty<int> MaxTileOffsetX { get; set; } = BindableProperty<int>.Prepare();
 
-        private int maxTileOffsetY;
-        public int MaxTileOffsetY
-        {
-            get
-            {
-                return this.maxTileOffsetY;
-            }
-            set
-            {
-                SetProperty(ref this.maxTileOffsetY, value);
-            }
-        }
+        public BindableProperty<int> MaxTileOffsetY { get; set; } = BindableProperty<int>.Prepare();
 
-        private PaddedBrushModel brushModel;
-        public PaddedBrushModel BrushModel
-        {
-            get
-            {
-                return this.brushModel;
-            }
-            set
-            {
-                if (SetProperty(ref this.brushModel, value))
-                {
-                    UpdateBrushProperties(this.brushModel);
-                }
-            }
-        }
+        public BindableProperty<PaddedBrushModel> BrushModel { get; set; } = BindableProperty<PaddedBrushModel>.Prepare();
 
         #endregion properties
 
@@ -264,9 +102,9 @@ namespace Ame.App.Wpf.UI.Docks.ToolboxDock
 
         public void SetToolboxTitle()
         {
-            if (!string.IsNullOrEmpty(this.DrawingTool.ToolName))
+            if (!string.IsNullOrEmpty(this.DrawingTool.Value.ToolName))
             {
-                this.Title.Value = "Tool - " + this.DrawingTool.ToolName;
+                this.Title.Value = "Tool - " + this.DrawingTool.Value.ToolName;
             }
             else
             {
@@ -274,49 +112,92 @@ namespace Ame.App.Wpf.UI.Docks.ToolboxDock
             }
         }
 
-        private void UpdateBrushProperties(PaddedBrushModel brushModel)
+        private void BrushModelChanged(object sender, PropertyChangedEventArgs e)
         {
-            this.brushColumns = this.BrushModel.Columns.Value;
-            this.brushRows = this.BrushModel.Rows.Value;
-            this.brushTileHeight = this.BrushModel.TileHeight.Value;
-            this.brushTileWidth = this.BrushModel.TileWidth.Value;
-            this.brushTileOffsetX = this.BrushModel.TileOffsetX;
-            this.brushTileOffsetY = this.BrushModel.TileOffsetY;
-
-            RaisePropertyChanged(nameof(this.BrushColumns));
-            RaisePropertyChanged(nameof(this.brushRows));
-            RaisePropertyChanged(nameof(this.brushTileHeight));
-            RaisePropertyChanged(nameof(this.brushTileWidth));
-            RaisePropertyChanged(nameof(this.brushTileOffsetX));
-            RaisePropertyChanged(nameof(this.brushTileOffsetY));
-            UpdateStampLimits();
+            UpdateBrushProperties(this.BrushModel.Value);
         }
 
-        private void UpdateBrushModel()
+        private void IsEraserChanged(object sender, PropertyChangedEventArgs e)
         {
-            this.BrushModel.Columns.Value = this.BrushColumns;
-            this.BrushModel.TileWidth.Value = this.BrushTileWidth;
-            this.BrushModel.Rows.Value = this.BrushRows;
-            this.BrushModel.TileHeight.Value = this.BrushTileHeight;
-            this.BrushModel.TileOffsetX = this.BrushTileOffsetX;
-            this.BrushModel.TileOffsetY = this.BrushTileOffsetY;
+            if (typeof(IEraserTool).IsAssignableFrom(this.DrawingTool.GetType()))
+            {
+                IEraserTool erasorTool = this.session.DrawingTool as IEraserTool;
+                erasorTool.IsErasing = this.IsEraser.Value;
+            }
+        }
+
+        private void DrawingToolChanged(object sender, PropertyChangedEventArgs e)
+        {
+            SetToolboxTitle();
+        }
+
+        private void BrushTileOffsetYChanged(object sender, PropertyChangedEventArgs e)
+        {
+            this.BrushModel.Value.TileOffsetY = this.BrushTileOffsetY.Value;
             UpdateStampLimits();
             PublishBrushModel();
         }
 
+        private void BrushTileOffsetXChanged(object sender, PropertyChangedEventArgs e)
+        {
+            this.BrushModel.Value.TileOffsetX = this.BrushTileOffsetX.Value;
+            UpdateStampLimits();
+            PublishBrushModel();
+        }
+
+        private void BrushTileHeightChanged(object sender, PropertyChangedEventArgs e)
+        {
+            this.BrushModel.Value.TileHeight.Value = this.BrushTileHeight.Value;
+            UpdateStampLimits();
+            PublishBrushModel();
+        }
+
+        private void BrushTileWidthChanged(object sender, PropertyChangedEventArgs e)
+        {
+            this.BrushModel.Value.TileWidth.Value = this.BrushTileWidth.Value;
+            UpdateStampLimits();
+            PublishBrushModel();
+        }
+
+        private void BrushRowsChanged(object sender, PropertyChangedEventArgs e)
+        {
+            this.BrushModel.Value.Rows.Value = this.BrushRows.Value;
+            UpdateStampLimits();
+            PublishBrushModel();
+        }
+
+        private void BrushColumnsChanged(object sender, PropertyChangedEventArgs e)
+        {
+            this.BrushModel.Value.Columns.Value = this.BrushColumns.Value;
+            UpdateStampLimits();
+            PublishBrushModel();
+        }
+
+        private void UpdateBrushProperties(PaddedBrushModel brushModel)
+        {
+            PaddedBrushModel brush = this.BrushModel.Value;
+            this.BrushColumns.Value = brush.Columns.Value;
+            this.BrushRows.Value = brush.Rows.Value;
+            this.BrushTileHeight.Value = brush.TileHeight.Value;
+            this.BrushTileWidth.Value = brush.TileWidth.Value;
+            this.BrushTileOffsetX.Value = brush.TileOffsetX;
+            this.BrushTileOffsetY.Value = brush.TileOffsetY;
+            UpdateStampLimits();
+        }
+
         private void PublishBrushModel()
         {
-            this.eventAggregator.GetEvent<UpdatePaddedBrushEvent>().Publish(this.BrushModel);
+            this.eventAggregator.GetEvent<UpdatePaddedBrushEvent>().Publish(this.BrushModel.Value);
         }
 
         private void UpdateStampLimits()
         {
             if (this.session.CurrentTileset != null)
             {
-                this.MaxTileWidth = this.session.CurrentTileset.Columns.Value - this.BrushTileOffsetX;
-                this.MaxTileHeight = this.session.CurrentTileset.Rows.Value - this.BrushTileOffsetY;
-                this.MaxTileOffsetX = this.session.CurrentTileset.Columns.Value - this.BrushColumns;
-                this.MaxTileOffsetY = this.session.CurrentTileset.Rows.Value - this.BrushRows;
+                this.MaxTileWidth.Value = this.session.CurrentTileset.Columns.Value - this.BrushTileOffsetX.Value;
+                this.MaxTileHeight.Value = this.session.CurrentTileset.Rows.Value - this.BrushTileOffsetY.Value;
+                this.MaxTileOffsetX.Value = this.session.CurrentTileset.Columns.Value - this.BrushColumns.Value;
+                this.MaxTileOffsetY.Value = this.session.CurrentTileset.Rows.Value - this.BrushRows.Value;
             }
         }
 

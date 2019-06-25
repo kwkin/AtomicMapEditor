@@ -65,6 +65,7 @@ namespace Ame.Infrastructure.Models
 
         #region properties
 
+        // TODO change to bindable properties
         [MetadataProperty(MetadataType.Property, "Tile Offset X")]
         public int TileOffsetX { get; set; } = 0;
 

@@ -9,7 +9,7 @@ using Prism.Mvvm;
 
 namespace Ame.Infrastructure.BaseTypes
 {
-    public abstract class DockViewModelTemplate : BindableBase
+    public abstract class DockViewModelTemplate
     {
         #region fields
 

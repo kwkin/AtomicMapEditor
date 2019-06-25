@@ -48,8 +48,8 @@ namespace Ame.App.Wpf.UI.Docks.MinimapDock
 
             this.Title.Value = "Minimap";
             
-            this.Scale = ScaleType.Tile;
-            this.PositionText = "0, 0";
+            this.Scale.Value = ScaleType.Tile;
+            this.PositionText.Value = "0, 0";
 
             // TODO ensure this works for non-square maps
             this.minimapLayers = new DrawingGroup();
@@ -98,9 +98,9 @@ namespace Ame.App.Wpf.UI.Docks.MinimapDock
         public ICommand SetZoomCommand { get; private set; }
         public ICommand SetRatioCommand { get; private set; }
 
-        public string PositionText { get; set; }
-        public ScaleType Scale { get; set; }
+        public BindableProperty<ScaleType> Scale { get; set; } = BindableProperty<ScaleType>.Prepare();
 
+        public BindableProperty<string> PositionText { get; set; } = BindableProperty<string>.Prepare();
 
         public IScrollModel ScrollModel { get; set; }
 
@@ -203,8 +203,7 @@ namespace Ame.App.Wpf.UI.Docks.MinimapDock
         private void UpdatePosition(Point position)
         {
             Point transformedPosition = GeometryUtils.CreateIntPoint(position);
-            this.PositionText = (transformedPosition.X + ", " + transformedPosition.Y);
-            RaisePropertyChanged(nameof(this.PositionText));
+            this.PositionText.Value = (transformedPosition.X + ", " + transformedPosition.Y);
         }
 
         private void UpdateRatio(double ratio)
