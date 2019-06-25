@@ -71,7 +71,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
 
             this.orderer = new LayerOrderRenderer(this.session);
 
-            this.CurrentLayer = this.Map.CurrentLayer;
+            this.CurrentLayer.Value = this.Map.CurrentLayer;
             this.imageTransform = new CoordinateTransform();
             this.imageTransform.SetPixelToTile(this.Map.TileWidth.Value, this.Map.TileHeight.Value);
             this.imageTransform.SetSelectionToPixel(this.Map.TileWidth.Value / 2, this.Map.TileHeight.Value / 2);
@@ -105,17 +105,19 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
 
             this.backgroundBrush = new SolidColorBrush(this.Map.BackgroundColor.Value);
             this.backgroundPen = new Pen(Brushes.Transparent, 0);
-            redrawBackground();
-            this.Scale = ScaleType.Tile;
-            this.PositionText = "0, 0";
+            RedrawBackground();
+            this.Scale.Value = ScaleType.Tile;
+            this.PositionText.Value = "0, 0";
             this.updatePositionLabelStopWatch = Stopwatch.StartNew();
-            this.HoverSampleOpacity = hoverSampleOpacity;
+            this.HoverSampleOpacity.Value = hoverSampleOpacity;
 
             this.session.PropertyChanged += SessionPropertyChanged;
             this.Map.LayerList.CollectionChanged += LayerListChanged;
             this.ScrollModel.PropertyChanged += ScrollModelPropertyChanged;
-            
-            this.ShowGridCommand = new DelegateCommand(() => DrawGrid(this.IsGridOn));
+            this.BackgroundBrush.PropertyChanged += UpdateBackground;
+            this.BackgroundPen.PropertyChanged += UpdateBackground;
+
+            this.ShowGridCommand = new DelegateCommand(() => DrawGrid(this.IsGridOn.Value));
             this.HandleMouseMoveCommand = new DelegateCommand<object>((point) => HandleMouseMove((Point)point));
             this.UndoCommand = new DelegateCommand(() => this.Undo());
             this.RedoCommand = new DelegateCommand(() => this.Redo());
@@ -146,89 +148,26 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
         public ICommand UndoCommand { get; private set; }
         public ICommand RedoCommand { get; private set; }
 
+        // TODO change to a bindable property
         public Map Map { get; set; }
-        public ILayer CurrentLayer { get; set; }
+        
+        public BindableProperty<ILayer> CurrentLayer { get; set; } = BindableProperty<ILayer>.Prepare();
+
+        public BindableProperty<bool> IsGridOn { get; set; } = BindableProperty<bool>.Prepare();
+
+        public BindableProperty<ScaleType> Scale { get; set; } = BindableProperty<ScaleType>.Prepare();
+
+        public BindableProperty<string> PositionText { get; set; } = BindableProperty<string>.Prepare();
+
+        public BindableProperty<Brush> BackgroundBrush { get; set; } = BindableProperty<Brush>.Prepare();
+
+        public BindableProperty<Pen> BackgroundPen { get; set; } = BindableProperty<Pen>.Prepare();
+
+        public BindableProperty<double> HoverSampleOpacity { get; set; } = BindableProperty<double>.Prepare();
 
         public DrawingImage DrawingCanvas { get; set; }
 
-        private bool isGridOn;
-        public bool IsGridOn
-        {
-            get
-            {
-                return this.isGridOn;
-            }
-            set
-            {
-                SetProperty(ref this.isGridOn, value);
-            }
-        }
-
-        private string positionText;
-        public string PositionText
-        {
-            get
-            {
-                return this.positionText;
-            }
-            set
-            {
-                SetProperty(ref this.positionText, value);
-            }
-        }
-
-        private ScaleType scale;
-        public ScaleType Scale
-        {
-            get
-            {
-                return this.scale;
-            }
-            set
-            {
-                SetProperty(ref this.scale, value);
-            }
-        }
-
         public IScrollModel ScrollModel { get; set; }
-
-        public Brush BackgroundBrush
-        {
-            get
-            {
-                return backgroundBrush;
-            }
-            set
-            {
-                this.backgroundBrush = value;
-                redrawBackground();
-            }
-        }
-
-        public Pen BackgroundPen
-        {
-            get
-            {
-                return backgroundPen;
-            }
-            set
-            {
-                this.backgroundPen = value;
-                redrawBackground();
-            }
-        }
-
-        public double HoverSampleOpacity
-        {
-            get
-            {
-                return this.hoverSample.Opacity;
-            }
-            set
-            {
-                this.hoverSample.Opacity = value;
-            }
-        }
 
         private IDrawingTool DrawingTool
         {
@@ -285,13 +224,13 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
 
         public void DrawGrid()
         {
-            DrawGrid(this.IsGridOn);
+            DrawGrid(this.IsGridOn.Value);
         }
 
         public void DrawGrid(bool drawGrid)
         {
-            this.IsGridOn = drawGrid;
-            if (this.IsGridOn)
+            this.IsGridOn.Value = drawGrid;
+            if (this.IsGridOn.Value)
             {
                 PaddedGridRenderable gridParameters = new PaddedGridRenderable(this.Map);
                 double thickness = 1 / this.ScrollModel.ZoomLevels[this.ScrollModel.ZoomIndex].zoom;
@@ -303,8 +242,6 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             {
                 this.gridLines.Children.Clear();
             }
-            RaisePropertyChanged(nameof(this.IsGridOn));
-            RaisePropertyChanged(nameof(this.DrawingCanvas));
         }
 
         public void Undo()
@@ -355,7 +292,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
                 return;
             }
             // Remove the hover sample
-            this.HoverSampleOpacity = 0;
+            this.HoverSampleOpacity.Value = 0;
             var drawingImage = new System.Windows.Controls.Image { Source = this.DrawingCanvas };
             var width = this.DrawingCanvas.Width;
             var height = this.DrawingCanvas.Height;
@@ -369,7 +306,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             {
                 encoder.Save(stream);
             }
-            this.HoverSampleOpacity = hoverSampleOpacity;
+            this.HoverSampleOpacity.Value = hoverSampleOpacity;
         }
 
         private void SessionPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -379,6 +316,17 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
                 Console.WriteLine("Rendering");
                 DrawLayerBoundaries();
             }
+        }
+
+        private void UpdateBackground(object sender, PropertyChangedEventArgs e)
+        {
+            RedrawBackground();
+        }
+
+        private void UpdateGridPen(object sender, PropertyChangedEventArgs e)
+        {
+            // TODO add consistent grid naming. Possible add an interface for this.
+            DrawGrid();
         }
 
         private void DrawLayerBoundaries()
@@ -496,18 +444,19 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             }
         }
 
-        private void redrawBackground()
+        private void RedrawBackground()
         {
+            Map map = this.Map;
             Size extendedSize = new Size();
-            extendedSize.Width = this.Map.PixelWidth + this.Map.TileWidth.Value;
-            extendedSize.Height = this.Map.PixelHeight + this.Map.TileHeight.Value;
+            extendedSize.Width = map.PixelWidth + map.TileWidth.Value;
+            extendedSize.Height = map.PixelHeight + map.TileHeight.Value;
             Point extendedPoint = new Point();
-            extendedPoint.X = -this.Map.TileWidth.Value / 2;
-            extendedPoint.Y = -this.Map.TileHeight.Value / 2;
+            extendedPoint.X = -map.TileWidth.Value / 2;
+            extendedPoint.Y = -map.TileHeight.Value / 2;
             Rect drawingRect = new Rect(extendedPoint, extendedSize);
 
             Point backgroundLocation = new Point(0, 0);
-            Size backgroundSize = new Size(this.Map.PixelWidth, this.Map.PixelHeight);
+            Size backgroundSize = new Size(map.PixelWidth, map.PixelHeight);
             Rect rect = new Rect(backgroundLocation, backgroundSize);
 
             using (DrawingContext context = this.mapBackground.Open())
@@ -520,7 +469,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
         private void UpdatePositionLabel(Point position)
         {
             Point transformedPosition = new Point(0, 0);
-            switch (Scale)
+            switch (this.Scale.Value)
             {
                 case ScaleType.Pixel:
                     transformedPosition = position;
@@ -537,7 +486,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             transformedPosition = GeometryUtils.CreateIntPoint(transformedPosition);
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
-                this.PositionText = (transformedPosition.X + ", " + transformedPosition.Y);
+                this.PositionText.Value = (transformedPosition.X + ", " + transformedPosition.Y);
             }), DispatcherPriority.Render);
             this.updatePositionLabelStopWatch.Restart();
         }
