@@ -116,22 +116,26 @@ namespace Ame.Infrastructure.DrawingTools
             {
                 using (DrawingContext context = drawingArea.Open())
                 {
-                    ImageDrawing adjustedDrawing = new ImageDrawing();
                     if (!this.IsErasing)
                     {
-                        Tile drawing = this.Brush.Tiles[0];
-                        adjustedDrawing.ImageSource = drawing.Image.Value.ImageSource;
-                        Point adjustedPoint = new Point(pixelPosition.X, pixelPosition.Y);
-                        Rect adjustedRect = new Rect(adjustedPoint, this.Brush.GetTileSize());
-                        adjustedDrawing.Rect = adjustedRect;
+                        foreach (Tile drawing in this.Brush.Tiles)
+                        {
+                            ImageDrawing adjustedDrawing = new ImageDrawing();
+                            adjustedDrawing.ImageSource = drawing.Image.Value.ImageSource;
+                            Point adjustedPoint = new Point(pixelPosition.X + drawing.Image.Value.Rect.X, pixelPosition.Y + drawing.Image.Value.Rect.Y);
+                            Rect adjustedRect = new Rect(adjustedPoint, this.Brush.GetTileSize());
+                            adjustedDrawing.Rect = adjustedRect;
+                            context.DrawDrawing(adjustedDrawing);
+                        }
                     }
                     else
                     {
-                        // TODO fix
+                        // TODO implement
+                        ImageDrawing adjustedDrawing = new ImageDrawing();
                         Tile empty = Tile.emptyTile(pixelPosition);
                         adjustedDrawing.ImageSource = empty.Image.Value.ImageSource;
+                        context.DrawDrawing(adjustedDrawing);
                     }
-                    context.DrawDrawing(adjustedDrawing);
                 }
             }
             else
