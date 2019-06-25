@@ -381,7 +381,7 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
                     context.DrawDrawing(ImageUtils.MatToImageDrawing(drawingMat));
                 }
             }), DispatcherPriority.Render);
-            RefreshBackground();
+            RedrawBackground();
             RedrawGrid();
         }
 
@@ -413,7 +413,7 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
             Console.WriteLine("Draw Ruler");
         }
 
-        public void RefreshBackground()
+        public void RedrawBackground()
         {
             Size extendedSize = new Size();
             extendedSize.Width = this.ItemImage.Value.Width + this.TileWidth.Value;
@@ -473,7 +473,7 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
 
         private void UpdateBackground(object sender, PropertyChangedEventArgs e)
         {
-            RefreshBackground();
+            RedrawBackground();
         }
 
         private void UpdateGridPen(object sender, PropertyChangedEventArgs e)

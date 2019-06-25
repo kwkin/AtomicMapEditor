@@ -75,7 +75,7 @@
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     Grid.Column="2"
                     ToolTip="Open the item in the collision editor"
-                    IsEnabled="{Binding ItemImage, Converter={StaticResource NullToBooleanConverter}}"
+                    IsEnabled="{Binding ItemImage.Value, Converter={StaticResource NullToBooleanConverter}}"
                     Command="{Binding EditCollisionsCommand, Mode=OneWay}">
                 <ContentControl Content="{StaticResource ic_Collisions}"
                                 Width="{StaticResource MidIconSize}"
@@ -86,7 +86,7 @@
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     Grid.Column="3"
                     ToolTip="Open the item in the crop editor"
-                    IsEnabled="{Binding ItemImage, Converter={StaticResource NullToBooleanConverter}}"
+                    IsEnabled="{Binding ItemImage.Value, Converter={StaticResource NullToBooleanConverter}}"
                     Command="{Binding CropCommand, Mode=OneWay}">
                 <ContentControl Content="{StaticResource ic_Crop}"
                                 Width="{StaticResource MidIconSize}"
@@ -97,7 +97,7 @@
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     Grid.Column="4"
                     ToolTip="View the item's properties"
-                    IsEnabled="{Binding ItemImage, Converter={StaticResource NullToBooleanConverter}}"
+                    IsEnabled="{Binding ItemImage.Value, Converter={StaticResource NullToBooleanConverter}}"
                     Command="{Binding ViewPropertiesCommand, Mode=OneWay}">
                 <ContentControl Content="{StaticResource ic_VisibilityOn}"
                                     Width="{StaticResource MidIconSize}"
@@ -108,7 +108,7 @@
                       Grid.Column="5"
                       ItemsSource="{Binding Session.CurrentTilesetList}"
                       DisplayMemberPath="Name.Value"
-                      SelectedItem="{Binding TilesetModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedItem="{Binding TilesetModel.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       IsEnabled="{Binding Session.CurrentTilesetList.Count, Converter={StaticResource CountToEnabledConverter}}"
                       Height="28"
                       VerticalAlignment="Top">
@@ -122,7 +122,7 @@
             <ToggleButton x:Name="itemAdvancedOptionsToggle"
                           Style="{DynamicResource PrimaryMidIconToggleButtonStyle}"
                           Grid.Column="6"
-                          IsEnabled="{Binding ItemImage, Converter={StaticResource NullToBooleanConverter}}">
+                          IsEnabled="{Binding ItemImage.Value, Converter={StaticResource NullToBooleanConverter}}">
                 <ContentControl Content="{StaticResource ic_AddCircle}"
                                 Width="{StaticResource MidIconSize}"
                                 Height="{StaticResource MidIconSize}"/>
@@ -192,7 +192,7 @@
                 </Grid.ContextMenu>
 
                 <Image x:Name="itemImage"
-                       Source="{Binding TileImage}"
+                       Source="{Binding TileImage.Value}"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        RenderOptions.BitmapScalingMode="NearestNeighbor"
@@ -224,7 +224,7 @@
             </Grid.ColumnDefinitions>
 
             <Label x:Name="mousePositionLabel"
-                   Content="{Binding PositionText}"
+                   Content="{Binding PositionText.Value}"
                    Grid.Column="0"
                    Width="65">
             </Label>
@@ -233,7 +233,7 @@
                       Width="65"
                       VerticalAlignment="Center"
                       ItemsSource="{Binding Source={actions:EnumBindingSourceExtension {x:Type models:ScaleType}}}"
-                      SelectedItem="{Binding Scale, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                      SelectedItem="{Binding Scale.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <ComboBox x:Name="zoomComboBox"
                       Grid.Column="2"
                       Width="65"

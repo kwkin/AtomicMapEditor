@@ -93,6 +93,13 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             }
             DrawLayerBoundaries();
 
+            this.session.PropertyChanged += SessionPropertyChanged;
+            this.Map.LayerList.CollectionChanged += LayerListChanged;
+            this.ScrollModel.PropertyChanged += ScrollModelPropertyChanged;
+            this.BackgroundBrush.PropertyChanged += UpdateBackground;
+            this.BackgroundPen.PropertyChanged += UpdateBackground;
+            this.HoverSampleOpacity.PropertyChanged += HoverSampleOpacityBackground;
+
             this.gridLines = new DrawingGroup();
             this.drawingGroup.Children.Add(this.mapBackground);
             this.drawingGroup.Children.Add(this.layerItems);
@@ -110,12 +117,6 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             this.PositionText.Value = "0, 0";
             this.updatePositionLabelStopWatch = Stopwatch.StartNew();
             this.HoverSampleOpacity.Value = hoverSampleOpacity;
-
-            this.session.PropertyChanged += SessionPropertyChanged;
-            this.Map.LayerList.CollectionChanged += LayerListChanged;
-            this.ScrollModel.PropertyChanged += ScrollModelPropertyChanged;
-            this.BackgroundBrush.PropertyChanged += UpdateBackground;
-            this.BackgroundPen.PropertyChanged += UpdateBackground;
 
             this.ShowGridCommand = new DelegateCommand(() => DrawGrid(this.IsGridOn.Value));
             this.HandleMouseMoveCommand = new DelegateCommand<object>((point) => HandleMouseMove((Point)point));
@@ -307,6 +308,11 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
                 encoder.Save(stream);
             }
             this.HoverSampleOpacity.Value = hoverSampleOpacity;
+        }
+
+        private void HoverSampleOpacityBackground(object sender, PropertyChangedEventArgs e)
+        {
+            this.hoverSample.Opacity = this.HoverSampleOpacity.Value;
         }
 
         private void SessionPropertyChanged(object sender, PropertyChangedEventArgs e)
