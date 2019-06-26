@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using Ame.Infrastructure.Attributes;
+using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Utils;
 using Emgu.CV;
 
@@ -39,11 +40,11 @@ namespace Ame.Infrastructure.Models
             this.Tiles = new ObservableCollection<Tile>();
         }
 
-        public PaddedBrushModel(int columns, int rows, int tileWidth, int tileHeight, int tileOffsetX, int tileOfsetY)
+        public PaddedBrushModel(int columns, int rows, int tileWidth, int tileHeight, int tileOffsetX, int tileOffsetY)
             : base(columns, rows, tileWidth, tileHeight)
         {
-            this.TileOffsetX = tileOffsetX;
-            this.TileOffsetY = TileOffsetY;
+            this.TileOffsetX.Value = tileOffsetX;
+            this.TileOffsetY.Value = tileOffsetY;
         }
 
         public PaddedBrushModel(TilesetModel tileset)
@@ -56,8 +57,8 @@ namespace Ame.Infrastructure.Models
             : base(tileset.Columns.Value, tileset.Rows.Value, tileset.TileWidth.Value, tileset.TileHeight.Value)
         {
             this.Tiles = new ObservableCollection<Tile>();
-            this.TileOffsetX = tileOffsetX;
-            this.TileOffsetY = tileOffsetY;
+            this.TileOffsetX.Value = tileOffsetX;
+            this.TileOffsetY.Value = tileOffsetY;
         }
 
         #endregion constructor
@@ -67,10 +68,10 @@ namespace Ame.Infrastructure.Models
 
         // TODO change to bindable properties
         [MetadataProperty(MetadataType.Property, "Tile Offset X")]
-        public int TileOffsetX { get; set; } = 0;
+        public BindableProperty<int> TileOffsetX { get; set; } = BindableProperty<int>.Prepare(0);
 
         [MetadataProperty(MetadataType.Property, "Tile Offset Y")]
-        public int TileOffsetY { get; set; } = 0;
+        public BindableProperty<int> TileOffsetY { get; set; } = BindableProperty<int>.Prepare(0);
 
         #endregion properties
 

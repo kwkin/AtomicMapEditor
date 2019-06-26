@@ -133,14 +133,14 @@ namespace Ame.App.Wpf.UI.Docks.ToolboxDock
 
         private void BrushTileOffsetYChanged(object sender, PropertyChangedEventArgs e)
         {
-            this.BrushModel.Value.TileOffsetY = this.BrushTileOffsetY.Value;
+            this.BrushModel.Value.TileOffsetY.Value = this.BrushTileOffsetY.Value;
             UpdateStampLimits();
             PublishBrushModel();
         }
 
         private void BrushTileOffsetXChanged(object sender, PropertyChangedEventArgs e)
         {
-            this.BrushModel.Value.TileOffsetX = this.BrushTileOffsetX.Value;
+            this.BrushModel.Value.TileOffsetX.Value = this.BrushTileOffsetX.Value;
             UpdateStampLimits();
             PublishBrushModel();
         }
@@ -180,8 +180,8 @@ namespace Ame.App.Wpf.UI.Docks.ToolboxDock
             this.BrushRows.Value = brush.Rows.Value;
             this.BrushTileHeight.Value = brush.TileHeight.Value;
             this.BrushTileWidth.Value = brush.TileWidth.Value;
-            this.BrushTileOffsetX.Value = brush.TileOffsetX;
-            this.BrushTileOffsetY.Value = brush.TileOffsetY;
+            this.BrushTileOffsetX.Value = brush.TileOffsetX.Value;
+            this.BrushTileOffsetY.Value = brush.TileOffsetY.Value;
             UpdateStampLimits();
         }
 

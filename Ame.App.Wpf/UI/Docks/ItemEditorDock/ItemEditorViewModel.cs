@@ -337,8 +337,8 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
 
         public void UpdatePaddedBrushModel(PaddedBrushModel model)
         {
-            int pixelOffsetX = model.TileOffsetX * model.TileWidth.Value;
-            int pixelOffsetY = model.TileOffsetY * model.TileHeight.Value;
+            int pixelOffsetX = model.TileOffsetX.Value * model.TileWidth.Value;
+            int pixelOffsetY = model.TileOffsetY.Value * model.TileHeight.Value;
             this.TilesetModel.Value.SetTileSize(model.GetTileSize());
 
             Point pixelOffset = new Point(pixelOffsetX, pixelOffsetY);
