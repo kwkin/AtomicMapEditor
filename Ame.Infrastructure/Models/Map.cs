@@ -23,6 +23,8 @@ namespace Ame.Infrastructure.Models
     {
         #region fields
 
+        private DrawAction undoHover;
+
         #endregion fields
 
 
@@ -193,6 +195,20 @@ namespace Ame.Infrastructure.Models
             DrawAction undoAction = applyAction(action);
             this.UndoQueue.Push(undoAction);
             this.RedoQueue.Clear();
+            this.undoHover = null;
+        }
+
+        /// <summary>
+        /// Draws the requestded action and clears the previously drawn sample
+        /// </summary>
+        /// <param name="action"></param>
+        public void DrawSample(DrawAction action)
+        {
+            if (this.undoHover != null)
+            {
+                applyAction(this.undoHover);
+            }
+            this.undoHover = applyAction(action);
         }
 
         public void Undo()

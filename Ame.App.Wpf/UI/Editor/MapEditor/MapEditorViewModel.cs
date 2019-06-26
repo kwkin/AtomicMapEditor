@@ -433,7 +433,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
                 return;
             }
             this.lastTilePoint = topLeftTilePixelPoint;
-            this.DrawingTool.DrawHoverSample(this.hoverSample, topLeftTilePixelPoint);
+            this.DrawingTool.DrawHoverSample(this.Map, topLeftTilePixelPoint);
         }
 
         private void LayerChanged(ILayer layer)
