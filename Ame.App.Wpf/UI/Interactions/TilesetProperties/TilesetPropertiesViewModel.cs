@@ -387,6 +387,12 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
 
         public void RedrawGrid()
         {
+            DrawGrid(this.IsGridOn.Value);
+        }
+
+        public void DrawGrid(bool drawGrid)
+        {
+            this.IsGridOn.Value = drawGrid;
             if (this.IsGridOn.Value)
             {
                 int columns = this.ItemImage.Value.Width / this.TileWidth.Value;

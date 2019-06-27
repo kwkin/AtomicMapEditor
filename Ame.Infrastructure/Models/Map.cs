@@ -112,6 +112,7 @@ namespace Ame.Infrastructure.Models
         public BindableProperty<string> Author { get; set; } = BindableProperty.Prepare<string>(string.Empty);
 
         [MetadataProperty(MetadataType.Property)]
+
         public BindableProperty<string> Version { get; set; } = BindableProperty.Prepare<string>(string.Empty);
         public ObservableCollection<ILayer> LayerList { get; set; }
 

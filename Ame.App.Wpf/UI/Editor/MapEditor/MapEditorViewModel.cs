@@ -223,7 +223,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             this.DrawingTool.Transform = this.imageTransform;
         }
 
-        public void DrawGrid()
+        public void RedrawGrid()
         {
             DrawGrid(this.IsGridOn.Value);
         }
@@ -331,8 +331,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
 
         private void UpdateGridPen(object sender, PropertyChangedEventArgs e)
         {
-            // TODO add consistent grid naming. Possible add an interface for this.
-            DrawGrid();
+            RedrawGrid();
         }
 
         private void DrawLayerBoundaries()
@@ -504,7 +503,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
                     this.gridLines.Children.Clear();
                     Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        DrawGrid();
+                        RedrawGrid();
                     }),
                     DispatcherPriority.Background);
                     break;
