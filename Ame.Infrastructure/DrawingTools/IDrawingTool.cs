@@ -25,7 +25,7 @@ namespace Ame.Infrastructure.DrawingTools
 
         void DrawPressed(Map map, Point pixelPosition);
         void DrawReleased(Map map, Point pixelPosition);
-        void DrawHoverSample(Map map, Point pixelPosition);
+        void DrawHoverSample(DrawingGroup drawingArea, Rect drawingBounds, Point pixelPosition);
         bool HasHoverSample();
 
         #endregion methods

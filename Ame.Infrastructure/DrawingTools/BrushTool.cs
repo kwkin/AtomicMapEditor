@@ -89,7 +89,7 @@ namespace Ame.Infrastructure.DrawingTools
             return;
         }
 
-        public void DrawHoverSample(Map map, Point pixelPosition)
+        public void DrawHoverSample(DrawingGroup drawingArea, Rect drawingBounds, Point pixelPosition)
         {
             return;
         }

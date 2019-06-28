@@ -40,6 +40,8 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
         private long updatePositionLabelDelay = Global.defaultUpdatePositionLabelDelay;
         private Stopwatch updatePositionLabelStopWatch;
 
+        private Rect layerBounds;
+
         private DrawingGroup drawingGroup;
         private DrawingGroup mapBackground;
         private DrawingGroup hoverSample;
@@ -71,7 +73,6 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
 
             this.orderer = new LayerOrderRenderer(this.session);
 
-            this.CurrentLayer.Value = this.Map.CurrentLayer;
             this.imageTransform = new CoordinateTransform();
             this.imageTransform.SetPixelToTile(this.Map.TileWidth.Value, this.Map.TileHeight.Value);
             this.imageTransform.SetSelectionToPixel(this.Map.TileWidth.Value / 2, this.Map.TileHeight.Value / 2);
@@ -91,7 +92,8 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
                     LayerChanged(layer);
                 };
             }
-            DrawLayerBoundaries();
+            DrawLayerBoundaries(this.session.CurrentLayer);
+            UpdateHoverSampleBounds(this.session.CurrentLayer);
 
             this.session.PropertyChanged += SessionPropertyChanged;
             this.Map.LayerList.CollectionChanged += LayerListChanged;
@@ -152,8 +154,6 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
         // TODO change to a bindable property
         public Map Map { get; set; }
         
-        public BindableProperty<ILayer> CurrentLayer { get; set; } = BindableProperty<ILayer>.Prepare();
-
         public BindableProperty<bool> IsGridOn { get; set; } = BindableProperty<bool>.Prepare();
 
         public BindableProperty<ScaleType> Scale { get; set; } = BindableProperty<ScaleType>.Prepare();
@@ -319,8 +319,9 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
         {
             if (e.PropertyName == nameof(AmeSession.CurrentLayer))
             {
-                Console.WriteLine("Rendering");
-                DrawLayerBoundaries();
+                ILayer currentLayer = this.session.CurrentLayer;
+                DrawLayerBoundaries(currentLayer);
+                UpdateHoverSampleBounds(currentLayer);
             }
         }
 
@@ -334,9 +335,9 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             RedrawGrid();
         }
 
-        private void DrawLayerBoundaries()
+        private void DrawLayerBoundaries(ILayer layer)
         {
-            if (this.session.CurrentLayer != null)
+            if (layer != null)
             {
                 LayerBoundariesRenderable renderer = new LayerBoundariesRenderable(this.session.CurrentLayer);
 
@@ -346,6 +347,14 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
                 renderer.DrawingPenDashed.Thickness = thickness;
                 DrawingGroup group = renderer.CreateBoundaries();
                 this.layerBoundaries.Children = group.Children;
+            }
+        }
+
+        private void UpdateHoverSampleBounds(ILayer layer)
+        {
+            if (layer != null)
+            {
+                this.layerBounds = new Rect(layer.OffsetX, layer.OffsetY, layer.GetPixelWidth() - 1, layer.GetPixelHeight() - 1);
             }
         }
 
@@ -432,7 +441,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
                 return;
             }
             this.lastTilePoint = topLeftTilePixelPoint;
-            this.DrawingTool.DrawHoverSample(this.Map, topLeftTilePixelPoint);
+            this.DrawingTool.DrawHoverSample(this.hoverSample, this.layerBounds, topLeftTilePixelPoint);
         }
 
         private void LayerChanged(ILayer layer)

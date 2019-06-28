@@ -112,7 +112,7 @@ namespace Ame.Infrastructure.DrawingTools
 
         // TODO add opacity to the hover sample
         // TODO ignore immediately when pixel position is out of the map bounds
-        public void DrawHoverSample(Map map, Point pixelPosition)
+        public void DrawHoverSample(DrawingGroup drawingArea, Rect drawingBounds, Point pixelPosition)
         {
             Stack<Tile> tiles = new Stack<Tile>();
             if (!this.isDrawing)
@@ -182,8 +182,16 @@ namespace Ame.Infrastructure.DrawingTools
                     }
                 }
             }
-            DrawAction action = new DrawAction(this.ToolName + "_hover", tiles);
-            map.DrawSample(action);
+            using(DrawingContext context = drawingArea.Open())
+            {
+                foreach (Tile tile in tiles)
+                {
+                    if (tile.Bounds.IntersectsWith(drawingBounds))
+                    {
+                        context.DrawDrawing(tile.Image.Value);
+                    }
+                }
+            }
         }
 
         public bool HasHoverSample()
