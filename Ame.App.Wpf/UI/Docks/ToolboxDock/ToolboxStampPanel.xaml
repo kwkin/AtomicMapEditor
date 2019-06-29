@@ -30,7 +30,7 @@
 
         <WrapPanel Grid.Row="0">
             <ToggleButton x:Name="eraserButton"
-                          IsChecked="{Binding IsEraser}"
+                          IsChecked="{Binding IsEraser.Value}"
                           Style="{DynamicResource PrimaryMidIconToggleButtonStyle}"
                           ToolTip="Eraser: Erase tiles using the brush settings">
                 <ContentControl Content="{StaticResource ic_Eraser}"

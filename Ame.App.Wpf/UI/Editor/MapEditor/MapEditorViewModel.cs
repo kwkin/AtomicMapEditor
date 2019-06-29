@@ -440,8 +440,9 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             {
                 return;
             }
+            double zoomLevel = this.ScrollModel.ZoomLevels[this.ScrollModel.ZoomIndex].zoom;
             this.lastTilePoint = topLeftTilePixelPoint;
-            this.DrawingTool.DrawHoverSample(this.hoverSample, this.layerBounds, topLeftTilePixelPoint);
+            this.DrawingTool.DrawHoverSample(this.hoverSample, this.layerBounds, zoomLevel, topLeftTilePixelPoint);
         }
 
         private void LayerChanged(ILayer layer)

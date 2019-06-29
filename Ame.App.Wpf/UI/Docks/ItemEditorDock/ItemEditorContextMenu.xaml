@@ -71,7 +71,7 @@
         </MenuItem>
         <Separator />
         <MenuItem Header="Show Grid"
-                  IsChecked="{Binding IsGridOn}"
+                  IsChecked="{Binding IsGridOn.Value}"
                   IsCheckable="True"
                   Command="{Binding ShowGridCommand, Mode=OneWay}"/>
         <MenuItem Header="Show Ruler"

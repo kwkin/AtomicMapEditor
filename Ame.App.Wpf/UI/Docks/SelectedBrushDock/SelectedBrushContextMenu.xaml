@@ -9,7 +9,7 @@
     <x:Array Type="{x:Type sys:Object}"
              x:Key="SelectedBrushContextMenu">
         <MenuItem Header="Show Grid"
-                  IsChecked="{Binding IsGridOn}"
+                  IsChecked="{Binding IsGridOn.Value}"
                   IsCheckable="True"
                   Command="{Binding ShowGridCommand, Mode=OneWay}"/>
         <MenuItem Header="Show Ruler"

@@ -138,6 +138,11 @@ namespace Ame.Components.Behaviors
             return this.ZoomIndex;
         }
 
+        public double GetZoomLevel()
+        {
+            return this.ZoomLevels[this.ZoomIndex].zoom;
+        }
+
         #endregion methods
     }
 }

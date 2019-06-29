@@ -80,7 +80,7 @@
                        RenderOptions.BitmapScalingMode="NearestNeighbor"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
-                       Source="{Binding BrushImage}"
+                       Source="{Binding BrushImage.Value}"
                        Stretch="None" />
 
                 <Grid.LayoutTransform>
