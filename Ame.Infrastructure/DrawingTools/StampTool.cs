@@ -136,13 +136,16 @@ namespace Ame.Infrastructure.DrawingTools
         private Stack<Tile> DrawTiles(Point pixelPosition)
         {
             Stack<Tile> tiles = new Stack<Tile>();
-            Point startTile = this.Transform.pixelToTile.Transform(this.pressPoint);
-            Point stopTile = this.Transform.pixelToTile.Transform(pixelPosition);
+
+            Point topLeft = GeometryUtils.TopLeftPoint(this.pressPoint, pixelPosition);
+            Point bottomRight = GeometryUtils.BottomRightPoint(this.pressPoint, pixelPosition);
+            Point startTile = this.Transform.pixelToTile.Transform(topLeft);
+            Point stopTile = this.Transform.pixelToTile.Transform(bottomRight);
             Vector tileDifference = startTile - stopTile;
             int horizontalCount = Math.Abs((int)tileDifference.X) + 1;
             int verticalCount = Math.Abs((int)tileDifference.Y) + 1;
-
-            // TODO fix drawing to the left/up
+            Vector tileOffset = startTile - this.Transform.pixelToTile.Transform(this.pressPoint);
+            
             for (int hIndex = 0; hIndex < horizontalCount; ++hIndex)
             {
                 for (int vIndex = 0; vIndex < verticalCount; ++vIndex)
@@ -153,8 +156,8 @@ namespace Ame.Infrastructure.DrawingTools
                     Rect adjustedRect = new Rect(adjustedPoint, this.Brush.GetTileSize());
 
                     Tile drawing;
-                    int hTile = hIndex % this.Brush.Columns.Value;
-                    int vTile = vIndex % this.Brush.Rows.Value;
+                    int hTile = (int)(hIndex - tileOffset.X) % this.Brush.Columns.Value;
+                    int vTile = (int)(vIndex - tileOffset.Y) % this.Brush.Rows.Value;
                     int tileIndex = vTile * this.Brush.Columns.Value + hTile;
                     drawing = this.Brush.Tiles[tileIndex];
                     ImageDrawing adjustedDrawing = new ImageDrawing();
