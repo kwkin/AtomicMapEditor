@@ -57,7 +57,7 @@ namespace Ame.App.Wpf.UILogic.Actions
             DrawingGroup drawingGroup = new DrawingGroup();
             using (DrawingContext context = drawingGroup.Open())
             {
-                Point location = new Point(this.Layer.OffsetX, this.Layer.OffsetY);
+                Point location = new Point(this.Layer.OffsetX.Value, this.Layer.OffsetY.Value);
                 Size size = new Size(this.Layer.GetPixelWidth(), this.Layer.GetPixelHeight());
                 Rect boundaries = new Rect(location, size);
                 context.DrawRectangle(drawingBrush, drawingPen, boundaries);

@@ -153,7 +153,6 @@ namespace Ame.Infrastructure.Models
 
         public void Resize(int offsetX, int offsetY)
         {
-            Console.WriteLine("Resizing");
             ObservableCollection<Tile> oldTiles = new ObservableCollection<Tile>();
 
             for (int yIndex = offsetY; yIndex < this.layer.Rows.Value + offsetY; ++yIndex)
@@ -186,9 +185,22 @@ namespace Ame.Infrastructure.Models
             this.rows = this.layer.Rows.Value;
         }
 
-        public void Move()
+        public void Move(int offsetX, int offsetY)
         {
-            // TODO implement
+            for (int yIndex = 0; yIndex < this.layer.Rows.Value; ++yIndex)
+            {
+                for (int xIndex = 0; xIndex < this.layer.Columns.Value; ++xIndex)
+                {
+                    Tile tile;
+                    Point position = new Point(xIndex * this.layer.TileWidth.Value + offsetX, yIndex * this.layer.TileHeight.Value + offsetY);
+                    if (xIndex < this.columns && yIndex < this.rows)
+                    {
+                        int tileIndex = yIndex * this.columns + xIndex;
+                        tile = this.Tiles[tileIndex];
+                        tile.UpdatePosition(position);
+                    }
+                }
+            }
         }
 
         private void Initialize()

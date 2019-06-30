@@ -21,10 +21,10 @@ namespace Ame.Infrastructure.Models
         BindableProperty<string> Name { get; set; }
         BindableProperty<bool> IsImmutable { get; set; }
         BindableProperty<bool> IsVisible { get; set; }
+        BindableProperty<int> OffsetX { get; set; }
+        BindableProperty<int> OffsetY { get; set; }
         DrawingGroup Group { get; set; }
         LayerGroup Parent { get; set; }
-        int OffsetX { get; }
-        int OffsetY { get; }
 
         #endregion properties
 

@@ -23,8 +23,8 @@ namespace Ame.Infrastructure.Models.Serializer.Json
             this.Rows = layer.Rows.Value;
             this.TileWidth = layer.TileWidth.Value;
             this.TileHeight = layer.TileHeight.Value;
-            this.OffsetX = layer.OffsetX;
-            this.OffsetY = layer.OffsetY;
+            this.OffsetX = layer.OffsetX.Value;
+            this.OffsetY = layer.OffsetY.Value;
             this.Position = layer.Position.Value;
             this.Scale = layer.Scale.Value;
             this.ScrollRate = layer.ScrollRate.Value;
@@ -90,8 +90,8 @@ namespace Ame.Infrastructure.Models.Serializer.Json
             layer.Rows.Value = this.Rows;
             layer.TileWidth.Value = this.TileWidth;
             layer.TileHeight.Value = this.TileHeight;
-            layer.OffsetX = this.OffsetX;
-            layer.OffsetY = this.OffsetY;
+            layer.OffsetX.Value = this.OffsetX;
+            layer.OffsetY.Value = this.OffsetY;
             layer.Position.Value = this.Position;
             layer.Scale.Value = this.Scale;
             layer.ScrollRate.Value = this.ScrollRate;

@@ -41,6 +41,8 @@ namespace Ame.Infrastructure.Models
 
             this.Columns.PropertyChanged += LayerSizeChanged;
             this.Rows.PropertyChanged += LayerSizeChanged;
+            this.OffsetX.PropertyChanged += LayerPositionChanged;
+            this.OffsetY.PropertyChanged += LayerPositionChanged;
         }
 
         public Layer(Map map, int tileWidth, int tileHeight, int rows, int columns)
@@ -60,6 +62,8 @@ namespace Ame.Infrastructure.Models
 
             this.Columns.PropertyChanged += LayerSizeChanged;
             this.Rows.PropertyChanged += LayerSizeChanged;
+            this.OffsetX.PropertyChanged += LayerPositionChanged;
+            this.OffsetY.PropertyChanged += LayerPositionChanged;
         }
 
         public Layer(Map map, string layerName, int tileWidth, int tileHeight, int rows, int columns)
@@ -79,6 +83,8 @@ namespace Ame.Infrastructure.Models
 
             this.Columns.PropertyChanged += LayerSizeChanged;
             this.Rows.PropertyChanged += LayerSizeChanged;
+            this.OffsetX.PropertyChanged += LayerPositionChanged;
+            this.OffsetY.PropertyChanged += LayerPositionChanged;
         }
 
         #endregion constructor
@@ -104,10 +110,10 @@ namespace Ame.Infrastructure.Models
         public BindableProperty<int> TileHeight { get; set; } = BindableProperty.Prepare<int>();
 
         [MetadataProperty(MetadataType.Property, "Pixel Offset X")]
-        public int OffsetX { get; set; }
+        public BindableProperty<int> OffsetX { get; set; } = BindableProperty.Prepare<int>();
 
         [MetadataProperty(MetadataType.Property, "Pixel Offset Y")]
-        public int OffsetY { get; set; }
+        public BindableProperty<int> OffsetY { get; set; } = BindableProperty.Prepare<int>();
 
         [MetadataProperty(MetadataType.Property)]
         public BindableProperty<LayerPosition> Position { get; set; } = BindableProperty.Prepare<LayerPosition>();
@@ -160,7 +166,6 @@ namespace Ame.Infrastructure.Models
         public Map Map { get; set; }
 
         public ObservableCollection<MetadataProperty> CustomProperties { get; set; }
-        public int LayerPositionChanged { get; }
 
         #endregion properties
 
@@ -179,7 +184,7 @@ namespace Ame.Infrastructure.Models
 
         public Rect GetBounds()
         {
-            return new Rect(this.OffsetX, this.OffsetY, this.GetPixelWidth() - 1, this.GetPixelHeight() - 1);
+            return new Rect(this.OffsetX.Value, this.OffsetY.Value, this.GetPixelWidth() - 1, this.GetPixelHeight() - 1);
         }
 
         public void Clear()
@@ -210,6 +215,11 @@ namespace Ame.Infrastructure.Models
         private void LayerSizeChanged(object sender, PropertyChangedEventArgs e)
         {
             this.TileIDs.Resize(0, 0);
+        }
+
+        private void LayerPositionChanged(object sender, PropertyChangedEventArgs e)
+        {
+            this.TileIDs.Move(this.OffsetX.Value, this.OffsetY.Value);
         }
 
         #endregion methods

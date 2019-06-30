@@ -65,21 +65,10 @@ namespace Ame.Infrastructure.Models
         }
         public LayerGroup Parent { get; set; }
 
-        public int OffsetX
-        {
-            get
-            {
-                return GetOffsetX();
-            }
-        }
+        // TODO fix
+        public BindableProperty<int> OffsetX { get; set; } = BindableProperty.Prepare<int>();
 
-        public int OffsetY
-        {
-            get
-            {
-                return GetOffsetY();
-            }
-        }
+        public BindableProperty<int> OffsetY { get; set; } = BindableProperty.Prepare<int>();
 
         #endregion properties
 
@@ -88,12 +77,12 @@ namespace Ame.Infrastructure.Models
 
         public int GetPixelWidth()
         {
-            int leftmost = this.OffsetX;
+            int leftmost = this.OffsetX.Value;
             int rightmost = leftmost;
             foreach (ILayer layer in this.Layers)
             {
                 int width = layer.GetPixelWidth();
-                rightmost = Math.Max(rightmost, width + layer.OffsetX);
+                rightmost = Math.Max(rightmost, width + layer.OffsetX.Value);
             }
             int pixelWidth = rightmost - leftmost;
             return pixelWidth;
@@ -101,12 +90,12 @@ namespace Ame.Infrastructure.Models
 
         public int GetPixelHeight()
         {
-            int topmost = this.OffsetY;
+            int topmost = this.OffsetY.Value;
             int bottommost = topmost;
             foreach (ILayer layer in this.Layers)
             {
                 int height = layer.GetPixelHeight();
-                bottommost = Math.Max(bottommost, height + layer.OffsetY);
+                bottommost = Math.Max(bottommost, height + layer.OffsetY.Value);
             }
             int pixelHeight = bottommost - topmost;
             return pixelHeight;
@@ -182,11 +171,11 @@ namespace Ame.Infrastructure.Models
             int offsetX;
             if (this.Layers.Count > 0)
             {
-                offsetX = this.Layers[0].OffsetX;
+                offsetX = this.Layers[0].OffsetX.Value;
                 for (int index = 1; index < this.Layers.Count; ++index)
                 {
                     ILayer layer = this.Layers[index];
-                    offsetX = Math.Min(offsetX, layer.OffsetX);
+                    offsetX = Math.Min(offsetX, layer.OffsetX.Value);
                 }
             }
             else
@@ -201,11 +190,11 @@ namespace Ame.Infrastructure.Models
             int offsetY;
             if (this.Layers.Count > 0)
             {
-                offsetY = this.Layers[0].OffsetY;
+                offsetY = this.Layers[0].OffsetY.Value;
                 for (int index = 1; index < this.Layers.Count; ++index)
                 {
                     ILayer layer = this.Layers[index];
-                    offsetY = Math.Min(offsetY, layer.OffsetY);
+                    offsetY = Math.Min(offsetY, layer.OffsetY.Value);
                 }
             }
             else

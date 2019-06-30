@@ -133,8 +133,8 @@ namespace Ame.App.Wpf.UI.Interactions.LayerProperties
             layer.Name.Value = this.Name.Value;
             layer.Columns.Value = this.Columns.Value;
             layer.Rows.Value = this.Rows.Value;
-            layer.OffsetX = this.OffsetX.Value * this.TileWidth.Value;
-            layer.OffsetY = this.OffsetY.Value * this.TileHeight.Value;
+            layer.OffsetX.Value = this.OffsetX.Value * this.TileWidth.Value;
+            layer.OffsetY.Value = this.OffsetY.Value * this.TileHeight.Value;
             layer.TileWidth.Value = this.TileWidth.Value;
             layer.TileHeight.Value = this.TileHeight.Value;
             layer.Scale.Value = this.Scale.Value;
@@ -149,8 +149,8 @@ namespace Ame.App.Wpf.UI.Interactions.LayerProperties
             this.Name.Value = layer.Name.Value;
             this.Columns.Value = layer.Columns.Value;
             this.Rows.Value = layer.Rows.Value;
-            this.OffsetX.Value = layer.OffsetX / layer.TileWidth.Value;
-            this.OffsetY.Value = layer.OffsetY / layer.TileHeight.Value;
+            this.OffsetX.Value = layer.OffsetX.Value / layer.TileWidth.Value;
+            this.OffsetY.Value = layer.OffsetY.Value / layer.TileHeight.Value;
             this.TileWidth.Value = layer.TileWidth.Value;
             this.TileHeight.Value = layer.TileHeight.Value;
             this.Scale.Value = layer.Scale.Value;
