@@ -24,6 +24,11 @@ namespace Ame.Infrastructure.Utils
             }
         }
 
+        public static int Mod(int x, int m)
+        {
+            return (x % m + m) % m;
+        }
+
         #endregion methods
     }
 }

@@ -51,7 +51,7 @@ namespace Ame.Infrastructure.Models.Serializer.Json
                 }
                 else
                 {
-                    tile.Image.Value = Tile.emptyTile(topLeft).Image.Value;
+                    tile.Image.Value = Tile.EmptyTile(topLeft).Image.Value;
                 }
 
                 collection.Tiles.Add(tile);

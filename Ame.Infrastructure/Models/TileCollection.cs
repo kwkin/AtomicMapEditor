@@ -186,7 +186,7 @@ namespace Ame.Infrastructure.Models
                 Point topLeft = layer.getPointFromIndex(index);
                 if (tile.TilesetID == -1)
                 {
-                    tile.Image.Value = Tile.emptyTile(topLeft).Image.Value;
+                    tile.Image.Value = Tile.EmptyTile(topLeft).Image.Value;
                 }
                 else
                 {
@@ -197,7 +197,7 @@ namespace Ame.Infrastructure.Models
                     }
                     else
                     {
-                        tile.Image.Value = Tile.emptyTile(topLeft).Image.Value;
+                        tile.Image.Value = Tile.EmptyTile(topLeft).Image.Value;
                     }
                 }
                 index++;
@@ -215,7 +215,7 @@ namespace Ame.Infrastructure.Models
                 for (int yIndex = 0; yIndex < this.Rows; ++yIndex)
                 {
                     Point position = new Point(xIndex * this.tileWidth, yIndex * this.TileHeight);
-                    Tile emptyTile = Tile.emptyTile(position);
+                    Tile emptyTile = Tile.EmptyTile(position);
                     this.Tiles[index++] = emptyTile;
                 }
             }
@@ -234,7 +234,7 @@ namespace Ame.Infrastructure.Models
                 for (int yIndex = 0; yIndex < this.Rows; ++yIndex)
                 {
                     Point position = new Point(xIndex * this.tileWidth, yIndex * this.TileHeight);
-                    Tile emptyTile = Tile.emptyTile(position);
+                    Tile emptyTile = Tile.EmptyTile(position);
                     this.Tiles.Add(emptyTile);
                 }
             }

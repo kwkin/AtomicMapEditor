@@ -442,6 +442,17 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             }
             double zoomLevel = this.ScrollModel.ZoomLevels[this.ScrollModel.ZoomIndex].zoom;
             this.lastTilePoint = topLeftTilePixelPoint;
+
+            DrawingGroup affected;
+            if (typeof(IEraserTool).IsAssignableFrom(this.DrawingTool.GetType()))
+            {
+                IEraserTool eraserTool = this.DrawingTool as IEraserTool;
+                affected = eraserTool.IsErasing ? this.session.CurrentLayer.Group : this.hoverSample;
+            }
+            else
+            {
+                affected = this.hoverSample;
+            }
             this.DrawingTool.DrawHoverSample(this.hoverSample, this.layerBounds, zoomLevel, topLeftTilePixelPoint);
         }
 

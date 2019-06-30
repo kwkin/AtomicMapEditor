@@ -15,6 +15,7 @@ namespace Ame.Infrastructure.DrawingTools
     {
         #region fields
 
+        private Map map;
         private bool isDrawing;
         private Point pressPoint;
 
@@ -47,7 +48,6 @@ namespace Ame.Infrastructure.DrawingTools
         public BrushModel Brush { get; set; }
         public CoordinateTransform Transform { get; set; }
         public bool IsErasing { get; set; }
-
         public Brush AreaBrush { get; set; }
         public Pen AreaPen { get; set; }
 
@@ -58,6 +58,7 @@ namespace Ame.Infrastructure.DrawingTools
 
         public void DrawPressed(Map map, Point pixelPosition)
         {
+            this.map = map;
             this.pressPoint = pixelPosition;
             this.isDrawing = true;
         }
@@ -70,59 +71,41 @@ namespace Ame.Infrastructure.DrawingTools
             this.isDrawing = false;
         }
 
-        // TODO use
-        public void Erase(Map map, Point pixelPosition)
-        {
-            Stack<Tile> tiles = new Stack<Tile>();
-            
-            Tile emptyTile = Tile.emptyTile(pixelPosition);
-            tiles.Push(emptyTile);
-
-            DrawAction action = new DrawAction(this.ToolName, tiles);
-            map.Draw(action);
-        }
-
-        // TODO add opacity to the hover sample
-        // TODO ignore immediately when pixel position is out of the map bounds
         public void DrawHoverSample(DrawingGroup drawingArea, Rect drawingBounds, double zoom, Point pixelPosition)
         {
             Stack<Tile> tiles = new Stack<Tile>();
             if (!this.isDrawing)
             {
-                if (!this.IsErasing)
-                {
-                    tiles = DrawBrushModel(pixelPosition);
-                }
-                else
-                {
-                    // TODO implement erasing
-                    ImageDrawing adjustedDrawing = new ImageDrawing();
-                    Tile empty = Tile.emptyTile(pixelPosition);
-                    adjustedDrawing.ImageSource = empty.Image.Value.ImageSource;
-                }
+                tiles = DrawBrushModel(pixelPosition);
             }
             else
             {
                 tiles = DrawTiles(pixelPosition);
             }
 
-            using(DrawingContext context = drawingArea.Open())
+            if (this.IsErasing)
             {
-                if (this.isDrawing)
+                DrawAction action = new DrawAction(this.ToolName, tiles);
+                map.DrawSample(action);
+            }
+            else
+            {
+                using (DrawingContext context = drawingArea.Open())
                 {
-                    double thickness = 4 / zoom;
-                    this.AreaPen.Thickness = thickness > Global.maxGridThickness ? thickness : Global.maxGridThickness;
-                    Console.WriteLine(this.AreaPen.Thickness);
-                    Point updatedPosition = pixelPosition + new Vector(this.Brush.TileWidth.Value, this.Brush.TileHeight.Value);
-                    Rect rect = new Rect(this.pressPoint, updatedPosition);
-                    context.DrawRectangle(this.AreaBrush, this.AreaPen, rect);
-                }
-
-                foreach (Tile tile in tiles)
-                {
-                    if (tile.Bounds.IntersectsWith(drawingBounds))
+                    if (this.isDrawing)
                     {
-                        context.DrawDrawing(tile.Image.Value);
+                        double thickness = 4 / zoom;
+                        this.AreaPen.Thickness = thickness > Global.maxGridThickness ? thickness : Global.maxGridThickness;
+                        Point updatedPosition = pixelPosition + new Vector(this.Brush.TileWidth.Value, this.Brush.TileHeight.Value);
+                        Rect rect = new Rect(this.pressPoint, updatedPosition);
+                        context.DrawRectangle(this.AreaBrush, this.AreaPen, rect);
+                    }
+                    foreach (Tile tile in tiles)
+                    {
+                        if (tile.Bounds.IntersectsWith(drawingBounds))
+                        {
+                            context.DrawDrawing(tile.Image.Value);
+                        }
                     }
                 }
             }
@@ -155,17 +138,23 @@ namespace Ame.Infrastructure.DrawingTools
                     Point adjustedPoint = new Point(affectedPixelPoint.X, affectedPixelPoint.Y);
                     Rect adjustedRect = new Rect(adjustedPoint, this.Brush.GetTileSize());
 
-                    Tile drawing;
-                    int hTile = (int)(hIndex - tileOffset.X) % this.Brush.Columns.Value;
-                    int vTile = (int)(vIndex - tileOffset.Y) % this.Brush.Rows.Value;
-                    int tileIndex = vTile * this.Brush.Columns.Value + hTile;
-                    drawing = this.Brush.Tiles[tileIndex];
-                    ImageDrawing adjustedDrawing = new ImageDrawing();
-                    adjustedDrawing.ImageSource = drawing.Image.Value.ImageSource;
-                    adjustedDrawing.Rect = adjustedRect;
-
-                    Tile adjustedTile = new Tile(adjustedDrawing, drawing.TilesetID, drawing.TileID);
-                    tiles.Push(adjustedTile);
+                    Tile tile;
+                    if (!this.IsErasing)
+                    {
+                        int hTile = Utils.Utils.Mod((int)(hIndex + tileOffset.X), this.Brush.Columns.Value);
+                        int vTile = Utils.Utils.Mod((int)(vIndex + tileOffset.Y), this.Brush.Rows.Value);
+                        int tileIndex = vTile * this.Brush.Columns.Value + hTile;
+                        tile = this.Brush.Tiles[tileIndex];
+                        ImageDrawing adjustedDrawing = new ImageDrawing();
+                        adjustedDrawing.ImageSource = tile.Image.Value.ImageSource;
+                        adjustedDrawing.Rect = adjustedRect;
+                        tile = new Tile(adjustedDrawing, tile.TilesetID, tile.TileID);
+                    }
+                    else
+                    {
+                        tile = Tile.EmptyTile(adjustedPoint);
+                    }
+                    tiles.Push(tile);
                 }
             }
             return tiles;
@@ -174,28 +163,36 @@ namespace Ame.Infrastructure.DrawingTools
         private Stack<Tile> DrawBrushModel(Point pixelPosition)
         {
             Stack<Tile> tiles = new Stack<Tile>();
-            int horizontalCount = this.Brush.Columns.Value;
-            int verticalCount = this.Brush.Rows.Value;
-            for (int hIndex = 0; hIndex < horizontalCount; ++hIndex)
+            if (!this.IsErasing)
             {
-                for (int vIndex = 0; vIndex < verticalCount; ++vIndex)
+                int horizontalCount = this.Brush.Columns.Value;
+                int verticalCount = this.Brush.Rows.Value;
+                for (int hIndex = 0; hIndex < horizontalCount; ++hIndex)
                 {
-                    Tile drawing;
-                    int hTile = hIndex % this.Brush.Columns.Value;
-                    int vTile = vIndex % this.Brush.Rows.Value;
-                    int tileIndex = vTile * this.Brush.Columns.Value + hTile;
-                    drawing = this.Brush.Tiles[tileIndex];
+                    for (int vIndex = 0; vIndex < verticalCount; ++vIndex)
+                    {
+                        Tile drawing;
+                        int hTile = hIndex % this.Brush.Columns.Value;
+                        int vTile = vIndex % this.Brush.Rows.Value;
+                        int tileIndex = vTile * this.Brush.Columns.Value + hTile;
+                        drawing = this.Brush.Tiles[tileIndex];
 
-                    Point adjustedPoint = new Point(pixelPosition.X + drawing.Image.Value.Rect.X, pixelPosition.Y + drawing.Image.Value.Rect.Y);
-                    Rect adjustedRect = new Rect(adjustedPoint, this.Brush.GetTileSize());
+                        Point adjustedPoint = new Point(pixelPosition.X + drawing.Image.Value.Rect.X, pixelPosition.Y + drawing.Image.Value.Rect.Y);
+                        Rect adjustedRect = new Rect(adjustedPoint, this.Brush.GetTileSize());
 
-                    ImageDrawing adjustedDrawing = new ImageDrawing();
-                    adjustedDrawing.ImageSource = drawing.Image.Value.ImageSource;
-                    adjustedDrawing.Rect = adjustedRect;
+                        ImageDrawing adjustedDrawing = new ImageDrawing();
+                        adjustedDrawing.ImageSource = drawing.Image.Value.ImageSource;
+                        adjustedDrawing.Rect = adjustedRect;
 
-                    Tile adjustedTile = new Tile(adjustedDrawing, drawing.TilesetID, drawing.TileID);
-                    tiles.Push(adjustedTile);
+                        Tile adjustedTile = new Tile(adjustedDrawing, drawing.TilesetID, drawing.TileID);
+                        tiles.Push(adjustedTile);
+                    }
                 }
+            }
+            else
+            {
+                Tile emptyTile = Tile.EmptyTile(pixelPosition);
+                tiles.Push(emptyTile);
             }
             return tiles;
         }

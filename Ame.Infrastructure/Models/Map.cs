@@ -193,6 +193,10 @@ namespace Ame.Infrastructure.Models
 
         public void Draw(DrawAction action)
         {
+            if (this.undoHover != null)
+            {
+                applyAction(this.undoHover);
+            }
             DrawAction undoAction = applyAction(action);
             this.UndoQueue.Push(undoAction);
             this.RedoQueue.Clear();

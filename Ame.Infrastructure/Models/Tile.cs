@@ -63,7 +63,7 @@ namespace Ame.Infrastructure.Models
 
         #region methods
 
-        public static Tile emptyTile(Point pixelPosition)
+        public static Tile EmptyTile(Point pixelPosition)
         {
             // TODO remove 32, 32
             Rect rect = new Rect(pixelPosition, new Size(32, 32));

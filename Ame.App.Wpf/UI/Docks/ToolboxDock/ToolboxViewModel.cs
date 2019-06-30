@@ -119,7 +119,7 @@ namespace Ame.App.Wpf.UI.Docks.ToolboxDock
 
         private void IsEraserChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (typeof(IEraserTool).IsAssignableFrom(this.DrawingTool.GetType()))
+            if (typeof(IEraserTool).IsAssignableFrom(this.DrawingTool.Value.GetType()))
             {
                 IEraserTool erasorTool = this.session.DrawingTool as IEraserTool;
                 erasorTool.IsErasing = this.IsEraser.Value;

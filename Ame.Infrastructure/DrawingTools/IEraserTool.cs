@@ -18,9 +18,7 @@ namespace Ame.Infrastructure.DrawingTools
 
 
         #region methods
-
-        void Erase(Map map, Point pixelPosition);
-
+        
         #endregion methods
     }
 }
