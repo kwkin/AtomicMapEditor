@@ -82,7 +82,7 @@ namespace Ame.App.Wpf.UI
             ObservableCollection<ILayer> layerList = null;
             if (this.session.CurrentMap != null)
             {
-                layerList = this.session.CurrentMap.LayerList;
+                layerList = this.session.CurrentMap.Layers;
             }
             DockCreatorTemplate[] dockCreators = new DockCreatorTemplate[]
             {

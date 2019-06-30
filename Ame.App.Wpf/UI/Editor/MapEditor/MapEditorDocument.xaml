@@ -43,22 +43,22 @@
                                             EventArgsConverterParameter="{Binding ElementName=layerImage}"
                                             PassEventArgsToCommand="True" />
                 </i:EventTrigger>
+                <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                    <actions:EventToCommand Command="{Binding HandleLeftClickDownCommand, Mode=OneWay}"
+                                                EventArgsConverter="{StaticResource MouseEventToPointConverter}"
+                                                EventArgsConverterParameter="{Binding ElementName=layerImage}"
+                                                PassEventArgsToCommand="True" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                    <actions:EventToCommand Command="{Binding HandleLeftClickUpCommand, Mode=OneWay}"
+                                                EventArgsConverter="{StaticResource MouseEventToPointConverter}"
+                                                EventArgsConverterParameter="{Binding ElementName=layerImage}"
+                                                PassEventArgsToCommand="True" />
+                </i:EventTrigger>
             </i:Interaction.Triggers>
 
             <Grid x:Name="scrollViewerGrid">
                 <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseLeftButtonDown">
-                        <actions:EventToCommand Command="{Binding HandleLeftClickDownCommand, Mode=OneWay}"
-                                                EventArgsConverter="{StaticResource MouseEventToPointConverter}"
-                                                EventArgsConverterParameter="{Binding ElementName=layerImage}"
-                                                PassEventArgsToCommand="True" />
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="MouseLeftButtonUp">
-                        <actions:EventToCommand Command="{Binding HandleLeftClickUpCommand, Mode=OneWay}"
-                                                EventArgsConverter="{StaticResource MouseEventToPointConverter}"
-                                                EventArgsConverterParameter="{Binding ElementName=layerImage}"
-                                                PassEventArgsToCommand="True" />
-                    </i:EventTrigger>
                 </i:Interaction.Triggers>
 
                 <Grid.ContextMenu>

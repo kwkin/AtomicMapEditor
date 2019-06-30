@@ -210,7 +210,7 @@ namespace Ame.Infrastructure.Models
             if (this.Parent == null)
             {
                 // TODO change to insert
-                this.Map.LayerList.Add(layer);
+                this.Map.Layers.Add(layer);
             }
             else
             {

@@ -169,7 +169,7 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
         private void UpdateMetadata()
         {
             this.MetadataList = MetadataPropertyUtils.GetPropertyList(this.Map.Value);
-            this.MetadataList.Add(new MetadataProperty("Layer Count", this.Map.Value.LayerList.Count, MetadataType.Statistic));
+            this.MetadataList.Add(new MetadataProperty("Layer Count", this.Map.Value.Layers.Count, MetadataType.Statistic));
             this.MapMetadata = new ListCollectionView(this.MetadataList);
             this.MapMetadata.GroupDescriptions.Add(new PropertyGroupDescription("Type"));
             foreach (MetadataProperty property in this.Map.Value.CustomProperties)

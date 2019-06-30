@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Windows;
-using System.Windows.Media;
-using Ame.Infrastructure.Attributes;
+﻿using Ame.Infrastructure.Attributes;
+using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Core;
 using Ame.Infrastructure.DrawingTools;
-using Newtonsoft.Json;
-using System.Runtime.Serialization;
-using Prism.Mvvm;
 using Ame.Infrastructure.Models.Serializer.Json;
-using Ame.Infrastructure.BaseTypes;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Windows.Media;
 
 namespace Ame.Infrastructure.Models
 {
@@ -39,7 +35,7 @@ namespace Ame.Infrastructure.Models
             this.Scale.Value = ScaleType.Tile;
             this.PixelScale.Value = 1;
             this.Description.Value = "";
-            this.LayerList = new ObservableCollection<ILayer>();
+            this.Layers = new ObservableCollection<ILayer>();
             this.TilesetList = new ObservableCollection<TilesetModel>();
             this.CustomProperties = new ObservableCollection<MetadataProperty>();
             this.UndoQueue = new Stack<DrawAction>();
@@ -56,12 +52,12 @@ namespace Ame.Infrastructure.Models
             this.Scale.Value = ScaleType.Tile;
             this.PixelScale.Value = 1;
             this.Description.Value = "";
-            this.LayerList = new ObservableCollection<ILayer>();
+            this.Layers = new ObservableCollection<ILayer>();
             this.TilesetList = new ObservableCollection<TilesetModel>();
             this.CustomProperties = new ObservableCollection<MetadataProperty>();
 
             Layer initialLayer = new Layer(this, "Layer #0", this.TileWidth.Value, this.TileHeight.Value, this.Rows.Value, this.Columns.Value);
-            this.LayerList.Add(initialLayer);
+            this.Layers.Add(initialLayer);
 
             Console.WriteLine(initialLayer.Group.Bounds);
             this.UndoQueue = new Stack<DrawAction>();
@@ -78,12 +74,12 @@ namespace Ame.Infrastructure.Models
             this.Scale.Value = ScaleType.Tile;
             this.PixelScale.Value = 1;
             this.Description.Value = "";
-            this.LayerList = new ObservableCollection<ILayer>();
+            this.Layers = new ObservableCollection<ILayer>();
             this.TilesetList = new ObservableCollection<TilesetModel>();
             this.CustomProperties = new ObservableCollection<MetadataProperty>();
 
             Layer initialLayer = new Layer(this, "Layer #0", this.TileWidth.Value, this.TileHeight.Value, this.Rows.Value, this.Columns.Value);
-            this.LayerList.Add(initialLayer);
+            this.Layers.Add(initialLayer);
 
             this.UndoQueue = new Stack<DrawAction>();
             this.RedoQueue = new Stack<DrawAction>();
@@ -115,7 +111,7 @@ namespace Ame.Infrastructure.Models
         [MetadataProperty(MetadataType.Property)]
 
         public BindableProperty<string> Version { get; set; } = BindableProperty.Prepare<string>(string.Empty);
-        public ObservableCollection<ILayer> LayerList { get; set; }
+        public ObservableCollection<ILayer> Layers { get; set; }
 
         public BindableProperty<int> SelectedLayerIndex { get; set; } = BindableProperty.Prepare<int>();
         
@@ -123,7 +119,7 @@ namespace Ame.Infrastructure.Models
         {
             get
             {
-                return this.LayerList[this.SelectedLayerIndex.Value] as Layer;
+                return this.Layers[this.SelectedLayerIndex.Value] as Layer;
             }
         }
 
@@ -131,7 +127,7 @@ namespace Ame.Infrastructure.Models
         {
             get
             {
-                return this.LayerList.Count;
+                return this.Layers.Count;
             }
         }
         
@@ -175,7 +171,7 @@ namespace Ame.Infrastructure.Models
 
         public void DeleteCurrentLayer()
         {
-            this.LayerList.RemoveAt(this.SelectedLayerIndex.Value);
+            this.Layers.RemoveAt(this.SelectedLayerIndex.Value);
         }
 
         public void NewLayerGroup()
@@ -183,13 +179,13 @@ namespace Ame.Infrastructure.Models
             int layerGroupCount = GetLayerGroupCount();
             string newLayerGroupName = string.Format("Layer Group #{0}", layerGroupCount);
             ILayer newLayerGroup = new LayerGroup(newLayerGroupName);
-            this.LayerList.Add(newLayerGroup);
+            this.Layers.Add(newLayerGroup);
         }
 
         public void DuplicateCurrentLayer()
         {
             ILayer copiedLayer = Utils.Utils.DeepClone<ILayer>(this.CurrentLayer);
-            this.LayerList.Add(copiedLayer);
+            this.Layers.Add(copiedLayer);
         }
 
         public void Draw(DrawAction action)
@@ -324,10 +320,10 @@ namespace Ame.Infrastructure.Models
         public int GetLayerCount()
         {
             int totalLayers = 0;
-            IEnumerable<ILayer> layers = this.LayerList.Where(layer => typeof(Layer).IsInstanceOfType(layer));
+            IEnumerable<ILayer> layers = this.Layers.Where(layer => typeof(Layer).IsInstanceOfType(layer));
             totalLayers += layers.Count();
 
-            IEnumerable<ILayer> groups = this.LayerList.Where(layer => typeof(LayerGroup).IsInstanceOfType(layer));
+            IEnumerable<ILayer> groups = this.Layers.Where(layer => typeof(LayerGroup).IsInstanceOfType(layer));
             foreach (LayerGroup group in groups)
             {
                 totalLayers += group.GetLayerCount();
@@ -339,13 +335,77 @@ namespace Ame.Infrastructure.Models
         {
             int totalGroups = 0;;
 
-            IEnumerable<ILayer> groups = this.LayerList.Where(layer => typeof(LayerGroup).IsInstanceOfType(layer));
+            IEnumerable<ILayer> groups = this.Layers.Where(layer => typeof(LayerGroup).IsInstanceOfType(layer));
             totalGroups += groups.Count();
             foreach (LayerGroup group in groups)
             {
                 totalGroups += group.GetLayerCount();
             }
             return totalGroups;
+        }
+
+        public override int GetPixelWidth()
+        {
+            int leftmost = GetOffsetX();
+            int rightmost = leftmost;
+            foreach (ILayer layer in this.Layers)
+            {
+                int width = layer.GetPixelWidth();
+                rightmost = Math.Max(rightmost, width + layer.OffsetX.Value);
+            }
+            int pixelWidth = rightmost - leftmost;
+            return pixelWidth;
+        }
+
+        public override int GetPixelHeight()
+        {
+            int topmost = GetOffsetY();
+            int bottommost = topmost;
+            foreach (ILayer layer in this.Layers)
+            {
+                int height = layer.GetPixelHeight();
+                bottommost = Math.Max(bottommost, height + layer.OffsetY.Value);
+            }
+            int pixelHeight = bottommost - topmost;
+            return pixelHeight;
+        }
+
+        private int GetOffsetX()
+        {
+            int offsetX;
+            if (this.Layers.Count > 0)
+            {
+                offsetX = this.Layers[0].OffsetX.Value;
+                for (int index = 1; index < this.Layers.Count; ++index)
+                {
+                    ILayer layer = this.Layers[index];
+                    offsetX = Math.Min(offsetX, layer.OffsetX.Value);
+                }
+            }
+            else
+            {
+                offsetX = 0;
+            }
+            return offsetX;
+        }
+
+        private int GetOffsetY()
+        {
+            int offsetY;
+            if (this.Layers.Count > 0)
+            {
+                offsetY = this.Layers[0].OffsetY.Value;
+                for (int index = 1; index < this.Layers.Count; ++index)
+                {
+                    ILayer layer = this.Layers[index];
+                    offsetY = Math.Min(offsetY, layer.OffsetY.Value);
+                }
+            }
+            else
+            {
+                offsetY = 0;
+            }
+            return offsetY;
         }
 
         #endregion methods

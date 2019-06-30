@@ -83,7 +83,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             this.layerBoundaries = new DrawingGroup();
 
             this.layerItems = new DrawingGroup();
-            foreach (ILayer layer in this.Map.LayerList)
+            foreach (ILayer layer in this.Map.Layers)
             {
                 this.layerItems.Children.Add(layer.Group);
                 layer.IsVisible.PropertyChanged += (s, args) =>
@@ -94,7 +94,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             ChangeCurrentLayer(this.session.CurrentLayer);
 
             this.session.PropertyChanged += SessionPropertyChanged;
-            this.Map.LayerList.CollectionChanged += LayerListChanged;
+            this.Map.Layers.CollectionChanged += LayerListChanged;
             this.ScrollModel.PropertyChanged += ScrollModelPropertyChanged;
             this.BackgroundBrush.PropertyChanged += UpdateBackground;
             this.BackgroundPen.PropertyChanged += UpdateBackground;
@@ -424,10 +424,6 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
 
         private void DrawReleased(Point point)
         {
-            if (!ImageUtils.Intersects(this.DrawingCanvas, point))
-            {
-                return;
-            }
             Point topLeftTilePixelPoint = this.imageTransform.PixelToTopLeftTileEdge(point);
             this.DrawingTool.DrawReleased(this.Map, topLeftTilePixelPoint);
         }
@@ -442,10 +438,6 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             {
                 return;
             }
-            if (!ImageUtils.Intersects(this.mapBackground, point))
-            {
-                return;
-            }
             Point topLeftTilePixelPoint = this.imageTransform.PixelToTopLeftTileEdge(point);
             if (topLeftTilePixelPoint == this.lastTilePoint)
             {
@@ -454,16 +446,6 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             double zoomLevel = this.ScrollModel.ZoomLevels[this.ScrollModel.ZoomIndex].zoom;
             this.lastTilePoint = topLeftTilePixelPoint;
 
-            DrawingGroup affected;
-            if (typeof(IEraserTool).IsAssignableFrom(this.DrawingTool.GetType()))
-            {
-                IEraserTool eraserTool = this.DrawingTool as IEraserTool;
-                affected = eraserTool.IsErasing ? this.session.CurrentLayer.Group : this.hoverSample;
-            }
-            else
-            {
-                affected = this.hoverSample;
-            }
             this.DrawingTool.DrawHoverSample(this.Map, this.hoverSample, zoomLevel, topLeftTilePixelPoint);
         }
 

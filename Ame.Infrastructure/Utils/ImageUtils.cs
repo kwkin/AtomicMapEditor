@@ -126,6 +126,30 @@ namespace Ame.Infrastructure.Utils
             return true;
         }
 
+        public static System.Windows.Point BindPoint(DrawingGroup drawing, System.Windows.Point point)
+        {
+            System.Windows.Point boundPoint = GeometryUtils.CopyPoint(point);
+
+            Rect bounds = drawing.Bounds;
+            if (point.X < bounds.Left)
+            {
+                boundPoint.X = bounds.Left;
+            }
+            else if (point.X > bounds.X + bounds.Right)
+            {
+                boundPoint.X = bounds.Right;
+            }
+            if (point.Y < bounds.Top)
+            {
+                boundPoint.Y = bounds.Top;
+            }
+            else if (point.Y > bounds.Bottom)
+            {
+                boundPoint.Y = bounds.Bottom;
+            }
+            return boundPoint;
+        }
+
         public static System.Windows.Media.Color ColorAt(Mat image, System.Windows.Point pixelPoint)
         {
             byte[] colorsBGR = image.GetData((int)pixelPoint.Y, (int)pixelPoint.X);

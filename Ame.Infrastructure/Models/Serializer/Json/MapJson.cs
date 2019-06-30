@@ -33,7 +33,7 @@ namespace Ame.Infrastructure.Models.Serializer.Json
                 this.TilesetList.Add(new TilesetJson(model));
             }
             this.LayerList = new List<LayerJson>();
-            foreach (ILayer layer in map.LayerList)
+            foreach (ILayer layer in map.Layers)
             {
                 // TODO fix the conversion
                 this.LayerList.Add(new LayerJson((Layer)layer));
@@ -98,7 +98,7 @@ namespace Ame.Infrastructure.Models.Serializer.Json
             }
             foreach (LayerJson layer in this.LayerList)
             {
-                map.LayerList.Add(layer.Generate(map));
+                map.Layers.Add(layer.Generate(map));
             }
             return map;
         }

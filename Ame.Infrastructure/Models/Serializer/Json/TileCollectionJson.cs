@@ -30,12 +30,6 @@ namespace Ame.Infrastructure.Models.Serializer.Json
         [JsonProperty(PropertyName = "Positions")]
         public IList<int> Positions { get; set; }
 
-        public TileCollection Generate()
-        {
-            // TODO reevaluate the interface
-            throw new NotImplementedException();
-        }
-
         public TileCollection Generate(Layer layer, ObservableCollection<TilesetModel> tilesetList)
         {
             TileCollection collection = new TileCollection(layer);

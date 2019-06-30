@@ -70,7 +70,7 @@ namespace Ame.Infrastructure.Models
             get
             {
                 // TODO this nulls all the time. Fix it.
-                return this.CurrentMap.LayerList;
+                return this.CurrentMap.Layers;
             }
         }
 
@@ -111,7 +111,7 @@ namespace Ame.Infrastructure.Models
             }
             set
             {
-                int currentLayerIndex = this.CurrentMap.LayerList.IndexOf(value);
+                int currentLayerIndex = this.CurrentMap.Layers.IndexOf(value);
                 if (currentLayerIndex != -1)
                 {
                     this.CurrentMap.SelectedLayerIndex.Value = currentLayerIndex;

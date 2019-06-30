@@ -57,13 +57,30 @@ namespace Ame.Infrastructure.DrawingTools
 
         public void DrawPressed(Map map, Point pixelPosition)
         {
-            this.pressPoint = pixelPosition;
-            this.isDrawing = true;
+            if (!this.isDrawing)
+            {
+                this.pressPoint = pixelPosition;
+            }
+            else
+            {
+                Point topLeft = GeometryUtils.TopLeftPoint(this.pressPoint, pixelPosition);
+                Point bottomRight = GeometryUtils.BottomRightPoint(this.pressPoint, pixelPosition);
+                Stack<Tile> tiles = DrawTiles(topLeft, bottomRight);
+                DrawAction action = new DrawAction(this.ToolName, tiles);
+                map.Draw(action);
+            }
+            this.isDrawing = !this.isDrawing;
         }
 
         public void DrawReleased(Map map, Point pixelPosition)
         {
-            Stack<Tile> tiles = DrawTiles(pixelPosition);
+            if (!ImageUtils.Intersects(map.CurrentLayer.Group, pixelPosition))
+            {
+                pixelPosition = ImageUtils.BindPoint(map.CurrentLayer.Group, pixelPosition);
+            }
+            Point topLeft = GeometryUtils.TopLeftPoint(this.pressPoint, pixelPosition);
+            Point bottomRight = GeometryUtils.BottomRightPoint(this.pressPoint, pixelPosition);
+            Stack<Tile> tiles = DrawTiles(topLeft, bottomRight);
             DrawAction action = new DrawAction(this.ToolName, tiles);
             map.Draw(action);
             this.isDrawing = false;
@@ -71,6 +88,16 @@ namespace Ame.Infrastructure.DrawingTools
 
         public void DrawHoverSample(Map map, DrawingGroup drawingArea, double zoom, Point pixelPosition)
         {
+            bool intersects = !ImageUtils.Intersects(map.CurrentLayer.Group, pixelPosition);
+            if (intersects && !this.isDrawing)
+            {
+                return;
+            }
+            Point topLeft = GeometryUtils.TopLeftPoint(this.pressPoint, pixelPosition);
+            Point bottomRight = GeometryUtils.BottomRightPoint(this.pressPoint, pixelPosition);
+            topLeft = ImageUtils.BindPoint(map.CurrentLayer.Group, topLeft);
+            bottomRight = ImageUtils.BindPoint(map.CurrentLayer.Group, bottomRight);
+
             Stack<Tile> tiles;
             if (!this.isDrawing)
             {
@@ -78,7 +105,7 @@ namespace Ame.Infrastructure.DrawingTools
             }
             else
             {
-                tiles = DrawTiles(pixelPosition);
+                tiles = DrawTiles(topLeft, bottomRight);
             }
 
             if (this.IsErasing)
@@ -89,13 +116,11 @@ namespace Ame.Infrastructure.DrawingTools
 
             using (DrawingContext context = drawingArea.Open())
             {
-                // TODO fix the outline when drawing up left
                 if (this.isDrawing)
                 {
                     double thickness = 4 / zoom;
                     this.AreaPen.Thickness = thickness > Global.maxGridThickness ? thickness : Global.maxGridThickness;
-                    Point updatedPosition = pixelPosition + new Vector(this.Brush.TileWidth.Value, this.Brush.TileHeight.Value);
-                    Rect rect = new Rect(this.pressPoint, updatedPosition);
+                    Rect rect = new Rect(topLeft, bottomRight);
                     context.DrawRectangle(this.AreaBrush, this.AreaPen, rect);
                 }
                 foreach (Tile tile in tiles)
@@ -113,12 +138,10 @@ namespace Ame.Infrastructure.DrawingTools
             return true;
         }
 
-        private Stack<Tile> DrawTiles(Point pixelPosition)
+        private Stack<Tile> DrawTiles(Point topLeft, Point bottomRight)
         {
             Stack<Tile> tiles = new Stack<Tile>();
 
-            Point topLeft = GeometryUtils.TopLeftPoint(this.pressPoint, pixelPosition);
-            Point bottomRight = GeometryUtils.BottomRightPoint(this.pressPoint, pixelPosition);
             Point startTile = this.Transform.pixelToTile.Transform(topLeft);
             Point stopTile = this.Transform.pixelToTile.Transform(bottomRight);
             Vector tileDifference = startTile - stopTile;
