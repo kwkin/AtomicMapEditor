@@ -71,6 +71,13 @@ namespace Ame.Infrastructure.Models
             return new Tile(emptyTile, -1, -1);
         }
 
+        public void UpdatePosition(Point pixelPosition)
+        {
+            Rect adjustedRect = this.Image.Value.Rect;
+            adjustedRect.Location = pixelPosition;
+            this.Image.Value.Rect = adjustedRect;
+        }
+
         #endregion methods
     }
 }

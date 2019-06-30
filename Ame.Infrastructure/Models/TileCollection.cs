@@ -18,42 +18,24 @@ namespace Ame.Infrastructure.Models
     {
         #region fields
 
+        private int columns;
+        private int rows;
+
         #endregion fields
 
 
         #region constructor
 
         public TileCollection(Layer layer)
-            : this(layer.TileWidth.Value, layer.TileHeight.Value, layer.Rows.Value, layer.Columns.Value)
         {
-        }
+            this.layer = layer ?? throw new ArgumentNullException("layer is null");
 
-        public TileCollection(int tileWidth, int tileHeight, int rows, int columns)
-        {
             this.Group = new DrawingGroup();
             this.Tiles = new ObservableCollection<Tile>();
-            this.TileWidth = tileWidth;
-            this.TileHeight = tileHeight;
-            this.Rows = rows;
-            this.Colummns = columns;
-
             this.Tiles.CollectionChanged += TilesCollectionChanged;
             RenderOptions.SetEdgeMode(this.Group, EdgeMode.Aliased);
 
             this.Initialize();
-        }
-
-        public TileCollection(ObservableCollection<Tile> tiles, int tileWidth, int tileHeight, int rows, int columns)
-        {
-            this.Group = new DrawingGroup();
-            this.Tiles = tiles;
-            this.TileWidth = tileWidth;
-            this.TileHeight = tileHeight;
-            this.Rows = rows;
-            this.Colummns = columns;
-
-            this.Tiles.CollectionChanged += TilesCollectionChanged;
-            RenderOptions.SetEdgeMode(this.Group, EdgeMode.Aliased);
         }
 
         #endregion constructor
@@ -61,6 +43,8 @@ namespace Ame.Infrastructure.Models
 
         #region properties
         
+        public Layer layer { get; set; }
+
         private DrawingGroup group;
         
         [IgnoreNodeBuilder]
@@ -104,59 +88,6 @@ namespace Ame.Infrastructure.Models
             }
         }
 
-        // TODO maybe keep reference to layer instead?
-        private int tileWidth;
-        public int TileWidth
-        {
-            get
-            {
-                return this.tileWidth;
-            }
-            set
-            {
-                this.tileWidth = value;
-            }
-        }
-
-        private int tileHeight;
-        public int TileHeight
-        {
-            get
-            {
-                return this.tileHeight;
-            }
-            set
-            {
-                this.tileHeight = value;
-            }
-        }
-
-        private int rows;
-        public int Rows
-        {
-            get
-            {
-                return this.rows;
-            }
-            set
-            {
-                this.rows = value;
-            }
-        }
-
-        private int columns;
-        public int Colummns
-        {
-            get
-            {
-                return this.columns;
-            }
-            set
-            {
-                this.columns = value;
-            }
-        }
-
         #endregion properties
 
 
@@ -179,7 +110,6 @@ namespace Ame.Infrastructure.Models
 
         public void RefreshDrawing(ObservableCollection<TilesetModel> tilesetList, Layer layer)
         {
-            // TODO get layer dimensions and add tiles
             int index = 0;
             foreach (Tile tile in this.Tiles)
             {
@@ -210,18 +140,53 @@ namespace Ame.Infrastructure.Models
         public void Clear()
         {
             int index = 0;
-            for (int xIndex = 0; xIndex < this.Colummns; ++xIndex)
+            for (int xIndex = 0; xIndex < this.layer.Columns.Value; ++xIndex)
             {
-                for (int yIndex = 0; yIndex < this.Rows; ++yIndex)
+                for (int yIndex = 0; yIndex < this.layer.Rows.Value; ++yIndex)
                 {
-                    Point position = new Point(xIndex * this.tileWidth, yIndex * this.TileHeight);
+                    Point position = new Point(xIndex * this.layer.TileWidth.Value, yIndex * this.layer.TileHeight.Value);
                     Tile emptyTile = Tile.EmptyTile(position);
                     this.Tiles[index++] = emptyTile;
                 }
             }
         }
 
-        public void Resize(int rows, int cols)
+        public void Resize(int offsetX, int offsetY)
+        {
+            Console.WriteLine("Resizing");
+            ObservableCollection<Tile> oldTiles = new ObservableCollection<Tile>();
+
+            for (int yIndex = offsetY; yIndex < this.layer.Rows.Value + offsetY; ++yIndex)
+            {
+                for (int xIndex = offsetX; xIndex < this.layer.Columns.Value + offsetX; ++xIndex)
+                {
+                    Tile oldTile;
+                    Point position = new Point(xIndex * this.layer.TileWidth.Value, yIndex * this.layer.TileHeight.Value);
+                    if (xIndex < this.columns && yIndex < this.rows)
+                    {
+                        int tileIndex = yIndex * this.columns + xIndex;
+                        oldTile = this.Tiles[tileIndex];
+                        oldTile.UpdatePosition(position);
+                    }
+                    else
+                    {
+                        oldTile = Tile.EmptyTile(position);
+                    }
+                    oldTiles.Add(oldTile);
+                }
+            }
+
+            this.Tiles.Clear();
+            foreach (Tile oldTile in oldTiles)
+            {
+                this.Tiles.Add(oldTile);
+            }
+
+            this.columns = this.layer.Columns.Value;
+            this.rows = this.layer.Rows.Value;
+        }
+
+        public void Move()
         {
             // TODO implement
         }
@@ -229,15 +194,17 @@ namespace Ame.Infrastructure.Models
         private void Initialize()
         {
             this.Tiles.Clear();
-            for (int xIndex = 0; xIndex < this.Colummns; ++xIndex)
+            for (int xIndex = 0; xIndex < this.layer.Columns.Value; ++xIndex)
             {
-                for (int yIndex = 0; yIndex < this.Rows; ++yIndex)
+                for (int yIndex = 0; yIndex < this.layer.Rows.Value; ++yIndex)
                 {
-                    Point position = new Point(xIndex * this.tileWidth, yIndex * this.TileHeight);
+                    Point position = new Point(xIndex * this.layer.TileWidth.Value, yIndex * this.layer.TileHeight.Value);
                     Tile emptyTile = Tile.EmptyTile(position);
                     this.Tiles.Add(emptyTile);
                 }
             }
+            this.columns = this.layer.Columns.Value;
+            this.rows = this.layer.Rows.Value;
         }
 
         private void TilesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

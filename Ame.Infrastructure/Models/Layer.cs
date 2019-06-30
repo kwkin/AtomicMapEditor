@@ -38,6 +38,9 @@ namespace Ame.Infrastructure.Models
             this.Scale.Value = ScaleType.Tile;
             this.TileIDs = this.TileIDs ?? new TileCollection(this);
             this.CustomProperties = new ObservableCollection<MetadataProperty>();
+
+            this.Columns.PropertyChanged += LayerSizeChanged;
+            this.Rows.PropertyChanged += LayerSizeChanged;
         }
 
         public Layer(Map map, int tileWidth, int tileHeight, int rows, int columns)
@@ -54,6 +57,9 @@ namespace Ame.Infrastructure.Models
             this.Scale.Value = ScaleType.Tile;
             this.TileIDs = this.TileIDs ?? new TileCollection(this);
             this.CustomProperties = new ObservableCollection<MetadataProperty>();
+
+            this.Columns.PropertyChanged += LayerSizeChanged;
+            this.Rows.PropertyChanged += LayerSizeChanged;
         }
 
         public Layer(Map map, string layerName, int tileWidth, int tileHeight, int rows, int columns)
@@ -70,13 +76,16 @@ namespace Ame.Infrastructure.Models
             this.Scale.Value = ScaleType.Tile;
             this.TileIDs = this.TileIDs ?? new TileCollection(this);
             this.CustomProperties = new ObservableCollection<MetadataProperty>();
+
+            this.Columns.PropertyChanged += LayerSizeChanged;
+            this.Rows.PropertyChanged += LayerSizeChanged;
         }
 
         #endregion constructor
 
 
         #region properties
-        
+
         public int ID { get; set; } = -1;
         
         [MetadataProperty(MetadataType.Property, "Name")]
@@ -151,6 +160,7 @@ namespace Ame.Infrastructure.Models
         public Map Map { get; set; }
 
         public ObservableCollection<MetadataProperty> CustomProperties { get; set; }
+        public int LayerPositionChanged { get; }
 
         #endregion properties
 
@@ -195,6 +205,11 @@ namespace Ame.Infrastructure.Models
             {
                 this.Parent.AddWith(layer);
             }
+        }
+
+        private void LayerSizeChanged(object sender, PropertyChangedEventArgs e)
+        {
+            this.TileIDs.Resize(0, 0);
         }
 
         #endregion methods
