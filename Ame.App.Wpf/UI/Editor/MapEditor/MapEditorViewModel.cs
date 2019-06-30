@@ -28,7 +28,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
     {
         #region fields
 
-        private const double hoverSampleOpacity = 0.7;
+        private const double hoverSampleOpacity = 0.5;
 
         private IEventAggregator eventAggregator;
         private AmeSession session;
@@ -453,7 +453,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             {
                 affected = this.hoverSample;
             }
-            this.DrawingTool.DrawHoverSample(this.hoverSample, this.layerBounds, zoomLevel, topLeftTilePixelPoint);
+            this.DrawingTool.DrawHoverSample(this.Map, this.hoverSample, this.layerBounds, zoomLevel, topLeftTilePixelPoint);
         }
 
         private void LayerChanged(ILayer layer)

@@ -15,7 +15,6 @@ namespace Ame.Infrastructure.DrawingTools
     {
         #region fields
 
-        private Map map;
         private bool isDrawing;
         private Point pressPoint;
 
@@ -58,7 +57,6 @@ namespace Ame.Infrastructure.DrawingTools
 
         public void DrawPressed(Map map, Point pixelPosition)
         {
-            this.map = map;
             this.pressPoint = pixelPosition;
             this.isDrawing = true;
         }
@@ -71,9 +69,9 @@ namespace Ame.Infrastructure.DrawingTools
             this.isDrawing = false;
         }
 
-        public void DrawHoverSample(DrawingGroup drawingArea, Rect drawingBounds, double zoom, Point pixelPosition)
+        public void DrawHoverSample(Map map, DrawingGroup drawingArea, Rect drawingBounds, double zoom, Point pixelPosition)
         {
-            Stack<Tile> tiles = new Stack<Tile>();
+            Stack<Tile> tiles;
             if (!this.isDrawing)
             {
                 tiles = DrawBrushModel(pixelPosition);
@@ -86,26 +84,25 @@ namespace Ame.Infrastructure.DrawingTools
             if (this.IsErasing)
             {
                 DrawAction action = new DrawAction(this.ToolName, tiles);
-                map.DrawSample(action);
+                tiles = map.DrawSample(action).Tiles;
             }
-            else
+
+            using (DrawingContext context = drawingArea.Open())
             {
-                using (DrawingContext context = drawingArea.Open())
+                // TODO fix the outline when drawing up left
+                if (this.isDrawing)
                 {
-                    if (this.isDrawing)
+                    double thickness = 4 / zoom;
+                    this.AreaPen.Thickness = thickness > Global.maxGridThickness ? thickness : Global.maxGridThickness;
+                    Point updatedPosition = pixelPosition + new Vector(this.Brush.TileWidth.Value, this.Brush.TileHeight.Value);
+                    Rect rect = new Rect(this.pressPoint, updatedPosition);
+                    context.DrawRectangle(this.AreaBrush, this.AreaPen, rect);
+                }
+                foreach (Tile tile in tiles)
+                {
+                    if (tile.Bounds.IntersectsWith(drawingBounds))
                     {
-                        double thickness = 4 / zoom;
-                        this.AreaPen.Thickness = thickness > Global.maxGridThickness ? thickness : Global.maxGridThickness;
-                        Point updatedPosition = pixelPosition + new Vector(this.Brush.TileWidth.Value, this.Brush.TileHeight.Value);
-                        Rect rect = new Rect(this.pressPoint, updatedPosition);
-                        context.DrawRectangle(this.AreaBrush, this.AreaPen, rect);
-                    }
-                    foreach (Tile tile in tiles)
-                    {
-                        if (tile.Bounds.IntersectsWith(drawingBounds))
-                        {
-                            context.DrawDrawing(tile.Image.Value);
-                        }
+                        context.DrawDrawing(tile.Image.Value);
                     }
                 }
             }

@@ -207,13 +207,14 @@ namespace Ame.Infrastructure.Models
         /// Draws the requestded action and clears the previously drawn sample
         /// </summary>
         /// <param name="action"></param>
-        public void DrawSample(DrawAction action)
+        public DrawAction DrawSample(DrawAction action)
         {
             if (this.undoHover != null)
             {
                 applyAction(this.undoHover);
             }
             this.undoHover = applyAction(action);
+            return this.undoHover;
         }
 
         public void Undo()
