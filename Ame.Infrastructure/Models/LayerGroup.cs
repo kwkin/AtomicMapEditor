@@ -65,7 +65,11 @@ namespace Ame.Infrastructure.Models
         }
         public LayerGroup Parent { get; set; }
 
-        // TODO fix
+        // TODO these values do not return the correct values. These should be bound to the functions
+        public BindableProperty<int> Columns { get; set; } = BindableProperty.Prepare<int>();
+
+        public BindableProperty<int> Rows { get; set; } = BindableProperty.Prepare<int>();
+
         public BindableProperty<int> OffsetX { get; set; } = BindableProperty.Prepare<int>();
 
         public BindableProperty<int> OffsetY { get; set; } = BindableProperty.Prepare<int>();

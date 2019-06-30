@@ -100,7 +100,7 @@ namespace Ame.Infrastructure.DrawingTools
                 }
                 foreach (Tile tile in tiles)
                 {
-                    if (tile.Bounds.IntersectsWith(map.CurrentLayer.GetBounds()))
+                    if (tile.Bounds.IntersectsWith(map.CurrentLayer.GetBoundsExclusive()))
                     {
                         context.DrawDrawing(tile.Image.Value);
                     }

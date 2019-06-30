@@ -33,6 +33,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
         private IEventAggregator eventAggregator;
         private AmeSession session;
 
+        private ILayer currentLayer;
         private LayerOrderRenderer orderer; 
         private PaddedBrushModel brush;
         private CoordinateTransform imageTransform;
@@ -90,7 +91,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
                     LayerChanged(layer);
                 };
             }
-            DrawLayerBoundaries(this.session.CurrentLayer);
+            ChangeCurrentLayer(this.session.CurrentLayer);
 
             this.session.PropertyChanged += SessionPropertyChanged;
             this.Map.LayerList.CollectionChanged += LayerListChanged;
@@ -307,6 +308,44 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             this.HoverSampleOpacity.Value = hoverSampleOpacity;
         }
 
+
+        public void DrawLayerBoundaries(ILayer layer)
+        {
+            if (layer == null)
+            {
+                return;
+            }
+            LayerBoundariesRenderable renderer = new LayerBoundariesRenderable(this.session.CurrentLayer);
+
+            double thickness = 4 / this.ScrollModel.ZoomLevels[this.ScrollModel.ZoomIndex].zoom;
+            thickness = thickness < Global.maxGridThickness ? thickness : Global.maxGridThickness;
+            renderer.DrawingPen.Thickness = thickness;
+            renderer.DrawingPenDashed.Thickness = thickness;
+            DrawingGroup group = renderer.CreateBoundaries();
+            this.layerBoundaries.Children = group.Children;
+        }
+
+        public void ChangeCurrentLayer(ILayer layer)
+        {
+            if (layer == null)
+            {
+                return;
+            }
+            if (this.currentLayer != null)
+            {
+                this.currentLayer.Columns.PropertyChanged -= LayerBoundariesChanged;
+                this.currentLayer.Rows.PropertyChanged -= LayerBoundariesChanged;
+                this.currentLayer.OffsetY.PropertyChanged -= LayerBoundariesChanged;
+                this.currentLayer.OffsetX.PropertyChanged -= LayerBoundariesChanged;
+            }
+            layer.Columns.PropertyChanged += LayerBoundariesChanged;
+            layer.Rows.PropertyChanged += LayerBoundariesChanged;
+            layer.OffsetY.PropertyChanged += LayerBoundariesChanged;
+            layer.OffsetX.PropertyChanged += LayerBoundariesChanged;
+            this.currentLayer = layer;
+            DrawLayerBoundaries(layer);
+        }
+
         private void HoverSampleOpacityBackground(object sender, PropertyChangedEventArgs e)
         {
             this.hoverSample.Opacity = this.HoverSampleOpacity.Value;
@@ -316,8 +355,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
         {
             if (e.PropertyName == nameof(AmeSession.CurrentLayer))
             {
-                ILayer currentLayer = this.session.CurrentLayer;
-                DrawLayerBoundaries(currentLayer);
+                this.ChangeCurrentLayer(this.session.CurrentLayer);
             }
         }
 
@@ -329,21 +367,6 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
         private void UpdateGridPen(object sender, PropertyChangedEventArgs e)
         {
             RedrawGrid();
-        }
-
-        private void DrawLayerBoundaries(ILayer layer)
-        {
-            if (layer != null)
-            {
-                LayerBoundariesRenderable renderer = new LayerBoundariesRenderable(this.session.CurrentLayer);
-
-                double thickness = 4 / this.ScrollModel.ZoomLevels[this.ScrollModel.ZoomIndex].zoom;
-                thickness = thickness < Global.maxGridThickness ? thickness : Global.maxGridThickness;
-                renderer.DrawingPen.Thickness = thickness;
-                renderer.DrawingPenDashed.Thickness = thickness;
-                DrawingGroup group = renderer.CreateBoundaries();
-                this.layerBoundaries.Children = group.Children;
-            }
         }
 
         private void LayerListChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -456,6 +479,11 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
                 int removeIndex = this.orderer.getAffectedIndex(layer);
                 this.layerItems.Children.RemoveAt(removeIndex);
             }
+        }
+
+        private void LayerBoundariesChanged(object sender, PropertyChangedEventArgs e)
+        {
+            DrawLayerBoundaries(this.session.CurrentLayer);
         }
 
         private void RedrawBackground()

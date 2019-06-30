@@ -21,6 +21,8 @@ namespace Ame.Infrastructure.Models
         BindableProperty<string> Name { get; set; }
         BindableProperty<bool> IsImmutable { get; set; }
         BindableProperty<bool> IsVisible { get; set; }
+        BindableProperty<int> Columns { get; set; }
+        BindableProperty<int> Rows { get; set; }
         BindableProperty<int> OffsetX { get; set; }
         BindableProperty<int> OffsetY { get; set; }
         DrawingGroup Group { get; set; }

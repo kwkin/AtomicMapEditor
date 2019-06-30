@@ -184,7 +184,13 @@ namespace Ame.Infrastructure.Models
 
         public Rect GetBounds()
         {
-            return new Rect(this.OffsetX.Value, this.OffsetY.Value, this.GetPixelWidth() - 1, this.GetPixelHeight() - 1);
+            return new Rect(this.OffsetX.Value, this.OffsetY.Value, this.GetPixelWidth(), this.GetPixelHeight());
+        }
+
+        public Rect GetBoundsExclusive()
+        {
+            Rect test = new Rect(this.OffsetX.Value + 1, this.OffsetY.Value + 1, this.GetPixelWidth() - 2, this.GetPixelHeight() - 2);
+            return test;
         }
 
         public void Clear()
