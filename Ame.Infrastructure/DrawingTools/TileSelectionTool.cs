@@ -63,7 +63,7 @@ namespace Ame.Infrastructure.DrawingTools
             throw new NotImplementedException();
         }
 
-        public void DrawHoverSample(Map map, DrawingGroup drawingArea, Rect drawingBounds, double zoom, Point pixelPosition)
+        public void DrawHoverSample(Map map, DrawingGroup drawingArea, double zoom, Point pixelPosition)
         {
             return;
         }

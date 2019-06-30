@@ -167,12 +167,17 @@ namespace Ame.Infrastructure.Models
             return this.TileHeight.Value * this.Rows.Value;
         }
 
+        public Rect GetBounds()
+        {
+            return new Rect(this.OffsetX, this.OffsetY, this.GetPixelWidth() - 1, this.GetPixelHeight() - 1);
+        }
+
         public void Clear()
         {
             this.TileIDs.Clear();
         }
         
-        public Point getPointFromIndex(int id)
+        public Point GetPointFromIndex(int id)
         {
             int pointX = (id % this.Columns.Value) * this.TileWidth.Value;
             int pointY = (int)Math.Floor((double)(id / this.Rows.Value)) * this.TileHeight.Value;

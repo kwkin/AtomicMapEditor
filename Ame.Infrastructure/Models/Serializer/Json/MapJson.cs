@@ -38,6 +38,7 @@ namespace Ame.Infrastructure.Models.Serializer.Json
                 // TODO fix the conversion
                 this.LayerList.Add(new LayerJson((Layer)layer));
             }
+
         }
 
         [JsonProperty(PropertyName = "Version")]

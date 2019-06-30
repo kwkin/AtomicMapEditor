@@ -40,8 +40,6 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
         private long updatePositionLabelDelay = Global.defaultUpdatePositionLabelDelay;
         private Stopwatch updatePositionLabelStopWatch;
 
-        private Rect layerBounds;
-
         private DrawingGroup drawingGroup;
         private DrawingGroup mapBackground;
         private DrawingGroup hoverSample;
@@ -93,7 +91,6 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
                 };
             }
             DrawLayerBoundaries(this.session.CurrentLayer);
-            UpdateHoverSampleBounds(this.session.CurrentLayer);
 
             this.session.PropertyChanged += SessionPropertyChanged;
             this.Map.LayerList.CollectionChanged += LayerListChanged;
@@ -321,7 +318,6 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             {
                 ILayer currentLayer = this.session.CurrentLayer;
                 DrawLayerBoundaries(currentLayer);
-                UpdateHoverSampleBounds(currentLayer);
             }
         }
 
@@ -347,14 +343,6 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
                 renderer.DrawingPenDashed.Thickness = thickness;
                 DrawingGroup group = renderer.CreateBoundaries();
                 this.layerBoundaries.Children = group.Children;
-            }
-        }
-
-        private void UpdateHoverSampleBounds(ILayer layer)
-        {
-            if (layer != null)
-            {
-                this.layerBounds = new Rect(layer.OffsetX, layer.OffsetY, layer.GetPixelWidth() - 1, layer.GetPixelHeight() - 1);
             }
         }
 
@@ -453,7 +441,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             {
                 affected = this.hoverSample;
             }
-            this.DrawingTool.DrawHoverSample(this.Map, this.hoverSample, this.layerBounds, zoomLevel, topLeftTilePixelPoint);
+            this.DrawingTool.DrawHoverSample(this.Map, this.hoverSample, zoomLevel, topLeftTilePixelPoint);
         }
 
         private void LayerChanged(ILayer layer)

@@ -69,7 +69,7 @@ namespace Ame.Infrastructure.DrawingTools
             this.isDrawing = false;
         }
 
-        public void DrawHoverSample(Map map, DrawingGroup drawingArea, Rect drawingBounds, double zoom, Point pixelPosition)
+        public void DrawHoverSample(Map map, DrawingGroup drawingArea, double zoom, Point pixelPosition)
         {
             Stack<Tile> tiles;
             if (!this.isDrawing)
@@ -100,7 +100,7 @@ namespace Ame.Infrastructure.DrawingTools
                 }
                 foreach (Tile tile in tiles)
                 {
-                    if (tile.Bounds.IntersectsWith(drawingBounds))
+                    if (tile.Bounds.IntersectsWith(map.CurrentLayer.GetBounds()))
                     {
                         context.DrawDrawing(tile.Image.Value);
                     }

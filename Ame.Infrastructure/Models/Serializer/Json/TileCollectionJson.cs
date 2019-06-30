@@ -43,7 +43,7 @@ namespace Ame.Infrastructure.Models.Serializer.Json
             {
                 Tile tile = new Tile(this.Positions[index], this.Positions[index + 1]);
 
-                Point topLeft = layer.getPointFromIndex(index / 2);
+                Point topLeft = layer.GetPointFromIndex(index / 2);
                 IEnumerable<TilesetModel> models = tilesetList.Where(tileset => tileset.ID == tile.TilesetID);
                 if (models.Count() != 0)
                 {

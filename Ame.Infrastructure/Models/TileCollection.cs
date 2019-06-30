@@ -183,7 +183,7 @@ namespace Ame.Infrastructure.Models
             int index = 0;
             foreach (Tile tile in this.Tiles)
             {
-                Point topLeft = layer.getPointFromIndex(index);
+                Point topLeft = layer.GetPointFromIndex(index);
                 if (tile.TilesetID == -1)
                 {
                     tile.Image.Value = Tile.EmptyTile(topLeft).Image.Value;
