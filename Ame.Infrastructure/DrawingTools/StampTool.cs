@@ -88,8 +88,8 @@ namespace Ame.Infrastructure.DrawingTools
 
         public void DrawHoverSample(Map map, DrawingGroup drawingArea, double zoom, Point pixelPosition)
         {
-            bool intersects = !ImageUtils.Intersects(map.CurrentLayer.Group, pixelPosition);
-            if (intersects && !this.isDrawing)
+            bool isIntersecting = ImageUtils.Intersects(map.CurrentLayer.Group, pixelPosition);
+            if (!isIntersecting && !this.isDrawing)
             {
                 return;
             }
@@ -118,6 +118,11 @@ namespace Ame.Infrastructure.DrawingTools
             {
                 if (this.isDrawing)
                 {
+                    if (isIntersecting)
+                    {
+                        bottomRight += new Vector(this.Brush.TileWidth.Value, this.Brush.TileHeight.Value);
+                    }
+
                     double thickness = 4 / zoom;
                     this.AreaPen.Thickness = thickness > Global.maxGridThickness ? thickness : Global.maxGridThickness;
                     Rect rect = new Rect(topLeft, bottomRight);

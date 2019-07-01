@@ -62,7 +62,6 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
         {
         }
 
-        // TODO refactor constructor code
         public MapEditorViewModel(IEventAggregator eventAggregator, AmeSession session, Map map, IScrollModel scrollModel)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
@@ -70,37 +69,22 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             this.Map = map ?? throw new ArgumentNullException("map is null");
             this.ScrollModel = scrollModel ?? throw new ArgumentNullException("scrollModel is null");
 
+            this.Title.Value = this.Map.Name.Value;
             this.orderer = new LayerOrderRenderer(this.session);
 
             this.imageTransform = new CoordinateTransform();
             this.imageTransform.SetPixelToTile(this.Map.TileWidth.Value, this.Map.TileHeight.Value);
             this.imageTransform.SetSelectionToPixel(this.Map.TileWidth.Value / 2, this.Map.TileHeight.Value / 2);
 
-            this.Title.Value = this.Map.Name.Value;
             this.drawingGroup = new DrawingGroup();
             this.mapBackground = new DrawingGroup();
+            this.layerItems = new DrawingGroup();
             this.hoverSample = new DrawingGroup();
+            this.gridLines = new DrawingGroup();
             this.layerBoundaries = new DrawingGroup();
 
-            this.layerItems = new DrawingGroup();
-            foreach (ILayer layer in this.Map.Layers)
-            {
-                this.layerItems.Children.Add(layer.Group);
-                layer.IsVisible.PropertyChanged += (s, args) =>
-                {
-                    LayerChanged(layer);
-                };
-            }
-            ChangeCurrentLayer(this.session.CurrentLayer);
+            RenderOptions.SetEdgeMode(this.hoverSample, EdgeMode.Aliased);
 
-            this.session.PropertyChanged += SessionPropertyChanged;
-            this.Map.Layers.CollectionChanged += LayerListChanged;
-            this.ScrollModel.PropertyChanged += ScrollModelPropertyChanged;
-            this.BackgroundBrush.PropertyChanged += UpdateBackground;
-            this.BackgroundPen.PropertyChanged += UpdateBackground;
-            this.HoverSampleOpacity.PropertyChanged += HoverSampleOpacityBackground;
-
-            this.gridLines = new DrawingGroup();
             this.drawingGroup.Children.Add(this.mapBackground);
             this.drawingGroup.Children.Add(this.layerItems);
             this.drawingGroup.Children.Add(this.hoverSample);
@@ -108,15 +92,24 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             this.drawingGroup.Children.Add(this.layerBoundaries);
             this.DrawingCanvas = new DrawingImage(this.drawingGroup);
 
-            RenderOptions.SetEdgeMode(this.hoverSample, EdgeMode.Aliased);
-
             this.backgroundBrush = new SolidColorBrush(this.Map.BackgroundColor.Value);
             this.backgroundPen = new Pen(Brushes.Transparent, 0);
-            RedrawBackground();
             this.Scale.Value = ScaleType.Tile;
             this.PositionText.Value = "0, 0";
             this.updatePositionLabelStopWatch = Stopwatch.StartNew();
             this.HoverSampleOpacity.Value = hoverSampleOpacity;
+            this.hoverSample.Opacity = hoverSampleOpacity;
+
+            AddMapLayers(map);
+            ChangeCurrentLayer(this.session.CurrentLayer);
+            RedrawBackground();
+
+            this.session.PropertyChanged += SessionPropertyChanged;
+            this.Map.Layers.CollectionChanged += LayerListChanged;
+            this.ScrollModel.PropertyChanged += ScrollModelPropertyChanged;
+            this.BackgroundBrush.PropertyChanged += UpdateBackground;
+            this.BackgroundPen.PropertyChanged += UpdateBackground;
+            this.HoverSampleOpacity.PropertyChanged += HoverSampleOpacityBackground;
 
             this.ShowGridCommand = new DelegateCommand(() => DrawGrid(this.IsGridOn.Value));
             this.HandleMouseMoveCommand = new DelegateCommand<object>((point) => HandleMouseMove((Point)point));
@@ -528,6 +521,19 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
                     break;
                 default:
                     break;
+            }
+        }
+
+        private void AddMapLayers(Map map)
+        {
+            this.layerItems.Children.Clear();
+            foreach (ILayer layer in map.Layers)
+            {
+                this.layerItems.Children.Add(layer.Group);
+                layer.IsVisible.PropertyChanged += (s, args) =>
+                {
+                    LayerChanged(layer);
+                };
             }
         }
 
