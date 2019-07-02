@@ -11,7 +11,6 @@ using Ame.Infrastructure.Utils;
 using Prism.Commands;
 using Prism.Events;
 using System;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -34,10 +33,9 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
         private AmeSession session;
 
         private ILayer currentLayer;
-        private LayerOrderRenderer orderer; 
         private PaddedBrushModel brush;
+        private LayerOrderRenderer orderer;
         private CoordinateTransform imageTransform;
-        public int zoomIndex;
         private long updatePositionLabelDelay = Global.defaultUpdatePositionLabelDelay;
         private Stopwatch updatePositionLabelStopWatch;
 
@@ -47,8 +45,6 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
         private DrawingGroup layerItems;
         private DrawingGroup gridLines;
         private DrawingGroup layerBoundaries;
-        private Brush backgroundBrush;
-        private Pen backgroundPen;
 
         private Point lastTilePoint;
 
@@ -92,8 +88,8 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             this.drawingGroup.Children.Add(this.layerBoundaries);
             this.DrawingCanvas = new DrawingImage(this.drawingGroup);
 
-            this.backgroundBrush = new SolidColorBrush(this.Map.BackgroundColor.Value);
-            this.backgroundPen = new Pen(Brushes.Transparent, 0);
+            this.BackgroundBrush.Value = new SolidColorBrush(this.Map.BackgroundColor.Value);
+            this.BackgroundPen.Value = new Pen(Brushes.Transparent, 0);
             this.Scale.Value = ScaleType.Tile;
             this.PositionText.Value = "0, 0";
             this.updatePositionLabelStopWatch = Stopwatch.StartNew();
@@ -107,16 +103,16 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             this.session.PropertyChanged += SessionPropertyChanged;
             this.Map.Layers.CollectionChanged += LayerListChanged;
             this.ScrollModel.PropertyChanged += ScrollModelPropertyChanged;
-            this.BackgroundBrush.PropertyChanged += UpdateBackground;
-            this.BackgroundPen.PropertyChanged += UpdateBackground;
-            this.HoverSampleOpacity.PropertyChanged += HoverSampleOpacityBackground;
+            this.BackgroundBrush.PropertyChanged += BackgroundChanged;
+            this.BackgroundPen.PropertyChanged += BackgroundChanged;
+            this.HoverSampleOpacity.PropertyChanged += HoverSampleOpacityChanged;
 
             this.ShowGridCommand = new DelegateCommand(() => DrawGrid(this.IsGridOn.Value));
             this.HandleMouseMoveCommand = new DelegateCommand<object>((point) => HandleMouseMove((Point)point));
             this.UndoCommand = new DelegateCommand(() => this.Undo());
             this.RedoCommand = new DelegateCommand(() => this.Redo());
             this.ZoomInCommand = new DelegateCommand(() => this.ScrollModel.ZoomIn());
-            this.ZoomOutCommand = new DelegateCommand(() =>this.ScrollModel.ZoomOut());
+            this.ZoomOutCommand = new DelegateCommand(() => this.ScrollModel.ZoomOut());
             this.SetZoomCommand = new DelegateCommand<ZoomLevel>((zoomLevel) => this.ScrollModel.SetZoom(zoomLevel));
             this.HandleLeftClickDownCommand = new DelegateCommand<object>((point) => HandleLeftClickDown((Point)point));
             this.HandleLeftClickUpCommand = new DelegateCommand<object>((point) => HandleLeftClickUp((Point)point));
@@ -144,7 +140,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
 
         // TODO change to a bindable property
         public Map Map { get; set; }
-        
+
         public BindableProperty<bool> IsGridOn { get; set; } = BindableProperty<bool>.Prepare();
 
         public BindableProperty<ScaleType> Scale { get; set; } = BindableProperty<ScaleType>.Prepare();
@@ -173,6 +169,60 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
 
 
         #region methods
+
+        public override void ZoomIn()
+        {
+            this.ScrollModel.ZoomIn();
+        }
+
+        public override void ZoomOut()
+        {
+            this.ScrollModel.ZoomOut();
+        }
+
+        public override void SetZoom(int zoomIndex)
+        {
+            this.ScrollModel.SetZoom(zoomIndex);
+        }
+
+        public override void SetZoom(ZoomLevel zoomLevel)
+        {
+            this.ScrollModel.SetZoom(zoomLevel);
+        }
+
+        public override object GetContent()
+        {
+            return this.Map;
+        }
+
+        public override void CloseDock()
+        {
+            CloseDockMessage closeMessage = new CloseDockMessage(this);
+            this.eventAggregator.GetEvent<CloseDockEvent>().Publish(closeMessage);
+        }
+
+        public override void ExportAs(string path, BitmapEncoder encoder)
+        {
+            if (encoder == null)
+            {
+                return;
+            }
+            this.HoverSampleOpacity.Value = 0;
+            var drawingImage = new System.Windows.Controls.Image { Source = this.DrawingCanvas };
+            var width = this.DrawingCanvas.Width;
+            var height = this.DrawingCanvas.Height;
+            drawingImage.Arrange(new Rect(0, 0, width, height));
+
+            var bitmap = new RenderTargetBitmap((int)width, (int)height, 96, 96, PixelFormats.Pbgra32);
+            bitmap.Render(drawingImage);
+            encoder.Frames.Add(BitmapFrame.Create(bitmap));
+
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                encoder.Save(stream);
+            }
+            this.HoverSampleOpacity.Value = hoverSampleOpacity;
+        }
 
         public void HandleLeftClickDown(Point selectPoint)
         {
@@ -245,63 +295,6 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
         {
             this.Map.Redo();
         }
-
-        public override void ZoomIn()
-        {
-            this.ScrollModel.ZoomIn();
-        }
-
-        public override void ZoomOut()
-        {
-            this.ScrollModel.ZoomOut();
-        }
-
-        public override void SetZoom(int zoomIndex)
-        {
-            this.ScrollModel.SetZoom(zoomIndex);
-        }
-
-        public override void SetZoom(ZoomLevel zoomLevel)
-        {
-            this.ScrollModel.SetZoom(zoomLevel);
-        }
-
-        public override object GetContent()
-        {
-            return this.Map;
-        }
-
-        public override void CloseDock()
-        {
-            CloseDockMessage closeMessage = new CloseDockMessage(this);
-            this.eventAggregator.GetEvent<CloseDockEvent>().Publish(closeMessage);
-        }
-
-        public override void ExportAs(string path, BitmapEncoder encoder)
-        {
-            if (encoder == null)
-            {
-                return;
-            }
-            // Remove the hover sample
-            this.HoverSampleOpacity.Value = 0;
-            var drawingImage = new System.Windows.Controls.Image { Source = this.DrawingCanvas };
-            var width = this.DrawingCanvas.Width;
-            var height = this.DrawingCanvas.Height;
-            drawingImage.Arrange(new Rect(0, 0, width, height));
-
-            var bitmap = new RenderTargetBitmap((int)width, (int)height, 96, 96, PixelFormats.Pbgra32);
-            bitmap.Render(drawingImage);
-            encoder.Frames.Add(BitmapFrame.Create(bitmap));
-
-            using (var stream = new FileStream(path, FileMode.Create))
-            {
-                encoder.Save(stream);
-            }
-            this.HoverSampleOpacity.Value = hoverSampleOpacity;
-        }
-
-
         public void DrawLayerBoundaries(ILayer layer)
         {
             if (layer == null)
@@ -339,7 +332,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             DrawLayerBoundaries(layer);
         }
 
-        private void HoverSampleOpacityBackground(object sender, PropertyChangedEventArgs e)
+        private void HoverSampleOpacityChanged(object sender, PropertyChangedEventArgs e)
         {
             this.hoverSample.Opacity = this.HoverSampleOpacity.Value;
         }
@@ -352,7 +345,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             }
         }
 
-        private void UpdateBackground(object sender, PropertyChangedEventArgs e)
+        private void BackgroundChanged(object sender, PropertyChangedEventArgs e)
         {
             RedrawBackground();
         }
@@ -364,7 +357,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
 
         private void LayerListChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            switch(e.Action)
+            switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
                     foreach (ILayer layer in e.NewItems)
@@ -376,12 +369,14 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
                         };
                     }
                     break;
+
                 case NotifyCollectionChangedAction.Remove:
                     foreach (ILayer layer in e.OldItems)
                     {
                         this.layerItems.Children.Remove(layer.Group);
                     }
                     break;
+
                 case NotifyCollectionChangedAction.Move:
                     int oldIndex = e.OldStartingIndex;
                     int newIndex = e.NewStartingIndex;
@@ -400,6 +395,25 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
                         this.layerItems.Children[newGroupIndex] = oldLayerImage;
                     }
                     break;
+
+                default:
+                    break;
+            }
+        }
+
+        private void ScrollModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(ScrollModel.ZoomIndex):
+                    this.gridLines.Children.Clear();
+                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        RedrawGrid();
+                    }),
+                    DispatcherPriority.Background);
+                    break;
+
                 default:
                     break;
             }
@@ -456,6 +470,19 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             }
         }
 
+        private void AddMapLayers(Map map)
+        {
+            this.layerItems.Children.Clear();
+            foreach (ILayer layer in map.Layers)
+            {
+                this.layerItems.Children.Add(layer.Group);
+                layer.IsVisible.PropertyChanged += (s, args) =>
+                {
+                    LayerChanged(layer);
+                };
+            }
+        }
+
         private void LayerBoundariesChanged(object sender, PropertyChangedEventArgs e)
         {
             DrawLayerBoundaries(this.session.CurrentLayer);
@@ -463,23 +490,26 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
 
         private void RedrawBackground()
         {
-            Map map = this.Map;
-            Size extendedSize = new Size();
-            extendedSize.Width = map.PixelWidth + map.TileWidth.Value;
-            extendedSize.Height = map.PixelHeight + map.TileHeight.Value;
-            Point extendedPoint = new Point();
-            extendedPoint.X = -map.TileWidth.Value / 2;
-            extendedPoint.Y = -map.TileHeight.Value / 2;
-            Rect drawingRect = new Rect(extendedPoint, extendedSize);
+            Size extendedSize = new Size
+            {
+                Width = this.Map.PixelWidth + this.Map.TileWidth.Value,
+                Height = this.Map.PixelHeight + this.Map.TileHeight.Value
+            };
+            Point extendedPoint = new Point
+            {
+                X = -this.Map.TileWidth.Value / 2,
+                Y = -this.Map.TileHeight.Value / 2
+            };
+            Rect extendedRect = new Rect(extendedPoint, extendedSize);
 
             Point backgroundLocation = new Point(0, 0);
-            Size backgroundSize = new Size(map.PixelWidth, map.PixelHeight);
-            Rect rect = new Rect(backgroundLocation, backgroundSize);
+            Size backgroundSize = new Size(this.Map.PixelWidth, this.Map.PixelHeight);
+            Rect backgroundRect = new Rect(backgroundLocation, backgroundSize);
 
             using (DrawingContext context = this.mapBackground.Open())
             {
-                context.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Transparent, 0), drawingRect);
-                context.DrawRectangle(this.backgroundBrush, this.backgroundPen, rect);
+                context.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Transparent, 0), extendedRect);
+                context.DrawRectangle(this.BackgroundBrush.Value, this.BackgroundPen.Value, backgroundRect);
             }
         }
 
@@ -507,36 +537,6 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             }), DispatcherPriority.Render);
             this.updatePositionLabelStopWatch.Restart();
         }
-        private void ScrollModelPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch(e.PropertyName)
-            {
-                case nameof(ScrollModel.ZoomIndex):
-                    this.gridLines.Children.Clear();
-                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        RedrawGrid();
-                    }),
-                    DispatcherPriority.Background);
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        private void AddMapLayers(Map map)
-        {
-            this.layerItems.Children.Clear();
-            foreach (ILayer layer in map.Layers)
-            {
-                this.layerItems.Children.Add(layer.Group);
-                layer.IsVisible.PropertyChanged += (s, args) =>
-                {
-                    LayerChanged(layer);
-                };
-            }
-        }
-
         #endregion methods
     }
 }

@@ -13,7 +13,6 @@ using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -82,12 +81,13 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
             this.tilesetImage = new DrawingGroup();
             this.gridLines = new DrawingGroup();
             this.selectLines = new DrawingGroup();
+
             this.drawingGroup.Children.Add(this.extendedBorder);
             this.drawingGroup.Children.Add(this.tilesetImage);
             this.drawingGroup.Children.Add(this.gridLines);
             this.drawingGroup.Children.Add(this.selectLines);
             this.TileImage.Value = new DrawingImage(this.drawingGroup);
-            
+
             this.Scale.Value = ScaleType.Tile;
             this.PositionText.Value = "0, 0";
             this.IsGridOn.Value = true;
@@ -101,9 +101,9 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
             this.ItemImage.PropertyChanged += ItemImageChanged;
             this.TilesetModel.Value.IsTransparent.PropertyChanged += IsTransparentChanged;
             this.ScrollModel.PropertyChanged += ScrollModelPropertyChanged;
-            this.GridPen.PropertyChanged += UpdateGridPen;
-            this.BackgroundBrush.PropertyChanged += UpdateBackground;
-            this.BackgroundPen.PropertyChanged += UpdateBackground;
+            this.GridPen.PropertyChanged += GridPenChanged;
+            this.BackgroundBrush.PropertyChanged += BackgroundChanged;
+            this.BackgroundPen.PropertyChanged += BackgroundChanged;
 
             this.HandleLeftClickDownCommand = new DelegateCommand<object>((point) => HandleLeftClickDown((Point)point));
             this.HandleLeftClickUpCommand = new DelegateCommand<object>((point) => HandleLeftClickUp((Point)point));
@@ -456,14 +456,37 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
             this.TilesetModel.Value.TilesetImage = ImageUtils.MatToDrawingGroup(this.ItemImage.Value);
         }
 
-        private void UpdateBackground(object sender, PropertyChangedEventArgs e)
+        private void BackgroundChanged(object sender, PropertyChangedEventArgs e)
         {
             RedrawBackground();
         }
 
-        private void UpdateGridPen(object sender, PropertyChangedEventArgs e)
+        private void GridPenChanged(object sender, PropertyChangedEventArgs e)
         {
             RedrawGrid();
+        }
+
+        private void IsTransparentChanged(object sender, PropertyChangedEventArgs e)
+        {
+            RefreshItemModel();
+        }
+
+        private void ScrollModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(ScrollModel.ZoomIndex):
+                    this.gridLines.Children.Clear();
+                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        RedrawGrid();
+                    }),
+                    DispatcherPriority.Background);
+                    break;
+
+                default:
+                    break;
+            }
         }
 
         private void DrawSelectLinesFromPixels(Point pixelPoint1, Point pixelPoint2)
@@ -554,12 +577,6 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
         {
             Console.WriteLine("Remove Item");
         }
-
-        private void IsTransparentChanged(object sender, PropertyChangedEventArgs e)
-        {
-            RefreshItemModel();
-        }
-
         private void OnNewTilesetWindowClosed(INotification notification)
         {
             IConfirmation confirmation = notification as IConfirmation;
@@ -575,24 +592,6 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
                 ChangeItemModel(this.TilesetModel.Value);
             }
         }
-
-        private void ScrollModelPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case nameof(ScrollModel.ZoomIndex):
-                    this.gridLines.Children.Clear();
-                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        RedrawGrid();
-                    }),
-                    DispatcherPriority.Background);
-                    break;
-                default:
-                    break;
-            }
-        }
-
         #endregion methods
     }
 }
