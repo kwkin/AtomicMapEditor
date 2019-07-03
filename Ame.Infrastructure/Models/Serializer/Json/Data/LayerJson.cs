@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ame.Infrastructure.Models.Serializer.Json
+namespace Ame.Infrastructure.Models.Serializer.Json.Data
 {
     [JsonObject(MemberSerialization.OptIn)]
     public class LayerJson
@@ -74,12 +74,7 @@ namespace Ame.Infrastructure.Models.Serializer.Json
 
         [JsonProperty(PropertyName = "Tiles")]
         public TileCollectionJson Tiles { get; set; }
-
-        public Layer Generate()
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public Layer Generate(Map map)
         {
             ObservableCollection<TilesetModel> tilesetList = map.TilesetList;

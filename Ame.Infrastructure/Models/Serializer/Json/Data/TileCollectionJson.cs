@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Ame.Infrastructure.Models.Serializer.Json
+namespace Ame.Infrastructure.Models.Serializer.Json.Data
 {
     [JsonObject(MemberSerialization.OptIn)]
     public class TileCollectionJson
@@ -30,7 +30,7 @@ namespace Ame.Infrastructure.Models.Serializer.Json
         [JsonProperty(PropertyName = "Positions")]
         public IList<int> Positions { get; set; }
 
-        public TileCollection Generate(Layer layer, ObservableCollection<TilesetModel> tilesetList)
+        public TileCollection Generate(Layer layer, ObservableCollection<TilesetModel> tilesets)
         {
             TileCollection collection = new TileCollection(layer);
             for (int index = 0; index < this.Positions.Count - 1; index += 2)
@@ -38,7 +38,7 @@ namespace Ame.Infrastructure.Models.Serializer.Json
                 Tile tile = new Tile(this.Positions[index], this.Positions[index + 1]);
 
                 Point topLeft = layer.GetPointFromIndex(index / 2);
-                IEnumerable<TilesetModel> models = tilesetList.Where(tileset => tileset.ID == tile.TilesetID);
+                IEnumerable<TilesetModel> models = tilesets.Where(tileset => tileset.ID == tile.TilesetID);
                 if (models.Count() != 0)
                 {
                     tile.Image.Value = models.First().GetByID(tile.TileID, topLeft);

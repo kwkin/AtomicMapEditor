@@ -114,12 +114,28 @@
     <Compile Include="Models\PaddedBrushModel.cs" />
     <Compile Include="Models\PaddedGrid.cs" />
     <Compile Include="Models\PaddedGridRenderable.cs" />
+    <Compile Include="Models\Project.cs" />
     <Compile Include="Models\ScaleType.cs" />
-    <Compile Include="Models\Serializer\Json\AmeSessionJson.cs" />
-    <Compile Include="Models\Serializer\Json\LayerJson.cs" />
-    <Compile Include="Models\Serializer\Json\MapJson.cs" />
-    <Compile Include="Models\Serializer\Json\TileCollectionJson.cs" />
-    <Compile Include="Models\Serializer\Json\TilesetJson.cs" />
+    <Compile Include="Models\Serializer\Json\AmeSessionReader.cs" />
+    <Compile Include="Models\Serializer\Json\AmeSessionWriter.cs" />
+    <Compile Include="Models\Serializer\Json\Data\AmeSessionJson.cs" />
+    <Compile Include="Models\Serializer\Json\IJsonReader.cs" />
+    <Compile Include="Models\Serializer\Json\IJsonWriter.cs" />
+    <Compile Include="Models\Serializer\Json\Data\LayerJson.cs" />
+    <Compile Include="Models\Serializer\Json\Data\MapJson.cs" />
+    <Compile Include="Models\Serializer\Json\Data\ProjectJson.cs" />
+    <Compile Include="Models\Serializer\Json\Data\TileCollectionJson.cs" />
+    <Compile Include="Models\Serializer\Json\Data\TilesetJson.cs" />
+    <Compile Include="Models\Serializer\Json\LayerJsonReader.cs" />
+    <Compile Include="Models\Serializer\Json\LayerJsonWriter.cs" />
+    <Compile Include="Models\Serializer\Json\MapJsonReader.cs" />
+    <Compile Include="Models\Serializer\Json\MapJsonWriter.cs" />
+    <Compile Include="Models\Serializer\Json\ProjectJsonReader.cs" />
+    <Compile Include="Models\Serializer\Json\ProjectJsonWriter.cs" />
+    <Compile Include="Models\Serializer\Json\TileCollectionReader.cs" />
+    <Compile Include="Models\Serializer\Json\TileCollectionWriter.cs" />
+    <Compile Include="Models\Serializer\Json\TilesetReader.cs" />
+    <Compile Include="Models\Serializer\Json\TilesetWriter.cs" />
     <Compile Include="Models\Tile.cs" />
     <Compile Include="Models\TileCollection.cs" />
     <Compile Include="Models\TilesetModel.cs" />
@@ -171,5 +187,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

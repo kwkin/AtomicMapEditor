@@ -11,7 +11,7 @@ using Ame.Infrastructure.Core;
 using System.IO;
 using Newtonsoft.Json;
 using Prism.Mvvm;
-using Ame.Infrastructure.Models.Serializer.Json;
+using Ame.Infrastructure.Models.Serializer.Json.Data;
 
 namespace Ame.Infrastructure.Models
 {

@@ -16,6 +16,7 @@ using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Models.Serializer.Json;
+using Ame.Infrastructure.Models.Serializer.Json.Data;
 using Ame.Infrastructure.UILogic;
 using AvalonDock;
 using AvalonDock.Layout.Serialization;
@@ -357,8 +358,9 @@ namespace Ame.App.Wpf.UI
         private void OpenMap(NotificationMessage<OpenMessage> message)
         {
             OpenMessage content = message.Content;
-            MapJson mapJson = JsonConvert.DeserializeObject<MapJson>(File.ReadAllText(content.Path));
-            Map importedMap = mapJson.Generate();
+
+            MapJsonReader reader = new MapJsonReader();
+            Map importedMap = reader.Read(content.Path);
 
             OpenDockMessage openEditorMessage = new OpenDockMessage(typeof(MapEditorViewModel), importedMap);
             foreach (TilesetModel tileset in importedMap.TilesetList)

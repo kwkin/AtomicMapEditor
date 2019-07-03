@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
-namespace Ame.Infrastructure.Models.Serializer.Json
+namespace Ame.Infrastructure.Models.Serializer.Json.Data
 {
     [JsonObject(MemberSerialization.OptIn)]
     public class TilesetJson

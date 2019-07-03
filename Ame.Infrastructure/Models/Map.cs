@@ -2,7 +2,7 @@
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Core;
 using Ame.Infrastructure.DrawingTools;
-using Ame.Infrastructure.Models.Serializer.Json;
+using Ame.Infrastructure.Models.Serializer.Json.Data;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -307,7 +307,7 @@ namespace Ame.Infrastructure.Models
             MapJson json = new MapJson(this);
 
             JsonSerializer serializer = new JsonSerializer();
-            serializer.Formatting = Newtonsoft.Json.Formatting.Indented;
+            serializer.Formatting = Formatting.Indented;
             serializer.NullValueHandling = NullValueHandling.Ignore;
 
             using (StreamWriter stream = new StreamWriter(file))

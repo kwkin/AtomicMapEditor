@@ -9,6 +9,7 @@ using Ame.App.Wpf.UI.Ribbon;
 using Ame.Infrastructure.Core;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Models.Serializer.Json;
+using Ame.Infrastructure.Models.Serializer.Json.Data;
 using DryIoc;
 using Newtonsoft.Json;
 using Prism.DryIoc;
@@ -36,8 +37,8 @@ namespace Ame.App.Wpf
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            AmeSessionJson sessionJson = JsonConvert.DeserializeObject<AmeSessionJson>(File.ReadAllText(Global.SessionFileName));
-            AmeSession session = sessionJson.Generate();
+            AmeSessionReader reader = new AmeSessionReader();
+            AmeSession session = reader.Read(Global.SessionFileName);
 
             containerRegistry.RegisterInstance(typeof(AmeSession), session);
 
