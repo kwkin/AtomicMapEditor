@@ -21,6 +21,10 @@ namespace Ame.Infrastructure.BaseTypes
 
         IEventAggregator EventAggregator { get; set; }
 
+        double Width { get; set; }
+
+        double Height { get; set; }
+
         #endregion properties
 
 

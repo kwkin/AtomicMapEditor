@@ -38,6 +38,8 @@ namespace Ame.App.Wpf.UI.Interactions.Preferences
         public string Title { get; set; }
         public Action<INotification> Callback { get; set; }
         public IEventAggregator EventAggregator { get; set; }
+        public double Width { get; set; } = 620.0;
+        public double Height { get; set; } = 380.0;
 
         #endregion Properties
 
@@ -71,10 +73,10 @@ namespace Ame.App.Wpf.UI.Interactions.Preferences
 
             Style style = new Style();
             style.TargetType = typeof(Window);
-            style.Setters.Add(new Setter(FrameworkElement.MinWidthProperty, 620.0));
-            style.Setters.Add(new Setter(FrameworkElement.MinHeightProperty, 380.0));
-            style.Setters.Add(new Setter(FrameworkElement.WidthProperty, 620.0));
-            style.Setters.Add(new Setter(FrameworkElement.HeightProperty, 380.0));
+            style.Setters.Add(new Setter(FrameworkElement.MinWidthProperty, this.Width));
+            style.Setters.Add(new Setter(FrameworkElement.MinHeightProperty, this.Height));
+            style.Setters.Add(new Setter(FrameworkElement.WidthProperty, this.Width));
+            style.Setters.Add(new Setter(FrameworkElement.HeightProperty, this.Height));
             action.WindowStyle = style;
             return action;
         }

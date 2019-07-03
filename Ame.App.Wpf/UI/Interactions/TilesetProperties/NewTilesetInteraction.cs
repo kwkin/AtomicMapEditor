@@ -42,6 +42,8 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
         public string Title { get; set; }
         public Action<INotification> Callback { get; set; }
         public IEventAggregator EventAggregator { get; set; }
+        public double Width { get; set; } = 720.0;
+        public double Height { get; set; } = 480.0;
 
         #endregion Properties
 
@@ -80,10 +82,10 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
 
             Style style = new Style();
             style.TargetType = typeof(Window);
-            style.Setters.Add(new Setter(FrameworkElement.MinWidthProperty, 720.0));
-            style.Setters.Add(new Setter(FrameworkElement.MinHeightProperty, 480.0));
-            style.Setters.Add(new Setter(FrameworkElement.WidthProperty, 720.0));
-            style.Setters.Add(new Setter(FrameworkElement.HeightProperty, 480.0));
+            style.Setters.Add(new Setter(FrameworkElement.MinWidthProperty, this.Width));
+            style.Setters.Add(new Setter(FrameworkElement.MinHeightProperty, this.Height));
+            style.Setters.Add(new Setter(FrameworkElement.WidthProperty, this.Width));
+            style.Setters.Add(new Setter(FrameworkElement.HeightProperty, this.Height));
             action.WindowStyle = style;
             return action;
         }

@@ -43,6 +43,8 @@ namespace Ame.App.Wpf.UI.Interactions.Popup
         public FrameworkElement Window { get; set; }
         public Action<INotification> Callback { get; set; }
         public IEventAggregator EventAggregator { get; set; }
+        public double Width { get; set; } = 400.0;
+        public double Height { get; set; } = 170.0;
 
         #endregion Properties
 
@@ -76,10 +78,10 @@ namespace Ame.App.Wpf.UI.Interactions.Popup
 
             Style style = new Style();
             style.TargetType = typeof(Window);
-            style.Setters.Add(new Setter(FrameworkElement.MinWidthProperty, 400.0));
-            style.Setters.Add(new Setter(FrameworkElement.MinHeightProperty, 170.0));
-            style.Setters.Add(new Setter(FrameworkElement.WidthProperty, 400.0));
-            style.Setters.Add(new Setter(FrameworkElement.HeightProperty, 170.0));
+            style.Setters.Add(new Setter(FrameworkElement.MinWidthProperty, this.Width));
+            style.Setters.Add(new Setter(FrameworkElement.MinHeightProperty, this.Height));
+            style.Setters.Add(new Setter(FrameworkElement.WidthProperty, this.Width));
+            style.Setters.Add(new Setter(FrameworkElement.HeightProperty, this.Height));
             action.WindowStyle = style;
             return action;
         }
