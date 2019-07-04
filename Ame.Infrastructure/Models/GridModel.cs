@@ -124,15 +124,14 @@ namespace Ame.Infrastructure.Models
             this.TileHeight.Value = (int)size.Height;
         }
 
-        // TODO implement methods to calculate horizontal tile index from the pixel point
-        public virtual void TileXFromPixel(int pixelPoint)
+        public virtual int TileXFromPixel(int pixelPoint)
         {
-
+            return pixelPoint / this.TileWidth.Value;
         }
 
-        public virtual void TileYFromPixel(int pixelPoint)
+        public virtual int TileYFromPixel(int pixelPoint)
         {
-
+            return pixelPoint / this.TileHeight.Value;
         }
 
         public Point GetPoint(Point point)
@@ -179,7 +178,6 @@ namespace Ame.Infrastructure.Models
             return boundPoint;
         }
 
-        // TODO factor in padding and offset
         public int GetID(int pixelX, int pixelY)
         {
             return (pixelY / this.TileHeight.Value) * this.Columns.Value + (pixelX / this.TileWidth.Value);
