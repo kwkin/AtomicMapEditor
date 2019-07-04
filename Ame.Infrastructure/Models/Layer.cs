@@ -209,8 +209,15 @@ namespace Ame.Infrastructure.Models
         {
             if (this.Parent == null)
             {
-                // TODO change to insert
-                this.Map.Layers.Add(layer);
+                int thisIndex = this.Map.Layers.IndexOf(this);
+                if (thisIndex != -1 && thisIndex < this.Map.LayerCount)
+                {
+                    this.Map.Layers.Insert(thisIndex + 1, layer);
+                }
+                else
+                {
+                    this.Map.Layers.Add(layer);
+                }
             }
             else
             {

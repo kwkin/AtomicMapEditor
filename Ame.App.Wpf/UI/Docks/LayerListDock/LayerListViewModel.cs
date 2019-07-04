@@ -36,7 +36,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
             this.Title.Value = "Layer List";
             this.LayerList = new ObservableCollection<ILayerListEntryViewModel>();
-            
+
             this.Session.PropertyChanged += SessionUpdated;
 
             this.NewLayerCommand = new DelegateCommand(() => NewTilesetLayer());
@@ -180,6 +180,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                         this.LayerList.Add(new LayerListLayerViewModel(this.eventAggregator, layer));
                     }
                     break;
+
                 default:
                     break;
             }
@@ -187,17 +188,26 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         private void UpdateLayerList(object sender, NotifyCollectionChangedEventArgs e)
         {
-            switch(e.Action)
+            switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    foreach(ILayer layer in e.NewItems)
+                    foreach (ILayer layer in e.NewItems)
                     {
                         ILayerListEntryViewModel entry = LayerListEntryGenerator.Generate(this.eventAggregator, layer);
-                        this.LayerList.Add(entry);
+                        int insertIndex = e.NewStartingIndex;
+                        if (insertIndex < this.LayerList.Count)
+                        {
+                            this.LayerList.Insert(insertIndex, entry);
+                        }
+                        else
+                        {
+                            this.LayerList.Add(entry);
+                        }
                     }
                     break;
+
                 case NotifyCollectionChangedAction.Remove:
-                    foreach(ILayer layer in e.OldItems)
+                    foreach (ILayer layer in e.OldItems)
                     {
                         IEnumerable<ILayerListEntryViewModel> toRemove = new ObservableCollection<ILayerListEntryViewModel>(this.LayerList.Where(entry => entry.Layer == layer));
                         foreach (ILayerListEntryViewModel entry in toRemove)
@@ -206,6 +216,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                         }
                     }
                     break;
+
                 case NotifyCollectionChangedAction.Move:
                     int oldIndex = e.OldStartingIndex;
                     int newIndex = e.NewStartingIndex;
@@ -216,6 +227,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                         this.LayerList[newIndex] = entry;
                     }
                     break;
+
                 default:
                     break;
             }
