@@ -388,7 +388,6 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
                     int newIndex = e.NewStartingIndex;
 
                     // TODO integrate with visibility
-                    // TODO make groups work with this
                     ILayer oldLayer = this.session.CurrentLayerList[oldIndex];
                     ILayer newLayer = this.session.CurrentLayerList[newIndex];
 
@@ -498,8 +497,8 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
         {
             Size extendedSize = new Size
             {
-                Width = this.Map.PixelWidth + this.Map.TileWidth.Value,
-                Height = this.Map.PixelHeight + this.Map.TileHeight.Value
+                Width = this.Map.PixelWidth.Value + this.Map.TileWidth.Value,
+                Height = this.Map.PixelHeight.Value + this.Map.TileHeight.Value
             };
             Point extendedPoint = new Point
             {
@@ -509,7 +508,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             Rect extendedRect = new Rect(extendedPoint, extendedSize);
 
             Point backgroundLocation = new Point(0, 0);
-            Size backgroundSize = new Size(this.Map.PixelWidth, this.Map.PixelHeight);
+            Size backgroundSize = new Size(this.Map.PixelWidth.Value, this.Map.PixelHeight.Value);
             Rect backgroundRect = new Rect(backgroundLocation, backgroundSize);
 
             using (DrawingContext context = this.mapBackground.Open())

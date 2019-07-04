@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,6 +28,13 @@ namespace Ame.Infrastructure.Models
             this.TileWidth.Value = 1;
             this.TileHeight.Value = 1;
             this.Scale.Value = ScaleType.Tile;
+
+            this.pixelWidth.Value = GetPixelWidth();
+            this.pixelHeight.Value = GetPixelHeight();
+            this.Columns.PropertyChanged += UpdatePixelWidth;
+            this.Rows.PropertyChanged += UpdatePixelHeight;
+            this.TileWidth.PropertyChanged += UpdatePixelWidth;
+            this.TileHeight.PropertyChanged += UpdatePixelHeight;
         }
 
         public GridModel(int pixelWidth, int pixelHeight)
@@ -36,6 +44,13 @@ namespace Ame.Infrastructure.Models
             this.TileWidth.Value = 1;
             this.TileHeight.Value = 1;
             this.Scale.Value = ScaleType.Tile;
+
+            this.pixelWidth.Value = GetPixelWidth();
+            this.pixelHeight.Value = GetPixelHeight();
+            this.Columns.PropertyChanged += UpdatePixelWidth;
+            this.Rows.PropertyChanged += UpdatePixelHeight;
+            this.TileWidth.PropertyChanged += UpdatePixelWidth;
+            this.TileHeight.PropertyChanged += UpdatePixelHeight;
         }
 
         public GridModel(int columns, int rows, int tileWidth, int tileHeight)
@@ -44,6 +59,13 @@ namespace Ame.Infrastructure.Models
             this.Rows.Value = rows;
             this.TileWidth.Value = tileWidth;
             this.TileHeight.Value = tileHeight;
+
+            this.pixelWidth.Value = GetPixelWidth();
+            this.pixelHeight.Value = GetPixelHeight();
+            this.Columns.PropertyChanged += UpdatePixelWidth;
+            this.Rows.PropertyChanged += UpdatePixelHeight;
+            this.TileWidth.PropertyChanged += UpdatePixelWidth;
+            this.TileHeight.PropertyChanged += UpdatePixelHeight;
         }
 
         #endregion constructor
@@ -65,20 +87,26 @@ namespace Ame.Infrastructure.Models
 
         [MetadataProperty(MetadataType.Property, "Scale")]
         public BindableProperty<ScaleType> Scale { get; set; } = BindableProperty.Prepare<ScaleType>();
-
-        // TODO add a readonlyproperty for pixel width and height
-        public int PixelWidth
+        
+        private BindableProperty<int> pixelWidth = BindableProperty.Prepare<int>();
+        private ReadOnlyBindableProperty<int> pixelWidthReadOnly;
+        public ReadOnlyBindableProperty<int> PixelWidth
         {
             get
             {
-                return GetPixelWidth();
+                this.pixelWidthReadOnly = this.pixelWidthReadOnly ?? this.pixelWidth.ReadOnlyProperty();
+                return this.pixelWidthReadOnly;
             }
         }
-        public int PixelHeight
+
+        private BindableProperty<int> pixelHeight = BindableProperty.Prepare<int>();
+        private ReadOnlyBindableProperty<int> pixelHeightReadOnly;
+        public ReadOnlyBindableProperty<int> PixelHeight
         {
             get
             {
-                return GetPixelHeight();
+                this.pixelHeightReadOnly = this.pixelHeightReadOnly ?? this.pixelHeight.ReadOnlyProperty();
+                return this.pixelHeightReadOnly;
             }
         }
 
@@ -141,17 +169,17 @@ namespace Ame.Infrastructure.Models
             {
                 boundPoint.X = 0;
             }
-            else if (point.X > this.PixelWidth)
+            else if (point.X > this.PixelWidth.Value)
             {
-                boundPoint.X = this.PixelWidth - 1;
+                boundPoint.X = this.PixelWidth.Value - 1;
             }
             if (point.Y < 0)
             {
                 boundPoint.Y = 0;
             }
-            else if (point.Y > this.PixelHeight)
+            else if (point.Y > this.PixelHeight.Value)
             {
-                boundPoint.Y = this.PixelHeight - 1;
+                boundPoint.Y = this.PixelHeight.Value - 1;
             }
             return boundPoint;
         }
@@ -163,17 +191,17 @@ namespace Ame.Infrastructure.Models
             {
                 boundPoint.X = 0;
             }
-            else if (point.X > this.PixelWidth)
+            else if (point.X > this.PixelWidth.Value)
             {
-                boundPoint.X = this.PixelWidth;
+                boundPoint.X = this.PixelWidth.Value;
             }
             if (point.Y < 0)
             {
                 boundPoint.Y = 0;
             }
-            else if (point.Y > this.PixelHeight)
+            else if (point.Y > this.PixelHeight.Value)
             {
-                boundPoint.Y = this.PixelHeight;
+                boundPoint.Y = this.PixelHeight.Value;
             }
             return boundPoint;
         }
@@ -194,6 +222,26 @@ namespace Ame.Infrastructure.Models
             int pointX = (id % this.Columns.Value) * this.TileWidth.Value;
             int pointY = (int)Math.Floor((double)(id / this.Columns.Value)) * this.TileHeight.Value;
             return new Point(pointX, pointY);
+        }
+
+        protected void UpdatePixelWidth(object sender, PropertyChangedEventArgs e)
+        {
+            this.pixelWidth.Value = GetPixelWidth();
+        }
+
+        protected void UpdatePixelWidth()
+        {
+            this.pixelWidth.Value = GetPixelWidth();
+        }
+
+        protected void UpdatePixelHeight(object sender, PropertyChangedEventArgs e)
+        {
+            this.pixelHeight.Value = GetPixelHeight();
+        }
+
+        protected void UpdatePixelHeight()
+        {
+            this.pixelHeight.Value = GetPixelHeight();
         }
     }
 

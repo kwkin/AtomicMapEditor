@@ -343,7 +343,7 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
             this.TilesetModel.Value.SetTileSize(model.GetTileSize());
 
             Point pixelOffset = new Point(pixelOffsetX, pixelOffsetY);
-            Point pixelEnd = new Point(pixelOffsetX + model.PixelWidth - 1, pixelOffsetY + model.PixelHeight - 1);
+            Point pixelEnd = new Point(pixelOffsetX + model.PixelWidth.Value - 1, pixelOffsetY + model.PixelHeight.Value - 1);
             SelectTiles(pixelOffset, pixelEnd);
         }
 
@@ -382,16 +382,16 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
         {
             TilesetModel model = this.TilesetModel.Value;
             Size extendedSize = new Size();
-            extendedSize.Width = model.PixelWidth + model.TileWidth.Value;
-            extendedSize.Height = model.PixelHeight + model.TileHeight.Value;
+            extendedSize.Width = model.PixelWidth.Value + model.TileWidth.Value;
+            extendedSize.Height = model.PixelHeight.Value + model.TileHeight.Value;
             Point extendedPoint = new Point();
             extendedPoint.X = -model.TileWidth.Value / 2;
             extendedPoint.Y = -model.TileHeight.Value / 2;
             Rect drawingRect = new Rect(extendedPoint, extendedSize);
 
             Size backgroundSize = new Size();
-            backgroundSize.Width = model.PixelWidth;
-            backgroundSize.Height = model.PixelHeight;
+            backgroundSize.Width = model.PixelWidth.Value;
+            backgroundSize.Height = model.PixelHeight.Value;
             Point backgroundPoint = new Point();
             backgroundPoint.X = 0;
             backgroundPoint.Y = 0;

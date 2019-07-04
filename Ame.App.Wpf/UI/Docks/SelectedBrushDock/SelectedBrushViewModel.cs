@@ -198,8 +198,8 @@ namespace Ame.App.Wpf.UI.Docks.SelectedBrushDock
         private void redrawExtendedBackground()
         {
             Size extendedSize = new Size();
-            extendedSize.Width = this.gridModel.PixelWidth + this.gridModel.TileWidth.Value;
-            extendedSize.Height = this.gridModel.PixelHeight + this.gridModel.TileHeight.Value;
+            extendedSize.Width = this.gridModel.PixelWidth.Value + this.gridModel.TileWidth.Value;
+            extendedSize.Height = this.gridModel.PixelHeight.Value + this.gridModel.TileHeight.Value;
             Point extendedPoint = new Point();
             extendedPoint.X = -this.gridModel.TileWidth.Value / 2;
             extendedPoint.Y = -this.gridModel.TileHeight.Value / 2;

@@ -244,8 +244,8 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
             this.PaddingY.Value = model.PaddingY.Value;
             this.IsTransparent.Value = model.IsTransparent.Value;
             this.TransparentColor.Value = model.TransparentColor.Value;
-            this.tilesetPixelWidth = model.PixelWidth;
-            this.tilesetPixelHeight = model.PixelHeight;
+            this.tilesetPixelWidth = model.PixelWidth.Value;
+            this.tilesetPixelHeight = model.PixelHeight.Value;
         }
 
         private void UpdateTilesetModel()

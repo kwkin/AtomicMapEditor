@@ -40,6 +40,10 @@ namespace Ame.Infrastructure.Models
             this.CustomProperties = new ObservableCollection<MetadataProperty>();
             this.UndoQueue = new Stack<DrawAction>();
             this.RedoQueue = new Stack<DrawAction>();
+
+            this.Layers.CollectionChanged += LayersChanged;
+            UpdatePixelWidth();
+            UpdatePixelHeight();
         }
 
         public Map(string name)
@@ -61,6 +65,10 @@ namespace Ame.Infrastructure.Models
 
             this.UndoQueue = new Stack<DrawAction>();
             this.RedoQueue = new Stack<DrawAction>();
+
+            this.Layers.CollectionChanged += LayersChanged;
+            UpdatePixelWidth();
+            UpdatePixelHeight();
         }
 
         public Map(string name, int columns, int rows)
@@ -82,6 +90,10 @@ namespace Ame.Infrastructure.Models
 
             this.UndoQueue = new Stack<DrawAction>();
             this.RedoQueue = new Stack<DrawAction>();
+
+            this.Layers.CollectionChanged += LayersChanged;
+            UpdatePixelWidth();
+            UpdatePixelHeight();
         }
 
         #endregion constructor
@@ -254,8 +266,8 @@ namespace Ame.Infrastructure.Models
         {
             if (tile.Bounds.X < 0
                 || tile.Bounds.Y < 0 
-                || tile.Bounds.X >= this.PixelWidth
-                || tile.Bounds.Y >= this.PixelHeight)
+                || tile.Bounds.X >= this.PixelWidth.Value
+                || tile.Bounds.Y >= this.PixelHeight.Value)
             {
                 return null;
             }
@@ -347,10 +359,13 @@ namespace Ame.Infrastructure.Models
         {
             int leftmost = GetOffsetX();
             int rightmost = leftmost;
-            foreach (ILayer layer in this.Layers)
+            if (this.Layers != null)
             {
-                int width = layer.GetPixelWidth();
-                rightmost = Math.Max(rightmost, width + layer.OffsetX.Value);
+                foreach (ILayer layer in this.Layers)
+                {
+                    int width = layer.GetPixelWidth();
+                    rightmost = Math.Max(rightmost, width + layer.OffsetX.Value);
+                }
             }
             int pixelWidth = rightmost - leftmost;
             return pixelWidth;
@@ -360,10 +375,13 @@ namespace Ame.Infrastructure.Models
         {
             int topmost = GetOffsetY();
             int bottommost = topmost;
-            foreach (ILayer layer in this.Layers)
+            if (this.Layers != null)
             {
-                int height = layer.GetPixelHeight();
-                bottommost = Math.Max(bottommost, height + layer.OffsetY.Value);
+                foreach (ILayer layer in this.Layers)
+                {
+                    int height = layer.GetPixelHeight();
+                    bottommost = Math.Max(bottommost, height + layer.OffsetY.Value);
+                }
             }
             int pixelHeight = bottommost - topmost;
             return pixelHeight;
@@ -371,40 +389,49 @@ namespace Ame.Infrastructure.Models
 
         private int GetOffsetX()
         {
-            int offsetX;
-            if (this.Layers.Count > 0)
+            int offsetX = 0;
+            if (this.Layers != null)
             {
-                offsetX = this.Layers[0].OffsetX.Value;
-                for (int index = 1; index < this.Layers.Count; ++index)
+                if (this.Layers.Count > 0)
                 {
-                    ILayer layer = this.Layers[index];
-                    offsetX = Math.Min(offsetX, layer.OffsetX.Value);
+                    offsetX = this.Layers[0].OffsetX.Value;
+                    for (int index = 1; index < this.Layers.Count; ++index)
+                    {
+                        ILayer layer = this.Layers[index];
+                        offsetX = Math.Min(offsetX, layer.OffsetX.Value);
+                    }
                 }
-            }
-            else
-            {
-                offsetX = 0;
             }
             return offsetX;
         }
 
         private int GetOffsetY()
         {
-            int offsetY;
-            if (this.Layers.Count > 0)
+            int offsetY = 0;
+            if (this.Layers != null)
             {
-                offsetY = this.Layers[0].OffsetY.Value;
-                for (int index = 1; index < this.Layers.Count; ++index)
+                if (this.Layers.Count > 0)
                 {
-                    ILayer layer = this.Layers[index];
-                    offsetY = Math.Min(offsetY, layer.OffsetY.Value);
+                    offsetY = this.Layers[0].OffsetY.Value;
+                    for (int index = 1; index < this.Layers.Count; ++index)
+                    {
+                        ILayer layer = this.Layers[index];
+                        offsetY = Math.Min(offsetY, layer.OffsetY.Value);
+                    }
                 }
             }
-            else
-            {
-                offsetY = 0;
-            }
             return offsetY;
+        }
+
+        private void LayersChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                default:
+                    UpdatePixelWidth();
+                    UpdatePixelHeight();
+                    break;
+            }
         }
 
         #endregion methods

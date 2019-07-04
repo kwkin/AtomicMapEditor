@@ -102,7 +102,7 @@ namespace Ame.Infrastructure.Models
             int numTilesY = this.Rows.Value;
 
             Rect border = new Rect();
-            border.Size = new Size(this.PixelWidth, this.PixelHeight);
+            border.Size = new Size(this.PixelWidth.Value, this.PixelHeight.Value);
             border.Location = new Point(0, 0);
             using (DrawingContext context = gridItems.Open())
             {
@@ -110,13 +110,13 @@ namespace Ame.Infrastructure.Models
                 for (int index = 1; index < numTilesY; ++index)
                 {
                     Point pointStart = new Point(0, this.TileHeight.Value * index);
-                    Point pointStop = new Point(this.PixelWidth, this.TileHeight.Value * index);
+                    Point pointStop = new Point(this.PixelWidth.Value, this.TileHeight.Value * index);
                     context.DrawLine(this.DrawingPen, pointStart, pointStop);
                 }
                 for (int index = 1; index < numTilesX; ++index)
                 {
                     Point pointStart = new Point(this.TileWidth.Value * index, 0);
-                    Point pointStop = new Point(this.TileWidth.Value * index, this.PixelHeight);
+                    Point pointStop = new Point(this.TileWidth.Value * index, this.PixelHeight.Value);
                     context.DrawLine(this.DrawingPen, pointStart, pointStop);
                 }
             }

@@ -1,6 +1,7 @@
 ﻿using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -8,17 +9,16 @@ using System.Threading.Tasks;
 
 namespace Ame.Infrastructure.BaseTypes
 {
-    // TODO implement a read-only property
     public static class BindableProperty
     {
-        public static BindableProperty<T> Prepare<T>([CallerMemberName] string propertyName = "")
-        {
-            return new BindableProperty<T>(default(T), propertyName);
-        }
-
         public static BindableProperty<T> Prepare<T>(T intial, [CallerMemberName] string propertyName = "")
         {
             return new BindableProperty<T>(intial, propertyName);
+        }
+
+        public static BindableProperty<T> Prepare<T>([CallerMemberName] string propertyName = "")
+        {
+            return new BindableProperty<T>(default(T), propertyName);
         }
     }
 
@@ -27,11 +27,9 @@ namespace Ame.Infrastructure.BaseTypes
         object GetValue();
     }
 
-    public class BindableProperty<T> : BindableBase, PropertyValue
+    public class BindableProperty<T> : ReadOnlyBindableProperty<T>, PropertyValue
     {
         #region fields
-
-        private T value;
 
         #endregion fields
 
@@ -54,31 +52,25 @@ namespace Ame.Infrastructure.BaseTypes
 
 
         #region properties
-        
-        public T Value
+
+
+        private T value;
+        public new T Value
         {
             get
             {
                 return this.value;
             }
-
             set
             {
                 this.SetProperty(ref this.value, value);
             }
         }
-
-        public string Name { get; private set; }
-
+        
         #endregion properties
 
 
         #region methods
-
-        public object GetValue()
-        {
-            return this.Value;
-        }
 
         public static BindableProperty<T> Prepare(T value, [CallerMemberName] string propertyName = "")
         {
@@ -88,6 +80,13 @@ namespace Ame.Infrastructure.BaseTypes
         public static BindableProperty<T> Prepare([CallerMemberName] string propertyName = "")
         {
             return new BindableProperty<T>(default(T), propertyName);
+        }
+
+        public ReadOnlyBindableProperty<T> ReadOnlyProperty()
+        {
+            ReadOnlyBindableProperty<T> property = ReadOnlyBindableProperty.Prepare<T>(this.value, this.Name);
+            this.PropertyChanged += property.UpdateValue;
+            return property;
         }
 
         #endregion methods

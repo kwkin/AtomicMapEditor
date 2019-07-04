@@ -59,7 +59,7 @@ namespace Ame.App.Wpf.UI.Docks.MinimapDock
                 DrawingGroup filled = new DrawingGroup();
                 using (DrawingContext context = filled.Open())
                 {
-                    Rect drawingRect = new Rect(0, 0, currentMap.PixelWidth, currentMap.PixelHeight);
+                    Rect drawingRect = new Rect(0, 0, currentMap.PixelWidth.Value, currentMap.PixelHeight.Value);
                     context.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Transparent, 0), drawingRect);
                 }
                 this.minimapLayers.Children.Add(filled);
@@ -134,7 +134,7 @@ namespace Ame.App.Wpf.UI.Docks.MinimapDock
                     DrawingGroup filled = new DrawingGroup();
                     using (DrawingContext context = filled.Open())
                     {
-                        Rect drawingRect = new Rect(0, 0, currentMap.PixelWidth, currentMap.PixelHeight);
+                        Rect drawingRect = new Rect(0, 0, currentMap.PixelWidth.Value, currentMap.PixelHeight.Value);
                         context.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Transparent, 0), drawingRect);
                     }
                     this.minimapLayers.Children.Add(filled);
