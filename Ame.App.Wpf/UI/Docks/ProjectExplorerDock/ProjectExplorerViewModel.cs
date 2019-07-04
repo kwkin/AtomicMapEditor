@@ -33,9 +33,11 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
             this.Title.Value = "Project Explorer";
 
-            this.Nodes = new ObservableCollection<NodeViewBuilder>();
-            this.Nodes.Add(new NodeViewBuilder("Ame Session", this.session));
-
+            this.ProjectNodes = new ObservableCollection<ProjectNodeViewModel>();
+            
+            this.NewProjectCommand = new DelegateCommand(() => NewProject());
+            this.OpenProjectCommand = new DelegateCommand(() => OpenProject());
+            this.ViewProjectPropertiesCommand = new DelegateCommand(() => ViewProjectProperties());
             this.RefreshTreeCommand = new DelegateCommand(() => RefreshTree());
         }
 
@@ -44,9 +46,12 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
         #region properties
 
+        public ICommand NewProjectCommand { get; set; }
+        public ICommand OpenProjectCommand { get; set; }
+        public ICommand ViewProjectPropertiesCommand { get; set; }
         public ICommand RefreshTreeCommand { get; set; }
 
-        public ObservableCollection<NodeViewBuilder> Nodes { get; set; }
+        public ObservableCollection<ProjectNodeViewModel> ProjectNodes { get; set; }
 
         #endregion properties
 
@@ -59,10 +64,23 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
             this.eventAggregator.GetEvent<CloseDockEvent>().Publish(closeMessage);
         }
 
+        public void NewProject()
+        {
+            Console.WriteLine("Adding new project");
+        }
+
+        public void OpenProject()
+        {
+            Console.WriteLine("Opening a new project");
+        }
+
+        public void ViewProjectProperties()
+        {
+            Console.WriteLine("View project properties");
+        }
+
         public void RefreshTree()
         {
-            this.Nodes = new ObservableCollection<NodeViewBuilder>();
-            this.Nodes.Add(new NodeViewBuilder("Ame Session", this.session));
         }
 
         #endregion methods

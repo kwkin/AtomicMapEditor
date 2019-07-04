@@ -137,11 +137,19 @@
     </Compile>
     <Compile Include="UI\Docks\MinimapDock\MinimapCreator.cs" />
     <Compile Include="UI\Docks\MinimapDock\MinimapViewModel.cs" />
+    <Compile Include="UI\Docks\ProjectExplorerDock\MapNode.xaml.cs">
+      <DependentUpon>MapNode.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Docks\ProjectExplorerDock\MapNodeViewModel.cs" />
     <Compile Include="UI\Docks\ProjectExplorerDock\ProjectExplorer.xaml.cs">
       <DependentUpon>ProjectExplorer.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Docks\ProjectExplorerDock\ProjectExplorerCreator.cs" />
     <Compile Include="UI\Docks\ProjectExplorerDock\ProjectExplorerViewModel.cs" />
+    <Compile Include="UI\Docks\ProjectExplorerDock\ProjectNode.xaml.cs">
+      <DependentUpon>ProjectNode.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Docks\ProjectExplorerDock\ProjectNodeViewModel.cs" />
     <Compile Include="UI\Docks\SelectedBrushDock\SelectedBrush.xaml.cs">
       <DependentUpon>SelectedBrush.xaml</DependentUpon>
     </Compile>
@@ -398,7 +406,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\Docks\ProjectExplorerDock\MapNode.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\Docks\ProjectExplorerDock\ProjectExplorer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Docks\ProjectExplorerDock\ProjectNode.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

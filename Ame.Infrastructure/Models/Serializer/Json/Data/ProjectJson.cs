@@ -46,8 +46,7 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
 
         public Project Generate()
         {
-            Project project = new Project();
-            project.Name.Value = this.Name;
+            Project project = new Project(this.Name);
 
             // Finish
             return project;

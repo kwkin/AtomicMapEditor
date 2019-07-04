@@ -76,6 +76,8 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
             this.ScrollModel = scrollModel ?? throw new ArgumentNullException("scrollModel is null");
             this.TilesetModel.Value = tilesetModel ?? throw new ArgumentNullException("tilesetModel is null");
 
+            this.Title.Value = "Item";
+
             this.drawingGroup = new DrawingGroup();
             this.extendedBorder = new DrawingGroup();
             this.tilesetImage = new DrawingGroup();

@@ -27,6 +27,7 @@ namespace Ame.Infrastructure.Models
 
         public AmeSession()
         {
+            this.Projects = new ObservableCollection<Project>();
             this.MapList = new ObservableCollection<Map>();
             this.CurrentTilesetList = new ObservableCollection<TilesetModel>();
             this.DrawingTool = new StampTool();
@@ -34,6 +35,7 @@ namespace Ame.Infrastructure.Models
 
         public AmeSession(ObservableCollection<Map> MapList)
         {
+            this.Projects = new ObservableCollection<Project>();
             this.MapList = MapList;
             this.CurrentTilesetList = new ObservableCollection<TilesetModel>();
             this.DrawingTool = new StampTool();
@@ -41,6 +43,7 @@ namespace Ame.Infrastructure.Models
 
         public AmeSession(Map Map)
         {
+            this.Projects = new ObservableCollection<Project>();
             this.MapList = new ObservableCollection<Map>();
             this.MapList.Add(Map);
             this.CurrentTilesetList = new ObservableCollection<TilesetModel>();
@@ -51,6 +54,19 @@ namespace Ame.Infrastructure.Models
 
 
         #region properties
+
+        private ObservableCollection<Project> projects;
+        public ObservableCollection<Project> Projects
+        {
+            get
+            {
+                return this.projects;
+            }
+            set
+            {
+                this.SetProperty(ref this.projects, value);
+            }
+        }
 
         private ObservableCollection<Map> mapList;
         public ObservableCollection<Map> MapList
@@ -84,6 +100,19 @@ namespace Ame.Infrastructure.Models
             set
             {
                 this.SetProperty(ref this.currentTilesetList, value);
+            }
+        }
+
+        private Project currentProject;
+        private Project CurrentProject
+        {
+            get
+            {
+                return this.currentProject;
+            }
+            set
+            {
+                this.SetProperty(ref this.currentProject, value);
             }
         }
 

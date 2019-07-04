@@ -90,7 +90,6 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
             action.CenterOverAssociatedObject = true;
             action.WindowContent = new EditTilesetWindow();
 
-            // TODO get these properties via a static method in the view model
             Style style = new Style();
             style.TargetType = typeof(Window);
             style.Setters.Add(new Setter(FrameworkElement.MinWidthProperty, this.Width));

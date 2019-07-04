@@ -8,14 +8,6 @@ using System.Threading.Tasks;
 
 namespace Ame.Infrastructure.Models
 {
-    public static class ProjectLoader
-    {
-        public static Project Load(string file)
-        {
-            return new Project();
-        }
-    }
-
     public class Project
     {
         #region fields
@@ -25,9 +17,11 @@ namespace Ame.Infrastructure.Models
 
         #region constructor
 
-        public Project()
+        public Project(string name)
         {
+            this.Name.Value = name;
             this.Maps = new ObservableCollection<Map>();
+            this.Tilesets = new ObservableCollection<TilesetModel>();
         }
 
         #endregion constructor
