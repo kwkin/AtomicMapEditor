@@ -78,7 +78,6 @@
     <Compile Include="UILogic\Converters\EnumToBooleanConverter.cs" />
     <Compile Include="UILogic\Converters\EnumToVisibilityConverter.cs" />
     <Compile Include="UILogic\Converters\IntegerToBooleanConverter.cs" />
-    <Compile Include="UILogic\Converters\InterfaceTypeToInstance.cs" />
     <Compile Include="UILogic\Converters\MouseEventToPointConverter.cs" />
     <Compile Include="UILogic\Converters\NullableValueConverter.cs" />
     <Compile Include="UILogic\Converters\NullOrEmptyToBooleanConverter.cs" />

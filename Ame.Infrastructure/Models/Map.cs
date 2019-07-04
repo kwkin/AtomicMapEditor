@@ -59,7 +59,6 @@ namespace Ame.Infrastructure.Models
             Layer initialLayer = new Layer(this, "Layer #0", this.TileWidth.Value, this.TileHeight.Value, this.Rows.Value, this.Columns.Value);
             this.Layers.Add(initialLayer);
 
-            Console.WriteLine(initialLayer.Group.Bounds);
             this.UndoQueue = new Stack<DrawAction>();
             this.RedoQueue = new Stack<DrawAction>();
         }

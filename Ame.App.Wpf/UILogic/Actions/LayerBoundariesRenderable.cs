@@ -46,7 +46,6 @@ namespace Ame.App.Wpf.UILogic.Actions
 
         public DrawingGroup CreateBoundaries()
         {
-            // TODO this is being called twice
             Brush drawingBrush = Brushes.Transparent;
             Pen drawingPen = new Pen(Brushes.Black, 1);
 

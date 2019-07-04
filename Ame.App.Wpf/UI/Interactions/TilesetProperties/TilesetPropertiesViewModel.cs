@@ -531,7 +531,6 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
 
         private void UpdateMetadata()
         {
-            // TODO add custom properties
             this.MetadataList = MetadataPropertyUtils.GetPropertyList(this.TilesetModel.Value);
             this.TilesetMetadata.Value = new ListCollectionView(this.MetadataList);
             this.TilesetMetadata.Value.GroupDescriptions.Add(new PropertyGroupDescription("Type"));

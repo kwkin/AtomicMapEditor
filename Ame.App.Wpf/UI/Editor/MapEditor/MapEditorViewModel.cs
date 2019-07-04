@@ -295,12 +295,14 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
         {
             this.Map.Redo();
         }
+
         public void DrawLayerBoundaries(ILayer layer)
         {
             if (layer == null)
             {
                 return;
             }
+
             LayerBoundariesRenderable renderer = new LayerBoundariesRenderable(this.session.CurrentLayer);
 
             double thickness = 4 / this.ScrollModel.ZoomLevels[this.ScrollModel.ZoomIndex].zoom;
@@ -314,6 +316,10 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
         public void ChangeCurrentLayer(ILayer layer)
         {
             if (layer == null)
+            {
+                return;
+            }
+            if (layer == this.currentLayer)
             {
                 return;
             }

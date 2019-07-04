@@ -214,7 +214,6 @@ namespace Ame.App.Wpf.UI
                     this.session.MapList.Add(selectedMapContent);
                 }
                 this.session.SetCurrentMap(selectedMapContent);
-                Console.WriteLine(this.session.CurrentMap.Name);
             }
             ActiveDocumentChanged?.Invoke(this, EventArgs.Empty);
         }
