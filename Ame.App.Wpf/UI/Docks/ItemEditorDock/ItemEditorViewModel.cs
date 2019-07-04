@@ -26,7 +26,6 @@ using System.Windows.Threading;
 
 namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
 {
-    // TODO add image loading
     public class ItemEditorViewModel : DockToolViewModelTemplate
     {
         #region fields

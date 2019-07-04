@@ -22,6 +22,9 @@
             <conv:MouseEventToPointConverter x:Key="MouseEventToPointConverter" />
             <conv:BooleanToVisiblityConverter x:Key="BoolToVisConverter"
                                               Collapse="True" />
+            <conv:BooleanToVisiblityConverter x:Key="BoolToVisConverterInverse"
+                                              IsInversed="True"
+                                              Collapse="True" />
             <conv:IntegerToBooleanConverter x:Key="CountToEnabledConverter"
                                             ComparisonValue="0"
                                             IsInversed="True" />
@@ -123,9 +126,16 @@
                           Style="{DynamicResource PrimaryMidIconToggleButtonStyle}"
                           Grid.Column="6"
                           IsEnabled="{Binding ItemImage.Value, Converter={StaticResource NullToBooleanConverter}}">
-                <ContentControl Content="{StaticResource ic_AddCircle}"
-                                Width="{StaticResource MidIconSize}"
-                                Height="{StaticResource MidIconSize}"/>
+                <Grid>
+                    <ContentControl Content="{StaticResource ic_ExpandMore}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"
+                                    Visibility="{Binding IsChecked, ElementName=itemAdvancedOptionsToggle, Converter={StaticResource BoolToVisConverterInverse}}"/>
+                    <ContentControl Content="{StaticResource ic_ExpandLess}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"
+                                    Visibility="{Binding IsChecked, ElementName=itemAdvancedOptionsToggle, Converter={StaticResource BoolToVisConverter}}"/>
+                </Grid>
             </ToggleButton>
         </Grid>
 

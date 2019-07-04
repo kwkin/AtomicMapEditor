@@ -7,9 +7,20 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:Ame.App.Wpf.UI.Docks.LayerListDock"
              xmlns:actions="clr-namespace:Ame.App.Wpf.UILogic.Actions"
+             xmlns:conv="clr-namespace:Ame.App.Wpf.UILogic.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <conv:BooleanToVisiblityConverter x:Key="BoolToVisConverter"
+                                              Collapse="True" />
+            <conv:BooleanToVisiblityConverter x:Key="BoolToVisConverterInverse"
+                                              IsInversed="True"
+                                              Collapse="True" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -29,18 +40,34 @@
                           Style="{DynamicResource PrimaryMidIconToggleButtonStyle}"
                           IsChecked="{Binding Layer.IsVisible.Value}"
                           ToolTip="Show: Toggles the layer display">
-                <ContentControl Content="{StaticResource ic_VisibilityOn}"
+                <Grid>
+                    <ContentControl Content="{StaticResource ic_VisibilityOff}"
                                     Width="{StaticResource MidIconSize}"
-                                    Height="{StaticResource MidIconSize}"/>
+                                    Height="{StaticResource MidIconSize}"
+                                    Visibility="{Binding IsChecked, ElementName=showLayerToggleButton, Converter={StaticResource BoolToVisConverterInverse}}"/>
+                    <ContentControl Content="{StaticResource ic_VisibilityOn}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"
+                                    Visibility="{Binding IsChecked, ElementName=showLayerToggleButton, Converter={StaticResource BoolToVisConverter}}"/>
+                </Grid>
             </ToggleButton>
 
+
+            
             <ToggleButton x:Name="lockLayerToggleButton"
                           Style="{DynamicResource PrimaryMidIconToggleButtonStyle}"
                           IsChecked="{Binding Layer.IsImmutable.Value}"
                           ToolTip="Lock: Prevents the layer from being moved and edited">
-                <ContentControl Content="{StaticResource ic_Lock}"
+                <Grid>
+                    <ContentControl Content="{StaticResource ic_LockOpen}"
                                     Width="{StaticResource MidIconSize}"
-                                    Height="{StaticResource MidIconSize}"/>
+                                    Height="{StaticResource MidIconSize}"
+                                    Visibility="{Binding IsChecked, ElementName=lockLayerToggleButton, Converter={StaticResource BoolToVisConverterInverse}}"/>
+                    <ContentControl Content="{StaticResource ic_Lock}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"
+                                    Visibility="{Binding IsChecked, ElementName=lockLayerToggleButton, Converter={StaticResource BoolToVisConverter}}"/>
+                </Grid>
             </ToggleButton>
 
             <Image x:Name="tilesetImage"

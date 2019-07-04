@@ -177,9 +177,10 @@ namespace Ame.App.Wpf.UI
 
         #region methods
 
-        public void CloseApplication(object sender, System.ComponentModel.CancelEventArgs e)
+        public void CloseApplication(object sender, CancelEventArgs e)
         {
-            this.session.SerializeFile(Global.SessionFileName);
+            AmeSessionWriter writer = new AmeSessionWriter();
+            writer.Write(this.session, Global.SessionFileName);
         }
 
         private void IsBusyChanged(object sender, PropertyChangedEventArgs e)

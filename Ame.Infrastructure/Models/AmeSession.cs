@@ -85,8 +85,7 @@ namespace Ame.Infrastructure.Models
         {
             get
             {
-                // TODO this nulls all the time. Fix it.
-                return this.CurrentMap.Layers;
+                return this.CurrentMap.Layers ?? null;
             }
         }
 
@@ -268,22 +267,6 @@ namespace Ame.Infrastructure.Models
         public void SetCurrentMapAtIndex(int currentIndex)
         {
             this.CurrentMap = this.MapList[currentIndex];
-        }
-
-        // TODO add an interface for this
-        public void SerializeFile(string file)
-        {
-            AmeSessionJson json = new AmeSessionJson(this);
-
-            JsonSerializer serializer = new JsonSerializer();
-            serializer.Formatting = Newtonsoft.Json.Formatting.Indented;
-            serializer.NullValueHandling = NullValueHandling.Ignore;
-
-            using (StreamWriter stream = new StreamWriter(file))
-            using (JsonWriter writer = new JsonTextWriter(stream))
-            {
-                serializer.Serialize(writer, json);
-            }
         }
         
         #endregion methods
