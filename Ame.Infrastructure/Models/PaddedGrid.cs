@@ -18,35 +18,23 @@ namespace Ame.Infrastructure.Models
         #region constructor
 
         public PaddedGrid()
-            : base()
+            : this(0, 0, 1, 1, 0, 0, 0, 0)
         {
         }
 
         public PaddedGrid(int pixelWidth, int pixelHeight)
-            : base(pixelWidth, pixelHeight)
+            : this(pixelWidth, pixelHeight, 1, 1, 0, 0, 0, 0)
         {
-            this.OffsetX.Value = 0;
-            this.OffsetY.Value = 0;
-            this.PaddingX.Value = 0;
-            this.PaddingY.Value = 0;
         }
 
         public PaddedGrid(int columns, int rows, int tileWidth, int tileHeight)
-            : base(columns, rows, tileWidth, tileHeight)
+            : this(columns, rows, tileWidth, tileHeight, 0, 0, 0, 0)
         {
-            this.OffsetX.Value = 0;
-            this.OffsetY.Value = 0;
-            this.PaddingX.Value = 0;
-            this.PaddingY.Value = 0;
         }
 
         public PaddedGrid(int columns, int rows, int tileWidth, int tileHeight, int offsetX, int offsetY)
-            : base(columns, rows, tileWidth, tileHeight)
+            : this(columns, rows, tileWidth, tileHeight, offsetX, offsetY, 0, 0)
         {
-            this.OffsetX.Value = offsetX;
-            this.OffsetY.Value = offsetY;
-            this.PaddingX.Value = 0;
-            this.PaddingY.Value = 0;
         }
 
         public PaddedGrid(int columns, int rows, int tileWidth, int tileHeight, int offsetX, int offsetY, int paddingX, int paddingY)

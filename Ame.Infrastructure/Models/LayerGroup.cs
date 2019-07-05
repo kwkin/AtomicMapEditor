@@ -1,5 +1,4 @@
 ﻿using Ame.Infrastructure.BaseTypes;
-using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,15 +21,8 @@ namespace Ame.Infrastructure.Models
         #region constructor
 
         public LayerGroup(string layerGroupName)
+            : this(layerGroupName, new ObservableCollection<ILayer>())
         {
-            this.Name.Value = layerGroupName;
-            this.Layers = new ObservableCollection<ILayer>();
-            this.Layers.CollectionChanged += LayersChanged;
-
-            this.pixelWidth.Value = GetPixelWidth();
-            this.pixelHeight.Value = GetPixelHeight();
-            this.Columns.PropertyChanged += UpdatePixelWidth;
-            this.Rows.PropertyChanged += UpdatePixelHeight;
         }
 
         public LayerGroup(string layerGroupName, ObservableCollection<ILayer> layers)
@@ -74,6 +66,7 @@ namespace Ame.Infrastructure.Models
                 this.Group = value;
             }
         }
+
         public LayerGroup Parent { get; set; }
 
         // TODO these values do not return the correct values. These should be bound to the functions
@@ -173,21 +166,23 @@ namespace Ame.Infrastructure.Models
 
         private void LayersChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            switch(e.Action)
+            switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    foreach(ILayer layer in e.NewItems)
+                    foreach (ILayer layer in e.NewItems)
                     {
                         int index = e.NewStartingIndex;
                         this.Group.Children.Insert(index, layer.Group);
                     }
                     break;
+
                 case NotifyCollectionChangedAction.Remove:
-                    foreach(ILayer layer in e.OldItems)
+                    foreach (ILayer layer in e.OldItems)
                     {
                         this.Group.Children.Remove(layer.Group);
                     }
                     break;
+
                 case NotifyCollectionChangedAction.Move:
                     int oldIndex = e.OldStartingIndex;
                     int newIndex = e.NewStartingIndex;
@@ -198,6 +193,7 @@ namespace Ame.Infrastructure.Models
                         this.Group.Children[newIndex] = entry;
                     }
                     break;
+
                 default:
                     break;
             }

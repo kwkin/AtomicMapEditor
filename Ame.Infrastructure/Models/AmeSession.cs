@@ -1,17 +1,15 @@
 ﻿using System;
+using Ame.Infrastructure.Core;
+using Ame.Infrastructure.DrawingTools;
+using Prism.Mvvm;
+
+using System;
+
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using Ame.Infrastructure.DrawingTools;
-using Ame.Infrastructure.Core;
-using System.IO;
-using Newtonsoft.Json;
-using Prism.Mvvm;
-using Ame.Infrastructure.Models.Serializer.Json.Data;
 
 namespace Ame.Infrastructure.Models
 {
@@ -19,18 +17,15 @@ namespace Ame.Infrastructure.Models
     public class AmeSession : BindableBase
     {
         #region fields
-        
+
         #endregion fields
 
 
         #region constructor
 
         public AmeSession()
+            : this(new ObservableCollection<Map>())
         {
-            this.Projects = new ObservableCollection<Project>();
-            this.MapList = new ObservableCollection<Map>();
-            this.CurrentTilesetList = new ObservableCollection<TilesetModel>();
-            this.DrawingTool = new StampTool();
         }
 
         public AmeSession(ObservableCollection<Map> MapList)
@@ -268,7 +263,7 @@ namespace Ame.Infrastructure.Models
         {
             this.CurrentMap = this.MapList[currentIndex];
         }
-        
+
         #endregion methods
     }
 }

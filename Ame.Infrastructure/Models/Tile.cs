@@ -1,10 +1,7 @@
 ﻿using Ame.Infrastructure.BaseTypes;
-using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,8 +12,9 @@ namespace Ame.Infrastructure.Models
     public class Tile
     {
         // TODO make the image drawing and IDs consistent with their use
+
         #region fields
-        
+
         #endregion fields
 
 
@@ -24,13 +22,11 @@ namespace Ame.Infrastructure.Models
 
         public Tile()
         {
-
         }
 
         public Tile(int tilesetID, int tileID)
+            : this(null, tilesetID, tileID)
         {
-            this.TilesetID = tilesetID;
-            this.TileID = tileID;
         }
 
         public Tile(ImageDrawing image, int tilesetID, int tileID)
@@ -49,7 +45,7 @@ namespace Ame.Infrastructure.Models
 
         public int TilesetID { get; set; }
         public int TileID { get; set; }
-        
+
         public Rect Bounds
         {
             get

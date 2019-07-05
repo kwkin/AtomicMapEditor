@@ -18,9 +18,8 @@ namespace Ame.Infrastructure.Models
         #region constructor
 
         public ItemGroup(string groupName)
+            : this(groupName, new ObservableCollection<IItem>())
         {
-            this.Name.Value = groupName;
-            this.Items = new ObservableCollection<IItem>();
         }
 
         public ItemGroup(string groupName, ObservableCollection<IItem> items)

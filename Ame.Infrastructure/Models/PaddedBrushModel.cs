@@ -43,6 +43,7 @@ namespace Ame.Infrastructure.Models
         public PaddedBrushModel(int columns, int rows, int tileWidth, int tileHeight, int tileOffsetX, int tileOffsetY)
             : base(columns, rows, tileWidth, tileHeight)
         {
+            this.Tiles = new ObservableCollection<Tile>();
             this.TileOffsetX.Value = tileOffsetX;
             this.TileOffsetY.Value = tileOffsetY;
         }

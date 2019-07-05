@@ -20,22 +20,22 @@ namespace Ame.Infrastructure.Models
         #region constructor
 
         public PaddedGridRenderable()
-            : base()
+            : this(0, 0, 1, 1, 0, 0, 0, 0)
         {
         }
 
         public PaddedGridRenderable(int pixelWidth, int pixelHeight)
-            : base(pixelWidth, pixelHeight)
+            : this(pixelWidth, pixelHeight, 1, 1, 0, 0, 0, 0)
         {
         }
 
         public PaddedGridRenderable(int columns, int rows, int tileWidth, int tileHeight)
-            : base(columns, rows, tileWidth, tileHeight)
+            : this(columns, rows, tileWidth, tileHeight, 0, 0)
         {
         }
 
         public PaddedGridRenderable(int columns, int rows, int tileWidth, int tileHeight, int offsetX, int offsetY)
-            : base(columns, rows, tileWidth, tileHeight, offsetX, offsetY)
+            : this(columns, rows, tileWidth, tileHeight, offsetX, offsetY, 0, 0)
         {
         }
 

@@ -1,14 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.Threading.Tasks;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+using System.Linq;
+using System.Collections.Generic;
+using System;
 using Ame.Infrastructure.Attributes;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Utils;
-using Prism.Mvvm;
+
+using System;
+
+using System.ComponentModel;
+using System.Windows;
 
 namespace Ame.Infrastructure.Models
 {
@@ -22,35 +24,13 @@ namespace Ame.Infrastructure.Models
         #region constructor
 
         public GridModel()
+            : this(0, 0, 1, 1)
         {
-            this.Columns.Value = 0;
-            this.Rows.Value = 0;
-            this.TileWidth.Value = 1;
-            this.TileHeight.Value = 1;
-            this.Scale.Value = ScaleType.Tile;
-
-            this.pixelWidth.Value = GetPixelWidth();
-            this.pixelHeight.Value = GetPixelHeight();
-            this.Columns.PropertyChanged += UpdatePixelWidth;
-            this.Rows.PropertyChanged += UpdatePixelHeight;
-            this.TileWidth.PropertyChanged += UpdatePixelWidth;
-            this.TileHeight.PropertyChanged += UpdatePixelHeight;
         }
 
         public GridModel(int pixelWidth, int pixelHeight)
+            : this(pixelWidth, pixelHeight, 1, 1)
         {
-            this.Columns.Value = pixelWidth;
-            this.Rows.Value = pixelHeight;
-            this.TileWidth.Value = 1;
-            this.TileHeight.Value = 1;
-            this.Scale.Value = ScaleType.Tile;
-
-            this.pixelWidth.Value = GetPixelWidth();
-            this.pixelHeight.Value = GetPixelHeight();
-            this.Columns.PropertyChanged += UpdatePixelWidth;
-            this.Rows.PropertyChanged += UpdatePixelHeight;
-            this.TileWidth.PropertyChanged += UpdatePixelWidth;
-            this.TileHeight.PropertyChanged += UpdatePixelHeight;
         }
 
         public GridModel(int columns, int rows, int tileWidth, int tileHeight)
@@ -87,7 +67,7 @@ namespace Ame.Infrastructure.Models
 
         [MetadataProperty(MetadataType.Property, "Scale")]
         public BindableProperty<ScaleType> Scale { get; set; } = BindableProperty.Prepare<ScaleType>();
-        
+
         private BindableProperty<int> pixelWidth = BindableProperty.Prepare<int>();
         private ReadOnlyBindableProperty<int> pixelWidthReadOnly;
         public ReadOnlyBindableProperty<int> PixelWidth
@@ -209,7 +189,6 @@ namespace Ame.Infrastructure.Models
         public int GetID(int pixelX, int pixelY)
         {
             return (pixelY / this.TileHeight.Value) * this.Columns.Value + (pixelX / this.TileWidth.Value);
-
         }
 
         public int GetID(Point pixelPoint)

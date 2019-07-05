@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Threading.Tasks;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media;
+using System.Linq;
+using System.Collections.Generic;
+using System;
 using Ame.Infrastructure.Utils;
 using Emgu.CV;
+using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Media;
 
 namespace Ame.Infrastructure.Models
 {
@@ -70,7 +70,7 @@ namespace Ame.Infrastructure.Models
                     Mat tileImage = BrushUtils.CropImage(tilesImage, topLeftPoint, tileSize);
                     Rect drawingRect = new Rect(topLeftPoint, tileSize);
                     ImageDrawing drawing = ImageUtils.MatToImageDrawing(tileImage, drawingRect);
-                    
+
                     Point offsetPoint = Point.Add(pixelPoint, (Vector)topLeftPoint);
                     int tileID = tilesetModel.GetID(offsetPoint);
                     Tile tile = new Tile(drawing, tilesetID, tileID);

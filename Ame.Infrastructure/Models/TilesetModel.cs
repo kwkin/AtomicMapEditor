@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Threading.Tasks;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media;
+using System.Linq;
+using System.Collections.Generic;
+using System;
 using Ame.Infrastructure.Attributes;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Utils;
 using Emgu.CV;
-using Newtonsoft.Json;
+using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Media;
 
 namespace Ame.Infrastructure.Models
 {
@@ -26,29 +25,13 @@ namespace Ame.Infrastructure.Models
         #region constructor
 
         public TilesetModel()
+            : this(-1, "Tileset #1")
         {
-            this.ID = -1;
-            this.Name.Value = "Tileset #1";
-            this.SourcePath.Value = "";
-            this.TileWidth.Value = 32;
-            this.TileHeight.Value = 32;
-            this.IsTransparent.Value = false;
-            this.TilesetImage = new DrawingGroup();
-            this.TransparentColor.Value = Colors.Transparent;
-            this.CustomProperties = new ObservableCollection<MetadataProperty>();
         }
 
         public TilesetModel(int id, string name)
+            : this(-1, "Tileset #1", string.Empty)
         {
-            this.ID = id;
-            this.Name.Value = name;
-            this.SourcePath.Value = "";
-            this.TileWidth.Value = 32;
-            this.TileHeight.Value = 32;
-            this.IsTransparent.Value = false;
-            this.TilesetImage = new DrawingGroup();
-            this.TransparentColor.Value = Colors.Transparent;
-            this.CustomProperties = new ObservableCollection<MetadataProperty>();
         }
 
         public TilesetModel(int id, string name, string sourcePath)
@@ -87,7 +70,7 @@ namespace Ame.Infrastructure.Models
         public BindableProperty<Color> TransparentColor { get; set; } = BindableProperty.Prepare<Color>();
 
         public ObservableCollection<IItem> Items { get; set; }
-        
+
         public ObservableCollection<MetadataProperty> CustomProperties { get; set; }
 
 
@@ -121,7 +104,7 @@ namespace Ame.Infrastructure.Models
             Size sizeOfTile = GetTileSize();
 
             RectangleGeometry geometry = new RectangleGeometry(new Rect(topLeftTile, sizeOfTile));
-            
+
             Mat croppedImage = BrushUtils.CropImage(this.MatImage, topLeftTile, sizeOfTile);
             if (this.IsTransparent.Value)
             {

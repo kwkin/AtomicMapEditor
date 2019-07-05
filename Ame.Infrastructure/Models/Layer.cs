@@ -1,78 +1,42 @@
 ﻿using System;
+using Ame.Infrastructure.Attributes;
+using Ame.Infrastructure.BaseTypes;
+
+using System;
+
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Runtime.CompilerServices;
+using System.Text;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
-using Ame.Infrastructure.Attributes;
-using Newtonsoft.Json;
-using System.Collections.ObjectModel;
-using Prism.Mvvm;
-using Ame.Infrastructure.BaseTypes;
 
 namespace Ame.Infrastructure.Models
 {
     public class Layer : ILayer, IContainsCustomProperties
     {
         #region fields
-        
+
         #endregion fields
 
 
         #region constructor
 
-        // TODO change constructors to call "this"
         public Layer(Map map)
+            : this(map, "", 32, 32, 32, 32)
         {
-            this.Map = map;
+        }
 
-            this.Name.Value = "";
-            this.TileWidth.Value = 32;
-            this.TileHeight.Value = 32;
-            this.Rows.Value = 32;
-            this.Columns.Value = 32;
-            this.IsVisible.Value = true;
-            this.Position.Value = LayerPosition.Base;
-            this.Scale.Value = ScaleType.Tile;
-            this.TileIDs = this.TileIDs ?? new TileCollection(this);
-            this.CustomProperties = new ObservableCollection<MetadataProperty>();
-
-            this.pixelWidth.Value = GetPixelWidth();
-            this.pixelHeight.Value = GetPixelHeight();
-            this.TileWidth.PropertyChanged += UpdatePixelWidth;
-            this.TileHeight.PropertyChanged += UpdatePixelHeight;
-            this.Columns.PropertyChanged += LayerSizeChanged;
-            this.Rows.PropertyChanged += LayerSizeChanged;
-            this.OffsetX.PropertyChanged += LayerPositionChanged;
-            this.OffsetY.PropertyChanged += LayerPositionChanged;
+        public Layer(Map map, string name)
+            : this(map, name, 32, 32, 32, 32)
+        {
         }
 
         public Layer(Map map, int tileWidth, int tileHeight, int rows, int columns)
+            : this(map, "", tileWidth, tileHeight, rows, columns)
         {
-            this.Map = map;
-
-            this.Name.Value = "";
-            this.TileWidth.Value = tileWidth;
-            this.TileHeight.Value = tileHeight;
-            this.Rows.Value = rows;
-            this.Columns.Value = columns;
-            this.IsVisible.Value = true;
-            this.Position.Value = LayerPosition.Base;
-            this.Scale.Value = ScaleType.Tile;
-            this.TileIDs = this.TileIDs ?? new TileCollection(this);
-            this.CustomProperties = new ObservableCollection<MetadataProperty>();
-
-            this.pixelWidth.Value = GetPixelWidth();
-            this.pixelHeight.Value = GetPixelHeight();
-            this.TileWidth.PropertyChanged += UpdatePixelWidth;
-            this.TileHeight.PropertyChanged += UpdatePixelHeight;
-            this.Columns.PropertyChanged += LayerSizeChanged;
-            this.Rows.PropertyChanged += LayerSizeChanged;
-            this.OffsetX.PropertyChanged += LayerPositionChanged;
-            this.OffsetY.PropertyChanged += LayerPositionChanged;
         }
 
         public Layer(Map map, string layerName, int tileWidth, int tileHeight, int rows, int columns)
@@ -106,7 +70,7 @@ namespace Ame.Infrastructure.Models
         #region properties
 
         public int ID { get; set; } = -1;
-        
+
         [MetadataProperty(MetadataType.Property, "Name")]
         public BindableProperty<string> Name { get; set; } = BindableProperty.Prepare<string>(string.Empty);
 
@@ -179,7 +143,7 @@ namespace Ame.Infrastructure.Models
                 this.TileIDs.Group = value;
             }
         }
-        
+
         [IgnoreNodeBuilder]
         public DrawingCollection LayerItems
         {
@@ -193,7 +157,7 @@ namespace Ame.Infrastructure.Models
                 return children;
             }
         }
-        
+
         public TileCollection TileIDs { get; set; }
 
         public LayerGroup Parent { get; set; }
@@ -232,7 +196,7 @@ namespace Ame.Infrastructure.Models
         {
             this.TileIDs.Clear();
         }
-        
+
         public Point GetPointFromIndex(int id)
         {
             int pointX = (id % this.Columns.Value) * this.TileWidth.Value;

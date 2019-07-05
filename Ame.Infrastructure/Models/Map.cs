@@ -27,48 +27,13 @@ namespace Ame.Infrastructure.Models
         #region constructor
 
         public Map()
-            : base(32, 32, 32, 32)
+            : this(string.Empty, 32, 32)
         {
-            this.Author.Value = "";
-            this.Version.Value = Global.Version;
-            this.Name.Value = string.Empty;
-            this.Scale.Value = ScaleType.Tile;
-            this.PixelScale.Value = 1;
-            this.Description.Value = "";
-            this.Layers = new ObservableCollection<ILayer>();
-            this.TilesetList = new ObservableCollection<TilesetModel>();
-            this.CustomProperties = new ObservableCollection<MetadataProperty>();
-            this.UndoQueue = new Stack<DrawAction>();
-            this.RedoQueue = new Stack<DrawAction>();
-
-            this.Layers.CollectionChanged += LayersChanged;
-            UpdatePixelWidth();
-            UpdatePixelHeight();
         }
 
         public Map(string name)
-            : base(32, 32, 32, 32)
+            : this(name, 32, 32)
         {
-            this.Name.Value = name;
-
-            this.Author.Value = "";
-            this.Version.Value = Global.Version;
-            this.Scale.Value = ScaleType.Tile;
-            this.PixelScale.Value = 1;
-            this.Description.Value = "";
-            this.Layers = new ObservableCollection<ILayer>();
-            this.TilesetList = new ObservableCollection<TilesetModel>();
-            this.CustomProperties = new ObservableCollection<MetadataProperty>();
-
-            Layer initialLayer = new Layer(this, "Layer #0", this.TileWidth.Value, this.TileHeight.Value, this.Rows.Value, this.Columns.Value);
-            this.Layers.Add(initialLayer);
-
-            this.UndoQueue = new Stack<DrawAction>();
-            this.RedoQueue = new Stack<DrawAction>();
-
-            this.Layers.CollectionChanged += LayersChanged;
-            UpdatePixelWidth();
-            UpdatePixelHeight();
         }
 
         public Map(string name, int columns, int rows)
@@ -106,7 +71,7 @@ namespace Ame.Infrastructure.Models
 
         [MetadataProperty(MetadataType.Property)]
         public BindableProperty<string> SourcePath { get; set; } = BindableProperty.Prepare<string>(string.Empty);
-        
+
         [MetadataProperty(MetadataType.Property, "Pixel Ratio")]
         public BindableProperty<int> PixelRatio { get; set; } = BindableProperty.Prepare<int>();
 
@@ -115,17 +80,17 @@ namespace Ame.Infrastructure.Models
 
         [MetadataProperty(MetadataType.Property)]
         public BindableProperty<string> Description { get; set; } = BindableProperty.Prepare<string>(string.Empty);
-        
+
         [MetadataProperty(MetadataType.Property)]
         public BindableProperty<string> Author { get; set; } = BindableProperty.Prepare<string>(string.Empty);
 
         [MetadataProperty(MetadataType.Property)]
-
         public BindableProperty<string> Version { get; set; } = BindableProperty.Prepare<string>(string.Empty);
+
         public ObservableCollection<ILayer> Layers { get; set; }
 
         public BindableProperty<int> SelectedLayerIndex { get; set; } = BindableProperty.Prepare<int>();
-        
+
         public Layer CurrentLayer
         {
             get
@@ -141,7 +106,7 @@ namespace Ame.Infrastructure.Models
                 return this.Layers.Count;
             }
         }
-        
+
         public ObservableCollection<TilesetModel> TilesetList { get; set; }
 
         public int TilesetCount
@@ -151,9 +116,9 @@ namespace Ame.Infrastructure.Models
                 return this.TilesetList.Count;
             }
         }
-        
+
         public Stack<DrawAction> UndoQueue { get; set; }
-        
+
         public Stack<DrawAction> RedoQueue { get; set; }
 
         public BindableProperty<Color> BackgroundColor { get; set; } = BindableProperty.Prepare<Color>((Color)ColorConverter.ConvertFromString("#b8e5ed"));
@@ -261,11 +226,11 @@ namespace Ame.Infrastructure.Models
             DrawAction revertAction = new DrawAction(action.Name, previousTiles);
             return revertAction;
         }
-        
+
         private Tile Draw(Tile tile)
         {
             if (tile.Bounds.X < 0
-                || tile.Bounds.Y < 0 
+                || tile.Bounds.Y < 0
                 || tile.Bounds.X >= this.PixelWidth.Value
                 || tile.Bounds.Y >= this.PixelHeight.Value)
             {
@@ -280,9 +245,9 @@ namespace Ame.Infrastructure.Models
             Tile previousTile = new Tile(previousImage, previousTileID.TilesetID, previousTileID.TileID);
             return previousTile;
         }
-        
+
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="map"></param>
         /// <returns></returns>
@@ -344,7 +309,8 @@ namespace Ame.Infrastructure.Models
 
         public int GetLayerGroupCount()
         {
-            int totalGroups = 0;;
+            int totalGroups = 0;
+            ;
 
             IEnumerable<ILayer> groups = this.Layers.Where(layer => typeof(LayerGroup).IsInstanceOfType(layer));
             totalGroups += groups.Count();
