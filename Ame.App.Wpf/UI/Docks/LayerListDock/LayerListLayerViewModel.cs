@@ -82,7 +82,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         {
             using (DrawingContext context = filled.Open())
             {
-                Rect drawingRect = new Rect(0, 0, layer.GetPixelWidth(), layer.GetPixelHeight());
+                Rect drawingRect = new Rect(0, 0, layer.PixelWidth.Value, layer.PixelHeight.Value);
                 context.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Transparent, 0), drawingRect);
             }
         }

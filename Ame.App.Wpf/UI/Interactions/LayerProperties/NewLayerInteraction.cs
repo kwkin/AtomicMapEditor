@@ -102,7 +102,7 @@ namespace Ame.App.Wpf.UI.Interactions.LayerProperties
             if (confirmation.Confirmed)
             {
                 Layer layer = confirmation.Content as Layer;
-                this.session.CurrentLayer.AddWith(layer);
+                this.session.CurrentLayer.AddSibling(layer);
             }
         }
 

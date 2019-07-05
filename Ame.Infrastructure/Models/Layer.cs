@@ -1,9 +1,6 @@
-﻿using System;
-using Ame.Infrastructure.Attributes;
+﻿using Ame.Infrastructure.Attributes;
 using Ame.Infrastructure.BaseTypes;
-
 using System;
-
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -204,7 +201,7 @@ namespace Ame.Infrastructure.Models
             return new Point(pointX, pointY);
         }
 
-        public void AddWith(ILayer layer)
+        public void AddSibling(ILayer layer)
         {
             if (this.Parent == null)
             {
@@ -220,7 +217,7 @@ namespace Ame.Infrastructure.Models
             }
             else
             {
-                this.Parent.AddWith(layer);
+                this.Parent.AddSibling(layer);
             }
         }
 

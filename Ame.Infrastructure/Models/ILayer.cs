@@ -35,12 +35,7 @@ namespace Ame.Infrastructure.Models
 
         #region methods
 
-        // TODO change to a property
-        int GetPixelWidth();
-
-        int GetPixelHeight();
-
-        void AddWith(ILayer layer);
+        void AddSibling(ILayer layer);
 
         #endregion methods
     }

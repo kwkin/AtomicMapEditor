@@ -1,10 +1,7 @@
-﻿using System;
-using Ame.Infrastructure.Core;
+﻿using Ame.Infrastructure.Core;
 using Ame.Infrastructure.DrawingTools;
 using Prism.Mvvm;
-
 using System;
-
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;

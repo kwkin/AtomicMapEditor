@@ -111,7 +111,7 @@ namespace Ame.Infrastructure.Models
             int rightmost = leftmost;
             foreach (ILayer layer in this.Layers)
             {
-                int width = layer.GetPixelWidth();
+                int width = layer.PixelWidth.Value;
                 rightmost = Math.Max(rightmost, width + layer.OffsetX.Value);
             }
             int pixelWidth = rightmost - leftmost;
@@ -124,14 +124,14 @@ namespace Ame.Infrastructure.Models
             int bottommost = topmost;
             foreach (ILayer layer in this.Layers)
             {
-                int height = layer.GetPixelHeight();
+                int height = layer.PixelHeight.Value;
                 bottommost = Math.Max(bottommost, height + layer.OffsetY.Value);
             }
             int pixelHeight = bottommost - topmost;
             return pixelHeight;
         }
 
-        public void AddWith(ILayer layer)
+        public void AddSibling(ILayer layer)
         {
             this.Layers.Add(layer);
             layer.Parent = this;

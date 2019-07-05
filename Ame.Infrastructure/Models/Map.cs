@@ -329,7 +329,7 @@ namespace Ame.Infrastructure.Models
             {
                 foreach (ILayer layer in this.Layers)
                 {
-                    int width = layer.GetPixelWidth();
+                    int width = layer.PixelWidth.Value;
                     rightmost = Math.Max(rightmost, width + layer.OffsetX.Value);
                 }
             }
@@ -345,7 +345,7 @@ namespace Ame.Infrastructure.Models
             {
                 foreach (ILayer layer in this.Layers)
                 {
-                    int height = layer.GetPixelHeight();
+                    int height = layer.PixelHeight.Value;
                     bottommost = Math.Max(bottommost, height + layer.OffsetY.Value);
                 }
             }
