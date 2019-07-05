@@ -1,4 +1,5 @@
 ﻿using Ame.Infrastructure.Models;
+using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 {
@@ -25,9 +27,12 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
             this.Project = project ?? throw new ArgumentNullException("layer");
-
+                       
             this.MapNodes = new ObservableCollection<MapNodeViewModel>();
-
+            foreach(Map map in project.Maps)
+            {
+                this.MapNodes.Add(new MapNodeViewModel(this.eventAggregator, map));
+            }
             this.Project.Maps.CollectionChanged += MapsChanged;
         }
 
@@ -56,6 +61,7 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
                         this.MapNodes.Add(node);
                     }
                     break;
+
                 case NotifyCollectionChangedAction.Remove:
                     foreach (Map map in e.OldItems)
                     {
@@ -66,6 +72,7 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
                         }
                     }
                     break;
+
                 case NotifyCollectionChangedAction.Move:
                     int oldIndex = e.OldStartingIndex;
                     int newIndex = e.NewStartingIndex;
@@ -76,6 +83,7 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
                         this.MapNodes[newIndex] = entry;
                     }
                     break;
+
                 default:
                     break;
             }

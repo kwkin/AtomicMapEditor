@@ -35,10 +35,24 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
             this.ProjectNodes = new ObservableCollection<ProjectNodeViewModel>();
             
+            Project project1 = new Project("Project 1");
+            Map map1a = new Map("Map 1a");
+            project1.Maps.Add(map1a);
+            Map map1b = new Map("Map 1b");
+            project1.Maps.Add(map1b);
+
+            ProjectNodeViewModel projectNode1 = new ProjectNodeViewModel(this.eventAggregator, project1);
+
+            this.ProjectNodes.Add(projectNode1);
+
             this.NewProjectCommand = new DelegateCommand(() => NewProject());
             this.OpenProjectCommand = new DelegateCommand(() => OpenProject());
             this.ViewProjectPropertiesCommand = new DelegateCommand(() => ViewProjectProperties());
             this.RefreshTreeCommand = new DelegateCommand(() => RefreshTree());
+            this.NewMapCommand = new DelegateCommand(() => NewMap());
+            this.EditProjectPropertiesCommand = new DelegateCommand(() => EditProjectProperties());
+            this.AddLayerCommand = new DelegateCommand(() => AddLayer());
+            this.EditMapPropertiesCommand = new DelegateCommand(() => EditMapProperties());
         }
 
         #endregion constructor
@@ -50,6 +64,10 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
         public ICommand OpenProjectCommand { get; set; }
         public ICommand ViewProjectPropertiesCommand { get; set; }
         public ICommand RefreshTreeCommand { get; set; }
+        public ICommand NewMapCommand { get; private set; }
+        public ICommand EditProjectPropertiesCommand { get; private set; }
+        public ICommand AddLayerCommand { get; private set; }
+        public ICommand EditMapPropertiesCommand { get; private set; }
 
         public ObservableCollection<ProjectNodeViewModel> ProjectNodes { get; set; }
 
@@ -81,6 +99,27 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
         public void RefreshTree()
         {
+            Console.WriteLine("Refresh Drop");
+        }
+
+        private void NewMap()
+        {
+            Console.WriteLine("New Map");
+        }
+
+        private void EditProjectProperties()
+        {
+            Console.WriteLine("Edit Project Properties");
+        }
+
+        private void AddLayer()
+        {
+            Console.WriteLine("Add Layer");
+        }
+
+        private void EditMapProperties()
+        {
+            Console.WriteLine("Edit Map Properties");
         }
 
         #endregion methods

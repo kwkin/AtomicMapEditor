@@ -413,6 +413,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\Docks\ProjectExplorerDock\ProjectExplorerContextMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\Docks\ProjectExplorerDock\ProjectNode.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

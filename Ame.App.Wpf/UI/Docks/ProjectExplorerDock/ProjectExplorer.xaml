@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:local="clr-namespace:Ame.App.Wpf.UI.Docks.ProjectExplorerDock"
+             xmlns:actions="clr-namespace:Ame.App.Wpf.UILogic.Actions"
              xmlns:basetype="clr-namespace:Ame.Infrastructure.BaseTypes;assembly=Ame.Infrastructure"
              xmlns:behaviors="clr-namespace:Ame.Components.Behaviors;assembly=Ame.Components"
              xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=Ame.Components"
@@ -14,6 +15,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Wpf.Themes.Material;component/Styles/Controls/Native/Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ame.App.Wpf;component/UI/Docks/ProjectExplorerDock/ProjectExplorerContextMenu.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -77,15 +79,47 @@
                 <TreeView.Resources>
                     <HierarchicalDataTemplate DataType="{x:Type local:ProjectNodeViewModel}"
                                               ItemsSource="{Binding Path=MapNodes}">
-                        <local:ProjectNode />
+                        <local:ProjectNode >
+                            <local:ProjectNode.ContextMenu>
+                                <ContextMenu DataContext="{Binding DataContext, Source={actions:RootObjectSource}}">
+                                    <ContextMenu.ItemsSource>
+                                        <CompositeCollection>
+                                            <CollectionContainer Collection="{StaticResource ProjectNodeContextMenu}" />
+                                            <Separator />
+                                            <CollectionContainer Collection="{StaticResource ProjectExplorerContextMenu}" />
+                                        </CompositeCollection>
+                                    </ContextMenu.ItemsSource>
+                                </ContextMenu>
+                            </local:ProjectNode.ContextMenu>
+                        </local:ProjectNode>
                     </HierarchicalDataTemplate>
 
                     <DataTemplate DataType="{x:Type local:MapNodeViewModel}">
                         <local:MapNode>
-                            <!-- TODO add a context menu-->
+                            <local:MapNode.ContextMenu>
+                                <ContextMenu DataContext="{Binding DataContext, Source={actions:RootObjectSource}}">
+                                    <ContextMenu.ItemsSource>
+                                        <CompositeCollection>
+                                            <CollectionContainer Collection="{StaticResource MapNodeContextMenu}" />
+                                            <Separator />
+                                            <CollectionContainer Collection="{StaticResource ProjectExplorerContextMenu}" />
+                                        </CompositeCollection>
+                                    </ContextMenu.ItemsSource>
+                                </ContextMenu>
+                            </local:MapNode.ContextMenu>
                         </local:MapNode>
                     </DataTemplate>
                 </TreeView.Resources>
+
+                <extcomp:StretchingTreeView.ContextMenu>
+                    <ContextMenu>
+                        <ContextMenu.ItemsSource>
+                            <CompositeCollection>
+                                <CollectionContainer Collection="{StaticResource ProjectExplorerContextMenu}" />
+                            </CompositeCollection>
+                        </ContextMenu.ItemsSource>
+                    </ContextMenu>
+                </extcomp:StretchingTreeView.ContextMenu>
             </extcomp:StretchingTreeView>
         </ScrollViewer>
     </Grid>
