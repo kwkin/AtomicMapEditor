@@ -42,8 +42,6 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="0.5*" />
         </Grid.ColumnDefinitions>
 
@@ -362,107 +360,8 @@
             </Separator.LayoutTransform>
         </Separator>
 
-        <Grid x:Name="dockButtonGroup"
-              Grid.Column="11">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-
-            <Label Padding="0"
-                   Grid.Row="0"
-                   Grid.Column="0"
-                   HorizontalAlignment="Center"
-                   Content="Dock" />
-
-            <UniformGrid Grid.Row="1"
-                         Columns="5">
-                <Button x:Name="addDockButton"
-                        Style="{DynamicResource PrimaryIconButtonStyle}"
-                        HorizontalAlignment="Stretch"
-                        Background="Transparent"
-                        BorderBrush="Transparent"
-                        ToolTip="Add Dock: Adds a new instance of the selected dock"
-                        Command="{Binding OpenDockCommand, Mode=OneWay}">
-                    <StackPanel Orientation="Vertical">
-                        <ContentControl Content="{StaticResource ic_AddCircle}"
-                                        Width="{StaticResource MidIconSize}"
-                                        Height="{StaticResource MidIconSize}"/>
-                        <Label Padding="0"
-                               Content="Add" />
-                    </StackPanel>
-                </Button>
-                <Button x:Name="closedDockButton"
-                        Style="{DynamicResource PrimaryIconButtonStyle}"
-                        HorizontalAlignment="Stretch"
-                        Background="Transparent"
-                        BorderBrush="Transparent"
-                        ToolTip="Recently Closed Dock: Open a recently closed dock"
-                        Command="{Binding RecentlyClosedDockCommand, Mode=OneWay}">
-                    <StackPanel Orientation="Vertical">
-                        <ContentControl Content="{StaticResource ic_CloseBox}"
-                                Width="{StaticResource MidIconSize}"
-                                Height="{StaticResource MidIconSize}"/>
-                        <Label Padding="0"
-                               Content="Closed" />
-                    </StackPanel>
-                </Button>
-                <Button x:Name="dockPresetButton"
-                        Style="{DynamicResource PrimaryIconButtonStyle}"
-                        HorizontalAlignment="Stretch"
-                        Background="Transparent"
-                        BorderBrush="Transparent"
-                        ToolTip="Dock Preset: Sets dock placement to a preset configuration"
-                        Command="{Binding DockPresetCommand, Mode=OneWay}">
-                    <StackPanel Orientation="Vertical">
-                        <ContentControl Content="{StaticResource ic_WindowOpen}"
-                                Width="{StaticResource MidIconSize}"
-                                Height="{StaticResource MidIconSize}"/>
-                        <Label Padding="0"
-                               Content="Preset" />
-                    </StackPanel>
-                </Button>
-                <Button x:Name="snapDocksButton"
-                        Style="{DynamicResource PrimaryIconButtonStyle}"
-                        HorizontalAlignment="Stretch"
-                        Background="Transparent"
-                        BorderBrush="Transparent"
-                        ToolTip="Snap Docks: Snaps all seperated docks to the main window"
-                        Command="{Binding SnapDockCommand, Mode=OneWay}">
-                    <StackPanel Orientation="Vertical">
-                        <ContentControl Content="{StaticResource ic_Docks}"
-                                Width="{StaticResource MidIconSize}"
-                                Height="{StaticResource MidIconSize}"/>
-                        <Label Padding="0"
-                               Content="Snap" />
-                    </StackPanel>
-                </Button>
-                <Button x:Name="hideDocksButton"
-                        Style="{DynamicResource PrimaryIconButtonStyle}"
-                        HorizontalAlignment="Stretch"
-                        Background="Transparent"
-                        BorderBrush="Transparent"
-                        ToolTip="Hide Docks: Hide all docks"
-                        Command="{Binding HideDocksCommand, Mode=OneWay}">
-                    <StackPanel Orientation="Vertical">
-                        <ContentControl Content="{StaticResource ic_VisibilityOff}"
-                                    Width="{StaticResource MidIconSize}"
-                                    Height="{StaticResource MidIconSize}"/>
-                        <Label Padding="0"
-                               Content="Hide" />
-                    </StackPanel>
-                </Button>
-            </UniformGrid>
-        </Grid>
-
-        <Separator Grid.Column="12">
-            <Separator.LayoutTransform>
-                <RotateTransform Angle="90" />
-            </Separator.LayoutTransform>
-        </Separator>
-
         <Grid x:Name="fileButtonGroup"
-              Grid.Column="13">
+              Grid.Column="11">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />

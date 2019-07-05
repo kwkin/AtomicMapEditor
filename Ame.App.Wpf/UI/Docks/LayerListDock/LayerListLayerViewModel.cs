@@ -19,6 +19,9 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         private IEventAggregator eventAggregator;
 
+        DrawingGroup drawingGroup = new DrawingGroup();
+        DrawingGroup filled = new DrawingGroup();
+
         #endregion fields
 
 
@@ -29,17 +32,17 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
             this.Layer = layer ?? throw new ArgumentNullException("layer");
 
-            // TODO bind sizes
-            DrawingGroup drawingGroup = new DrawingGroup();
-            DrawingGroup filled = new DrawingGroup();
-            using (DrawingContext context = filled.Open())
-            {
-                Rect drawingRect = new Rect(0, 0, layer.GetPixelWidth(), layer.GetPixelHeight());
-                context.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Transparent, 0), drawingRect);
-            }
+            drawingGroup = new DrawingGroup();
+            filled = new DrawingGroup();
+
             drawingGroup.Children.Add(filled);
             drawingGroup.Children.Add(layer.Group);
             this.layerPreview = new DrawingImage(drawingGroup);
+
+            RefreshPreview();
+
+            layer.PixelHeight.PropertyChanged += LayerSizeChanged;
+            layer.PixelWidth.PropertyChanged += LayerSizeChanged;
         }
 
         #endregion constructor
@@ -74,6 +77,20 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
 
         #region methods
+
+        public void RefreshPreview()
+        {
+            using (DrawingContext context = filled.Open())
+            {
+                Rect drawingRect = new Rect(0, 0, layer.GetPixelWidth(), layer.GetPixelHeight());
+                context.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Transparent, 0), drawingRect);
+            }
+        }
+
+        private void LayerSizeChanged(object sender, PropertyChangedEventArgs e)
+        {
+            RefreshPreview();
+        }
 
         #endregion methods
     }

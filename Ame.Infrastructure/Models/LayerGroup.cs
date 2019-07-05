@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,11 @@ namespace Ame.Infrastructure.Models
             this.Name.Value = layerGroupName;
             this.Layers = new ObservableCollection<ILayer>();
             this.Layers.CollectionChanged += LayersChanged;
+
+            this.pixelWidth.Value = GetPixelWidth();
+            this.pixelHeight.Value = GetPixelHeight();
+            this.Columns.PropertyChanged += UpdatePixelWidth;
+            this.Rows.PropertyChanged += UpdatePixelHeight;
         }
 
         public LayerGroup(string layerGroupName, ObservableCollection<ILayer> layers)
@@ -32,6 +38,11 @@ namespace Ame.Infrastructure.Models
             this.Name.Value = layerGroupName;
             this.Layers = layers;
             this.Layers.CollectionChanged += LayersChanged;
+
+            this.pixelWidth.Value = GetPixelWidth();
+            this.pixelHeight.Value = GetPixelHeight();
+            this.Columns.PropertyChanged += UpdatePixelWidth;
+            this.Rows.PropertyChanged += UpdatePixelHeight;
         }
 
         #endregion constructor
@@ -74,12 +85,34 @@ namespace Ame.Infrastructure.Models
 
         public BindableProperty<int> OffsetY { get; set; } = BindableProperty.Prepare<int>();
 
+        private BindableProperty<int> pixelWidth = BindableProperty.Prepare<int>();
+        private ReadOnlyBindableProperty<int> pixelWidthReadOnly;
+        public ReadOnlyBindableProperty<int> PixelWidth
+        {
+            get
+            {
+                this.pixelWidthReadOnly = this.pixelWidthReadOnly ?? this.pixelWidth.ReadOnlyProperty();
+                return this.pixelWidthReadOnly;
+            }
+        }
+
+        private BindableProperty<int> pixelHeight = BindableProperty.Prepare<int>();
+        private ReadOnlyBindableProperty<int> pixelHeightReadOnly;
+        public ReadOnlyBindableProperty<int> PixelHeight
+        {
+            get
+            {
+                this.pixelHeightReadOnly = this.pixelHeightReadOnly ?? this.pixelHeight.ReadOnlyProperty();
+                return this.pixelHeightReadOnly;
+            }
+        }
+
         #endregion properties
 
 
         #region methods
 
-        public int GetPixelWidth()
+        public virtual int GetPixelWidth()
         {
             int leftmost = this.OffsetX.Value;
             int rightmost = leftmost;
@@ -92,7 +125,7 @@ namespace Ame.Infrastructure.Models
             return pixelWidth;
         }
 
-        public int GetPixelHeight()
+        public virtual int GetPixelHeight()
         {
             int topmost = this.OffsetY.Value;
             int bottommost = topmost;
@@ -168,6 +201,8 @@ namespace Ame.Infrastructure.Models
                 default:
                     break;
             }
+            UpdatePixelWidth();
+            UpdatePixelHeight();
         }
 
         private int GetOffsetX()
@@ -207,7 +242,27 @@ namespace Ame.Infrastructure.Models
             }
             return offsetY;
         }
-        
+
+        protected void UpdatePixelWidth(object sender, PropertyChangedEventArgs e)
+        {
+            this.pixelWidth.Value = GetPixelWidth();
+        }
+
+        protected void UpdatePixelWidth()
+        {
+            this.pixelWidth.Value = GetPixelWidth();
+        }
+
+        protected void UpdatePixelHeight(object sender, PropertyChangedEventArgs e)
+        {
+            this.pixelHeight.Value = GetPixelHeight();
+        }
+
+        protected void UpdatePixelHeight()
+        {
+            this.pixelHeight.Value = GetPixelHeight();
+        }
+
         #endregion methods
     }
 }

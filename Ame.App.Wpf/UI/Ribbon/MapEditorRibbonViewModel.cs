@@ -9,7 +9,6 @@ using Ame.Infrastructure.UILogic;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
-using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,9 +19,6 @@ using System.Windows.Input;
 
 namespace Ame.App.Wpf.UI.Ribbon
 {
-    // TODO add the "Add Tileset" command
-    // TODO add the "Add Image" command
-    // TODO add the "Open Dock" command
     public class MapEditorRibbonViewModel
     {
         #region fields
@@ -64,13 +60,6 @@ namespace Ame.App.Wpf.UI.Ribbon
             this.SampleViewCommand = new DelegateCommand(() => SampleView());
             this.CollisionsViewCommand = new DelegateCommand(() => CollisionsView());
 
-            // Window bindings
-            this.OpenDockCommand = new DelegateCommand(() => OpenDock());
-            this.RecentlyClosedDockCommand = new DelegateCommand(() => RecentlyClosedDock());
-            this.DockPresetCommand = new DelegateCommand(() => DockPreset());
-            this.SnapDockCommand = new DelegateCommand(() => SnapDock());
-            this.HideDocksCommand = new DelegateCommand(() => HideDocks());
-
             // File bindings
             this.SaveFileCommand = new DelegateCommand(() => SaveFile());
             this.ExportFileCommand = new DelegateCommand(() => ExportFile());
@@ -83,14 +72,17 @@ namespace Ame.App.Wpf.UI.Ribbon
 
         // Map Menu
         public ICommand NewMapCommand { get; set; }
+
         public ICommand EditMapPropertiesCommand { get; set; }
 
         // Layer Menu
         public ICommand NewLayerCommand { get; set; }
+
         public ICommand EditLayerPropertiesCommand { get; set; }
 
         // Item Menu
         public ICommand AddTilesetCommand { get; set; }
+
         public ICommand AddImageCommand { get; set; }
         public ICommand OpenItemListCommand { get; set; }
 
@@ -102,17 +94,12 @@ namespace Ame.App.Wpf.UI.Ribbon
 
         // View Menu
         public ICommand SampleViewCommand { get; set; }
-        public ICommand CollisionsViewCommand { get; set; }
 
-        // Window Menu
-        public ICommand OpenDockCommand { get; set; }
-        public ICommand RecentlyClosedDockCommand { get; set; }
-        public ICommand DockPresetCommand { get; set; }
-        public ICommand SnapDockCommand { get; set; }
-        public ICommand HideDocksCommand { get; set; }
+        public ICommand CollisionsViewCommand { get; set; }
 
         // File Menu
         public ICommand SaveFileCommand { get; set; }
+
         public ICommand ExportFileCommand { get; set; }
 
         public ObservableCollection<ZoomLevel> ZoomLevels { get; set; }
@@ -212,35 +199,6 @@ namespace Ame.App.Wpf.UI.Ribbon
         }
 
         #endregion view methods
-
-        #region dock methods
-
-        public void OpenDock()
-        {
-            Console.WriteLine("Sample View");
-        }
-
-        public void RecentlyClosedDock()
-        {
-            Console.WriteLine("Recently Closed Docks");
-        }
-
-        public void DockPreset()
-        {
-            Console.WriteLine("Dock Preset");
-        }
-
-        public void SnapDock()
-        {
-            Console.WriteLine("Snap Dock");
-        }
-
-        public void HideDocks()
-        {
-            Console.WriteLine("Hide Dock");
-        }
-
-        #endregion dock methods
 
         #region file methods
 

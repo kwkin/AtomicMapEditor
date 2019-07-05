@@ -24,6 +24,7 @@ namespace Ame.Infrastructure.Models
 
         #region constructor
 
+        // TODO change constructors to call "this"
         public Layer(Map map)
         {
             this.Map = map;
@@ -39,6 +40,10 @@ namespace Ame.Infrastructure.Models
             this.TileIDs = this.TileIDs ?? new TileCollection(this);
             this.CustomProperties = new ObservableCollection<MetadataProperty>();
 
+            this.pixelWidth.Value = GetPixelWidth();
+            this.pixelHeight.Value = GetPixelHeight();
+            this.TileWidth.PropertyChanged += UpdatePixelWidth;
+            this.TileHeight.PropertyChanged += UpdatePixelHeight;
             this.Columns.PropertyChanged += LayerSizeChanged;
             this.Rows.PropertyChanged += LayerSizeChanged;
             this.OffsetX.PropertyChanged += LayerPositionChanged;
@@ -60,6 +65,10 @@ namespace Ame.Infrastructure.Models
             this.TileIDs = this.TileIDs ?? new TileCollection(this);
             this.CustomProperties = new ObservableCollection<MetadataProperty>();
 
+            this.pixelWidth.Value = GetPixelWidth();
+            this.pixelHeight.Value = GetPixelHeight();
+            this.TileWidth.PropertyChanged += UpdatePixelWidth;
+            this.TileHeight.PropertyChanged += UpdatePixelHeight;
             this.Columns.PropertyChanged += LayerSizeChanged;
             this.Rows.PropertyChanged += LayerSizeChanged;
             this.OffsetX.PropertyChanged += LayerPositionChanged;
@@ -81,6 +90,10 @@ namespace Ame.Infrastructure.Models
             this.TileIDs = this.TileIDs ?? new TileCollection(this);
             this.CustomProperties = new ObservableCollection<MetadataProperty>();
 
+            this.pixelWidth.Value = GetPixelWidth();
+            this.pixelHeight.Value = GetPixelHeight();
+            this.TileWidth.PropertyChanged += UpdatePixelWidth;
+            this.TileHeight.PropertyChanged += UpdatePixelHeight;
             this.Columns.PropertyChanged += LayerSizeChanged;
             this.Rows.PropertyChanged += LayerSizeChanged;
             this.OffsetX.PropertyChanged += LayerPositionChanged;
@@ -130,6 +143,28 @@ namespace Ame.Infrastructure.Models
         public BindableProperty<bool> IsImmutable { get; set; } = BindableProperty.Prepare<bool>();
 
         public BindableProperty<bool> IsVisible { get; set; } = BindableProperty.Prepare<bool>();
+
+        private BindableProperty<int> pixelWidth = BindableProperty.Prepare<int>();
+        private ReadOnlyBindableProperty<int> pixelWidthReadOnly;
+        public ReadOnlyBindableProperty<int> PixelWidth
+        {
+            get
+            {
+                this.pixelWidthReadOnly = this.pixelWidthReadOnly ?? this.pixelWidth.ReadOnlyProperty();
+                return this.pixelWidthReadOnly;
+            }
+        }
+
+        private BindableProperty<int> pixelHeight = BindableProperty.Prepare<int>();
+        private ReadOnlyBindableProperty<int> pixelHeightReadOnly;
+        public ReadOnlyBindableProperty<int> PixelHeight
+        {
+            get
+            {
+                this.pixelHeightReadOnly = this.pixelHeightReadOnly ?? this.pixelHeight.ReadOnlyProperty();
+                return this.pixelHeightReadOnly;
+            }
+        }
 
         [IgnoreNodeBuilder]
         public DrawingGroup Group
@@ -228,11 +263,23 @@ namespace Ame.Infrastructure.Models
         private void LayerSizeChanged(object sender, PropertyChangedEventArgs e)
         {
             this.TileIDs.Resize(0, 0);
+            this.pixelHeight.Value = GetPixelHeight();
+            this.pixelWidth.Value = GetPixelWidth();
         }
 
         private void LayerPositionChanged(object sender, PropertyChangedEventArgs e)
         {
             this.TileIDs.Move(this.OffsetX.Value, this.OffsetY.Value);
+        }
+
+        protected void UpdatePixelWidth(object sender, PropertyChangedEventArgs e)
+        {
+            this.pixelWidth.Value = GetPixelWidth();
+        }
+
+        protected void UpdatePixelHeight(object sender, PropertyChangedEventArgs e)
+        {
+            this.pixelHeight.Value = GetPixelHeight();
         }
 
         #endregion methods

@@ -25,6 +25,8 @@ namespace Ame.Infrastructure.Models
         BindableProperty<int> Rows { get; set; }
         BindableProperty<int> OffsetX { get; set; }
         BindableProperty<int> OffsetY { get; set; }
+        ReadOnlyBindableProperty<int> PixelWidth { get; }
+        ReadOnlyBindableProperty<int> PixelHeight { get; }
         DrawingGroup Group { get; set; }
         LayerGroup Parent { get; set; }
 
