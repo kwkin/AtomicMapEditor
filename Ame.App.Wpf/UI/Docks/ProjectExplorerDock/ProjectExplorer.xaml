@@ -7,6 +7,7 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:Ame.App.Wpf.UI.Docks.ProjectExplorerDock"
              xmlns:actions="clr-namespace:Ame.App.Wpf.UILogic.Actions"
+             xmlns:conv="clr-namespace:Ame.App.Wpf.UILogic.Converters"
              xmlns:basetype="clr-namespace:Ame.Infrastructure.BaseTypes;assembly=Ame.Infrastructure"
              xmlns:behaviors="clr-namespace:Ame.Components.Behaviors;assembly=Ame.Components"
              xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=Ame.Components"
@@ -17,6 +18,8 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Wpf.Themes.Material;component/Styles/Controls/Native/Button.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <conv:NullToBooleanConverter x:Key="NullToBooleanConverter"
+                                         IsInversed="True" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -47,7 +50,8 @@
             <Button x:Name="viewPropertiesButton"
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     ToolTip="View Properties: Views the current project's properties."
-                    Command="{Binding ViewProjectPropertiesCommand, Mode=OneWay}">
+                    IsEnabled="{Binding CurrentProject.Value, Converter={StaticResource NullToBooleanConverter}}"
+                    Command="{Binding EditProjectPropertiesCommand, Mode=OneWay}">
                 <ContentControl Content="{StaticResource ic_VisibilityOn}"
                                     Width="{StaticResource MidIconSize}"
                                     Height="{StaticResource MidIconSize}" />
@@ -71,7 +75,7 @@
                                         BorderThickness="0">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectedItemChanged">
-                        <i:InvokeCommandAction Command="{Binding CurrentProjectChangedCommand}"
+                        <i:InvokeCommandAction Command="{Binding CurrentSelectionChangedCommand}"
                                                CommandParameter="{Binding ElementName=projectTree, Path=SelectedItem}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>

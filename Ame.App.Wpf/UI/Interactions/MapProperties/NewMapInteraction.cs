@@ -31,8 +31,20 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
         {
         }
 
-        public NewMapInteraction(Action<INotification> callback)
+        public NewMapInteraction(Project project)
+            :this (project, null)
         {
+        }
+
+        public NewMapInteraction(Action<INotification> callback)
+            : this(null, callback)
+        {
+            this.Callback = callback;
+        }
+
+        public NewMapInteraction(Project project, Action<INotification> callback)
+        {
+            this.Project = project;
             this.Callback = callback;
         }
 

@@ -102,6 +102,7 @@
 
         <Separator Grid.Row="1" />
 
+        <!-- Change layer list entry and group context menu bindings -->
         <ScrollViewer Grid.Row="2">
             <extcomp:StretchingTreeView x:Name="layerTree"
                                         ItemsSource="{Binding LayerList}"

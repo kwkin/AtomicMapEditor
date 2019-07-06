@@ -41,9 +41,9 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
             this.NewProjectCommand = new DelegateCommand(() => NewProject());
             this.OpenProjectCommand = new DelegateCommand(() => OpenProject());
-            this.ViewProjectPropertiesCommand = new DelegateCommand(() => ViewProjectProperties());
-            this.RefreshTreeCommand = new DelegateCommand(() => RefreshTree());
             this.EditProjectPropertiesCommand = new DelegateCommand(() => EditProjectProperties());
+            this.RefreshTreeCommand = new DelegateCommand(() => RefreshTree());
+            this.CurrentSelectionChangedCommand = new DelegateCommand<object>((entry) => SelectedItemChanged(entry));
         }
 
         #endregion constructor
@@ -51,14 +51,16 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
         #region properties
 
-        public ICommand NewProjectCommand { get; set; }
-        public ICommand OpenProjectCommand { get; set; }
-        public ICommand ViewProjectPropertiesCommand { get; set; }
-        public ICommand RefreshTreeCommand { get; set; }
+        public ICommand NewProjectCommand { get; private set; }
+        public ICommand OpenProjectCommand { get; private set; }
         public ICommand EditProjectPropertiesCommand { get; private set; }
+        public ICommand RefreshTreeCommand { get; private set; }
         public ICommand EditMapPropertiesCommand { get; private set; }
+        public ICommand CurrentSelectionChangedCommand { get; private set; }
 
         public ObservableCollection<ProjectNodeViewModel> ProjectNodes { get; set; }
+        public BindableProperty<Project> CurrentProject { get; set; } = BindableProperty.Prepare<Project>();
+        public BindableProperty<Map> CurrentMap { get; set; } = BindableProperty.Prepare<Map>();
 
         #endregion properties
 
@@ -82,19 +84,34 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
             Console.WriteLine("Opening a new project");
         }
 
-        public void ViewProjectProperties()
-        {
-            Console.WriteLine("View project properties");
-        }
-
         public void RefreshTree()
         {
             Console.WriteLine("Refresh Drop");
         }
 
+        private void SelectedItemChanged(object item)
+        {
+            if (typeof(ProjectNodeViewModel).IsAssignableFrom(item.GetType()))
+            {
+                ProjectNodeViewModel projectViewModel = item as ProjectNodeViewModel;
+                this.CurrentProject.Value = projectViewModel.Project;
+            }
+            else if (typeof(MapNodeViewModel).IsAssignableFrom(item.GetType()))
+            {
+                MapNodeViewModel mapViewModel = item as MapNodeViewModel;
+                this.CurrentMap.Value = mapViewModel.Map;
+                this.CurrentProject.Value = mapViewModel.Map.Project.Value ?? this.CurrentProject.Value;
+            }
+        }
+
         private void EditProjectProperties()
         {
-            Console.WriteLine("Edit Project Properties");
+            if (this.CurrentProject == null)
+            {
+                return;
+            }
+            EditProjectInteraction interaction = new EditProjectInteraction(this.CurrentProject.Value);
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
         }
 
         private void ProjectsChanged(object sender, NotifyCollectionChangedEventArgs e)

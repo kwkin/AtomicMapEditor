@@ -1,4 +1,7 @@
-﻿using Ame.Infrastructure.Models;
+﻿using Ame.App.Wpf.UI.Interactions.MapProperties;
+using Ame.App.Wpf.UI.Interactions.ProjectProperties;
+using Ame.Infrastructure.Events;
+using Ame.Infrastructure.Models;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -36,6 +39,7 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
             this.Project.Maps.CollectionChanged += MapsChanged;
 
             this.NewMapCommand = new DelegateCommand(() => NewMap());
+            this.EditProjectPropertiesCommand = new DelegateCommand(() => EditProjectProperties());
         }
 
         #endregion constructor
@@ -43,6 +47,7 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
         #region properties
         public ICommand NewMapCommand { get; private set; }
+        public ICommand EditProjectPropertiesCommand { get; private set; }
 
         public Project Project { get; set; }
 
@@ -94,7 +99,14 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
         private void NewMap()
         {
-            Console.WriteLine("New Map");
+            NewMapInteraction interaction = new NewMapInteraction(this.Project);
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
+        }
+
+        public void EditProjectProperties()
+        {
+            EditProjectInteraction interaction = new EditProjectInteraction(this.Project);
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
         }
 
         #endregion methods

@@ -28,18 +28,29 @@ namespace Ame.Infrastructure.Models
         #region constructor
 
         public Map()
-            : this(string.Empty, 32, 32)
+            : this(null, string.Empty, 32, 32)
         {
         }
 
         public Map(string name)
-            : this(name, 32, 32)
+            : this(null, name, 32, 32)
+        {
+        }
+
+        public Map(Project project, string name)
+            : this(project, name, 32, 32)
         {
         }
 
         public Map(string name, int columns, int rows)
+            : this(null, name, columns, rows)
+        {
+        }
+
+        public Map(Project project, string name, int columns, int rows)
             : base(columns, rows, 32, 32)
         {
+            this.Project.Value = project;
             this.Name.Value = name;
 
             this.Author.Value = "";
@@ -88,6 +99,8 @@ namespace Ame.Infrastructure.Models
         public ObservableCollection<ILayer> Layers { get; set; }
 
         public BindableProperty<int> SelectedLayerIndex { get; set; } = BindableProperty.Prepare<int>();
+
+        public BindableProperty<Project> Project { get; set; } = BindableProperty.Prepare<Project>();
 
         public Layer CurrentLayer
         {
