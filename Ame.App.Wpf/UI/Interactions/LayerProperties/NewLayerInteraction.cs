@@ -33,14 +33,19 @@ namespace Ame.App.Wpf.UI.Interactions.LayerProperties
         {
         }
 
-        // TODO change other interaction classes to accept objects
         public NewLayerInteraction(Map map)
+            : this(map, null)
         {
-            this.Map = map;
         }
 
         public NewLayerInteraction(Action<INotification> callback)
+            : this(null, callback)
         {
+        }
+
+        public NewLayerInteraction(Map map, Action<INotification> callback)
+        {
+            this.Map = map;
             this.Callback = callback;
         }
 

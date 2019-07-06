@@ -56,7 +56,7 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
         private void EditMapProperties()
         {
-            EditMapInteraction interaction = new EditMapInteraction();
+            EditMapInteraction interaction = new EditMapInteraction(this.Map);
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
         }
 

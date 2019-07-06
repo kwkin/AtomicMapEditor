@@ -47,6 +47,7 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
         public IEventAggregator EventAggregator { get; set; }
         public double Width { get; set; } = 420.0;
         public double Height { get; set; } = 400.0;
+        public Project Project { get; set; }
 
         #endregion Properties
 
@@ -56,6 +57,7 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
         public void UpdateMissingContent(AmeSession session)
         {
             this.session = session;
+            this.Project = this.Project ?? session.CurrentProject;
             this.Title = "New Map";
             string newMapeName = string.Format("Map #{0}", session.MapCount);
             this.map = new Map(newMapeName);
@@ -98,9 +100,13 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
             IConfirmation confirmation = notification as IConfirmation;
             if (confirmation.Confirmed)
             {
-                Map mapModel = confirmation.Content as Map;
-                OpenDockMessage openEditorMessage = new OpenDockMessage(typeof(MapEditorViewModel), mapModel);
+                Map newMap = confirmation.Content as Map;
+                OpenDockMessage openEditorMessage = new OpenDockMessage(typeof(MapEditorViewModel), newMap);
                 this.EventAggregator.GetEvent<OpenDockEvent>().Publish(openEditorMessage);
+                if (this.Project != null)
+                {
+                    this.Project.Maps.Add(newMap);
+                }
             }
         }
 

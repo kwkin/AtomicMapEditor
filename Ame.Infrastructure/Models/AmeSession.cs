@@ -95,7 +95,7 @@ namespace Ame.Infrastructure.Models
         }
 
         private Project currentProject;
-        private Project CurrentProject
+        public Project CurrentProject
         {
             get
             {
