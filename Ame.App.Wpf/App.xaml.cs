@@ -3,6 +3,7 @@ using Ame.App.Wpf.UI.Editor.MapEditor;
 using Ame.App.Wpf.UI.Interactions.LayerProperties;
 using Ame.App.Wpf.UI.Interactions.MapProperties;
 using Ame.App.Wpf.UI.Interactions.Preferences;
+using Ame.App.Wpf.UI.Interactions.ProjectProperties;
 using Ame.App.Wpf.UI.Interactions.TilesetProperties;
 using Ame.App.Wpf.UI.Menu;
 using Ame.App.Wpf.UI.Ribbon;
@@ -47,6 +48,8 @@ namespace Ame.App.Wpf
             ViewModelLocationProvider.Register<MapEditorRibbon, MapEditorRibbonViewModel>();
             ViewModelLocationProvider.Register<WindowManager, WindowManagerViewModel>();
 
+            ViewModelLocationProvider.Register<EditProjectWindow, ProjectPropertiesViewModel>();
+            ViewModelLocationProvider.Register<NewProjectWindow, ProjectPropertiesViewModel>();
             ViewModelLocationProvider.Register<EditMapWindow, MapPropertiesViewModel>();
             ViewModelLocationProvider.Register<NewMapWindow, MapPropertiesViewModel>();
             ViewModelLocationProvider.Register<EditLayerWindow, LayerPropertiesViewModel>();

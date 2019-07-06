@@ -242,6 +242,21 @@
       <DependentUpon>PreferencesMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Interactions\Preferences\PreferencesViewModel.cs" />
+    <Compile Include="UI\Interactions\ProjectProperties\EditProjectInteraction.cs" />
+    <Compile Include="UI\Interactions\ProjectProperties\EditProjectWindow.xaml.cs">
+      <DependentUpon>EditProjectWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Interactions\ProjectProperties\NewProjectInteraction.cs" />
+    <Compile Include="UI\Interactions\ProjectProperties\NewProjectWindow.xaml.cs">
+      <DependentUpon>NewProjectWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Interactions\ProjectProperties\ProjectPropertiesGeneral.xaml.cs">
+      <DependentUpon>ProjectPropertiesGeneral.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Interactions\ProjectProperties\ProjectPropertiesMetadata.xaml.cs">
+      <DependentUpon>ProjectPropertiesMetadata.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Interactions\ProjectProperties\ProjectPropertiesViewModel.cs" />
     <Compile Include="UI\Interactions\TilesetProperties\EditTilesetInteraction.cs" />
     <Compile Include="UI\Interactions\TilesetProperties\EditTilesetWindow.xaml.cs">
       <DependentUpon>EditTilesetWindow.xaml</DependentUpon>
@@ -522,6 +537,22 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Interactions\Preferences\PreferencesMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Interactions\ProjectProperties\EditProjectWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Interactions\ProjectProperties\NewProjectWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Interactions\ProjectProperties\ProjectPropertiesGeneral.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Interactions\ProjectProperties\ProjectPropertiesMetadata.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -153,11 +153,20 @@ namespace Ame.Infrastructure.Models
             }
         }
 
+        public int ProjectCount
+        {
+            get
+            {
+                return this.Projects.Count;
+            }
+        }
+
         public int MapCount
         {
             get
             {
-                return MapList.Count;
+                // TODO change "list" to plural
+                return this.MapList.Count;
             }
         }
 

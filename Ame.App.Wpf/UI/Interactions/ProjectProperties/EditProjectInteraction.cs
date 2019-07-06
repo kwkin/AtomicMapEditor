@@ -11,9 +11,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Ame.App.Wpf.UI.Interactions.MapProperties
+namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
 {
-    public class EditMapInteraction : IWindowInteraction
+    public class EditProjectInteraction : IWindowInteraction
     {
         #region fields
 
@@ -22,23 +22,23 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
 
         #region Constructor
 
-        public EditMapInteraction()
+        public EditProjectInteraction()
         {
         }
 
-        public EditMapInteraction(Map map)
-            : this(map, null)
+        public EditProjectInteraction(Project project)
+            : this(project, null)
         {
         }
 
-        public EditMapInteraction(Action<INotification> callback)
+        public EditProjectInteraction(Action<INotification> callback)
             : this(null, callback)
         {
         }
 
-        public EditMapInteraction(Map map, Action<INotification> callback)
+        public EditProjectInteraction(Project project, Action<INotification> callback)
         {
-            this.Map = map;
+            this.Project = project;
             this.Callback = callback;
         }
 
@@ -47,7 +47,7 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
 
         #region Properties
 
-        public Map Map { get; set; }
+        public Project Project { get; set; }
         public string Title { get; set; }
         public Action<INotification> Callback { get; set; }
         public IEventAggregator EventAggregator { get; set; }
@@ -61,18 +61,18 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
 
         public void UpdateMissingContent(AmeSession session)
         {
-            this.Map = this.Map ?? session.CurrentMap;
-            this.Title = string.Format("Edit Map - {0}", this.Map.Name);
+            this.Project = this.Project ?? session.CurrentProject;
+            this.Title = string.Format("Edit Project - {0}", this.Project.Name);
         }
 
         public void RaiseNotification(DependencyObject parent)
         {
-            if (this.Map == null)
+            if (this.Project == null)
             {
-                throw new InteractionConfigurationException("Map is null");
+                throw new InteractionConfigurationException("Project is null");
             }
             Confirmation mapConfirmation = new Confirmation();
-            mapConfirmation.Content = this.Map;
+            mapConfirmation.Content = this.Project;
             mapConfirmation.Title = this.Title;
 
             InteractionRequestTrigger trigger = new InteractionRequestTrigger();
@@ -88,7 +88,7 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
             PopupWindowAction action = new PopupWindowAction();
             action.IsModal = true;
             action.CenterOverAssociatedObject = true;
-            action.WindowContent = new EditMapWindow();
+            action.WindowContent = new EditProjectWindow();
 
             Style style = new Style();
             style.TargetType = typeof(Window);

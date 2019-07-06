@@ -59,8 +59,8 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
             this.session = session;
             this.Project = this.Project ?? session.CurrentProject;
             this.Title = "New Map";
-            string newMapeName = string.Format("Map #{0}", session.MapCount);
-            this.map = new Map(newMapeName);
+            string newMapName = string.Format("Map #{0}", session.MapCount);
+            this.map = new Map(newMapName);
             this.Callback = this.Callback ?? OnNewMapWindowClosed;
         }
 

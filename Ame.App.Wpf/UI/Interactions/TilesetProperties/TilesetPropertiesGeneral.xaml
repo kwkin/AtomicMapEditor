@@ -3,10 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:local="clr-namespace:Ame.App.Wpf.UI.Interactions.TilesetProperties"
              xmlns:actions="clr-namespace:Ame.App.Wpf.UILogic.Actions"
              xmlns:conv="clr-namespace:Ame.App.Wpf.UILogic.Converters"
-             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" >
 
@@ -52,7 +52,7 @@
                VerticalAlignment="Center"
                Margin="0 0 5 10">
         </Label>
-        <TextBox x:Name="NameTextBox"
+        <TextBox x:Name="nameTextBox"
                  Grid.Row="0"
                  Grid.Column="1"
                  Grid.ColumnSpan="3"

@@ -1,4 +1,5 @@
-﻿using Ame.Infrastructure.BaseTypes;
+﻿using Ame.App.Wpf.UI.Interactions.ProjectProperties;
+using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
@@ -7,6 +8,7 @@ using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,16 +36,8 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
             this.Title.Value = "Project Explorer";
 
             this.ProjectNodes = new ObservableCollection<ProjectNodeViewModel>();
-            
-            Project project1 = new Project("Project 1");
-            Map map1a = new Map("Map 1a");
-            project1.Maps.Add(map1a);
-            Map map1b = new Map("Map 1b");
-            project1.Maps.Add(map1b);
 
-            ProjectNodeViewModel projectNode1 = new ProjectNodeViewModel(this.eventAggregator, project1);
-
-            this.ProjectNodes.Add(projectNode1);
+            this.session.Projects.CollectionChanged += ProjectsChanged;
 
             this.NewProjectCommand = new DelegateCommand(() => NewProject());
             this.OpenProjectCommand = new DelegateCommand(() => OpenProject());
@@ -79,7 +73,8 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
         public void NewProject()
         {
-            Console.WriteLine("Adding new project");
+            NewProjectInteraction interaction = new NewProjectInteraction();
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
         }
 
         public void OpenProject()
@@ -100,6 +95,45 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
         private void EditProjectProperties()
         {
             Console.WriteLine("Edit Project Properties");
+        }
+
+        private void ProjectsChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    foreach (Project project in e.NewItems)
+                    {
+                        ProjectNodeViewModel node = new ProjectNodeViewModel(this.eventAggregator, project);
+                        this.ProjectNodes.Add(node);
+                    }
+                    break;
+
+                case NotifyCollectionChangedAction.Remove:
+                    foreach (Project project in e.OldItems)
+                    {
+                        IEnumerable<ProjectNodeViewModel> toRemove = new ObservableCollection<ProjectNodeViewModel>(this.ProjectNodes.Where(entry => entry.Project == project));
+                        foreach (ProjectNodeViewModel node in toRemove)
+                        {
+                            this.ProjectNodes.Remove(node);
+                        }
+                    }
+                    break;
+
+                case NotifyCollectionChangedAction.Move:
+                    int oldIndex = e.OldStartingIndex;
+                    int newIndex = e.NewStartingIndex;
+                    if (oldIndex != -1 && newIndex != -1)
+                    {
+                        ProjectNodeViewModel entry = this.ProjectNodes[oldIndex];
+                        this.ProjectNodes[oldIndex] = this.ProjectNodes[newIndex];
+                        this.ProjectNodes[newIndex] = entry;
+                    }
+                    break;
+
+                default:
+                    break;
+            }
         }
 
         #endregion methods

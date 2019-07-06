@@ -4,7 +4,6 @@ using Ame.Infrastructure.Models;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
-using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,9 +14,9 @@ using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace Ame.App.Wpf.UI.Interactions.MapProperties
+namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
 {
-    public class MapPropertiesViewModel : IInteractionRequestAware
+    public class ProjectPropertiesViewModel : IInteractionRequestAware
     {
         #region fields
 
@@ -28,15 +27,15 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
 
         #region constructor
 
-        public MapPropertiesViewModel(IEventAggregator eventAggregator)
+        public ProjectPropertiesViewModel(IEventAggregator eventAggregator)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
 
-            this.WindowTitle.Value = "New Map";
+            this.WindowTitle.Value = "New Project";
 
             this.SelectedMetadata.PropertyChanged += SelectedMetadataChanged;
 
-            this.SetMapPropertiesCommand = new DelegateCommand(() => SetMapProperties());
+            this.SetProjectPropertiesCommand = new DelegateCommand(() => SetProjectProperties());
             this.CloseWindowCommand = new DelegateCommand(() => CloseWindow());
             this.AddCustomMetaDataCommand = new DelegateCommand(() => AddCustomProperty());
             this.RemoveCustomMetadataCommand = new DelegateCommand(() => RemoveCustomProperty());
@@ -49,32 +48,28 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
 
         #region properties
 
-        public ICommand SetMapPropertiesCommand { get; private set; }
+        public ICommand SetProjectPropertiesCommand { get; private set; }
         public ICommand CloseWindowCommand { get; private set; }
         public ICommand AddCustomMetaDataCommand { get; private set; }
         public ICommand RemoveCustomMetadataCommand { get; private set; }
         public ICommand MoveMetadataUpCommand { get; private set; }
         public ICommand MoveMetadataDownCommand { get; private set; }
 
-        public BindableProperty<string> WindowTitle { get; set; } = BindableProperty<string>.Prepare();
+        public BindableProperty<string> WindowTitle { get; set; } = BindableProperty<string>.Prepare(string.Empty);
+
+        public BindableProperty<string> SourcePath { get; set; } = BindableProperty<string>.Prepare(string.Empty);
 
         public BindableProperty<string> Name { get; set; } = BindableProperty<string>.Prepare();
-
-        public BindableProperty<int> Rows { get; set; } = BindableProperty<int>.Prepare();
-
-        public BindableProperty<int> Columns { get; set; } = BindableProperty<int>.Prepare();
 
         public BindableProperty<int> TileWidth { get; set; } = BindableProperty<int>.Prepare();
 
         public BindableProperty<int> TileHeight { get; set; } = BindableProperty<int>.Prepare();
 
-        public BindableProperty<ScaleType> Scale { get; set; } = BindableProperty<ScaleType>.Prepare();
-
-        public BindableProperty<int> PixelRatio { get; set; } = BindableProperty<int>.Prepare();
+        public BindableProperty<int> PixelScale { get; set; } = BindableProperty<int>.Prepare();
 
         public BindableProperty<string> Description { get; set; } = BindableProperty<string>.Prepare();
 
-        public BindableProperty<Map> Map { get; set; } = BindableProperty<Map>.Prepare();
+        public BindableProperty<Project> Project { get; set; } = BindableProperty<Project>.Prepare();
 
         public IConfirmation notification { get; set; }
         public INotification Notification
@@ -83,9 +78,9 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
             set
             {
                 this.notification = value as IConfirmation;
-                this.Map.Value = this.notification.Content as Map;
-                updateUIusingMap();
-                if (this.Map.Value != null)
+                this.Project.Value = this.notification.Content as Project;
+                UpdateUIusingProject(this.Project.Value);
+                if (this.Project.Value != null)
                 {
                     UpdateMetadata();
                 }
@@ -107,9 +102,9 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
 
         #region methods
 
-        private void SetMapProperties()
+        private void SetProjectProperties()
         {
-            UpdateMapProperties(this.Map.Value);
+            UpdateProjectProperties(this.Project.Value);
             if (this.notification != null)
             {
                 this.notification.Confirmed = true;
@@ -126,53 +121,46 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
             FinishInteraction();
         }
 
-        private void UpdateMapProperties(Map map)
+        private void UpdateProjectProperties()
         {
-            map.Name.Value = this.Name.Value;
-            map.Scale.Value = this.Scale.Value;
-            switch (this.Scale.Value)
-            {
-                case ScaleType.Tile:
-                    map.Columns.Value = this.Columns.Value;
-                    map.Rows.Value = this.Rows.Value;
-                    map.TileHeight.Value = this.TileHeight.Value;
-                    map.TileWidth.Value = this.TileWidth.Value;
-                    break;
-
-                case ScaleType.Pixel:
-                default:
-                    map.Columns.Value = this.Columns.Value;
-                    map.Rows.Value = this.Rows.Value;
-                    break;
-            }
-            map.PixelScale.Value = this.PixelRatio.Value;
-            map.Description.Value = this.Description.Value;
+            UpdateProjectProperties(this.Project.Value);
         }
 
-        private void updateUIusingMap()
+        private void UpdateProjectProperties(Project project)
         {
-            updateUIusingMap(this.Map.Value);
+            project.Name.Value = this.Name.Value;
+            project.SourcePath.Value = this.SourcePath.Value;
+            project.DefaultTileWidth.Value = this.TileWidth.Value;
+            project.DefaultTileHeight.Value = this.TileHeight.Value;
+            project.DefaultPixelScale.Value = this.PixelScale.Value;
+            project.Description.Value = this.Description.Value;
         }
 
-        private void updateUIusingMap(Map map)
+        private void UpdateUIusingProject()
         {
-            this.Name.Value = map.Name.Value;
-            this.Columns.Value = map.Columns.Value;
-            this.Rows.Value = map.Rows.Value;
-            this.TileWidth.Value = map.TileWidth.Value;
-            this.TileHeight.Value = map.TileHeight.Value;
-            this.Scale.Value = map.Scale.Value;
-            this.PixelRatio.Value = map.PixelScale.Value;
-            this.Description.Value = map.Description.Value;
+            UpdateUIusingProject(this.Project.Value);
         }
 
+        private void UpdateUIusingProject(Project project)
+        {
+            this.Name.Value = project.Name.Value;
+            this.SourcePath.Value = project.SourcePath.Value;
+            this.TileWidth.Value = project.DefaultTileWidth.Value;
+            this.TileHeight.Value = project.DefaultTileHeight.Value;
+            this.PixelScale.Value = project.DefaultPixelScale.Value;
+            this.Description.Value = project.Description.Value;
+        }
+
+        // TODO remove duplicate metadata code across other interaction view model classes
         private void UpdateMetadata()
         {
-            this.MetadataList = MetadataPropertyUtils.GetPropertyList(this.Map.Value);
-            this.MetadataList.Add(new MetadataProperty("Layer Count", this.Map.Value.Layers.Count, MetadataType.Statistic));
+            this.MetadataList = MetadataPropertyUtils.GetPropertyList(this.Project.Value);
+
+            this.MetadataList.Add(new MetadataProperty("Map Count", this.Project.Value.MapCount, MetadataType.Statistic));
+
             this.MapMetadata = new ListCollectionView(this.MetadataList);
             this.MapMetadata.GroupDescriptions.Add(new PropertyGroupDescription("Type"));
-            foreach (MetadataProperty property in this.Map.Value.CustomProperties)
+            foreach (MetadataProperty property in this.Project.Value.CustomProperties)
             {
                 this.MetadataList.Add(property);
             }
@@ -191,7 +179,7 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
             int customCount = this.MetadataList.Count(p => p.Type == MetadataType.Custom);
             string customName = string.Format("Custom #{0}", customCount);
             MetadataProperty property = new MetadataProperty(customName, "", MetadataType.Custom);
-            this.Map.Value.CustomProperties.Add(property);
+            this.Project.Value.CustomProperties.Add(property);
             this.MetadataList.Add(property);
         }
 

@@ -1,4 +1,5 @@
-﻿using Ame.Infrastructure.BaseTypes;
+﻿using Ame.Infrastructure.Attributes;
+using Ame.Infrastructure.BaseTypes;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,6 +23,7 @@ namespace Ame.Infrastructure.Models
             this.Name.Value = name;
             this.Maps = new ObservableCollection<Map>();
             this.Tilesets = new ObservableCollection<TilesetModel>();
+            this.CustomProperties = new ObservableCollection<MetadataProperty>();
         }
 
         #endregion constructor
@@ -29,10 +31,32 @@ namespace Ame.Infrastructure.Models
 
         #region properties
 
-        public BindableProperty<string> Name { get; set; } = BindableProperty.Prepare<string>("");
-        public BindableProperty<string> FileLocation { get; set; } = BindableProperty.Prepare<string>("");
+        [MetadataProperty(MetadataType.Property, "Name")]
+        public BindableProperty<string> Name { get; set; } = BindableProperty.Prepare<string>(string.Empty);
+
+        [MetadataProperty(MetadataType.Property, "Source Path")]
+        public BindableProperty<string> SourcePath { get; set; } = BindableProperty.Prepare<string>(string.Empty);
+
+        [MetadataProperty(MetadataType.Property, "Pixel Scale")]
+        public BindableProperty<int> DefaultPixelScale { get; set; } = BindableProperty.Prepare<int>();
+
+        [MetadataProperty(MetadataType.Property, "Tile Width")]
+        public BindableProperty<int> DefaultTileWidth { get; set; } = BindableProperty.Prepare<int>(32);
+
+        [MetadataProperty(MetadataType.Property, "Tile Height")]
+        public BindableProperty<int> DefaultTileHeight { get; set; } = BindableProperty.Prepare<int>(32);
+
+        [MetadataProperty(MetadataType.Property, "Description")]
+        public BindableProperty<string> Description { get; set; } = BindableProperty.Prepare<string>(string.Empty);
+
+        [MetadataProperty(MetadataType.Property, "Version")]
+        public BindableProperty<string> Version { get; set; } = BindableProperty.Prepare<string>(string.Empty);
+
         public ObservableCollection<Map> Maps { get; set; }
+
         public ObservableCollection<TilesetModel> Tilesets { get; set; }
+
+        public ObservableCollection<MetadataProperty> CustomProperties { get; set; }
 
         public int MapCount
         {

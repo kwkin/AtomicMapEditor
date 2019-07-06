@@ -67,25 +67,22 @@ namespace Ame.Infrastructure.Models
 
         #region properties
 
-        [MetadataProperty(MetadataType.Property)]
+        [MetadataProperty(MetadataType.Property, "Name")]
         public BindableProperty<string> Name { get; set; } = BindableProperty.Prepare<string>(string.Empty);
 
-        [MetadataProperty(MetadataType.Property)]
+        [MetadataProperty(MetadataType.Property, "Source Path")]
         public BindableProperty<string> SourcePath { get; set; } = BindableProperty.Prepare<string>(string.Empty);
-
-        [MetadataProperty(MetadataType.Property, "Pixel Ratio")]
-        public BindableProperty<int> PixelRatio { get; set; } = BindableProperty.Prepare<int>();
 
         [MetadataProperty(MetadataType.Property, "Pixel Scale")]
         public BindableProperty<int> PixelScale { get; set; } = BindableProperty.Prepare<int>();
 
-        [MetadataProperty(MetadataType.Property)]
+        [MetadataProperty(MetadataType.Property, "Description")]
         public BindableProperty<string> Description { get; set; } = BindableProperty.Prepare<string>(string.Empty);
 
-        [MetadataProperty(MetadataType.Property)]
+        [MetadataProperty(MetadataType.Property, "Author")]
         public BindableProperty<string> Author { get; set; } = BindableProperty.Prepare<string>(string.Empty);
 
-        [MetadataProperty(MetadataType.Property)]
+        [MetadataProperty(MetadataType.Property, "Version")]
         public BindableProperty<string> Version { get; set; } = BindableProperty.Prepare<string>(string.Empty);
 
         public ObservableCollection<ILayer> Layers { get; set; }

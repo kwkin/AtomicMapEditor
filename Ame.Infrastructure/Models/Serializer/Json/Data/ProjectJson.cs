@@ -18,8 +18,13 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
 
         public ProjectJson(Project project)
         {
-            this.Version = Global.Version;
+            this.Version = project.Version.Value ?? Global.Version;
             this.Name = project.Name.Value;
+            this.DefaultPixelScale = project.DefaultPixelScale.Value;
+            this.DefaultTileWidth = project.DefaultTileWidth.Value;
+            this.DefaultTileHeight = project.DefaultTileHeight.Value;
+            this.Description = project.Description.Value;
+
             this.MapFiles = new List<string>();
             foreach (Map map in project.Maps)
             {
@@ -37,6 +42,18 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
 
         [JsonProperty(PropertyName = "Name")]
         public string Name { get; set; }
+
+        [JsonProperty(PropertyName = "PixelScale")]
+        public int DefaultPixelScale { get; set; }
+
+        [JsonProperty(PropertyName = "TileWidth")]
+        public int DefaultTileWidth { get; set; }
+
+        [JsonProperty(PropertyName = "TileHeight")]
+        public int DefaultTileHeight { get; set; }
+
+        [JsonProperty(PropertyName = "Description")]
+        public string Description { get; set; }
 
         [JsonProperty(PropertyName = "Maps")]
         public IList<string> MapFiles { get; set; }
