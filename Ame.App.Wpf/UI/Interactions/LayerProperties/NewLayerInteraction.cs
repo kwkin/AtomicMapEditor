@@ -33,6 +33,12 @@ namespace Ame.App.Wpf.UI.Interactions.LayerProperties
         {
         }
 
+        // TODO change other interaction classes to accept objects
+        public NewLayerInteraction(Map map)
+        {
+            this.Map = map;
+        }
+
         public NewLayerInteraction(Action<INotification> callback)
         {
             this.Callback = callback;
@@ -49,6 +55,7 @@ namespace Ame.App.Wpf.UI.Interactions.LayerProperties
         public IEventAggregator EventAggregator { get; set; }
         public double Width { get; set; } = 420.0;
         public double Height { get; set; } = 480.0;
+        public Map Map { get; set; }
 
         #endregion Properties
 
@@ -58,10 +65,10 @@ namespace Ame.App.Wpf.UI.Interactions.LayerProperties
         public void UpdateMissingContent(AmeSession session)
         {
             this.session = session;
-            Map currentMap = session.CurrentMap;
+            this.Map = this.Map ?? session.CurrentMap;
             this.Title = "New Layer";
-            string newLayerName = string.Format("Layer #{0}", currentMap.GetLayerCount());
-            this.layer = new Layer(currentMap, newLayerName, currentMap.TileWidth.Value, currentMap.TileHeight.Value, currentMap.Rows.Value, currentMap.Columns.Value);
+            string newLayerName = string.Format("Layer #{0}", this.Map.GetLayerCount());
+            this.layer = new Layer(this.Map, newLayerName, this.Map.TileWidth.Value, this.Map.TileHeight.Value, this.Map.Rows.Value, this.Map.Columns.Value);
             this.Callback = this.Callback ?? OnNewLayerWindowClosed;
         }
 
@@ -102,7 +109,7 @@ namespace Ame.App.Wpf.UI.Interactions.LayerProperties
             if (confirmation.Confirmed)
             {
                 Layer layer = confirmation.Content as Layer;
-                this.session.CurrentLayer.AddSibling(layer);
+                this.Map.CurrentLayer.AddSibling(layer);
             }
         }
 

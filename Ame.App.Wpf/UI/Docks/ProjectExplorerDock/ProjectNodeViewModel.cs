@@ -34,12 +34,15 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
                 this.MapNodes.Add(new MapNodeViewModel(this.eventAggregator, map));
             }
             this.Project.Maps.CollectionChanged += MapsChanged;
+
+            this.NewMapCommand = new DelegateCommand(() => NewMap());
         }
 
         #endregion constructor
 
 
         #region properties
+        public ICommand NewMapCommand { get; private set; }
 
         public Project Project { get; set; }
 
@@ -87,6 +90,11 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
                 default:
                     break;
             }
+        }
+
+        private void NewMap()
+        {
+            Console.WriteLine("New Map");
         }
 
         #endregion methods
