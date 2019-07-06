@@ -25,17 +25,41 @@
     <Grid>
         <Menu Style="{StaticResource PrimaryMidMenuStyle}">
             <MenuItem Header="File">
-                <MenuItem Header="New..."
-                          InputGestureText="Ctrl+N"
-                          Command="{Binding NewFileCommand, Mode=OneWay}">
-                    <MenuItem.Icon>
-                        <Viewbox>
-                            <ContentControl Content="{StaticResource ic_Project}"
+                <MenuItem Header="New...">
+                    <MenuItem Header="Project..."
+                              InputGestureText="Ctrl+Shift+N"
+                          Command="{Binding NewProjectCommand, Mode=OneWay}">
+                        <MenuItem.Icon>
+                            <Viewbox>
+                                <ContentControl Content="{StaticResource ic_Project}"
                                     Width="{StaticResource MidIconSize}"
                                     Height="{StaticResource MidIconSize}"/>
-                        </Viewbox>
-                    </MenuItem.Icon>
+                            </Viewbox>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Map..."
+                              InputGestureText="Ctrl+N"
+                          Command="{Binding NewMapCommand, Mode=OneWay}">
+                        <MenuItem.Icon>
+                            <Viewbox>
+                                <ContentControl Content="{StaticResource ic_Map}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                            </Viewbox>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Layer..."
+                          Command="{Binding NewLayerCommand, Mode=OneWay}">
+                        <MenuItem.Icon>
+                            <Viewbox>
+                                <ContentControl Content="{StaticResource ic_AddBox}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                            </Viewbox>
+                        </MenuItem.Icon>
+                    </MenuItem>
                 </MenuItem>
+                
                 <MenuItem Header="Open..."
                           InputGestureText="Ctrl+O"
                           Command="{Binding OpenFileCommand, Mode=OneWay}">

@@ -59,7 +59,7 @@ namespace Ame.App.Wpf.UI.Menu
             this.recentFileItems = new ObservableCollection<MenuItem>();
 
             // File bindings
-            this.NewFileCommand = new DelegateCommand(() => NewProject());
+            this.NewProjectCommand = new DelegateCommand(() => NewProject());
             this.OpenFileCommand = new DelegateCommand(() => OpenFile());
             this.SaveFileCommand = new DelegateCommand(() => SaveFile());
             this.SaveAsFileCommand = new DelegateCommand(() => SaveAsFile());
@@ -143,7 +143,7 @@ namespace Ame.App.Wpf.UI.Menu
 
         #region properties
 
-        public ICommand NewFileCommand { get; private set; }
+        public ICommand NewProjectCommand { get; private set; }
         public ICommand OpenFileCommand { get; private set; }
         public ICommand SaveFileCommand { get; private set; }
         public ICommand SaveAsFileCommand { get; private set; }
