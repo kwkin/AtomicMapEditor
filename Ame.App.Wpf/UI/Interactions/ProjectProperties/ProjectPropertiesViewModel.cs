@@ -1,17 +1,17 @@
 ﻿using Ame.Infrastructure.Attributes;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Models;
+using Ame.Infrastructure.Utils;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
+using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
@@ -21,15 +21,17 @@ namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
         #region fields
 
         private IEventAggregator eventAggregator;
+        private AmeSession session;
 
         #endregion fields
 
 
         #region constructor
 
-        public ProjectPropertiesViewModel(IEventAggregator eventAggregator)
+        public ProjectPropertiesViewModel(IEventAggregator eventAggregator, AmeSession session)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
+            this.session = session ?? throw new ArgumentNullException("session");
 
             this.WindowTitle.Value = "New Project";
 
@@ -37,6 +39,7 @@ namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
 
             this.SetProjectPropertiesCommand = new DelegateCommand(() => SetProjectProperties());
             this.CloseWindowCommand = new DelegateCommand(() => CloseWindow());
+            this.BrowseSourceCommand = new DelegateCommand(() => BrowseSource());
             this.AddCustomMetaDataCommand = new DelegateCommand(() => AddCustomProperty());
             this.RemoveCustomMetadataCommand = new DelegateCommand(() => RemoveCustomProperty());
             this.MoveMetadataUpCommand = new DelegateCommand(() => MoveMetadataUp());
@@ -50,6 +53,7 @@ namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
 
         public ICommand SetProjectPropertiesCommand { get; private set; }
         public ICommand CloseWindowCommand { get; private set; }
+        public ICommand BrowseSourceCommand { get; set; }
         public ICommand AddCustomMetaDataCommand { get; private set; }
         public ICommand RemoveCustomMetadataCommand { get; private set; }
         public ICommand MoveMetadataUpCommand { get; private set; }
@@ -88,7 +92,7 @@ namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
         }
 
         public ICollectionView GroupedProperties { get; set; }
-        public ICollectionView MapMetadata { get; set; }
+        public ICollectionView ProjectMetadata { get; set; }
         public ObservableCollection<MetadataProperty> MetadataList { get; set; }
 
         public BindableProperty<MetadataProperty> SelectedMetadata { get; set; } = BindableProperty<MetadataProperty>.Prepare();
@@ -96,6 +100,8 @@ namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
         public BindableProperty<bool> IsCustomSelected { get; set; } = BindableProperty<bool>.Prepare();
 
         public Action FinishInteraction { get; set; }
+
+        public BindableProperty<bool> IsSourceSpecified { get; set; } = BindableProperty<bool>.Prepare();
 
         #endregion properties
 
@@ -149,6 +155,30 @@ namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
             this.TileHeight.Value = project.DefaultTileHeight.Value;
             this.PixelScale.Value = project.DefaultPixelScale.Value;
             this.Description.Value = project.Description.Value;
+
+            if (this.SourcePath.Value != null && this.SourcePath.Value != string.Empty)
+            {
+                this.IsSourceSpecified.Value = true;
+            }
+            else
+            {
+                this.IsSourceSpecified.Value = false;
+            }
+        }
+
+        private void BrowseSource()
+        {
+            SaveFileDialog saveProjectDialog = new SaveFileDialog();
+            saveProjectDialog.Title = "Create a new Project";
+            saveProjectDialog.InitialDirectory = this.session.LastMapDirectory;
+            saveProjectDialog.Filter = SaveProjectExtension.GetOpenProjectSaveExtensions();
+            if (saveProjectDialog.ShowDialog() == DialogResult.OK)
+            {
+                string projectFilePath = saveProjectDialog.FileName;
+                this.IsSourceSpecified.Value = true;
+                this.SourcePath.Value = projectFilePath;
+                this.session.LastMapDirectory = Directory.GetParent(projectFilePath).FullName;
+            }
         }
 
         // TODO remove duplicate metadata code across other interaction view model classes
@@ -158,8 +188,8 @@ namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
 
             this.MetadataList.Add(new MetadataProperty("Map Count", this.Project.Value.MapCount, MetadataType.Statistic));
 
-            this.MapMetadata = new ListCollectionView(this.MetadataList);
-            this.MapMetadata.GroupDescriptions.Add(new PropertyGroupDescription("Type"));
+            this.ProjectMetadata = new ListCollectionView(this.MetadataList);
+            this.ProjectMetadata.GroupDescriptions.Add(new PropertyGroupDescription("Type"));
             foreach (MetadataProperty property in this.Project.Value.CustomProperties)
             {
                 this.MetadataList.Add(property);
@@ -193,8 +223,8 @@ namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
 
         private void MoveMetadataUp()
         {
-            int currentIndex = this.MapMetadata.CurrentPosition;
-            MetadataProperty currentItem = this.MapMetadata.CurrentItem as MetadataProperty;
+            int currentIndex = this.ProjectMetadata.CurrentPosition;
+            MetadataProperty currentItem = this.ProjectMetadata.CurrentItem as MetadataProperty;
             MetadataType currentItemType = currentItem.Type;
 
             int propertyIndex = 0;
@@ -221,14 +251,14 @@ namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
             if (currentIndex > lowestIndex)
             {
                 this.MetadataList.Move(currentIndex, currentIndex - 1);
-                this.MapMetadata.Refresh();
+                this.ProjectMetadata.Refresh();
             }
         }
 
         private void MoveMetadataDown()
         {
-            int currentIndex = this.MapMetadata.CurrentPosition;
-            MetadataProperty currentItem = this.MapMetadata.CurrentItem as MetadataProperty;
+            int currentIndex = this.ProjectMetadata.CurrentPosition;
+            MetadataProperty currentItem = this.ProjectMetadata.CurrentItem as MetadataProperty;
             MetadataType currentItemType = currentItem.Type;
 
             int propertyIndex = 0;
@@ -255,7 +285,7 @@ namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
             if (currentIndex < highestIndex)
             {
                 this.MetadataList.Move(currentIndex, currentIndex + 1);
-                this.MapMetadata.Refresh();
+                this.ProjectMetadata.Refresh();
             }
         }
 

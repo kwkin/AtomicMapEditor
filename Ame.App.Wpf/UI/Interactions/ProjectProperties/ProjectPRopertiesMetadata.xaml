@@ -61,7 +61,7 @@
         </WrapPanel>
 
         <DataGrid Grid.Row="1"
-                  ItemsSource="{Binding TilesetMetadata.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  ItemsSource="{Binding ProjectMetadata, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding SelectedMetadata}"
                   SelectionUnit="FullRow"
                   AutoGenerateColumns="False"

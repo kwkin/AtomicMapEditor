@@ -11,6 +11,9 @@ namespace Ame.Infrastructure.Utils
 {
     public enum FileExtensions
     {
+        [FileExtensionAttribute("AMP", "*.amp")]
+        AMP,
+
         [FileExtensionAttribute("AME", "*.ame")]
         AME,
 
@@ -31,7 +34,14 @@ namespace Ame.Infrastructure.Utils
     }
 
 
-    public enum SaveExtensions
+    public enum SaveProjectExtensions
+    {
+        AMP = FileExtensions.AMP,
+        JSON = FileExtensions.JSON
+    }
+
+
+    public enum SaveMapExtensions
     {
         AME = FileExtensions.AME,
         JSON = FileExtensions.JSON
@@ -54,14 +64,34 @@ namespace Ame.Infrastructure.Utils
     }
 
 
-    public static class SaveExtension
+    public static class SaveProjectExtension
     {
         #region methods
 
-        public static string GetOpenFileSaveExtensions()
+        public static string GetOpenProjectSaveExtensions()
         {
             StringBuilder openFileFormatBuilder = new StringBuilder();
-            foreach (FileExtensions extension in Enum.GetValues(typeof(SaveExtensions)))
+            foreach (FileExtensions extension in Enum.GetValues(typeof(SaveProjectExtensions)))
+            {
+                openFileFormatBuilder.Append(extension.GetOpenFileFormat());
+                openFileFormatBuilder.Append("|");
+            }
+            openFileFormatBuilder.Append("All Files (*.*)|*.*");
+
+            return openFileFormatBuilder.ToString();
+        }
+        #endregion methods
+    }
+
+
+    public static class SaveMapExtension
+    {
+        #region methods
+
+        public static string GetOpenMapSaveExtensions()
+        {
+            StringBuilder openFileFormatBuilder = new StringBuilder();
+            foreach (FileExtensions extension in Enum.GetValues(typeof(SaveMapExtensions)))
             {
                 openFileFormatBuilder.Append(extension.GetOpenFileFormat());
                 openFileFormatBuilder.Append("|");

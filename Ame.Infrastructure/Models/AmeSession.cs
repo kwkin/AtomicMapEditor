@@ -250,7 +250,6 @@ namespace Ame.Infrastructure.Models
                 this.lastMapDirectory = value;
             }
         }
-
         #endregion properties
 
 

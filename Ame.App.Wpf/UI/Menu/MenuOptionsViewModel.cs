@@ -10,6 +10,7 @@ using Ame.App.Wpf.UI.Docks.ToolboxDock;
 using Ame.App.Wpf.UI.Interactions.LayerProperties;
 using Ame.App.Wpf.UI.Interactions.MapProperties;
 using Ame.App.Wpf.UI.Interactions.Preferences;
+using Ame.App.Wpf.UI.Interactions.ProjectProperties;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
@@ -58,7 +59,7 @@ namespace Ame.App.Wpf.UI.Menu
             this.recentFileItems = new ObservableCollection<MenuItem>();
 
             // File bindings
-            this.NewFileCommand = new DelegateCommand(() => NewFile());
+            this.NewFileCommand = new DelegateCommand(() => NewProject());
             this.OpenFileCommand = new DelegateCommand(() => OpenFile());
             this.SaveFileCommand = new DelegateCommand(() => SaveFile());
             this.SaveAsFileCommand = new DelegateCommand(() => SaveAsFile());
@@ -142,38 +143,6 @@ namespace Ame.App.Wpf.UI.Menu
 
         #region properties
 
-        private ObservableCollection<MenuItem> recentlyClosedDockItems;
-        public ObservableCollection<MenuItem> RecentlyClosedDockItems
-        {
-            get
-            {
-                return recentlyClosedDockItems;
-            }
-            set
-            {
-                recentlyClosedDockItems = value;
-            }
-        }
-
-        private ObservableCollection<MenuItem> recentFileItems;
-        public ObservableCollection<MenuItem> RecentFileItems
-        {
-            get
-            {
-                return recentFileItems;
-            }
-            set
-            {
-                recentFileItems = value;
-            }
-        }
-
-        public AmeSession Session { get; set; }
-
-        public bool IsShowGrid { get; set; }
-        public bool IsShowRuler { get; set; }
-        public bool IsShowScrollBar { get; set; }
-
         public ICommand NewFileCommand { get; private set; }
         public ICommand OpenFileCommand { get; private set; }
         public ICommand SaveFileCommand { get; private set; }
@@ -249,6 +218,39 @@ namespace Ame.App.Wpf.UI.Menu
 
         public InteractionRequest<IConfirmation> ConfirmationRequest { get; set; }
 
+
+        private ObservableCollection<MenuItem> recentlyClosedDockItems;
+        public ObservableCollection<MenuItem> RecentlyClosedDockItems
+        {
+            get
+            {
+                return recentlyClosedDockItems;
+            }
+            set
+            {
+                recentlyClosedDockItems = value;
+            }
+        }
+
+        private ObservableCollection<MenuItem> recentFileItems;
+        public ObservableCollection<MenuItem> RecentFileItems
+        {
+            get
+            {
+                return recentFileItems;
+            }
+            set
+            {
+                recentFileItems = value;
+            }
+        }
+
+        public AmeSession Session { get; set; }
+
+        public bool IsShowGrid { get; set; }
+        public bool IsShowRuler { get; set; }
+        public bool IsShowScrollBar { get; set; }
+
         #endregion properties
 
 
@@ -256,16 +258,17 @@ namespace Ame.App.Wpf.UI.Menu
 
         #region file methods
 
-        public void NewFile()
+        public void NewProject()
         {
-            Console.WriteLine("New File");
+            NewProjectInteraction interaction = new NewProjectInteraction();
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
         }
 
         public void OpenFile()
         {
             OpenFileDialog openMapDialog = new OpenFileDialog();
             openMapDialog.Title = "Open Map";
-            openMapDialog.Filter = SaveExtension.GetOpenFileSaveExtensions();
+            openMapDialog.Filter = SaveMapExtension.GetOpenMapSaveExtensions();
             openMapDialog.InitialDirectory = this.Session.LastMapDirectory;
             if (openMapDialog.ShowDialog() == true)
             {
@@ -288,7 +291,7 @@ namespace Ame.App.Wpf.UI.Menu
         {
             SaveFileDialog saveMapDialog = new SaveFileDialog();
             saveMapDialog.Title = "Save Map";
-            saveMapDialog.Filter = SaveExtension.GetOpenFileSaveExtensions();
+            saveMapDialog.Filter = SaveMapExtension.GetOpenMapSaveExtensions();
             saveMapDialog.InitialDirectory = this.Session.LastMapDirectory;
             if (saveMapDialog.ShowDialog() == true)
             {

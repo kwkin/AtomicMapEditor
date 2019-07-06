@@ -52,12 +52,17 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
 
 
         #region constructor
-
         public TilesetPropertiesViewModel(IEventAggregator eventAggregator, AmeSession session)
+            : this(eventAggregator, session, ScrollModel.DefaultScrollModel())
+        {
+
+        }
+
+        public TilesetPropertiesViewModel(IEventAggregator eventAggregator, AmeSession session, IScrollModel scrollModel)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
-            this.scrollModel = ScrollModel.DefaultScrollModel();
-            this.session = session;
+            this.session = session ?? throw new ArgumentNullException("session");
+            this.scrollModel = scrollModel ?? throw new ArgumentNullException("scrollModel");
 
             this.WindowTitle.Value = "New Map";
             this.drawingGroup = new DrawingGroup();
@@ -330,13 +335,13 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
 
         private void BrowseSource()
         {
-            OpenFileDialog openTilesetDilog = new OpenFileDialog();
-            openTilesetDilog.Title = "Select a Tileset";
-            openTilesetDilog.InitialDirectory = this.session.LastTilesetDirectory;
-            openTilesetDilog.Filter = ImageExtension.GetOpenFileImageExtensions();
-            if (openTilesetDilog.ShowDialog() == true)
+            OpenFileDialog openTilesetDialog = new OpenFileDialog();
+            openTilesetDialog.Title = "Select a Tileset";
+            openTilesetDialog.InitialDirectory = this.session.LastTilesetDirectory;
+            openTilesetDialog.Filter = ImageExtension.GetOpenFileImageExtensions();
+            if (openTilesetDialog.ShowDialog() == true)
             {
-                string tileFilePath = openTilesetDilog.FileName;
+                string tileFilePath = openTilesetDialog.FileName;
                 if (File.Exists(tileFilePath))
                 {
                     this.IsSourceLoaded.Value = true;

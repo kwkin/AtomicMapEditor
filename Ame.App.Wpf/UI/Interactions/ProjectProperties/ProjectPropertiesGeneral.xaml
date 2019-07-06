@@ -111,7 +111,7 @@
                Visibility="{Binding Scale.Value, Converter={StaticResource EnumToVisibleConverter}, ConverterParameter={x:Static models:ScaleType.Tile}}" />
         <xctk:IntegerUpDown x:Name="tileWidthIntStepper"
                             Style="{StaticResource PrimaryLightNumericUpDownStyle}"
-                            Value="{Binding DefaultTileWidth.Value}"
+                            Value="{Binding TileWidth.Value}"
                             Grid.Row="2"
                             Grid.Column="1"
                             VerticalAlignment="Center"
@@ -131,7 +131,7 @@
                Visibility="{Binding Scale.Value, Converter={StaticResource EnumToVisibleConverter}, ConverterParameter={x:Static models:ScaleType.Tile}}" />
         <xctk:IntegerUpDown x:Name="tileHeightIntStepper"
                             Style="{StaticResource PrimaryLightNumericUpDownStyle}"
-                            Value="{Binding DefaultTileHeight.Value}"
+                            Value="{Binding TileHeight.Value}"
                             Grid.Row="2"
                             Grid.Column="3"
                             VerticalAlignment="Center"
@@ -152,7 +152,7 @@
                Margin="0 0 5 10" />
         <xctk:IntegerUpDown x:Name="pixelToIntStepper"
                             Style="{StaticResource PrimaryLightNumericUpDownStyle}"
-                            Value="{Binding DefaultPixelScale.Value}"
+                            Value="{Binding PixelScale.Value}"
                             Grid.Row="3"
                             Grid.Column="1"
                             Grid.ColumnSpan="3"
