@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Ame.Infrastructure.Models.Serializer.Json
 {
-    public class LayerJsonWriter : IJsonWriter<Layer>
+    public class LayerJsonWriter : IResourceWriter<Layer>
     {
         #region fields
 
@@ -32,9 +32,9 @@ namespace Ame.Infrastructure.Models.Serializer.Json
 
         #region methods
 
-        public void Write(Layer layer, string file)
+        public void Write(Layer layer, string path)
         {
-            Write(layer, new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.Read));
+            Write(layer, new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.Read));
         }
 
         public void Write(Layer layer, Stream stream)

@@ -13,6 +13,7 @@ using Ame.App.Wpf.UI.Serializer;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Core;
 using Ame.Infrastructure.Events;
+using Ame.Infrastructure.Handlers;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Models.Serializer.Json;
@@ -145,7 +146,7 @@ namespace Ame.App.Wpf.UI
             {
                 SaveAs(message);
             }, ThreadOption.PublisherThread);
-            this.eventAggregator.GetEvent<NotificationEvent<OpenMessage>>().Subscribe((message) =>
+            this.eventAggregator.GetEvent<NotificationEvent<OpenMapMessage>>().Subscribe((message) =>
             {
                 OpenMap(message);
             }, ThreadOption.PublisherThread);
@@ -355,12 +356,10 @@ namespace Ame.App.Wpf.UI
             content.Map.SerializeFile(content.Path);
         }
 
-        private void OpenMap(NotificationMessage<OpenMessage> message)
+        private void OpenMap(NotificationMessage<OpenMapMessage> message)
         {
-            OpenMessage content = message.Content;
-
-            MapJsonReader reader = new MapJsonReader();
-            Map importedMap = reader.Read(content.Path);
+            OpenMapMessage content = message.Content;
+            Map importedMap = content.Map;
 
             OpenDockMessage openEditorMessage = new OpenDockMessage(typeof(MapEditorViewModel), importedMap);
             foreach (TilesetModel tileset in importedMap.Tilesets)

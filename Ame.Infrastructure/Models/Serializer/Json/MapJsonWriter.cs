@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Ame.Infrastructure.Models.Serializer.Json
 {
-    public class MapJsonWriter : IJsonWriter<Map>
+    public class MapJsonWriter : IResourceWriter<Map>
     {
         #region fields
 
@@ -32,9 +32,9 @@ namespace Ame.Infrastructure.Models.Serializer.Json
 
         #region methods
 
-        public void Write(Map map, string file)
+        public void Write(Map map, string path)
         {
-            Write(map, new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.Read));
+            Write(map, new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.Read));
         }
 
         public void Write(Map map, Stream stream)

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Ame.Infrastructure.Models.Serializer.Json
 {
-    public class AmeSessionWriter
+    public class AmeSessionWriter : IResourceWriter<AmeSession>
     {
         #region fields
 
@@ -32,9 +32,9 @@ namespace Ame.Infrastructure.Models.Serializer.Json
 
         #region methods
 
-        public void Write(AmeSession session, string file)
+        public void Write(AmeSession session, string path)
         {
-            Write(session, new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.Read));
+            Write(session, new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.Read));
         }
 
         public void Write(AmeSession session, Stream stream)

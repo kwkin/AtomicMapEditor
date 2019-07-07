@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ame.Infrastructure.Models.Serializer.Json.Data
+namespace Ame.Infrastructure.Models.Serializer
 {
-    public interface IJsonWriter<T>
+    public interface IResourceWriter<T>
     {
         #region properties
 

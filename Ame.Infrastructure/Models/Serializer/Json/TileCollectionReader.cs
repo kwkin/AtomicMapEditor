@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Ame.Infrastructure.Models.Serializer.Json
 {
-    public class TileCollectionReader : IJsonReader<TileCollection>
+    public class TileCollectionReader : IResourceReader<TileCollection>
     {
         #region fields
 
@@ -38,9 +38,9 @@ namespace Ame.Infrastructure.Models.Serializer.Json
 
         #region methods
 
-        public TileCollection Read(string file)
+        public TileCollection Read(string path)
         {
-            TileCollectionJson json = JsonConvert.DeserializeObject<TileCollectionJson>(File.ReadAllText(file));
+            TileCollectionJson json = JsonConvert.DeserializeObject<TileCollectionJson>(File.ReadAllText(path));
             return json.Generate(this.layer, this.tilesets);
         }
         

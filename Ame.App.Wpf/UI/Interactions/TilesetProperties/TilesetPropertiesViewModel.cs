@@ -2,7 +2,9 @@
 using Ame.Infrastructure.Attributes;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Core;
+using Ame.Infrastructure.Handlers;
 using Ame.Infrastructure.Models;
+using Ame.Infrastructure.Models.Serializer.Image;
 using Ame.Infrastructure.UILogic;
 using Ame.Infrastructure.Utils;
 using Emgu.CV;
@@ -347,7 +349,12 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
                     this.IsSourceLoaded.Value = true;
                     this.SourcePath.Value = tileFilePath;
                     this.session.LastTilesetDirectory = Directory.GetParent(tileFilePath).FullName;
-                    RefreshItemImage();
+
+                    MatReader reader = new MatReader();
+                    ResourceLoader loader = ResourceLoader.Instance;
+                    Mat toLoad = loader.Load<Mat>(tileFilePath, reader);
+
+                    LoadItemImage(toLoad);
                 }
             }
         }
@@ -364,6 +371,12 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
                 return;
             }
             this.ItemImage.Value = CvInvoke.Imread(this.SourcePath.Value, Emgu.CV.CvEnum.ImreadModes.Unchanged);
+            LoadItemImage(this.ItemImage.Value);
+        }
+
+        public void LoadItemImage(Mat mat)
+        {
+            this.ItemImage.Value = mat;
             this.tilesetPixelWidth = this.ItemImage.Value.Width;
             this.tilesetPixelHeight = this.ItemImage.Value.Height;
 

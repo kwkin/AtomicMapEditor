@@ -63,7 +63,7 @@
     <Compile Include="BaseTypes\EditorViewModelTemplate.cs" />
     <Compile Include="BaseTypes\IContainsMetadata.cs" />
     <Compile Include="BaseTypes\IWindowInteraction.cs" />
-    <Compile Include="BaseTypes\MetadataHandler.cs" />
+    <Compile Include="Handlers\MetadataHandler.cs" />
     <Compile Include="BaseTypes\NodeViewBuilder.cs" />
     <Compile Include="BaseTypes\ReadOnlyBindableProperty.cs" />
     <Compile Include="Core\Global.cs" />
@@ -93,6 +93,7 @@
     <Compile Include="Events\UpdateBrushEvent.cs" />
     <Compile Include="Events\UpdatePaddedBrushEvent.cs" />
     <Compile Include="Exceptions\InteractionConfigurationException.cs" />
+    <Compile Include="Handlers\ResourceLoader.cs" />
     <Compile Include="InfrastructureModule.cs" />
     <Compile Include="Messages\CloseDockMessage.cs" />
     <Compile Include="Messages\NewLayerMessage.cs" />
@@ -118,11 +119,12 @@
     <Compile Include="Models\PaddedGridRenderable.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\ScaleType.cs" />
+    <Compile Include="Models\Serializer\Image\MatReader.cs" />
+    <Compile Include="Models\Serializer\IResourceReader.cs" />
+    <Compile Include="Models\Serializer\IResourceWriter.cs" />
     <Compile Include="Models\Serializer\Json\AmeSessionReader.cs" />
     <Compile Include="Models\Serializer\Json\AmeSessionWriter.cs" />
     <Compile Include="Models\Serializer\Json\Data\AmeSessionJson.cs" />
-    <Compile Include="Models\Serializer\Json\IJsonReader.cs" />
-    <Compile Include="Models\Serializer\Json\IJsonWriter.cs" />
     <Compile Include="Models\Serializer\Json\Data\LayerJson.cs" />
     <Compile Include="Models\Serializer\Json\Data\MapJson.cs" />
     <Compile Include="Models\Serializer\Json\Data\ProjectJson.cs" />

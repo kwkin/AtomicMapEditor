@@ -12,8 +12,10 @@ using Ame.App.Wpf.UI.Interactions.MapProperties;
 using Ame.App.Wpf.UI.Interactions.Preferences;
 using Ame.App.Wpf.UI.Interactions.ProjectProperties;
 using Ame.Infrastructure.Events;
+using Ame.Infrastructure.Handlers;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
+using Ame.Infrastructure.Models.Serializer.Json;
 using Ame.Infrastructure.UILogic;
 using Ame.Infrastructure.Utils;
 using Microsoft.Win32;
@@ -39,7 +41,7 @@ namespace Ame.App.Wpf.UI.Menu
 
         private IEventAggregator eventAggregator;
 
-        private string fileName;
+        private string filePath;
         private string fileType;
 
         #endregion fields
@@ -272,13 +274,21 @@ namespace Ame.App.Wpf.UI.Menu
             openMapDialog.InitialDirectory = this.Session.LastMapDirectory;
             if (openMapDialog.ShowDialog() == true)
             {
-                this.fileName = openMapDialog.FileName;
-                this.fileType = openMapDialog.Filter;
-                this.Session.LastMapDirectory = Directory.GetParent(openMapDialog.FileName).FullName;
+                string dialogFilePath = openMapDialog.FileName;
+                if (File.Exists(dialogFilePath))
+                {
+                    this.filePath = dialogFilePath;
+                    this.fileType = openMapDialog.Filter;
+                    this.Session.LastMapDirectory = Directory.GetParent(openMapDialog.FileName).FullName;
 
-                OpenMessage message = new OpenMessage(this.fileName);
-                NotificationMessage<OpenMessage> notification = new NotificationMessage<OpenMessage>(message);
-                this.eventAggregator.GetEvent<NotificationEvent<OpenMessage>>().Publish(notification);
+                    MapJsonReader reader = new MapJsonReader();
+                    ResourceLoader loader = ResourceLoader.Instance;
+                    Map importedMap = loader.Load<Map>(this.filePath, reader);
+
+                    OpenMapMessage message = new OpenMapMessage(importedMap);
+                    NotificationMessage<OpenMapMessage> notification = new NotificationMessage<OpenMapMessage>(message);
+                    this.eventAggregator.GetEvent<NotificationEvent<OpenMapMessage>>().Publish(notification);
+                }
             }
         }
 
@@ -295,11 +305,11 @@ namespace Ame.App.Wpf.UI.Menu
             saveMapDialog.InitialDirectory = this.Session.LastMapDirectory;
             if (saveMapDialog.ShowDialog() == true)
             {
-                this.fileName = saveMapDialog.FileName;
+                this.filePath = saveMapDialog.FileName;
                 this.fileType = saveMapDialog.Filter;
                 this.Session.LastMapDirectory = Directory.GetParent(saveMapDialog.FileName).FullName;
 
-                SaveMessage message = new SaveMessage(this.fileName, this.Session.CurrentMap);
+                SaveMessage message = new SaveMessage(this.filePath, this.Session.CurrentMap);
                 NotificationMessage<SaveMessage> notification = new NotificationMessage<SaveMessage>(message);
                 this.eventAggregator.GetEvent<NotificationEvent<SaveMessage>>().Publish(notification);
             }
@@ -317,10 +327,10 @@ namespace Ame.App.Wpf.UI.Menu
             exportMapDialog.Filter = ExportMapExtension.GetOpenFileExportMapExtensions();
             if (exportMapDialog.ShowDialog() == true)
             {
-                this.fileName = exportMapDialog.FileName;
+                this.filePath = exportMapDialog.FileName;
                 this.fileType = exportMapDialog.Filter;
 
-                StateMessage message = new StateMessage(this.fileName);
+                StateMessage message = new StateMessage(this.filePath);
                 BitmapEncoder encoder = ExportMapExtension.getEncoder(this.fileType);
                 message.Encoder = encoder;
                 NotificationMessage<StateMessage> notification = new NotificationMessage<StateMessage>(message);

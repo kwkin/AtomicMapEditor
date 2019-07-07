@@ -165,7 +165,6 @@ namespace Ame.Infrastructure.Models
         {
             get
             {
-                // TODO change "list" to plural
                 return this.Maps.Count;
             }
         }

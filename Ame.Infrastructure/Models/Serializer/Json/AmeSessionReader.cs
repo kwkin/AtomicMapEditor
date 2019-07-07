@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Ame.Infrastructure.Models.Serializer.Json
 {
-    public class AmeSessionReader : IJsonReader<AmeSession>
+    public class AmeSessionReader : IResourceReader<AmeSession>
     {
         #region fields
         

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Ame.Infrastructure.Models.Serializer.Json
 {
-    public class ProjectJsonReader : IJsonReader<Project>
+    public class ProjectJsonReader : IResourceReader<Project>
     {
         #region fields
 
@@ -32,9 +32,9 @@ namespace Ame.Infrastructure.Models.Serializer.Json
 
         #region methods
 
-        public Project Read(string file)
+        public Project Read(string path)
         {
-            ProjectJson projectJson = JsonConvert.DeserializeObject<ProjectJson>(File.ReadAllText(file));
+            ProjectJson projectJson = JsonConvert.DeserializeObject<ProjectJson>(File.ReadAllText(path));
             return projectJson.Generate();
         }
 

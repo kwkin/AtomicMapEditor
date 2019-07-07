@@ -1,4 +1,5 @@
 ﻿using Ame.Infrastructure.Attributes;
+using Ame.Infrastructure.BaseTypes;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace Ame.Infrastructure.BaseTypes
+namespace Ame.Infrastructure.Handlers
 {
     public class MetadataHandler
     {

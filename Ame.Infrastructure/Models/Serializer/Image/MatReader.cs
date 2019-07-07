@@ -1,15 +1,13 @@
-﻿using Ame.Infrastructure.Models.Serializer.Json.Data;
-using Newtonsoft.Json;
+﻿using Emgu.CV;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ame.Infrastructure.Models.Serializer.Json
+namespace Ame.Infrastructure.Models.Serializer.Image
 {
-    public class TilesetReader : IResourceReader<TilesetModel>
+    public class MatReader : IResourceReader<Mat>
     {
         #region fields
 
@@ -18,7 +16,7 @@ namespace Ame.Infrastructure.Models.Serializer.Json
 
         #region constructor
 
-        public TilesetReader()
+        public MatReader()
         {
         }
 
@@ -32,10 +30,9 @@ namespace Ame.Infrastructure.Models.Serializer.Json
 
         #region methods
 
-        public TilesetModel Read(string path)
+        public Mat Read(string path)
         {
-            TilesetJson json = JsonConvert.DeserializeObject<TilesetJson>(File.ReadAllText(path));
-            return json.Generate();
+            return CvInvoke.Imread(path, Emgu.CV.CvEnum.ImreadModes.Unchanged);
         }
 
         #endregion methods

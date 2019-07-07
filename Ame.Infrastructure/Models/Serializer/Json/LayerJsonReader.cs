@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Ame.Infrastructure.Models.Serializer.Json
 {
-    public class LayerJsonReader : IJsonReader<Layer>
+    public class LayerJsonReader : IResourceReader<Layer>
     {
         #region fields
 
@@ -35,9 +35,9 @@ namespace Ame.Infrastructure.Models.Serializer.Json
 
         #region methods
 
-        public Layer Read(string file)
+        public Layer Read(string path)
         {
-            LayerJson json = JsonConvert.DeserializeObject<LayerJson>(File.ReadAllText(file));
+            LayerJson json = JsonConvert.DeserializeObject<LayerJson>(File.ReadAllText(path));
             return json.Generate(this.map);
         }
 

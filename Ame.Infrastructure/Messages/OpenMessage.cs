@@ -7,7 +7,7 @@ using Ame.Infrastructure.Models;
 
 namespace Ame.Infrastructure.Messages
 {
-    public class OpenMessage
+    public class OpenMapMessage
     {
         #region fields
 
@@ -16,9 +16,9 @@ namespace Ame.Infrastructure.Messages
 
         #region Constructor
 
-        public OpenMessage(string path)
+        public OpenMapMessage(Map map)
         {
-            this.Path = path;
+            this.Map = map;
         }
 
         #endregion Constructor
@@ -26,13 +26,12 @@ namespace Ame.Infrastructure.Messages
 
         #region Properties
 
-        public string Path { get; set; }
+        public Map Map { get; set; }
 
         #endregion Properties
 
 
         #region methods
-
 
         #endregion methods
     }

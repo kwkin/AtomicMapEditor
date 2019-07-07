@@ -1,8 +1,10 @@
 ﻿using Ame.App.Wpf.UI.Interactions.ProjectProperties;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
+using Ame.Infrastructure.Handlers;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
+using Ame.Infrastructure.Models.Serializer.Json;
 using Ame.Infrastructure.Utils;
 using Microsoft.Win32;
 using Prism.Commands;
@@ -85,15 +87,19 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
         public void OpenProject()
         {
             OpenFileDialog openDialog = new OpenFileDialog();
-            openDialog.Title = "Select a Tileset";
+            openDialog.Title = "Open a Project";
             openDialog.InitialDirectory = this.session.LastTilesetDirectory;
             openDialog.Filter = SaveProjectExtension.GetOpenProjectSaveExtensions();
             if (openDialog.ShowDialog() == true)
             {
-                string tileFilePath = openDialog.FileName;
-                if (File.Exists(tileFilePath))
+                string dialogPath = openDialog.FileName;
+                if (File.Exists(dialogPath))
                 {
-                    // TODO load project
+                    ProjectJsonReader reader = new ProjectJsonReader();
+                    ResourceLoader loader = ResourceLoader.Instance;
+                    Project project = loader.Load<Project>(dialogPath, reader);
+
+                    this.session.Projects.Add(project);
                 }
             }
         }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ame.Infrastructure.Models.Serializer.Json
+namespace Ame.Infrastructure.Models.Serializer
 {
-    public interface IJsonReader<T>
+    public interface IResourceReader<T>
     {
         #region properties
 
