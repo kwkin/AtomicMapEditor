@@ -22,6 +22,10 @@ namespace Ame.Infrastructure.BaseTypes
 
         #region properties
 
+        BindableProperty<string> Name { get; set; }
+
+        BindableProperty<string> Description { get; set; }
+
         ObservableCollection<MetadataProperty> CustomProperties { get; set; }
 
         #endregion properties

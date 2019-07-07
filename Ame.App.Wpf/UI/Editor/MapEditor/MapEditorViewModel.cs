@@ -62,15 +62,15 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
             this.session = session ?? throw new ArgumentNullException("session is null");
-            this.Map = map ?? throw new ArgumentNullException("map is null");
+            this.Map.Value = map ?? throw new ArgumentNullException("map is null");
             this.ScrollModel = scrollModel ?? throw new ArgumentNullException("scrollModel is null");
 
-            this.Title.Value = this.Map.Name.Value;
+            this.Title.Value = map.Name.Value;
             this.orderer = new LayerOrderRenderer(this.session);
 
             this.imageTransform = new CoordinateTransform();
-            this.imageTransform.SetPixelToTile(this.Map.TileWidth.Value, this.Map.TileHeight.Value);
-            this.imageTransform.SetSelectionToPixel(this.Map.TileWidth.Value / 2, this.Map.TileHeight.Value / 2);
+            this.imageTransform.SetPixelToTile(map.TileWidth.Value, map.TileHeight.Value);
+            this.imageTransform.SetSelectionToPixel(map.TileWidth.Value / 2, map.TileHeight.Value / 2);
 
             this.drawingGroup = new DrawingGroup();
             this.mapBackground = new DrawingGroup();
@@ -88,7 +88,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             this.drawingGroup.Children.Add(this.layerBoundaries);
             this.DrawingCanvas = new DrawingImage(this.drawingGroup);
 
-            this.BackgroundBrush.Value = new SolidColorBrush(this.Map.BackgroundColor.Value);
+            this.BackgroundBrush.Value = new SolidColorBrush(map.BackgroundColor.Value);
             this.BackgroundPen.Value = new Pen(Brushes.Transparent, 0);
             this.Scale.Value = ScaleType.Tile;
             this.PositionText.Value = "0, 0";
@@ -101,7 +101,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             RedrawBackground();
 
             this.session.PropertyChanged += SessionPropertyChanged;
-            this.Map.Layers.CollectionChanged += LayerListChanged;
+            this.Map.Value.Layers.CollectionChanged += LayerListChanged;
             this.ScrollModel.PropertyChanged += ScrollModelPropertyChanged;
             this.BackgroundBrush.PropertyChanged += BackgroundChanged;
             this.BackgroundPen.PropertyChanged += BackgroundChanged;
@@ -138,8 +138,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
         public ICommand UndoCommand { get; private set; }
         public ICommand RedoCommand { get; private set; }
 
-        // TODO change to a bindable property
-        public Map Map { get; set; }
+        public BindableProperty<Map> Map { get; set; } = BindableProperty<Map>.Prepare();
 
         public BindableProperty<bool> IsGridOn { get; set; } = BindableProperty<bool>.Prepare();
 
@@ -192,7 +191,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
 
         public override object GetContent()
         {
-            return this.Map;
+            return this.Map.Value;
         }
 
         public override void CloseDock()
@@ -274,7 +273,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             this.IsGridOn.Value = drawGrid;
             if (this.IsGridOn.Value)
             {
-                PaddedGridRenderable gridParameters = new PaddedGridRenderable(this.Map);
+                PaddedGridRenderable gridParameters = new PaddedGridRenderable(this.Map.Value);
                 double thickness = 1 / this.ScrollModel.ZoomLevels[this.ScrollModel.ZoomIndex].zoom;
                 gridParameters.DrawingPen.Thickness = thickness < Global.maxGridThickness ? thickness : Global.maxGridThickness;
                 DrawingGroup group = gridParameters.CreateGrid();
@@ -288,12 +287,12 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
 
         public void Undo()
         {
-            this.Map.Undo();
+            this.Map.Value.Undo();
         }
 
         public void Redo()
         {
-            this.Map.Redo();
+            this.Map.Value.Redo();
         }
 
         public void DrawLayerBoundaries(ILayer layer)
@@ -431,13 +430,13 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
                 return;
             }
             Point topLeftTilePixelPoint = this.imageTransform.PixelToTopLeftTileEdge(point);
-            this.DrawingTool.DrawPressed(this.Map, topLeftTilePixelPoint);
+            this.DrawingTool.DrawPressed(this.Map.Value, topLeftTilePixelPoint);
         }
 
         private void DrawReleased(Point point)
         {
             Point topLeftTilePixelPoint = this.imageTransform.PixelToTopLeftTileEdge(point);
-            this.DrawingTool.DrawReleased(this.Map, topLeftTilePixelPoint);
+            this.DrawingTool.DrawReleased(this.Map.Value, topLeftTilePixelPoint);
         }
 
         private void DrawHover(Point point)
@@ -458,7 +457,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             double zoomLevel = this.ScrollModel.ZoomLevels[this.ScrollModel.ZoomIndex].zoom;
             this.lastTilePoint = topLeftTilePixelPoint;
 
-            this.DrawingTool.DrawHoverSample(this.Map, this.hoverSample, zoomLevel, topLeftTilePixelPoint);
+            this.DrawingTool.DrawHoverSample(this.Map.Value, this.hoverSample, zoomLevel, topLeftTilePixelPoint);
         }
 
         private void LayerChanged(ILayer layer)
@@ -495,20 +494,21 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
 
         private void RedrawBackground()
         {
+            Map map = this.Map.Value;
             Size extendedSize = new Size
             {
-                Width = this.Map.PixelWidth.Value + this.Map.TileWidth.Value,
-                Height = this.Map.PixelHeight.Value + this.Map.TileHeight.Value
+                Width = map.PixelWidth.Value + map.TileWidth.Value,
+                Height = map.PixelHeight.Value + map.TileHeight.Value
             };
             Point extendedPoint = new Point
             {
-                X = -this.Map.TileWidth.Value / 2,
-                Y = -this.Map.TileHeight.Value / 2
+                X = -map.TileWidth.Value / 2,
+                Y = -map.TileHeight.Value / 2
             };
             Rect extendedRect = new Rect(extendedPoint, extendedSize);
 
             Point backgroundLocation = new Point(0, 0);
-            Size backgroundSize = new Size(this.Map.PixelWidth.Value, this.Map.PixelHeight.Value);
+            Size backgroundSize = new Size(map.PixelWidth.Value, map.PixelHeight.Value);
             Rect backgroundRect = new Rect(backgroundLocation, backgroundSize);
 
             using (DrawingContext context = this.mapBackground.Open())
@@ -528,7 +528,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
                     break;
 
                 case ScaleType.Tile:
-                    if (this.Map != null)
+                    if (this.Map.Value != null)
                     {
                         GeneralTransform transform = GeometryUtils.CreateTransform(this.imageTransform.pixelToTile);
                         transformedPosition = transform.Transform(position);

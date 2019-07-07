@@ -62,6 +62,9 @@ namespace Ame.Infrastructure.Models
         [MetadataProperty(MetadataType.Property, "Source Path")]
         public BindableProperty<string> SourcePath { get; set; } = BindableProperty.Prepare<string>(string.Empty);
 
+        [MetadataProperty(MetadataType.Property, "Source Path")]
+        public BindableProperty<string> Description { get; set; }
+
         public Mat MatImage { get; set; }
         public DrawingGroup TilesetImage { get; set; }
 
@@ -72,7 +75,6 @@ namespace Ame.Infrastructure.Models
         public ObservableCollection<IItem> Items { get; set; }
 
         public ObservableCollection<MetadataProperty> CustomProperties { get; set; }
-
 
         #endregion properties
 
