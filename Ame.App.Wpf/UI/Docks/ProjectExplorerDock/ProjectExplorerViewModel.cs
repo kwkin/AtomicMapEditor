@@ -3,12 +3,15 @@ using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
+using Ame.Infrastructure.Utils;
+using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -81,12 +84,23 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
         public void OpenProject()
         {
-            Console.WriteLine("Opening a new project");
+            OpenFileDialog openDialog = new OpenFileDialog();
+            openDialog.Title = "Select a Tileset";
+            openDialog.InitialDirectory = this.session.LastTilesetDirectory;
+            openDialog.Filter = SaveProjectExtension.GetOpenProjectSaveExtensions();
+            if (openDialog.ShowDialog() == true)
+            {
+                string tileFilePath = openDialog.FileName;
+                if (File.Exists(tileFilePath))
+                {
+                    // TODO load project
+                }
+            }
         }
 
         public void RefreshTree()
         {
-            Console.WriteLine("Refresh Drop");
+            Console.WriteLine("Refresh Tree");
         }
 
         private void SelectedItemChanged(object item)
@@ -95,12 +109,14 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
             {
                 ProjectNodeViewModel projectViewModel = item as ProjectNodeViewModel;
                 this.CurrentProject.Value = projectViewModel.Project;
+                this.session.CurrentProject = this.CurrentProject.Value;
             }
             else if (typeof(MapNodeViewModel).IsAssignableFrom(item.GetType()))
             {
                 MapNodeViewModel mapViewModel = item as MapNodeViewModel;
                 this.CurrentMap.Value = mapViewModel.Map;
                 this.CurrentProject.Value = mapViewModel.Map.Project.Value ?? this.CurrentProject.Value;
+                this.session.CurrentProject = this.CurrentProject.Value ?? this.session.CurrentProject;
             }
         }
 

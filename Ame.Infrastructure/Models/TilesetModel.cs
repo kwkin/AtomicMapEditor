@@ -15,7 +15,7 @@ namespace Ame.Infrastructure.Models
 {
     // TODO use ImageDrawing.ClipGeometry instead of the current cropping
     // TODO create a custom xerializer class to set the ignored parameters
-    public class TilesetModel : PaddedGrid, IItem, IContainsCustomProperties
+    public class TilesetModel : PaddedGrid, IItem, IContainsMetadata
     {
         #region fields
 

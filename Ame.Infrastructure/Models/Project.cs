@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Ame.Infrastructure.Models
 {
-    public class Project
+    public class Project : IContainsMetadata
     {
         #region fields
 

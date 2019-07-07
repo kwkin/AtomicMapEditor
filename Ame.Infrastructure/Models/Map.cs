@@ -16,7 +16,7 @@ using System.Windows.Media;
 namespace Ame.Infrastructure.Models
 {
     // TODO add additional interfaces, such as INameable
-    public class Map : GridModel, IContainsCustomProperties
+    public class Map : GridModel, IContainsMetadata
     {
         #region fields
 

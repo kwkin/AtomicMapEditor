@@ -35,15 +35,9 @@ namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
 
             this.WindowTitle.Value = "New Project";
 
-            this.SelectedMetadata.PropertyChanged += SelectedMetadataChanged;
-
             this.SetProjectPropertiesCommand = new DelegateCommand(() => SetProjectProperties());
             this.CloseWindowCommand = new DelegateCommand(() => CloseWindow());
             this.BrowseSourceCommand = new DelegateCommand(() => BrowseSource());
-            this.AddCustomMetaDataCommand = new DelegateCommand(() => AddCustomProperty());
-            this.RemoveCustomMetadataCommand = new DelegateCommand(() => RemoveCustomProperty());
-            this.MoveMetadataUpCommand = new DelegateCommand(() => MoveMetadataUp());
-            this.MoveMetadataDownCommand = new DelegateCommand(() => MoveMetadataDown());
         }
 
         #endregion constructor
@@ -54,10 +48,6 @@ namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
         public ICommand SetProjectPropertiesCommand { get; private set; }
         public ICommand CloseWindowCommand { get; private set; }
         public ICommand BrowseSourceCommand { get; set; }
-        public ICommand AddCustomMetaDataCommand { get; private set; }
-        public ICommand RemoveCustomMetadataCommand { get; private set; }
-        public ICommand MoveMetadataUpCommand { get; private set; }
-        public ICommand MoveMetadataDownCommand { get; private set; }
 
         public BindableProperty<string> WindowTitle { get; set; } = BindableProperty<string>.Prepare(string.Empty);
 
@@ -91,13 +81,7 @@ namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
             }
         }
 
-        public ICollectionView GroupedProperties { get; set; }
-        public ICollectionView ProjectMetadata { get; set; }
-        public ObservableCollection<MetadataProperty> MetadataList { get; set; }
-
-        public BindableProperty<MetadataProperty> SelectedMetadata { get; set; } = BindableProperty<MetadataProperty>.Prepare();
-
-        public BindableProperty<bool> IsCustomSelected { get; set; } = BindableProperty<bool>.Prepare();
+        public MetadataHandler MetadataHandler { get; set; }
 
         public Action FinishInteraction { get; set; }
 
@@ -181,112 +165,13 @@ namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
             }
         }
 
-        // TODO remove duplicate metadata code across other interaction view model classes
         private void UpdateMetadata()
         {
-            this.MetadataList = MetadataPropertyUtils.GetPropertyList(this.Project.Value);
-
-            this.MetadataList.Add(new MetadataProperty("Map Count", this.Project.Value.MapCount, MetadataType.Statistic));
-
-            this.ProjectMetadata = new ListCollectionView(this.MetadataList);
-            this.ProjectMetadata.GroupDescriptions.Add(new PropertyGroupDescription("Type"));
-            foreach (MetadataProperty property in this.Project.Value.CustomProperties)
-            {
-                this.MetadataList.Add(property);
-            }
-        }
-
-        private void SelectedMetadataChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (this.SelectedMetadata.Value != null)
-            {
-                this.IsCustomSelected.Value = this.SelectedMetadata.Value.Type == MetadataType.Custom ? true : false;
-            }
-        }
-
-        private void AddCustomProperty()
-        {
-            int customCount = this.MetadataList.Count(p => p.Type == MetadataType.Custom);
-            string customName = string.Format("Custom #{0}", customCount);
-            MetadataProperty property = new MetadataProperty(customName, "", MetadataType.Custom);
-            this.Project.Value.CustomProperties.Add(property);
-            this.MetadataList.Add(property);
-        }
-
-        private void RemoveCustomProperty()
-        {
-            if (this.SelectedMetadata.Value.Type == MetadataType.Custom)
-            {
-                this.MetadataList.Remove(this.SelectedMetadata.Value);
-            }
-        }
-
-        private void MoveMetadataUp()
-        {
-            int currentIndex = this.ProjectMetadata.CurrentPosition;
-            MetadataProperty currentItem = this.ProjectMetadata.CurrentItem as MetadataProperty;
-            MetadataType currentItemType = currentItem.Type;
-
-            int propertyIndex = 0;
-            int statisticIndex = this.MetadataList.Count(p => p.Type == MetadataType.Property) + propertyIndex;
-            int customIndex = this.MetadataList.Count(p => p.Type == MetadataType.Statistic) + statisticIndex;
-            int lowestIndex = 0;
-            switch (currentItemType)
-            {
-                case MetadataType.Property:
-                    lowestIndex = propertyIndex;
-                    break;
-
-                case MetadataType.Statistic:
-                    lowestIndex = statisticIndex;
-                    break;
-
-                case MetadataType.Custom:
-                    lowestIndex = customIndex;
-                    break;
-
-                default:
-                    break;
-            }
-            if (currentIndex > lowestIndex)
-            {
-                this.MetadataList.Move(currentIndex, currentIndex - 1);
-                this.ProjectMetadata.Refresh();
-            }
-        }
-
-        private void MoveMetadataDown()
-        {
-            int currentIndex = this.ProjectMetadata.CurrentPosition;
-            MetadataProperty currentItem = this.ProjectMetadata.CurrentItem as MetadataProperty;
-            MetadataType currentItemType = currentItem.Type;
-
-            int propertyIndex = 0;
-            int statisticIndex = this.MetadataList.Count(p => p.Type == MetadataType.Property) + propertyIndex;
-            int customIndex = this.MetadataList.Count(p => p.Type == MetadataType.Statistic) + statisticIndex;
-            int highestIndex = 0;
-            switch (currentItemType)
-            {
-                case MetadataType.Property:
-                    highestIndex = statisticIndex - 1;
-                    break;
-
-                case MetadataType.Statistic:
-                    highestIndex = customIndex - 1;
-                    break;
-
-                case MetadataType.Custom:
-                    highestIndex = this.MetadataList.Count - 1;
-                    break;
-
-                default:
-                    break;
-            }
-            if (currentIndex < highestIndex)
-            {
-                this.MetadataList.Move(currentIndex, currentIndex + 1);
-                this.ProjectMetadata.Refresh();
-            }
+            ObservableCollection<MetadataProperty> properties = new ObservableCollection<MetadataProperty>();
+            properties.AddRange(MetadataPropertyUtils.GetPropertyList(this.Project.Value));
+            properties.Add(new MetadataProperty("Map Count", this.Project.Value.MapCount, MetadataType.Statistic));
+            
+            this.MetadataHandler = new MetadataHandler(this.Project.Value, properties);
         }
 
         #endregion methods

@@ -25,7 +25,7 @@
             <Button x:Name="addPropertyButton"
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     ToolTip="Add Property: Add a custom property."
-                    Command="{Binding AddCustomMetaDataCommand, Mode=OneWay}">
+                    Command="{Binding MetadataHandler.AddCustomMetaDataCommand, Mode=OneWay}">
                 <ContentControl Content="{StaticResource ic_AddCircle}"
                                 Width="{StaticResource MidIconSize}"
                                 Height="{StaticResource MidIconSize}"/>
@@ -34,7 +34,7 @@
             <Button x:Name="moveUpButton"
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     ToolTip="Merge Up: Moves the property up in the list."
-                    Command="{Binding MoveMetadataUpCommand, Mode=OneWay}">
+                    Command="{Binding MetadataHandler.MoveMetadataUpCommand, Mode=OneWay}">
                 <ContentControl Content="{StaticResource ic_ArrowUp}"
                                 Width="{StaticResource MidIconSize}"
                                 Height="{StaticResource MidIconSize}"/>
@@ -43,7 +43,7 @@
             <Button x:Name="moveDownButton"
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     ToolTip="Move Down: Moves the property down in the list."
-                    Command="{Binding MoveMetadataDownCommand, Mode=OneWay}">
+                    Command="{Binding MetadataHandler.MoveMetadataDownCommand, Mode=OneWay}">
                 <ContentControl Content="{StaticResource ic_ArrowDown}"
                                 Width="{StaticResource MidIconSize}"
                                 Height="{StaticResource MidIconSize}"/>
@@ -52,17 +52,17 @@
             <Button x:Name="deleteButton"
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     ToolTip="Delete: Deletes the selected custom property."
-                    Command="{Binding RemoveCustomMetadataCommand}"
-                    IsEnabled="{Binding IsCustomSelected.Value}">
-                <ContentControl Content="{StaticResource ic_AddCircle}"
+                    Command="{Binding MetadataHandler.RemoveCustomMetadataCommand}"
+                    IsEnabled="{Binding MetadataHandler.IsCustomSelected.Value}">
+                <ContentControl Content="{StaticResource ic_Delete}"
                                 Width="{StaticResource MidIconSize}"
                                 Height="{StaticResource MidIconSize}"/>
             </Button>
         </WrapPanel>
 
         <DataGrid Grid.Row="1"
-                  ItemsSource="{Binding ProjectMetadata, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                  SelectedItem="{Binding SelectedMetadata}"
+                  ItemsSource="{Binding MetadataHandler.MetadataCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding MetadataHandler.SelectedMetadata.Value}"
                   SelectionUnit="FullRow"
                   AutoGenerateColumns="False"
                   ScrollViewer.VerticalScrollBarVisibility="Visible"

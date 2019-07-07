@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Ame.Infrastructure.BaseTypes
 {
-    public interface IContainsCustomProperties
+    public interface IContainsMetadata
     {
         #region fields
 

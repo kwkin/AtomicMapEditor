@@ -335,13 +335,13 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
 
         private void BrowseSource()
         {
-            OpenFileDialog openTilesetDialog = new OpenFileDialog();
-            openTilesetDialog.Title = "Select a Tileset";
-            openTilesetDialog.InitialDirectory = this.session.LastTilesetDirectory;
-            openTilesetDialog.Filter = ImageExtension.GetOpenFileImageExtensions();
-            if (openTilesetDialog.ShowDialog() == true)
+            OpenFileDialog openDialog = new OpenFileDialog();
+            openDialog.Title = "Select a Tileset";
+            openDialog.InitialDirectory = this.session.LastTilesetDirectory;
+            openDialog.Filter = ImageExtension.GetOpenFileImageExtensions();
+            if (openDialog.ShowDialog() == true)
             {
-                string tileFilePath = openTilesetDialog.FileName;
+                string tileFilePath = openDialog.FileName;
                 if (File.Exists(tileFilePath))
                 {
                     this.IsSourceLoaded.Value = true;

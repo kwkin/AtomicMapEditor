@@ -12,7 +12,7 @@ using System.Windows.Media;
 
 namespace Ame.Infrastructure.Models
 {
-    public class Layer : ILayer, IContainsCustomProperties
+    public class Layer : ILayer, IContainsMetadata
     {
         #region fields
 
