@@ -18,15 +18,17 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         #region fields
 
         private IEventAggregator eventAggregator;
+        private AmeSession session;
 
         #endregion fields
 
 
         #region constructor
 
-        public LayerListGroupViewModel(IEventAggregator eventAggregator, LayerGroup layer)
+        public LayerListGroupViewModel(IEventAggregator eventAggregator, AmeSession session, LayerGroup layer)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
+            this.session = session ?? throw new ArgumentNullException("session is null");
             this.layer = layer ?? throw new ArgumentNullException("layer");
 
             this.LayerList = new ObservableCollection<ILayerListEntryViewModel>();
@@ -89,7 +91,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                 case NotifyCollectionChangedAction.Add:
                     foreach (ILayer layer in e.NewItems)
                     {
-                        ILayerListEntryViewModel entry = LayerListEntryGenerator.Generate(this.eventAggregator, layer);
+                        ILayerListEntryViewModel entry = LayerListEntryGenerator.Generate(this.eventAggregator, this.session, layer);
                         this.LayerList.Add(entry);
                     }
                     break;

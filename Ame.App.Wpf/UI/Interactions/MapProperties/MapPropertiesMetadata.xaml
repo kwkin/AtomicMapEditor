@@ -55,7 +55,7 @@
                     ToolTip="Delete: Deletes the selected custom property."
                     Command="{Binding MetadataHandler.RemoveCustomMetadataCommand}"
                     IsEnabled="{Binding MetadataHandler.IsCustomSelected.Value}">
-                <ContentControl Content="{StaticResource ic_AddCircle}"
+                <ContentControl Content="{StaticResource ic_Delete}"
                                 Width="{StaticResource MidIconSize}"
                                 Height="{StaticResource MidIconSize}"/>
             </Button>

@@ -10,16 +10,16 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 {
     public static class LayerListEntryGenerator
     {
-        public static ILayerListEntryViewModel Generate(IEventAggregator eventAggregator, ILayer layer)
+        public static ILayerListEntryViewModel Generate(IEventAggregator eventAggregator, AmeSession session, ILayer layer)
         {
             ILayerListEntryViewModel entry = null;
             if (typeof(Layer).IsInstanceOfType(layer))
             {
-                entry = new LayerListLayerViewModel(eventAggregator, layer);
+                entry = new LayerListLayerViewModel(eventAggregator, session, layer as Layer);
             }
             else if (typeof(LayerGroup).IsInstanceOfType(layer))
             {
-                entry = new LayerListGroupViewModel(eventAggregator, layer as LayerGroup);
+                entry = new LayerListGroupViewModel(eventAggregator, session, layer as LayerGroup);
             }
             return entry;
         }

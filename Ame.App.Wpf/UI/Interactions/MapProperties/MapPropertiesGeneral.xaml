@@ -174,7 +174,7 @@
                Grid.Row="5"
                Grid.Column="0"
                HorizontalAlignment="Right"
-               VerticalAlignment="Center"
+               VerticalAlignment="Top"
                Margin="0 0 5 10" />
         <TextBox x:Name="descriptionTextBox"
                  Style="{StaticResource PrimaryMidTextAreaStyle}"

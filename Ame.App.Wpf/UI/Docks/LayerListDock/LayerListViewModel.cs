@@ -122,7 +122,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         public void DuplicateLayer()
         {
             ILayer copiedLayer = Utils.DeepClone<ILayer>(this.Session.CurrentLayer);
-            AddTilesetLayer(copiedLayer);
+            this.Session.CurrentLayer.AddSibling(copiedLayer);
         }
 
         public void RemoveLayer()
@@ -177,7 +177,8 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                     this.Session.CurrentLayerList.CollectionChanged += UpdateLayerList;
                     foreach (ILayer layer in this.Session.CurrentLayerList)
                     {
-                        this.LayerList.Add(new LayerListLayerViewModel(this.eventAggregator, layer));
+                        ILayerListEntryViewModel entry = LayerListEntryGenerator.Generate(this.eventAggregator, this.Session, layer);
+                        this.LayerList.Add(entry);
                     }
                     break;
 
@@ -193,7 +194,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                 case NotifyCollectionChangedAction.Add:
                     foreach (ILayer layer in e.NewItems)
                     {
-                        ILayerListEntryViewModel entry = LayerListEntryGenerator.Generate(this.eventAggregator, layer);
+                        ILayerListEntryViewModel entry = LayerListEntryGenerator.Generate(this.eventAggregator, this.Session, layer);
                         int insertIndex = e.NewStartingIndex;
                         if (insertIndex < this.LayerList.Count)
                         {
