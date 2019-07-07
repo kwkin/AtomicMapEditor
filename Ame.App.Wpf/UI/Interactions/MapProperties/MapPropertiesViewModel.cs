@@ -150,7 +150,6 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
         private void UpdateMetadata()
         {
             ObservableCollection<MetadataProperty> properties = new ObservableCollection<MetadataProperty>();
-            properties.AddRange(MetadataPropertyUtils.GetPropertyList(this.Map.Value));
             properties.Add(new MetadataProperty("Layer Count", this.Map.Value.Layers.Count, MetadataType.Statistic));
 
             this.MetadataHandler = new MetadataHandler(this.Map.Value, properties);

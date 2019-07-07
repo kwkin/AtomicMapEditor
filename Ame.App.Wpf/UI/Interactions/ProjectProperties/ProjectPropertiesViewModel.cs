@@ -7,10 +7,8 @@ using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Windows.Data;
 using System.Windows.Forms;
 using System.Windows.Input;
 
@@ -168,9 +166,8 @@ namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
         private void UpdateMetadata()
         {
             ObservableCollection<MetadataProperty> properties = new ObservableCollection<MetadataProperty>();
-            properties.AddRange(MetadataPropertyUtils.GetPropertyList(this.Project.Value));
             properties.Add(new MetadataProperty("Map Count", this.Project.Value.MapCount, MetadataType.Statistic));
-            
+
             this.MetadataHandler = new MetadataHandler(this.Project.Value, properties);
         }
 

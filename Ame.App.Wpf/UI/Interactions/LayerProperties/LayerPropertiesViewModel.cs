@@ -145,10 +145,7 @@ namespace Ame.App.Wpf.UI.Interactions.LayerProperties
 
         private void UpdateMetadata()
         {
-            ObservableCollection<MetadataProperty> properties = new ObservableCollection<MetadataProperty>();
-            properties.AddRange(MetadataPropertyUtils.GetPropertyList(this.Layer.Value));
-
-            this.MetadataHandler = new MetadataHandler(this.Layer.Value, properties);
+            this.MetadataHandler = new MetadataHandler(this.Layer.Value);
         }
 
 

@@ -22,8 +22,8 @@ namespace Ame.Infrastructure.BaseTypes
         #region Constructor
 
         public MetadataHandler(IContainsMetadata item)
+            : this(item, new ObservableCollection<MetadataProperty>())
         {
-
         }
 
         public MetadataHandler(IContainsMetadata item, ObservableCollection<MetadataProperty> properties)
@@ -39,10 +39,10 @@ namespace Ame.Infrastructure.BaseTypes
 
             this.SelectedMetadata.PropertyChanged += SelectedMetadataChanged;
 
-            this.AddCustomMetaDataCommand = new DelegateCommand(() => AddCustomProperty());
+            this.AddCustomMetaDataCommand = new DelegateCommand(() => AddNewCustomProperty());
             this.RemoveCustomMetadataCommand = new DelegateCommand(() => RemoveCustomProperty());
             this.MoveMetadataUpCommand = new DelegateCommand(() => MoveCurrentMetadataUp());
-            this.MoveMetadataDownCommand = new DelegateCommand(() => MoveCurrentMetadataUp());
+            this.MoveMetadataDownCommand = new DelegateCommand(() => MoveCurrentMetadataDown());
         }
 
         #endregion Constructor
@@ -60,7 +60,7 @@ namespace Ame.Infrastructure.BaseTypes
         public BindableProperty<MetadataProperty> SelectedMetadata { get; set; } = BindableProperty<MetadataProperty>.Prepare();
         public BindableProperty<bool> IsCustomSelected { get; set; } = BindableProperty<bool>.Prepare();
 
-        IContainsMetadata Item { get; set; }
+        private IContainsMetadata Item { get; set; }
 
         #endregion Properties
 
@@ -77,7 +77,7 @@ namespace Ame.Infrastructure.BaseTypes
             this.MetadataList.AddRange(metadataList);
         }
 
-        public void AddCustomProperty()
+        public void AddNewCustomProperty()
         {
             int customCount = this.MetadataList.Count(p => p.Type == MetadataType.Custom);
             string customName = string.Format("Custom #{0}", customCount);
@@ -88,23 +88,20 @@ namespace Ame.Infrastructure.BaseTypes
 
         public void RemoveCustomProperty()
         {
-            if (this.SelectedMetadata.Value.Type == MetadataType.Custom)
-            {
-                this.MetadataList.Remove(this.SelectedMetadata.Value);
-            }
+            RemoveCustomProperty(this.SelectedMetadata.Value);
         }
 
-        public void SelectedMetadataChanged(object sender, PropertyChangedEventArgs e)
+        public void RemoveCustomProperty(MetadataProperty property)
         {
-            if (this.SelectedMetadata.Value != null)
+            if (property.Type == MetadataType.Custom)
             {
-                this.IsCustomSelected.Value = this.SelectedMetadata.Value.Type == MetadataType.Custom ? true : false;
+                this.MetadataList.Remove(property);
             }
         }
 
         public void MoveCurrentMetadataUp()
         {
-            MoveMetadataDown(this.MetadataCollection.CurrentItem as MetadataProperty);
+            MoveMetadataUp(this.MetadataCollection.CurrentItem as MetadataProperty);
         }
 
         public void MoveMetadataUp(MetadataProperty currentItem)
@@ -186,8 +183,17 @@ namespace Ame.Infrastructure.BaseTypes
             }
         }
 
+        private void SelectedMetadataChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (this.SelectedMetadata.Value != null)
+            {
+                this.IsCustomSelected.Value = this.SelectedMetadata.Value.Type == MetadataType.Custom ? true : false;
+            }
+        }
+
         private void AddMetadata(IContainsMetadata item)
         {
+            this.MetadataList.AddRange(MetadataPropertyUtils.GetPropertyList(item));
             foreach (MetadataProperty property in item.CustomProperties)
             {
                 this.MetadataList.Add(property);
