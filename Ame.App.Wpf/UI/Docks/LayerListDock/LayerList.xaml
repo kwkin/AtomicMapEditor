@@ -88,7 +88,7 @@
         <!-- Change layer list entry and group context menu bindings -->
         <ScrollViewer Grid.Row="2">
             <extcomp:StretchingTreeView x:Name="layerTree"
-                                        ItemsSource="{Binding LayerList}"
+                                        ItemsSource="{Binding Layers}"
                                         HorizontalContentAlignment="Stretch"
                                         BorderThickness="0">
                 <i:Interaction.Triggers>
@@ -204,7 +204,7 @@
                     </x:Array>
 
                     <HierarchicalDataTemplate DataType="{x:Type local:LayerListGroupViewModel}"
-                                              ItemsSource="{Binding Path=LayerList}">
+                                              ItemsSource="{Binding Path=Layers}">
                         <local:LayerListGroup />
                     </HierarchicalDataTemplate>
 

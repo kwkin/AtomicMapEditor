@@ -307,9 +307,9 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
 
         public void ChangeItemModel(TilesetModel tilesetModel)
         {
-            if (!this.Session.CurrentTilesetList.Contains(tilesetModel))
+            if (!this.Session.CurrentTilesets.Contains(tilesetModel))
             {
-                this.Session.CurrentTilesetList.Add(tilesetModel);
+                this.Session.CurrentTilesets.Add(tilesetModel);
             }
             this.TilesetModel.Value = tilesetModel;
             this.IsSourceLoaded.Value = true;
@@ -588,7 +588,7 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
             if (confirmation.Confirmed)
             {
                 TilesetModel messageTilesetModel = confirmation.Content as TilesetModel;
-                this.Session.CurrentTilesetList.Add(messageTilesetModel);
+                this.Session.CurrentTilesets.Add(messageTilesetModel);
                 this.TilesetModel.Value = messageTilesetModel;
                 ChangeItemModel(this.TilesetModel.Value);
             }

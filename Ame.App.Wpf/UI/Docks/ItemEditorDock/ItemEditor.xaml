@@ -109,10 +109,10 @@
 
             <ComboBox x:Name="itemListComboBox"
                       Grid.Column="5"
-                      ItemsSource="{Binding Session.CurrentTilesetList}"
+                      ItemsSource="{Binding Session.CurrentTilesets}"
                       DisplayMemberPath="Name.Value"
                       SelectedItem="{Binding TilesetModel.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                      IsEnabled="{Binding Session.CurrentTilesetList.Count, Converter={StaticResource CountToEnabledConverter}}"
+                      IsEnabled="{Binding Session.CurrentTilesets.Count, Converter={StaticResource CountToEnabledConverter}, Mode=OneWay}"
                       Height="28"
                       VerticalAlignment="Top">
                 <i:Interaction.Triggers>

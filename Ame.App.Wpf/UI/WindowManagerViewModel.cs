@@ -69,7 +69,7 @@ namespace Ame.App.Wpf.UI
             this.Documents = new ObservableCollection<EditorViewModelTemplate>();
             this.Anchorables = new ObservableCollection<DockViewModelTemplate>();
 
-            foreach (Map map in session.MapList)
+            foreach (Map map in session.Maps)
             {
                 MapEditorCreator mapEditorCreator = new MapEditorCreator(this.eventAggregator, this.session);
                 DockViewModelTemplate dockViewModel = mapEditorCreator.CreateDock();
@@ -80,10 +80,10 @@ namespace Ame.App.Wpf.UI
                 this.ActiveDocument.Value = this.Documents[0];
             }
 
-            ObservableCollection<ILayer> layerList = null;
+            ObservableCollection<ILayer> layers = null;
             if (this.session.CurrentMap != null)
             {
-                layerList = this.session.CurrentMap.Layers;
+                layers = this.session.CurrentMap.Layers;
             }
             DockCreatorTemplate[] dockCreators = new DockCreatorTemplate[]
             {
@@ -210,9 +210,9 @@ namespace Ame.App.Wpf.UI
             if (this.ActiveDocument.Value is MapEditorViewModel)
             {
                 Map selectedMapContent = this.ActiveDocument.Value.GetContent() as Map;
-                if (!this.session.MapList.Contains(selectedMapContent))
+                if (!this.session.Maps.Contains(selectedMapContent))
                 {
-                    this.session.MapList.Add(selectedMapContent);
+                    this.session.Maps.Add(selectedMapContent);
                 }
                 this.session.SetCurrentMap(selectedMapContent);
             }
@@ -363,12 +363,12 @@ namespace Ame.App.Wpf.UI
             Map importedMap = reader.Read(content.Path);
 
             OpenDockMessage openEditorMessage = new OpenDockMessage(typeof(MapEditorViewModel), importedMap);
-            foreach (TilesetModel tileset in importedMap.TilesetList)
+            foreach (TilesetModel tileset in importedMap.Tilesets)
             {
-                this.session.CurrentTilesetList.Add(tileset);
+                this.session.CurrentTilesets.Add(tileset);
             }
             this.session.CurrentMap = importedMap;
-            CollectionViewSource.GetDefaultView(this.session.CurrentLayerList).Refresh();
+            CollectionViewSource.GetDefaultView(this.session.CurrentLayers).Refresh();
             this.eventAggregator.GetEvent<OpenDockEvent>().Publish(openEditorMessage);
         }
 

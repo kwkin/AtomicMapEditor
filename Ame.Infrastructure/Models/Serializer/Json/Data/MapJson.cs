@@ -28,16 +28,16 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
             this.Scale = map.Scale.Value;
             this.BackgroundColor = map.BackgroundColor.Value;
             this.Description = map.Description.Value;
-            this.TilesetList = new List<TilesetJson>();
-            foreach (TilesetModel model in map.TilesetList)
+            this.TilesetJsons = new List<TilesetJson>();
+            foreach (TilesetModel model in map.Tilesets)
             {
-                this.TilesetList.Add(new TilesetJson(model));
+                this.TilesetJsons.Add(new TilesetJson(model));
             }
-            this.LayerList = new List<LayerJson>();
+            this.LayerJsons = new List<LayerJson>();
             foreach (ILayer layer in map.Layers)
             {
                 // TODO fix the conversion
-                this.LayerList.Add(new LayerJson((Layer)layer));
+                this.LayerJsons.Add(new LayerJson((Layer)layer));
             }
 
         }
@@ -73,10 +73,10 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
         public string Description { get; set; }
 
         [JsonProperty(PropertyName = "Tilesets")]
-        public IList<TilesetJson> TilesetList { get; set; }
+        public IList<TilesetJson> TilesetJsons { get; set; }
 
         [JsonProperty(PropertyName = "Layers")]
-        public IList<LayerJson> LayerList { get; set; }
+        public IList<LayerJson> LayerJsons { get; set; }
 
         public Map Generate()
         {
@@ -91,13 +91,13 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
             map.Scale.Value = this.Scale;
             map.BackgroundColor.Value = this.BackgroundColor;
             map.Description.Value = this.Description;
-            foreach (TilesetJson tilesetJson in this.TilesetList)
+            foreach (TilesetJson tilesetJson in this.TilesetJsons)
             {
                 TilesetModel tileset = tilesetJson.Generate();
-                map.TilesetList.Add(tileset);
+                map.Tilesets.Add(tileset);
                 tileset.RefreshTilesetImage();
             }
-            foreach (LayerJson layer in this.LayerList)
+            foreach (LayerJson layer in this.LayerJsons)
             {
                 map.Layers.Add(layer.Generate(map));
             }

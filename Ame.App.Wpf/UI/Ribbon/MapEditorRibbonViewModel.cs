@@ -225,7 +225,7 @@ namespace Ame.App.Wpf.UI.Ribbon
             if (confirmation.Confirmed)
             {
                 TilesetModel tilesetModel = confirmation.Content as TilesetModel;
-                this.Session.CurrentTilesetList.Add(tilesetModel);
+                this.Session.CurrentTilesets.Add(tilesetModel);
 
                 OpenDockMessage message = new OpenDockMessage(typeof(ItemEditorViewModel));
                 message.IgnoreIfExists = true;

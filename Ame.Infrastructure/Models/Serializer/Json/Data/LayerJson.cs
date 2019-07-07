@@ -77,7 +77,7 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
         
         public Layer Generate(Map map)
         {
-            ObservableCollection<TilesetModel> tilesetList = map.TilesetList;
+            ObservableCollection<TilesetModel> tilesetList = map.Tilesets;
             Layer layer = new Layer(map);
             layer.ID = this.ID;
             layer.Name.Value = this.Name;

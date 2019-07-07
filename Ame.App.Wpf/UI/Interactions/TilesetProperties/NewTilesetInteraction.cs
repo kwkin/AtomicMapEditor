@@ -100,7 +100,7 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
             if (confirmation.Confirmed)
             {
                 TilesetModel tilesetModel = confirmation.Content as TilesetModel;
-                this.session.CurrentTilesetList.Add(tilesetModel);
+                this.session.CurrentTilesets.Add(tilesetModel);
             }
         }
 

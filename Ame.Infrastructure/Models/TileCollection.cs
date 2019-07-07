@@ -108,7 +108,7 @@ namespace Ame.Infrastructure.Models
             return this.Tiles.GetEnumerator();
         }
 
-        public void RefreshDrawing(ObservableCollection<TilesetModel> tilesetList, Layer layer)
+        public void RefreshDrawing(ObservableCollection<TilesetModel> tilesets, Layer layer)
         {
             int index = 0;
             foreach (Tile tile in this.Tiles)
@@ -120,7 +120,7 @@ namespace Ame.Infrastructure.Models
                 }
                 else
                 {
-                    IEnumerable<TilesetModel> models = tilesetList.Where(tileset => tileset.ID == tile.TilesetID);
+                    IEnumerable<TilesetModel> models = tilesets.Where(tileset => tileset.ID == tile.TilesetID);
                     if (models.Count() != 0)
                     {
                         tile.Image.Value = models.First().GetByID(tile.TileID, topLeft);

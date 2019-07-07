@@ -25,20 +25,20 @@ namespace Ame.Infrastructure.Models
         {
         }
 
-        public AmeSession(ObservableCollection<Map> MapList)
+        public AmeSession(ObservableCollection<Map> maps)
         {
             this.Projects = new ObservableCollection<Project>();
-            this.MapList = MapList;
-            this.CurrentTilesetList = new ObservableCollection<TilesetModel>();
+            this.Maps = maps;
+            this.CurrentTilesets = new ObservableCollection<TilesetModel>();
             this.DrawingTool = new StampTool();
         }
 
         public AmeSession(Map Map)
         {
             this.Projects = new ObservableCollection<Project>();
-            this.MapList = new ObservableCollection<Map>();
-            this.MapList.Add(Map);
-            this.CurrentTilesetList = new ObservableCollection<TilesetModel>();
+            this.Maps = new ObservableCollection<Map>();
+            this.Maps.Add(Map);
+            this.CurrentTilesets = new ObservableCollection<TilesetModel>();
             this.DrawingTool = new StampTool();
         }
 
@@ -60,20 +60,20 @@ namespace Ame.Infrastructure.Models
             }
         }
 
-        private ObservableCollection<Map> mapList;
-        public ObservableCollection<Map> MapList
+        private ObservableCollection<Map> maps;
+        public ObservableCollection<Map> Maps
         {
             get
             {
-                return this.mapList;
+                return this.maps;
             }
             set
             {
-                this.SetProperty(ref this.mapList, value);
+                this.SetProperty(ref this.maps, value);
             }
         }
 
-        public ObservableCollection<ILayer> CurrentLayerList
+        public ObservableCollection<ILayer> CurrentLayers
         {
             get
             {
@@ -81,16 +81,16 @@ namespace Ame.Infrastructure.Models
             }
         }
 
-        private ObservableCollection<TilesetModel> currentTilesetList;
-        public ObservableCollection<TilesetModel> CurrentTilesetList
+        private ObservableCollection<TilesetModel> currentTilesets;
+        public ObservableCollection<TilesetModel> CurrentTilesets
         {
             get
             {
-                return this.currentTilesetList;
+                return this.currentTilesets;
             }
             set
             {
-                this.SetProperty(ref this.currentTilesetList, value);
+                this.SetProperty(ref this.currentTilesets, value);
             }
         }
 
@@ -117,7 +117,7 @@ namespace Ame.Infrastructure.Models
             set
             {
                 this.currentLayer = value.CurrentLayer;
-                this.currentTilesetList = value.TilesetList;
+                this.currentTilesets = value.Tilesets;
                 this.SetProperty(ref this.currentMap, value);
             }
         }
@@ -166,7 +166,7 @@ namespace Ame.Infrastructure.Models
             get
             {
                 // TODO change "list" to plural
-                return this.MapList.Count;
+                return this.Maps.Count;
             }
         }
 
@@ -174,7 +174,7 @@ namespace Ame.Infrastructure.Models
         {
             get
             {
-                return this.CurrentLayerList.Count;
+                return this.CurrentLayers.Count;
             }
         }
 
@@ -182,7 +182,7 @@ namespace Ame.Infrastructure.Models
         {
             get
             {
-                return this.CurrentTilesetList.Count;
+                return this.CurrentTilesets.Count;
             }
         }
 
@@ -190,7 +190,7 @@ namespace Ame.Infrastructure.Models
         {
             get
             {
-                return this.MapList.IndexOf(this.CurrentMap);
+                return this.Maps.IndexOf(this.CurrentMap);
             }
         }
 
@@ -198,7 +198,7 @@ namespace Ame.Infrastructure.Models
         {
             get
             {
-                return this.CurrentLayerList.IndexOf(this.CurrentLayer);
+                return this.CurrentLayers.IndexOf(this.CurrentLayer);
             }
         }
 
@@ -206,7 +206,7 @@ namespace Ame.Infrastructure.Models
         {
             get
             {
-                return this.CurrentTilesetList.IndexOf(this.CurrentTileset);
+                return this.CurrentTilesets.IndexOf(this.CurrentTileset);
             }
         }
 
@@ -257,7 +257,7 @@ namespace Ame.Infrastructure.Models
 
         public void SetCurrentMap(Map currentMap)
         {
-            if (!this.MapList.Contains(currentMap))
+            if (!this.Maps.Contains(currentMap))
             {
                 throw new ArgumentOutOfRangeException(currentMap.Name + " not found in current map list.");
             }
@@ -266,7 +266,7 @@ namespace Ame.Infrastructure.Models
 
         public void SetCurrentMapAtIndex(int currentIndex)
         {
-            this.CurrentMap = this.MapList[currentIndex];
+            this.CurrentMap = this.Maps[currentIndex];
         }
 
         #endregion methods

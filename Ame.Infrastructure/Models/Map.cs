@@ -58,7 +58,7 @@ namespace Ame.Infrastructure.Models
             this.PixelScale.Value = 1;
             this.Description.Value = "";
             this.Layers = new ObservableCollection<ILayer>();
-            this.TilesetList = new ObservableCollection<TilesetModel>();
+            this.Tilesets = new ObservableCollection<TilesetModel>();
             this.CustomProperties = new ObservableCollection<MetadataProperty>();
 
             Layer initialLayer = new Layer(this, "Layer #0", this.TileWidth.Value, this.TileHeight.Value, this.Rows.Value, this.Columns.Value);
@@ -117,13 +117,13 @@ namespace Ame.Infrastructure.Models
             }
         }
 
-        public ObservableCollection<TilesetModel> TilesetList { get; set; }
+        public ObservableCollection<TilesetModel> Tilesets { get; set; }
 
         public int TilesetCount
         {
             get
             {
-                return this.TilesetList.Count;
+                return this.Tilesets.Count;
             }
         }
 

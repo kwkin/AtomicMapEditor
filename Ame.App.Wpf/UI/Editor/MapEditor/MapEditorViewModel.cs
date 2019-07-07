@@ -101,7 +101,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             RedrawBackground();
 
             this.session.PropertyChanged += SessionPropertyChanged;
-            this.Map.Value.Layers.CollectionChanged += LayerListChanged;
+            this.Map.Value.Layers.CollectionChanged += LayersChanged;
             this.ScrollModel.PropertyChanged += ScrollModelPropertyChanged;
             this.BackgroundBrush.PropertyChanged += BackgroundChanged;
             this.BackgroundPen.PropertyChanged += BackgroundChanged;
@@ -360,7 +360,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             RedrawGrid();
         }
 
-        private void LayerListChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void LayersChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)
             {
@@ -387,8 +387,8 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
                     int newIndex = e.NewStartingIndex;
 
                     // TODO integrate with visibility
-                    ILayer oldLayer = this.session.CurrentLayerList[oldIndex];
-                    ILayer newLayer = this.session.CurrentLayerList[newIndex];
+                    ILayer oldLayer = this.session.CurrentLayers[oldIndex];
+                    ILayer newLayer = this.session.CurrentLayers[newIndex];
 
                     int oldGroupIndex = this.layerItems.Children.IndexOf(oldLayer.Group);
                     int newGroupIndex = this.layerItems.Children.IndexOf(newLayer.Group);

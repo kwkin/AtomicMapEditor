@@ -35,7 +35,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             this.Session = session ?? throw new ArgumentNullException("session is null");
 
             this.Title.Value = "Layer List";
-            this.LayerList = new ObservableCollection<ILayerListEntryViewModel>();
+            this.Layers = new ObservableCollection<ILayerListEntryViewModel>();
 
             this.Session.PropertyChanged += SessionUpdated;
 
@@ -69,7 +69,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         public ICommand LayerToMapSizeCommand { get; private set; }
         public ICommand CurrentLayerChangedCommand { get; private set; }
 
-        public ObservableCollection<ILayerListEntryViewModel> LayerList { get; private set; }
+        public ObservableCollection<ILayerListEntryViewModel> Layers { get; private set; }
 
         public AmeSession Session { get; set; }
 
@@ -85,7 +85,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         public void AddTilesetLayer(ILayer layer)
         {
-            this.Session.CurrentLayerList.Add(layer);
+            this.Session.CurrentLayers.Add(layer);
         }
 
         public void NewTilesetLayer()
@@ -103,19 +103,19 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         public void MoveLayerDown()
         {
-            int currentLayerIndex = this.Session.CurrentLayerList.IndexOf(this.Session.CurrentLayer);
-            if (currentLayerIndex < this.Session.CurrentLayerList.Count - 1 && currentLayerIndex >= 0)
+            int currentLayerIndex = this.Session.CurrentLayers.IndexOf(this.Session.CurrentLayer);
+            if (currentLayerIndex < this.Session.CurrentLayers.Count - 1 && currentLayerIndex >= 0)
             {
-                this.Session.CurrentLayerList.Move(currentLayerIndex, currentLayerIndex + 1);
+                this.Session.CurrentLayers.Move(currentLayerIndex, currentLayerIndex + 1);
             }
         }
 
         public void MoveLayerUp()
         {
-            int currentLayerIndex = this.Session.CurrentLayerList.IndexOf(this.Session.CurrentLayer);
+            int currentLayerIndex = this.Session.CurrentLayers.IndexOf(this.Session.CurrentLayer);
             if (currentLayerIndex > 0)
             {
-                this.Session.CurrentLayerList.Move(currentLayerIndex, currentLayerIndex - 1);
+                this.Session.CurrentLayers.Move(currentLayerIndex, currentLayerIndex - 1);
             }
         }
 
@@ -131,7 +131,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             {
                 return;
             }
-            this.Session.CurrentLayerList.Remove(this.Session.CurrentLayer);
+            this.Session.CurrentLayers.Remove(this.Session.CurrentLayer);
         }
 
         public void EditProperties()
@@ -173,12 +173,12 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             switch (e.PropertyName)
             {
                 case nameof(AmeSession.CurrentMap):
-                    this.LayerList.Clear();
-                    this.Session.CurrentLayerList.CollectionChanged += UpdateLayerList;
-                    foreach (ILayer layer in this.Session.CurrentLayerList)
+                    this.Layers.Clear();
+                    this.Session.CurrentLayers.CollectionChanged += UpdateLayerList;
+                    foreach (ILayer layer in this.Session.CurrentLayers)
                     {
                         ILayerListEntryViewModel entry = LayerListEntryGenerator.Generate(this.eventAggregator, this.Session, layer);
-                        this.LayerList.Add(entry);
+                        this.Layers.Add(entry);
                     }
                     break;
 
@@ -196,13 +196,13 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                     {
                         ILayerListEntryViewModel entry = LayerListEntryGenerator.Generate(this.eventAggregator, this.Session, layer);
                         int insertIndex = e.NewStartingIndex;
-                        if (insertIndex < this.LayerList.Count)
+                        if (insertIndex < this.Layers.Count)
                         {
-                            this.LayerList.Insert(insertIndex, entry);
+                            this.Layers.Insert(insertIndex, entry);
                         }
                         else
                         {
-                            this.LayerList.Add(entry);
+                            this.Layers.Add(entry);
                         }
                     }
                     break;
@@ -210,10 +210,10 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                 case NotifyCollectionChangedAction.Remove:
                     foreach (ILayer layer in e.OldItems)
                     {
-                        IEnumerable<ILayerListEntryViewModel> toRemove = new ObservableCollection<ILayerListEntryViewModel>(this.LayerList.Where(entry => entry.Layer == layer));
+                        IEnumerable<ILayerListEntryViewModel> toRemove = new ObservableCollection<ILayerListEntryViewModel>(this.Layers.Where(entry => entry.Layer == layer));
                         foreach (ILayerListEntryViewModel entry in toRemove)
                         {
-                            this.LayerList.Remove(entry);
+                            this.Layers.Remove(entry);
                         }
                     }
                     break;
@@ -223,9 +223,9 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                     int newIndex = e.NewStartingIndex;
                     if (oldIndex != -1 && newIndex != -1)
                     {
-                        ILayerListEntryViewModel entry = this.LayerList[oldIndex];
-                        this.LayerList[oldIndex] = this.LayerList[newIndex];
-                        this.LayerList[newIndex] = entry;
+                        ILayerListEntryViewModel entry = this.Layers[oldIndex];
+                        this.Layers[oldIndex] = this.Layers[newIndex];
+                        this.Layers[newIndex] = entry;
                     }
                     break;
 
@@ -236,7 +236,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         private int GetLayerGroupCount()
         {
-            IEnumerable<LayerGroup> groups = this.Session.CurrentLayerList.OfType<LayerGroup>();
+            IEnumerable<LayerGroup> groups = this.Session.CurrentLayers.OfType<LayerGroup>();
             return groups.Count<LayerGroup>();
         }
 

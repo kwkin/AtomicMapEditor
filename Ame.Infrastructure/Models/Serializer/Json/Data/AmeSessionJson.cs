@@ -20,12 +20,12 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
             this.Version = Global.Version;
             this.CurrentMap = session.CurrentMapIndex;
             this.OpenedTilesetFiles = new List<string>();
-            foreach (Map map in session.MapList)
+            foreach (Map map in session.Maps)
             {
                 this.OpenedTilesetFiles.Add(map.SourcePath.Value);
             }
             this.OpenedTilesetFiles = new List<string>();
-            foreach (TilesetModel tileset in session.CurrentTilesetList)
+            foreach (TilesetModel tileset in session.CurrentTilesets)
             {
                 this.OpenedTilesetFiles.Add(tileset.SourcePath.Value);
             }
