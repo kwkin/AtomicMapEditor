@@ -1,17 +1,18 @@
-﻿using Ame.Infrastructure.Core;
+﻿using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Core;
 using Ame.Infrastructure.DrawingTools;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Ame.Infrastructure.Models
 {
-    // TODO change to a bindable property solution
-    public class AmeSession : BindableBase
+    public class AmeSession
     {
         #region fields
 
@@ -31,6 +32,9 @@ namespace Ame.Infrastructure.Models
             this.Maps = maps;
             this.CurrentTilesets = new ObservableCollection<TilesetModel>();
             this.DrawingTool = new StampTool();
+
+            this.CurrentMap.PropertyChanged += CurrentMapChanged;
+            this.CurrentLayer.PropertyChanged += CurrentLayerChanged;
         }
 
         public AmeSession(Map Map)
@@ -40,6 +44,9 @@ namespace Ame.Infrastructure.Models
             this.Maps.Add(Map);
             this.CurrentTilesets = new ObservableCollection<TilesetModel>();
             this.DrawingTool = new StampTool();
+
+            this.CurrentMap.PropertyChanged += CurrentMapChanged;
+            this.CurrentLayer.PropertyChanged += CurrentLayerChanged;
         }
 
         #endregion constructor
@@ -47,111 +54,32 @@ namespace Ame.Infrastructure.Models
 
         #region properties
 
-        private ObservableCollection<Project> projects;
-        public ObservableCollection<Project> Projects
-        {
-            get
-            {
-                return this.projects;
-            }
-            set
-            {
-                this.SetProperty(ref this.projects, value);
-            }
-        }
+        public ObservableCollection<Project> Projects { get; set; }
 
-        private ObservableCollection<Map> maps;
-        public ObservableCollection<Map> Maps
-        {
-            get
-            {
-                return this.maps;
-            }
-            set
-            {
-                this.SetProperty(ref this.maps, value);
-            }
-        }
+        public ObservableCollection<Map> Maps { get; set; }
 
         public ObservableCollection<ILayer> CurrentLayers
         {
             get
             {
-                return this.CurrentMap.Layers ?? null;
-            }
-        }
-
-        private ObservableCollection<TilesetModel> currentTilesets;
-        public ObservableCollection<TilesetModel> CurrentTilesets
-        {
-            get
-            {
-                return this.currentTilesets;
-            }
-            set
-            {
-                this.SetProperty(ref this.currentTilesets, value);
-            }
-        }
-
-        private Project currentProject;
-        public Project CurrentProject
-        {
-            get
-            {
-                return this.currentProject;
-            }
-            set
-            {
-                this.SetProperty(ref this.currentProject, value);
-            }
-        }
-
-        private Map currentMap;
-        public Map CurrentMap
-        {
-            get
-            {
-                return this.currentMap;
-            }
-            set
-            {
-                this.currentLayer = value.CurrentLayer;
-                this.currentTilesets = value.Tilesets;
-                this.SetProperty(ref this.currentMap, value);
-            }
-        }
-
-        private ILayer currentLayer;
-        public ILayer CurrentLayer
-        {
-            get
-            {
-                return this.currentLayer;
-            }
-            set
-            {
-                int currentLayerIndex = this.CurrentMap.Layers.IndexOf(value);
-                if (currentLayerIndex != -1)
+                ObservableCollection<ILayer> layers = null;
+                if (this.CurrentMap != null)
                 {
-                    this.CurrentMap.SelectedLayerIndex.Value = currentLayerIndex;
+                    layers = this.CurrentMap.Value.Layers;
                 }
-                this.SetProperty(ref this.currentLayer, value);
+                return layers;
             }
         }
 
-        private TilesetModel currentTileset;
-        public TilesetModel CurrentTileset
-        {
-            get
-            {
-                return this.currentTileset;
-            }
-            set
-            {
-                this.SetProperty(ref this.currentTileset, value);
-            }
-        }
+        public ObservableCollection<TilesetModel> CurrentTilesets { get; set; }
+
+        public BindableProperty<Project> CurrentProject { get; set; } = BindableProperty.Prepare<Project>();
+
+        public BindableProperty<Map> CurrentMap { get; set; } = BindableProperty.Prepare<Map>();
+
+        public BindableProperty<ILayer> CurrentLayer { get; set; } = BindableProperty.Prepare<ILayer>();
+
+        public BindableProperty<TilesetModel> CurrentTileset { get; set; } = BindableProperty.Prepare<TilesetModel>();
 
         public int ProjectCount
         {
@@ -189,7 +117,7 @@ namespace Ame.Infrastructure.Models
         {
             get
             {
-                return this.Maps.IndexOf(this.CurrentMap);
+                return this.Maps.IndexOf(this.CurrentMap.Value);
             }
         }
 
@@ -197,7 +125,7 @@ namespace Ame.Infrastructure.Models
         {
             get
             {
-                return this.CurrentLayers.IndexOf(this.CurrentLayer);
+                return this.CurrentLayers.IndexOf(this.CurrentLayer.Value);
             }
         }
 
@@ -205,7 +133,7 @@ namespace Ame.Infrastructure.Models
         {
             get
             {
-                return this.CurrentTilesets.IndexOf(this.CurrentTileset);
+                return this.CurrentTilesets.IndexOf(this.CurrentTileset.Value);
             }
         }
 
@@ -260,12 +188,27 @@ namespace Ame.Infrastructure.Models
             {
                 throw new ArgumentOutOfRangeException(currentMap.Name + " not found in current map list.");
             }
-            this.CurrentMap = currentMap;
+            this.CurrentMap.Value = currentMap;
         }
 
         public void SetCurrentMapAtIndex(int currentIndex)
         {
-            this.CurrentMap = this.Maps[currentIndex];
+            this.CurrentMap.Value = this.Maps[currentIndex];
+        }
+
+        private void CurrentMapChanged(object sender, PropertyChangedEventArgs e)
+        {
+            this.CurrentLayer.Value = this.CurrentMap.Value.CurrentLayer;
+            this.CurrentTilesets = this.CurrentMap.Value.Tilesets;
+        }
+
+        private void CurrentLayerChanged(object sender, PropertyChangedEventArgs e)
+        {
+            int currentLayerIndex = this.CurrentMap.Value.Layers.IndexOf(this.CurrentLayer.Value);
+            if (currentLayerIndex != -1)
+            {
+                this.CurrentMap.Value.SelectedLayerIndex.Value = currentLayerIndex;
+            }
         }
 
         #endregion methods

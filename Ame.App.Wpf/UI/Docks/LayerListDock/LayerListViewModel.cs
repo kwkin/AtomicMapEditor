@@ -24,6 +24,8 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         private IEventAggregator eventAggregator;
 
+        private Map previousMap;
+
         #endregion fields
 
 
@@ -37,7 +39,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             this.Title.Value = "Layer List";
             this.Layers = new ObservableCollection<ILayerListEntryViewModel>();
 
-            this.Session.PropertyChanged += SessionUpdated;
+            this.Session.CurrentMap.PropertyChanged += CurrentMapChanged;
 
             this.NewLayerCommand = new DelegateCommand(() => NewTilesetLayer());
             this.NewLayerGroupCommand = new DelegateCommand(() => NewLayerGroup());
@@ -85,7 +87,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         public void AddTilesetLayer(ILayer layer)
         {
-            this.Session.CurrentLayers.Add(layer);
+            this.Session.CurrentMap.Value.Layers.Add(layer);
         }
 
         public void NewTilesetLayer()
@@ -96,14 +98,14 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         public void NewLayerGroup()
         {
-            int layerGroupCount = this.Session.CurrentMap.GetLayerGroupCount();
+            int layerGroupCount = this.Session.CurrentMap.Value.GetLayerGroupCount();
             string newLayerGroupName = string.Format("Layer Group #{0}", layerGroupCount);
-            this.Session.CurrentLayer.AddSibling(new LayerGroup(newLayerGroupName));
+            this.Session.CurrentLayer.Value.AddSibling(new LayerGroup(newLayerGroupName));
         }
 
         public void MoveLayerDown()
         {
-            int currentLayerIndex = this.Session.CurrentLayers.IndexOf(this.Session.CurrentLayer);
+            int currentLayerIndex = this.Session.CurrentLayers.IndexOf(this.Session.CurrentLayer.Value);
             if (currentLayerIndex < this.Session.CurrentLayers.Count - 1 && currentLayerIndex >= 0)
             {
                 this.Session.CurrentLayers.Move(currentLayerIndex, currentLayerIndex + 1);
@@ -112,7 +114,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         public void MoveLayerUp()
         {
-            int currentLayerIndex = this.Session.CurrentLayers.IndexOf(this.Session.CurrentLayer);
+            int currentLayerIndex = this.Session.CurrentLayers.IndexOf(this.Session.CurrentLayer.Value);
             if (currentLayerIndex > 0)
             {
                 this.Session.CurrentLayers.Move(currentLayerIndex, currentLayerIndex - 1);
@@ -121,8 +123,8 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         public void DuplicateLayer()
         {
-            ILayer copiedLayer = Utils.DeepClone<ILayer>(this.Session.CurrentLayer);
-            this.Session.CurrentLayer.AddSibling(copiedLayer);
+            ILayer copiedLayer = Utils.DeepClone<ILayer>(this.Session.CurrentLayer.Value);
+            this.Session.CurrentLayer.Value.AddSibling(copiedLayer);
         }
 
         public void RemoveLayer()
@@ -131,7 +133,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             {
                 return;
             }
-            this.Session.CurrentLayers.Remove(this.Session.CurrentLayer);
+            this.Session.CurrentLayers.Remove(this.Session.CurrentLayer.Value);
         }
 
         public void EditProperties()
@@ -158,7 +160,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         {
             if (layerEntry != null)
             {
-                this.Session.CurrentLayer = layerEntry.Layer;
+                this.Session.CurrentLayer.Value = layerEntry.Layer;
             }
         }
 
@@ -168,27 +170,25 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             this.eventAggregator.GetEvent<CloseDockEvent>().Publish(closeMessage);
         }
 
-        public void SessionUpdated(object d, PropertyChangedEventArgs e)
+        public void CurrentMapChanged(object d, PropertyChangedEventArgs e)
         {
-            switch (e.PropertyName)
+            this.Layers.Clear();
+            if (this.previousMap != null)
             {
-                case nameof(AmeSession.CurrentMap):
-                    this.Layers.Clear();
-                    this.Session.CurrentLayers.CollectionChanged += UpdateLayerList;
-                    foreach (ILayer layer in this.Session.CurrentLayers)
-                    {
-                        ILayerListEntryViewModel entry = LayerListEntryGenerator.Generate(this.eventAggregator, this.Session, layer);
-                        this.Layers.Add(entry);
-                    }
-                    break;
-
-                default:
-                    break;
+                previousMap.Layers.CollectionChanged -= UpdateLayerList;
+            }
+            this.previousMap = this.Session.CurrentMap.Value;
+            this.Session.CurrentMap.Value.Layers.CollectionChanged += UpdateLayerList;
+            foreach (ILayer layer in this.Session.CurrentLayers)
+            {
+                ILayerListEntryViewModel entry = LayerListEntryGenerator.Generate(this.eventAggregator, this.Session, layer);
+                this.Layers.Add(entry);
             }
         }
 
         private void UpdateLayerList(object sender, NotifyCollectionChangedEventArgs e)
         {
+            Console.WriteLine("Updating Layer List");
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:

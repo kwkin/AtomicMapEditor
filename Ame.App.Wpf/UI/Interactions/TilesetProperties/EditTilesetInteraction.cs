@@ -61,7 +61,7 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
 
         public void UpdateMissingContent(AmeSession session)
         {
-            this.TilesetModel = this.TilesetModel ?? session.CurrentTileset;
+            this.TilesetModel = this.TilesetModel ?? session.CurrentTileset.Value;
             this.Title = this.Title ?? string.Format("Tileset Properties - {0}", this.TilesetModel.Name.Value);
         }
 

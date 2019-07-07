@@ -309,7 +309,7 @@ namespace Ame.App.Wpf.UI.Menu
                 this.fileType = saveMapDialog.Filter;
                 this.Session.LastMapDirectory = Directory.GetParent(saveMapDialog.FileName).FullName;
 
-                SaveMessage message = new SaveMessage(this.filePath, this.Session.CurrentMap);
+                SaveMessage message = new SaveMessage(this.filePath, this.Session.CurrentMap.Value);
                 NotificationMessage<SaveMessage> notification = new NotificationMessage<SaveMessage>(message);
                 this.eventAggregator.GetEvent<NotificationEvent<SaveMessage>>().Publish(notification);
             }

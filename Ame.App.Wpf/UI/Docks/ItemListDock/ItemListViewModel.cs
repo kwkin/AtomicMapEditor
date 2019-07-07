@@ -17,8 +17,6 @@ namespace Ame.App.Wpf.UI.Docks.ItemListDock
 {
     public class ItemListViewModel : DockToolViewModelTemplate
     {
-        // TODO only load a resource once.
-
         #region fields
 
         private IEventAggregator eventAggregator;

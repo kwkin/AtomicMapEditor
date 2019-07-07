@@ -120,7 +120,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         public void DuplicateLayer()
         {
-            ILayer copiedLayer = Utils.DeepClone<ILayer>(this.session.CurrentLayer);
+            ILayer copiedLayer = Utils.DeepClone<ILayer>(this.session.CurrentLayer.Value);
             this.Layer.AddSibling(copiedLayer);
         }
 

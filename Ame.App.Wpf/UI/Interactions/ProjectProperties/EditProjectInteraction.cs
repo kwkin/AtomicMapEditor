@@ -61,7 +61,7 @@ namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
 
         public void UpdateMissingContent(AmeSession session)
         {
-            this.Project = this.Project ?? session.CurrentProject;
+            this.Project = this.Project ?? session.CurrentProject.Value;
             this.Title = string.Format("Edit Project - {0}", this.Project.Name);
         }
 

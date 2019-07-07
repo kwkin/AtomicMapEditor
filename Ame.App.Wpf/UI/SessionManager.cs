@@ -52,7 +52,7 @@ namespace Ame.App.Wpf.UI
 
         private void NotificationReceived(NotificationMessage<LayerNotification> notification)
         {
-            Map currentMap = this.session.CurrentMap;
+            Map currentMap = this.session.CurrentMap.Value;
             switch (notification.Content)
             {
                 case LayerNotification.MergeCurrentLayerDown:

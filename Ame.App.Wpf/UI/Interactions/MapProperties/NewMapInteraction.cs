@@ -69,7 +69,7 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
         public void UpdateMissingContent(AmeSession session)
         {
             this.session = session;
-            this.Project = this.Project ?? session.CurrentProject;
+            this.Project = this.Project ?? session.CurrentProject.Value;
             this.Title = "New Map";
             string newMapName = string.Format("Map #{0}", session.MapCount);
             this.map = new Map(newMapName);

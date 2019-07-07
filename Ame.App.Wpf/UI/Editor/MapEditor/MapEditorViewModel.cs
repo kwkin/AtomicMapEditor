@@ -97,10 +97,10 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             this.hoverSample.Opacity = hoverSampleOpacity;
 
             AddMapLayers(map);
-            ChangeCurrentLayer(this.session.CurrentLayer);
+            ChangeCurrentLayer(this.session.CurrentLayer.Value);
             RedrawBackground();
 
-            this.session.PropertyChanged += SessionPropertyChanged;
+            this.session.CurrentLayer.PropertyChanged += CurrentLayerChanged;
             this.Map.Value.Layers.CollectionChanged += LayersChanged;
             this.ScrollModel.PropertyChanged += ScrollModelPropertyChanged;
             this.BackgroundBrush.PropertyChanged += BackgroundChanged;
@@ -302,7 +302,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
                 return;
             }
 
-            LayerBoundariesRenderable renderer = new LayerBoundariesRenderable(this.session.CurrentLayer);
+            LayerBoundariesRenderable renderer = new LayerBoundariesRenderable(this.session.CurrentLayer.Value);
 
             double thickness = 4 / this.ScrollModel.ZoomLevels[this.ScrollModel.ZoomIndex].zoom;
             thickness = thickness < Global.maxGridThickness ? thickness : Global.maxGridThickness;
@@ -342,12 +342,9 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             this.hoverSample.Opacity = this.HoverSampleOpacity.Value;
         }
 
-        private void SessionPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void CurrentLayerChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(AmeSession.CurrentLayer))
-            {
-                this.ChangeCurrentLayer(this.session.CurrentLayer);
-            }
+            ChangeCurrentLayer(this.session.CurrentLayer.Value);
         }
 
         private void BackgroundChanged(object sender, PropertyChangedEventArgs e)
@@ -489,7 +486,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
 
         private void LayerBoundariesChanged(object sender, PropertyChangedEventArgs e)
         {
-            DrawLayerBoundaries(this.session.CurrentLayer);
+            DrawLayerBoundaries(this.session.CurrentLayer.Value);
         }
 
         private void RedrawBackground()

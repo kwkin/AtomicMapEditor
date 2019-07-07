@@ -55,7 +55,7 @@ namespace Ame.App.Wpf.UI.Docks.MinimapDock
             this.minimapLayers = new DrawingGroup();
             if (this.session.CurrentMap != null)
             {
-                Map currentMap = this.session.CurrentMap;
+                Map currentMap = this.session.CurrentMap.Value;
                 DrawingGroup filled = new DrawingGroup();
                 using (DrawingContext context = filled.Open())
                 {
@@ -70,7 +70,7 @@ namespace Ame.App.Wpf.UI.Docks.MinimapDock
             }
             this.minimapPreview = new DrawingImage(this.minimapLayers);
 
-            this.session.PropertyChanged += SessionChanged;
+            this.session.CurrentMap.PropertyChanged += CurrentMapChanged;
 
             this.FitMinimapCommand = new DelegateCommand(() => FitMinimap());
             this.ToggleGridCommand = new DelegateCommand(() => ToggleGrid());
@@ -124,29 +124,22 @@ namespace Ame.App.Wpf.UI.Docks.MinimapDock
             this.eventAggregator.GetEvent<CloseDockEvent>().Publish(closeMessage);
         }
 
-        private void SessionChanged(object sender, PropertyChangedEventArgs e)
+        private void CurrentMapChanged(object sender, PropertyChangedEventArgs e)
         {
-            switch(e.PropertyName)
+            this.minimapLayers.Children.Clear();
+            Map currentMap = this.session.CurrentMap.Value;
+            DrawingGroup filled = new DrawingGroup();
+            using (DrawingContext context = filled.Open())
             {
-                case nameof(AmeSession.CurrentMap):
-                    this.minimapLayers.Children.Clear();
-                    Map currentMap = this.session.CurrentMap;
-                    DrawingGroup filled = new DrawingGroup();
-                    using (DrawingContext context = filled.Open())
-                    {
-                        Rect drawingRect = new Rect(0, 0, currentMap.PixelWidth.Value, currentMap.PixelHeight.Value);
-                        context.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Transparent, 0), drawingRect);
-                    }
-                    this.minimapLayers.Children.Add(filled);
-                    foreach (ILayer layer in this.session.CurrentLayers)
-                    {
-                        this.minimapLayers.Children.Add(layer.Group);
-                    }
-                    this.session.CurrentLayers.CollectionChanged += LayersChanged;
-                    break;
-                default:
-                    break;
+                Rect drawingRect = new Rect(0, 0, currentMap.PixelWidth.Value, currentMap.PixelHeight.Value);
+                context.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Transparent, 0), drawingRect);
             }
+            this.minimapLayers.Children.Add(filled);
+            foreach (ILayer layer in this.session.CurrentLayers)
+            {
+                this.minimapLayers.Children.Add(layer.Group);
+            }
+            this.session.CurrentLayers.CollectionChanged += LayersChanged;
         }
 
         private void LayersChanged(object sender, NotifyCollectionChangedEventArgs e)

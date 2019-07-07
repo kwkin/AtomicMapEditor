@@ -115,14 +115,14 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
             {
                 ProjectNodeViewModel projectViewModel = item as ProjectNodeViewModel;
                 this.CurrentProject.Value = projectViewModel.Project;
-                this.session.CurrentProject = this.CurrentProject.Value;
+                this.session.CurrentProject.Value = this.CurrentProject.Value;
             }
             else if (typeof(MapNodeViewModel).IsAssignableFrom(item.GetType()))
             {
                 MapNodeViewModel mapViewModel = item as MapNodeViewModel;
                 this.CurrentMap.Value = mapViewModel.Map;
                 this.CurrentProject.Value = mapViewModel.Map.Project.Value ?? this.CurrentProject.Value;
-                this.session.CurrentProject = this.CurrentProject.Value ?? this.session.CurrentProject;
+                this.session.CurrentProject.Value = this.CurrentProject.Value ?? this.session.CurrentProject.Value;
             }
         }
 

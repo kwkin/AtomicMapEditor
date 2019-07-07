@@ -82,7 +82,7 @@
                         BorderBrush="Transparent"
                         ToolTip="Properties: Open the map properties"
                         Command="{Binding EditMapPropertiesCommand}"
-                        IsEnabled="{Binding Session.CurrentMap, Converter={StaticResource NullToBooleanConverter}}">
+                        IsEnabled="{Binding Session.CurrentMap.Value, Converter={StaticResource NullToBooleanConverter}}">
                     <StackPanel Orientation="Vertical">
                         <ContentControl Content="{StaticResource ic_VisibilityOn}"
                                     Width="{StaticResource MidIconSize}"
@@ -122,7 +122,7 @@
                         BorderBrush="Transparent"
                         ToolTip="New Layer: Adds a new layer"
                         Command="{Binding NewLayerCommand}"
-                        IsEnabled="{Binding Session.CurrentMap, Converter={StaticResource NullToBooleanConverter}}">
+                        IsEnabled="{Binding Session.CurrentMap.Value, Converter={StaticResource NullToBooleanConverter}}">
                     <StackPanel Orientation="Vertical">
                         <ContentControl Content="{StaticResource ic_AddBox}"
                                     Width="{StaticResource MidIconSize}"
@@ -138,7 +138,7 @@
                         BorderBrush="Transparent"
                         ToolTip="Properties: Open the layer properties"
                         Command="{Binding EditLayerPropertiesCommand}"
-                        IsEnabled="{Binding Session.CurrentLayer, Converter={StaticResource NullToBooleanConverter}}">
+                        IsEnabled="{Binding Session.CurrentLayer.Value, Converter={StaticResource NullToBooleanConverter}}">
                     <StackPanel Orientation="Vertical">
                         <ContentControl Content="{StaticResource ic_VisibilityOn}"
                                     Width="{StaticResource MidIconSize}"
@@ -246,7 +246,7 @@
                         ToolTip="Zoom Out: Zooms out on the map editor"
                         Command="{Binding ZoomOutCommand}"
                         HorizontalContentAlignment="Center"
-                        IsEnabled="{Binding Session.CurrentMap, Converter={StaticResource NullToBooleanConverter}}">
+                        IsEnabled="{Binding Session.CurrentMap.Value, Converter={StaticResource NullToBooleanConverter}}">
                     <StackPanel Orientation="Vertical">
                         <ContentControl Content="{StaticResource ic_Remove}"
                                     Width="{StaticResource MidIconSize}"
@@ -268,7 +268,7 @@
                               VerticalAlignment="Center"
                               ItemsSource="{Binding ZoomLevels}"
                               DisplayMemberPath="description"
-                              IsEnabled="{Binding Session.CurrentMap, Converter={StaticResource NullToBooleanConverter}}">
+                              IsEnabled="{Binding Session.CurrentMap.Value, Converter={StaticResource NullToBooleanConverter}}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
                                 <actions:EventToCommand Command="{Binding SetZoomCommand, Mode=OneWay}"
@@ -285,7 +285,7 @@
                         ToolTip="Zoom In: Zooms in on the map editor"
                         Command="{Binding ZoomInCommand}"
                         HorizontalContentAlignment="Center"
-                        IsEnabled="{Binding Session.CurrentMap, Converter={StaticResource NullToBooleanConverter}}">
+                        IsEnabled="{Binding Session.CurrentMap.Value, Converter={StaticResource NullToBooleanConverter}}">
                     <StackPanel Orientation="Vertical">
                         <ContentControl Content="{StaticResource ic_Add}"
                                     Width="{StaticResource MidIconSize}"
@@ -326,7 +326,7 @@
                         BorderBrush="Transparent"
                         ToolTip="Sample: Display the animated map in fullscreen"
                         Command="{Binding SampleViewCommand}"
-                        IsEnabled="{Binding Session.CurrentMap, Converter={StaticResource NullToBooleanConverter}}">
+                        IsEnabled="{Binding Session.CurrentMap.Value, Converter={StaticResource NullToBooleanConverter}}">
                     <StackPanel Orientation="Vertical">
                         <ContentControl Content="{StaticResource ic_Play}"
                                     Width="{StaticResource MidIconSize}"
@@ -342,7 +342,7 @@
                         BorderBrush="Transparent"
                         ToolTip="Collisions: Overlay the collision highlights on the map"
                         Command="{Binding CollisionsViewCommand}"
-                        IsEnabled="{Binding Session.CurrentMap, Converter={StaticResource NullToBooleanConverter}}">
+                        IsEnabled="{Binding Session.CurrentMap.Value, Converter={StaticResource NullToBooleanConverter}}">
                     <StackPanel Orientation="Vertical">
                         <ContentControl Content="{StaticResource ic_Collisions}"
                                 Width="{StaticResource MidIconSize}"

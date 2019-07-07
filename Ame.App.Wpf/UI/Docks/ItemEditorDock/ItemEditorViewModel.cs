@@ -276,7 +276,7 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
             {
                 croppedImage = ImageUtils.ColorToTransparent(croppedImage, this.TilesetModel.Value.TransparentColor.Value);
             }
-            int tilesetID = this.Session.CurrentTileset.ID;
+            int tilesetID = this.Session.CurrentTileset.Value.ID;
 
             brushModel.TileImage(croppedImage, tilesetID, topLeftPixel, this.TilesetModel.Value);
 
@@ -315,7 +315,7 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
             this.IsSourceLoaded.Value = true;
             this.TilesetModel.Value.IsTransparent = tilesetModel.IsTransparent;
             this.TilesetModel.Value.TransparentColor = tilesetModel.TransparentColor;
-            this.Session.CurrentTileset = this.TilesetModel.Value;
+            this.Session.CurrentTileset.Value = this.TilesetModel.Value;
             this.ItemImage.Value = CvInvoke.Imread(this.TilesetModel.Value.SourcePath.Value, Emgu.CV.CvEnum.ImreadModes.Unchanged);
             this.itemTransform = new CoordinateTransform();
             this.itemTransform.SetPixelToTile(this.TilesetModel.Value.TileWidth.Value, this.TilesetModel.Value.TileHeight.Value);

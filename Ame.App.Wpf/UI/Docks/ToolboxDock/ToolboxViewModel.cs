@@ -192,12 +192,13 @@ namespace Ame.App.Wpf.UI.Docks.ToolboxDock
 
         private void UpdateStampLimits()
         {
-            if (this.session.CurrentTileset != null)
+            TilesetModel tileset = this.session.CurrentTileset.Value;
+            if (tileset != null)
             {
-                this.MaxTileWidth.Value = this.session.CurrentTileset.Columns.Value - this.BrushTileOffsetX.Value;
-                this.MaxTileHeight.Value = this.session.CurrentTileset.Rows.Value - this.BrushTileOffsetY.Value;
-                this.MaxTileOffsetX.Value = this.session.CurrentTileset.Columns.Value - this.BrushColumns.Value;
-                this.MaxTileOffsetY.Value = this.session.CurrentTileset.Rows.Value - this.BrushRows.Value;
+                this.MaxTileWidth.Value = tileset.Columns.Value - this.BrushTileOffsetX.Value;
+                this.MaxTileHeight.Value = tileset.Rows.Value - this.BrushTileOffsetY.Value;
+                this.MaxTileOffsetX.Value = tileset.Columns.Value - this.BrushColumns.Value;
+                this.MaxTileOffsetY.Value = tileset.Rows.Value - this.BrushRows.Value;
             }
         }
 

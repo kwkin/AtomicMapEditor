@@ -81,11 +81,6 @@ namespace Ame.App.Wpf.UI
                 this.ActiveDocument.Value = this.Documents[0];
             }
 
-            ObservableCollection<ILayer> layers = null;
-            if (this.session.CurrentMap != null)
-            {
-                layers = this.session.CurrentMap.Layers;
-            }
             DockCreatorTemplate[] dockCreators = new DockCreatorTemplate[]
             {
                 new ClipboardCreator(this.eventAggregator),
@@ -366,7 +361,7 @@ namespace Ame.App.Wpf.UI
             {
                 this.session.CurrentTilesets.Add(tileset);
             }
-            this.session.CurrentMap = importedMap;
+            this.session.CurrentMap.Value = importedMap;
             CollectionViewSource.GetDefaultView(this.session.CurrentLayers).Refresh();
             this.eventAggregator.GetEvent<OpenDockEvent>().Publish(openEditorMessage);
         }

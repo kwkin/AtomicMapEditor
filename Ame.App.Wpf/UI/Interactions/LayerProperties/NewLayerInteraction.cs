@@ -70,7 +70,7 @@ namespace Ame.App.Wpf.UI.Interactions.LayerProperties
         public void UpdateMissingContent(AmeSession session)
         {
             this.session = session;
-            this.Map = this.Map ?? session.CurrentMap;
+            this.Map = this.Map ?? session.CurrentMap.Value;
             this.Title = "New Layer";
             string newLayerName = string.Format("Layer #{0}", this.Map.GetLayerCount());
             this.layer = new Layer(this.Map, newLayerName, this.Map.TileWidth.Value, this.Map.TileHeight.Value, this.Map.Rows.Value, this.Map.Columns.Value);

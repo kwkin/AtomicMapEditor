@@ -61,7 +61,7 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
 
         public void UpdateMissingContent(AmeSession session)
         {
-            this.Map = this.Map ?? session.CurrentMap;
+            this.Map = this.Map ?? session.CurrentMap.Value;
             this.Title = string.Format("Edit Map - {0}", this.Map.Name);
         }
 
