@@ -117,6 +117,7 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
                 this.EventAggregator.GetEvent<OpenDockEvent>().Publish(openEditorMessage);
                 if (this.Project != null)
                 {
+                    newMap.Project.Value = this.Project;
                     this.Project.Maps.Add(newMap);
                 }
             }

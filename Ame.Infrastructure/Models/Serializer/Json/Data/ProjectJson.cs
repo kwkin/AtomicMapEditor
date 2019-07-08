@@ -1,4 +1,5 @@
 ﻿using Ame.Infrastructure.Core;
+using Ame.Infrastructure.Handlers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
             this.MapFiles = new List<string>();
             foreach (Map map in project.Maps)
             {
-                this.MapFiles.Add(map.SourcePath.Name);
+                this.MapFiles.Add(map.SourcePath.Value);
             }
             this.TilesetFiles = new List<string>();
             foreach (TilesetModel tileset in project.Tilesets)
@@ -63,9 +64,20 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
 
         public Project Generate()
         {
-            Project project = new Project(this.Name);
+            Project project = new Project(this.Name, this.Version);
+            project.DefaultPixelScale.Value = this.DefaultPixelScale;
+            project.DefaultTileWidth.Value = this.DefaultTileWidth;
+            project.DefaultTileHeight.Value = this.DefaultTileHeight;
+            project.Description.Value = this.Description;
 
-            // Finish
+            ResourceLoader loader = ResourceLoader.Instance;
+            MapJsonReader mapReader = new MapJsonReader();
+            foreach (string mapPath in this.MapFiles)
+            {
+                Map map = loader.Load<Map>(mapPath, mapReader);
+                project.Maps.Add(map);
+            }
+
             return project;
         }
     }

@@ -294,7 +294,15 @@ namespace Ame.App.Wpf.UI.Menu
 
         public void SaveFile()
         {
-            Console.WriteLine("Save File");
+            Map currentMap = this.Session.CurrentMap.Value;
+            if (currentMap.SourcePath.Value == null)
+            {
+                SaveAsFile();
+            }
+            else
+            {
+                currentMap.UpdateFile();
+            }
         }
 
         public void SaveAsFile()
@@ -305,13 +313,12 @@ namespace Ame.App.Wpf.UI.Menu
             saveMapDialog.InitialDirectory = this.Session.LastMapDirectory;
             if (saveMapDialog.ShowDialog() == true)
             {
+                Map currentMap = this.Session.CurrentMap.Value;
                 this.filePath = saveMapDialog.FileName;
                 this.fileType = saveMapDialog.Filter;
-                this.Session.LastMapDirectory = Directory.GetParent(saveMapDialog.FileName).FullName;
+                currentMap.WriteFile(this.filePath);
 
-                SaveMessage message = new SaveMessage(this.filePath, this.Session.CurrentMap.Value);
-                NotificationMessage<SaveMessage> notification = new NotificationMessage<SaveMessage>(message);
-                this.eventAggregator.GetEvent<NotificationEvent<SaveMessage>>().Publish(notification);
+                this.Session.LastMapDirectory = Directory.GetParent(saveMapDialog.FileName).FullName;
             }
         }
 

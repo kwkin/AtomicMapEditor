@@ -175,7 +175,7 @@ namespace Ame.App.Wpf.UI
 
         public void CloseApplication(object sender, CancelEventArgs e)
         {
-            AmeSessionWriter writer = new AmeSessionWriter();
+            AmeSessionJsonWriter writer = new AmeSessionJsonWriter();
             writer.Write(this.session, Global.SessionFileName);
         }
 
@@ -348,7 +348,8 @@ namespace Ame.App.Wpf.UI
         private void SaveAs(NotificationMessage<SaveMessage> message)
         {
             SaveMessage content = message.Content;
-            content.Map.SerializeFile(content.Path);
+            content.Map.WriteFile(content.Path);
+            content.Map.Project.Value.UpdateFile();
         }
 
         private void OpenMap(NotificationMessage<OpenMapMessage> message)

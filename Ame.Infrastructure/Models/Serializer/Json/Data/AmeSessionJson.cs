@@ -1,4 +1,5 @@
 ﻿using Ame.Infrastructure.Core;
+using Ame.Infrastructure.Handlers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -19,11 +20,19 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
         {
             this.Version = Global.Version;
             this.CurrentMap = session.CurrentMapIndex;
-            this.OpenedTilesetFiles = new List<string>();
+
+            this.OpenedProjectFiles = new List<string>();
+            foreach (Project project in session.Projects)
+            {
+                this.OpenedProjectFiles.Add(project.SourcePath.Value);
+            }
+
+            this.OpenedMapFiles = new List<string>();
             foreach (Map map in session.Maps)
             {
-                this.OpenedTilesetFiles.Add(map.SourcePath.Value);
+                this.OpenedMapFiles.Add(map.SourcePath.Value);
             }
+
             this.OpenedTilesetFiles = new List<string>();
             foreach (TilesetModel tileset in session.CurrentTilesets)
             {
@@ -36,6 +45,9 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
 
         [JsonProperty(PropertyName = "Version")]
         public string Version { get; set; }
+
+        [JsonProperty(PropertyName = "OpenedProjects")]
+        public IList<string> OpenedProjectFiles { get; set; }
 
         [JsonProperty(PropertyName = "CurrentMap")]
         public int CurrentMap { get; set; }
@@ -54,8 +66,24 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
 
         public AmeSession Generate()
         {
-            // TODO load maps, tilesets, and other properties
+            // TODO figure out what to do about the tileset files. Should these be kept in project or map?
             AmeSession session = new AmeSession();
+
+            ResourceLoader loader = ResourceLoader.Instance;
+            ProjectJsonReader projectReader = new ProjectJsonReader();
+            foreach(string projectPath in this.OpenedProjectFiles)
+            {
+                Project project = loader.Load<Project>(projectPath, projectReader);
+                session.Projects.Add(project);
+            }
+
+            MapJsonReader mapReader = new MapJsonReader();
+            foreach (string mapPath in this.OpenedMapFiles)
+            {
+                Map map = loader.Load<Map>(mapPath, mapReader);
+                session.Maps.Add(map);
+            }
+
             session.LastMapDirectory = this.LastMapDirectory;
             session.LastTilesetDirectory = this.LastTilesetDirectory;
             return session;

@@ -122,8 +122,8 @@
     <Compile Include="Models\Serializer\Image\MatReader.cs" />
     <Compile Include="Models\Serializer\IResourceReader.cs" />
     <Compile Include="Models\Serializer\IResourceWriter.cs" />
-    <Compile Include="Models\Serializer\Json\AmeSessionReader.cs" />
-    <Compile Include="Models\Serializer\Json\AmeSessionWriter.cs" />
+    <Compile Include="Models\Serializer\Json\AmeSessionJsonReader.cs" />
+    <Compile Include="Models\Serializer\Json\AmeSessionJsonWriter.cs" />
     <Compile Include="Models\Serializer\Json\Data\AmeSessionJson.cs" />
     <Compile Include="Models\Serializer\Json\Data\LayerJson.cs" />
     <Compile Include="Models\Serializer\Json\Data\MapJson.cs" />
@@ -136,10 +136,10 @@
     <Compile Include="Models\Serializer\Json\MapJsonWriter.cs" />
     <Compile Include="Models\Serializer\Json\ProjectJsonReader.cs" />
     <Compile Include="Models\Serializer\Json\ProjectJsonWriter.cs" />
-    <Compile Include="Models\Serializer\Json\TileCollectionReader.cs" />
-    <Compile Include="Models\Serializer\Json\TileCollectionWriter.cs" />
-    <Compile Include="Models\Serializer\Json\TilesetReader.cs" />
-    <Compile Include="Models\Serializer\Json\TilesetWriter.cs" />
+    <Compile Include="Models\Serializer\Json\TileCollectionJsonReader.cs" />
+    <Compile Include="Models\Serializer\Json\TileCollectionJsonWriter.cs" />
+    <Compile Include="Models\Serializer\Json\TilesetJsonReader.cs" />
+    <Compile Include="Models\Serializer\Json\TilesetJsonWriter.cs" />
     <Compile Include="Models\Tile.cs" />
     <Compile Include="Models\TileCollection.cs" />
     <Compile Include="Models\TilesetModel.cs" />

@@ -1,6 +1,7 @@
 ﻿using Ame.Infrastructure.Attributes;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Core;
+using Ame.Infrastructure.Models.Serializer.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -85,6 +86,12 @@ namespace Ame.Infrastructure.Models
 
 
         #region methods
+
+        public void UpdateFile()
+        {
+            ProjectJsonWriter writer = new ProjectJsonWriter();
+            writer.Write(this, this.SourcePath.Value);
+        }
 
         #endregion methods
     }

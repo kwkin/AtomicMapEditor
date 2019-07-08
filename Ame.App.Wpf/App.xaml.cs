@@ -10,13 +10,11 @@ using Ame.App.Wpf.UI.Ribbon;
 using Ame.Infrastructure.Core;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Models.Serializer.Json;
-using Ame.Infrastructure.Models.Serializer.Json.Data;
 using DryIoc;
-using Newtonsoft.Json;
 using Prism.DryIoc;
 using Prism.Ioc;
-using Prism.Modularity;
 using Prism.Mvvm;
+using System;
 using System.IO;
 using System.Windows;
 
@@ -38,9 +36,18 @@ namespace Ame.App.Wpf
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            AmeSessionReader reader = new AmeSessionReader();
-            AmeSession session = reader.Read(Global.SessionFileName);
-
+            AmeSession session = new AmeSession();
+            try
+            {
+                if (File.Exists(Global.SessionFileName))
+                {
+                    AmeSessionJsonReader reader = new AmeSessionJsonReader();
+                    session = reader.Read(Global.SessionFileName);
+                }
+            }
+            catch (Exception e)
+            {
+            }
             containerRegistry.RegisterInstance(typeof(AmeSession), session);
 
             ViewModelLocationProvider.Register<MenuOptions, MenuOptionsViewModel>();

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Ame.Infrastructure.Models.Serializer.Json
 {
-    internal class TileCollectionWriter : IResourceWriter<TileCollection>
+    public class AmeSessionJsonWriter : IResourceWriter<AmeSession>
     {
         #region fields
 
@@ -18,7 +18,7 @@ namespace Ame.Infrastructure.Models.Serializer.Json
 
         #region constructor
 
-        public TileCollectionWriter()
+        public AmeSessionJsonWriter()
         {
         }
 
@@ -32,14 +32,14 @@ namespace Ame.Infrastructure.Models.Serializer.Json
 
         #region methods
 
-        public void Write(TileCollection tileCollection, string path)
+        public void Write(AmeSession session, string path)
         {
-            Write(tileCollection, new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.Read));
+            Write(session, new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.Read));
         }
 
-        public void Write(TileCollection TileCollection, Stream stream)
+        public void Write(AmeSession session, Stream stream)
         {
-            TileCollectionJson json = new TileCollectionJson(TileCollection);
+            AmeSessionJson json = new AmeSessionJson(session);
 
             JsonSerializer serializer = new JsonSerializer();
             serializer.Formatting = Formatting.Indented;

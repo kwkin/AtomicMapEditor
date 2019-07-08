@@ -2,6 +2,7 @@
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
+using Ame.Infrastructure.Models.Serializer.Json;
 using Prism.Events;
 using Prism.Interactivity;
 using Prism.Interactivity.InteractionRequest;
@@ -99,6 +100,7 @@ namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
             {
                 Project newProject = confirmation.Content as Project;
                 this.session.Projects.Add(newProject);
+                newProject.UpdateFile();
             }
         }
 

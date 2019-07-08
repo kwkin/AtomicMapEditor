@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Ame.Infrastructure.Models.Serializer.Json
 {
-    public class TilesetReader : IResourceReader<TilesetModel>
+    public class TilesetJsonReader : IResourceReader<TilesetModel>
     {
         #region fields
 
@@ -18,7 +18,7 @@ namespace Ame.Infrastructure.Models.Serializer.Json
 
         #region constructor
 
-        public TilesetReader()
+        public TilesetJsonReader()
         {
         }
 

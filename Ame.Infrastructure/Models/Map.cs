@@ -2,6 +2,7 @@
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Core;
 using Ame.Infrastructure.DrawingTools;
+using Ame.Infrastructure.Models.Serializer.Json;
 using Ame.Infrastructure.Models.Serializer.Json.Data;
 using Newtonsoft.Json;
 using System;
@@ -288,18 +289,23 @@ namespace Ame.Infrastructure.Models
             return true;
         }
 
-        public void SerializeFile(string file)
+        public void WriteFile(string file)
         {
-            MapJson json = new MapJson(this);
+            this.SourcePath.Value = file;
 
-            JsonSerializer serializer = new JsonSerializer();
-            serializer.Formatting = Formatting.Indented;
-            serializer.NullValueHandling = NullValueHandling.Ignore;
-
-            using (StreamWriter stream = new StreamWriter(file))
-            using (JsonWriter writer = new JsonTextWriter(stream))
+            MapJsonWriter writer = new MapJsonWriter();
+            writer.Write(this, file);
+            if (this.Project != null)
             {
-                serializer.Serialize(writer, json);
+                this.Project.Value.UpdateFile();
+            }
+        }
+
+        public void UpdateFile()
+        {
+            if (this.SourcePath != null)
+            {
+                WriteFile(this.SourcePath.Value);
             }
         }
 

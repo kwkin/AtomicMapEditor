@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Ame.Infrastructure.Models.Serializer.Json
 {
-    public class TileCollectionReader : IResourceReader<TileCollection>
+    public class TileCollectionJsonReader : IResourceReader<TileCollection>
     {
         #region fields
 
@@ -22,7 +22,7 @@ namespace Ame.Infrastructure.Models.Serializer.Json
 
         #region constructor
 
-        public TileCollectionReader(Layer layer, ObservableCollection<TilesetModel> tilesets)
+        public TileCollectionJsonReader(Layer layer, ObservableCollection<TilesetModel> tilesets)
         {
             this.layer = layer;
             this.tilesets = tilesets;
