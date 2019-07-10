@@ -5,6 +5,7 @@ using Ame.Infrastructure.Models.Serializer.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,8 @@ namespace Ame.Infrastructure.Models
     public class Project : IContainsMetadata
     {
         #region fields
+
+        private string projectName = Global.DefaultProjectFilename;
 
         #endregion fields
 
@@ -90,7 +93,12 @@ namespace Ame.Infrastructure.Models
         public void UpdateFile()
         {
             ProjectJsonWriter writer = new ProjectJsonWriter();
-            writer.Write(this, this.SourcePath.Value);
+            if (!Directory.Exists(this.SourcePath.Value))
+            {
+                Directory.CreateDirectory(this.SourcePath.Value);
+            }
+            string projectPath = Path.Combine(this.SourcePath.Value, projectName);
+            writer.Write(this, projectPath);
         }
 
         #endregion methods

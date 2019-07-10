@@ -40,6 +40,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <!-- Name Row -->
@@ -63,7 +64,7 @@
         <!-- Source Row -->
         <Label x:Name="sourceLabel"
                Style="{StaticResource MainSmallLabelStyle}"
-               Content="Source"
+               Content="Location"
                Grid.Row="1"
                Grid.Column="0"
                HorizontalAlignment="Right"
@@ -99,11 +100,32 @@
             </Button>
         </Grid>
 
+        <!-- Full path Row -->
+        <Label x:Name="fullPathLabel"
+               Style="{StaticResource MainSmallLabelStyle}"
+               Content="Full Path:"
+               Grid.Row="2"
+               Grid.Column="0"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Center"
+               Margin="0 0 5 10">
+        </Label>
+        <Label x:Name="fullLocation"
+               Style="{StaticResource MainSmallLabelStyle}"
+               Content="{Binding FullLocation.Value}"
+               Grid.Row="2"
+               Grid.Column="1"
+               Grid.ColumnSpan="3"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Center"
+               Margin="0 0 0 10">
+        </Label>
+        
         <!-- Tile Size Row -->
         <Label x:Name="tileWidthLabel"
                Style="{StaticResource MainSmallLabelStyle}"
                Content="Tile Width"
-               Grid.Row="2"
+               Grid.Row="3"
                Grid.Column="0"
                HorizontalAlignment="Right"
                VerticalAlignment="Center"
@@ -111,7 +133,7 @@
         <xctk:IntegerUpDown x:Name="tileWidthIntStepper"
                             Style="{StaticResource PrimaryLightNumericUpDownStyle}"
                             Value="{Binding TileWidth.Value}"
-                            Grid.Row="2"
+                            Grid.Row="3"
                             Grid.Column="1"
                             VerticalAlignment="Center"
                             Increment="1"
@@ -121,7 +143,7 @@
         <Label x:Name="tileHeightLabel"
                Style="{StaticResource MainSmallLabelStyle}"
                Content="Tile Height"
-               Grid.Row="2"
+               Grid.Row="3"
                Grid.Column="2"
                HorizontalAlignment="Right"
                VerticalAlignment="Center"
@@ -129,7 +151,7 @@
         <xctk:IntegerUpDown x:Name="tileHeightIntStepper"
                             Style="{StaticResource PrimaryLightNumericUpDownStyle}"
                             Value="{Binding TileHeight.Value}"
-                            Grid.Row="2"
+                            Grid.Row="3"
                             Grid.Column="3"
                             VerticalAlignment="Center"
                             Increment="1"
@@ -141,7 +163,7 @@
         <Label x:Name="pixelRatioLabel"
                Style="{StaticResource MainSmallLabelStyle}"
                Content="Pixel Scale"
-               Grid.Row="3"
+               Grid.Row="4"
                Grid.Column="0"
                HorizontalAlignment="Right"
                VerticalAlignment="Center"
@@ -149,7 +171,7 @@
         <xctk:IntegerUpDown x:Name="pixelToIntStepper"
                             Style="{StaticResource PrimaryLightNumericUpDownStyle}"
                             Value="{Binding PixelScale.Value}"
-                            Grid.Row="3"
+                            Grid.Row="4"
                             Grid.Column="1"
                             Grid.ColumnSpan="3"
                             VerticalAlignment="Center"
@@ -162,7 +184,7 @@
         <Label x:Name="desciptionLabel"
                Style="{StaticResource MainSmallLabelStyle}"
                Content="Description"
-               Grid.Row="4"
+               Grid.Row="5"
                Grid.Column="0"
                HorizontalAlignment="Right"
                VerticalAlignment="Top"
@@ -170,7 +192,7 @@
         <TextBox x:Name="descriptionTextBox"
                  Style="{StaticResource PrimaryMidTextAreaStyle}"
                  Text="{Binding Description.Value, UpdateSourceTrigger=PropertyChanged}"
-                 Grid.Row="4"
+                 Grid.Row="5"
                  Grid.Column="1"
                  Grid.ColumnSpan="3"
                  Height="72"

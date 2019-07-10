@@ -89,7 +89,6 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
             OpenFileDialog openDialog = new OpenFileDialog();
             openDialog.Title = "Open a Project";
             openDialog.InitialDirectory = this.session.LastTilesetDirectory;
-            openDialog.Filter = SaveProjectExtension.GetOpenProjectSaveExtensions();
             if (openDialog.ShowDialog() == true)
             {
                 string dialogPath = openDialog.FileName;

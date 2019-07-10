@@ -3,6 +3,7 @@ using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Handlers;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Utils;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
@@ -15,6 +16,8 @@ using System.Windows.Input;
 
 namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
 {
+    // TODO Update the location without using the browse button
+    // TODO set default location
     public class ProjectPropertiesViewModel : IInteractionRequestAware
     {
         #region fields
@@ -63,6 +66,8 @@ namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
         public BindableProperty<string> Description { get; set; } = BindableProperty<string>.Prepare();
 
         public BindableProperty<Project> Project { get; set; } = BindableProperty<Project>.Prepare();
+
+        public BindableProperty<string> FullLocation { get; set; } = BindableProperty<string>.Prepare(string.Empty);
 
         public IConfirmation notification { get; set; }
         public INotification Notification
@@ -151,15 +156,16 @@ namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
 
         private void BrowseSource()
         {
-            SaveFileDialog saveProjectDialog = new SaveFileDialog();
-            saveProjectDialog.Title = "Create a new Project";
-            saveProjectDialog.InitialDirectory = this.session.LastMapDirectory;
-            saveProjectDialog.Filter = SaveProjectExtension.GetOpenProjectSaveExtensions();
-            if (saveProjectDialog.ShowDialog() == DialogResult.OK)
+            CommonOpenFileDialog folderDialog = new CommonOpenFileDialog();
+            folderDialog.Title = "Select the Project Location";
+            folderDialog.InitialDirectory = this.session.LastMapDirectory;
+            folderDialog.IsFolderPicker = true;
+            if (folderDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                string projectFilePath = saveProjectDialog.FileName;
-                this.IsSourceSpecified.Value = true;
+                string projectFilePath = folderDialog.FileName;
+                this.FullLocation.Value = Path.Combine(projectFilePath, this.Name.Value);
                 this.SourcePath.Value = projectFilePath;
+                this.IsSourceSpecified.Value = true;
                 this.session.LastMapDirectory = Directory.GetParent(projectFilePath).FullName;
             }
         }

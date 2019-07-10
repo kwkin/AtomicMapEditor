@@ -11,9 +11,6 @@ namespace Ame.Infrastructure.Utils
 {
     public enum FileExtensions
     {
-        [FileExtensionAttribute("AMP", "*.amp")]
-        AMP,
-
         [FileExtensionAttribute("AME", "*.ame")]
         AME,
 
@@ -31,13 +28,6 @@ namespace Ame.Infrastructure.Utils
 
         [FileExtensionAttribute("TIFF", "*.tif", "*.tiff")]
         TIFF
-    }
-
-
-    public enum SaveProjectExtensions
-    {
-        AMP = FileExtensions.AMP,
-        JSON = FileExtensions.JSON
     }
 
 
@@ -61,26 +51,6 @@ namespace Ame.Infrastructure.Utils
         PNG = FileExtensions.PNG,
         JPEG = FileExtensions.JPEG,
         TIFF = FileExtensions.TIFF
-    }
-
-
-    public static class SaveProjectExtension
-    {
-        #region methods
-
-        public static string GetOpenProjectSaveExtensions()
-        {
-            StringBuilder openFileFormatBuilder = new StringBuilder();
-            foreach (FileExtensions extension in Enum.GetValues(typeof(SaveProjectExtensions)))
-            {
-                openFileFormatBuilder.Append(extension.GetOpenFileFormat());
-                openFileFormatBuilder.Append("|");
-            }
-            openFileFormatBuilder.Append("All Files (*.*)|*.*");
-
-            return openFileFormatBuilder.ToString();
-        }
-        #endregion methods
     }
 
 

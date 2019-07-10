@@ -179,9 +179,9 @@ namespace Ame.Infrastructure.Models
         {
             if (this.undoHover != null)
             {
-                applyAction(this.undoHover);
+                ApplyAction(this.undoHover);
             }
-            DrawAction undoAction = applyAction(action);
+            DrawAction undoAction = ApplyAction(action);
             this.UndoQueue.Push(undoAction);
             this.RedoQueue.Clear();
             this.undoHover = null;
@@ -195,9 +195,9 @@ namespace Ame.Infrastructure.Models
         {
             if (this.undoHover != null)
             {
-                applyAction(this.undoHover);
+                ApplyAction(this.undoHover);
             }
-            this.undoHover = applyAction(action);
+            this.undoHover = ApplyAction(action);
             return this.undoHover;
         }
 
@@ -208,7 +208,7 @@ namespace Ame.Infrastructure.Models
                 return;
             }
             DrawAction undoAction = this.UndoQueue.Pop();
-            DrawAction redoAction = applyAction(undoAction);
+            DrawAction redoAction = ApplyAction(undoAction);
             this.RedoQueue.Push(redoAction);
         }
 
@@ -219,11 +219,11 @@ namespace Ame.Infrastructure.Models
                 return;
             }
             DrawAction redoAction = this.RedoQueue.Pop();
-            DrawAction undoAction = applyAction(redoAction);
+            DrawAction undoAction = ApplyAction(redoAction);
             this.UndoQueue.Push(undoAction);
         }
 
-        private DrawAction applyAction(DrawAction action)
+        private DrawAction ApplyAction(DrawAction action)
         {
             Stack<Tile> previousTiles = new Stack<Tile>();
             foreach (Tile tile in action.Tiles)
@@ -263,7 +263,7 @@ namespace Ame.Infrastructure.Models
         /// <param name="map"></param>
         /// <returns></returns>
         /// <exception cref="FileFormatException">Thrown when there is an invalid parameter in the map</exception>
-        public static bool isValid(Map map)
+        public static bool IsValid(Map map)
         {
             StringBuilder errorMessage = new StringBuilder("");
             if (map.Rows.Value < 1)

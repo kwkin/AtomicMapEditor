@@ -17,6 +17,14 @@ namespace Ame.Infrastructure.Core
             }
         }
 
+        public static string DefaultProjectFilename
+        {
+            get
+            {
+                return @".project";
+            }
+        }
+
         public static string DefaultFileDirectory
         {
             get

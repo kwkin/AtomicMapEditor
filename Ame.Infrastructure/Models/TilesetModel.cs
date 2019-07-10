@@ -14,7 +14,8 @@ using System.Windows.Media;
 namespace Ame.Infrastructure.Models
 {
     // TODO use ImageDrawing.ClipGeometry instead of the current cropping
-    // TODO create a custom xerializer class to set the ignored parameters
+    // TODO look into changing the structure of IItems
+    // TODO Instead of a tree, just have the list. Declare a property indicating the group
     public class TilesetModel : PaddedGrid, IItem, IContainsMetadata
     {
         #region fields
@@ -52,8 +53,6 @@ namespace Ame.Infrastructure.Models
 
         #region properties
 
-        // TODO look into changing the structure of IItems
-        // TODO Instead of a tree, just have the list. Declare a property indicating the group
         public int ID { get; set; } = -1;
 
         [MetadataProperty(MetadataType.Property, "Name")]
@@ -62,7 +61,7 @@ namespace Ame.Infrastructure.Models
         [MetadataProperty(MetadataType.Property, "Source Path")]
         public BindableProperty<string> SourcePath { get; set; } = BindableProperty.Prepare<string>(string.Empty);
 
-        [MetadataProperty(MetadataType.Property, "Source Path")]
+        [MetadataProperty(MetadataType.Property, "Description")]
         public BindableProperty<string> Description { get; set; }
 
         public Mat MatImage { get; set; }
