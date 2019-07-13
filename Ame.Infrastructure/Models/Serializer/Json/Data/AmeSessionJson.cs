@@ -38,8 +38,8 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
             {
                 this.OpenedTilesetFiles.Add(tileset.SourcePath.Value);
             }
-            this.LastMapDirectory = session.LastMapDirectory;
-            this.LastTilesetDirectory = session.LastTilesetDirectory;
+            this.LastMapDirectory = session.LastMapDirectory.Value;
+            this.LastTilesetDirectory = session.LastTilesetDirectory.Value;
 
         }
 
@@ -80,12 +80,19 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
             MapJsonReader mapReader = new MapJsonReader();
             foreach (string mapPath in this.OpenedMapFiles)
             {
-                Map map = loader.Load<Map>(mapPath, mapReader);
-                session.Maps.Add(map);
+                try
+                {
+                    Map map = loader.Load<Map>(mapPath, mapReader);
+                    session.Maps.Add(map);
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
             }
 
-            session.LastMapDirectory = this.LastMapDirectory;
-            session.LastTilesetDirectory = this.LastTilesetDirectory;
+            session.LastMapDirectory.Value = this.LastMapDirectory;
+            session.LastTilesetDirectory.Value = this.LastTilesetDirectory;
             return session;
         }
     }

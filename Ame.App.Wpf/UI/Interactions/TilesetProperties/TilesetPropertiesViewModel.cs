@@ -339,7 +339,7 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
         {
             OpenFileDialog openDialog = new OpenFileDialog();
             openDialog.Title = "Select a Tileset";
-            openDialog.InitialDirectory = this.session.LastTilesetDirectory;
+            openDialog.InitialDirectory = this.session.LastTilesetDirectory.Value;
             openDialog.Filter = ImageExtension.GetOpenFileImageExtensions();
             if (openDialog.ShowDialog() == true)
             {
@@ -348,7 +348,7 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
                 {
                     this.IsSourceLoaded.Value = true;
                     this.SourcePath.Value = tileFilePath;
-                    this.session.LastTilesetDirectory = Directory.GetParent(tileFilePath).FullName;
+                    this.session.LastTilesetDirectory.Value = Directory.GetParent(tileFilePath).FullName;
 
                     MatReader reader = new MatReader();
                     ResourceLoader loader = ResourceLoader.Instance;

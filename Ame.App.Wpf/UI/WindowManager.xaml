@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:local="clr-namespace:Ame.App.Wpf.UI"
+             xmlns:actions="clr-namespace:Ame.App.Wpf.UILogic.Actions"
              xmlns:conv="clr-namespace:Ame.App.Wpf.UILogic.Converters"
              xmlns:docks="clr-namespace:Ame.App.Wpf.UI.Docks"
              xmlns:clipboard="clr-namespace:Ame.App.Wpf.UI.Docks.ClipboardDock"
@@ -27,7 +29,13 @@
         <conv:BooleanToVisiblityConverter x:Key="BoolToVisConverter"
                                           Collapse="True" />
     </UserControl.Resources>
-
+    
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="FormClosed">
+            <actions:EventToCommand Command="{Binding WindowClosingCommand, Mode=OneWay}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    
     <xcad:DockingManager x:Name="windowManager"
                          DocumentsSource="{Binding Documents}"
                          AnchorablesSource="{Binding Anchorables}"

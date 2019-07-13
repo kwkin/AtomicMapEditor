@@ -88,7 +88,7 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
         {
             OpenFileDialog openDialog = new OpenFileDialog();
             openDialog.Title = "Open a Project";
-            openDialog.InitialDirectory = this.session.LastTilesetDirectory;
+            openDialog.InitialDirectory = this.session.LastTilesetDirectory.Value;
             if (openDialog.ShowDialog() == true)
             {
                 string dialogPath = openDialog.FileName;

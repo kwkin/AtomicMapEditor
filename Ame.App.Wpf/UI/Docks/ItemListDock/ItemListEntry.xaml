@@ -9,7 +9,6 @@
         <ResourceDictionary Source="pack://application:,,,/Ame.App.Wpf;component/UI/Docks/ItemListDock/ItemListContextMenu.xaml" />
     </UserControl.Resources>
 
-    <!-- TODO point to image -->
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />

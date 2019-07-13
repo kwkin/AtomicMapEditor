@@ -53,7 +53,7 @@ namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
 
         public BindableProperty<string> WindowTitle { get; set; } = BindableProperty<string>.Prepare(string.Empty);
 
-        public BindableProperty<string> SourcePath { get; set; } = BindableProperty<string>.Prepare(string.Empty);
+        public BindableProperty<string> SpecifiedPath { get; set; } = BindableProperty<string>.Prepare(string.Empty);
 
         public BindableProperty<string> Name { get; set; } = BindableProperty<string>.Prepare();
 
@@ -123,7 +123,7 @@ namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
         private void UpdateProjectProperties(Project project)
         {
             project.Name.Value = this.Name.Value;
-            project.SourcePath.Value = this.SourcePath.Value;
+            project.SourcePath.Value = this.FullLocation.Value;
             project.DefaultTileWidth.Value = this.TileWidth.Value;
             project.DefaultTileHeight.Value = this.TileHeight.Value;
             project.DefaultPixelScale.Value = this.PixelScale.Value;
@@ -138,13 +138,13 @@ namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
         private void UpdateUIusingProject(Project project)
         {
             this.Name.Value = project.Name.Value;
-            this.SourcePath.Value = project.SourcePath.Value;
+            this.SpecifiedPath.Value = project.SourcePath.Value;
             this.TileWidth.Value = project.DefaultTileWidth.Value;
             this.TileHeight.Value = project.DefaultTileHeight.Value;
             this.PixelScale.Value = project.DefaultPixelScale.Value;
             this.Description.Value = project.Description.Value;
 
-            if (this.SourcePath.Value != null && this.SourcePath.Value != string.Empty)
+            if (this.SpecifiedPath.Value != null && this.SpecifiedPath.Value != string.Empty)
             {
                 this.IsSourceSpecified.Value = true;
             }
@@ -158,15 +158,15 @@ namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
         {
             CommonOpenFileDialog folderDialog = new CommonOpenFileDialog();
             folderDialog.Title = "Select the Project Location";
-            folderDialog.InitialDirectory = this.session.LastMapDirectory;
+            folderDialog.InitialDirectory = this.session.LastMapDirectory.Value;
             folderDialog.IsFolderPicker = true;
             if (folderDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
                 string projectFilePath = folderDialog.FileName;
                 this.FullLocation.Value = Path.Combine(projectFilePath, this.Name.Value);
-                this.SourcePath.Value = projectFilePath;
+                this.SpecifiedPath.Value = projectFilePath;
                 this.IsSourceSpecified.Value = true;
-                this.session.LastMapDirectory = Directory.GetParent(projectFilePath).FullName;
+                this.session.LastMapDirectory.Value = Directory.GetParent(projectFilePath).FullName;
             }
         }
 

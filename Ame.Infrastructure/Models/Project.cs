@@ -90,14 +90,19 @@ namespace Ame.Infrastructure.Models
 
         #region methods
 
-        public void UpdateFile()
+        public void CreateFile()
         {
-            ProjectJsonWriter writer = new ProjectJsonWriter();
             if (!Directory.Exists(this.SourcePath.Value))
             {
                 Directory.CreateDirectory(this.SourcePath.Value);
             }
+            UpdateFile();
+        }
+
+        public void UpdateFile()
+        {
             string projectPath = Path.Combine(this.SourcePath.Value, projectName);
+            ProjectJsonWriter writer = new ProjectJsonWriter();
             writer.Write(this, projectPath);
         }
 

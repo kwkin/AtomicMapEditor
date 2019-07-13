@@ -160,7 +160,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
         {
             get
             {
-                return this.session.DrawingTool;
+                return this.session.DrawingTool.Value;
             }
         }
 

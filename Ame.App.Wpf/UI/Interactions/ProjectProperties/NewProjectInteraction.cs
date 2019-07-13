@@ -100,7 +100,7 @@ namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
             {
                 Project newProject = confirmation.Content as Project;
                 this.session.Projects.Add(newProject);
-                newProject.UpdateFile();
+                newProject.CreateFile();
             }
         }
 

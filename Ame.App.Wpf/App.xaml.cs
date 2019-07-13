@@ -47,6 +47,7 @@ namespace Ame.App.Wpf
             }
             catch (Exception e)
             {
+                Console.WriteLine(e.Message);
             }
             containerRegistry.RegisterInstance(typeof(AmeSession), session);
 

@@ -83,7 +83,7 @@
                      Grid.Column="0"
                      Grid.ColumnSpan="1"
                      VerticalAlignment="Center"
-                     Text="{Binding SourcePath.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Text="{Binding SpecifiedPath.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      actions:InputBindingsManager.UpdatePropertySourceWhenEnterPressed="TextBox.Text"
                      Margin="0 0 0 10">
             </TextBox>

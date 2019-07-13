@@ -31,7 +31,7 @@ namespace Ame.Infrastructure.Models
             this.Projects = new ObservableCollection<Project>();
             this.Maps = maps;
             this.CurrentTilesets = new ObservableCollection<TilesetModel>();
-            this.DrawingTool = new StampTool();
+            this.DrawingTool.Value = new StampTool();
 
             this.CurrentMap.PropertyChanged += CurrentMapChanged;
             this.CurrentLayer.PropertyChanged += CurrentLayerChanged;
@@ -43,7 +43,7 @@ namespace Ame.Infrastructure.Models
             this.Maps = new ObservableCollection<Map>();
             this.Maps.Add(Map);
             this.CurrentTilesets = new ObservableCollection<TilesetModel>();
-            this.DrawingTool = new StampTool();
+            this.DrawingTool.Value = new StampTool();
 
             this.CurrentMap.PropertyChanged += CurrentMapChanged;
             this.CurrentLayer.PropertyChanged += CurrentLayerChanged;
@@ -137,46 +137,12 @@ namespace Ame.Infrastructure.Models
             }
         }
 
-        private IDrawingTool drawingTool;
-        public IDrawingTool DrawingTool
-        {
-            get
-            {
-                return this.drawingTool;
-            }
-            set
-            {
-                this.drawingTool = value;
-            }
-        }
+        public BindableProperty<IDrawingTool> DrawingTool { get; set; } = BindableProperty.Prepare<IDrawingTool>();
 
-        private string lastTilesetDirectory;
-        public string LastTilesetDirectory
-        {
-            get
-            {
-                this.lastTilesetDirectory = this.lastTilesetDirectory ?? Global.DefaultFileDirectory;
-                return this.lastTilesetDirectory;
-            }
-            set
-            {
-                this.lastTilesetDirectory = value;
-            }
-        }
+        public BindableProperty<string> LastTilesetDirectory { get; set; } = BindableProperty.Prepare<string>(Global.DefaultFileDirectory);
 
-        private string lastMapDirectory;
-        public string LastMapDirectory
-        {
-            get
-            {
-                this.lastMapDirectory = this.lastMapDirectory ?? Global.DefaultFileDirectory;
-                return this.lastMapDirectory;
-            }
-            set
-            {
-                this.lastMapDirectory = value;
-            }
-        }
+        public BindableProperty<string> LastMapDirectory { get; set; } = BindableProperty.Prepare<string>(Global.DefaultFileDirectory);
+
         #endregion properties
 
 

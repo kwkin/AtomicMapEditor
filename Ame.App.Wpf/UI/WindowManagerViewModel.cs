@@ -22,6 +22,7 @@ using Ame.Infrastructure.UILogic;
 using AvalonDock;
 using AvalonDock.Layout.Serialization;
 using Newtonsoft.Json;
+using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using System;
@@ -81,6 +82,7 @@ namespace Ame.App.Wpf.UI
                 this.ActiveDocument.Value = this.Documents[0];
             }
 
+
             DockCreatorTemplate[] dockCreators = new DockCreatorTemplate[]
             {
                 new ClipboardCreator(this.eventAggregator),
@@ -106,6 +108,7 @@ namespace Ame.App.Wpf.UI
             this.ActiveDock.PropertyChanged += ActiveDockPropertyChanged;
             this.ActiveDocument.PropertyChanged += ActiveDocumentPropertyChanged;
 
+            Application.Current.MainWindow.Closing += CloseApplication;
 
             this.eventAggregator.GetEvent<OpenDockEvent>().Subscribe((messge) =>
             {
@@ -156,6 +159,8 @@ namespace Ame.App.Wpf.UI
 
         #region properties
 
+        public ICommand WindowClosingCommand { get; set; }
+
         public DockingManager WindowManager { get; set; }
         public DockLayoutViewModel DockLayout { get; private set; }
 
@@ -173,7 +178,7 @@ namespace Ame.App.Wpf.UI
 
         #region methods
 
-        public void CloseApplication(object sender, CancelEventArgs e)
+        private void CloseApplication(object sender, CancelEventArgs e)
         {
             AmeSessionJsonWriter writer = new AmeSessionJsonWriter();
             writer.Write(this.session, Global.SessionFileName);
