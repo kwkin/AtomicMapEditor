@@ -51,6 +51,7 @@ namespace Ame.App.Wpf.UI.Menu
 
         public MenuOptionsViewModel(IEventAggregator eventAggregator, AmeSession session)
         {
+            // TODO create singleton class that handles these functiosn
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
             this.Session = session ?? throw new ArgumentNullException("session");
 
@@ -62,7 +63,8 @@ namespace Ame.App.Wpf.UI.Menu
 
             // File bindings
             this.NewProjectCommand = new DelegateCommand(() => NewProject());
-            this.OpenFileCommand = new DelegateCommand(() => OpenFile());
+            this.OpenProjectCommand = new DelegateCommand(() => OpenProject());
+            this.OpenMapCommand = new DelegateCommand(() => OpenMap());
             this.SaveFileCommand = new DelegateCommand(() => SaveFile());
             this.SaveAsFileCommand = new DelegateCommand(() => SaveAsFile());
             this.ExportFileCommand = new DelegateCommand(() => ExportFile());
@@ -146,7 +148,8 @@ namespace Ame.App.Wpf.UI.Menu
         #region properties
 
         public ICommand NewProjectCommand { get; private set; }
-        public ICommand OpenFileCommand { get; private set; }
+        public ICommand OpenProjectCommand { get; private set; }
+        public ICommand OpenMapCommand { get; private set; }
         public ICommand SaveFileCommand { get; private set; }
         public ICommand SaveAsFileCommand { get; private set; }
         public ICommand ExportFileCommand { get; private set; }
@@ -266,12 +269,18 @@ namespace Ame.App.Wpf.UI.Menu
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
         }
 
-        public void OpenFile()
+        public void OpenProject()
+        {
+            // TODO implement open project via directory
+            Console.WriteLine("Open project");
+        }
+
+        public void OpenMap()
         {
             OpenFileDialog openMapDialog = new OpenFileDialog();
             openMapDialog.Title = "Open Map";
             openMapDialog.Filter = SaveMapExtension.GetOpenMapSaveExtensions();
-            openMapDialog.InitialDirectory = this.Session.LastMapDirectory;
+            openMapDialog.InitialDirectory = this.Session.LastMapDirectory.Value;
             if (openMapDialog.ShowDialog() == true)
             {
                 string dialogFilePath = openMapDialog.FileName;
@@ -279,7 +288,7 @@ namespace Ame.App.Wpf.UI.Menu
                 {
                     this.filePath = dialogFilePath;
                     this.fileType = openMapDialog.Filter;
-                    this.Session.LastMapDirectory = Directory.GetParent(openMapDialog.FileName).FullName;
+                    this.Session.LastMapDirectory.Value = Directory.GetParent(openMapDialog.FileName).FullName;
 
                     MapJsonReader reader = new MapJsonReader();
                     ResourceLoader loader = ResourceLoader.Instance;
@@ -310,7 +319,7 @@ namespace Ame.App.Wpf.UI.Menu
             SaveFileDialog saveMapDialog = new SaveFileDialog();
             saveMapDialog.Title = "Save Map";
             saveMapDialog.Filter = SaveMapExtension.GetOpenMapSaveExtensions();
-            saveMapDialog.InitialDirectory = this.Session.LastMapDirectory;
+            saveMapDialog.InitialDirectory = this.Session.LastMapDirectory.Value;
             if (saveMapDialog.ShowDialog() == true)
             {
                 Map currentMap = this.Session.CurrentMap.Value;
@@ -318,7 +327,7 @@ namespace Ame.App.Wpf.UI.Menu
                 this.fileType = saveMapDialog.Filter;
                 currentMap.WriteFile(this.filePath);
 
-                this.Session.LastMapDirectory = Directory.GetParent(saveMapDialog.FileName).FullName;
+                this.Session.LastMapDirectory.Value = Directory.GetParent(saveMapDialog.FileName).FullName;
             }
         }
 

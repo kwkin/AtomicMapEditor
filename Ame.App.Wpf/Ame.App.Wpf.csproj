@@ -293,6 +293,7 @@
     <Compile Include="UI\WindowManager.xaml.cs">
       <DependentUpon>WindowManager.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\WindowManagerShortcuts.cs" />
     <Compile Include="UI\WindowManagerViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -57,16 +57,14 @@ namespace Ame.App.Wpf.UI
 
         #region constructor
 
-        public WindowManagerViewModel(AmeSession session, DockingManager dockManager, IEventAggregator eventAggregator)
+        public WindowManagerViewModel(IEventAggregator eventAggregator, AmeSession session, DockingManager dockManager)
         {
-            if (eventAggregator == null)
-            {
-                throw new ArgumentNullException("eventAggregator");
-            }
+            this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
             this.session = session;
             this.WindowManager = dockManager;
             this.DockLayout = new DockLayoutViewModel(this, eventAggregator);
-            this.eventAggregator = eventAggregator;
+
+            this.Shortcuts = new WindowManagerShortcuts(this.eventAggregator, this.session);
 
             this.Documents = new ObservableCollection<EditorViewModelTemplate>();
             this.Anchorables = new ObservableCollection<DockViewModelTemplate>();
@@ -160,6 +158,8 @@ namespace Ame.App.Wpf.UI
         #region properties
 
         public ICommand WindowClosingCommand { get; set; }
+
+        public WindowManagerShortcuts Shortcuts { get; set; }
 
         public DockingManager WindowManager { get; set; }
         public DockLayoutViewModel DockLayout { get; private set; }

@@ -29,12 +29,71 @@
         <conv:BooleanToVisiblityConverter x:Key="BoolToVisConverter"
                                           Collapse="True" />
     </UserControl.Resources>
-    
+
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="FormClosed">
             <actions:EventToCommand Command="{Binding WindowClosingCommand, Mode=OneWay}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
+
+    
+    <UserControl.InputBindings>
+        <KeyBinding Modifiers="Control+Shift"
+                    Key="N"
+                    Command="{Binding Shortcuts.NewProjectCommand}" />
+        <KeyBinding Modifiers="Control"
+                    Key="N"
+                    Command="{Binding Shortcuts.NewMapCommand}" />
+        <KeyBinding Modifiers="Control+Shift"
+                    Key="O"
+                    Command="{Binding Shortcuts.OpenProjectCommand}" />
+        <KeyBinding Modifiers="Control"
+                    Key="O"
+                    Command="{Binding Shortcuts.OpenMapCommand}" />
+        <KeyBinding Modifiers="Control"
+                    Key="S"
+                    Command="{Binding Shortcuts.SaveFileCommand}" />
+        <KeyBinding Modifiers="Control+Shift"
+                    Key="S"
+                    Command="{Binding Shortcuts.SaveAsFileCommand}" />
+        <KeyBinding Modifiers="Control"
+                    Key="E"
+                    Command="{Binding Shortcuts.ExportFileCommand}" />
+        <KeyBinding Modifiers="Control+Shift"
+                    Key="E"
+                    Command="{Binding Shortcuts.ExportAsFileCommand}" />
+        <KeyBinding Modifiers="Alt"
+                    Key="F4"
+                    Command="{Binding Shortcuts.CloseFileCommand}" />
+        <KeyBinding Modifiers="Control"
+                    Key="Z"
+                    Command="{Binding Shortcuts.UndoCommand}" />
+        <KeyBinding Modifiers="Control"
+                    Key="Y"
+                    Command="{Binding Shortcuts.RedoCommand}" />
+        <KeyBinding Modifiers="Control"
+                    Key="X"
+                    Command="{Binding Shortcuts.CutCommand}" />
+        <KeyBinding Modifiers="Control"
+                    Key="C"
+                    Command="{Binding Shortcuts.CopyCommand}" />
+        <KeyBinding Modifiers="Control"
+                    Key="P"
+                    Command="{Binding Shortcuts.PasteCommand}" />
+        <KeyBinding Modifiers="Control"
+                    Key="F9"
+                    Command="{Binding Shortcuts.SampleViewCommand}" />
+        <KeyBinding Modifiers="Control"
+                    Key="OemPlus"
+                    Command="{Binding Shortcuts.ZoomInCommand}" />
+        <KeyBinding Modifiers="Control"
+                    Key="OemMinus"
+                    Command="{Binding Shortcuts.ZoomOutCommand}" />
+        <KeyBinding Modifiers="Control"
+                    Key="J"
+                    Command="{Binding Shortcuts.FitMapToWindowCommand}" />
+    </UserControl.InputBindings>
+    
     
     <xcad:DockingManager x:Name="windowManager"
                          DocumentsSource="{Binding Documents}"

@@ -59,18 +59,32 @@
                         </MenuItem.Icon>
                     </MenuItem>
                 </MenuItem>
-                
-                <MenuItem Header="Open..."
-                          InputGestureText="Ctrl+O"
-                          Command="{Binding OpenFileCommand, Mode=OneWay}">
-                    <MenuItem.Icon>
-                        <Viewbox>
-                            <ContentControl Content="{StaticResource ic_FolderOpen}"
+
+                <MenuItem Header="Open...">
+                    <MenuItem Header="Project..."
+                              InputGestureText="Ctrl+Shift+O"
+                          Command="{Binding OpenProjectCommand, Mode=OneWay}">
+                        <MenuItem.Icon>
+                            <Viewbox>
+                                <ContentControl Content="{StaticResource ic_FolderOpen}"
                                     Width="{StaticResource MidIconSize}"
                                     Height="{StaticResource MidIconSize}"/>
-                        </Viewbox>
-                    </MenuItem.Icon>
+                            </Viewbox>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Map..."
+                              InputGestureText="Ctrl+O"
+                          Command="{Binding OpenMapCommand, Mode=OneWay}">
+                        <MenuItem.Icon>
+                            <Viewbox>
+                                <ContentControl Content="{StaticResource ic_Map}"
+                                    Width="{StaticResource MidIconSize}"
+                                    Height="{StaticResource MidIconSize}"/>
+                            </Viewbox>
+                        </MenuItem.Icon>
+                    </MenuItem>
                 </MenuItem>
+                
                 <MenuItem Header="Open Recent">
                     <MenuItem.Icon>
                         <Viewbox>
@@ -155,19 +169,8 @@
                 </MenuItem>
                 <Separator />
                 <MenuItem Header="Close"
-                          InputGestureText="Ctrl+W"
+                          InputGestureText="Alt+F4"
                           Command="{Binding CloseFileCommand, Mode=OneWay}">
-                    <MenuItem.Icon>
-                        <Viewbox>
-                            <ContentControl Content="{StaticResource ic_Close}"
-                                    Width="{StaticResource MidIconSize}"
-                                    Height="{StaticResource MidIconSize}"/>
-                        </Viewbox>
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="Close All"
-                          InputGestureText="Ctrl+Shift+W"
-                          Command="{Binding CloseAllFilesCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Viewbox>
                             <ContentControl Content="{StaticResource ic_Close}"
@@ -292,7 +295,6 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Duplicate"
-                          InputGestureText="Ctrl+D"
                           Command="{Binding DuplicateMapCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Viewbox>
@@ -348,7 +350,6 @@
 
             <MenuItem Header="Layer">
                 <MenuItem Header="New Layer"
-                          InputGestureText="Ctrl+Shift+N"
                           Command="{Binding NewLayerCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Viewbox>
@@ -369,7 +370,6 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Duplicate Layer"
-                          InputGestureText="Ctrl+Shift+D"
                           Command="{Binding DuplicateLayerCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Viewbox>
@@ -400,7 +400,6 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Merge Visible"
-                          InputGestureText="Ctrl+M"
                           Command="{Binding MergeVisibleCommand, Mode=OneWay}">
                     <MenuItem.Icon>
                         <Viewbox>
@@ -667,43 +666,33 @@
                 </MenuItem>
                 <MenuItem Header="Open Dock">
                     <MenuItem Header="Item Editor"
-                              InputGestureText="Ctrl+1"
                               Command="{Binding OpenItemEditorDockCommand, Mode=OneWay}">
                     </MenuItem>
                     <MenuItem Header="Item List"
-                              InputGestureText="Ctrl+2"
                               Command="{Binding OpenItemListDockCommand, Mode=OneWay}">
                     </MenuItem>
                     <MenuItem Header="Layer List"
-                              InputGestureText="Ctrl+3"
                               Command="{Binding OpenLayerListDockCommand, Mode=OneWay}">
                     </MenuItem>
                     <MenuItem Header="Toolbox"
-                              InputGestureText="Ctrl+4"
                               Command="{Binding OpenToolboxDockCommand, Mode=OneWay}">
                     </MenuItem>
                     <MenuItem Header="Minimap"
-                              InputGestureText="Ctrl+5"
                               Command="{Binding OpenMinimapDockCommand, Mode=OneWay}">
                     </MenuItem>
                     <MenuItem Header="Clipboard"
-                              InputGestureText="Ctrl+6"
                               Command="{Binding OpenClipboardDockCommand, Mode=OneWay}">
                     </MenuItem>
                     <MenuItem Header="Undo History"
-                              InputGestureText="Ctrl+7"
                               Command="{Binding OpenUndoHistoryDockCommand, Mode=OneWay}">
                     </MenuItem>
                     <MenuItem Header="Selected Brush"
-                              InputGestureText="Ctrl+8"
                               Command="{Binding OpenSelectedBrushDockCommand, Mode=OneWay}">
                     </MenuItem>
                     <MenuItem Header="Project Explorer"
-                              InputGestureText="Ctrl+9"
                               Command="{Binding OpenProjectExplorerDockCommand, Mode=OneWay}">
                     </MenuItem>
                     <MenuItem Header="Session View"
-                              InputGestureText="Ctrl+0"
                               Command="{Binding OpenSessionViewDockCommand, Mode=OneWay}">
                     </MenuItem>
                 </MenuItem>
