@@ -63,10 +63,11 @@
     <Compile Include="BaseTypes\EditorViewModelTemplate.cs" />
     <Compile Include="BaseTypes\IContainsMetadata.cs" />
     <Compile Include="BaseTypes\IWindowInteraction.cs" />
+    <Compile Include="Core\IConstants.cs" />
     <Compile Include="Handlers\MetadataHandler.cs" />
     <Compile Include="BaseTypes\NodeViewBuilder.cs" />
     <Compile Include="BaseTypes\ReadOnlyBindableProperty.cs" />
-    <Compile Include="Core\Global.cs" />
+    <Compile Include="Core\Constants.cs" />
     <Compile Include="Core\MessageIds.cs" />
     <Compile Include="DrawingTools\BrushAction.cs" />
     <Compile Include="DrawingTools\BrushTool.cs" />

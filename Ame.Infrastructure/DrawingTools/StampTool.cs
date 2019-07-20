@@ -17,6 +17,7 @@ namespace Ame.Infrastructure.DrawingTools
 
         private bool isDrawing;
         private Point pressPoint;
+        private double maxGridThickness;
 
         #endregion fields
 
@@ -27,6 +28,8 @@ namespace Ame.Infrastructure.DrawingTools
         {
             this.AreaBrush = Brushes.Transparent;
             this.AreaPen = new Pen(Brushes.Yellow, 1);
+
+            this.maxGridThickness = 0.5;
         }
 
         public StampTool(BrushModel brush, CoordinateTransform transform)
@@ -36,6 +39,8 @@ namespace Ame.Infrastructure.DrawingTools
 
             this.AreaBrush = Brushes.Transparent;
             this.AreaPen = new Pen(Brushes.Yellow, 1);
+
+            this.maxGridThickness = 0.5;
         }
 
         #endregion constructor
@@ -124,7 +129,7 @@ namespace Ame.Infrastructure.DrawingTools
                     }
 
                     double thickness = 4 / zoom;
-                    this.AreaPen.Thickness = thickness > Global.maxGridThickness ? thickness : Global.maxGridThickness;
+                    this.AreaPen.Thickness = thickness > this.maxGridThickness ? thickness : this.maxGridThickness;
                     Rect rect = new Rect(topLeft, bottomRight);
                     context.DrawRectangle(this.AreaBrush, this.AreaPen, rect);
                 }

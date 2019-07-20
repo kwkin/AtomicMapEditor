@@ -36,19 +36,21 @@ namespace Ame.App.Wpf
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            AmeSession session = new AmeSession();
+            IConstants constants = new Constants();
+            AmeSession session = new AmeSession(constants);
             try
             {
-                if (File.Exists(Global.SessionFileName))
+                if (File.Exists(constants.SessionFileName))
                 {
                     AmeSessionJsonReader reader = new AmeSessionJsonReader();
-                    session = reader.Read(Global.SessionFileName);
+                    session = reader.Read(constants.SessionFileName);
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
+            containerRegistry.RegisterInstance(typeof(IConstants), constants);
             containerRegistry.RegisterInstance(typeof(AmeSession), session);
 
             ViewModelLocationProvider.Register<MenuOptions, MenuOptionsViewModel>();

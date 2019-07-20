@@ -21,23 +21,26 @@ namespace Ame.Infrastructure.Models
 
         #region constructor
 
-        public AmeSession()
-            : this(new ObservableCollection<Map>())
+        public AmeSession(IConstants constants)
+            : this(new ObservableCollection<Map>(), constants)
         {
         }
 
-        public AmeSession(ObservableCollection<Map> maps)
+        public AmeSession(ObservableCollection<Map> maps, IConstants constants)
         {
             this.Projects = new ObservableCollection<Project>();
             this.Maps = maps;
             this.CurrentTilesets = new ObservableCollection<TilesetModel>();
             this.DrawingTool.Value = new StampTool();
 
+            this.LastTilesetDirectory.Value = constants.DefaultFileDirectory;
+            this.LastMapDirectory.Value = constants.DefaultFileDirectory;
+
             this.CurrentMap.PropertyChanged += CurrentMapChanged;
             this.CurrentLayer.PropertyChanged += CurrentLayerChanged;
         }
 
-        public AmeSession(Map Map)
+        public AmeSession(Map Map, IConstants constants)
         {
             this.Projects = new ObservableCollection<Project>();
             this.Maps = new ObservableCollection<Map>();
@@ -139,9 +142,9 @@ namespace Ame.Infrastructure.Models
 
         public BindableProperty<IDrawingTool> DrawingTool { get; set; } = BindableProperty.Prepare<IDrawingTool>();
 
-        public BindableProperty<string> LastTilesetDirectory { get; set; } = BindableProperty.Prepare<string>(Global.DefaultFileDirectory);
+        public BindableProperty<string> LastTilesetDirectory { get; set; } = BindableProperty.Prepare<string>();
 
-        public BindableProperty<string> LastMapDirectory { get; set; } = BindableProperty.Prepare<string>(Global.DefaultFileDirectory);
+        public BindableProperty<string> LastMapDirectory { get; set; } = BindableProperty.Prepare<string>();
 
         #endregion properties
 

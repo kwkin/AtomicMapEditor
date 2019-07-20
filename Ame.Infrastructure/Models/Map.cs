@@ -54,7 +54,7 @@ namespace Ame.Infrastructure.Models
             this.Name.Value = name;
 
             this.Author.Value = "";
-            this.Version.Value = Global.Version;
+            this.Version.Value = new Constants().Version;
             this.Scale.Value = ScaleType.Tile;
             this.PixelScale.Value = 1;
             this.Description.Value = "";

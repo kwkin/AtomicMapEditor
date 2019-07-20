@@ -36,12 +36,13 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
         private Rect selectionBorder;
         private Point lastSelectPoint;
         private bool isMouseDown;
+        private double maxGridThickness;
 
-        private long updatePositionLabelDelay = Global.defaultUpdatePositionLabelDelay;
+        private long updatePositionLabelMsDelay;
         private Stopwatch updatePositionLabelStopWatch;
-        private long updateSelectLineDelay = Global.defaultUpdateSelectLineDelay;
+        private long updateSelectLineMsDelay;
         private Stopwatch updateSelectLineStopWatch;
-        private long updateTransparentColorDelay = Global.defaultUpdateTransparentColorDelay;
+        private long updateTransparentColorMsDelay;
         private Stopwatch updateTransparentColorStopWatch;
 
         private DrawingGroup drawingGroup;
@@ -55,22 +56,22 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
 
         #region constructor
 
-        public ItemEditorViewModel(IEventAggregator eventAggregator, AmeSession session)
-            : this(eventAggregator, session, new TilesetModel(), Components.Behaviors.ScrollModel.DefaultScrollModel())
+        public ItemEditorViewModel(IEventAggregator eventAggregator, IConstants constants, AmeSession session)
+            : this(eventAggregator, constants, session, new TilesetModel(), Components.Behaviors.ScrollModel.DefaultScrollModel())
         {
         }
 
-        public ItemEditorViewModel(IEventAggregator eventAggregator, AmeSession session, TilesetModel tilesetModel)
-            : this(eventAggregator, session, tilesetModel, Components.Behaviors.ScrollModel.DefaultScrollModel())
+        public ItemEditorViewModel(IEventAggregator eventAggregator, IConstants constants, AmeSession session, TilesetModel tilesetModel)
+            : this(eventAggregator, constants, session, tilesetModel, Components.Behaviors.ScrollModel.DefaultScrollModel())
         {
         }
 
-        public ItemEditorViewModel(IEventAggregator eventAggregator, AmeSession session, IScrollModel scrollModel)
-            : this(eventAggregator, session, new TilesetModel(), scrollModel)
+        public ItemEditorViewModel(IEventAggregator eventAggregator, IConstants constants, AmeSession session, IScrollModel scrollModel)
+            : this(eventAggregator, constants, session, new TilesetModel(), scrollModel)
         {
         }
 
-        public ItemEditorViewModel(IEventAggregator eventAggregator, AmeSession session, TilesetModel tilesetModel, IScrollModel scrollModel)
+        public ItemEditorViewModel(IEventAggregator eventAggregator, IConstants constants, AmeSession session, TilesetModel tilesetModel, IScrollModel scrollModel)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
             this.Session = session ?? throw new ArgumentNullException("session is null");
@@ -97,6 +98,12 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
             this.GridPen.Value = new Pen(Brushes.Orange, 1);
             this.BackgroundBrush.Value = (SolidColorBrush)(new BrushConverter().ConvertFrom("#b8e5ed"));
             this.BackgroundPen.Value = new Pen(Brushes.Transparent, 0);
+            this.maxGridThickness = constants.MaxGridThickness;
+
+            this.updatePositionLabelMsDelay = constants.DefaultUpdatePositionLabelMsDelay;
+            this.updateSelectLineMsDelay = constants.DefaultUpdatePositionLabelMsDelay;
+            this.updateTransparentColorMsDelay = constants.DefaultUpdatePositionLabelMsDelay;
+
             this.updatePositionLabelStopWatch = Stopwatch.StartNew();
             this.updateSelectLineStopWatch = Stopwatch.StartNew();
             this.updateTransparentColorStopWatch = Stopwatch.StartNew();
@@ -230,17 +237,17 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
             }
             GeneralTransform selectToPixel = GeometryUtils.CreateTransform(this.itemTransform.pixelToSelect.Inverse);
             Point pixelPoint = selectToPixel.Transform(movePoint);
-            if (this.updatePositionLabelStopWatch.ElapsedMilliseconds > this.updatePositionLabelDelay)
+            if (this.updatePositionLabelStopWatch.ElapsedMilliseconds > this.updatePositionLabelMsDelay)
             {
                 UpdatePositionLabel(pixelPoint);
             }
-            if (this.updateSelectLineStopWatch.ElapsedMilliseconds > this.updateSelectLineDelay
+            if (this.updateSelectLineStopWatch.ElapsedMilliseconds > this.updateSelectLineMsDelay
                     && this.isMouseDown
                     && !this.IsSelectingTransparency.Value)
             {
                 DrawSelectLinesFromPixels(this.lastSelectPoint, pixelPoint);
             }
-            else if (this.updateTransparentColorStopWatch.ElapsedMilliseconds > this.updateTransparentColorDelay
+            else if (this.updateTransparentColorStopWatch.ElapsedMilliseconds > this.updateTransparentColorMsDelay
                     && this.isMouseDown
                     && this.IsSelectingTransparency.Value)
             {
@@ -354,7 +361,7 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
             {
                 PaddedGridRenderable gridParameters = new PaddedGridRenderable(this.TilesetModel.Value);
                 double thickness = 1 / this.ScrollModel.ZoomLevels[this.ScrollModel.ZoomIndex].zoom;
-                gridParameters.DrawingPen.Thickness = thickness < Global.maxGridThickness ? thickness : Global.maxGridThickness;
+                gridParameters.DrawingPen.Thickness = thickness < this.maxGridThickness ? thickness : this.maxGridThickness;
 
                 Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                 {

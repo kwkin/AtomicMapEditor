@@ -36,7 +36,10 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
         private PaddedBrushModel brush;
         private LayerOrderRenderer orderer;
         private CoordinateTransform imageTransform;
-        private long updatePositionLabelDelay = Global.defaultUpdatePositionLabelDelay;
+
+        private double maxGridThickness;
+
+        private long updatePositionLabelMsDelay;
         private Stopwatch updatePositionLabelStopWatch;
 
         private DrawingGroup drawingGroup;
@@ -53,12 +56,12 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
 
         #region constructor
 
-        public MapEditorViewModel(IEventAggregator eventAggregator, AmeSession session, Map map)
-            : this(eventAggregator, session, map, Components.Behaviors.ScrollModel.DefaultScrollModel())
+        public MapEditorViewModel(IEventAggregator eventAggregator, IConstants constants, AmeSession session, Map map)
+            : this(eventAggregator, constants, session, map, Components.Behaviors.ScrollModel.DefaultScrollModel())
         {
         }
 
-        public MapEditorViewModel(IEventAggregator eventAggregator, AmeSession session, Map map, IScrollModel scrollModel)
+        public MapEditorViewModel(IEventAggregator eventAggregator, IConstants constants, AmeSession session, Map map, IScrollModel scrollModel)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
             this.session = session ?? throw new ArgumentNullException("session is null");
@@ -92,9 +95,12 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             this.BackgroundPen.Value = new Pen(Brushes.Transparent, 0);
             this.Scale.Value = ScaleType.Tile;
             this.PositionText.Value = "0, 0";
-            this.updatePositionLabelStopWatch = Stopwatch.StartNew();
             this.HoverSampleOpacity.Value = hoverSampleOpacity;
             this.hoverSample.Opacity = hoverSampleOpacity;
+            this.maxGridThickness = constants.MaxGridThickness;
+
+            this.updatePositionLabelMsDelay = constants.DefaultUpdatePositionLabelMsDelay;
+            this.updatePositionLabelStopWatch = Stopwatch.StartNew();
 
             AddMapLayers(map);
             ChangeCurrentLayer(this.session.CurrentLayer.Value);
@@ -250,7 +256,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             GeneralTransform selectToPixel = GeometryUtils.CreateTransform(this.imageTransform.pixelToSelect.Inverse);
             Point pixelPoint = selectToPixel.Transform(position);
             DrawHover(pixelPoint);
-            if (this.updatePositionLabelStopWatch.ElapsedMilliseconds > this.updatePositionLabelDelay)
+            if (this.updatePositionLabelStopWatch.ElapsedMilliseconds > this.updatePositionLabelMsDelay)
             {
                 UpdatePositionLabel(pixelPoint);
             }
@@ -275,7 +281,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             {
                 PaddedGridRenderable gridParameters = new PaddedGridRenderable(this.Map.Value);
                 double thickness = 1 / this.ScrollModel.ZoomLevels[this.ScrollModel.ZoomIndex].zoom;
-                gridParameters.DrawingPen.Thickness = thickness < Global.maxGridThickness ? thickness : Global.maxGridThickness;
+                gridParameters.DrawingPen.Thickness = thickness < this.maxGridThickness ? thickness : this.maxGridThickness;
                 DrawingGroup group = gridParameters.CreateGrid();
                 this.gridLines.Children = group.Children;
             }
@@ -305,7 +311,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             LayerBoundariesRenderable renderer = new LayerBoundariesRenderable(this.session.CurrentLayer.Value);
 
             double thickness = 4 / this.ScrollModel.ZoomLevels[this.ScrollModel.ZoomIndex].zoom;
-            thickness = thickness < Global.maxGridThickness ? thickness : Global.maxGridThickness;
+            thickness = thickness < this.maxGridThickness ? thickness : this.maxGridThickness;
             renderer.DrawingPen.Thickness = thickness;
             renderer.DrawingPenDashed.Thickness = thickness;
             DrawingGroup group = renderer.CreateBoundaries();

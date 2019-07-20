@@ -24,19 +24,19 @@ namespace Ame.App.Wpf.UI.Serializer
         private ILayoutViewModel layoutParent = null;
         private IEventAggregator eventAggregator;
 
+        private string layoutFilename;
+
         #endregion fields
 
 
         #region constructor
 
-        public DockLayoutViewModel(ILayoutViewModel parent, IEventAggregator eventAggregator)
+        public DockLayoutViewModel(ILayoutViewModel parent, IConstants constants, IEventAggregator eventAggregator)
         {
-            if (eventAggregator == null)
-            {
-                throw new ArgumentNullException("eventAggregator");
-            }
+            this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
             this.layoutParent = parent;
-            this.eventAggregator = eventAggregator;
+
+            this.layoutFilename = constants.LayoutFileName;
         }
 
         #endregion constructor
@@ -153,8 +153,7 @@ namespace Ame.App.Wpf.UI.Serializer
             try
             {
                 this.layoutParent.IsBusy.Value = true;
-                string layoutFile = Global.LayoutFileName;
-                if (!File.Exists(layoutFile))
+                if (!File.Exists(this.layoutFilename))
                 {
                     throw new FileNotFoundException("Layout file not found");
                 }
@@ -164,7 +163,7 @@ namespace Ame.App.Wpf.UI.Serializer
                     string xml = string.Empty;
                     try
                     {
-                        using (FileStream fs = new FileStream(layoutFile, FileMode.Open, FileAccess.Read, FileShare.Read))
+                        using (FileStream fs = new FileStream(this.layoutFilename, FileMode.Open, FileAccess.Read, FileShare.Read))
                         {
                             using (StreamReader reader = FileReader.OpenStream(fs, Encoding.Default))
                             {
@@ -237,7 +236,7 @@ namespace Ame.App.Wpf.UI.Serializer
                 return;
             }
 
-            File.WriteAllText(Global.LayoutFileName, xmlLayout);
+            File.WriteAllText(this.layoutFilename, xmlLayout);
         }
 
         #endregion SaveLayout

@@ -1,5 +1,6 @@
 ﻿using Ame.Components.Behaviors;
 using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Core;
 using Ame.Infrastructure.Models;
 using Prism.Events;
 using System;
@@ -15,6 +16,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
         #region fields
 
         private IEventAggregator eventAggregator;
+        private IConstants constants;
         private AmeSession session;
 
         #endregion fields
@@ -22,14 +24,15 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
 
         #region constructors
 
-        public MapEditorCreator(IEventAggregator eventAggregator, AmeSession session)
-            : this(eventAggregator, session, null, null)
+        public MapEditorCreator(IEventAggregator eventAggregator, IConstants constants, AmeSession session)
+            : this(eventAggregator, constants, session, null, null)
         {
         }
 
-        public MapEditorCreator(IEventAggregator eventAggregator, AmeSession session, Map map, ScrollModel scrollModel)
+        public MapEditorCreator(IEventAggregator eventAggregator, IConstants constants, AmeSession session, Map map, ScrollModel scrollModel)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
+            this.constants = constants ?? throw new ArgumentNullException("constants is null");
             this.session = session ?? throw new ArgumentNullException("session is null");
 
             this.ScrollModel = scrollModel;
@@ -56,11 +59,11 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             DockViewModelTemplate template;
             if (this.ScrollModel != null)
             {
-                template = new MapEditorViewModel(this.eventAggregator, this.session, this.Map, this.ScrollModel);
+                template = new MapEditorViewModel(this.eventAggregator, this.constants, this.session, this.Map, this.ScrollModel);
             }
             else
             {
-                template = new MapEditorViewModel(this.eventAggregator, this.session, this.Map);
+                template = new MapEditorViewModel(this.eventAggregator, this.constants, this.session, this.Map);
             }
             return template;
         }

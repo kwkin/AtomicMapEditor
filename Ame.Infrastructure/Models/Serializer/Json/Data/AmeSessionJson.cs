@@ -18,7 +18,7 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
 
         public AmeSessionJson(AmeSession session)
         {
-            this.Version = Global.Version;
+            this.Version = new Constants().Version;
             this.CurrentMap = session.CurrentMapIndex;
 
             this.OpenedProjectFiles = new List<string>();
@@ -67,7 +67,8 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
         public AmeSession Generate()
         {
             // TODO figure out what to do about the tileset files. Should these be kept in project or map?
-            AmeSession session = new AmeSession();
+            IConstants constants = new Constants();
+            AmeSession session = new AmeSession(constants);
 
             ResourceLoader loader = ResourceLoader.Instance;
             ProjectJsonReader projectReader = new ProjectJsonReader();

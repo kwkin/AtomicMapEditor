@@ -36,7 +36,9 @@ namespace Ame.App.Wpf.UI.Docks.SelectedBrushDock
         private CoordinateTransform imageTransform;
         private GridModel gridModel;
 
-        private long updatePositionLabelDelay = Global.defaultUpdatePositionLabelDelay;
+        private double maxGridThickness;
+
+        private long updatePositionLabelMsDelay;
         private Stopwatch updatePositionLabelStopWatch;
 
         #endregion fields
@@ -44,12 +46,12 @@ namespace Ame.App.Wpf.UI.Docks.SelectedBrushDock
 
         #region constructor
 
-        public SelectedBrushViewModel(IEventAggregator eventAggregator)
-            : this(eventAggregator, Components.Behaviors.ScrollModel.DefaultScrollModel())
+        public SelectedBrushViewModel(IEventAggregator eventAggregator, IConstants constants)
+            : this(eventAggregator, constants, Components.Behaviors.ScrollModel.DefaultScrollModel())
         {
         }
 
-        public SelectedBrushViewModel(IEventAggregator eventAggregator, IScrollModel scrollModel)
+        public SelectedBrushViewModel(IEventAggregator eventAggregator, IConstants constants, IScrollModel scrollModel)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
             this.ScrollModel = scrollModel ?? throw new ArgumentNullException("scrollModel is null");
@@ -70,6 +72,9 @@ namespace Ame.App.Wpf.UI.Docks.SelectedBrushDock
             this.gridModel = new PaddedGridRenderable();
             this.Scale.Value = ScaleType.Pixel;
             this.PositionText.Value = "0, 0";
+            this.maxGridThickness = constants.MaxGridThickness;
+
+            this.updatePositionLabelMsDelay = constants.DefaultUpdatePositionLabelMsDelay;
             this.updatePositionLabelStopWatch = Stopwatch.StartNew();
 
             this.ScrollModel.PropertyChanged += ScrollModelPropertyChanged;
@@ -122,7 +127,7 @@ namespace Ame.App.Wpf.UI.Docks.SelectedBrushDock
             {
                 PaddedGridRenderable gridParameters = new PaddedGridRenderable(this.gridModel);
                 double thickness = 1 / this.ScrollModel.ZoomLevels[this.ScrollModel.ZoomIndex].zoom;
-                gridParameters.DrawingPen.Thickness = thickness < Global.maxGridThickness ? thickness : Global.maxGridThickness;
+                gridParameters.DrawingPen.Thickness = thickness < this.maxGridThickness ? thickness : this.maxGridThickness;
                 DrawingGroup group = gridParameters.CreateGrid();
                 this.gridLines.Children = group.Children;
             }
@@ -136,7 +141,7 @@ namespace Ame.App.Wpf.UI.Docks.SelectedBrushDock
         {
             GeneralTransform selectToPixel = GeometryUtils.CreateTransform(this.imageTransform.pixelToSelect.Inverse);
             Point pixelPoint = selectToPixel.Transform(position);
-            if (this.updatePositionLabelStopWatch.ElapsedMilliseconds > this.updatePositionLabelDelay)
+            if (this.updatePositionLabelStopWatch.ElapsedMilliseconds > this.updatePositionLabelMsDelay)
             {
                 UpdatePositionLabel(pixelPoint);
             }

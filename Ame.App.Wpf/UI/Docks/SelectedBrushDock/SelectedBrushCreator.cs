@@ -1,5 +1,6 @@
 ﻿using Ame.Components.Behaviors;
 using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Core;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -14,19 +15,22 @@ namespace Ame.App.Wpf.UI.Docks.SelectedBrushDock
         #region fields
 
         private IEventAggregator eventAggregator;
+        private IConstants constants;
 
         #endregion fields
 
 
         #region constructors
 
-        public SelectedBrushCreator(IEventAggregator eventAggregator) : this(eventAggregator, null)
+        public SelectedBrushCreator(IEventAggregator eventAggregator, IConstants constants) 
+            : this(eventAggregator, constants, null)
         {
         }
 
-        public SelectedBrushCreator(IEventAggregator eventAggregator, ScrollModel scrollModel)
+        public SelectedBrushCreator(IEventAggregator eventAggregator, IConstants constants, ScrollModel scrollModel)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
+            this.constants = constants ?? throw new ArgumentNullException("constants is null");
 
             this.ScrollModel = scrollModel;
         }
@@ -48,11 +52,11 @@ namespace Ame.App.Wpf.UI.Docks.SelectedBrushDock
             DockViewModelTemplate template;
             if (this.ScrollModel != null)
             {
-                template = new SelectedBrushViewModel(this.eventAggregator, this.ScrollModel);
+                template = new SelectedBrushViewModel(this.eventAggregator, this.constants, this.ScrollModel);
             }
             else
             {
-                template = new SelectedBrushViewModel(this.eventAggregator);
+                template = new SelectedBrushViewModel(this.eventAggregator, this.constants);
             }
             return template;
         }

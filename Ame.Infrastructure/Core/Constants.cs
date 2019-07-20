@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 namespace Ame.Infrastructure.Core
 {
     // TODO replace with a nonstatic class and use DI
-    public static class Global
+    public class Constants : IConstants
     {
-        public static string Version
+        public string Version
         {
             get
             {
@@ -18,7 +18,7 @@ namespace Ame.Infrastructure.Core
             }
         }
 
-        public static string DefaultProjectFilename
+        public string DefaultProjectFilename
         {
             get
             {
@@ -26,7 +26,7 @@ namespace Ame.Infrastructure.Core
             }
         }
 
-        public static string DefaultFileDirectory
+        public string DefaultFileDirectory
         {
             get
             {
@@ -34,7 +34,7 @@ namespace Ame.Infrastructure.Core
             }
         }
 
-        public static string AppMetaDataDirectory
+        public string AppMetaDataDirectory
         {
             get
             {
@@ -43,7 +43,7 @@ namespace Ame.Infrastructure.Core
             }
         }
 
-        public static string ApplicationName
+        public string ApplicationName
         {
             get
             {
@@ -51,25 +51,52 @@ namespace Ame.Infrastructure.Core
             }
         }
 
-        public static string SessionFileName
+        public string SessionFileName
         {
             get
             {
-                return Path.Combine(AppMetaDataDirectory, @"Session.config");
+                return Path.Combine(this.AppMetaDataDirectory, @"Session.config");
             }
         }
 
-        public static string LayoutFileName
+        public string LayoutFileName
         {
             get
             {
-                return Path.Combine(AppMetaDataDirectory, @"Layout.config");
+                return Path.Combine(this.AppMetaDataDirectory, @"Layout.config");
             }
         }
 
-        public static readonly double maxGridThickness = 0.5;
-        public static readonly long defaultUpdatePositionLabelDelay = 30;
-        public static readonly long defaultUpdateSelectLineDelay = 100;
-        public static readonly long defaultUpdateTransparentColorDelay = 50;
+        public double MaxGridThickness
+        {
+            get
+            {
+                return 0.5;
+            }
+        }
+
+        public long DefaultUpdatePositionLabelMsDelay
+        {
+            get
+            {
+                return 30;
+            }
+        }
+
+        public long DefaultUpdateSelectLineMsDelay
+        {
+            get
+            {
+                return 100;
+            }
+        }
+
+        public long DefaultUpdateTransparentColorMsDelay
+        {
+            get
+            {
+                return 50;
+            }
+        }
     }
 }

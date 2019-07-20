@@ -45,6 +45,7 @@ namespace Ame.App.Wpf.UI
         #region fields
 
         private IEventAggregator eventAggregator;
+        private IConstants constants;
         private Type[] dockTemplateTypes;
 
         private event EventHandler ActiveDocumentChanged;
@@ -57,12 +58,13 @@ namespace Ame.App.Wpf.UI
 
         #region constructor
 
-        public WindowManagerViewModel(IEventAggregator eventAggregator, AmeSession session, DockingManager dockManager)
+        public WindowManagerViewModel(IEventAggregator eventAggregator, IConstants constants, AmeSession session, DockingManager dockManager)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
+            this.constants = constants ?? throw new ArgumentNullException("constants");
             this.session = session;
             this.WindowManager = dockManager;
-            this.DockLayout = new DockLayoutViewModel(this, eventAggregator);
+            this.DockLayout = new DockLayoutViewModel(this, constants, eventAggregator);
 
             this.Shortcuts = new WindowManagerShortcuts(this.eventAggregator, this.session);
 
@@ -71,7 +73,7 @@ namespace Ame.App.Wpf.UI
 
             foreach (Map map in session.Maps)
             {
-                MapEditorCreator mapEditorCreator = new MapEditorCreator(this.eventAggregator, this.session);
+                MapEditorCreator mapEditorCreator = new MapEditorCreator(this.eventAggregator, constants, this.session);
                 DockViewModelTemplate dockViewModel = mapEditorCreator.CreateDock();
                 AddDockViewModel(dockViewModel);
             }
@@ -84,15 +86,15 @@ namespace Ame.App.Wpf.UI
             DockCreatorTemplate[] dockCreators = new DockCreatorTemplate[]
             {
                 new ClipboardCreator(this.eventAggregator),
-                new ItemEditorCreator(this.eventAggregator, this.session),
+                new ItemEditorCreator(this.eventAggregator, constants, this.session),
                 new ItemListCreator(this.eventAggregator, this.session),
                 new LayerListCreator(this.eventAggregator, this.session),
                 new MinimapCreator(this.eventAggregator, this.session),
-                new SelectedBrushCreator(this.eventAggregator),
+                new SelectedBrushCreator(this.eventAggregator, constants),
                 new ProjectExplorerCreator(this.eventAggregator, this.session),
                 new SessionViewerCreator(this.eventAggregator, this.session),
                 new ToolboxCreator(this.eventAggregator, this.session),
-                new MapEditorCreator(this.eventAggregator, this.session)
+                new MapEditorCreator(this.eventAggregator, constants, this.session)
             };
             this.dockCreator = new DockCreator(dockCreators);
 
@@ -181,7 +183,7 @@ namespace Ame.App.Wpf.UI
         private void CloseApplication(object sender, CancelEventArgs e)
         {
             AmeSessionJsonWriter writer = new AmeSessionJsonWriter();
-            writer.Write(this.session, Global.SessionFileName);
+            writer.Write(this.session, this.constants.SessionFileName);
         }
 
         private void IsBusyChanged(object sender, PropertyChangedEventArgs e)

@@ -42,7 +42,10 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
         private int tilesetPixelHeight;
         private bool isMouseDown;
         private CoordinateTransform itemTransform;
-        private long updatePositionLabelDelay = Global.defaultUpdatePositionLabelDelay;
+
+        private double maxGridThickness;
+
+        private long updatePositionLabelMsDelay;
         private Stopwatch updatePositionLabelStopWatch;
 
         private DrawingGroup drawingGroup;
@@ -54,13 +57,13 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
 
 
         #region constructor
-        public TilesetPropertiesViewModel(IEventAggregator eventAggregator, AmeSession session)
-            : this(eventAggregator, session, ScrollModel.DefaultScrollModel())
+        public TilesetPropertiesViewModel(IEventAggregator eventAggregator, IConstants constants, AmeSession session)
+            : this(eventAggregator, constants, session, ScrollModel.DefaultScrollModel())
         {
 
         }
 
-        public TilesetPropertiesViewModel(IEventAggregator eventAggregator, AmeSession session, IScrollModel scrollModel)
+        public TilesetPropertiesViewModel(IEventAggregator eventAggregator, IConstants constants, AmeSession session, IScrollModel scrollModel)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
             this.session = session ?? throw new ArgumentNullException("session");
@@ -77,6 +80,9 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
             this.TileImage.Value = new DrawingImage(this.drawingGroup);
             this.ZoomLevels = this.scrollModel.ZoomLevels;
             this.ZoomIndex.Value = this.scrollModel.ZoomIndex;
+            this.maxGridThickness = constants.MaxGridThickness;
+
+            this.updatePositionLabelMsDelay = constants.DefaultUpdatePositionLabelMsDelay;
             this.updatePositionLabelStopWatch = Stopwatch.StartNew();
 
             this.IsTransparent.PropertyChanged += TransparencyChanged;
@@ -308,7 +314,7 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
             }
             GeneralTransform selectToPixel = GeometryUtils.CreateTransform(this.itemTransform.pixelToSelect.Inverse);
             Point pixelPoint = selectToPixel.Transform(selectPoint);
-            if (this.updatePositionLabelStopWatch.ElapsedMilliseconds > this.updatePositionLabelDelay)
+            if (this.updatePositionLabelStopWatch.ElapsedMilliseconds > this.updatePositionLabelMsDelay)
             {
                 UpdatePositionLabel(pixelPoint);
                 if (this.IsSelectingTransparency.Value && this.isMouseDown)
@@ -418,7 +424,7 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
 
                 PaddedGridRenderable gridParameters = new PaddedGridRenderable(columns, rows, this.TileWidth.Value, this.TileHeight.Value, this.OffsetX.Value, this.OffsetY.Value, this.PaddingX.Value, this.PaddingY.Value);
                 double thickness = 1 / this.ZoomLevels[this.ZoomIndex.Value].zoom;
-                gridParameters.DrawingPen.Thickness = thickness < Global.maxGridThickness ? thickness : Global.maxGridThickness;
+                gridParameters.DrawingPen.Thickness = thickness < this.maxGridThickness ? thickness : this.maxGridThickness;
 
                 Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                 {

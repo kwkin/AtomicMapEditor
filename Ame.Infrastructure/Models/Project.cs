@@ -16,7 +16,7 @@ namespace Ame.Infrastructure.Models
     {
         #region fields
 
-        private string projectName = Global.DefaultProjectFilename;
+        private string projectFilename;
 
         #endregion fields
 
@@ -24,7 +24,7 @@ namespace Ame.Infrastructure.Models
         #region constructor
 
         public Project(string name)
-            : this(name, Global.Version)
+            : this(name, new Constants().Version)
         {
         }
 
@@ -35,6 +35,8 @@ namespace Ame.Infrastructure.Models
             this.Maps = new ObservableCollection<Map>();
             this.Tilesets = new ObservableCollection<TilesetModel>();
             this.CustomProperties = new ObservableCollection<MetadataProperty>();
+
+            this.projectFilename = new Constants().Version;
         }
 
         #endregion constructor
@@ -101,7 +103,7 @@ namespace Ame.Infrastructure.Models
 
         public void UpdateFile()
         {
-            string projectPath = Path.Combine(this.SourcePath.Value, projectName);
+            string projectPath = Path.Combine(this.SourcePath.Value, projectFilename);
             ProjectJsonWriter writer = new ProjectJsonWriter();
             writer.Write(this, projectPath);
         }
