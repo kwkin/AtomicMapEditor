@@ -94,6 +94,7 @@
     <Compile Include="Events\UpdatePaddedBrushEvent.cs" />
     <Compile Include="Exceptions\InteractionConfigurationException.cs" />
     <Compile Include="Handlers\ResourceLoader.cs" />
+    <Compile Include="Handlers\ShortcutHandler.cs" />
     <Compile Include="InfrastructureModule.cs" />
     <Compile Include="Messages\CloseDockMessage.cs" />
     <Compile Include="Messages\NewLayerMessage.cs" />

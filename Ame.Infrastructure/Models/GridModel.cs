@@ -183,7 +183,7 @@ namespace Ame.Infrastructure.Models
             return boundPoint;
         }
 
-        public int GetID(int pixelX, int pixelY)
+        public int GetTileID(int pixelX, int pixelY)
         {
             return (pixelY / this.TileHeight.Value) * this.Columns.Value + (pixelX / this.TileWidth.Value);
         }

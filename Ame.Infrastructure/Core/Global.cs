@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ame.Infrastructure.Core
 {
+    // TODO replace with a nonstatic class and use DI
     public static class Global
     {
         public static string Version
@@ -68,6 +69,7 @@ namespace Ame.Infrastructure.Core
 
         public static readonly double maxGridThickness = 0.5;
         public static readonly long defaultUpdatePositionLabelDelay = 30;
-        public static readonly long defaultDrawSelectLineDelay = 100;
+        public static readonly long defaultUpdateSelectLineDelay = 100;
+        public static readonly long defaultUpdateTransparentColorDelay = 50;
     }
 }

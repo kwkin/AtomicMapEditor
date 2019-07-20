@@ -39,7 +39,8 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
 
                 Point topLeft = layer.GetPointFromIndex(index / 2);
                 IEnumerable<TilesetModel> models = tilesets.Where(tileset => tileset.ID == tile.TilesetID);
-                if (models.Count() != 0)
+                if (models.Count() != 0 
+                        && tile.TileID >= 0)
                 {
                     tile.Image.Value = models.First().GetByID(tile.TileID, topLeft);
                 }

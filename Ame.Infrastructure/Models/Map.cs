@@ -295,7 +295,7 @@ namespace Ame.Infrastructure.Models
 
             MapJsonWriter writer = new MapJsonWriter();
             writer.Write(this, file);
-            if (this.Project != null)
+            if (this.Project.Value != null)
             {
                 this.Project.Value.UpdateFile();
             }

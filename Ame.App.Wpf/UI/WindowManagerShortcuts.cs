@@ -124,12 +124,12 @@ namespace Ame.App.Wpf.UI
 
         public void Undo()
         {
-            Console.WriteLine("Undo ");
+            Console.WriteLine("Undo");
         }
 
         public void Redo()
         {
-            Console.WriteLine("Redo ");
+            Console.WriteLine("Redo");
         }
 
         public void CutSelection()

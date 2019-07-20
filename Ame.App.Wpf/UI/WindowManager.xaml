@@ -36,7 +36,6 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    
     <UserControl.InputBindings>
         <KeyBinding Modifiers="Control+Shift"
                     Key="N"

@@ -56,7 +56,7 @@ namespace Ame.Infrastructure.Models
 
         #region methods
 
-        public void TileImage(Mat tilesImage, int tilesetID, Point pixelPoint, TilesetModel tilesetModel)
+        public void TileImage(Mat tilesImage, Point pixelPoint, TilesetModel tilesetModel)
         {
             this.Tiles.Clear();
             int colCount = tilesImage.Cols / this.TileWidth.Value;
@@ -73,6 +73,7 @@ namespace Ame.Infrastructure.Models
 
                     Point offsetPoint = Point.Add(pixelPoint, (Vector)topLeftPoint);
                     int tileID = tilesetModel.GetID(offsetPoint);
+                    int tilesetID = tilesetModel.ID;
                     Tile tile = new Tile(drawing, tilesetID, tileID);
                     this.Tiles.Add(tile);
                 }
