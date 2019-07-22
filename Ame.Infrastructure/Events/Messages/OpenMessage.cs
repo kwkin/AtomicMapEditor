@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Ame.Infrastructure.Models;
 
-namespace Ame.Infrastructure.Messages
+namespace Ame.Infrastructure.Events.Messages
 {
-    public class NewLayerMessage
+    public class OpenMapMessage
     {
         #region fields
 
@@ -16,9 +16,9 @@ namespace Ame.Infrastructure.Messages
 
         #region Constructor
 
-        public NewLayerMessage(ILayer layer)
+        public OpenMapMessage(Map map)
         {
-            this.Layer = layer;
+            this.Map = map;
         }
 
         #endregion Constructor
@@ -26,13 +26,12 @@ namespace Ame.Infrastructure.Messages
 
         #region Properties
 
-        public ILayer Layer { get; set; }
+        public Map Map { get; set; }
 
         #endregion Properties
 
 
         #region methods
-
 
         #endregion methods
     }

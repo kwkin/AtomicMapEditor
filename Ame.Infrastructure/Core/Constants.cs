@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace Ame.Infrastructure.Core
 {
-    // TODO replace with a nonstatic class and use DI
     public class Constants : IConstants
     {
         public string Version

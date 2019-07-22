@@ -3,7 +3,7 @@ using Ame.App.Wpf.UI.Interactions.LayerProperties;
 using Ame.App.Wpf.UI.Interactions.MapProperties;
 using Ame.App.Wpf.UI.Interactions.TilesetProperties;
 using Ame.Infrastructure.Events;
-using Ame.Infrastructure.Messages;
+using Ame.Infrastructure.Events.Messages;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.UILogic;
 using Prism.Commands;

@@ -1,6 +1,6 @@
 ﻿using Ame.Infrastructure.Core;
 using Ame.Infrastructure.Events;
-using Ame.Infrastructure.Messages;
+using Ame.Infrastructure.Events.Messages;
 using AvalonDock;
 using ICSharpCode.AvalonEdit.Utils;
 using Prism.Commands;

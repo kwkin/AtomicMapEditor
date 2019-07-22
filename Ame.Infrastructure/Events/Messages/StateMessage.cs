@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Ame.Infrastructure.Models;
+using System.Windows.Media.Imaging;
 
-namespace Ame.Infrastructure.Messages
+namespace Ame.Infrastructure.Events.Messages
 {
-    public class SaveMessage
+    public class StateMessage
     {
         #region fields
 
@@ -16,10 +16,9 @@ namespace Ame.Infrastructure.Messages
 
         #region Constructor
 
-        public SaveMessage(string path, Map map)
+        public StateMessage(string path)
         {
             this.Path = path;
-            this.Map = map;
         }
 
         #endregion Constructor
@@ -28,7 +27,7 @@ namespace Ame.Infrastructure.Messages
         #region Properties
 
         public string Path { get; set; }
-        public Map Map { get; set; }
+        public BitmapEncoder Encoder { get; set; }
 
         #endregion Properties
 

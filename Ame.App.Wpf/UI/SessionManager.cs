@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ame.Infrastructure.Events;
-using Ame.Infrastructure.Messages;
+using Ame.Infrastructure.Events.Messages;
 using Ame.Infrastructure.Models;
 using Prism.Events;
 

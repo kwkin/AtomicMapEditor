@@ -1,7 +1,7 @@
 ﻿using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.DrawingTools;
 using Ame.Infrastructure.Events;
-using Ame.Infrastructure.Messages;
+using Ame.Infrastructure.Events.Messages;
 using Ame.Infrastructure.Models;
 using Prism.Commands;
 using Prism.Events;

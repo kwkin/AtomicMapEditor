@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Ame.Infrastructure.Messages;
+using Ame.Infrastructure.Events.Messages;
 using Prism.Events;
 
 namespace Ame.Infrastructure.Events

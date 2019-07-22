@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace Ame.Infrastructure.Models
 {
+    // TODO implement ISession interface
     public class AmeSession
     {
         #region fields
@@ -35,6 +36,7 @@ namespace Ame.Infrastructure.Models
 
             this.LastTilesetDirectory.Value = constants.DefaultFileDirectory;
             this.LastMapDirectory.Value = constants.DefaultFileDirectory;
+            this.Version.Value = constants.Version;
 
             this.CurrentMap.PropertyChanged += CurrentMapChanged;
             this.CurrentLayer.PropertyChanged += CurrentLayerChanged;
@@ -47,6 +49,10 @@ namespace Ame.Infrastructure.Models
             this.Maps.Add(Map);
             this.CurrentTilesets = new ObservableCollection<TilesetModel>();
             this.DrawingTool.Value = new StampTool();
+
+            this.LastTilesetDirectory.Value = constants.DefaultFileDirectory;
+            this.LastMapDirectory.Value = constants.DefaultFileDirectory;
+            this.Version.Value = constants.Version;
 
             this.CurrentMap.PropertyChanged += CurrentMapChanged;
             this.CurrentLayer.PropertyChanged += CurrentLayerChanged;
@@ -83,6 +89,8 @@ namespace Ame.Infrastructure.Models
         public BindableProperty<ILayer> CurrentLayer { get; set; } = BindableProperty.Prepare<ILayer>();
 
         public BindableProperty<TilesetModel> CurrentTileset { get; set; } = BindableProperty.Prepare<TilesetModel>();
+
+        public BindableProperty<string> Version { get; set; } = BindableProperty.Prepare<string>("");
 
         public int ProjectCount
         {

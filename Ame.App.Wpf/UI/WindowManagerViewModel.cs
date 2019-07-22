@@ -14,7 +14,7 @@ using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Core;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Handlers;
-using Ame.Infrastructure.Messages;
+using Ame.Infrastructure.Events.Messages;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Models.Serializer.Json;
 using Ame.Infrastructure.Models.Serializer.Json.Data;
@@ -37,6 +37,8 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
+using Ame.App.Wpf.UI.Interactions.ProjectProperties;
+using Ame.App.Wpf.UI.Interactions.MapProperties;
 
 namespace Ame.App.Wpf.UI
 {
@@ -45,12 +47,14 @@ namespace Ame.App.Wpf.UI
         #region fields
 
         private IEventAggregator eventAggregator;
+        private IActionHandler actionHandler;
+        private AmeSession session;
+
         private IConstants constants;
         private Type[] dockTemplateTypes;
 
         private event EventHandler ActiveDocumentChanged;
 
-        private AmeSession session;
         private DockCreator dockCreator;
 
         #endregion fields
@@ -58,15 +62,15 @@ namespace Ame.App.Wpf.UI
 
         #region constructor
 
-        public WindowManagerViewModel(IEventAggregator eventAggregator, IConstants constants, AmeSession session, DockingManager dockManager)
+        public WindowManagerViewModel(IEventAggregator eventAggregator, IConstants constants, AmeSession session, IActionHandler actionHandler, DockingManager dockManager)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
             this.constants = constants ?? throw new ArgumentNullException("constants");
-            this.session = session;
+            this.session = session ?? throw new ArgumentNullException("constants");
+            this.actionHandler = actionHandler ?? throw new ArgumentNullException("actionHandler");
+
             this.WindowManager = dockManager;
             this.DockLayout = new DockLayoutViewModel(this, constants, eventAggregator);
-
-            this.Shortcuts = new WindowManagerShortcuts(this.eventAggregator, this.session);
 
             this.Documents = new ObservableCollection<EditorViewModelTemplate>();
             this.Anchorables = new ObservableCollection<DockViewModelTemplate>();
@@ -81,7 +85,6 @@ namespace Ame.App.Wpf.UI
             {
                 this.ActiveDocument.Value = this.Documents[0];
             }
-
 
             DockCreatorTemplate[] dockCreators = new DockCreatorTemplate[]
             {
@@ -109,6 +112,25 @@ namespace Ame.App.Wpf.UI
             this.ActiveDocument.PropertyChanged += ActiveDocumentPropertyChanged;
 
             Application.Current.MainWindow.Closing += CloseApplication;
+
+            this.NewProjectCommand = new DelegateCommand(() => NewProject());
+            this.NewMapCommand = new DelegateCommand(() => NewMap());
+            this.OpenProjectCommand = new DelegateCommand(() => this.actionHandler.OpenProject());
+            this.OpenMapCommand = new DelegateCommand(() => this.actionHandler.OpenMap());
+            this.SaveFileCommand = new DelegateCommand(() => this.actionHandler.SaveCurrentMap());
+            this.SaveAsFileCommand = new DelegateCommand(() => this.actionHandler.SaveAsMap());
+            this.ExportFileCommand = new DelegateCommand(() => this.actionHandler.ExportFile());
+            this.ExportAsFileCommand = new DelegateCommand(() => this.actionHandler.ExportAsFile());
+            this.CloseFileCommand = new DelegateCommand(() => this.actionHandler.CloseFile());
+            this.UndoCommand = new DelegateCommand(() => this.actionHandler.Undo());
+            this.RedoCommand = new DelegateCommand(() => this.actionHandler.Redo());
+            this.CutCommand = new DelegateCommand(() => this.actionHandler.CutSelection());
+            this.CopyCommand = new DelegateCommand(() => this.actionHandler.CopySelection());
+            this.PasteCommand = new DelegateCommand(() => this.actionHandler.PasteClipboard());
+            this.SampleViewCommand = new DelegateCommand(() => this.actionHandler.SampleView());
+            this.ZoomInCommand = new DelegateCommand(() => this.actionHandler.ZoomIn());
+            this.ZoomOutCommand = new DelegateCommand(() => this.actionHandler.ZoomOut());
+            this.FitMapToWindowCommand = new DelegateCommand(() => this.actionHandler.FitMapToWindow());
 
             this.eventAggregator.GetEvent<OpenDockEvent>().Subscribe((messge) =>
             {
@@ -159,9 +181,27 @@ namespace Ame.App.Wpf.UI
 
         #region properties
 
-        public ICommand WindowClosingCommand { get; set; }
+        public ICommand WindowClosingCommand { get; private set; }
+        public ICommand NewProjectCommand { get; private set; }
+        public ICommand NewMapCommand { get; private set; }
+        public ICommand OpenProjectCommand { get; private set; }
+        public ICommand OpenMapCommand { get; private set; }
+        public ICommand SaveFileCommand { get; private set; }
+        public ICommand SaveAsFileCommand { get; private set; }
+        public ICommand ExportFileCommand { get; private set; }
+        public ICommand ExportAsFileCommand { get; private set; }
+        public ICommand CloseFileCommand { get; private set; }
+        public ICommand UndoCommand { get; private set; }
+        public ICommand RedoCommand { get; private set; }
+        public ICommand CutCommand { get; private set; }
+        public ICommand CopyCommand { get; private set; }
+        public ICommand PasteCommand { get; private set; }
+        public ICommand SampleViewCommand { get; private set; }
+        public ICommand ZoomInCommand { get; private set; }
+        public ICommand ZoomOutCommand { get; private set; }
+        public ICommand FitMapToWindowCommand { get; private set; }
 
-        public WindowManagerShortcuts Shortcuts { get; set; }
+        public IActionHandler ActionHandler { get; set; }
 
         public DockingManager WindowManager { get; set; }
         public DockLayoutViewModel DockLayout { get; private set; }
@@ -184,6 +224,18 @@ namespace Ame.App.Wpf.UI
         {
             AmeSessionJsonWriter writer = new AmeSessionJsonWriter();
             writer.Write(this.session, this.constants.SessionFileName);
+        }
+
+        private void NewProject()
+        {
+            NewProjectInteraction interaction = new NewProjectInteraction();
+            this.actionHandler.OpenWindow(interaction);
+        }
+
+        private void NewMap()
+        {
+            NewMapInteraction interaction = new NewMapInteraction();
+            this.actionHandler.OpenWindow(interaction);
         }
 
         private void IsBusyChanged(object sender, PropertyChangedEventArgs e)

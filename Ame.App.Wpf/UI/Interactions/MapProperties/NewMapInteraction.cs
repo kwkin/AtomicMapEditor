@@ -1,7 +1,7 @@
 ﻿using Ame.App.Wpf.UI.Editor.MapEditor;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
-using Ame.Infrastructure.Messages;
+using Ame.Infrastructure.Events.Messages;
 using Ame.Infrastructure.Models;
 using Prism.Events;
 using Prism.Interactivity;

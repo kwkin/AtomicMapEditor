@@ -8,10 +8,12 @@ using Ame.App.Wpf.UI.Interactions.TilesetProperties;
 using Ame.App.Wpf.UI.Menu;
 using Ame.App.Wpf.UI.Ribbon;
 using Ame.Infrastructure.Core;
+using Ame.Infrastructure.Handlers;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Models.Serializer.Json;
 using DryIoc;
 using Prism.DryIoc;
+using Prism.Events;
 using Prism.Ioc;
 using Prism.Mvvm;
 using System;
@@ -36,6 +38,7 @@ namespace Ame.App.Wpf
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            IEventAggregator eventAggregator = containerRegistry.GetContainer().Resolve<IEventAggregator>();
             IConstants constants = new Constants();
             AmeSession session = new AmeSession(constants);
             try
@@ -50,8 +53,11 @@ namespace Ame.App.Wpf
             {
                 Console.WriteLine(e.Message);
             }
+            IActionHandler actionHandler = new ActionHandler(eventAggregator, session);
+
             containerRegistry.RegisterInstance(typeof(IConstants), constants);
             containerRegistry.RegisterInstance(typeof(AmeSession), session);
+            containerRegistry.RegisterInstance(typeof(IActionHandler), actionHandler);
 
             ViewModelLocationProvider.Register<MenuOptions, MenuOptionsViewModel>();
             ViewModelLocationProvider.Register<MapEditorDocument, MapEditorViewModel>();

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Models;
 
-namespace Ame.Infrastructure.Messages
+namespace Ame.Infrastructure.Events.Messages
 {
-    public class CloseDockMessage
+    public class NewLayerMessage
     {
         #region fields
 
@@ -16,9 +16,9 @@ namespace Ame.Infrastructure.Messages
 
         #region Constructor
 
-        public CloseDockMessage(DockViewModelTemplate dock)
+        public NewLayerMessage(ILayer layer)
         {
-            this.Dock = dock;
+            this.Layer = layer;
         }
 
         #endregion Constructor
@@ -26,7 +26,7 @@ namespace Ame.Infrastructure.Messages
 
         #region Properties
 
-        public DockViewModelTemplate Dock { get; set; }
+        public ILayer Layer { get; set; }
 
         #endregion Properties
 

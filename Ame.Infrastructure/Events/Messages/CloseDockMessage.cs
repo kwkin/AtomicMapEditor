@@ -1,13 +1,12 @@
-﻿using System;
+﻿using Ame.Infrastructure.BaseTypes;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
 
-namespace Ame.Infrastructure.Messages
+namespace Ame.Infrastructure.Events.Messages
 {
-    public class StateMessage
+    public class CloseDockMessage
     {
         #region fields
 
@@ -16,9 +15,9 @@ namespace Ame.Infrastructure.Messages
 
         #region Constructor
 
-        public StateMessage(string path)
+        public CloseDockMessage(DockViewModelTemplate dock)
         {
-            this.Path = path;
+            this.Dock = dock;
         }
 
         #endregion Constructor
@@ -26,8 +25,7 @@ namespace Ame.Infrastructure.Messages
 
         #region Properties
 
-        public string Path { get; set; }
-        public BitmapEncoder Encoder { get; set; }
+        public DockViewModelTemplate Dock { get; set; }
 
         #endregion Properties
 

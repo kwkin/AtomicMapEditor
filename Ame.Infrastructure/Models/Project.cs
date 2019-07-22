@@ -22,12 +22,7 @@ namespace Ame.Infrastructure.Models
 
 
         #region constructor
-
-        public Project(string name)
-            : this(name, new Constants().Version)
-        {
-        }
-
+        
         public Project(string name, string version)
         {
             this.Name.Value = name;
@@ -36,7 +31,7 @@ namespace Ame.Infrastructure.Models
             this.Tilesets = new ObservableCollection<TilesetModel>();
             this.CustomProperties = new ObservableCollection<MetadataProperty>();
 
-            this.projectFilename = new Constants().Version;
+            this.projectFilename = new Constants().DefaultProjectFilename;
         }
 
         #endregion constructor

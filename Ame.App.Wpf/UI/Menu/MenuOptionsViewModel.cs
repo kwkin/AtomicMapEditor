@@ -11,27 +11,20 @@ using Ame.App.Wpf.UI.Interactions.LayerProperties;
 using Ame.App.Wpf.UI.Interactions.MapProperties;
 using Ame.App.Wpf.UI.Interactions.Preferences;
 using Ame.App.Wpf.UI.Interactions.ProjectProperties;
-using Ame.Infrastructure.Events;
+using Ame.Infrastructure.Events.Messages;
 using Ame.Infrastructure.Handlers;
-using Ame.Infrastructure.Messages;
 using Ame.Infrastructure.Models;
-using Ame.Infrastructure.Models.Serializer.Json;
 using Ame.Infrastructure.UILogic;
-using Ame.Infrastructure.Utils;
-using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
-using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using System.Text;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 
 namespace Ame.App.Wpf.UI.Menu
 {
@@ -40,6 +33,7 @@ namespace Ame.App.Wpf.UI.Menu
         #region fields
 
         private IEventAggregator eventAggregator;
+        private IActionHandler actionHandler;
 
         private string filePath;
         private string fileType;
@@ -49,79 +43,80 @@ namespace Ame.App.Wpf.UI.Menu
 
         #region constructor
 
-        public MenuOptionsViewModel(IEventAggregator eventAggregator, AmeSession session)
+        public MenuOptionsViewModel(IEventAggregator eventAggregator, AmeSession session, IActionHandler actionHandler)
         {
             // TODO create singleton class that handles these functiosn
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
             this.Session = session ?? throw new ArgumentNullException("session");
+            this.actionHandler = actionHandler ?? throw new ArgumentNullException("actionHandler");
 
             this.TestAddClosedDocksCommand = new DelegateCommand(() => TestAddClosedDocks());
             this.ConfirmationRequest = new InteractionRequest<IConfirmation>();
 
-            this.recentlyClosedDockItems = new ObservableCollection<MenuItem>();
-            this.recentFileItems = new ObservableCollection<MenuItem>();
+            this.RecentlyClosedDockItems = new ObservableCollection<MenuItem>();
+            this.RecentFileItems = new ObservableCollection<MenuItem>();
 
             // File bindings
             this.NewProjectCommand = new DelegateCommand(() => NewProject());
-            this.OpenProjectCommand = new DelegateCommand(() => OpenProject());
-            this.OpenMapCommand = new DelegateCommand(() => OpenMap());
-            this.SaveFileCommand = new DelegateCommand(() => SaveFile());
-            this.SaveAsFileCommand = new DelegateCommand(() => SaveAsFile());
-            this.ExportFileCommand = new DelegateCommand(() => ExportFile());
-            this.ExportAsFileCommand = new DelegateCommand(() => ExportAsFile());
-            this.ImportFileCommand = new DelegateCommand(() => ImportFile());
-            this.ViewFilePropertiesCommand = new DelegateCommand(() => ViewFileProperties());
-            this.CloseFileCommand = new DelegateCommand(() => CloseFile());
-            this.CloseAllFilesCommand = new DelegateCommand(() => CloseAllFiles());
-            this.ExitProgramCommand = new DelegateCommand(() => ExitProgram());
+            this.OpenProjectCommand = new DelegateCommand(() => this.actionHandler.OpenProject());
+            this.OpenMapCommand = new DelegateCommand(() => this.actionHandler.OpenMap());
+            this.SaveFileCommand = new DelegateCommand(() => this.actionHandler.SaveCurrentMap());
+            this.SaveAsFileCommand = new DelegateCommand(() => this.actionHandler.SaveAsMap());
+            this.ExportFileCommand = new DelegateCommand(() => this.actionHandler.ExportFile());
+            this.ExportAsFileCommand = new DelegateCommand(() => this.actionHandler.ExportAsFile());
+            this.ImportFileCommand = new DelegateCommand(() => this.actionHandler.ImportFile());
+            this.ViewFilePropertiesCommand = new DelegateCommand(() => this.actionHandler.ViewFileProperties());
+            this.CloseFileCommand = new DelegateCommand(() => this.actionHandler.CloseFile());
+            this.CloseAllFilesCommand = new DelegateCommand(() => this.actionHandler.CloseAllFiles());
+            this.ExitProgramCommand = new DelegateCommand(() => this.actionHandler.ExitProgram());
 
             // Edit bindings
-            this.UndoCommand = new DelegateCommand(() => Undo());
-            this.RedoCommand = new DelegateCommand(() => Redo());
-            this.CutCommand = new DelegateCommand(() => CutSelection());
-            this.CopyCommand = new DelegateCommand(() => CopySelection());
-            this.PasteCommand = new DelegateCommand(() => PasteClipboard());
-            this.OpenClipboardCommand = new DelegateCommand(() => OpenClipboard());
-            this.OpenPreferencesCommand = new DelegateCommand(() => OpenPreferenences());
+            this.UndoCommand = new DelegateCommand(() => this.actionHandler.Undo());
+            this.RedoCommand = new DelegateCommand(() => this.actionHandler.Redo());
+            this.CutCommand = new DelegateCommand(() => this.actionHandler.CutSelection());
+            this.CopyCommand = new DelegateCommand(() => this.actionHandler.CopySelection());
+            this.PasteCommand = new DelegateCommand(() => this.actionHandler.PasteClipboard());
+            this.OpenClipboardCommand = new DelegateCommand(() => OpenClipboardDock());
+            this.OpenPreferencesCommand = new DelegateCommand(() => OpenPreferenencesWindow());
 
             // Map bindings
             this.NewMapCommand = new DelegateCommand(() => NewMap());
-            this.DuplicateMapCommand = new DelegateCommand(() => DuplicateMap());
-            this.FlipMapHorizontallyCommand = new DelegateCommand(() => FlipMapHorizontally());
-            this.FlipMapVerticallyCommand = new DelegateCommand(() => FlipMapVertically());
-            this.GuillotineMapCommand = new DelegateCommand(() => GuillotineMap());
+            this.DuplicateMapCommand = new DelegateCommand(() => this.actionHandler.DuplicateMap());
+            this.FlipMapHorizontallyCommand = new DelegateCommand(() => this.actionHandler.FlipMapHorizontally());
+            this.FlipMapVerticallyCommand = new DelegateCommand(() => this.actionHandler.FlipMapVertically());
+            this.GuillotineMapCommand = new DelegateCommand(() => this.actionHandler.GuillotineMap());
             this.EditMapPropertiesCommand = new DelegateCommand(() => EditMapProperties());
 
             // Layer bindings
             this.NewLayerCommand = new DelegateCommand(() => NewLayer());
-            this.NewGroupCommand = new DelegateCommand(() => NewGroup());
-            this.DuplicateLayerCommand = new DelegateCommand(() => DuplicateLayer());
-            this.MergeLayerDownCommand = new DelegateCommand(() => MergeLayerDown());
-            this.MergeLayerUpCommand = new DelegateCommand(() => MergeLayerUp());
-            this.MergeVisibleCommand = new DelegateCommand(() => MergeVisible());
-            this.DeleteLayerCommand = new DelegateCommand(() => DeleteLayer());
+            this.NewGroupCommand = new DelegateCommand(() => this.actionHandler.NewGroup());
+            this.DuplicateLayerCommand = new DelegateCommand(() => this.actionHandler.DuplicateLayer());
+            this.MergeLayerDownCommand = new DelegateCommand(() => this.actionHandler.MergeLayerDown());
+            this.MergeLayerUpCommand = new DelegateCommand(() => this.actionHandler.MergeLayerUp());
+            this.MergeVisibleCommand = new DelegateCommand(() => this.actionHandler.MergeVisible());
+            this.DeleteLayerCommand = new DelegateCommand(() => this.actionHandler.DeleteLayer());
             this.EditLayerPropertiesCommand = new DelegateCommand(() => EditLayerProperties());
-            this.LayerToMapCommand = new DelegateCommand(() => LayerToMap());
+            this.LayerToMapCommand = new DelegateCommand(() => this.actionHandler.LayerToMap());
 
             // Item bindings
-            this.AddTilesetCommand = new DelegateCommand(() => AddTileset());
-            this.AddImageCommand = new DelegateCommand(() => AddImage());
-            this.AddGroupCommand = new DelegateCommand(() => AddGroup());
-            this.EditItemPropertiesCommand = new DelegateCommand(() => EditItemProperties());
-            this.EditItemCollisionsCommand = new DelegateCommand(() => EditItemCollisions());
+            this.AddTilesetCommand = new DelegateCommand(() => this.actionHandler.AddTileset());
+            this.AddImageCommand = new DelegateCommand(() => this.actionHandler.AddImage());
+            this.AddGroupCommand = new DelegateCommand(() => this.actionHandler.AddGroup());
+            this.EditItemPropertiesCommand = new DelegateCommand(() => this.actionHandler.EditItemProperties());
+            this.EditItemCollisionsCommand = new DelegateCommand(() => this.actionHandler.EditItemCollisions());
 
             // View bindings
-            this.SampleViewCommand = new DelegateCommand(() => SampleView());
-            this.CollisionsViewCommand = new DelegateCommand(() => CollisionsView());
-            this.ZoomInCommand = new DelegateCommand(() => ZoomIn());
-            this.ZoomOutCommand = new DelegateCommand(() => ZoomOut());
-            this.ZoomToolCommand = new DelegateCommand(() => ZoomTool());
-            this.FitMapToWindowCommand = new DelegateCommand(() => FitMapToWindow());
-            this.SetZoomCommand = new DelegateCommand<ZoomLevel>((zoomLevel) => SetZoom(zoomLevel));
-            this.DockPresetViewCommand = new DelegateCommand(() => DockPresetView());
-            this.ShowGridCommand = new DelegateCommand(() => ShowGrid());
-            this.ShowRulerCommand = new DelegateCommand(() => ShowRuler());
-            this.ShowScrollBarCommand = new DelegateCommand(() => ShowScrollBar());
+            this.SampleViewCommand = new DelegateCommand(() => this.actionHandler.SampleView());
+            this.CollisionsViewCommand = new DelegateCommand(() => this.actionHandler.CollisionsView());
+            this.ZoomInCommand = new DelegateCommand(() => this.actionHandler.ZoomIn());
+            this.ZoomOutCommand = new DelegateCommand(() => this.actionHandler.ZoomOut());
+            this.ZoomToolCommand = new DelegateCommand(() => this.actionHandler.ZoomTool());
+            this.FitMapToWindowCommand = new DelegateCommand(() => this.actionHandler.FitMapToWindow());
+            this.SetZoomCommand = new DelegateCommand<ZoomLevel>((zoomLevel) => this.actionHandler.SetZoom(zoomLevel));
+            this.DockPresetViewCommand = new DelegateCommand(() => this.actionHandler.DockPresetView());
+            this.ShowGridCommand = new DelegateCommand(() => this.actionHandler.ShowGrid(this.IsShowGrid));
+            this.ShowRulerCommand = new DelegateCommand(() => this.actionHandler.ShowRuler(this.IsShowRuler));
+            this.ShowScrollBarCommand = new DelegateCommand(() => this.actionHandler.ShowScrollBar(this.IsShowScrollBar));
 
             // Window bindings
             this.OpenItemEditorDockCommand = new DelegateCommand(() => OpenItemEditorDock());
@@ -134,12 +129,12 @@ namespace Ame.App.Wpf.UI.Menu
             this.OpenSelectedBrushDockCommand = new DelegateCommand(() => OpenSelectedBrushDock());
             this.OpenProjectExplorerDockCommand = new DelegateCommand(() => OpenProjectExplorerDock());
             this.OpenSessionViewDockCommand = new DelegateCommand(() => OpenSessionViewerDock());
-            this.HideDocksCommand = new DelegateCommand(() => HideDocks());
-            this.SingleWindowCommand = new DelegateCommand(() => SingleWindow());
+            this.HideDocksCommand = new DelegateCommand(() => this.actionHandler.HideDocks());
+            this.SingleWindowCommand = new DelegateCommand(() => this.actionHandler.SingleWindow());
 
             // Help bindings
-            this.HelpCommand = new DelegateCommand(() => Help());
-            this.AboutCommand = new DelegateCommand(() => About());
+            this.HelpCommand = new DelegateCommand(() => this.actionHandler.Help());
+            this.AboutCommand = new DelegateCommand(() => this.actionHandler.About());
         }
 
         #endregion constructor
@@ -222,33 +217,8 @@ namespace Ame.App.Wpf.UI.Menu
         public ICommand TestAddClosedDocksCommand { get; private set; }
 
         public InteractionRequest<IConfirmation> ConfirmationRequest { get; set; }
-
-
-        private ObservableCollection<MenuItem> recentlyClosedDockItems;
-        public ObservableCollection<MenuItem> RecentlyClosedDockItems
-        {
-            get
-            {
-                return recentlyClosedDockItems;
-            }
-            set
-            {
-                recentlyClosedDockItems = value;
-            }
-        }
-
-        private ObservableCollection<MenuItem> recentFileItems;
-        public ObservableCollection<MenuItem> RecentFileItems
-        {
-            get
-            {
-                return recentFileItems;
-            }
-            set
-            {
-                recentFileItems = value;
-            }
-        }
+        public ObservableCollection<MenuItem> RecentlyClosedDockItems { get; set; }
+        public ObservableCollection<MenuItem> RecentFileItems { get; set; }
 
         public AmeSession Session { get; set; }
 
@@ -261,437 +231,101 @@ namespace Ame.App.Wpf.UI.Menu
 
         #region methods
 
-        #region file methods
-
         public void NewProject()
         {
             NewProjectInteraction interaction = new NewProjectInteraction();
-            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
+            this.actionHandler.OpenWindow(interaction);
         }
-
-        public void OpenProject()
-        {
-            // TODO implement open project via directory
-            Console.WriteLine("Open project");
-        }
-
-        public void OpenMap()
-        {
-            OpenFileDialog openMapDialog = new OpenFileDialog();
-            openMapDialog.Title = "Open Map";
-            openMapDialog.Filter = SaveMapExtension.GetOpenMapSaveExtensions();
-            openMapDialog.InitialDirectory = this.Session.LastMapDirectory.Value;
-            if (openMapDialog.ShowDialog() == true)
-            {
-                string dialogFilePath = openMapDialog.FileName;
-                if (File.Exists(dialogFilePath))
-                {
-                    this.filePath = dialogFilePath;
-                    this.fileType = openMapDialog.Filter;
-                    this.Session.LastMapDirectory.Value = Directory.GetParent(openMapDialog.FileName).FullName;
-
-                    MapJsonReader reader = new MapJsonReader();
-                    ResourceLoader loader = ResourceLoader.Instance;
-                    Map importedMap = loader.Load<Map>(this.filePath, reader);
-
-                    OpenMapMessage message = new OpenMapMessage(importedMap);
-                    NotificationMessage<OpenMapMessage> notification = new NotificationMessage<OpenMapMessage>(message);
-                    this.eventAggregator.GetEvent<NotificationEvent<OpenMapMessage>>().Publish(notification);
-                }
-            }
-        }
-
-        public void SaveFile()
-        {
-            Map currentMap = this.Session.CurrentMap.Value;
-            if (currentMap.SourcePath.Value == null)
-            {
-                SaveAsFile();
-            }
-            else
-            {
-                currentMap.UpdateFile();
-            }
-        }
-
-        public void SaveAsFile()
-        {
-            SaveFileDialog saveMapDialog = new SaveFileDialog();
-            saveMapDialog.Title = "Save Map";
-            saveMapDialog.Filter = SaveMapExtension.GetOpenMapSaveExtensions();
-            saveMapDialog.InitialDirectory = this.Session.LastMapDirectory.Value;
-            if (saveMapDialog.ShowDialog() == true)
-            {
-                Map currentMap = this.Session.CurrentMap.Value;
-                this.filePath = saveMapDialog.FileName;
-                this.fileType = saveMapDialog.Filter;
-                currentMap.WriteFile(this.filePath);
-
-                this.Session.LastMapDirectory.Value = Directory.GetParent(saveMapDialog.FileName).FullName;
-            }
-        }
-
-        public void ExportFile()
-        {
-            Console.WriteLine("Export File");
-        }
-
-        public void ExportAsFile()
-        {
-            SaveFileDialog exportMapDialog = new SaveFileDialog();
-            exportMapDialog.Title = "Export Map";
-            exportMapDialog.Filter = ExportMapExtension.GetOpenFileExportMapExtensions();
-            if (exportMapDialog.ShowDialog() == true)
-            {
-                this.filePath = exportMapDialog.FileName;
-                this.fileType = exportMapDialog.Filter;
-
-                StateMessage message = new StateMessage(this.filePath);
-                BitmapEncoder encoder = ExportMapExtension.getEncoder(this.fileType);
-                message.Encoder = encoder;
-                NotificationMessage<StateMessage> notification = new NotificationMessage<StateMessage>(message);
-                this.eventAggregator.GetEvent<NotificationEvent<StateMessage>>().Publish(notification);
-            }
-        }
-
-        public void ImportFile()
-        {
-            Console.WriteLine("Import");
-        }
-
-        public void ViewFileProperties()
-        {
-            Console.WriteLine("Properties");
-        }
-
-        public void CloseFile()
-        {
-            Console.WriteLine("Close");
-        }
-
-        public void CloseAllFiles()
-        {
-            Console.WriteLine("Close All Files");
-        }
-
-        public void ExitProgram()
-        {
-            Console.WriteLine("Exiting Program");
-        }
-
-        #endregion file methods
-
-        #region edit methods
-
-        public void Undo()
-        {
-            Console.WriteLine("Undo ");
-        }
-
-        public void Redo()
-        {
-            Console.WriteLine("Redo ");
-        }
-
-        public void CutSelection()
-        {
-            Console.WriteLine("Cut Selection");
-        }
-
-        public void CopySelection()
-        {
-            Console.WriteLine("Copy Selection");
-        }
-
-        public void PasteClipboard()
-        {
-            Console.WriteLine("Paste Clipboard");
-        }
-
-        public void OpenClipboard()
-        {
-            OpenDockMessage dock = new OpenDockMessage(typeof(ClipboardViewModel));
-            this.eventAggregator.GetEvent<OpenDockEvent>().Publish(dock);
-        }
-
-        public void OpenPreferenences()
-        {
-            PreferenceOptionsInteraction interaction = new PreferenceOptionsInteraction();
-            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
-        }
-
-        #endregion edit methods
-
-        #region map methods
 
         public void NewMap()
         {
             NewMapInteraction interaction = new NewMapInteraction();
-            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
+            this.actionHandler.OpenWindow(interaction);
         }
 
-        public void DuplicateMap()
+        public void NewLayer()
         {
-            Console.WriteLine("Duplicate Map");
-        }
-
-        public void FlipMapHorizontally()
-        {
-            Console.WriteLine("Flip Map Horizontally");
-        }
-
-        public void FlipMapVertically()
-        {
-            Console.WriteLine("Flip Map Vertically");
-        }
-
-        public void GuillotineMap()
-        {
-            Console.WriteLine("Guillotine");
+            NewLayerInteraction interaction = new NewLayerInteraction();
+            this.actionHandler.OpenWindow(interaction);
         }
 
         public void EditMapProperties()
         {
             EditMapInteraction interaction = new EditMapInteraction();
-            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
-        }
-
-        #endregion map methods
-
-        #region layer methods
-
-        public void NewLayer()
-        {
-            NewLayerInteraction interaction = new NewLayerInteraction();
-            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
-        }
-
-        public void NewGroup()
-        {
-            NotificationMessage<LayerNotification> newLayerGroupMessage = new NotificationMessage<LayerNotification>(LayerNotification.NewLayerGroup, "LayerGroup");
-            this.eventAggregator.GetEvent<NotificationEvent<LayerNotification>>().Publish(newLayerGroupMessage);
-        }
-
-        public void DuplicateLayer()
-        {
-            NotificationMessage<LayerNotification> message = new NotificationMessage<LayerNotification>(LayerNotification.DuplicateCurrentLayer);
-            this.eventAggregator.GetEvent<NotificationEvent<LayerNotification>>().Publish(message);
-        }
-
-        public void MergeLayerDown()
-        {
-            NotificationMessage<LayerNotification> message = new NotificationMessage<LayerNotification>(LayerNotification.MergeCurrentLayerDown);
-            this.eventAggregator.GetEvent<NotificationEvent<LayerNotification>>().Publish(message);
-        }
-
-        public void MergeLayerUp()
-        {
-            NotificationMessage<LayerNotification> message = new NotificationMessage<LayerNotification>(LayerNotification.MergeCurrentLayerDown);
-            this.eventAggregator.GetEvent<NotificationEvent<LayerNotification>>().Publish(message);
-        }
-
-        public void MergeVisible()
-        {
-            NotificationMessage<LayerNotification> message = new NotificationMessage<LayerNotification>(LayerNotification.MergeVisibleLayers);
-            this.eventAggregator.GetEvent<NotificationEvent<LayerNotification>>().Publish(message);
-        }
-
-        public void DeleteLayer()
-        {
-            NotificationMessage<LayerNotification> message = new NotificationMessage<LayerNotification>(LayerNotification.DeleteCurrentLayer);
-            this.eventAggregator.GetEvent<NotificationEvent<LayerNotification>>().Publish(message);
+            this.actionHandler.OpenWindow(interaction);
         }
 
         public void EditLayerProperties()
         {
             EditLayerInteraction interaction = new EditLayerInteraction();
-            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
+            this.actionHandler.OpenWindow(interaction);
         }
 
-        public void LayerToMap()
+        public void OpenPreferenencesWindow()
         {
-            Console.WriteLine("Layer To Map ");
+            PreferenceOptionsInteraction interaction = new PreferenceOptionsInteraction();
+            this.actionHandler.OpenWindow(interaction);
         }
-
-        #endregion layer methods
-
-        #region item methods
-
-        public void AddTileset()
-        {
-            Console.WriteLine("Add Tileset");
-        }
-
-        public void AddImage()
-        {
-            Console.WriteLine("Add Image");
-        }
-
-        public void AddGroup()
-        {
-            Console.WriteLine("Add Group");
-        }
-
-        public void EditItemProperties()
-        {
-            Console.WriteLine("Edit Item Properties...");
-        }
-
-        public void EditItemCollisions()
-        {
-            Console.WriteLine("Edit Item Collisions");
-        }
-
-        #endregion item methods
-
-        #region view methods
-
-        public void SampleView()
-        {
-            Console.WriteLine("Sample View");
-        }
-
-        public void CollisionsView()
-        {
-            Console.WriteLine("Collisions View");
-        }
-
-        public void ZoomIn()
-        {
-            NotificationMessage<ViewNotification> message = new NotificationMessage<ViewNotification>(ViewNotification.ZoomInDocument);
-            this.eventAggregator.GetEvent<NotificationEvent<ViewNotification>>().Publish(message);
-        }
-
-        public void ZoomOut()
-        {
-            NotificationMessage<ViewNotification> message = new NotificationMessage<ViewNotification>(ViewNotification.ZoomOutDocument);
-            this.eventAggregator.GetEvent<NotificationEvent<ViewNotification>>().Publish(message);
-        }
-
-        public void ZoomTool()
-        {
-            Console.WriteLine("Zoom Tool");
-        }
-
-        public void FitMapToWindow()
-        {
-            Console.WriteLine("Fit Map To Window");
-        }
-
-        public void SetZoom(ZoomLevel zoomLevel)
-        {
-            NotificationMessage<ZoomLevel> message = new NotificationMessage<ZoomLevel>(zoomLevel);
-            this.eventAggregator.GetEvent<NotificationEvent<ZoomLevel>>().Publish(message);
-        }
-
-        public void DockPresetView()
-        {
-            Console.WriteLine("Dock Preset");
-        }
-
-        public void ShowGrid()
-        {
-            Console.WriteLine("Show Grid: " + IsShowGrid);
-        }
-
-        public void ShowRuler()
-        {
-            Console.WriteLine("Show Ruler: " + IsShowRuler);
-        }
-
-        public void ShowScrollBar()
-        {
-            Console.WriteLine("Show Scroll: " + IsShowScrollBar);
-        }
-
-        #endregion view methods
-
-        #region window methods
 
         public void OpenClipboardDock()
         {
-            OpenDockMessage dock = new OpenDockMessage(typeof(ClipboardViewModel));
-            this.eventAggregator.GetEvent<OpenDockEvent>().Publish(dock);
+            OpenDockMessage openDockMessage = new OpenDockMessage(typeof(ClipboardViewModel));
+            this.actionHandler.OpenDock(openDockMessage);
         }
 
         public void OpenItemEditorDock()
         {
-            OpenDockMessage dock = new OpenDockMessage(typeof(ItemEditorViewModel));
-            this.eventAggregator.GetEvent<OpenDockEvent>().Publish(dock);
+            OpenDockMessage openDockMessage = new OpenDockMessage(typeof(ItemEditorViewModel));
+            this.actionHandler.OpenDock(openDockMessage);
         }
 
         public void OpenItemListDock()
         {
-            OpenDockMessage dock = new OpenDockMessage(typeof(ItemListViewModel));
-            this.eventAggregator.GetEvent<OpenDockEvent>().Publish(dock);
+            OpenDockMessage openDockMessage = new OpenDockMessage(typeof(ItemListViewModel));
+            this.actionHandler.OpenDock(openDockMessage);
         }
 
         public void OpenLayerListDock()
         {
-            OpenDockMessage dock = new OpenDockMessage(typeof(LayerListViewModel));
-            this.eventAggregator.GetEvent<OpenDockEvent>().Publish(dock);
+            OpenDockMessage openDockMessage = new OpenDockMessage(typeof(LayerListViewModel));
+            this.actionHandler.OpenDock(openDockMessage);
         }
 
         public void OpenToolboxDock()
         {
-            OpenDockMessage dock = new OpenDockMessage(typeof(ToolboxViewModel));
-            this.eventAggregator.GetEvent<OpenDockEvent>().Publish(dock);
+            OpenDockMessage openDockMessage = new OpenDockMessage(typeof(ToolboxViewModel));
+            this.actionHandler.OpenDock(openDockMessage);
         }
 
         public void OpenMinimapDock()
         {
-            OpenDockMessage dock = new OpenDockMessage(typeof(MinimapViewModel));
-            this.eventAggregator.GetEvent<OpenDockEvent>().Publish(dock);
+            OpenDockMessage openDockMessage = new OpenDockMessage(typeof(MinimapViewModel));
+            this.actionHandler.OpenDock(openDockMessage);
         }
 
         public void OpenSelectedBrushDock()
         {
-            OpenDockMessage dock = new OpenDockMessage(typeof(SelectedBrushViewModel));
-            this.eventAggregator.GetEvent<OpenDockEvent>().Publish(dock);
+            OpenDockMessage openDockMessage = new OpenDockMessage(typeof(SelectedBrushViewModel));
+            this.actionHandler.OpenDock(openDockMessage);
+        }
+
+        // TODO implement undo history dock
+        public void OpenUndoHistoryDock()
+        {
+            Console.WriteLine("Opening undo history");
         }
 
         public void OpenProjectExplorerDock()
         {
-            OpenDockMessage dock = new OpenDockMessage(typeof(ProjectExplorerViewModel));
-            this.eventAggregator.GetEvent<OpenDockEvent>().Publish(dock);
+            OpenDockMessage openDockMessage = new OpenDockMessage(typeof(ProjectExplorerViewModel));
+            this.actionHandler.OpenDock(openDockMessage);
         }
 
         public void OpenSessionViewerDock()
         {
-            OpenDockMessage dock = new OpenDockMessage(typeof(SessionViewerViewModel));
-            this.eventAggregator.GetEvent<OpenDockEvent>().Publish(dock);
+            OpenDockMessage openDockMessage = new OpenDockMessage(typeof(SessionViewerViewModel));
+            this.actionHandler.OpenDock(openDockMessage);
         }
-
-        public void OpenUndoHistoryDock()
-        {
-            Console.WriteLine("Open Undo History Dock");
-        }
-
-        public void HideDocks()
-        {
-            Console.WriteLine("Hide Dock ");
-        }
-
-        public void SingleWindow()
-        {
-            Console.WriteLine("Single Window ");
-        }
-
-        #endregion window methods
-
-        #region help window
-
-        public void Help()
-        {
-            Console.WriteLine("Open Help Window");
-        }
-
-        public void About()
-        {
-            Console.WriteLine("Open  Window");
-        }
-
-        #endregion help window
 
         public void TestAddClosedDocks()
         {

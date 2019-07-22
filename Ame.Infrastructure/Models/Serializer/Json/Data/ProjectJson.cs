@@ -19,7 +19,7 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
 
         public ProjectJson(Project project)
         {
-            this.Version = project.Version.Value ?? new Constants().Version;
+            this.Version = project.Version.Value;
             this.Name = project.Name.Value;
             this.DefaultPixelScale = project.DefaultPixelScale.Value;
             this.DefaultTileWidth = project.DefaultTileWidth.Value;

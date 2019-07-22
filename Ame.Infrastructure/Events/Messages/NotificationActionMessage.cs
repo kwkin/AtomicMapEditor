@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ame.Infrastructure.Messages
+namespace Ame.Infrastructure.Events.Messages
 {
-    public class NotificationMessage<T>
+    public class NotificationActionMessage<TCallbackParameter>
     {
         #region fields
 
@@ -15,23 +15,12 @@ namespace Ame.Infrastructure.Messages
 
         #region Constructor
 
-        public NotificationMessage(T content)
+        public NotificationActionMessage(string notification, Action<TCallbackParameter> callback)
         {
-            this.Content = content;
-            this.Notification = "";
-        }
-
-        public NotificationMessage(string notification)
-        {
+            this.Callback = callback;
             this.Notification = notification;
         }
 
-        public NotificationMessage(T content, string notification)
-        {
-            this.Content = content;
-            this.Notification = notification;
-        }
-        
         #endregion Constructor
 
 
@@ -43,7 +32,7 @@ namespace Ame.Infrastructure.Messages
             private set;
         }
 
-        public T Content
+        public Action<TCallbackParameter> Callback
         {
             get;
             private set;
@@ -53,6 +42,11 @@ namespace Ame.Infrastructure.Messages
 
 
         #region methods
+
+        public void Execute(params object[] arguments)
+        {
+            this.Callback.DynamicInvoke(arguments);
+        }
 
         #endregion methods
     }

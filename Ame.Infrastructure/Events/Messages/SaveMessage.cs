@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Ame.Infrastructure.Models;
 
-namespace Ame.Infrastructure.Messages
+namespace Ame.Infrastructure.Events.Messages
 {
-    public class OpenMapMessage
+    public class SaveMessage
     {
         #region fields
 
@@ -16,8 +16,9 @@ namespace Ame.Infrastructure.Messages
 
         #region Constructor
 
-        public OpenMapMessage(Map map)
+        public SaveMessage(string path, Map map)
         {
+            this.Path = path;
             this.Map = map;
         }
 
@@ -26,12 +27,14 @@ namespace Ame.Infrastructure.Messages
 
         #region Properties
 
+        public string Path { get; set; }
         public Map Map { get; set; }
 
         #endregion Properties
 
 
         #region methods
+
 
         #endregion methods
     }

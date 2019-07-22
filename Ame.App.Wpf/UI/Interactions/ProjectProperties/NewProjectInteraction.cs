@@ -1,6 +1,6 @@
 ﻿using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
-using Ame.Infrastructure.Messages;
+using Ame.Infrastructure.Events.Messages;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Models.Serializer.Json;
 using Prism.Events;
@@ -58,7 +58,7 @@ namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
             this.session = session;
             this.Title = "New Project";
             string newProjectName = string.Format("Project #{0}", session.ProjectCount);
-            this.Project = new Project(newProjectName);
+            this.Project = new Project(newProjectName, session.Version.Value);
             this.Callback = this.Callback ?? OnNewProjectWindowClosed;
         }
 
