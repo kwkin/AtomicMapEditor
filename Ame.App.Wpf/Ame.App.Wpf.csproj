@@ -203,6 +203,9 @@
     <Compile Include="UI\Editor\MapEditor\MapEditorDocument.xaml.cs">
       <DependentUpon>MapEditorDocument.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Interactions\FileChooser\ExportMapInteraction.cs" />
+    <Compile Include="UI\Interactions\FileChooser\OpenMapInteraction.cs" />
+    <Compile Include="UI\Interactions\FileChooser\SaveMapInteraction.cs" />
     <Compile Include="UI\Interactions\MapProperties\EditMapInteraction.cs" />
     <Compile Include="UI\Interactions\LayerProperties\EditLayerInteraction.cs" />
     <Compile Include="UI\Interactions\LayerProperties\EditLayerWindow.xaml.cs">

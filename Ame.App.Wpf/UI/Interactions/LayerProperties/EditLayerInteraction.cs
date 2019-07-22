@@ -16,7 +16,7 @@ namespace Ame.App.Wpf.UI.Interactions.LayerProperties
         #endregion fields
 
 
-        #region Constructor
+        #region constructor
 
         public EditLayerInteraction()
         {
@@ -38,10 +38,10 @@ namespace Ame.App.Wpf.UI.Interactions.LayerProperties
             this.Callback = callback;
         }
 
-        #endregion Constructor
+        #endregion constructor
 
 
-        #region Properties
+        #region properties
 
         public ILayer Layer { get; set; }
         public string Title { get; set; }
@@ -50,7 +50,7 @@ namespace Ame.App.Wpf.UI.Interactions.LayerProperties
         public double Width { get; set; } = 420.0;
         public double Height { get; set; } = 480.0;
 
-        #endregion Properties
+        #endregion properties
 
 
         #region methods

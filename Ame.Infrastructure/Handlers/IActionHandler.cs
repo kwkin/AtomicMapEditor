@@ -2,7 +2,6 @@
 using Ame.Infrastructure.Events.Messages;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.UILogic;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,17 +30,11 @@ namespace Ame.Infrastructure.Handlers
 
         void OpenProject();
 
-        void OpenMap();
-
         void SaveMap(Map map);
 
         void SaveCurrentMap();
 
-        void SaveAsMap();
-
         void ExportFile();
-
-        void ExportAsFile();
 
         void ImportFile();
 

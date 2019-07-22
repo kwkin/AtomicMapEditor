@@ -25,6 +25,10 @@ using System.Text;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Microsoft.Win32;
+using System.IO;
+using Ame.Infrastructure.Utils;
+using Ame.App.Wpf.UI.Interactions.FileChooser;
 
 namespace Ame.App.Wpf.UI.Menu
 {
@@ -32,21 +36,15 @@ namespace Ame.App.Wpf.UI.Menu
     {
         #region fields
 
-        private IEventAggregator eventAggregator;
         private IActionHandler actionHandler;
-
-        private string filePath;
-        private string fileType;
 
         #endregion fields
 
 
         #region constructor
 
-        public MenuOptionsViewModel(IEventAggregator eventAggregator, AmeSession session, IActionHandler actionHandler)
+        public MenuOptionsViewModel(AmeSession session, IActionHandler actionHandler)
         {
-            // TODO create singleton class that handles these functiosn
-            this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
             this.Session = session ?? throw new ArgumentNullException("session");
             this.actionHandler = actionHandler ?? throw new ArgumentNullException("actionHandler");
 
@@ -59,11 +57,11 @@ namespace Ame.App.Wpf.UI.Menu
             // File bindings
             this.NewProjectCommand = new DelegateCommand(() => NewProject());
             this.OpenProjectCommand = new DelegateCommand(() => this.actionHandler.OpenProject());
-            this.OpenMapCommand = new DelegateCommand(() => this.actionHandler.OpenMap());
+            this.OpenMapCommand = new DelegateCommand(() => OpenMap());
             this.SaveFileCommand = new DelegateCommand(() => this.actionHandler.SaveCurrentMap());
-            this.SaveAsFileCommand = new DelegateCommand(() => this.actionHandler.SaveAsMap());
+            this.SaveAsFileCommand = new DelegateCommand(() => OpenSaveMap());
             this.ExportFileCommand = new DelegateCommand(() => this.actionHandler.ExportFile());
-            this.ExportAsFileCommand = new DelegateCommand(() => this.actionHandler.ExportAsFile());
+            this.ExportAsFileCommand = new DelegateCommand(() => ExportAsFile());
             this.ImportFileCommand = new DelegateCommand(() => this.actionHandler.ImportFile());
             this.ViewFilePropertiesCommand = new DelegateCommand(() => this.actionHandler.ViewFileProperties());
             this.CloseFileCommand = new DelegateCommand(() => this.actionHandler.CloseFile());
@@ -258,6 +256,25 @@ namespace Ame.App.Wpf.UI.Menu
         public void EditLayerProperties()
         {
             EditLayerInteraction interaction = new EditLayerInteraction();
+            this.actionHandler.OpenWindow(interaction);
+        }
+
+        // TODO move to the window manager class
+        public void OpenMap()
+        {
+            OpenMapInteraction interaction = new OpenMapInteraction();
+            this.actionHandler.OpenWindow(interaction);
+        }
+
+        public void OpenSaveMap()
+        {
+            SaveMapInteraction interaction = new SaveMapInteraction();
+            this.actionHandler.OpenWindow(interaction);
+        }
+
+        public void ExportAsFile()
+        {
+            ExportMapInteraction interaction = new ExportMapInteraction();
             this.actionHandler.OpenWindow(interaction);
         }
 

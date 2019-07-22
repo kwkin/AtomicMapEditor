@@ -9,36 +9,34 @@ using Ame.App.Wpf.UI.Docks.SelectedBrushDock;
 using Ame.App.Wpf.UI.Docks.SessionViewerDock;
 using Ame.App.Wpf.UI.Docks.ToolboxDock;
 using Ame.App.Wpf.UI.Editor.MapEditor;
+using Ame.App.Wpf.UI.Interactions.MapProperties;
+using Ame.App.Wpf.UI.Interactions.ProjectProperties;
 using Ame.App.Wpf.UI.Serializer;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Core;
 using Ame.Infrastructure.Events;
-using Ame.Infrastructure.Handlers;
 using Ame.Infrastructure.Events.Messages;
+using Ame.Infrastructure.Handlers;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Models.Serializer.Json;
-using Ame.Infrastructure.Models.Serializer.Json.Data;
 using Ame.Infrastructure.UILogic;
 using AvalonDock;
 using AvalonDock.Layout.Serialization;
-using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Events;
-using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using System.Text;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
-using Ame.App.Wpf.UI.Interactions.ProjectProperties;
-using Ame.App.Wpf.UI.Interactions.MapProperties;
+using Ame.App.Wpf.UI.Interactions.FileChooser;
 
 namespace Ame.App.Wpf.UI
 {
@@ -116,11 +114,11 @@ namespace Ame.App.Wpf.UI
             this.NewProjectCommand = new DelegateCommand(() => NewProject());
             this.NewMapCommand = new DelegateCommand(() => NewMap());
             this.OpenProjectCommand = new DelegateCommand(() => this.actionHandler.OpenProject());
-            this.OpenMapCommand = new DelegateCommand(() => this.actionHandler.OpenMap());
+            this.OpenMapCommand = new DelegateCommand(() => OpenMap());
             this.SaveFileCommand = new DelegateCommand(() => this.actionHandler.SaveCurrentMap());
-            this.SaveAsFileCommand = new DelegateCommand(() => this.actionHandler.SaveAsMap());
+            this.SaveAsFileCommand = new DelegateCommand(() => SaveAsMap());
             this.ExportFileCommand = new DelegateCommand(() => this.actionHandler.ExportFile());
-            this.ExportAsFileCommand = new DelegateCommand(() => this.actionHandler.ExportAsFile());
+            this.ExportAsFileCommand = new DelegateCommand(() => ExportAsMap());
             this.CloseFileCommand = new DelegateCommand(() => this.actionHandler.CloseFile());
             this.UndoCommand = new DelegateCommand(() => this.actionHandler.Undo());
             this.RedoCommand = new DelegateCommand(() => this.actionHandler.Redo());
@@ -237,6 +235,23 @@ namespace Ame.App.Wpf.UI
             NewMapInteraction interaction = new NewMapInteraction();
             this.actionHandler.OpenWindow(interaction);
         }
+        public void OpenMap()
+        {
+            OpenMapInteraction interaction = new OpenMapInteraction();
+            this.actionHandler.OpenWindow(interaction);
+        }
+
+        public void SaveAsMap()
+        {
+            SaveMapInteraction interaction = new SaveMapInteraction();
+            this.actionHandler.OpenWindow(interaction);
+        }
+
+        public void ExportAsMap()
+        {
+            ExportMapInteraction interaction = new ExportMapInteraction();
+            this.actionHandler.OpenWindow(interaction);
+        }
 
         private void IsBusyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -322,7 +337,6 @@ namespace Ame.App.Wpf.UI
 
         private void OpenWindow(IWindowInteraction interaction)
         {
-            string title = interaction.Title;
             interaction.EventAggregator = this.eventAggregator;
             interaction.UpdateMissingContent(this.session);
             interaction.RaiseNotification(this.WindowManager);

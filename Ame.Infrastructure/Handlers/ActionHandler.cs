@@ -2,10 +2,7 @@
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Events.Messages;
 using Ame.Infrastructure.Models;
-using Ame.Infrastructure.Models.Serializer.Json;
 using Ame.Infrastructure.UILogic;
-using Ame.Infrastructure.Utils;
-using Microsoft.Win32;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -13,11 +10,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
 
 namespace Ame.Infrastructure.Handlers
 {
-    // TODO check how this can be moved to the infrastructure package
     public class ActionHandler : IActionHandler
     {
         #region fields
@@ -61,30 +56,6 @@ namespace Ame.Infrastructure.Handlers
             Console.WriteLine("Open project");
         }
 
-        public void OpenMap()
-        {
-            OpenFileDialog openMapDialog = new OpenFileDialog();
-            openMapDialog.Title = "Open Map";
-            openMapDialog.Filter = SaveMapExtension.GetOpenMapSaveExtensions();
-            openMapDialog.InitialDirectory = this.session.LastMapDirectory.Value;
-            if (openMapDialog.ShowDialog() == true)
-            {
-                string dialogFilePath = openMapDialog.FileName;
-                if (File.Exists(dialogFilePath))
-                {
-                    this.session.LastMapDirectory.Value = Directory.GetParent(openMapDialog.FileName).FullName;
-
-                    MapJsonReader reader = new MapJsonReader();
-                    ResourceLoader loader = ResourceLoader.Instance;
-                    Map importedMap = loader.Load<Map>(dialogFilePath, reader);
-
-                    OpenMapMessage message = new OpenMapMessage(importedMap);
-                    NotificationMessage<OpenMapMessage> notification = new NotificationMessage<OpenMapMessage>(message);
-                    this.eventAggregator.GetEvent<NotificationEvent<OpenMapMessage>>().Publish(notification);
-                }
-            }
-        }
-
         public void SaveCurrentMap()
         {
             Map currentMap = this.session.CurrentMap.Value;
@@ -95,7 +66,8 @@ namespace Ame.Infrastructure.Handlers
         {
             if (map.SourcePath.Value == null)
             {
-                SaveAsMap();
+                map.WriteFile(map.SourcePath.Value);
+                this.session.LastMapDirectory.Value = Directory.GetParent(map.SourcePath.Value).FullName;
             }
             else
             {
@@ -103,43 +75,9 @@ namespace Ame.Infrastructure.Handlers
             }
         }
 
-        // TODO move this to view model class. Instead maybe pass the file to save and the file location
-        public void SaveAsMap()
-        {
-            SaveFileDialog saveMapDialog = new SaveFileDialog();
-            saveMapDialog.Title = "Save Map";
-            saveMapDialog.Filter = SaveMapExtension.GetOpenMapSaveExtensions();
-            saveMapDialog.InitialDirectory = this.session.LastMapDirectory.Value;
-            if (saveMapDialog.ShowDialog().Value)
-            {
-                Map currentMap = this.session.CurrentMap.Value;
-                string file = saveMapDialog.FileName;
-                currentMap.WriteFile(file);
-
-                this.session.LastMapDirectory.Value = Directory.GetParent(saveMapDialog.FileName).FullName;
-            }
-        }
         public void ExportFile()
         {
             Console.WriteLine("Export file");
-        }
-
-        public void ExportAsFile()
-        {
-            SaveFileDialog exportMapDialog = new SaveFileDialog();
-            exportMapDialog.Title = "Export Map";
-            exportMapDialog.Filter = ExportMapExtension.GetOpenFileExportMapExtensions();
-            if (exportMapDialog.ShowDialog() == true)
-            {
-                string file = exportMapDialog.FileName;
-                string fileType = exportMapDialog.Filter;
-
-                StateMessage message = new StateMessage(file);
-                BitmapEncoder encoder = ExportMapExtension.getEncoder(fileType);
-                message.Encoder = encoder;
-                NotificationMessage<StateMessage> notification = new NotificationMessage<StateMessage>(message);
-                this.eventAggregator.GetEvent<NotificationEvent<StateMessage>>().Publish(notification);
-            }
         }
 
         public void EditLayerProperties()
