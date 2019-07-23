@@ -12,7 +12,7 @@ namespace Ame.Infrastructure.Core
 
         string Version{ get; }
         string DefaultProjectFilename{ get; }
-        string DefaultFileDirectory{ get; }
+        string DefaultWorkspaceDirectory{ get; }
         string AppMetaDataDirectory{ get; }
         string ApplicationName{ get; }
         string SessionFileName{ get; }

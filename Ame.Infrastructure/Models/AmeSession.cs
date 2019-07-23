@@ -34,8 +34,9 @@ namespace Ame.Infrastructure.Models
             this.CurrentTilesets = new ObservableCollection<TilesetModel>();
             this.DrawingTool.Value = new StampTool();
 
-            this.LastTilesetDirectory.Value = constants.DefaultFileDirectory;
-            this.LastMapDirectory.Value = constants.DefaultFileDirectory;
+            this.DefaultWorkspaceDirectory.Value = constants.DefaultWorkspaceDirectory;
+            this.LastTilesetDirectory.Value = constants.DefaultWorkspaceDirectory;
+            this.LastMapDirectory.Value = constants.DefaultWorkspaceDirectory;
             this.Version.Value = constants.Version;
 
             this.CurrentMap.PropertyChanged += CurrentMapChanged;
@@ -50,8 +51,9 @@ namespace Ame.Infrastructure.Models
             this.CurrentTilesets = new ObservableCollection<TilesetModel>();
             this.DrawingTool.Value = new StampTool();
 
-            this.LastTilesetDirectory.Value = constants.DefaultFileDirectory;
-            this.LastMapDirectory.Value = constants.DefaultFileDirectory;
+            this.DefaultWorkspaceDirectory.Value = constants.DefaultWorkspaceDirectory;
+            this.LastTilesetDirectory.Value = constants.DefaultWorkspaceDirectory;
+            this.LastMapDirectory.Value = constants.DefaultWorkspaceDirectory;
             this.Version.Value = constants.Version;
 
             this.CurrentMap.PropertyChanged += CurrentMapChanged;
@@ -149,6 +151,8 @@ namespace Ame.Infrastructure.Models
         }
 
         public BindableProperty<IDrawingTool> DrawingTool { get; set; } = BindableProperty.Prepare<IDrawingTool>();
+
+        public BindableProperty<string> DefaultWorkspaceDirectory { get; set; } = BindableProperty.Prepare<string>();
 
         public BindableProperty<string> LastTilesetDirectory { get; set; } = BindableProperty.Prepare<string>();
 

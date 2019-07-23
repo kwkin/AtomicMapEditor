@@ -25,7 +25,7 @@ namespace Ame.Infrastructure.Core
             }
         }
 
-        public string DefaultFileDirectory
+        public string DefaultWorkspaceDirectory
         {
             get
             {

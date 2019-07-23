@@ -9,6 +9,7 @@ using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -16,13 +17,11 @@ using System.Windows.Input;
 
 namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
 {
-    // TODO Update the location without using the browse button
-    // TODO set default location
+    // TODO remove event aggregator whereever it is not used.
     public class ProjectPropertiesViewModel : IInteractionRequestAware
     {
         #region fields
 
-        private IEventAggregator eventAggregator;
         private AmeSession session;
 
         #endregion fields
@@ -30,12 +29,15 @@ namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
 
         #region constructor
 
-        public ProjectPropertiesViewModel(IEventAggregator eventAggregator, AmeSession session)
+        public ProjectPropertiesViewModel(AmeSession session)
         {
-            this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
             this.session = session ?? throw new ArgumentNullException("session");
 
             this.WindowTitle.Value = "New Project";
+
+            this.Name.PropertyChanged += SpecifiedPathChanged;
+            this.SpecifiedPath.PropertyChanged += SpecifiedPathChanged;
+            this.IsSourceSpecified.Value = true;
 
             this.SetProjectPropertiesCommand = new DelegateCommand(() => SetProjectProperties());
             this.CloseWindowCommand = new DelegateCommand(() => CloseWindow());
@@ -55,7 +57,7 @@ namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
 
         public BindableProperty<string> SpecifiedPath { get; set; } = BindableProperty<string>.Prepare(string.Empty);
 
-        public BindableProperty<string> Name { get; set; } = BindableProperty<string>.Prepare();
+        public BindableProperty<string> Name { get; set; } = BindableProperty<string>.Prepare(string.Empty);
 
         public BindableProperty<int> TileWidth { get; set; } = BindableProperty<int>.Prepare();
 
@@ -144,14 +146,8 @@ namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
             this.PixelScale.Value = project.DefaultPixelScale.Value;
             this.Description.Value = project.Description.Value;
 
-            if (this.SpecifiedPath.Value != null && this.SpecifiedPath.Value != string.Empty)
-            {
-                this.IsSourceSpecified.Value = true;
-            }
-            else
-            {
-                this.IsSourceSpecified.Value = false;
-            }
+            this.SpecifiedPath.Value = session.DefaultWorkspaceDirectory.Value;
+            this.IsSourceSpecified.Value = true;
         }
 
         private void BrowseSource()
@@ -162,11 +158,9 @@ namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
             folderDialog.IsFolderPicker = true;
             if (folderDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                string projectFilePath = folderDialog.FileName;
-                this.FullLocation.Value = Path.Combine(projectFilePath, this.Name.Value);
-                this.SpecifiedPath.Value = projectFilePath;
+                this.SpecifiedPath.Value = folderDialog.FileName;
                 this.IsSourceSpecified.Value = true;
-                this.session.LastMapDirectory.Value = Directory.GetParent(projectFilePath).FullName;
+                this.session.LastMapDirectory.Value = Directory.GetParent(this.SpecifiedPath.Value).FullName;
             }
         }
 
@@ -176,6 +170,20 @@ namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
             properties.Add(new MetadataProperty("Map Count", this.Project.Value.MapCount, MetadataType.Statistic));
 
             this.MetadataHandler = new MetadataHandler(this.Project.Value, properties);
+        }
+
+        private void SpecifiedPathChanged(object sender, PropertyChangedEventArgs e)
+        {
+            SpecifiedPathChanged();
+        }
+
+        private void SpecifiedPathChanged()
+        {
+            if (this.SpecifiedPath.Value == null || this.Name.Value == null)
+            {
+                return;
+            }
+            this.FullLocation.Value = Path.Combine(this.SpecifiedPath.Value, this.Name.Value);
         }
 
         #endregion methods
