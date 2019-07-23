@@ -135,9 +135,13 @@ namespace Ame.Infrastructure.DrawingTools
                 }
                 foreach (Tile tile in tiles)
                 {
-                    if (tile.Bounds.IntersectsWith(map.CurrentLayer.GetBoundsExclusive()))
+                    if (!typeof(Layer).IsAssignableFrom(map.CurrentLayer.GetType()))
                     {
-                        context.DrawDrawing(tile.Image.Value);
+                        Layer currentLayer = map.CurrentLayer as Layer;
+                        if (tile.Bounds.IntersectsWith(currentLayer.GetBoundsExclusive()))
+                        {
+                            context.DrawDrawing(tile.Image.Value);
+                        }
                     }
                 }
             }

@@ -32,7 +32,7 @@
                     Grid.Column="0">
             <ToggleButton x:Name="showLayerToggleButton" 
                             Style="{DynamicResource PrimaryMidIconToggleButtonStyle}" 
-                            IsChecked="{Binding Layer.IsVisible}"
+                            IsChecked="{Binding Layer.IsVisible.Value}"
                             ToolTip="Show: Toggles the layer display" >
                 <Grid>
                     <ContentControl Content="{StaticResource ic_VisibilityOff}"
@@ -48,7 +48,7 @@
 
             <ToggleButton x:Name="lockLayerToggleButton" 
                             Style="{DynamicResource PrimaryMidIconToggleButtonStyle}" 
-                            IsChecked="{Binding Layer.IsImmutable}"
+                            IsChecked="{Binding Layer.IsImmutable.Value}"
                             ToolTip="Lock: Prevents the layer from being moved and edited" >
                 <Grid>
                     <ContentControl Content="{StaticResource ic_LockOpen}"
@@ -73,7 +73,7 @@
         </StackPanel>
 
         <TextBox x:Name="layerNameLabel"
-                Text="{Binding Layer.Name}"
+                Text="{Binding Layer.Name.Value}"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 Grid.Column="1"

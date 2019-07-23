@@ -29,6 +29,12 @@ namespace Ame.Infrastructure.Models
         {
             this.Name.Value = layerGroupName;
             this.Layers = layers;
+
+            this.Rows = BindableProperty.Prepare<int>();
+            this.Columns = BindableProperty.Prepare<int>();
+            this.OffsetX = BindableProperty.Prepare<int>();
+            this.OffsetY = BindableProperty.Prepare<int>();
+
             this.Layers.CollectionChanged += LayersChanged;
 
             this.pixelWidth.Value = GetPixelWidth();
@@ -42,7 +48,7 @@ namespace Ame.Infrastructure.Models
 
         #region properties
 
-        public BindableProperty<string> Name { get; set; } = BindableProperty.Prepare<string>(string.Empty);
+        public BindableProperty<string> Name { get; set; } = BindableProperty.Prepare<string>("wassai");
 
         public BindableProperty<bool> IsImmutable { get; set; } = BindableProperty.Prepare<bool>();
 
@@ -69,14 +75,61 @@ namespace Ame.Infrastructure.Models
 
         public LayerGroup Parent { get; set; }
 
-        // TODO these values do not return the correct values. These should be bound to the functions
-        public BindableProperty<int> Columns { get; set; } = BindableProperty.Prepare<int>();
+        public BindableProperty<int> columns;
+        public BindableProperty<int> Columns
+        {
+            get
+            {
+                this.columns.Value = GetColumns();
+                return this.columns;
+            }
+            set
+            {
+                this.columns = value;
+            }
+        }
 
-        public BindableProperty<int> Rows { get; set; } = BindableProperty.Prepare<int>();
+        public BindableProperty<int> rows;
+        public BindableProperty<int> Rows
+        {
+            get
+            {
+                this.rows.Value = GetRows();
+                return this.rows;
+            }
+            set
+            {
+                this.rows = value;
+            }
+        }
 
-        public BindableProperty<int> OffsetX { get; set; } = BindableProperty.Prepare<int>();
+        public BindableProperty<int> offsetX;
+        public BindableProperty<int> OffsetX
+        {
+            get
+            {
+                this.offsetX.Value = GetOffsetX();
+                return this.offsetX;
+            }
+            set
+            {
+                this.offsetX = value;
+            }
+        }
 
-        public BindableProperty<int> OffsetY { get; set; } = BindableProperty.Prepare<int>();
+        public BindableProperty<int> offsetY;
+        public BindableProperty<int> OffsetY
+        {
+            get
+            {
+                this.offsetY.Value = GetOffsetY();
+                return this.offsetY;
+            }
+            set
+            {
+                this.offsetY = value;
+            }
+        }
 
         private BindableProperty<int> pixelWidth = BindableProperty.Prepare<int>();
         private ReadOnlyBindableProperty<int> pixelWidthReadOnly;
@@ -201,6 +254,36 @@ namespace Ame.Infrastructure.Models
             UpdatePixelHeight();
         }
 
+        protected void UpdatePixelWidth(object sender, PropertyChangedEventArgs e)
+        {
+            this.pixelWidth.Value = GetPixelWidth();
+        }
+
+        protected void UpdatePixelWidth()
+        {
+            this.pixelWidth.Value = GetPixelWidth();
+        }
+
+        protected void UpdatePixelHeight(object sender, PropertyChangedEventArgs e)
+        {
+            this.pixelHeight.Value = GetPixelHeight();
+        }
+
+        protected void UpdatePixelHeight()
+        {
+            this.pixelHeight.Value = GetPixelHeight();
+        }
+
+        private int GetColumns()
+        {
+            return GetPixelHeight();
+        }
+
+        private int GetRows()
+        {
+            return GetPixelWidth();
+        }
+
         private int GetOffsetX()
         {
             int offsetX;
@@ -237,26 +320,6 @@ namespace Ame.Infrastructure.Models
                 offsetY = 0;
             }
             return offsetY;
-        }
-
-        protected void UpdatePixelWidth(object sender, PropertyChangedEventArgs e)
-        {
-            this.pixelWidth.Value = GetPixelWidth();
-        }
-
-        protected void UpdatePixelWidth()
-        {
-            this.pixelWidth.Value = GetPixelWidth();
-        }
-
-        protected void UpdatePixelHeight(object sender, PropertyChangedEventArgs e)
-        {
-            this.pixelHeight.Value = GetPixelHeight();
-        }
-
-        protected void UpdatePixelHeight()
-        {
-            this.pixelHeight.Value = GetPixelHeight();
         }
 
         #endregion methods

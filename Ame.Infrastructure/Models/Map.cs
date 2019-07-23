@@ -102,11 +102,11 @@ namespace Ame.Infrastructure.Models
 
         public BindableProperty<Project> Project { get; set; } = BindableProperty.Prepare<Project>();
 
-        public Layer CurrentLayer
+        public ILayer CurrentLayer
         {
             get
             {
-                return this.Layers[this.SelectedLayerIndex.Value] as Layer;
+                return this.Layers[this.SelectedLayerIndex.Value] as ILayer;
             }
         }
 
@@ -247,11 +247,16 @@ namespace Ame.Infrastructure.Models
             {
                 return null;
             }
+            if (!typeof(Layer).IsAssignableFrom(this.CurrentLayer.GetType()))
+            {
+                return null;
+            }
+            Layer currentLayer = this.CurrentLayer as Layer;
             int previousTileIndex = (int)(tile.Bounds.X / this.TileWidth.Value) + (int)(tile.Bounds.Y / this.TileHeight.Value) * this.Columns.Value;
-            ImageDrawing previousImage = this.CurrentLayer.LayerItems[previousTileIndex] as ImageDrawing;
-            Tile previousTileID = this.CurrentLayer.TileIDs[previousTileIndex];
+            ImageDrawing previousImage = currentLayer.LayerItems[previousTileIndex] as ImageDrawing;
+            Tile previousTileID = currentLayer.TileIDs[previousTileIndex];
 
-            this.CurrentLayer.TileIDs[previousTileIndex] = tile;
+            currentLayer.TileIDs[previousTileIndex] = tile;
             previousImage.Rect = tile.Bounds;
             Tile previousTile = new Tile(previousImage, previousTileID.TilesetID, previousTileID.TileID);
             return previousTile;

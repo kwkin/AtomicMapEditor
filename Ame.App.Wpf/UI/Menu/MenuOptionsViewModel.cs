@@ -259,7 +259,6 @@ namespace Ame.App.Wpf.UI.Menu
             this.actionHandler.OpenWindow(interaction);
         }
 
-        // TODO move to the window manager class
         public void OpenMap()
         {
             OpenMapInteraction interaction = new OpenMapInteraction();
