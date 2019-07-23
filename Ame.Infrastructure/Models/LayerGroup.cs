@@ -29,12 +29,7 @@ namespace Ame.Infrastructure.Models
         {
             this.Name.Value = layerGroupName;
             this.Layers = layers;
-
-            this.Rows = BindableProperty.Prepare<int>();
-            this.Columns = BindableProperty.Prepare<int>();
-            this.OffsetX = BindableProperty.Prepare<int>();
-            this.OffsetY = BindableProperty.Prepare<int>();
-
+            
             this.Layers.CollectionChanged += LayersChanged;
 
             this.pixelWidth.Value = GetPixelWidth();
@@ -75,61 +70,13 @@ namespace Ame.Infrastructure.Models
 
         public LayerGroup Parent { get; set; }
 
-        public BindableProperty<int> columns;
-        public BindableProperty<int> Columns
-        {
-            get
-            {
-                this.columns.Value = GetColumns();
-                return this.columns;
-            }
-            set
-            {
-                this.columns = value;
-            }
-        }
+        public BindableProperty<int> Columns { get; set; } = BindableProperty.Prepare<int>();
 
-        public BindableProperty<int> rows;
-        public BindableProperty<int> Rows
-        {
-            get
-            {
-                this.rows.Value = GetRows();
-                return this.rows;
-            }
-            set
-            {
-                this.rows = value;
-            }
-        }
+        public BindableProperty<int> Rows { get; set; } = BindableProperty.Prepare<int>();
 
-        public BindableProperty<int> offsetX;
-        public BindableProperty<int> OffsetX
-        {
-            get
-            {
-                this.offsetX.Value = GetOffsetX();
-                return this.offsetX;
-            }
-            set
-            {
-                this.offsetX = value;
-            }
-        }
+        public BindableProperty<int> OffsetX { get; set; } = BindableProperty.Prepare<int>();
 
-        public BindableProperty<int> offsetY;
-        public BindableProperty<int> OffsetY
-        {
-            get
-            {
-                this.offsetY.Value = GetOffsetY();
-                return this.offsetY;
-            }
-            set
-            {
-                this.offsetY = value;
-            }
-        }
+        public BindableProperty<int> OffsetY { get; set; } = BindableProperty.Prepare<int>();
 
         private BindableProperty<int> pixelWidth = BindableProperty.Prepare<int>();
         private ReadOnlyBindableProperty<int> pixelWidthReadOnly;
@@ -225,6 +172,14 @@ namespace Ame.Infrastructure.Models
                     foreach (ILayer layer in e.NewItems)
                     {
                         int index = e.NewStartingIndex;
+
+                        layer.Columns.PropertyChanged += UpdateOffsetX;
+                        layer.Columns.PropertyChanged += UpdateColumns;
+                        layer.Rows.PropertyChanged += UpdateOffsetY;
+                        layer.Rows.PropertyChanged += UpdatRows;
+                        layer.OffsetX.PropertyChanged += UpdateOffsetX;
+                        layer.OffsetY.PropertyChanged += UpdateOffsetY;
+
                         this.Group.Children.Insert(index, layer.Group);
                     }
                     break;
@@ -232,6 +187,13 @@ namespace Ame.Infrastructure.Models
                 case NotifyCollectionChangedAction.Remove:
                     foreach (ILayer layer in e.OldItems)
                     {
+                        layer.Columns.PropertyChanged -= UpdateOffsetX;
+                        layer.Columns.PropertyChanged -= UpdateColumns;
+                        layer.Rows.PropertyChanged -= UpdateOffsetY;
+                        layer.Rows.PropertyChanged -= UpdatRows;
+                        layer.OffsetX.PropertyChanged -= UpdateOffsetX;
+                        layer.OffsetY.PropertyChanged -= UpdateOffsetY;
+
                         this.Group.Children.Remove(layer.Group);
                     }
                     break;
@@ -252,6 +214,50 @@ namespace Ame.Infrastructure.Models
             }
             UpdatePixelWidth();
             UpdatePixelHeight();
+            UpdateOffsetX();
+            UpdateOffsetY();
+            UpdateColumns();
+            UpdateRows();
+        }
+
+        protected void UpdateOffsetX(object sender, PropertyChangedEventArgs e)
+        {
+            this.OffsetX.Value = GetOffsetX();
+        }
+
+        protected void UpdateOffsetX()
+        {
+            this.OffsetX.Value = GetOffsetX();
+        }
+
+        protected void UpdateOffsetY(object sender, PropertyChangedEventArgs e)
+        {
+            this.OffsetY.Value = GetOffsetY();
+        }
+
+        protected void UpdateOffsetY()
+        {
+            this.OffsetY.Value = GetOffsetY();
+        }
+
+        protected void UpdatRows(object sender, PropertyChangedEventArgs e)
+        {
+            this.Rows.Value = GetPixelWidth();
+        }
+
+        protected void UpdateRows()
+        {
+            this.Rows.Value = GetPixelWidth();
+        }
+
+        protected void UpdateColumns(object sender, PropertyChangedEventArgs e)
+        {
+            this.Columns.Value = GetPixelHeight();
+        }
+
+        protected void UpdateColumns()
+        {
+            this.Columns.Value = GetPixelHeight();
         }
 
         protected void UpdatePixelWidth(object sender, PropertyChangedEventArgs e)
