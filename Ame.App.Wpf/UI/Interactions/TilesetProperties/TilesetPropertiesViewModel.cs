@@ -34,7 +34,6 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
     {
         #region fields
 
-        private IEventAggregator eventAggregator;
         private IScrollModel scrollModel;
         private AmeSession session;
 
@@ -57,15 +56,14 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
 
 
         #region constructor
-        public TilesetPropertiesViewModel(IEventAggregator eventAggregator, IConstants constants, AmeSession session)
-            : this(eventAggregator, constants, session, ScrollModel.DefaultScrollModel())
+        public TilesetPropertiesViewModel(IConstants constants, AmeSession session)
+            : this(constants, session, ScrollModel.DefaultScrollModel())
         {
 
         }
 
-        public TilesetPropertiesViewModel(IEventAggregator eventAggregator, IConstants constants, AmeSession session, IScrollModel scrollModel)
+        public TilesetPropertiesViewModel(IConstants constants, AmeSession session, IScrollModel scrollModel)
         {
-            this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
             this.session = session ?? throw new ArgumentNullException("session");
             this.scrollModel = scrollModel ?? throw new ArgumentNullException("scrollModel");
 

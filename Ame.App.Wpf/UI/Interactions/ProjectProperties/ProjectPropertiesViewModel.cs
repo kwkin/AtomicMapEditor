@@ -17,7 +17,7 @@ using System.Windows.Input;
 
 namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
 {
-    // TODO remove event aggregator whereever it is not used.
+    // TODO remove event aggregator where ever it is not used.
     public class ProjectPropertiesViewModel : IInteractionRequestAware
     {
         #region fields
