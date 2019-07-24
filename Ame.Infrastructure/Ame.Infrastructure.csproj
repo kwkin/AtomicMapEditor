@@ -64,6 +64,8 @@
     <Compile Include="BaseTypes\IContainsMetadata.cs" />
     <Compile Include="BaseTypes\IWindowInteraction.cs" />
     <Compile Include="Core\IConstants.cs" />
+    <Compile Include="Events\CloseApplicationEvent.cs" />
+    <Compile Include="Events\Messages\CloseApplicationMessage.cs" />
     <Compile Include="Events\Messages\CloseDockMessage.cs" />
     <Compile Include="Handlers\ActionHandler.cs" />
     <Compile Include="Handlers\IActionHandler.cs" />

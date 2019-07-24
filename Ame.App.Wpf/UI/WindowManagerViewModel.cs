@@ -130,17 +130,21 @@ namespace Ame.App.Wpf.UI
             this.ZoomOutCommand = new DelegateCommand(() => this.actionHandler.ZoomOut());
             this.FitMapToWindowCommand = new DelegateCommand(() => this.actionHandler.FitMapToWindow());
 
-            this.eventAggregator.GetEvent<OpenDockEvent>().Subscribe((messge) =>
+            this.eventAggregator.GetEvent<OpenDockEvent>().Subscribe((message) =>
             {
-                OpenDock(messge);
+                OpenDock(message);
             }, ThreadOption.PublisherThread);
-            this.eventAggregator.GetEvent<CloseDockEvent>().Subscribe((messge) =>
+            this.eventAggregator.GetEvent<CloseDockEvent>().Subscribe((message) =>
             {
-                CloseDock(messge);
+                CloseDock(message);
             }, ThreadOption.PublisherThread);
-            this.eventAggregator.GetEvent<OpenWindowEvent>().Subscribe((messge) =>
+            this.eventAggregator.GetEvent<CloseApplicationEvent>().Subscribe((message) =>
             {
-                OpenWindow(messge);
+                CloseApplication();
+            }, ThreadOption.PublisherThread);
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Subscribe((message) =>
+            {
+                OpenWindow(message);
             }, ThreadOption.PublisherThread);
             this.eventAggregator.GetEvent<NotificationActionEvent<string>>().Subscribe(
                 SaveLayoutMessageReceived,
@@ -152,9 +156,9 @@ namespace Ame.App.Wpf.UI
                 ThreadOption.PublisherThread,
                 false,
                 (filter) => filter.Notification.Contains(MessageIds.LoadWorkspaceLayout));
-            this.eventAggregator.GetEvent<NotificationEvent<ViewNotification>>().Subscribe((messge) =>
+            this.eventAggregator.GetEvent<NotificationEvent<ViewNotification>>().Subscribe((message) =>
             {
-                ViewNotificationReceived(messge);
+                ViewNotificationReceived(message);
             }, ThreadOption.PublisherThread);
             this.eventAggregator.GetEvent<NotificationEvent<ZoomLevel>>().Subscribe((message) =>
             {
@@ -222,6 +226,11 @@ namespace Ame.App.Wpf.UI
         {
             IAmeSessionJsonWriter writer = new IAmeSessionJsonWriter();
             writer.Write(this.session, this.constants.SessionFileName);
+        }
+
+        private void CloseApplication()
+        {
+            Application.Current.MainWindow.Close();
         }
 
         private void NewProject()

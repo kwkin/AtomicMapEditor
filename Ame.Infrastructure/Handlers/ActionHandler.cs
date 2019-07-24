@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Ame.Infrastructure.Handlers
 {
@@ -133,7 +134,8 @@ namespace Ame.Infrastructure.Handlers
 
         public void ExitProgram()
         {
-            Console.WriteLine("Exiting Program");
+            CloseApplicationMessage message = new CloseApplicationMessage();
+            this.eventAggregator.GetEvent<CloseApplicationEvent>().Publish(message);
         }
 
         public void Undo()
