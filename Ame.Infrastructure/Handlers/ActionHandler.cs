@@ -18,14 +18,14 @@ namespace Ame.Infrastructure.Handlers
         #region fields
 
         private IEventAggregator eventAggregator;
-        private AmeSession session;
+        private IAmeSession session;
 
         #endregion fields
 
 
         #region constructor
 
-        public ActionHandler(IEventAggregator eventAggregator, AmeSession session)
+        public ActionHandler(IEventAggregator eventAggregator, IAmeSession session)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
             this.session = session ?? throw new ArgumentNullException("session");

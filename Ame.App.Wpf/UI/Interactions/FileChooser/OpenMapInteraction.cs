@@ -22,7 +22,7 @@ namespace Ame.App.Wpf.UI.Interactions.FileChooser
     {
         #region fields
 
-        private AmeSession session;
+        private IAmeSession session;
 
         #endregion fields
 
@@ -50,7 +50,7 @@ namespace Ame.App.Wpf.UI.Interactions.FileChooser
 
         #region methods
 
-        public void UpdateMissingContent(AmeSession session)
+        public void UpdateMissingContent(IAmeSession session)
         {
             this.session = session;
         }

@@ -15,14 +15,14 @@ namespace Ame.App.Wpf.UI
         #region fields
 
         private IEventAggregator eventAggregator;
-        private AmeSession session;
+        private IAmeSession session;
 
         #endregion fields
 
 
         #region constructor
 
-        public SessionManager(IEventAggregator eventAggregator, AmeSession session)
+        public SessionManager(IEventAggregator eventAggregator, IAmeSession session)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
             this.session = session ?? throw new ArgumentNullException("session");

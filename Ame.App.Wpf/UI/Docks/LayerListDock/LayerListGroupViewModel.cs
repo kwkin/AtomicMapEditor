@@ -18,14 +18,14 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         #region fields
 
         private IEventAggregator eventAggregator;
-        private AmeSession session;
+        private IAmeSession session;
 
         #endregion fields
 
 
         #region constructor
 
-        public LayerListGroupViewModel(IEventAggregator eventAggregator, AmeSession session, LayerGroup layer)
+        public LayerListGroupViewModel(IEventAggregator eventAggregator, IAmeSession session, LayerGroup layer)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
             this.session = session ?? throw new ArgumentNullException("session is null");

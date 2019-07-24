@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Ame.Infrastructure.Models.Serializer.Json
 {
-    public class AmeSessionJsonReader : IResourceReader<AmeSession>
+    public class IAmeSessionJsonReader : IResourceReader<IAmeSession>
     {
         #region fields
         
@@ -18,7 +18,7 @@ namespace Ame.Infrastructure.Models.Serializer.Json
 
         #region constructor
 
-        public AmeSessionJsonReader()
+        public IAmeSessionJsonReader()
         {
         }
 
@@ -32,9 +32,9 @@ namespace Ame.Infrastructure.Models.Serializer.Json
 
         #region methods
 
-        public AmeSession Read(string file)
+        public IAmeSession Read(string file)
         {
-            AmeSessionJson json = JsonConvert.DeserializeObject<AmeSessionJson>(File.ReadAllText(file));
+            IAmeSessionJson json = JsonConvert.DeserializeObject<IAmeSessionJson>(File.ReadAllText(file));
             return json.Generate();
         }
 

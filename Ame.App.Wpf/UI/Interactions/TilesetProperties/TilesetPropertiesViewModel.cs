@@ -35,7 +35,7 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
         #region fields
 
         private IScrollModel scrollModel;
-        private AmeSession session;
+        private IAmeSession session;
 
         private int tilesetPixelWidth;
         private int tilesetPixelHeight;
@@ -56,13 +56,13 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
 
 
         #region constructor
-        public TilesetPropertiesViewModel(IConstants constants, AmeSession session)
+        public TilesetPropertiesViewModel(IConstants constants, IAmeSession session)
             : this(constants, session, ScrollModel.DefaultScrollModel())
         {
 
         }
 
-        public TilesetPropertiesViewModel(IConstants constants, AmeSession session, IScrollModel scrollModel)
+        public TilesetPropertiesViewModel(IConstants constants, IAmeSession session, IScrollModel scrollModel)
         {
             this.session = session ?? throw new ArgumentNullException("session");
             this.scrollModel = scrollModel ?? throw new ArgumentNullException("scrollModel");

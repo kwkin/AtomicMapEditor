@@ -51,7 +51,7 @@ namespace Ame.App.Wpf.UI.Interactions.Popup
 
         #region methods
 
-        public void UpdateMissingContent(AmeSession session)
+        public void UpdateMissingContent(IAmeSession session)
         {
         }
 

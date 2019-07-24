@@ -20,7 +20,7 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
         #region constructors
 
-        public ProjectExplorerCreator(IEventAggregator eventAggregator, AmeSession session)
+        public ProjectExplorerCreator(IEventAggregator eventAggregator, IAmeSession session)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
             this.Session = session ?? throw new ArgumentNullException("session is null");
@@ -31,7 +31,7 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
         #region properties
 
-        public AmeSession Session { get; set; }
+        public IAmeSession Session { get; set; }
 
         #endregion properties
 

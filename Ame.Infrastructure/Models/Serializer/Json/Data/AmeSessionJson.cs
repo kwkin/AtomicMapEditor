@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 namespace Ame.Infrastructure.Models.Serializer.Json.Data
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class AmeSessionJson
+    public class IAmeSessionJson
     {
-        public AmeSessionJson()
+        public IAmeSessionJson()
         {
         }
 
-        public AmeSessionJson(AmeSession session)
+        public IAmeSessionJson(IAmeSession session)
         {
             this.Version = new Constants().Version;
             this.CurrentMap = session.CurrentMapIndex;
@@ -64,11 +64,11 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
         [JsonProperty(PropertyName = "TilesetDirectory")]
         public string LastTilesetDirectory { get; set; }
 
-        public AmeSession Generate()
+        public IAmeSession Generate()
         {
             // TODO figure out what to do about the tileset files. Should these be kept in project or map?
             IConstants constants = new Constants();
-            AmeSession session = new AmeSession(constants);
+            IAmeSession session = new AmeSession(constants);
 
             ResourceLoader loader = ResourceLoader.Instance;
             ProjectJsonReader projectReader = new ProjectJsonReader();

@@ -40,12 +40,12 @@ namespace Ame.App.Wpf
         {
             IEventAggregator eventAggregator = containerRegistry.GetContainer().Resolve<IEventAggregator>();
             IConstants constants = new Constants();
-            AmeSession session = new AmeSession(constants);
+            IAmeSession session = new AmeSession(constants);
             try
             {
                 if (File.Exists(constants.SessionFileName))
                 {
-                    AmeSessionJsonReader reader = new AmeSessionJsonReader();
+                    IAmeSessionJsonReader reader = new IAmeSessionJsonReader();
                     session = reader.Read(constants.SessionFileName);
                 }
             }
@@ -56,7 +56,7 @@ namespace Ame.App.Wpf
             IActionHandler actionHandler = new ActionHandler(eventAggregator, session);
 
             containerRegistry.RegisterInstance(typeof(IConstants), constants);
-            containerRegistry.RegisterInstance(typeof(AmeSession), session);
+            containerRegistry.RegisterInstance(typeof(IAmeSession), session);
             containerRegistry.RegisterInstance(typeof(IActionHandler), actionHandler);
 
             ViewModelLocationProvider.Register<MenuOptions, MenuOptionsViewModel>();

@@ -17,29 +17,29 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
 
         private IEventAggregator eventAggregator;
         private IConstants constants;
-        private AmeSession session;
+        private IAmeSession session;
 
         #endregion fields
 
 
         #region constructors
 
-        public ItemEditorCreator(IEventAggregator eventAggregator, IConstants constants, AmeSession session)
+        public ItemEditorCreator(IEventAggregator eventAggregator, IConstants constants, IAmeSession session)
             : this(eventAggregator, constants, session, null, null)
         {
         }
 
-        public ItemEditorCreator(IEventAggregator eventAggregator, IConstants constants, AmeSession session, TilesetModel tilesetModel)
+        public ItemEditorCreator(IEventAggregator eventAggregator, IConstants constants, IAmeSession session, TilesetModel tilesetModel)
             : this(eventAggregator, constants, session, tilesetModel, null)
         {
         }
 
-        public ItemEditorCreator(IEventAggregator eventAggregator, IConstants constants, AmeSession session, ScrollModel scrollModel)
+        public ItemEditorCreator(IEventAggregator eventAggregator, IConstants constants, IAmeSession session, ScrollModel scrollModel)
             : this(eventAggregator, constants, session, null, scrollModel)
         {
         }
 
-        public ItemEditorCreator(IEventAggregator eventAggregator, IConstants constants, AmeSession session, TilesetModel tilesetModel, ScrollModel scrollModel)
+        public ItemEditorCreator(IEventAggregator eventAggregator, IConstants constants, IAmeSession session, TilesetModel tilesetModel, ScrollModel scrollModel)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
             this.constants = constants ?? throw new ArgumentNullException("constants is null");

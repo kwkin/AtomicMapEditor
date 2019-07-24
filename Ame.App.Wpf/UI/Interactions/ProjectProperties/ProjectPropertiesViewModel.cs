@@ -17,19 +17,18 @@ using System.Windows.Input;
 
 namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
 {
-    // TODO remove event aggregator where ever it is not used.
     public class ProjectPropertiesViewModel : IInteractionRequestAware
     {
         #region fields
 
-        private AmeSession session;
+        private IAmeSession session;
 
         #endregion fields
 
 
         #region constructor
 
-        public ProjectPropertiesViewModel(AmeSession session)
+        public ProjectPropertiesViewModel(IAmeSession session)
         {
             this.session = session ?? throw new ArgumentNullException("session");
 

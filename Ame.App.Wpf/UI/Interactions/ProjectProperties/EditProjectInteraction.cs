@@ -59,7 +59,7 @@ namespace Ame.App.Wpf.UI.Interactions.ProjectProperties
 
         #region methods
 
-        public void UpdateMissingContent(AmeSession session)
+        public void UpdateMissingContent(IAmeSession session)
         {
             this.Project = this.Project ?? session.CurrentProject.Value;
             this.Title = string.Format("Edit Project - {0}", this.Project.Name);

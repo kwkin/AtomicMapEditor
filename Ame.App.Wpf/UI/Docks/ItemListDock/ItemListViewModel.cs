@@ -26,7 +26,7 @@ namespace Ame.App.Wpf.UI.Docks.ItemListDock
 
         #region constructor
 
-        public ItemListViewModel(IEventAggregator eventAggregator, AmeSession session)
+        public ItemListViewModel(IEventAggregator eventAggregator, IAmeSession session)
         {
             this.eventAggregator = eventAggregator;
             this.Session = session;
@@ -92,7 +92,7 @@ namespace Ame.App.Wpf.UI.Docks.ItemListDock
         public ICommand EditCollisionsCommand { get; private set; }
         public ICommand RenameItemCommand { get; private set; }
 
-        public AmeSession Session { get; set; }
+        public IAmeSession Session { get; set; }
         public ObservableCollection<IItem> Items { get; set; }
         public IItem Item { get; set; }
 

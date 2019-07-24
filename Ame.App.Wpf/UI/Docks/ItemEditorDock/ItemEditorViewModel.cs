@@ -56,22 +56,22 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
 
         #region constructor
 
-        public ItemEditorViewModel(IEventAggregator eventAggregator, IConstants constants, AmeSession session)
+        public ItemEditorViewModel(IEventAggregator eventAggregator, IConstants constants, IAmeSession session)
             : this(eventAggregator, constants, session, new TilesetModel(), Components.Behaviors.ScrollModel.DefaultScrollModel())
         {
         }
 
-        public ItemEditorViewModel(IEventAggregator eventAggregator, IConstants constants, AmeSession session, TilesetModel tilesetModel)
+        public ItemEditorViewModel(IEventAggregator eventAggregator, IConstants constants, IAmeSession session, TilesetModel tilesetModel)
             : this(eventAggregator, constants, session, tilesetModel, Components.Behaviors.ScrollModel.DefaultScrollModel())
         {
         }
 
-        public ItemEditorViewModel(IEventAggregator eventAggregator, IConstants constants, AmeSession session, IScrollModel scrollModel)
+        public ItemEditorViewModel(IEventAggregator eventAggregator, IConstants constants, IAmeSession session, IScrollModel scrollModel)
             : this(eventAggregator, constants, session, new TilesetModel(), scrollModel)
         {
         }
 
-        public ItemEditorViewModel(IEventAggregator eventAggregator, IConstants constants, AmeSession session, TilesetModel tilesetModel, IScrollModel scrollModel)
+        public ItemEditorViewModel(IEventAggregator eventAggregator, IConstants constants, IAmeSession session, TilesetModel tilesetModel, IScrollModel scrollModel)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
             this.Session = session ?? throw new ArgumentNullException("session is null");
@@ -161,7 +161,7 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
         public ICommand ZoomOutCommand { get; private set; }
         public ICommand SetZoomCommand { get; private set; }
 
-        public AmeSession Session { get; set; }
+        public IAmeSession Session { get; set; }
         public IScrollModel ScrollModel { get; set; }
 
         public BindableProperty<DrawingImage> TileImage { get; set; } = BindableProperty<DrawingImage>.Prepare();

@@ -26,7 +26,7 @@ namespace Ame.App.Wpf.UI.Docks.MinimapDock
         #region fields
 
         private IEventAggregator eventAggregator;
-        private AmeSession session;
+        private IAmeSession session;
 
         private DrawingGroup minimapLayers;
 
@@ -35,12 +35,12 @@ namespace Ame.App.Wpf.UI.Docks.MinimapDock
 
         #region constructor
 
-        public MinimapViewModel(IEventAggregator eventAggregator, AmeSession session)
+        public MinimapViewModel(IEventAggregator eventAggregator, IAmeSession session)
             : this(eventAggregator, session, Components.Behaviors.ScrollModel.DefaultScrollModel())
         {
         }
 
-        public MinimapViewModel(IEventAggregator eventAggregator, AmeSession session, IScrollModel scrollModel)
+        public MinimapViewModel(IEventAggregator eventAggregator, IAmeSession session, IScrollModel scrollModel)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
             this.session = session ?? throw new ArgumentNullException("session");

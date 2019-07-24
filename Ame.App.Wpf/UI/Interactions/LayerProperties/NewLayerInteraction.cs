@@ -22,7 +22,7 @@ namespace Ame.App.Wpf.UI.Interactions.LayerProperties
         #region fields
 
         private Layer layer;
-        private AmeSession session;
+        private IAmeSession session;
 
         #endregion fields
 
@@ -67,7 +67,7 @@ namespace Ame.App.Wpf.UI.Interactions.LayerProperties
 
         #region methods
 
-        public void UpdateMissingContent(AmeSession session)
+        public void UpdateMissingContent(IAmeSession session)
         {
             this.session = session;
             this.Map = this.Map ?? session.CurrentMap.Value;

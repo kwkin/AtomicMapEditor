@@ -14,14 +14,14 @@ namespace Ame.App.Wpf.UI.Docks.ToolboxDock
         #region fields
 
         private IEventAggregator eventAggregator;
-        private AmeSession session;
+        private IAmeSession session;
 
         #endregion fields
 
 
         #region constructors
 
-        public ToolboxCreator(IEventAggregator eventAggregator, AmeSession session)
+        public ToolboxCreator(IEventAggregator eventAggregator, IAmeSession session)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
             this.session = session ?? throw new ArgumentNullException("session is null");

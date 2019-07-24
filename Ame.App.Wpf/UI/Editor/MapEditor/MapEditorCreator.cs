@@ -17,19 +17,19 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
 
         private IEventAggregator eventAggregator;
         private IConstants constants;
-        private AmeSession session;
+        private IAmeSession session;
 
         #endregion fields
 
 
         #region constructors
 
-        public MapEditorCreator(IEventAggregator eventAggregator, IConstants constants, AmeSession session)
+        public MapEditorCreator(IEventAggregator eventAggregator, IConstants constants, IAmeSession session)
             : this(eventAggregator, constants, session, null, null)
         {
         }
 
-        public MapEditorCreator(IEventAggregator eventAggregator, IConstants constants, AmeSession session, Map map, ScrollModel scrollModel)
+        public MapEditorCreator(IEventAggregator eventAggregator, IConstants constants, IAmeSession session, Map map, ScrollModel scrollModel)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
             this.constants = constants ?? throw new ArgumentNullException("constants is null");

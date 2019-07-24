@@ -12,14 +12,14 @@ namespace Ame.Infrastructure.UILogic
     {
         #region fields
 
-        private AmeSession session;
+        private IAmeSession session;
 
         #endregion fields
 
 
         #region constructor
 
-        public LayerOrderRenderer(AmeSession session)
+        public LayerOrderRenderer(IAmeSession session)
         {
             this.session = session ?? throw new ArgumentNullException("session");
         }

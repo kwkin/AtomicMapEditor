@@ -46,7 +46,7 @@ namespace Ame.App.Wpf.UI
 
         private IEventAggregator eventAggregator;
         private IActionHandler actionHandler;
-        private AmeSession session;
+        private IAmeSession session;
 
         private IConstants constants;
         private Type[] dockTemplateTypes;
@@ -60,7 +60,7 @@ namespace Ame.App.Wpf.UI
 
         #region constructor
 
-        public WindowManagerViewModel(IEventAggregator eventAggregator, IConstants constants, AmeSession session, IActionHandler actionHandler, DockingManager dockManager)
+        public WindowManagerViewModel(IEventAggregator eventAggregator, IConstants constants, IAmeSession session, IActionHandler actionHandler, DockingManager dockManager)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
             this.constants = constants ?? throw new ArgumentNullException("constants");
@@ -220,7 +220,7 @@ namespace Ame.App.Wpf.UI
 
         private void CloseApplication(object sender, CancelEventArgs e)
         {
-            AmeSessionJsonWriter writer = new AmeSessionJsonWriter();
+            IAmeSessionJsonWriter writer = new IAmeSessionJsonWriter();
             writer.Write(this.session, this.constants.SessionFileName);
         }
 

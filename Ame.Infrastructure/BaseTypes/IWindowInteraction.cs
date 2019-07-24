@@ -30,7 +30,7 @@ namespace Ame.Infrastructure.BaseTypes
 
         #region methods
 
-        void UpdateMissingContent(AmeSession session);
+        void UpdateMissingContent(IAmeSession session);
 
         void RaiseNotification(DependencyObject parent);
 

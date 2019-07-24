@@ -30,7 +30,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
         private const double hoverSampleOpacity = 0.5;
 
         private IEventAggregator eventAggregator;
-        private AmeSession session;
+        private IAmeSession session;
 
         private ILayer currentLayer;
         private PaddedBrushModel brush;
@@ -56,12 +56,12 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
 
         #region constructor
 
-        public MapEditorViewModel(IEventAggregator eventAggregator, IConstants constants, AmeSession session, Map map)
+        public MapEditorViewModel(IEventAggregator eventAggregator, IConstants constants, IAmeSession session, Map map)
             : this(eventAggregator, constants, session, map, Components.Behaviors.ScrollModel.DefaultScrollModel())
         {
         }
 
-        public MapEditorViewModel(IEventAggregator eventAggregator, IConstants constants, AmeSession session, Map map, IScrollModel scrollModel)
+        public MapEditorViewModel(IEventAggregator eventAggregator, IConstants constants, IAmeSession session, Map map, IScrollModel scrollModel)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
             this.session = session ?? throw new ArgumentNullException("session is null");

@@ -43,7 +43,7 @@ namespace Ame.App.Wpf.UI.Menu
 
         #region constructor
 
-        public MenuOptionsViewModel(AmeSession session, IActionHandler actionHandler)
+        public MenuOptionsViewModel(IAmeSession session, IActionHandler actionHandler)
         {
             this.Session = session ?? throw new ArgumentNullException("session");
             this.actionHandler = actionHandler ?? throw new ArgumentNullException("actionHandler");
@@ -218,7 +218,7 @@ namespace Ame.App.Wpf.UI.Menu
         public ObservableCollection<MenuItem> RecentlyClosedDockItems { get; set; }
         public ObservableCollection<MenuItem> RecentFileItems { get; set; }
 
-        public AmeSession Session { get; set; }
+        public IAmeSession Session { get; set; }
 
         public bool IsShowGrid { get; set; }
         public bool IsShowRuler { get; set; }

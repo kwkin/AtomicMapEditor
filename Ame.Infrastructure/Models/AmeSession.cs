@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace Ame.Infrastructure.Models
 {
     // TODO implement ISession interface
-    public class AmeSession
+    public class AmeSession : IAmeSession
     {
         #region fields
 

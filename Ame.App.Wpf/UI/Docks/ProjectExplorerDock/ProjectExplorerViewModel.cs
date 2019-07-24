@@ -26,14 +26,14 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
         #region fields
 
         private IEventAggregator eventAggregator;
-        private AmeSession session;
+        private IAmeSession session;
 
         #endregion fields
 
 
         #region constructor
 
-        public ProjectExplorerViewModel(IEventAggregator eventAggregator, AmeSession session)
+        public ProjectExplorerViewModel(IEventAggregator eventAggregator, IAmeSession session)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
             this.session = session ?? throw new ArgumentNullException("session is null");

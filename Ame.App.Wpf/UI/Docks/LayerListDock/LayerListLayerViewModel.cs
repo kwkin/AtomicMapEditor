@@ -23,7 +23,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         #region fields
 
         private IEventAggregator eventAggregator;
-        private AmeSession session;
+        private IAmeSession session;
 
         DrawingGroup drawingGroup = new DrawingGroup();
         DrawingGroup filled = new DrawingGroup();
@@ -33,7 +33,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         #region constructor
 
-        public LayerListLayerViewModel(IEventAggregator eventAggregator, AmeSession session, Layer layer)
+        public LayerListLayerViewModel(IEventAggregator eventAggregator, IAmeSession session, Layer layer)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
             this.session = session ?? throw new ArgumentNullException("session is null");

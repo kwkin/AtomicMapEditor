@@ -30,7 +30,7 @@ namespace Ame.App.Wpf.UI.Ribbon
 
         #region constructor
 
-        public MapEditorRibbonViewModel(IEventAggregator eventAggregator, AmeSession session)
+        public MapEditorRibbonViewModel(IEventAggregator eventAggregator, IAmeSession session)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
             this.Session = session ?? throw new ArgumentNullException("session");
@@ -104,7 +104,7 @@ namespace Ame.App.Wpf.UI.Ribbon
 
         public ObservableCollection<ZoomLevel> ZoomLevels { get; set; }
 
-        public AmeSession Session { get; set; }
+        public IAmeSession Session { get; set; }
         public bool ISTHISFUCKINGBROKEN { get; set; }
 
         #endregion properties

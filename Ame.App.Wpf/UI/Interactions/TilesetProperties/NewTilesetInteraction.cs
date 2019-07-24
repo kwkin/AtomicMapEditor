@@ -18,7 +18,7 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
         #region fields
 
         private TilesetModel tilesetModel;
-        private AmeSession session;
+        private IAmeSession session;
 
         #endregion fields
 
@@ -50,7 +50,7 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
 
         #region methods
 
-        public void UpdateMissingContent(AmeSession session)
+        public void UpdateMissingContent(IAmeSession session)
         {
             this.session = session;
             this.Title = "New Tileset";

@@ -110,6 +110,7 @@
     <Compile Include="Models\AmeSession.cs" />
     <Compile Include="Models\BrushModel.cs" />
     <Compile Include="Models\GridModel.cs" />
+    <Compile Include="Models\IAmeSession.cs" />
     <Compile Include="Models\IItem.cs" />
     <Compile Include="Models\ILayer.cs" />
     <Compile Include="Models\ItemGroup.cs" />

@@ -59,7 +59,7 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
 
         #region methods
 
-        public void UpdateMissingContent(AmeSession session)
+        public void UpdateMissingContent(IAmeSession session)
         {
             this.Map = this.Map ?? session.CurrentMap.Value;
             this.Title = string.Format("Edit Map - {0}", this.Map.Name);

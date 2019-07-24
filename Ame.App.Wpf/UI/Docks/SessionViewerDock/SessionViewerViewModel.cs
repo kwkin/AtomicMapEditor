@@ -19,14 +19,14 @@ namespace Ame.App.Wpf.UI.Docks.SessionViewerDock
         #region fields
 
         private IEventAggregator eventAggregator;
-        private AmeSession session;
+        private IAmeSession session;
 
         #endregion fields
 
 
         #region constructor
 
-        public SessionViewerViewModel(IEventAggregator eventAggregator, AmeSession session)
+        public SessionViewerViewModel(IEventAggregator eventAggregator, IAmeSession session)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
             this.session = session ?? throw new ArgumentNullException("session is null");

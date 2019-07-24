@@ -55,7 +55,7 @@ namespace Ame.App.Wpf.UI.Interactions.LayerProperties
 
         #region methods
 
-        public void UpdateMissingContent(AmeSession session)
+        public void UpdateMissingContent(IAmeSession session)
         {
             this.Layer = this.Layer ?? session.CurrentLayer.Value;
             this.Title = this.Title ?? string.Format("Edit Layer - {0}", this.Layer.Name);
