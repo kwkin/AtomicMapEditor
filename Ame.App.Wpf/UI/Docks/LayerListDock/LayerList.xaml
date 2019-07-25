@@ -208,7 +208,7 @@
                         <local:LayerListGroup />
                     </HierarchicalDataTemplate>
 
-                    <DataTemplate DataType="{x:Type local:LayerListLayerViewModel}">
+                    <DataTemplate DataType="{x:Type local:LayerListEntryViewModel}">
                         <local:LayerListEntry>
                             <local:LayerListEntry.ContextMenu>
                                 <ContextMenu>

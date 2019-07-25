@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"  
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"  
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:Ame.App.Wpf.UI.Docks.LayerListDock" 
              xmlns:conv="clr-namespace:Ame.App.Wpf.UILogic.Converters" 
@@ -19,6 +20,7 @@
             <conv:BooleanToVisiblityConverter x:Key="BoolToVisConverterInverse"
                                               IsInversed="True"
                                               Collapse="True" />
+            <xctk:InverseBoolConverter x:Key="InverseBoolConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -77,25 +79,15 @@
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 Grid.Column="1"
-                IsReadOnly="True"
+                IsReadOnly="{Binding IsEditingName.Value, Converter={StaticResource InverseBoolConverter}}"
                 BorderThickness="0"
                 Background="Transparent">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
-                    <actions:SetPropertyAction PropertyName="IsReadOnly"
-                                            TargetObject="{Binding Text, ElementName=layerNameLabel}">
-                        <actions:SetPropertyAction.PropertyValue>
-                            <sys:Boolean>False</sys:Boolean>
-                        </actions:SetPropertyAction.PropertyValue>
-                    </actions:SetPropertyAction>
+                    <actions:EventToCommand Command="{Binding EditTextboxCommand, Mode=OneWay}" />
                 </i:EventTrigger>
                 <i:EventTrigger EventName="LostFocus">
-                    <actions:SetPropertyAction PropertyName="IsReadOnly"
-                                            TargetObject="{Binding Text, ElementName=layerNameLabel}">
-                        <actions:SetPropertyAction.PropertyValue>
-                            <sys:Boolean>True</sys:Boolean>
-                        </actions:SetPropertyAction.PropertyValue>
-                    </actions:SetPropertyAction>
+                    <actions:EventToCommand Command="{Binding StopEditingTextboxCommand, Mode=OneWay}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </TextBox>

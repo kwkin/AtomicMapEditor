@@ -267,14 +267,7 @@ namespace Ame.App.Wpf.UI
             CommandManager.InvalidateRequerySuggested();
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
-                if (this.IsBusy.Value == false)
-                {
-                    Mouse.OverrideCursor = null;
-                }
-                else
-                {
-                    Mouse.OverrideCursor = Cursors.Wait;
-                }
+                Mouse.OverrideCursor = this.IsBusy.Value ? Cursors.Wait : null;
             }),
             DispatcherPriority.Background);
         }

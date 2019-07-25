@@ -1,4 +1,6 @@
-﻿using Ame.Infrastructure.Models;
+﻿using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Models;
+using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using System;
@@ -9,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Ame.App.Wpf.UI.Docks.LayerListDock
@@ -45,12 +48,18 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             drawingGroup.Children.Add(filled);
             drawingGroup.Children.Add(layer.Group);
             this.layerPreview = new DrawingImage(drawingGroup);
+
+            this.EditTextboxCommand = new DelegateCommand(() => EditTextbox());
+            this.StopEditingTextboxCommand = new DelegateCommand(() => StopEditingTextbox());
         }
 
         #endregion constructor
 
 
         #region properties
+        public ICommand EditTextboxCommand { get; private set; }
+        public ICommand StopEditingTextboxCommand { get; private set; }
+
 
         public LayerGroup layer;
         public ILayer Layer
@@ -78,6 +87,8 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         }
 
         public ObservableCollection<ILayerListEntryViewModel> Layers { get; private set; }
+
+        public BindableProperty<bool> IsEditingName { get; set; } = BindableProperty<bool>.Prepare(false);
 
         #endregion properties
 
@@ -118,6 +129,16 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                 default:
                     break;
             }
+        }
+
+        private void EditTextbox()
+        {
+            this.IsEditingName.Value = true;
+        }
+
+        private void StopEditingTextbox()
+        {
+            this.IsEditingName.Value = false;
         }
 
         #endregion methods

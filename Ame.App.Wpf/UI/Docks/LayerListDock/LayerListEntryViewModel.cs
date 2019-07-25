@@ -1,4 +1,5 @@
 ﻿using Ame.App.Wpf.UI.Interactions.LayerProperties;
+using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Utils;
@@ -18,7 +19,7 @@ using System.Windows.Media;
 
 namespace Ame.App.Wpf.UI.Docks.LayerListDock
 {
-    public class LayerListLayerViewModel : ILayerListEntryViewModel
+    public class LayerListEntryViewModel : ILayerListEntryViewModel
     {
         #region fields
 
@@ -33,7 +34,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         #region constructor
 
-        public LayerListLayerViewModel(IEventAggregator eventAggregator, IAmeSession session, Layer layer)
+        public LayerListEntryViewModel(IEventAggregator eventAggregator, IAmeSession session, Layer layer)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
             this.session = session ?? throw new ArgumentNullException("session is null");
@@ -58,6 +59,8 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             this.LayerToMapSizeCommand = new DelegateCommand(() => LayerToMapSize());
             this.DuplicateLayerCommand = new DelegateCommand(() => DuplicateLayer());
             this.RemoveLayerCommand = new DelegateCommand(() => RemoveLayer());
+            this.EditTextboxCommand = new DelegateCommand(() => EditTextbox());
+            this.StopEditingTextboxCommand = new DelegateCommand(() => StopEditingTextbox());
         }
 
         #endregion constructor
@@ -71,6 +74,8 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         public ICommand MoveLayerUpCommand { get; private set; }
         public ICommand DuplicateLayerCommand { get; private set; }
         public ICommand RemoveLayerCommand { get; private set; }
+        public ICommand EditTextboxCommand { get; private set; }
+        public ICommand StopEditingTextboxCommand { get; private set; }
 
         public ILayer layer;
         public ILayer Layer
@@ -94,6 +99,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             }
         }
 
+        public BindableProperty<bool> IsEditingName { get; set; } = BindableProperty<bool>.Prepare(false);
 
         #endregion properties
 
@@ -157,6 +163,16 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         private void LayerSizeChanged(object sender, PropertyChangedEventArgs e)
         {
             RefreshPreview();
+        }
+
+        private void EditTextbox()
+        {
+            this.IsEditingName.Value = true;
+        }
+
+        private void StopEditingTextbox()
+        {
+            this.IsEditingName.Value = false;
         }
 
         #endregion methods

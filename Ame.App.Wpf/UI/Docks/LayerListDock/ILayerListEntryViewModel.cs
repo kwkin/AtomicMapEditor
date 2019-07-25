@@ -15,7 +15,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             ILayerListEntryViewModel entry = null;
             if (typeof(Layer).IsInstanceOfType(layer))
             {
-                entry = new LayerListLayerViewModel(eventAggregator, session, layer as Layer);
+                entry = new LayerListEntryViewModel(eventAggregator, session, layer as Layer);
             }
             else if (typeof(LayerGroup).IsInstanceOfType(layer))
             {

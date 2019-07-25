@@ -130,7 +130,7 @@
     </Compile>
     <Compile Include="UI\Docks\LayerListDock\LayerListGroupViewModel.cs" />
     <Compile Include="UI\Docks\LayerListDock\LayerListViewModel.cs" />
-    <Compile Include="UI\Docks\LayerListDock\LayerListLayerViewModel.cs" />
+    <Compile Include="UI\Docks\LayerListDock\LayerListEntryViewModel.cs" />
     <Compile Include="UI\Docks\MinimapDock\Minimap.xaml.cs">
       <DependentUpon>Minimap.xaml</DependentUpon>
     </Compile>
