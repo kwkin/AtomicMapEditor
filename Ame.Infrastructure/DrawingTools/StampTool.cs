@@ -133,11 +133,11 @@ namespace Ame.Infrastructure.DrawingTools
                     Rect rect = new Rect(topLeft, bottomRight);
                     context.DrawRectangle(this.AreaBrush, this.AreaPen, rect);
                 }
-                foreach (Tile tile in tiles)
+                if (typeof(Layer).IsAssignableFrom(map.CurrentLayer.GetType()))
                 {
-                    if (!typeof(Layer).IsAssignableFrom(map.CurrentLayer.GetType()))
+                    Layer currentLayer = map.CurrentLayer as Layer;
+                    foreach (Tile tile in tiles)
                     {
-                        Layer currentLayer = map.CurrentLayer as Layer;
                         if (tile.Bounds.IntersectsWith(currentLayer.GetBoundsExclusive()))
                         {
                             context.DrawDrawing(tile.Image.Value);

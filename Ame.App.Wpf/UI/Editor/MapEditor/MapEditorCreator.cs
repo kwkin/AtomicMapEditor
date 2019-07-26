@@ -29,6 +29,16 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
         {
         }
 
+        public MapEditorCreator(IEventAggregator eventAggregator, IConstants constants, IAmeSession session, ScrollModel scrollModel)
+            : this(eventAggregator, constants, session, null, scrollModel)
+        {
+        }
+
+        public MapEditorCreator(IEventAggregator eventAggregator, IConstants constants, IAmeSession session, Map map)
+            : this(eventAggregator, constants, session, map, null)
+        {
+        }
+
         public MapEditorCreator(IEventAggregator eventAggregator, IConstants constants, IAmeSession session, Map map, ScrollModel scrollModel)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");

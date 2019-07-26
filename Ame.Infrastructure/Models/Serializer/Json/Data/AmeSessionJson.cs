@@ -115,6 +115,7 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
                     Console.Error.WriteLine(builder);
                 }
             }
+            // TODO Bug: the current map index is incorrect when a map editor is closed.
             AmeSession session = new AmeSession(maps, projects, this.WorkspaceDirectory, this.LastTilesetDirectory, this.LastMapDirectory, this.Version);
             session.CurrentMap.Value = maps[this.CurrentMap];
             return session;

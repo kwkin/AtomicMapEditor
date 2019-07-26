@@ -37,6 +37,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Ame.App.Wpf.UI.Interactions.FileChooser;
+using System.Collections.Specialized;
 
 namespace Ame.App.Wpf.UI
 {
@@ -75,7 +76,7 @@ namespace Ame.App.Wpf.UI
 
             foreach (Map map in session.Maps)
             {
-                MapEditorCreator mapEditorCreator = new MapEditorCreator(this.eventAggregator, constants, this.session);
+                MapEditorCreator mapEditorCreator = new MapEditorCreator(this.eventAggregator, constants, this.session, map);
                 DockViewModelTemplate dockViewModel = mapEditorCreator.CreateDock();
                 AddDockViewModel(dockViewModel);
             }
@@ -108,7 +109,7 @@ namespace Ame.App.Wpf.UI
             this.IsBusy.PropertyChanged += IsBusyChanged;
             this.ActiveDock.PropertyChanged += ActiveDockPropertyChanged;
             this.ActiveDocument.PropertyChanged += ActiveDocumentPropertyChanged;
-
+            this.session.Maps.CollectionChanged += MapsChanged;
             Application.Current.MainWindow.Closing += CloseApplication;
 
             this.NewProjectCommand = new DelegateCommand(() => NewProject());
@@ -167,10 +168,6 @@ namespace Ame.App.Wpf.UI
             this.eventAggregator.GetEvent<NotificationEvent<SaveMessage>>().Subscribe((message) =>
             {
                 SaveAs(message);
-            }, ThreadOption.PublisherThread);
-            this.eventAggregator.GetEvent<NotificationEvent<OpenMapMessage>>().Subscribe((message) =>
-            {
-                OpenMap(message);
             }, ThreadOption.PublisherThread);
             this.eventAggregator.GetEvent<NotificationEvent<StateMessage>>().Subscribe((message) =>
             {
@@ -300,12 +297,7 @@ namespace Ame.App.Wpf.UI
         {
             if (this.ActiveDocument.Value is MapEditorViewModel)
             {
-                Map selectedMapContent = this.ActiveDocument.Value.GetContent() as Map;
-                if (!this.session.Maps.Contains(selectedMapContent))
-                {
-                    this.session.Maps.Add(selectedMapContent);
-                }
-                this.session.SetCurrentMap(selectedMapContent);
+                this.session.CurrentMap.Value = this.ActiveDocument.Value.GetContent() as Map;
             }
             ActiveDocumentChanged?.Invoke(this, EventArgs.Empty);
         }
@@ -363,6 +355,33 @@ namespace Ame.App.Wpf.UI
             interaction.RaiseNotification(this.WindowManager);
         }
 
+        private void MapsChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    foreach(Map map in e.NewItems)
+                    {
+                        OpenDockMessage openMapEditorMessage = new OpenDockMessage(typeof(MapEditorViewModel), map);
+                        this.eventAggregator.GetEvent<OpenDockEvent>().Publish(openMapEditorMessage);
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    foreach (Map map in e.OldItems)
+                    {
+                        IEnumerable<MapEditorViewModel> mapViewModels = this.Documents.OfType<MapEditorViewModel>();
+                        IEnumerable<MapEditorViewModel> removedMapViewModels = mapViewModels.Where(viewModel => viewModel.Map.Value == map);
+                        foreach(MapEditorViewModel removedMapViewModel in removedMapViewModels)
+                        {
+                            this.Documents.Remove(removedMapViewModel);
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
         private void SaveLayoutMessageReceived(NotificationActionMessage<string> message)
         {
             string xmlLayoutString = string.Empty;
@@ -397,7 +416,10 @@ namespace Ame.App.Wpf.UI
             if (registeredType != null)
             {
                 DockViewModelTemplate dockViewModel = this.dockCreator.CreateDock(registeredType);
-                AddDockViewModel(dockViewModel);
+                if (!(dockViewModel is MapEditorViewModel))
+                {
+                    AddDockViewModel(dockViewModel);
+                }
                 args.Content = dockViewModel;
             }
         }
@@ -444,21 +466,6 @@ namespace Ame.App.Wpf.UI
             SaveMessage content = message.Content;
             content.Map.WriteFile(content.Path);
             content.Map.Project.Value.UpdateFile();
-        }
-
-        private void OpenMap(NotificationMessage<OpenMapMessage> message)
-        {
-            OpenMapMessage content = message.Content;
-            Map importedMap = content.Map;
-
-            OpenDockMessage openEditorMessage = new OpenDockMessage(typeof(MapEditorViewModel), importedMap);
-            foreach (TilesetModel tileset in importedMap.Tilesets)
-            {
-                this.session.CurrentTilesets.Add(tileset);
-            }
-            this.session.CurrentMap.Value = importedMap;
-            CollectionViewSource.GetDefaultView(this.session.CurrentLayers).Refresh();
-            this.eventAggregator.GetEvent<OpenDockEvent>().Publish(openEditorMessage);
         }
 
         private void ExportAs(NotificationMessage<StateMessage> message)

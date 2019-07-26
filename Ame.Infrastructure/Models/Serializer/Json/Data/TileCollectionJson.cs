@@ -30,9 +30,10 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
         [JsonProperty(PropertyName = "Positions")]
         public IList<int> Positions { get; set; }
 
-        public TileCollection Generate(Layer layer, ObservableCollection<TilesetModel> tilesets)
+        public TileCollection Generate(Layer layer, IList<TilesetModel> tilesets)
         {
             TileCollection collection = new TileCollection(layer);
+            int positionIndex = 0;
             for (int index = 0; index < this.Positions.Count - 1; index += 2)
             {
                 Tile tile = new Tile(this.Positions[index], this.Positions[index + 1]);
@@ -49,7 +50,7 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
                     tile.Image.Value = Tile.EmptyTile(topLeft).Image.Value;
                 }
 
-                collection.Tiles.Add(tile);
+                collection.Tiles[positionIndex++] = tile;
             }
             return collection;
         }

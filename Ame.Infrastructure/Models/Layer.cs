@@ -36,6 +36,10 @@ namespace Ame.Infrastructure.Models
         {
         }
 
+        public Layer(string layerName, int tileWidth, int tileHeight, int rows, int columns)
+            : this(null, layerName, tileWidth, tileHeight, rows, columns)
+        {
+        }
         public Layer(Map map, string layerName, int tileWidth, int tileHeight, int rows, int columns)
         {
             this.Map = map;
@@ -159,6 +163,7 @@ namespace Ame.Infrastructure.Models
 
         public LayerGroup Parent { get; set; }
 
+        // TODO change to a bindable property
         public Map Map { get; set; }
 
         public ObservableCollection<MetadataProperty> CustomProperties { get; set; }

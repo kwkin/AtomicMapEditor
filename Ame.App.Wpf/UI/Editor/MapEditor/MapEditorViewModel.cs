@@ -108,13 +108,14 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             UpdateMapRecentlySaved();
 
             this.session.CurrentLayer.PropertyChanged += CurrentLayerChanged;
+            this.Map.Value.Name.PropertyChanged += MapNameChanged;
             this.Map.Value.Layers.CollectionChanged += LayersChanged;
+            this.Map.Value.IsModified.PropertyChanged += MapIsModifiedChanged;
+            this.Map.Value.IsStored.PropertyChanged += MapIsStoredChanged;
             this.ScrollModel.PropertyChanged += ScrollModelPropertyChanged;
             this.BackgroundBrush.PropertyChanged += BackgroundChanged;
             this.BackgroundPen.PropertyChanged += BackgroundChanged;
             this.HoverSampleOpacity.PropertyChanged += HoverSampleOpacityChanged;
-            this.Map.Value.IsModified.PropertyChanged += MapIsModifiedChanged;
-            this.Map.Value.IsStored.PropertyChanged += MapIsStoredChanged;
 
             this.ShowGridCommand = new DelegateCommand(() => DrawGrid(this.IsGridOn.Value));
             this.HandleMouseMoveCommand = new DelegateCommand<object>((point) => HandleMouseMove((Point)point));
@@ -498,6 +499,11 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             DrawLayerBoundaries(this.session.CurrentLayer.Value);
         }
 
+        private void MapNameChanged(object sender, PropertyChangedEventArgs e)
+        {
+            UpdateMapRecentlySaved();
+        }
+
         private void MapIsStoredChanged(object sender, PropertyChangedEventArgs e)
         {
             UpdateMapRecentlySaved();
@@ -511,8 +517,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
         private void UpdateMapRecentlySaved()
         {
             bool isMapRecentlySaved = !this.Map.Value.IsStored.Value || this.Map.Value.IsModified.Value;
-            this.Title.Value = isMapRecentlySaved ? this.Map.Name + "*" : this.Map.Name;
-            ;
+            this.Title.Value = isMapRecentlySaved ? this.Map.Value.Name.Value + "*" : this.Map.Value.Name.Value;
         }
 
         private void RedrawBackground()

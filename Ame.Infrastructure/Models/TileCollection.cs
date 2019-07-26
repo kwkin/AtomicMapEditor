@@ -35,7 +35,7 @@ namespace Ame.Infrastructure.Models
             this.Tiles.CollectionChanged += TilesCollectionChanged;
             RenderOptions.SetEdgeMode(this.Group, EdgeMode.Aliased);
 
-            this.Initialize();
+            Initialize();
         }
 
         #endregion constructor

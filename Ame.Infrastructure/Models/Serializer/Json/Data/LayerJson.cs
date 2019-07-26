@@ -77,14 +77,13 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
         
         public Layer Generate(Map map)
         {
-            ObservableCollection<TilesetModel> tilesetList = map.Tilesets;
-            Layer layer = new Layer(map);
+            return Generate(map.Tilesets);
+        }
+
+        public Layer Generate(IList<TilesetModel> tilesets)
+        {
+            Layer layer = new Layer(this.Name, this.TileWidth, this.TileHeight, this.Rows, this.Columns);
             layer.ID = this.ID;
-            layer.Name.Value = this.Name;
-            layer.Columns.Value = this.Columns;
-            layer.Rows.Value = this.Rows;
-            layer.TileWidth.Value = this.TileWidth;
-            layer.TileHeight.Value = this.TileHeight;
             layer.OffsetX.Value = this.OffsetX;
             layer.OffsetY.Value = this.OffsetY;
             layer.Position.Value = this.Position;
@@ -92,7 +91,7 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
             layer.ScrollRate.Value = this.ScrollRate;
             layer.IsImmutable.Value = this.IsImmutable;
             layer.IsVisible.Value = this.IsVisible;
-            layer.TileIDs = this.Tiles.Generate(layer, tilesetList);
+            layer.TileIDs = this.Tiles.Generate(layer, tilesets);
             return layer;
         }
     }

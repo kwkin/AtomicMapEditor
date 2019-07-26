@@ -39,6 +39,11 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             this.Title.Value = "Layer List";
             this.Layers = new ObservableCollection<ILayerListEntryViewModel>();
 
+            if (this.Session.CurrentMap.Value != null)
+            {
+                ChangeMap(this.Session.CurrentMap.Value);
+            }
+
             this.Session.CurrentMap.PropertyChanged += CurrentMapChanged;
 
             this.NewLayerCommand = new DelegateCommand(() => NewTilesetLayer());
@@ -172,13 +177,18 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         public void CurrentMapChanged(object d, PropertyChangedEventArgs e)
         {
+            ChangeMap(this.Session.CurrentMap.Value);
+        }
+
+        public void ChangeMap(Map map)
+        {
             this.Layers.Clear();
             if (this.previousMap != null)
             {
-                previousMap.Layers.CollectionChanged -= UpdateLayerList;
+                this.previousMap.Layers.CollectionChanged -= UpdateLayerList;
             }
-            this.previousMap = this.Session.CurrentMap.Value;
-            this.Session.CurrentMap.Value.Layers.CollectionChanged += UpdateLayerList;
+            this.previousMap = map;
+            map.Layers.CollectionChanged += UpdateLayerList;
             foreach (ILayer layer in this.Session.CurrentLayers)
             {
                 ILayerListEntryViewModel entry = LayerListEntryGenerator.Generate(this.eventAggregator, this.Session, layer);
@@ -188,7 +198,6 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         private void UpdateLayerList(object sender, NotifyCollectionChangedEventArgs e)
         {
-            Console.WriteLine("Updating Layer List");
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
@@ -232,12 +241,6 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                 default:
                     break;
             }
-        }
-
-        private int GetLayerGroupCount()
-        {
-            IEnumerable<LayerGroup> groups = this.Session.CurrentLayers.OfType<LayerGroup>();
-            return groups.Count<LayerGroup>();
         }
 
         #endregion methods

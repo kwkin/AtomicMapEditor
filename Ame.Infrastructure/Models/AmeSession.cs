@@ -62,6 +62,7 @@ namespace Ame.Infrastructure.Models
 
         public ObservableCollection<Map> Maps { get; set; }
 
+        // TODO change to a bindable property
         public ObservableCollection<ILayer> CurrentLayers
         {
             get
@@ -75,6 +76,7 @@ namespace Ame.Infrastructure.Models
             }
         }
 
+        // TODO change to a bindable property
         public ObservableCollection<TilesetModel> CurrentTilesets { get; set; }
 
         public BindableProperty<Project> CurrentProject { get; set; } = BindableProperty.Prepare<Project>();

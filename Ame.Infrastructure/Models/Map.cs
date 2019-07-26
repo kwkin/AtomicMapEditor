@@ -50,6 +50,17 @@ namespace Ame.Infrastructure.Models
         }
 
         public Map(Project project, string name, int columns, int rows)
+            : this(project, name, columns, rows, new List<ILayer>(), new List<TilesetModel>())
+        {
+        }
+
+        public Map(string name, int columns, int rows, IList<ILayer> layers, IList<TilesetModel> tilesets)
+            : this(null, name, columns, rows, layers, tilesets)
+        {
+
+        }
+
+        public Map(Project project, string name, int columns, int rows, IList<ILayer> layers, IList<TilesetModel> tilesets)
             : base(columns, rows, 32, 32)
         {
             this.Project.Value = project;
@@ -60,15 +71,14 @@ namespace Ame.Infrastructure.Models
             this.Scale.Value = ScaleType.Tile;
             this.PixelScale.Value = 1;
             this.Description.Value = "";
-            this.Layers = new ObservableCollection<ILayer>();
-            this.Tilesets = new ObservableCollection<TilesetModel>();
+            this.Layers = new ObservableCollection<ILayer>(layers);
+            this.Tilesets = new ObservableCollection<TilesetModel>(tilesets);
             this.CustomProperties = new ObservableCollection<MetadataProperty>();
-
+            
             this.UndoQueue = new ObservableStack<DrawAction>();
             this.RedoQueue = new ObservableStack<DrawAction>();
 
-            Layer initialLayer = new Layer(this, "Layer #0", this.TileWidth.Value, this.TileHeight.Value, this.Rows.Value, this.Columns.Value);
-            this.Layers.Add(initialLayer);
+            InitializeLayers();
 
             UpdatePixelWidth();
             UpdatePixelHeight();
@@ -401,6 +411,22 @@ namespace Ame.Infrastructure.Models
             }
             int pixelHeight = bottommost - topmost;
             return pixelHeight;
+        }
+
+        private void InitializeLayers()
+        {
+            if (this.Layers.Count == 0)
+            {
+                Layer initialLayer = new Layer(this, "Layer #0", this.TileWidth.Value, this.TileHeight.Value, this.Rows.Value, this.Columns.Value);
+                this.Layers.Add(initialLayer);
+            }
+            else
+            {
+                foreach (ILayer layer in this.Layers)
+                {
+                    layer.Map = this;
+                }
+            }
         }
 
         private void SourcePathChanged(object sender, PropertyChangedEventArgs e)

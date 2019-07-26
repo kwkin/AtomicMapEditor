@@ -113,8 +113,7 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
             if (confirmation.Confirmed)
             {
                 Map newMap = confirmation.Content as Map;
-                OpenDockMessage openEditorMessage = new OpenDockMessage(typeof(MapEditorViewModel), newMap);
-                this.EventAggregator.GetEvent<OpenDockEvent>().Publish(openEditorMessage);
+                this.session.Maps.Add(newMap);
                 if (this.Project != null)
                 {
                     newMap.Project.Value = this.Project;

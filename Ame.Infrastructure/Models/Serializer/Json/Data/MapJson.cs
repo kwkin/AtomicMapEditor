@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Ame.Infrastructure.Handlers;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -80,27 +81,29 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
 
         public Map Generate()
         {
-            Map map = new Map();
+            // TODO user a loader for tileset models
+            IList<TilesetModel> tilesets = new List<TilesetModel>();
+            foreach (TilesetJson tilesetJson in this.TilesetJsons)
+            {
+                TilesetModel tileset = tilesetJson.Generate();
+                tilesets.Add(tileset);
+                tileset.RefreshTilesetImage();
+            }
+
+            IList<ILayer> layers = new List<ILayer>();
+            foreach (LayerJson layer in this.LayerJsons)
+            {
+                layers.Add(layer.Generate(tilesets));
+            }
+
+            Map map = new Map(this.Name, this.Columns, this.Rows, layers, tilesets);
             map.Version.Value = this.Version;
-            map.Name.Value = this.Name;
             map.Author.Value = this.Author;
-            map.Rows.Value = this.Rows;
-            map.Columns.Value = this.Columns;
             map.TileWidth.Value = this.TileWidth;
             map.TileHeight.Value = this.TileHeight;
             map.Scale.Value = this.Scale;
             map.BackgroundColor.Value = this.BackgroundColor;
             map.Description.Value = this.Description;
-            foreach (TilesetJson tilesetJson in this.TilesetJsons)
-            {
-                TilesetModel tileset = tilesetJson.Generate();
-                map.Tilesets.Add(tileset);
-                tileset.RefreshTilesetImage();
-            }
-            foreach (LayerJson layer in this.LayerJsons)
-            {
-                map.Layers.Add(layer.Generate(map));
-            }
             return map;
         }
     }

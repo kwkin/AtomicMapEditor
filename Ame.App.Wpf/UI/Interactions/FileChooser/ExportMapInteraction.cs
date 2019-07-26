@@ -55,6 +55,7 @@ namespace Ame.App.Wpf.UI.Interactions.FileChooser
 
         public void RaiseNotification(DependencyObject parent)
         {
+            // TODO set default filename to be equal to the name of the map
             SaveFileDialog exportMapDialog = new SaveFileDialog();
             exportMapDialog.Title = "Export Map";
             exportMapDialog.Filter = ExportMapExtension.GetOpenFileExportMapExtensions();

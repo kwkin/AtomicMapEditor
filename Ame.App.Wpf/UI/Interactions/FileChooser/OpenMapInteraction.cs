@@ -71,10 +71,7 @@ namespace Ame.App.Wpf.UI.Interactions.FileChooser
                     Map importedMap = loader.Load<Map>(file, reader);
 
                     this.session.LastMapDirectory.Value = Directory.GetParent(file).FullName;
-
-                    OpenMapMessage message = new OpenMapMessage(importedMap);
-                    NotificationMessage<OpenMapMessage> notification = new NotificationMessage<OpenMapMessage>(message);
-                    this.EventAggregator.GetEvent<NotificationEvent<OpenMapMessage>>().Publish(notification);
+                    this.session.Maps.Add(importedMap);
                 }
             }
         }

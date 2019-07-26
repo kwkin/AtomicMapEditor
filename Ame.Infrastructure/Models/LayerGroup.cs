@@ -43,7 +43,8 @@ namespace Ame.Infrastructure.Models
 
         #region properties
 
-        public BindableProperty<string> Name { get; set; } = BindableProperty.Prepare<string>("wassai");
+        public Map Map { get; set; }
+        public BindableProperty<string> Name { get; set; } = BindableProperty.Prepare<string>(string.Empty);
 
         public BindableProperty<bool> IsImmutable { get; set; } = BindableProperty.Prepare<bool>();
 
