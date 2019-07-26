@@ -109,7 +109,6 @@
     <Compile Include="Events\Messages\OpenDockMessage.cs" />
     <Compile Include="Events\Messages\OpenMessage.cs" />
     <Compile Include="Events\Messages\SaveMessage.cs" />
-    <Compile Include="Events\Messages\StateMessage.cs" />
     <Compile Include="Models\AmeSession.cs" />
     <Compile Include="Models\BrushModel.cs" />
     <Compile Include="Models\GridModel.cs" />

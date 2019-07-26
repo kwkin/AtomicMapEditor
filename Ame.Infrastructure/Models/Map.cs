@@ -13,7 +13,9 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Ame.Infrastructure.Models
 {
@@ -350,6 +352,49 @@ namespace Ame.Infrastructure.Models
             if (this.SourcePath != null)
             {
                 WriteFile(this.SourcePath.Value);
+            }
+        }
+
+        public void ExportAs(string path, BitmapEncoder encoder)
+        {
+            if (encoder == null)
+            {
+                return;
+            }
+            int width = GetPixelWidth();
+            int height = GetPixelHeight();
+            var bitmap = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Pbgra32);
+            encoder.Frames.Add(BitmapFrame.Create(bitmap));
+
+            DrawingGroup drawingGroup = new DrawingGroup();
+            DrawingGroup mapBackground = new DrawingGroup();
+            DrawingGroup layerItems = new DrawingGroup();
+            drawingGroup.Children.Add(mapBackground);
+            drawingGroup.Children.Add(layerItems);
+
+            Point backgroundLocation = new Point(0, 0);
+            Size backgroundSize = new Size(width, height);
+            Rect backgroundRect = new Rect(backgroundLocation, backgroundSize);
+            using (DrawingContext context = mapBackground.Open())
+            {
+                context.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Transparent, 0), backgroundRect);
+            }
+
+            foreach (ILayer layer in this.Layers)
+            {
+                layerItems.Children.Add(layer.Group);
+            }
+            DrawingImage drawingImage = new DrawingImage(drawingGroup);
+            var image = new System.Windows.Controls.Image
+            {
+                Source = drawingImage
+            };
+            image.Arrange(new Rect(0, 0, width, height));
+            bitmap.Render(image);
+
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                encoder.Save(stream);
             }
         }
 

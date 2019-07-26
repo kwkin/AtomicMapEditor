@@ -169,10 +169,6 @@ namespace Ame.App.Wpf.UI
             {
                 SaveAs(message);
             }, ThreadOption.PublisherThread);
-            this.eventAggregator.GetEvent<NotificationEvent<StateMessage>>().Subscribe((message) =>
-            {
-                ExportAs(message);
-            }, ThreadOption.PublisherThread);
         }
 
         #endregion constructor
@@ -466,12 +462,6 @@ namespace Ame.App.Wpf.UI
             SaveMessage content = message.Content;
             content.Map.WriteFile(content.Path);
             content.Map.Project.Value.UpdateFile();
-        }
-
-        private void ExportAs(NotificationMessage<StateMessage> message)
-        {
-            StateMessage content = message.Content;
-            this.ActiveDocument.Value.ExportAs(content.Path, content.Encoder);
         }
 
         #endregion methods

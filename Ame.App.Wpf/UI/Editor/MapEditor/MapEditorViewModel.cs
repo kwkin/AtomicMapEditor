@@ -210,29 +210,6 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             this.eventAggregator.GetEvent<CloseDockEvent>().Publish(closeMessage);
         }
 
-        public override void ExportAs(string path, BitmapEncoder encoder)
-        {
-            if (encoder == null)
-            {
-                return;
-            }
-            this.HoverSampleOpacity.Value = 0;
-            var drawingImage = new System.Windows.Controls.Image { Source = this.DrawingCanvas };
-            var width = this.DrawingCanvas.Width;
-            var height = this.DrawingCanvas.Height;
-            drawingImage.Arrange(new Rect(0, 0, width, height));
-
-            var bitmap = new RenderTargetBitmap((int)width, (int)height, 96, 96, PixelFormats.Pbgra32);
-            bitmap.Render(drawingImage);
-            encoder.Frames.Add(BitmapFrame.Create(bitmap));
-
-            using (var stream = new FileStream(path, FileMode.Create))
-            {
-                encoder.Save(stream);
-            }
-            this.HoverSampleOpacity.Value = hoverSampleOpacity;
-        }
-
         public void HandleLeftClickDown(Point selectPoint)
         {
             if (this.brush == null)

@@ -21,6 +21,7 @@ namespace Ame.App.Wpf.UI.Interactions.FileChooser
         #region fields
 
         private IAmeSession session;
+        private Map map;
 
         #endregion fields
 
@@ -51,22 +52,20 @@ namespace Ame.App.Wpf.UI.Interactions.FileChooser
         public void UpdateMissingContent(IAmeSession session)
         {
             this.session = session;
+            this.map = session.CurrentMap.Value;
         }
 
         public void RaiseNotification(DependencyObject parent)
         {
-            // TODO set default filename to be equal to the name of the map
             SaveFileDialog exportMapDialog = new SaveFileDialog();
             exportMapDialog.Title = "Export Map";
             exportMapDialog.Filter = ExportMapExtension.GetOpenFileExportMapExtensions();
             exportMapDialog.InitialDirectory = this.session.LastMapDirectory.Value;
+            exportMapDialog.FileName = this.map.Name.Value;
             if (exportMapDialog.ShowDialog().Value)
             {
-                StateMessage message = new StateMessage(exportMapDialog.FileName);
                 BitmapEncoder encoder = ExportMapExtension.getEncoder(exportMapDialog.Filter);
-                message.Encoder = encoder;
-                NotificationMessage<StateMessage> notification = new NotificationMessage<StateMessage>(message);
-                this.EventAggregator.GetEvent<NotificationEvent<StateMessage>>().Publish(notification);
+                this.map.ExportAs(exportMapDialog.FileName, encoder);
             }
         }
 

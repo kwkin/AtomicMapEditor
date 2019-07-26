@@ -59,6 +59,7 @@ namespace Ame.App.Wpf.UI.Interactions.FileChooser
             saveMapDialog.Title = "Save Map";
             saveMapDialog.Filter = SaveMapExtension.GetOpenMapSaveExtensions();
             saveMapDialog.InitialDirectory = this.session.LastMapDirectory.Value;
+            saveMapDialog.FileName = this.map.Name.Value;
             if (saveMapDialog.ShowDialog().Value)
             {
                 string file = saveMapDialog.FileName;
