@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,7 @@ using System.Windows.Media;
 
 namespace Ame.Infrastructure.Models
 {
+    // TODO implement an observable stack and queue
     public class Map : GridModel, IContainsMetadata
     {
         #region fields
@@ -62,15 +64,20 @@ namespace Ame.Infrastructure.Models
             this.Tilesets = new ObservableCollection<TilesetModel>();
             this.CustomProperties = new ObservableCollection<MetadataProperty>();
 
+            this.UndoQueue = new ObservableStack<DrawAction>();
+            this.RedoQueue = new ObservableStack<DrawAction>();
+
             Layer initialLayer = new Layer(this, "Layer #0", this.TileWidth.Value, this.TileHeight.Value, this.Rows.Value, this.Columns.Value);
             this.Layers.Add(initialLayer);
 
-            this.UndoQueue = new Stack<DrawAction>();
-            this.RedoQueue = new Stack<DrawAction>();
-
-            this.Layers.CollectionChanged += LayersChanged;
             UpdatePixelWidth();
             UpdatePixelHeight();
+            UpdateIsModified();
+            UpdateIsStored();
+
+            this.SourcePath.PropertyChanged += SourcePathChanged;
+            this.Layers.CollectionChanged += LayersChanged;
+            this.UndoQueue.CollectionChanged += UndoQueueChanged;
         }
 
         #endregion constructor
@@ -102,6 +109,28 @@ namespace Ame.Infrastructure.Models
 
         public BindableProperty<Project> Project { get; set; } = BindableProperty.Prepare<Project>();
 
+        private BindableProperty<bool> isModified = BindableProperty.Prepare<bool>();
+        private ReadOnlyBindableProperty<bool> isModifiedReadOnly;
+        public ReadOnlyBindableProperty<bool> IsModified
+        {
+            get
+            {
+                this.isModifiedReadOnly = this.isModifiedReadOnly ?? this.isModified.ReadOnlyProperty();
+                return this.isModifiedReadOnly;
+            }
+        }
+
+        private BindableProperty<bool> isStored = BindableProperty.Prepare<bool>();
+        private ReadOnlyBindableProperty<bool> isStoredReadOnly;
+        public ReadOnlyBindableProperty<bool> IsStored
+        {
+            get
+            {
+                this.isStoredReadOnly = this.isStoredReadOnly ?? this.isStored.ReadOnlyProperty();
+                return this.isStoredReadOnly;
+            }
+        }
+
         public ILayer CurrentLayer
         {
             get
@@ -128,9 +157,9 @@ namespace Ame.Infrastructure.Models
             }
         }
 
-        public Stack<DrawAction> UndoQueue { get; set; }
+        public ObservableStack<DrawAction> UndoQueue { get; set; }
 
-        public Stack<DrawAction> RedoQueue { get; set; }
+        public ObservableStack<DrawAction> RedoQueue { get; set; }
 
         public BindableProperty<Color> BackgroundColor { get; set; } = BindableProperty.Prepare<Color>((Color)ColorConverter.ConvertFromString("#b8e5ed"));
 
@@ -374,6 +403,32 @@ namespace Ame.Infrastructure.Models
             return pixelHeight;
         }
 
+        private void SourcePathChanged(object sender, PropertyChangedEventArgs e)
+        {
+            UpdateIsStored();
+        }
+
+        private void LayersChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                default:
+                    UpdatePixelWidth();
+                    UpdatePixelHeight();
+                    break;
+            }
+        }
+
+        private void UndoQueueChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                default:
+                    UpdateIsModified();
+                    break;
+            }
+        }
+
         private int GetOffsetX()
         {
             int offsetX = 0;
@@ -410,15 +465,14 @@ namespace Ame.Infrastructure.Models
             return offsetY;
         }
 
-        private void LayersChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void UpdateIsModified()
         {
-            switch (e.Action)
-            {
-                default:
-                    UpdatePixelWidth();
-                    UpdatePixelHeight();
-                    break;
-            }
+            this.isModified.Value = this.UndoQueue.Count != 0;
+        }
+
+        private void UpdateIsStored()
+        {
+            this.isStored.Value = this.SourcePath.Value != null;
         }
 
         #endregion methods

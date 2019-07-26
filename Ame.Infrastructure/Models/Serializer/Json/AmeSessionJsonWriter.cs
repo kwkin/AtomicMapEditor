@@ -39,7 +39,8 @@ namespace Ame.Infrastructure.Models.Serializer.Json
 
         public void Write(IAmeSession session, Stream stream)
         {
-            IAmeSessionJson json = new IAmeSessionJson(session);
+            // TODO open dialog asking user to save the map files before saving
+            AmeSessionJson json = new AmeSessionJson(session);
 
             JsonSerializer serializer = new JsonSerializer();
             serializer.Formatting = Formatting.Indented;

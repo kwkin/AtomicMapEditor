@@ -10,9 +10,7 @@ using Ame.Infrastructure.Utils;
 using Emgu.CV;
 using Microsoft.Win32;
 using Prism.Commands;
-using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
-using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -56,10 +54,10 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
 
 
         #region constructor
+
         public TilesetPropertiesViewModel(IConstants constants, IAmeSession session)
             : this(constants, session, ScrollModel.DefaultScrollModel())
         {
-
         }
 
         public TilesetPropertiesViewModel(IConstants constants, IAmeSession session, IScrollModel scrollModel)
@@ -556,7 +554,7 @@ namespace Ame.App.Wpf.UI.Interactions.TilesetProperties
             this.MetadataList = MetadataPropertyUtils.GetPropertyList(this.TilesetModel.Value);
             this.TilesetMetadata.Value = new ListCollectionView(this.MetadataList);
             this.TilesetMetadata.Value.GroupDescriptions.Add(new PropertyGroupDescription("Type"));
-            foreach(MetadataProperty property in this.TilesetModel.Value.CustomProperties)
+            foreach (MetadataProperty property in this.TilesetModel.Value.CustomProperties)
             {
                 this.MetadataList.Add(property);
             }

@@ -62,13 +62,15 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
         [JsonProperty(PropertyName = "Tiles")]
         public IList<string> TilesetFiles { get; set; }
 
-        public Project Generate()
+        public Project Generate(string path)
         {
             Project project = new Project(this.Name, this.Version);
             project.DefaultPixelScale.Value = this.DefaultPixelScale;
             project.DefaultTileWidth.Value = this.DefaultTileWidth;
             project.DefaultTileHeight.Value = this.DefaultTileHeight;
             project.Description.Value = this.Description;
+            project.SourcePath.Value = Directory.GetParent(path).FullName;
+            project.ProjectFilename.Value = Path.GetFileName(path);
 
             ResourceLoader loader = ResourceLoader.Instance;
             MapJsonReader mapReader = new MapJsonReader();

@@ -294,7 +294,7 @@
         </Label>
         <TextBox x:Name="descriptionTextBox"
                  Style="{StaticResource PrimaryMidAccentTextAreaStyle}"
-                 Text="{Binding TilesetModel.Description.Value, UpdateSourceTrigger=PropertyChanged}"
+                 Text="{Binding TilesetModel.Value.Description.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  Grid.Row="7"
                  Grid.Column="1"
                  Grid.ColumnSpan="3"

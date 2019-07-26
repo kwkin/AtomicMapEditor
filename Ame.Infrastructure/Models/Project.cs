@@ -16,8 +16,6 @@ namespace Ame.Infrastructure.Models
     {
         #region fields
 
-        private string projectFilename;
-
         #endregion fields
 
 
@@ -31,7 +29,7 @@ namespace Ame.Infrastructure.Models
             this.Tilesets = new ObservableCollection<TilesetModel>();
             this.CustomProperties = new ObservableCollection<MetadataProperty>();
 
-            this.projectFilename = new Constants().DefaultProjectFilename;
+            this.ProjectFilename.Value = new Constants().DefaultProjectFilename;
         }
 
         #endregion constructor
@@ -59,6 +57,8 @@ namespace Ame.Infrastructure.Models
 
         [MetadataProperty(MetadataType.Property, "Version")]
         public BindableProperty<string> Version { get; set; } = BindableProperty.Prepare<string>(string.Empty);
+
+        public BindableProperty<string> ProjectFilename { get; set; } = BindableProperty.Prepare<string>(string.Empty);
 
         public ObservableCollection<Map> Maps { get; set; }
 
@@ -98,7 +98,7 @@ namespace Ame.Infrastructure.Models
 
         public void UpdateFile()
         {
-            string projectPath = Path.Combine(this.SourcePath.Value, projectFilename);
+            string projectPath = Path.Combine(this.SourcePath.Value, this.ProjectFilename.Value);
             ProjectJsonWriter writer = new ProjectJsonWriter();
             writer.Write(this, projectPath);
         }

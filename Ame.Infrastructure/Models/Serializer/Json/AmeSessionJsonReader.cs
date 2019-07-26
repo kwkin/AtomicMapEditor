@@ -34,7 +34,7 @@ namespace Ame.Infrastructure.Models.Serializer.Json
 
         public IAmeSession Read(string file)
         {
-            IAmeSessionJson json = JsonConvert.DeserializeObject<IAmeSessionJson>(File.ReadAllText(file));
+            AmeSessionJson json = JsonConvert.DeserializeObject<AmeSessionJson>(File.ReadAllText(file));
             return json.Generate();
         }
 

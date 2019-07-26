@@ -35,7 +35,7 @@ namespace Ame.Infrastructure.Models.Serializer.Json
         public Project Read(string path)
         {
             ProjectJson projectJson = JsonConvert.DeserializeObject<ProjectJson>(File.ReadAllText(path));
-            return projectJson.Generate();
+            return projectJson.Generate(path);
         }
 
         #endregion methods

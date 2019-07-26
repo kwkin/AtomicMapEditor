@@ -3,6 +3,7 @@ using Ame.Infrastructure.Handlers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,27 +11,31 @@ using System.Threading.Tasks;
 namespace Ame.Infrastructure.Models.Serializer.Json.Data
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class IAmeSessionJson
+    public class AmeSessionJson
     {
-        public IAmeSessionJson()
+        public AmeSessionJson()
         {
         }
 
-        public IAmeSessionJson(IAmeSession session)
+        public AmeSessionJson(IAmeSession session)
         {
-            this.Version = new Constants().Version;
+            this.Version = session.Version.Value;
             this.CurrentMap = session.CurrentMapIndex;
 
             this.OpenedProjectFiles = new List<string>();
             foreach (Project project in session.Projects)
             {
-                this.OpenedProjectFiles.Add(project.SourcePath.Value);
+                string projectFile = Path.Combine(project.SourcePath.Value, project.ProjectFilename.Value);
+                this.OpenedProjectFiles.Add(projectFile);
             }
 
             this.OpenedMapFiles = new List<string>();
             foreach (Map map in session.Maps)
             {
-                this.OpenedMapFiles.Add(map.SourcePath.Value);
+                if (map.SourcePath.Value != null)
+                {
+                    this.OpenedMapFiles.Add(map.SourcePath.Value);
+                }
             }
 
             this.OpenedTilesetFiles = new List<string>();
@@ -38,6 +43,7 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
             {
                 this.OpenedTilesetFiles.Add(tileset.SourcePath.Value);
             }
+            this.WorkspaceDirectory = session.DefaultWorkspaceDirectory.Value;
             this.LastMapDirectory = session.LastMapDirectory.Value;
             this.LastTilesetDirectory = session.LastTilesetDirectory.Value;
 
@@ -58,6 +64,9 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
         [JsonProperty(PropertyName = "OpenedTilesets")]
         public IList<string> OpenedTilesetFiles { get; set; }
 
+        [JsonProperty(PropertyName = "WorkspaceDirectory")]
+        public string WorkspaceDirectory { get; set; }
+
         [JsonProperty(PropertyName = "MapDirectory")]
         public string LastMapDirectory { get; set; }
 
@@ -67,33 +76,47 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
         public IAmeSession Generate()
         {
             // TODO figure out what to do about the tileset files. Should these be kept in project or map?
-            IConstants constants = new Constants();
-            IAmeSession session = new AmeSession(constants);
-
             ResourceLoader loader = ResourceLoader.Instance;
+
+            IList<Project> projects = new List<Project>();
             ProjectJsonReader projectReader = new ProjectJsonReader();
-            foreach(string projectPath in this.OpenedProjectFiles)
+            foreach (string projectPath in this.OpenedProjectFiles)
             {
-                Project project = loader.Load<Project>(projectPath, projectReader);
-                session.Projects.Add(project);
+                try
+                {
+                    projects.Add(loader.Load<Project>(projectPath, projectReader));
+                }
+                catch (Exception e)
+                {
+                    StringBuilder builder = new StringBuilder();
+                    builder.Append("Error reading project ");
+                    builder.Append(projectPath);
+                    builder.Append(" ");
+                    builder.Append(e.Message);
+                    Console.Error.WriteLine(builder);
+                }
             }
 
+            IList<Map> maps = new List<Map>();
             MapJsonReader mapReader = new MapJsonReader();
             foreach (string mapPath in this.OpenedMapFiles)
             {
                 try
                 {
-                    Map map = loader.Load<Map>(mapPath, mapReader);
-                    session.Maps.Add(map);
+                    maps.Add(loader.Load<Map>(mapPath, mapReader));
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
-                    Console.WriteLine(e.Message);
+                    StringBuilder builder = new StringBuilder();
+                    builder.Append("Error reading map ");
+                    builder.Append(mapPath);
+                    builder.Append(" ");
+                    builder.Append(e.Message);
+                    Console.Error.WriteLine(builder);
                 }
             }
-
-            session.LastMapDirectory.Value = this.LastMapDirectory;
-            session.LastTilesetDirectory.Value = this.LastTilesetDirectory;
+            AmeSession session = new AmeSession(maps, projects, this.WorkspaceDirectory, this.LastTilesetDirectory, this.LastMapDirectory, this.Version);
+            session.CurrentMap.Value = maps[this.CurrentMap];
             return session;
         }
     }

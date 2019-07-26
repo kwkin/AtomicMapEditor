@@ -115,7 +115,7 @@ namespace Ame.App.Wpf.UI
             this.NewMapCommand = new DelegateCommand(() => NewMap());
             this.OpenProjectCommand = new DelegateCommand(() => this.actionHandler.OpenProject());
             this.OpenMapCommand = new DelegateCommand(() => OpenMap());
-            this.SaveFileCommand = new DelegateCommand(() => this.actionHandler.SaveCurrentMap());
+            this.SaveFileCommand = new DelegateCommand(() => SaveCurrentMap());
             this.SaveAsFileCommand = new DelegateCommand(() => SaveAsMap());
             this.ExportFileCommand = new DelegateCommand(() => this.actionHandler.ExportFile());
             this.ExportAsFileCommand = new DelegateCommand(() => ExportAsMap());
@@ -248,6 +248,19 @@ namespace Ame.App.Wpf.UI
         {
             OpenMapInteraction interaction = new OpenMapInteraction();
             this.actionHandler.OpenWindow(interaction);
+        }
+
+        public void SaveCurrentMap()
+        {
+            if (this.session.CurrentMap.Value.IsStored.Value)
+            {
+                this.actionHandler.SaveCurrentMap();
+            }
+            else
+            {
+                SaveMapInteraction interaction = new SaveMapInteraction();
+                this.actionHandler.OpenWindow(interaction);
+            }
         }
 
         public void SaveAsMap()

@@ -43,6 +43,7 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
             this.ProjectNodes = new ObservableCollection<ProjectNodeViewModel>();
 
             this.session.Projects.CollectionChanged += ProjectsChanged;
+            RefreshProjects();
 
             this.NewProjectCommand = new DelegateCommand(() => NewProject());
             this.OpenProjectCommand = new DelegateCommand(() => OpenProject());
@@ -171,6 +172,16 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
                 default:
                     break;
+            }
+        }
+
+        private void RefreshProjects()
+        {
+            this.ProjectNodes.Clear();
+            foreach (Project project in this.session.Projects)
+            {
+                ProjectNodeViewModel node = new ProjectNodeViewModel(this.eventAggregator, project);
+                this.ProjectNodes.Add(node);
             }
         }
 

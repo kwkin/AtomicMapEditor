@@ -23,38 +23,31 @@ namespace Ame.Infrastructure.Models
         #region constructor
 
         public AmeSession(IConstants constants)
-            : this(new ObservableCollection<Map>(), constants)
+            : this(new List<Map>(), new List<Project>(), constants.DefaultWorkspaceDirectory, constants.DefaultWorkspaceDirectory, constants.DefaultWorkspaceDirectory, constants.Version)
         {
         }
 
-        public AmeSession(ObservableCollection<Map> maps, IConstants constants)
+        public AmeSession(string workspaceDirectory, string tilesetDirectory, string mapDirectory, string version)
+            : this(new List<Map>(), new List<Project>(), workspaceDirectory, tilesetDirectory, mapDirectory, version)
         {
-            this.Projects = new ObservableCollection<Project>();
-            this.Maps = maps;
-            this.CurrentTilesets = new ObservableCollection<TilesetModel>();
-            this.DrawingTool.Value = new StampTool();
-
-            this.DefaultWorkspaceDirectory.Value = constants.DefaultWorkspaceDirectory;
-            this.LastTilesetDirectory.Value = constants.DefaultWorkspaceDirectory;
-            this.LastMapDirectory.Value = constants.DefaultWorkspaceDirectory;
-            this.Version.Value = constants.Version;
-
-            this.CurrentMap.PropertyChanged += CurrentMapChanged;
-            this.CurrentLayer.PropertyChanged += CurrentLayerChanged;
         }
 
-        public AmeSession(Map Map, IConstants constants)
+        public AmeSession(IList<Map> openedMaps, IList<Project> openedProjects, IConstants constants)
+            : this(openedMaps, openedProjects, constants.DefaultWorkspaceDirectory, constants.DefaultWorkspaceDirectory, constants.DefaultWorkspaceDirectory, constants.Version)
         {
-            this.Projects = new ObservableCollection<Project>();
-            this.Maps = new ObservableCollection<Map>();
-            this.Maps.Add(Map);
+        }
+
+        public AmeSession(IList<Map> openedMaps, IList<Project> openedProjects, string workspaceDirectory, string tilesetDirectory, string mapDirectory, string version)
+        {
+            this.Projects = new ObservableCollection<Project>(openedProjects);
+            this.Maps = new ObservableCollection<Map>(openedMaps);
             this.CurrentTilesets = new ObservableCollection<TilesetModel>();
             this.DrawingTool.Value = new StampTool();
 
-            this.DefaultWorkspaceDirectory.Value = constants.DefaultWorkspaceDirectory;
-            this.LastTilesetDirectory.Value = constants.DefaultWorkspaceDirectory;
-            this.LastMapDirectory.Value = constants.DefaultWorkspaceDirectory;
-            this.Version.Value = constants.Version;
+            this.DefaultWorkspaceDirectory.Value = workspaceDirectory;
+            this.LastTilesetDirectory.Value = tilesetDirectory;
+            this.LastMapDirectory.Value = mapDirectory;
+            this.Version.Value = version;
 
             this.CurrentMap.PropertyChanged += CurrentMapChanged;
             this.CurrentLayer.PropertyChanged += CurrentLayerChanged;

@@ -142,7 +142,7 @@
                           Width="65"
                           VerticalAlignment="Center"
                           ItemsSource="{Binding ZoomLevels}"
-                          SelectedIndex="{Binding ZoomIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedIndex="{Binding ZoomIndex.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           IsEnabled="{Binding ZoomLevels.Count, Converter={StaticResource CountToEnabledConverter}}"
                           DisplayMemberPath="description" />
             </Grid>
