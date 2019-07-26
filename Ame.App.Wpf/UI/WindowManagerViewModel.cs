@@ -113,7 +113,7 @@ namespace Ame.App.Wpf.UI
 
             this.NewProjectCommand = new DelegateCommand(() => NewProject());
             this.NewMapCommand = new DelegateCommand(() => NewMap());
-            this.OpenProjectCommand = new DelegateCommand(() => this.actionHandler.OpenProject());
+            this.OpenProjectCommand = new DelegateCommand(() => OpenProject());
             this.OpenMapCommand = new DelegateCommand(() => OpenMap());
             this.SaveFileCommand = new DelegateCommand(() => SaveCurrentMap());
             this.SaveAsFileCommand = new DelegateCommand(() => SaveAsMap());
@@ -248,6 +248,12 @@ namespace Ame.App.Wpf.UI
         {
             OpenMapInteraction interaction = new OpenMapInteraction();
             this.actionHandler.OpenWindow(interaction);
+        }
+
+        private void OpenProject()
+        {
+            OpenProjectInteraction interaction = new OpenProjectInteraction();
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
         }
 
         public void SaveCurrentMap()

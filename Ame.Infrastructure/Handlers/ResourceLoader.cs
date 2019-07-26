@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Ame.Infrastructure.Handlers
 {
+    // TODO change to DI
     public sealed class ResourceLoader
     {
         private static readonly Lazy<ResourceLoader> lazy = new Lazy<ResourceLoader>(() => new ResourceLoader());

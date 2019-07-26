@@ -18,6 +18,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Ame.App.Wpf.UI.Interactions.FileChooser;
 
 namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 {
@@ -87,21 +88,8 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
         public void OpenProject()
         {
-            OpenFileDialog openDialog = new OpenFileDialog();
-            openDialog.Title = "Open a Project";
-            openDialog.InitialDirectory = this.session.LastTilesetDirectory.Value;
-            if (openDialog.ShowDialog() == true)
-            {
-                string dialogPath = openDialog.FileName;
-                if (File.Exists(dialogPath))
-                {
-                    ProjectJsonReader reader = new ProjectJsonReader();
-                    ResourceLoader loader = ResourceLoader.Instance;
-                    Project project = loader.Load<Project>(dialogPath, reader);
-
-                    this.session.Projects.Add(project);
-                }
-            }
+            OpenProjectInteraction interaction = new OpenProjectInteraction();
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
         }
 
         public void RefreshTree()
