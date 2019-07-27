@@ -227,10 +227,11 @@
 
         <Button x:Name="deleteItemButton"
                 Style="{DynamicResource PrimaryIconButtonStyle}"
-                      Grid.Column="0"
-                      Grid.Row="5"
-                      HorizontalAlignment="Left"
-                      ToolTip="Delete Tileset">
+                Grid.Column="0"
+                Grid.Row="5"
+                HorizontalAlignment="Left"
+                ToolTip="Delete Tileset"
+                Command="{Binding RemoveItemCommand, Mode=OneWay}">
             <ContentControl Content="{StaticResource ic_Delete}"
                             Width="{StaticResource MidIconSize}"
                             Height="{StaticResource MidIconSize}"/>

@@ -22,6 +22,7 @@ using Ame.App.Wpf.UI.Interactions.FileChooser;
 
 namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 {
+    // TODO add layers as a node.
     public class ProjectExplorerViewModel : DockToolViewModelTemplate
     {
         #region fields

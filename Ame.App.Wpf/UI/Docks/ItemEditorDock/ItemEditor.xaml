@@ -112,12 +112,13 @@
                       ItemsSource="{Binding Session.CurrentTilesets}"
                       DisplayMemberPath="Name.Value"
                       SelectedItem="{Binding TilesetModel.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                      IsEnabled="{Binding Session.CurrentTilesets.Count, Converter={StaticResource CountToEnabledConverter}, Mode=OneWay}"
+                      IsEnabled="{Binding TilesetModels.Count, Converter={StaticResource CountToEnabledConverter}, Mode=OneWay}"
                       Height="28"
                       VerticalAlignment="Top">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
-                        <i:InvokeCommandAction Command="{Binding ChangeItemCommand, Mode=OneWay}"/>
+                        <i:InvokeCommandAction Command="{Binding ChangeItemCommand, Mode=OneWay}"
+                                               CommandParameter="{Binding ElementName=itemListComboBox, Path=SelectedItem}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </ComboBox>

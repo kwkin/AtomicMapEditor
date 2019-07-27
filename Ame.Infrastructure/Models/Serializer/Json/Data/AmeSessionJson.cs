@@ -20,7 +20,7 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
         public AmeSessionJson(IAmeSession session)
         {
             this.Version = session.Version.Value;
-            this.CurrentMap = session.CurrentMapIndex;
+            this.CurrentMapIndex = session.CurrentMapIndex;
 
             this.OpenedProjectFiles = new List<string>();
             foreach (Project project in session.Projects)
@@ -38,11 +38,6 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
                 }
             }
 
-            this.OpenedTilesetFiles = new List<string>();
-            foreach (TilesetModel tileset in session.CurrentTilesets)
-            {
-                this.OpenedTilesetFiles.Add(tileset.SourcePath.Value);
-            }
             this.WorkspaceDirectory = session.DefaultWorkspaceDirectory.Value;
             this.LastMapDirectory = session.LastMapDirectory.Value;
             this.LastTilesetDirectory = session.LastTilesetDirectory.Value;
@@ -56,14 +51,11 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
         public IList<string> OpenedProjectFiles { get; set; }
 
         [JsonProperty(PropertyName = "CurrentMap")]
-        public int CurrentMap { get; set; }
+        public int CurrentMapIndex { get; set; }
 
         [JsonProperty(PropertyName = "OpenedMaps")]
         public IList<string> OpenedMapFiles { get; set; }
-
-        [JsonProperty(PropertyName = "OpenedTilesets")]
-        public IList<string> OpenedTilesetFiles { get; set; }
-
+        
         [JsonProperty(PropertyName = "WorkspaceDirectory")]
         public string WorkspaceDirectory { get; set; }
 
@@ -75,7 +67,6 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
 
         public IAmeSession Generate()
         {
-            // TODO figure out what to do about the tileset files. Should these be kept in project or map?
             ResourceLoader loader = ResourceLoader.Instance;
 
             IList<Project> projects = new List<Project>();
@@ -116,8 +107,13 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
                 }
             }
             // TODO Bug: the current map index is incorrect when a map editor is closed.
+            // TODO store the current tileset
             AmeSession session = new AmeSession(maps, projects, this.WorkspaceDirectory, this.LastTilesetDirectory, this.LastMapDirectory, this.Version);
-            session.CurrentMap.Value = maps[this.CurrentMap];
+            session.CurrentMap.Value = maps[this.CurrentMapIndex];
+            if (session.CurrentMap.Value.Tilesets.Count > 0)
+            {
+                session.CurrentTileset.Value = session.CurrentMap.Value.Tilesets[0];
+            }
             return session;
         }
     }

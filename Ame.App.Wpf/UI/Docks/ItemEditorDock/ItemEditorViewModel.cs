@@ -13,6 +13,8 @@ using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -57,7 +59,7 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
         #region constructor
 
         public ItemEditorViewModel(IEventAggregator eventAggregator, IConstants constants, IAmeSession session)
-            : this(eventAggregator, constants, session, new TilesetModel(), Components.Behaviors.ScrollModel.DefaultScrollModel())
+            : this(eventAggregator, constants, session, session.CurrentTileset.Value, Components.Behaviors.ScrollModel.DefaultScrollModel())
         {
         }
 
@@ -67,7 +69,7 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
         }
 
         public ItemEditorViewModel(IEventAggregator eventAggregator, IConstants constants, IAmeSession session, IScrollModel scrollModel)
-            : this(eventAggregator, constants, session, new TilesetModel(), scrollModel)
+            : this(eventAggregator, constants, session, session.CurrentTileset.Value, scrollModel)
         {
         }
 
@@ -99,6 +101,13 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
             this.BackgroundBrush.Value = (SolidColorBrush)(new BrushConverter().ConvertFrom("#b8e5ed"));
             this.BackgroundPen.Value = new Pen(Brushes.Transparent, 0);
             this.maxGridThickness = constants.MaxGridThickness;
+            
+            this.TilesetModels = new ObservableCollection<TilesetModel>();
+            foreach (TilesetModel model in this.Session.CurrentTilesets)
+            {
+                this.TilesetModels.Add(model);
+            }
+            RefreshItemModel();
 
             this.updatePositionLabelMsDelay = constants.DefaultUpdatePositionLabelMsDelay;
             this.updateSelectLineMsDelay = constants.DefaultUpdatePositionLabelMsDelay;
@@ -115,6 +124,7 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
             this.GridPen.PropertyChanged += GridPenChanged;
             this.BackgroundBrush.PropertyChanged += BackgroundChanged;
             this.BackgroundPen.PropertyChanged += BackgroundChanged;
+            this.Session.CurrentTilesets.CollectionChanged += TilesetsChanged;
 
             this.HandleLeftClickDownCommand = new DelegateCommand<object>((point) => HandleLeftClickDown((Point)point));
             this.HandleLeftClickUpCommand = new DelegateCommand<object>((point) => HandleLeftClickUp((Point)point));
@@ -125,7 +135,7 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
             this.ViewPropertiesCommand = new DelegateCommand(() => ViewProperties());
             this.EditCollisionsCommand = new DelegateCommand(() => EditCollisions());
             this.CropCommand = new DelegateCommand(() => Crop());
-            this.ChangeItemCommand = new DelegateCommand(() => RefreshItemModel());
+            this.ChangeItemCommand = new DelegateCommand<object>((entry) => ChangeItemModel(entry as TilesetModel));
             this.UpdateModelCommand = new DelegateCommand(() => UpdateTilesetModel());
             this.ShowGridCommand = new DelegateCommand(() => RedrawGrid());
             this.ShowRulerCommand = new DelegateCommand(() => RefreshRuler());
@@ -176,6 +186,7 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
         public BindableProperty<Brush> BackgroundBrush { get; set; } = BindableProperty<Brush>.Prepare();
         public BindableProperty<Pen> BackgroundPen { get; set; } = BindableProperty<Pen>.Prepare();
         public BindableProperty<bool> IsSourceLoaded { get; set; } = BindableProperty<bool>.Prepare();
+        public ObservableCollection<TilesetModel> TilesetModels { get; set; }
 
         #endregion properties
 
@@ -305,9 +316,13 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
 
         public void ChangeItemModel(TilesetModel tilesetModel)
         {
-            if (!this.Session.CurrentTilesets.Contains(tilesetModel))
+            if (tilesetModel == null)
             {
-                this.Session.CurrentTilesets.Add(tilesetModel);
+                return;
+            }
+            if (!this.TilesetModels.Contains(tilesetModel))
+            {
+                return;
             }
             this.IsSourceLoaded.Value = true;
             this.TilesetModel.Value = tilesetModel;
@@ -492,6 +507,30 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
             }
         }
 
+        private void TilesetsChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    foreach(TilesetModel model in e.NewItems)
+                    {
+                        this.TilesetModels.Add(model);
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    foreach(TilesetModel model in e.OldItems)
+                    {
+                        this.TilesetModels.Remove(model);
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Reset:
+                    this.TilesetModels.Clear();
+                    break;
+                default:
+                    break;
+            }
+        }
+
         private void DrawSelectLinesFromPixels(Point pixelPoint1, Point pixelPoint2)
         {
             Point pixel1 = this.itemTransform.PixelToTopLeftTileEdge(pixelPoint1);
@@ -578,8 +617,9 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
 
         private void RemoveItem()
         {
-            Console.WriteLine("Remove Item");
+            this.Session.CurrentTilesets.Remove(this.TilesetModel.Value);
         }
+
         private void OnNewTilesetWindowClosed(INotification notification)
         {
             IConfirmation confirmation = notification as IConfirmation;
@@ -595,6 +635,7 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
                 ChangeItemModel(this.TilesetModel.Value);
             }
         }
+
         #endregion methods
     }
 }

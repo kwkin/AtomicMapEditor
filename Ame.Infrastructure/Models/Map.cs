@@ -19,7 +19,6 @@ using System.Windows.Media.Imaging;
 
 namespace Ame.Infrastructure.Models
 {
-    // TODO implement an observable stack and queue
     public class Map : GridModel, IContainsMetadata
     {
         #region fields

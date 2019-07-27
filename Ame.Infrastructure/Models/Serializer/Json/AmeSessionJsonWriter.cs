@@ -39,7 +39,7 @@ namespace Ame.Infrastructure.Models.Serializer.Json
 
         public void Write(IAmeSession session, Stream stream)
         {
-            // TODO open dialog asking user to save the map files before saving
+            // TODO open dialog asking user to save the map files before closing
             AmeSessionJson json = new AmeSessionJson(session);
 
             JsonSerializer serializer = new JsonSerializer();
