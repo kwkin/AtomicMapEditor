@@ -40,7 +40,7 @@ namespace Ame.Infrastructure.Models
         {
             this.Projects = new ObservableCollection<Project>(openedProjects);
             this.Maps = new ObservableCollection<Map>(openedMaps);
-            this.CurrentTilesets = new ObservableCollection<TilesetModel>();
+            this.CurrentTilesets.Value = new ObservableCollection<TilesetModel>();
             this.DrawingTool.Value = new StampTool();
 
             this.DefaultWorkspaceDirectory.Value = workspaceDirectory;
@@ -61,22 +61,18 @@ namespace Ame.Infrastructure.Models
 
         public ObservableCollection<Map> Maps { get; set; }
 
-        // TODO change to a bindable property
-        public ObservableCollection<ILayer> CurrentLayers
+        private BindableProperty<ObservableCollection<ILayer>> currentLayers = BindableProperty.Prepare<ObservableCollection<ILayer>>();
+        private ReadOnlyBindableProperty<ObservableCollection<ILayer>> currentLayersReadOnly;
+        public ReadOnlyBindableProperty<ObservableCollection<ILayer>> CurrentLayers
         {
             get
             {
-                ObservableCollection<ILayer> layers = null;
-                if (this.CurrentMap != null)
-                {
-                    layers = this.CurrentMap.Value.Layers;
-                }
-                return layers;
+                this.currentLayersReadOnly = this.currentLayersReadOnly ?? this.currentLayers.ReadOnlyProperty();
+                return this.currentLayersReadOnly;
             }
         }
 
-        // TODO change to a bindable property
-        public ObservableCollection<TilesetModel> CurrentTilesets { get; set; }
+        public BindableProperty<ObservableCollection<TilesetModel>> CurrentTilesets { get; set; } = BindableProperty.Prepare<ObservableCollection<TilesetModel>>();
 
         public BindableProperty<Project> CurrentProject { get; set; } = BindableProperty.Prepare<Project>();
 
@@ -108,7 +104,7 @@ namespace Ame.Infrastructure.Models
         {
             get
             {
-                return this.CurrentLayers.Count;
+                return this.CurrentLayers.Value.Count;
             }
         }
 
@@ -116,7 +112,7 @@ namespace Ame.Infrastructure.Models
         {
             get
             {
-                return this.CurrentTilesets.Count;
+                return this.CurrentTilesets.Value.Count;
             }
         }
 
@@ -132,7 +128,7 @@ namespace Ame.Infrastructure.Models
         {
             get
             {
-                return this.CurrentLayers.IndexOf(this.CurrentLayer.Value);
+                return this.CurrentLayers.Value.IndexOf(this.CurrentLayer.Value);
             }
         }
 
@@ -140,7 +136,7 @@ namespace Ame.Infrastructure.Models
         {
             get
             {
-                return this.CurrentTilesets.IndexOf(this.CurrentTileset.Value);
+                return this.CurrentTilesets.Value.IndexOf(this.CurrentTileset.Value);
             }
         }
 
@@ -174,7 +170,8 @@ namespace Ame.Infrastructure.Models
         private void CurrentMapChanged(object sender, PropertyChangedEventArgs e)
         {
             this.CurrentLayer.Value = this.CurrentMap.Value.CurrentLayer;
-            this.CurrentTilesets = this.CurrentMap.Value.Tilesets;
+            this.currentLayers.Value = this.CurrentMap.Value.Layers;
+            this.CurrentTilesets.Value = this.CurrentMap.Value.Tilesets;
         }
 
         private void CurrentLayerChanged(object sender, PropertyChangedEventArgs e)

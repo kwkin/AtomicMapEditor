@@ -110,19 +110,19 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         public void MoveLayerDown()
         {
-            int currentLayerIndex = this.Session.CurrentLayers.IndexOf(this.Session.CurrentLayer.Value);
-            if (currentLayerIndex < this.Session.CurrentLayers.Count - 1 && currentLayerIndex >= 0)
+            int currentLayerIndex = this.Session.CurrentLayers.Value.IndexOf(this.Session.CurrentLayer.Value);
+            if (currentLayerIndex < this.Session.CurrentLayers.Value.Count - 1 && currentLayerIndex >= 0)
             {
-                this.Session.CurrentLayers.Move(currentLayerIndex, currentLayerIndex + 1);
+                this.Session.CurrentLayers.Value.Move(currentLayerIndex, currentLayerIndex + 1);
             }
         }
 
         public void MoveLayerUp()
         {
-            int currentLayerIndex = this.Session.CurrentLayers.IndexOf(this.Session.CurrentLayer.Value);
+            int currentLayerIndex = this.Session.CurrentLayers.Value.IndexOf(this.Session.CurrentLayer.Value);
             if (currentLayerIndex > 0)
             {
-                this.Session.CurrentLayers.Move(currentLayerIndex, currentLayerIndex - 1);
+                this.Session.CurrentLayers.Value.Move(currentLayerIndex, currentLayerIndex - 1);
             }
         }
 
@@ -138,7 +138,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             {
                 return;
             }
-            this.Session.CurrentLayers.Remove(this.Session.CurrentLayer.Value);
+            this.Session.CurrentLayers.Value.Remove(this.Session.CurrentLayer.Value);
         }
 
         public void EditProperties()
@@ -189,7 +189,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             }
             this.previousMap = map;
             map.Layers.CollectionChanged += UpdateLayerList;
-            foreach (ILayer layer in this.Session.CurrentLayers)
+            foreach (ILayer layer in this.Session.CurrentLayers.Value)
             {
                 ILayerListEntryViewModel entry = LayerListEntryGenerator.Generate(this.eventAggregator, this.Session, layer);
                 this.Layers.Add(entry);

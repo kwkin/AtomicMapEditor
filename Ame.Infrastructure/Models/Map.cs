@@ -480,7 +480,7 @@ namespace Ame.Infrastructure.Models
             {
                 foreach (ILayer layer in this.Layers)
                 {
-                    layer.Map = this;
+                    layer.Map.Value = this;
                 }
             }
         }

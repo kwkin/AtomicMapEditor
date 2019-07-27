@@ -42,8 +42,7 @@ namespace Ame.Infrastructure.Models
         }
         public Layer(Map map, string layerName, int tileWidth, int tileHeight, int rows, int columns)
         {
-            this.Map = map;
-
+            this.Map.Value = map;
             this.Name.Value = layerName;
             this.TileWidth.Value = tileWidth;
             this.TileHeight.Value = tileHeight;
@@ -71,6 +70,8 @@ namespace Ame.Infrastructure.Models
         #region properties
 
         public int ID { get; set; } = -1;
+
+        public BindableProperty<Map> Map { get; set; } = BindableProperty.Prepare<Map>();
 
         [MetadataProperty(MetadataType.Property, "Name")]
         public BindableProperty<string> Name { get; set; } = BindableProperty.Prepare<string>(string.Empty);
@@ -163,9 +164,6 @@ namespace Ame.Infrastructure.Models
 
         public LayerGroup Parent { get; set; }
 
-        // TODO change to a bindable property
-        public Map Map { get; set; }
-
         public ObservableCollection<MetadataProperty> CustomProperties { get; set; }
 
         #endregion properties
@@ -210,14 +208,14 @@ namespace Ame.Infrastructure.Models
         {
             if (this.Parent == null)
             {
-                int thisIndex = this.Map.Layers.IndexOf(this);
-                if (thisIndex != -1 && thisIndex < this.Map.LayerCount)
+                int thisIndex = this.Map.Value.Layers.IndexOf(this);
+                if (thisIndex != -1 && thisIndex < this.Map.Value.LayerCount)
                 {
-                    this.Map.Layers.Insert(thisIndex + 1, layer);
+                    this.Map.Value.Layers.Insert(thisIndex + 1, layer);
                 }
                 else
                 {
-                    this.Map.Layers.Add(layer);
+                    this.Map.Value.Layers.Add(layer);
                 }
             }
             else

@@ -325,6 +325,7 @@ namespace Ame.App.Wpf.UI.Menu
             this.actionHandler.OpenDock(openDockMessage);
         }
 
+        // TODO implement a resource loader viewer dock
         // TODO implement undo history dock
         public void OpenUndoHistoryDock()
         {

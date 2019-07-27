@@ -370,8 +370,8 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
                     int newIndex = e.NewStartingIndex;
 
                     // TODO integrate with visibility
-                    ILayer oldLayer = this.session.CurrentLayers[oldIndex];
-                    ILayer newLayer = this.session.CurrentLayers[newIndex];
+                    ILayer oldLayer = this.session.CurrentLayers.Value[oldIndex];
+                    ILayer newLayer = this.session.CurrentLayers.Value[newIndex];
 
                     int oldGroupIndex = this.layerItems.Children.IndexOf(oldLayer.Group);
                     int newGroupIndex = this.layerItems.Children.IndexOf(newLayer.Group);

@@ -36,11 +36,11 @@ namespace Ame.Infrastructure.UILogic
 
         public int getAffectedIndex(ILayer layer)
         {
-            int listIndex = this.session.CurrentLayers.IndexOf(layer);
+            int listIndex = this.session.CurrentLayers.Value.IndexOf(layer);
             int visibleCount = 0;
             for(int index = 0; index < listIndex; ++index)
             {
-                ILayer currentLayer = this.session.CurrentLayers[index];
+                ILayer currentLayer = this.session.CurrentLayers.Value[index];
                 if (currentLayer.IsVisible.Value)
                 {
                     visibleCount++;

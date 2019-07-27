@@ -108,19 +108,19 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         public void MoveLayerDown()
         {
-            int currentLayerIndex = this.session.CurrentLayers.IndexOf(this.Layer);
-            if (currentLayerIndex < this.session.CurrentLayers.Count - 1 && currentLayerIndex >= 0)
+            int currentLayerIndex = this.session.CurrentLayers.Value.IndexOf(this.Layer);
+            if (currentLayerIndex < this.session.CurrentLayers.Value.Count - 1 && currentLayerIndex >= 0)
             {
-                this.session.CurrentLayers.Move(currentLayerIndex, currentLayerIndex + 1);
+                this.session.CurrentLayers.Value.Move(currentLayerIndex, currentLayerIndex + 1);
             }
         }
 
         public void MoveLayerUp()
         {
-            int currentLayerIndex = this.session.CurrentLayers.IndexOf(this.layer);
+            int currentLayerIndex = this.session.CurrentLayers.Value.IndexOf(this.layer);
             if (currentLayerIndex > 0)
             {
-                this.session.CurrentLayers.Move(currentLayerIndex, currentLayerIndex - 1);
+                this.session.CurrentLayers.Value.Move(currentLayerIndex, currentLayerIndex - 1);
             }
         }
 
@@ -132,7 +132,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         public void RemoveLayer()
         {
-            this.session.CurrentLayers.Remove(this.Layer);
+            this.session.CurrentLayers.Value.Remove(this.Layer);
         }
 
         public void EditProperties()

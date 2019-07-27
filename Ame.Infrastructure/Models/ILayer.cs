@@ -18,7 +18,7 @@ namespace Ame.Infrastructure.Models
 
         #region properties
 
-        Map Map { get; set; }
+        BindableProperty<Map> Map { get; set; }
         BindableProperty<string> Name { get; set; }
         BindableProperty<bool> IsImmutable { get; set; }
         BindableProperty<bool> IsVisible { get; set; }

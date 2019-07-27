@@ -22,9 +22,9 @@ namespace Ame.Infrastructure.Models
 
         ObservableCollection<Map> Maps { get; set; }
 
-        ObservableCollection<ILayer> CurrentLayers { get; }
+        ReadOnlyBindableProperty<ObservableCollection<ILayer>> CurrentLayers { get; }
 
-        ObservableCollection<TilesetModel> CurrentTilesets { get; set; }
+        BindableProperty<ObservableCollection<TilesetModel>> CurrentTilesets { get; set; }
 
         BindableProperty<Project> CurrentProject { get; set; }
 

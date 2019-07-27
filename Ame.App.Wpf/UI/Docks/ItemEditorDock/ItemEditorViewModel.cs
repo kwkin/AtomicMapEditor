@@ -103,7 +103,7 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
             this.maxGridThickness = constants.MaxGridThickness;
             
             this.TilesetModels = new ObservableCollection<TilesetModel>();
-            foreach (TilesetModel model in this.Session.CurrentTilesets)
+            foreach (TilesetModel model in this.Session.CurrentTilesets.Value)
             {
                 this.TilesetModels.Add(model);
             }
@@ -124,7 +124,7 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
             this.GridPen.PropertyChanged += GridPenChanged;
             this.BackgroundBrush.PropertyChanged += BackgroundChanged;
             this.BackgroundPen.PropertyChanged += BackgroundChanged;
-            this.Session.CurrentTilesets.CollectionChanged += TilesetsChanged;
+            this.Session.CurrentTilesets.Value.CollectionChanged += TilesetsChanged;
 
             this.HandleLeftClickDownCommand = new DelegateCommand<object>((point) => HandleLeftClickDown((Point)point));
             this.HandleLeftClickUpCommand = new DelegateCommand<object>((point) => HandleLeftClickUp((Point)point));
@@ -617,7 +617,7 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
 
         private void RemoveItem()
         {
-            this.Session.CurrentTilesets.Remove(this.TilesetModel.Value);
+            this.Session.CurrentTilesets.Value.Remove(this.TilesetModel.Value);
         }
 
         private void OnNewTilesetWindowClosed(INotification notification)
@@ -630,7 +630,7 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
             if (confirmation.Confirmed)
             {
                 TilesetModel messageTilesetModel = confirmation.Content as TilesetModel;
-                this.Session.CurrentTilesets.Add(messageTilesetModel);
+                this.Session.CurrentTilesets.Value.Add(messageTilesetModel);
                 this.TilesetModel.Value = messageTilesetModel;
                 ChangeItemModel(this.TilesetModel.Value);
             }
