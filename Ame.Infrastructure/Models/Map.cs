@@ -120,6 +120,17 @@ namespace Ame.Infrastructure.Models
 
         public BindableProperty<Project> Project { get; set; } = BindableProperty.Prepare<Project>();
 
+        private BindableProperty<bool> isRecentlySaved = BindableProperty.Prepare<bool>();
+        private ReadOnlyBindableProperty<bool> isRecentlySavedReadOnly;
+        public ReadOnlyBindableProperty<bool> IsRecentlySaved
+        {
+            get
+            {
+                this.isRecentlySavedReadOnly = this.isRecentlySavedReadOnly ?? this.isRecentlySaved.ReadOnlyProperty();
+                return this.isRecentlySavedReadOnly;
+            }
+        }
+
         private BindableProperty<bool> isModified = BindableProperty.Prepare<bool>();
         private ReadOnlyBindableProperty<bool> isModifiedReadOnly;
         public ReadOnlyBindableProperty<bool> IsModified
@@ -351,6 +362,7 @@ namespace Ame.Infrastructure.Models
             if (this.SourcePath != null)
             {
                 WriteFile(this.SourcePath.Value);
+                this.isRecentlySaved.Value = true;
             }
         }
 
@@ -538,11 +550,13 @@ namespace Ame.Infrastructure.Models
         private void UpdateIsModified()
         {
             this.isModified.Value = this.UndoQueue.Count != 0;
+            this.isRecentlySaved.Value = !this.isModified.Value;
         }
 
         private void UpdateIsStored()
         {
             this.isStored.Value = this.SourcePath.Value != null;
+            this.isRecentlySaved.Value = this.isStored.Value;
         }
 
         #endregion methods

@@ -79,9 +79,9 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
         [JsonProperty(PropertyName = "Layers")]
         public IList<LayerJson> LayerJsons { get; set; }
 
-        public Map Generate()
+        public Map Generate(string path)
         {
-            // TODO user a loader for tileset models
+            // TODO use a loader for tileset models
             IList<TilesetModel> tilesets = new List<TilesetModel>();
             foreach (TilesetJson tilesetJson in this.TilesetJsons)
             {
@@ -104,6 +104,7 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
             map.Scale.Value = this.Scale;
             map.BackgroundColor.Value = this.BackgroundColor;
             map.Description.Value = this.Description;
+            map.SourcePath.Value = path;
             return map;
         }
     }

@@ -110,8 +110,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             this.session.CurrentLayer.PropertyChanged += CurrentLayerChanged;
             this.Map.Value.Name.PropertyChanged += MapNameChanged;
             this.Map.Value.Layers.CollectionChanged += LayersChanged;
-            this.Map.Value.IsModified.PropertyChanged += MapIsModifiedChanged;
-            this.Map.Value.IsStored.PropertyChanged += MapIsStoredChanged;
+            this.Map.Value.IsRecentlySaved.PropertyChanged += MapRecentlySavedChanged;
             this.ScrollModel.PropertyChanged += ScrollModelPropertyChanged;
             this.BackgroundBrush.PropertyChanged += BackgroundChanged;
             this.BackgroundPen.PropertyChanged += BackgroundChanged;
@@ -481,20 +480,15 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             UpdateMapRecentlySaved();
         }
 
-        private void MapIsStoredChanged(object sender, PropertyChangedEventArgs e)
-        {
-            UpdateMapRecentlySaved();
-        }
-
-        private void MapIsModifiedChanged(object sender, PropertyChangedEventArgs e)
+        private void MapRecentlySavedChanged(object sender, PropertyChangedEventArgs e)
         {
             UpdateMapRecentlySaved();
         }
 
         private void UpdateMapRecentlySaved()
         {
-            bool isMapRecentlySaved = !this.Map.Value.IsStored.Value || this.Map.Value.IsModified.Value;
-            this.Title.Value = isMapRecentlySaved ? this.Map.Value.Name.Value + "*" : this.Map.Value.Name.Value;
+            bool isMapRecentlySaved = this.Map.Value.IsRecentlySaved.Value;
+            this.Title.Value = isMapRecentlySaved ? this.Map.Value.Name.Value : this.Map.Value.Name.Value + "*";
         }
 
         private void RedrawBackground()

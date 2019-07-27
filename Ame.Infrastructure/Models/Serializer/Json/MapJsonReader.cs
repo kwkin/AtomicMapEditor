@@ -35,7 +35,7 @@ namespace Ame.Infrastructure.Models.Serializer.Json
         public Map Read(string path)
         {
             MapJson json = JsonConvert.DeserializeObject<MapJson>(File.ReadAllText(path));
-            return json.Generate();
+            return json.Generate(path);
         }
 
         #endregion methods
