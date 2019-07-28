@@ -136,6 +136,11 @@
     </Compile>
     <Compile Include="UI\Docks\MinimapDock\MinimapCreator.cs" />
     <Compile Include="UI\Docks\MinimapDock\MinimapViewModel.cs" />
+    <Compile Include="UI\Docks\ProjectExplorerDock\IProjectExplorerNodeViewModel.cs" />
+    <Compile Include="UI\Docks\ProjectExplorerDock\LayerNode.xaml.cs">
+      <DependentUpon>LayerNode.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Docks\ProjectExplorerDock\LayerNodeViewModel.cs" />
     <Compile Include="UI\Docks\ProjectExplorerDock\MapNode.xaml.cs">
       <DependentUpon>MapNode.xaml</DependentUpon>
     </Compile>
@@ -420,6 +425,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Docks\MinimapDock\MinimapContextMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Docks\ProjectExplorerDock\LayerNode.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

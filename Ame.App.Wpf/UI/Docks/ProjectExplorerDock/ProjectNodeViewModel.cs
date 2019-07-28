@@ -1,5 +1,6 @@
 ﻿using Ame.App.Wpf.UI.Interactions.MapProperties;
 using Ame.App.Wpf.UI.Interactions.ProjectProperties;
+using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Models;
 using Prism.Commands;
@@ -15,7 +16,7 @@ using System.Windows.Input;
 
 namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 {
-    public class ProjectNodeViewModel
+    public class ProjectNodeViewModel : IProjectExplorerNodeViewModel
     {
         #region fields
 
@@ -30,9 +31,9 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
             this.Project = project ?? throw new ArgumentNullException("layer");
-                       
+
             this.MapNodes = new ObservableCollection<MapNodeViewModel>();
-            foreach(Map map in project.Maps)
+            foreach (Map map in project.Maps)
             {
                 this.MapNodes.Add(new MapNodeViewModel(this.eventAggregator, map));
             }
@@ -40,18 +41,24 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
             this.NewMapCommand = new DelegateCommand(() => NewMap());
             this.EditProjectPropertiesCommand = new DelegateCommand(() => EditProjectProperties());
+            this.EditTextboxCommand = new DelegateCommand(() => EditTextbox());
+            this.StopEditingTextboxCommand = new DelegateCommand(() => StopEditingTextbox());
         }
 
         #endregion constructor
 
 
         #region properties
+
         public ICommand NewMapCommand { get; private set; }
         public ICommand EditProjectPropertiesCommand { get; private set; }
+        public ICommand EditTextboxCommand { get; private set; }
+        public ICommand StopEditingTextboxCommand { get; private set; }
 
         public Project Project { get; set; }
 
         public ObservableCollection<MapNodeViewModel> MapNodes { get; private set; }
+        public BindableProperty<bool> IsEditingName { get; set; } = BindableProperty<bool>.Prepare(false);
 
         #endregion properties
 
@@ -107,6 +114,16 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
         {
             EditProjectInteraction interaction = new EditProjectInteraction(this.Project);
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
+        }
+
+        private void EditTextbox()
+        {
+            this.IsEditingName.Value = true;
+        }
+
+        private void StopEditingTextbox()
+        {
+            this.IsEditingName.Value = false;
         }
 
         #endregion methods

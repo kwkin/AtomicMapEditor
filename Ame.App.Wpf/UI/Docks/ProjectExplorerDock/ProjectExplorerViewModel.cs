@@ -42,10 +42,37 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
             this.Title.Value = "Project Explorer";
 
-            this.ProjectNodes = new ObservableCollection<ProjectNodeViewModel>();
+            this.ExplorerNodes = new ObservableCollection<IProjectExplorerNodeViewModel>();
 
             this.session.Projects.CollectionChanged += ProjectsChanged;
             RefreshProjects();
+
+            Map map1a = new Map("map1a");
+            Map map1b = new Map("map1b");
+            map1b.Layers.Add(new Layer(map1a, "layer1bi"));
+            Map map1c = new Map("map1c");
+            map1c.Layers.Add(new Layer(map1c, "layer1ci"));
+            map1c.Layers.Add(new Layer(map1c, "layer1cii"));
+            Project project1 = new Project("project1", "1");
+            project1.Maps.Add(map1a);
+            project1.Maps.Add(map1b);
+            project1.Maps.Add(map1c);
+
+            Map map2a = new Map("map2a");
+            map2a.Layers.Add(new Layer(map2a, "layer2ai"));
+            map2a.Layers.Add(new Layer(map2a, "layer2aii"));
+            map2a.Layers.Add(new Layer(map2a, "layer2aiii"));
+            Project project2 = new Project("project2", "2");
+            project2.Maps.Add(map2a);
+
+            Map map3a = new Map("map3a");
+            map3a.Layers.Add(new Layer(map3a, "layer3ai"));
+            Map map4a = new Map("map4a");
+
+            this.ExplorerNodes.Add(new ProjectNodeViewModel(eventAggregator, project1));
+            this.ExplorerNodes.Add(new ProjectNodeViewModel(eventAggregator, project2));
+            this.ExplorerNodes.Add(new MapNodeViewModel(eventAggregator, map3a));
+            this.ExplorerNodes.Add(new MapNodeViewModel(eventAggregator, map4a));
 
             this.NewProjectCommand = new DelegateCommand(() => NewProject());
             this.OpenProjectCommand = new DelegateCommand(() => OpenProject());
@@ -66,7 +93,7 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
         public ICommand EditMapPropertiesCommand { get; private set; }
         public ICommand CurrentSelectionChangedCommand { get; private set; }
 
-        public ObservableCollection<ProjectNodeViewModel> ProjectNodes { get; set; }
+        public ObservableCollection<IProjectExplorerNodeViewModel> ExplorerNodes { get; set; }
         public BindableProperty<Project> CurrentProject { get; set; } = BindableProperty.Prepare<Project>();
         public BindableProperty<Map> CurrentMap { get; set; } = BindableProperty.Prepare<Map>();
 
@@ -132,20 +159,21 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
                 case NotifyCollectionChangedAction.Add:
                     foreach (Project project in e.NewItems)
                     {
+                        // TODO add generator class
                         ProjectNodeViewModel node = new ProjectNodeViewModel(this.eventAggregator, project);
-                        this.ProjectNodes.Add(node);
+                        this.ExplorerNodes.Add(node);
                     }
                     break;
 
                 case NotifyCollectionChangedAction.Remove:
-                    foreach (Project project in e.OldItems)
-                    {
-                        IEnumerable<ProjectNodeViewModel> toRemove = new ObservableCollection<ProjectNodeViewModel>(this.ProjectNodes.Where(entry => entry.Project == project));
-                        foreach (ProjectNodeViewModel node in toRemove)
-                        {
-                            this.ProjectNodes.Remove(node);
-                        }
-                    }
+                    //foreach (Project project in e.OldItems)
+                    //{
+                    //    IEnumerable<ProjectNodeViewModel> toRemove = new ObservableCollection<ProjectNodeViewModel>(this.ExplorerNodes.Where(entry => entry.Project == project));
+                    //    foreach (ProjectNodeViewModel node in toRemove)
+                    //    {
+                    //        this.ExplorerNodes.Remove(node);
+                    //    }
+                    //}
                     break;
 
                 case NotifyCollectionChangedAction.Move:
@@ -153,9 +181,9 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
                     int newIndex = e.NewStartingIndex;
                     if (oldIndex != -1 && newIndex != -1)
                     {
-                        ProjectNodeViewModel entry = this.ProjectNodes[oldIndex];
-                        this.ProjectNodes[oldIndex] = this.ProjectNodes[newIndex];
-                        this.ProjectNodes[newIndex] = entry;
+                        IProjectExplorerNodeViewModel entry = this.ExplorerNodes[oldIndex];
+                        this.ExplorerNodes[oldIndex] = this.ExplorerNodes[newIndex];
+                        this.ExplorerNodes[newIndex] = entry;
                     }
                     break;
 
@@ -166,11 +194,11 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
         private void RefreshProjects()
         {
-            this.ProjectNodes.Clear();
+            this.ExplorerNodes.Clear();
             foreach (Project project in this.session.Projects)
             {
                 ProjectNodeViewModel node = new ProjectNodeViewModel(this.eventAggregator, project);
-                this.ProjectNodes.Add(node);
+                this.ExplorerNodes.Add(node);
             }
         }
 

@@ -22,10 +22,15 @@ namespace Ame.Infrastructure.Models
         #region constructor
         
         public Project(string name, string version)
+            : this(name, version, new List<Map>())
+        {
+        }
+
+        public Project(string name, string version, IList<Map> maps)
         {
             this.Name.Value = name;
             this.Version.Value = version;
-            this.Maps = new ObservableCollection<Map>();
+            this.Maps = new ObservableCollection<Map>(maps);
             this.Tilesets = new ObservableCollection<TilesetModel>();
             this.CustomProperties = new ObservableCollection<MetadataProperty>();
 

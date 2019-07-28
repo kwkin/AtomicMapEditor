@@ -70,7 +70,7 @@
 
         <ScrollViewer Grid.Row="2">
             <extcomp:StretchingTreeView x:Name="projectTree"
-                                        ItemsSource="{Binding ProjectNodes}"
+                                        ItemsSource="{Binding ExplorerNodes}"
                                         HorizontalContentAlignment="Stretch"
                                         BorderThickness="0">
                 <i:Interaction.Triggers>
@@ -146,38 +146,22 @@
                         </MenuItem>
                     </x:Array>
 
-
+                    <!-- TODO add other context menus and layer node -->
                     <HierarchicalDataTemplate DataType="{x:Type local:ProjectNodeViewModel}"
                                               ItemsSource="{Binding Path=MapNodes}">
                         <local:ProjectNode>
-                            <local:ProjectNode.ContextMenu>
-                                <ContextMenu>
-                                    <ContextMenu.ItemsSource>
-                                        <CompositeCollection>
-                                            <CollectionContainer Collection="{StaticResource ProjectNodeContextMenu}" />
-                                            <Separator />
-                                            <CollectionContainer Collection="{StaticResource ProjectExplorerContextMenu}" />
-                                        </CompositeCollection>
-                                    </ContextMenu.ItemsSource>
-                                </ContextMenu>
-                            </local:ProjectNode.ContextMenu>
                         </local:ProjectNode>
                     </HierarchicalDataTemplate>
 
-                    <DataTemplate DataType="{x:Type local:MapNodeViewModel}">
+                    <HierarchicalDataTemplate DataType="{x:Type local:MapNodeViewModel}"
+                                              ItemsSource="{Binding Path=LayerNodes}">
                         <local:MapNode>
-                            <local:MapNode.ContextMenu>
-                                <ContextMenu>
-                                    <ContextMenu.ItemsSource>
-                                        <CompositeCollection>
-                                            <CollectionContainer Collection="{StaticResource MapNodeContextMenu}" />
-                                            <Separator />
-                                            <CollectionContainer Collection="{StaticResource ProjectExplorerContextMenu}" />
-                                        </CompositeCollection>
-                                    </ContextMenu.ItemsSource>
-                                </ContextMenu>
-                            </local:MapNode.ContextMenu>
                         </local:MapNode>
+                    </HierarchicalDataTemplate>
+
+                    <DataTemplate DataType="{x:Type local:LayerNodeViewModel}">
+                        <local:LayerNode>
+                        </local:LayerNode>
                     </DataTemplate>
                 </TreeView.Resources>
 
