@@ -110,11 +110,12 @@ namespace Ame.App.Wpf.UI.Interactions.LayerProperties
 
         private void OnNewLayerWindowClosed(INotification notification)
         {
+            // TODO change current layer on the layer list
             IConfirmation confirmation = notification as IConfirmation;
             if (confirmation.Confirmed)
             {
                 Layer layer = confirmation.Content as Layer;
-                this.Map.CurrentLayer.AddSibling(layer);
+                this.Map.CurrentLayer.AddToMe(layer);
             }
         }
 

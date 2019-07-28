@@ -19,7 +19,7 @@ using System.Windows.Media.Imaging;
 
 namespace Ame.Infrastructure.Models
 {
-    public class Map : GridModel, IContainsMetadata
+    public class Map : GridModel, IContainsMetadata, ILayerParent
     {
         #region fields
 
@@ -216,7 +216,7 @@ namespace Ame.Infrastructure.Models
         {
             int layerGroupCount = GetLayerGroupCount();
             string newLayerGroupName = string.Format("Layer Group #{0}", layerGroupCount);
-            ILayer newLayerGroup = new LayerGroup(newLayerGroupName);
+            ILayer newLayerGroup = new LayerGroup(this, newLayerGroupName);
             this.Layers.Add(newLayerGroup);
         }
 
@@ -481,6 +481,7 @@ namespace Ame.Infrastructure.Models
                 foreach (ILayer layer in this.Layers)
                 {
                     layer.Map.Value = this;
+                    layer.Parent = this;
                 }
             }
         }

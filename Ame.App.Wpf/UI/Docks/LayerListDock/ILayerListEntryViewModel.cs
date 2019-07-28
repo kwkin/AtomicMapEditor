@@ -19,7 +19,14 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             }
             else if (typeof(LayerGroup).IsInstanceOfType(layer))
             {
-                entry = new LayerListGroupViewModel(eventAggregator, session, layer as LayerGroup);
+                LayerGroup layerGroup = layer as LayerGroup;
+                LayerListGroupViewModel groupEntry = new LayerListGroupViewModel(eventAggregator, session, layerGroup);
+                foreach(ILayer childLayer in layerGroup.Layers)
+                {
+                    ILayerListEntryViewModel childEntry = Generate(eventAggregator, session, childLayer);
+                    groupEntry.Layers.Add(childEntry);
+                }
+                entry = groupEntry;
             }
             return entry;
         }

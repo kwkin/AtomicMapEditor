@@ -23,6 +23,9 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         private IEventAggregator eventAggregator;
         private IAmeSession session;
 
+        private bool isDragging;
+        private Point startDragPoint;
+
         #endregion fields
 
 
@@ -35,8 +38,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             this.layer = layer ?? throw new ArgumentNullException("layer");
 
             this.Layers = new ObservableCollection<ILayerListEntryViewModel>();
-
-            this.layer.Layers.CollectionChanged += LayersChanged;
+            this.isDragging = false;
 
             DrawingGroup drawingGroup = new DrawingGroup();
             DrawingGroup filled = new DrawingGroup();
@@ -49,8 +51,13 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             drawingGroup.Children.Add(layer.Group);
             this.layerPreview = new DrawingImage(drawingGroup);
 
+            this.layer.Layers.CollectionChanged += LayersChanged;
+
             this.EditTextboxCommand = new DelegateCommand(() => EditTextbox());
             this.StopEditingTextboxCommand = new DelegateCommand(() => StopEditingTextbox());
+            this.MouseLeftButtonDownCommand = new DelegateCommand<object>((point) => HandleLeftClickDown((MouseEventArgs)point));
+            this.MouseMoveCommand = new DelegateCommand<object>((point) => HandleMouseMove((MouseEventArgs)point));
+            this.DropCommand = new DelegateCommand<object>((point) => HandleDropCommand((DragEventArgs)point));
         }
 
         #endregion constructor
@@ -59,6 +66,9 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         #region properties
         public ICommand EditTextboxCommand { get; private set; }
         public ICommand StopEditingTextboxCommand { get; private set; }
+        public ICommand MouseLeftButtonDownCommand { get; private set; }
+        public ICommand MouseMoveCommand { get; private set; }
+        public ICommand DropCommand { get; private set; }
 
 
         public LayerGroup layer;
@@ -95,6 +105,46 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         #region methods
 
+        public void HandleLeftClickDown(MouseEventArgs e)
+        {
+            this.startDragPoint = e.GetPosition(null);
+        }
+
+        public void HandleMouseMove(MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed && !this.isDragging)
+            {
+                Point position = e.GetPosition(null);
+                if (Math.Abs(position.X - this.startDragPoint.X) > SystemParameters.MinimumHorizontalDragDistance
+                        || Math.Abs(position.Y - this.startDragPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
+                {
+                    StartDrag(e);
+                }
+            }
+        }
+
+        private void HandleDropCommand(DragEventArgs e)
+        {
+            IDataObject data = e.Data;
+            if (data.GetDataPresent(typeof(ILayer).ToString()))
+            {
+                ILayer draggedLayer = data.GetData(typeof(ILayer).ToString()) as ILayer;
+                this.layer.AddToMe(draggedLayer);
+            }
+        }
+
+        private void StartDrag(MouseEventArgs e)
+        {
+            this.isDragging = true;
+
+            DataObject data = new DataObject(typeof(ILayer).ToString(), this.Layer);
+            DependencyObject dragSource = e.Source as DependencyObject;
+
+            DragDropEffects de = DragDrop.DoDragDrop(dragSource, data, DragDropEffects.Move);
+
+            this.isDragging = false;
+        }
+
         private void LayersChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             switch(e.Action)
@@ -103,7 +153,15 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                     foreach (ILayer layer in e.NewItems)
                     {
                         ILayerListEntryViewModel entry = LayerListEntryGenerator.Generate(this.eventAggregator, this.session, layer);
-                        this.Layers.Add(entry);
+                        int insertIndex = e.NewStartingIndex;
+                        if (insertIndex < this.Layers.Count)
+                        {
+                            this.Layers.Insert(insertIndex++, entry);
+                        }
+                        else
+                        {
+                            this.Layers.Add(entry);
+                        }
                     }
                     break;
                 case NotifyCollectionChangedAction.Remove:

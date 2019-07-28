@@ -5,7 +5,6 @@ using Ame.Infrastructure.Models;
 using Ame.Infrastructure.Utils;
 using Prism.Commands;
 using Prism.Events;
-using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +12,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -26,8 +24,11 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         private IEventAggregator eventAggregator;
         private IAmeSession session;
 
-        DrawingGroup drawingGroup = new DrawingGroup();
-        DrawingGroup filled = new DrawingGroup();
+        private DrawingGroup drawingGroup = new DrawingGroup();
+        private DrawingGroup filled = new DrawingGroup();
+
+        private bool isDragging;
+        private Point startDragPoint;
 
         #endregion fields
 
@@ -48,6 +49,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             this.layerPreview = new DrawingImage(drawingGroup);
 
             RefreshPreview();
+            this.isDragging = false;
 
             layer.PixelHeight.PropertyChanged += LayerSizeChanged;
             layer.PixelWidth.PropertyChanged += LayerSizeChanged;
@@ -61,12 +63,16 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             this.RemoveLayerCommand = new DelegateCommand(() => RemoveLayer());
             this.EditTextboxCommand = new DelegateCommand(() => EditTextbox());
             this.StopEditingTextboxCommand = new DelegateCommand(() => StopEditingTextbox());
+            this.MouseLeftButtonDownCommand = new DelegateCommand<object>((point) => HandleLeftClickDown((MouseEventArgs)point));
+            this.MouseMoveCommand = new DelegateCommand<object>((point) => HandleMouseMove((MouseEventArgs)point));
+            this.DropCommand = new DelegateCommand<object>((point) => HandleDropCommand((DragEventArgs)point));
         }
 
         #endregion constructor
 
 
         #region properties
+
         public ICommand EditPropertiesCommand { get; private set; }
         public ICommand EditCollisionsCommand { get; private set; }
         public ICommand LayerToMapSizeCommand { get; private set; }
@@ -76,6 +82,9 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         public ICommand RemoveLayerCommand { get; private set; }
         public ICommand EditTextboxCommand { get; private set; }
         public ICommand StopEditingTextboxCommand { get; private set; }
+        public ICommand MouseLeftButtonDownCommand { get; private set; }
+        public ICommand MouseMoveCommand { get; private set; }
+        public ICommand DropCommand { get; private set; }
 
         public ILayer layer;
         public ILayer Layer
@@ -127,7 +136,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         public void DuplicateLayer()
         {
             ILayer copiedLayer = Utils.DeepClone<ILayer>(this.session.CurrentLayer.Value);
-            this.Layer.AddSibling(copiedLayer);
+            this.Layer.AddToMe(copiedLayer);
         }
 
         public void RemoveLayer()
@@ -158,6 +167,47 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                 Rect drawingRect = new Rect(0, 0, layer.PixelWidth.Value, layer.PixelHeight.Value);
                 context.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Transparent, 0), drawingRect);
             }
+        }
+
+        public void HandleLeftClickDown(MouseEventArgs e)
+        {
+            this.startDragPoint = e.GetPosition(null);
+        }
+
+        public void HandleMouseMove(MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed && !this.isDragging)
+            {
+                Point position = e.GetPosition(null);
+                if (Math.Abs(position.X - this.startDragPoint.X) > SystemParameters.MinimumHorizontalDragDistance
+                        || Math.Abs(position.Y - this.startDragPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
+                {
+                    StartDrag(e);
+                }
+            }
+        }
+
+        private void HandleDropCommand(DragEventArgs e)
+        {
+            IDataObject data = e.Data;
+            if (data.GetDataPresent(typeof(ILayer).ToString()))
+            {
+                ILayer draggedLayer = data.GetData(typeof(ILayer).ToString()) as ILayer;
+                this.layer.AddToMe(draggedLayer);
+            }
+        }
+
+        private void StartDrag(MouseEventArgs e)
+        {
+            this.isDragging = true;
+
+            // TODO make a standard text for drag and drop data types
+            DataObject data = new DataObject(typeof(ILayer).ToString(), this.Layer);
+            DependencyObject dragSource = e.Source as DependencyObject;
+
+            DragDropEffects de = DragDrop.DoDragDrop(dragSource, data, DragDropEffects.Move);
+
+            this.isDragging = false;
         }
 
         private void LayerSizeChanged(object sender, PropertyChangedEventArgs e)

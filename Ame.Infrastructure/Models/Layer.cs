@@ -40,6 +40,7 @@ namespace Ame.Infrastructure.Models
             : this(null, layerName, tileWidth, tileHeight, rows, columns)
         {
         }
+
         public Layer(Map map, string layerName, int tileWidth, int tileHeight, int rows, int columns)
         {
             this.Map.Value = map;
@@ -48,6 +49,8 @@ namespace Ame.Infrastructure.Models
             this.TileHeight.Value = tileHeight;
             this.Rows.Value = rows;
             this.Columns.Value = columns;
+
+            this.Parent = map;
             this.IsVisible.Value = true;
             this.Position.Value = LayerPosition.Base;
             this.Scale.Value = ScaleType.Tile;
@@ -162,7 +165,7 @@ namespace Ame.Infrastructure.Models
 
         public TileCollection TileIDs { get; set; }
 
-        public LayerGroup Parent { get; set; }
+        public ILayerParent Parent { get; set; }
 
         public ObservableCollection<MetadataProperty> CustomProperties { get; set; }
 
@@ -204,24 +207,12 @@ namespace Ame.Infrastructure.Models
             return new Point(pointX, pointY);
         }
 
-        public void AddSibling(ILayer layer)
+        public void AddToMe(ILayer layer)
         {
-            if (this.Parent == null)
-            {
-                int thisIndex = this.Map.Value.Layers.IndexOf(this);
-                if (thisIndex != -1 && thisIndex < this.Map.Value.LayerCount)
-                {
-                    this.Map.Value.Layers.Insert(thisIndex + 1, layer);
-                }
-                else
-                {
-                    this.Map.Value.Layers.Add(layer);
-                }
-            }
-            else
-            {
-                this.Parent.AddSibling(layer);
-            }
+            int thisIndex = this.Parent.Layers.IndexOf(this);
+            layer.Parent.Layers.Remove(layer);
+            layer.Parent = this.Parent;
+            this.Parent.Layers.Insert(thisIndex, layer);
         }
 
         private void LayerSizeChanged(object sender, PropertyChangedEventArgs e)

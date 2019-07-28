@@ -29,14 +29,14 @@ namespace Ame.Infrastructure.Models
         ReadOnlyBindableProperty<int> PixelWidth { get; }
         ReadOnlyBindableProperty<int> PixelHeight { get; }
         DrawingGroup Group { get; set; }
-        LayerGroup Parent { get; set; }
+        ILayerParent Parent { get; set; }
 
         #endregion properties
 
 
         #region methods
 
-        void AddSibling(ILayer layer);
+        void AddToMe(ILayer layer);
 
         #endregion methods
     }

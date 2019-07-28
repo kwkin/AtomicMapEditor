@@ -14,6 +14,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Ame.App.Wpf.UI.Docks.LayerListDock
@@ -44,6 +45,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                 ChangeMap(this.Session.CurrentMap.Value);
             }
 
+            this.CurrentLayer = this.Session.CurrentLayer.Value;
             this.Session.CurrentMap.PropertyChanged += CurrentMapChanged;
 
             this.NewLayerCommand = new DelegateCommand(() => NewTilesetLayer());
@@ -56,6 +58,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             this.EditCollisionsCommand = new DelegateCommand(() => EditCollisions());
             this.LayerToMapSizeCommand = new DelegateCommand(() => LayerToMapSize());
             this.CurrentLayerChangedCommand = new DelegateCommand<object>((entry) => CurrentLayerChanged(entry as ILayerListEntryViewModel));
+            this.DropCommand = new DelegateCommand<object>((point) => HandleDropCommand((DragEventArgs)point));
 
             this.eventAggregator.GetEvent<NewLayerEvent>().Subscribe(AddTilesetLayerMessage);
         }
@@ -75,8 +78,10 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         public ICommand EditCollisionsCommand { get; private set; }
         public ICommand LayerToMapSizeCommand { get; private set; }
         public ICommand CurrentLayerChangedCommand { get; private set; }
+        public ICommand DropCommand { get; private set; }
 
         public ObservableCollection<ILayerListEntryViewModel> Layers { get; private set; }
+        public ILayer CurrentLayer { get; set; }
 
         public IAmeSession Session { get; set; }
 
@@ -105,7 +110,9 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         {
             int layerGroupCount = this.Session.CurrentMap.Value.GetLayerGroupCount();
             string newLayerGroupName = string.Format("Layer Group #{0}", layerGroupCount);
-            this.Session.CurrentLayer.Value.AddSibling(new LayerGroup(newLayerGroupName));
+
+            LayerGroup newLayerGroup = new LayerGroup(this.Session.CurrentMap.Value, newLayerGroupName);
+            this.CurrentLayer.AddToMe(newLayerGroup);
         }
 
         public void MoveLayerDown()
@@ -129,7 +136,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         public void DuplicateLayer()
         {
             ILayer copiedLayer = Utils.DeepClone<ILayer>(this.Session.CurrentLayer.Value);
-            this.Session.CurrentLayer.Value.AddSibling(copiedLayer);
+            this.CurrentLayer.AddToMe(copiedLayer);
         }
 
         public void RemoveLayer()
@@ -163,10 +170,13 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         public void CurrentLayerChanged(ILayerListEntryViewModel layerEntry)
         {
-            if (layerEntry != null)
+            if (layerEntry == null)
             {
-                this.Session.CurrentLayer.Value = layerEntry.Layer;
+                return;
             }
+            this.CurrentLayer = layerEntry.Layer;
+            int layerIndex = this.Session.CurrentMap.Value.Layers.IndexOf(this.CurrentLayer);
+            this.Session.CurrentMap.Value.SelectedLayerIndex.Value = layerIndex;
         }
 
         public override void CloseDock()
@@ -196,6 +206,17 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             }
         }
 
+        private void HandleDropCommand(DragEventArgs e)
+        {
+            IDataObject data = e.Data;
+            if (data.GetDataPresent(typeof(ILayer).ToString()))
+            {
+                ILayer draggedLayer = data.GetData(typeof(ILayer).ToString()) as ILayer;
+                draggedLayer.Parent.Layers.Remove(draggedLayer);
+                this.Session.CurrentMap.Value.Layers.Add(draggedLayer);
+            }
+        }
+
         private void UpdateLayerList(object sender, NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)
@@ -207,7 +228,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                         int insertIndex = e.NewStartingIndex;
                         if (insertIndex < this.Layers.Count)
                         {
-                            this.Layers.Insert(insertIndex, entry);
+                            this.Layers.Insert(insertIndex++, entry);
                         }
                         else
                         {

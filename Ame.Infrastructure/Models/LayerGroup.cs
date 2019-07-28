@@ -11,7 +11,7 @@ using System.Windows.Media;
 
 namespace Ame.Infrastructure.Models
 {
-    public class LayerGroup : ILayer
+    public class LayerGroup : ILayer, ILayerParent
     {
         #region fields
 
@@ -20,16 +20,19 @@ namespace Ame.Infrastructure.Models
 
         #region constructor
 
-        public LayerGroup(string layerGroupName)
-            : this(layerGroupName, new ObservableCollection<ILayer>())
+        public LayerGroup(Map map, string layerGroupName)
+            : this(map, layerGroupName, new ObservableCollection<ILayer>())
         {
         }
 
-        public LayerGroup(string layerGroupName, ObservableCollection<ILayer> layers)
+        public LayerGroup(Map map, string layerGroupName, ObservableCollection<ILayer> layers)
         {
             this.Name.Value = layerGroupName;
             this.Layers = layers;
-            
+
+            this.Map.Value = map;
+            this.Parent = map;
+
             this.Layers.CollectionChanged += LayersChanged;
 
             this.pixelWidth.Value = GetPixelWidth();
@@ -43,7 +46,7 @@ namespace Ame.Infrastructure.Models
 
         #region properties
 
-        public BindableProperty<Map> Map { get; set; }
+        public BindableProperty<Map> Map { get; set; } = BindableProperty.Prepare<Map>();
 
         public BindableProperty<string> Name { get; set; } = BindableProperty.Prepare<string>(string.Empty);
 
@@ -70,7 +73,7 @@ namespace Ame.Infrastructure.Models
             }
         }
 
-        public LayerGroup Parent { get; set; }
+        public ILayerParent Parent { get; set; }
 
         public BindableProperty<int> Columns { get; set; } = BindableProperty.Prepare<int>();
 
@@ -133,10 +136,15 @@ namespace Ame.Infrastructure.Models
             return pixelHeight;
         }
 
-        public void AddSibling(ILayer layer)
+        public void AddToMe(ILayer layer)
         {
-            this.Layers.Add(layer);
+            if (this.Layers.Contains(layer))
+            {
+                return;
+            }
+            layer.Parent.Layers.Remove(layer);
             layer.Parent = this;
+            this.Layers.Insert(0, layer);
         }
 
         public int GetLayerCount()
