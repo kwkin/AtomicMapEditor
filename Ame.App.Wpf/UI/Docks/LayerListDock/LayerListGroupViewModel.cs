@@ -131,6 +131,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                 ILayer draggedLayer = data.GetData(typeof(ILayer).ToString()) as ILayer;
                 this.layer.AddToMe(draggedLayer);
             }
+            e.Handled = true;
         }
 
         private void StartDrag(MouseEventArgs e)

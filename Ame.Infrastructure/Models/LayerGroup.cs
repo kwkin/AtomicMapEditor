@@ -138,10 +138,6 @@ namespace Ame.Infrastructure.Models
 
         public void AddToMe(ILayer layer)
         {
-            if (this.Layers.Contains(layer))
-            {
-                return;
-            }
             layer.Parent.Layers.Remove(layer);
             layer.Parent = this;
             this.Layers.Insert(0, layer);

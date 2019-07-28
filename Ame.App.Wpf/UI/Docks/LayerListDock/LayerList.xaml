@@ -90,11 +90,15 @@
             <extcomp:StretchingTreeView x:Name="layerTree"
                                         ItemsSource="{Binding Layers}"
                                         HorizontalContentAlignment="Stretch"
-                                        BorderThickness="0">
+                                        BorderThickness="0"
+                                        AllowDrop="True">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectedItemChanged">
                         <i:InvokeCommandAction Command="{Binding CurrentLayerChangedCommand}"
                                                CommandParameter="{Binding ElementName=layerTree, Path=SelectedItem}" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="Drop">
+                        <actions:EventToCommand Command="{Binding DropCommand, Mode=OneWay}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
 

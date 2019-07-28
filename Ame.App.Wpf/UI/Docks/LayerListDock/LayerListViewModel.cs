@@ -212,9 +212,12 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             if (data.GetDataPresent(typeof(ILayer).ToString()))
             {
                 ILayer draggedLayer = data.GetData(typeof(ILayer).ToString()) as ILayer;
+
                 draggedLayer.Parent.Layers.Remove(draggedLayer);
+                draggedLayer.Parent = this.Session.CurrentMap.Value;
                 this.Session.CurrentMap.Value.Layers.Add(draggedLayer);
             }
+            e.Handled = true;
         }
 
         private void UpdateLayerList(object sender, NotifyCollectionChangedEventArgs e)
