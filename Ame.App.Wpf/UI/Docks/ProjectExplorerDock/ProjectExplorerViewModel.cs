@@ -44,6 +44,7 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
             this.ExplorerNodes = new ObservableCollection<IProjectExplorerNodeViewModel>();
 
+            // TODO add change command when a map without a project is added
             this.session.Projects.CollectionChanged += ProjectsChanged;
             RefreshProjects();
 
@@ -159,21 +160,21 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
                 case NotifyCollectionChangedAction.Add:
                     foreach (Project project in e.NewItems)
                     {
-                        // TODO add generator class
                         ProjectNodeViewModel node = new ProjectNodeViewModel(this.eventAggregator, project);
                         this.ExplorerNodes.Add(node);
                     }
                     break;
 
                 case NotifyCollectionChangedAction.Remove:
-                    //foreach (Project project in e.OldItems)
-                    //{
-                    //    IEnumerable<ProjectNodeViewModel> toRemove = new ObservableCollection<ProjectNodeViewModel>(this.ExplorerNodes.Where(entry => entry.Project == project));
-                    //    foreach (ProjectNodeViewModel node in toRemove)
-                    //    {
-                    //        this.ExplorerNodes.Remove(node);
-                    //    }
-                    //}
+                    foreach (Project project in e.OldItems)
+                    {
+                        IEnumerable<ProjectNodeViewModel> projectViewModels = this.ExplorerNodes.OfType<ProjectNodeViewModel>();
+                        IEnumerable<ProjectNodeViewModel> toRemove = projectViewModels.Where(entry => entry.Project == project);
+                        foreach (ProjectNodeViewModel node in toRemove)
+                        {
+                            this.ExplorerNodes.Remove(node);
+                        }
+                    }
                     break;
 
                 case NotifyCollectionChangedAction.Move:

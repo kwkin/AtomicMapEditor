@@ -1,4 +1,6 @@
-﻿using Ame.Infrastructure.BaseTypes;
+﻿using Ame.App.Wpf.UI.Interactions.LayerProperties;
+using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Models;
 using Prism.Commands;
 using Prism.Events;
@@ -29,6 +31,8 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
             this.Layer = layer ?? throw new ArgumentNullException("layer");
 
+            this.NewLayerCommand = new DelegateCommand(() => NewLayer());
+            this.EditLayerPropertiesCommand = new DelegateCommand(() => EditLayerProperties());
             this.EditTextboxCommand = new DelegateCommand(() => EditTextbox());
             this.StopEditingTextboxCommand = new DelegateCommand(() => StopEditingTextbox());
         }
@@ -38,16 +42,29 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
         #region properties
 
-        public ILayer Layer { get; set; }
+        public ICommand NewLayerCommand { get; private set; }
+        public ICommand EditLayerPropertiesCommand { get; private set; }
         public ICommand EditTextboxCommand { get; private set; }
         public ICommand StopEditingTextboxCommand { get; private set; }
 
+        public ILayer Layer { get; set; }
         public BindableProperty<bool> IsEditingName { get; set; } = BindableProperty<bool>.Prepare(false);
 
         #endregion properties
 
 
         #region methods
+        private void NewLayer()
+        {
+            NewLayerInteraction interaction = new NewLayerInteraction(this.Layer.Map.Value);
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
+        }
+
+        private void EditLayerProperties()
+        {
+            EditLayerInteraction interaction = new EditLayerInteraction(this.Layer);
+            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
+        }
 
         private void EditTextbox()
         {

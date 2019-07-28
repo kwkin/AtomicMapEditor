@@ -125,7 +125,7 @@
                              x:Key="MapNodeContextMenu"
                              x:Shared="false">
                         <MenuItem Header="Add Layer..."
-                                  Command="{Binding AddLayerCommand, Mode=OneWay}">
+                                  Command="{Binding NewLayerCommand, Mode=OneWay}">
                             <MenuItem.Icon>
                                 <Viewbox>
                                     <ContentControl Content="{StaticResource ic_AddBox}"
@@ -146,21 +146,79 @@
                         </MenuItem>
                     </x:Array>
 
+                    <x:Array Type="{x:Type sys:Object}"
+                             x:Key="LayerNodeContextMenu"
+                             x:Shared="false">
+                        <MenuItem Header="Add Layer..."
+                                  Command="{Binding NewLayerCommand, Mode=OneWay}">
+                            <MenuItem.Icon>
+                                <Viewbox>
+                                    <ContentControl Content="{StaticResource ic_AddBox}"
+                                                    Width="{StaticResource MidIconSize}"
+                                                    Height="{StaticResource MidIconSize}" />
+                                </Viewbox>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Edit..."
+                                  Command="{Binding EditLayerPropertiesCommand, Mode=OneWay}">
+                            <MenuItem.Icon>
+                                <Viewbox>
+                                    <ContentControl Content="{StaticResource ic_EditSquare}"
+                                                    Width="{StaticResource MidIconSize}"
+                                                    Height="{StaticResource MidIconSize}" />
+                                </Viewbox>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </x:Array>
+
                     <!-- TODO add other context menus and layer node -->
                     <HierarchicalDataTemplate DataType="{x:Type local:ProjectNodeViewModel}"
                                               ItemsSource="{Binding Path=MapNodes}">
                         <local:ProjectNode>
+                            <local:ProjectNode.ContextMenu>
+                                <ContextMenu>
+                                    <ContextMenu.ItemsSource>
+                                        <CompositeCollection>
+                                            <CollectionContainer Collection="{StaticResource ProjectNodeContextMenu}" />
+                                            <Separator />
+                                            <CollectionContainer Collection="{StaticResource ProjectExplorerContextMenu}" />
+                                        </CompositeCollection>
+                                    </ContextMenu.ItemsSource>
+                                </ContextMenu>
+                            </local:ProjectNode.ContextMenu>
                         </local:ProjectNode>
                     </HierarchicalDataTemplate>
 
                     <HierarchicalDataTemplate DataType="{x:Type local:MapNodeViewModel}"
                                               ItemsSource="{Binding Path=LayerNodes}">
                         <local:MapNode>
+                            <local:MapNode.ContextMenu>
+                                <ContextMenu>
+                                    <ContextMenu.ItemsSource>
+                                        <CompositeCollection>
+                                            <CollectionContainer Collection="{StaticResource MapNodeContextMenu}" />
+                                            <Separator />
+                                            <CollectionContainer Collection="{StaticResource ProjectExplorerContextMenu}" />
+                                        </CompositeCollection>
+                                    </ContextMenu.ItemsSource>
+                                </ContextMenu>
+                            </local:MapNode.ContextMenu>
                         </local:MapNode>
                     </HierarchicalDataTemplate>
 
                     <DataTemplate DataType="{x:Type local:LayerNodeViewModel}">
                         <local:LayerNode>
+                            <local:LayerNode.ContextMenu>
+                                <ContextMenu>
+                                    <ContextMenu.ItemsSource>
+                                        <CompositeCollection>
+                                            <CollectionContainer Collection="{StaticResource LayerNodeContextMenu}" />
+                                            <Separator />
+                                            <CollectionContainer Collection="{StaticResource ProjectExplorerContextMenu}" />
+                                        </CompositeCollection>
+                                    </ContextMenu.ItemsSource>
+                                </ContextMenu>
+                            </local:LayerNode.ContextMenu>
                         </local:LayerNode>
                     </DataTemplate>
                 </TreeView.Resources>

@@ -8,6 +8,7 @@ using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,7 +38,9 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
                 this.LayerNodes.Add(new LayerNodeViewModel(this.eventAggregator, layer));
             }
 
-            this.AddLayerCommand = new DelegateCommand(() => AddLayer());
+            this.Map.Layers.CollectionChanged += LayersChanged;
+
+            this.NewLayerCommand = new DelegateCommand(() => NewLayer());
             this.EditMapPropertiesCommand = new DelegateCommand(() => EditMapProperties());
             this.EditTextboxCommand = new DelegateCommand(() => EditTextbox());
             this.StopEditingTextboxCommand = new DelegateCommand(() => StopEditingTextbox());
@@ -48,7 +51,7 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
         #region properties
 
-        public ICommand AddLayerCommand { get; private set; }
+        public ICommand NewLayerCommand { get; private set; }
         public ICommand EditMapPropertiesCommand { get; private set; }
         public ICommand EditTextboxCommand { get; private set; }
         public ICommand StopEditingTextboxCommand { get; private set; }
@@ -63,7 +66,47 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
         #region methods
 
-        private void AddLayer()
+        private void LayersChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    foreach (Layer layer in e.NewItems)
+                    {
+                        LayerNodeViewModel node = new LayerNodeViewModel(this.eventAggregator, layer);
+                        this.LayerNodes.Add(node);
+                    }
+                    break;
+
+                case NotifyCollectionChangedAction.Remove:
+                    foreach (Map map in e.OldItems)
+                    {
+                        IEnumerable<LayerNodeViewModel> toRemove = this.LayerNodes.Where(entry => entry.Layer == map);
+                        foreach (LayerNodeViewModel node in toRemove)
+                        {
+                            this.LayerNodes.Remove(node);
+                        }
+                    }
+                    break;
+
+                case NotifyCollectionChangedAction.Move:
+                    int oldIndex = e.OldStartingIndex;
+                    int newIndex = e.NewStartingIndex;
+                    if (oldIndex != -1 && newIndex != -1)
+                    {
+                        LayerNodeViewModel entry = this.LayerNodes[oldIndex];
+                        this.LayerNodes[oldIndex] = this.LayerNodes[newIndex];
+                        this.LayerNodes[newIndex] = entry;
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        // TODO change to action handler class
+        private void NewLayer()
         {
             NewLayerInteraction interaction = new NewLayerInteraction(this.Map);
             this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);

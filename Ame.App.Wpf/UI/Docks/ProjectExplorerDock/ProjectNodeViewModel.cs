@@ -80,7 +80,7 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
                 case NotifyCollectionChangedAction.Remove:
                     foreach (Map map in e.OldItems)
                     {
-                        IEnumerable<MapNodeViewModel> toRemove = new ObservableCollection<MapNodeViewModel>(this.MapNodes.Where(entry => entry.Map == map));
+                        IEnumerable<MapNodeViewModel> toRemove = this.MapNodes.Where(entry => entry.Map == map);
                         foreach (MapNodeViewModel node in toRemove)
                         {
                             this.MapNodes.Remove(node);
