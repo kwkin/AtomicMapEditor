@@ -11,8 +11,12 @@ namespace Ame.Components.Extended
     {
         // TODO enable drag and drop
         #region fields
-        
+
         #endregion fields
+
+        #region properties
+
+        #endregion properties
 
 
         #region constructor
@@ -59,7 +63,7 @@ namespace Ame.Components.Extended
         #endregion methods
     }
 
-    internal class StretchingTreeViewItem : TreeViewItem
+    public class StretchingTreeViewItem : TreeViewItem
     {
         #region constructor
 

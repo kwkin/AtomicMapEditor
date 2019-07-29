@@ -169,7 +169,7 @@ namespace Ame.Infrastructure.Models
 
         private void CurrentMapChanged(object sender, PropertyChangedEventArgs e)
         {
-            this.CurrentLayer.Value = this.CurrentMap.Value.CurrentLayer;
+            this.CurrentLayer.Value = this.CurrentMap.Value.CurrentLayer.Value;
             this.currentLayers.Value = this.CurrentMap.Value.Layers;
             this.CurrentTilesets.Value = this.CurrentMap.Value.Tilesets;
         }

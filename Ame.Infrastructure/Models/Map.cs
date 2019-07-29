@@ -80,6 +80,7 @@ namespace Ame.Infrastructure.Models
             this.RedoQueue = new ObservableStack<DrawAction>();
 
             InitializeLayers();
+            UpdateSelectedLayer();
 
             UpdatePixelWidth();
             UpdatePixelHeight();
@@ -87,6 +88,7 @@ namespace Ame.Infrastructure.Models
             UpdateIsStored();
 
             this.SourcePath.PropertyChanged += SourcePathChanged;
+            this.SelectedLayerIndex.PropertyChanged += SelectedLayerIndexChanged;
             this.Layers.CollectionChanged += LayersChanged;
             this.UndoQueue.CollectionChanged += UndoQueueChanged;
         }
@@ -153,11 +155,14 @@ namespace Ame.Infrastructure.Models
             }
         }
 
-        public ILayer CurrentLayer
+        private BindableProperty<ILayer> currentLayer = BindableProperty.Prepare<ILayer>();
+        private ReadOnlyBindableProperty<ILayer> currentLayerReadOnly;
+        public ReadOnlyBindableProperty<ILayer> CurrentLayer
         {
             get
             {
-                return this.Layers[this.SelectedLayerIndex.Value] as ILayer;
+                this.currentLayerReadOnly = this.currentLayerReadOnly ?? this.currentLayer.ReadOnlyProperty();
+                return this.currentLayerReadOnly;
             }
         }
 
@@ -222,7 +227,7 @@ namespace Ame.Infrastructure.Models
 
         public void DuplicateCurrentLayer()
         {
-            ILayer copiedLayer = Utils.Utils.DeepClone<ILayer>(this.CurrentLayer);
+            ILayer copiedLayer = Utils.Utils.DeepClone<ILayer>(this.CurrentLayer.Value);
             this.Layers.Add(copiedLayer);
         }
 
@@ -274,6 +279,16 @@ namespace Ame.Infrastructure.Models
             this.UndoQueue.Push(undoAction);
         }
 
+        private void SelectedLayerIndexChanged(object sender, PropertyChangedEventArgs e)
+        {
+            UpdateSelectedLayer();
+        }
+
+        private void UpdateSelectedLayer()
+        {
+            this.currentLayer.Value = this.Layers[this.SelectedLayerIndex.Value] as ILayer;
+        }
+
         private DrawAction ApplyAction(DrawAction action)
         {
             Stack<Tile> previousTiles = new Stack<Tile>();
@@ -302,7 +317,7 @@ namespace Ame.Infrastructure.Models
             {
                 return null;
             }
-            Layer currentLayer = this.CurrentLayer as Layer;
+            Layer currentLayer = this.CurrentLayer.Value as Layer;
             int previousTileIndex = (int)(tile.Bounds.X / this.TileWidth.Value) + (int)(tile.Bounds.Y / this.TileHeight.Value) * this.Columns.Value;
             ImageDrawing previousImage = currentLayer.LayerItems[previousTileIndex] as ImageDrawing;
             Tile previousTileID = currentLayer.TileIDs[previousTileIndex];

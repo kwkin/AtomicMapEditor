@@ -115,7 +115,10 @@ namespace Ame.App.Wpf.UI.Interactions.LayerProperties
             if (confirmation.Confirmed)
             {
                 Layer layer = confirmation.Content as Layer;
-                this.Map.CurrentLayer.AddToMe(layer);
+                this.Map.CurrentLayer.Value.AddToMe(layer);
+
+                int index = this.Map.Layers.IndexOf(layer);
+                this.Map.SelectedLayerIndex.Value = index;
             }
         }
 

@@ -109,6 +109,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         }
 
         public BindableProperty<bool> IsEditingName { get; set; } = BindableProperty<bool>.Prepare(false);
+        public BindableProperty<bool> IsSelected { get; set; } = BindableProperty<bool>.Prepare(false);
 
         #endregion properties
 

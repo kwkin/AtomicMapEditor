@@ -79,9 +79,9 @@ namespace Ame.Infrastructure.DrawingTools
 
         public void DrawReleased(Map map, Point pixelPosition)
         {
-            if (!ImageUtils.Intersects(map.CurrentLayer.Group, pixelPosition))
+            if (!ImageUtils.Intersects(map.CurrentLayer.Value.Group, pixelPosition))
             {
-                pixelPosition = ImageUtils.BindPoint(map.CurrentLayer.Group, pixelPosition);
+                pixelPosition = ImageUtils.BindPoint(map.CurrentLayer.Value.Group, pixelPosition);
             }
             Point topLeft = GeometryUtils.TopLeftPoint(this.pressPoint, pixelPosition);
             Point bottomRight = GeometryUtils.BottomRightPoint(this.pressPoint, pixelPosition);
@@ -93,15 +93,15 @@ namespace Ame.Infrastructure.DrawingTools
 
         public void DrawHoverSample(Map map, DrawingGroup drawingArea, double zoom, Point pixelPosition)
         {
-            bool isIntersecting = ImageUtils.Intersects(map.CurrentLayer.Group, pixelPosition);
+            bool isIntersecting = ImageUtils.Intersects(map.CurrentLayer.Value.Group, pixelPosition);
             if (!isIntersecting && !this.isDrawing)
             {
                 return;
             }
             Point topLeft = GeometryUtils.TopLeftPoint(this.pressPoint, pixelPosition);
             Point bottomRight = GeometryUtils.BottomRightPoint(this.pressPoint, pixelPosition);
-            topLeft = ImageUtils.BindPoint(map.CurrentLayer.Group, topLeft);
-            bottomRight = ImageUtils.BindPoint(map.CurrentLayer.Group, bottomRight);
+            topLeft = ImageUtils.BindPoint(map.CurrentLayer.Value.Group, topLeft);
+            bottomRight = ImageUtils.BindPoint(map.CurrentLayer.Value.Group, bottomRight);
 
             Stack<Tile> tiles;
             if (!this.isDrawing)
@@ -135,7 +135,7 @@ namespace Ame.Infrastructure.DrawingTools
                 }
                 if (typeof(Layer).IsAssignableFrom(map.CurrentLayer.GetType()))
                 {
-                    Layer currentLayer = map.CurrentLayer as Layer;
+                    Layer currentLayer = map.CurrentLayer.Value as Layer;
                     foreach (Tile tile in tiles)
                     {
                         if (tile.Bounds.IntersectsWith(currentLayer.GetBoundsExclusive()))

@@ -26,6 +26,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         private IEventAggregator eventAggregator;
 
         private Map previousMap;
+        private ILayerListEntryViewModel previouslySelected;
 
         #endregion fields
 
@@ -47,6 +48,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
             this.CurrentLayer = this.Session.CurrentLayer.Value;
             this.Session.CurrentMap.PropertyChanged += CurrentMapChanged;
+            this.Session.CurrentMap.Value.CurrentLayer.PropertyChanged += CurrentLayerChanged;
 
             this.NewLayerCommand = new DelegateCommand(() => NewTilesetLayer());
             this.NewLayerGroupCommand = new DelegateCommand(() => NewLayerGroup());
@@ -168,12 +170,30 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             Console.WriteLine("Layer To Map Size");
         }
 
+        private void CurrentLayerChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Map map = this.Session.CurrentMap.Value;
+            IEnumerable<ILayerListEntryViewModel> selected = this.Layers.Where(entry => entry.Layer == map.CurrentLayer.Value);
+            foreach (ILayerListEntryViewModel entry in selected)
+            {
+                CurrentLayerChanged(entry);
+            }
+        }
+
         public void CurrentLayerChanged(ILayerListEntryViewModel layerEntry)
         {
             if (layerEntry == null)
             {
                 return;
             }
+            if (this.previouslySelected == layerEntry)
+            {
+                return;
+            }
+            this.previouslySelected.IsSelected.Value = false;
+            layerEntry.IsSelected.Value = true;
+            this.previouslySelected = layerEntry;
+
             this.CurrentLayer = layerEntry.Layer;
             int layerIndex = this.Session.CurrentMap.Value.Layers.IndexOf(this.CurrentLayer);
             this.Session.CurrentMap.Value.SelectedLayerIndex.Value = layerIndex;
@@ -196,13 +216,23 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             if (this.previousMap != null)
             {
                 this.previousMap.Layers.CollectionChanged -= UpdateLayerList;
+                this.previousMap.CurrentLayer.PropertyChanged -= CurrentLayerChanged;
             }
             this.previousMap = map;
             map.Layers.CollectionChanged += UpdateLayerList;
+            map.CurrentLayer.PropertyChanged += CurrentLayerChanged;
+
             foreach (ILayer layer in this.Session.CurrentLayers.Value)
             {
                 ILayerListEntryViewModel entry = LayerListEntryGenerator.Generate(this.eventAggregator, this.Session, layer);
                 this.Layers.Add(entry);
+            }
+
+            IEnumerable<ILayerListEntryViewModel> selected = this.Layers.Where(entry => entry.Layer == map.CurrentLayer.Value);
+            foreach (ILayerListEntryViewModel entry in selected)
+            {
+                entry.IsSelected.Value = true;
+                this.previouslySelected = entry;
             }
         }
 

@@ -91,7 +91,7 @@
                                         ItemsSource="{Binding Layers}"
                                         HorizontalContentAlignment="Stretch"
                                         BorderThickness="0"
-                                        AllowDrop="True">
+                                        AllowDrop="True" >
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectedItemChanged">
                         <i:InvokeCommandAction Command="{Binding CurrentLayerChangedCommand}"
@@ -227,8 +227,13 @@
                             </local:LayerListEntry.ContextMenu>
                         </local:LayerListEntry>
                     </DataTemplate>
-                </TreeView.Resources>
 
+                    <Style TargetType="extcomp:StretchingTreeViewItem">
+                        <Setter Property="IsSelected"
+                                Value="{Binding IsSelected.Value, Mode=TwoWay}" />
+                    </Style>
+                </TreeView.Resources>
+                
                 <extcomp:StretchingTreeView.ContextMenu>
                     <ContextMenu>
                         <ContextMenu.ItemsSource>

@@ -1,4 +1,5 @@
-﻿using Ame.Infrastructure.Models;
+﻿using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Models;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -47,6 +48,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         #region properties
 
         ILayer Layer { get; set; }
+        BindableProperty<bool> IsSelected { get; set; }
 
         #endregion properties
 
