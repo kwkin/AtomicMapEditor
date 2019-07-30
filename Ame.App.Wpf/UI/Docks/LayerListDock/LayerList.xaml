@@ -209,7 +209,7 @@
                     </x:Array>
 
                     <HierarchicalDataTemplate DataType="{x:Type local:LayerListGroupViewModel}"
-                                              ItemsSource="{Binding Path=Layers}">
+                                              ItemsSource="{Binding Path=LayerNodes}">
                         <local:LayerListGroup />
                     </HierarchicalDataTemplate>
 

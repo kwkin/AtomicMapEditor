@@ -151,13 +151,21 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             layerEntry.IsSelected.Value = true;
             this.selectedNode = layerEntry;
             this.CurrentMap.Value.CurrentLayer.Value = layerEntry.Layer;
+            this.CurrentLayer.Value = layerEntry.Layer;
         }
 
+        // TODO make this work for the tree structure
         private void CurrentLayerChanged(object sender, PropertyChangedEventArgs e)
         {
             ILayer currentLayer = this.CurrentMap.Value.CurrentLayer.Value;
-            IEnumerable<ILayerListNodeViewModel> selected = this.LayerNodes.Where(entry => entry.Layer == currentLayer);
             this.selectedNode.IsSelected.Value = false;
+
+            List<ILayerListNodeViewModel> selected = new List<ILayerListNodeViewModel>();
+            foreach (ILayerListNodeViewModel layerNode in this.LayerNodes)
+            {
+                selected.AddRange(layerNode.GetNodeFromLayer(currentLayer));
+            }
+
             foreach (ILayerListNodeViewModel entry in selected)
             {
                 this.selectedNode = entry;

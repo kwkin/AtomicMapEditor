@@ -25,7 +25,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                 foreach(ILayer childLayer in layerGroup.Layers)
                 {
                     ILayerListNodeViewModel childEntry = Generate(eventAggregator, session, childLayer);
-                    groupEntry.Layers.Add(childEntry);
+                    groupEntry.LayerNodes.Add(childEntry);
                 }
                 entry = groupEntry;
             }
@@ -54,6 +54,8 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
 
         #region methods
+
+        IEnumerable<ILayerListNodeViewModel> GetNodeFromLayer(ILayer layer);
 
         #endregion methods
     }

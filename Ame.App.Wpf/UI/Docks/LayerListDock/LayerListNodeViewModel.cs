@@ -187,6 +187,15 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                 }
             }
         }
+        public IEnumerable<ILayerListNodeViewModel> GetNodeFromLayer(ILayer layer)
+        {
+            List<ILayerListNodeViewModel> selected = new List<ILayerListNodeViewModel>();
+            if (this.layer == layer)
+            {
+                selected.Add(this);
+            }
+            return selected;
+        }
 
         private void HandleDropCommand(DragEventArgs e)
         {
