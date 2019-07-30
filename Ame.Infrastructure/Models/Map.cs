@@ -19,6 +19,8 @@ using System.Windows.Media.Imaging;
 
 namespace Ame.Infrastructure.Models
 {
+    // TODO BUG: selected layer index does not work for the tree structure.
+    // TODO verify that the current layer is part of the layer list.
     public class Map : GridModel, IContainsMetadata, ILayerParent
     {
         #region fields
@@ -80,7 +82,6 @@ namespace Ame.Infrastructure.Models
             this.RedoQueue = new ObservableStack<DrawAction>();
 
             InitializeLayers();
-            UpdateSelectedLayer();
 
             UpdatePixelWidth();
             UpdatePixelHeight();
@@ -88,7 +89,6 @@ namespace Ame.Infrastructure.Models
             UpdateIsStored();
 
             this.SourcePath.PropertyChanged += SourcePathChanged;
-            this.SelectedLayerIndex.PropertyChanged += SelectedLayerIndexChanged;
             this.Layers.CollectionChanged += LayersChanged;
             this.UndoQueue.CollectionChanged += UndoQueueChanged;
         }
@@ -115,12 +115,9 @@ namespace Ame.Infrastructure.Models
 
         [MetadataProperty(MetadataType.Property, "Version")]
         public BindableProperty<string> Version { get; set; } = BindableProperty.Prepare<string>(string.Empty);
+        public BindableProperty<Project> Project { get; set; } = BindableProperty.Prepare<Project>();
 
         public ObservableCollection<ILayer> Layers { get; set; }
-
-        public BindableProperty<int> SelectedLayerIndex { get; set; } = BindableProperty.Prepare<int>();
-
-        public BindableProperty<Project> Project { get; set; } = BindableProperty.Prepare<Project>();
 
         private BindableProperty<bool> isRecentlySaved = BindableProperty.Prepare<bool>();
         private ReadOnlyBindableProperty<bool> isRecentlySavedReadOnly;
@@ -155,16 +152,7 @@ namespace Ame.Infrastructure.Models
             }
         }
 
-        private BindableProperty<ILayer> currentLayer = BindableProperty.Prepare<ILayer>();
-        private ReadOnlyBindableProperty<ILayer> currentLayerReadOnly;
-        public ReadOnlyBindableProperty<ILayer> CurrentLayer
-        {
-            get
-            {
-                this.currentLayerReadOnly = this.currentLayerReadOnly ?? this.currentLayer.ReadOnlyProperty();
-                return this.currentLayerReadOnly;
-            }
-        }
+        public BindableProperty<ILayer> CurrentLayer { get; set; } = BindableProperty.Prepare<ILayer>();
 
         public int LayerCount
         {
@@ -214,7 +202,7 @@ namespace Ame.Infrastructure.Models
 
         public void DeleteCurrentLayer()
         {
-            this.Layers.RemoveAt(this.SelectedLayerIndex.Value);
+            this.Layers.Remove(this.CurrentLayer.Value);
         }
 
         public void NewLayerGroup()
@@ -222,13 +210,13 @@ namespace Ame.Infrastructure.Models
             int layerGroupCount = GetLayerGroupCount();
             string newLayerGroupName = string.Format("Layer Group #{0}", layerGroupCount);
             ILayer newLayerGroup = new LayerGroup(this, newLayerGroupName);
-            this.Layers.Add(newLayerGroup);
+            this.CurrentLayer.Value.AddToMe(newLayerGroup);
         }
 
         public void DuplicateCurrentLayer()
         {
             ILayer copiedLayer = Utils.Utils.DeepClone<ILayer>(this.CurrentLayer.Value);
-            this.Layers.Add(copiedLayer);
+            this.CurrentLayer.Value.AddToMe(copiedLayer);
         }
 
         public void Draw(DrawAction action)
@@ -277,16 +265,6 @@ namespace Ame.Infrastructure.Models
             DrawAction redoAction = this.RedoQueue.Pop();
             DrawAction undoAction = ApplyAction(redoAction);
             this.UndoQueue.Push(undoAction);
-        }
-
-        private void SelectedLayerIndexChanged(object sender, PropertyChangedEventArgs e)
-        {
-            UpdateSelectedLayer();
-        }
-
-        private void UpdateSelectedLayer()
-        {
-            this.currentLayer.Value = this.Layers[this.SelectedLayerIndex.Value] as ILayer;
         }
 
         private DrawAction ApplyAction(DrawAction action)
@@ -499,6 +477,7 @@ namespace Ame.Infrastructure.Models
                     layer.Parent = this;
                 }
             }
+            this.CurrentLayer.Value = this.Layers[0];
         }
 
         private void SourcePathChanged(object sender, PropertyChangedEventArgs e)

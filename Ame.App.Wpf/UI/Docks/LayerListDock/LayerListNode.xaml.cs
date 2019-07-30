@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Ame.App.Wpf.UI.Docks.LayerListDock
 {
     /// <summary>
-    /// Interaction logic for LayerListEntry.xaml
+    /// Interaction logic for LayerListNode.xaml
     /// </summary>
-    public partial class LayerListEntry : UserControl
+    public partial class LayerListNode : UserControl
     {
-        public LayerListEntry()
+        public LayerListNode()
         {
             InitializeComponent();
         }

@@ -17,7 +17,7 @@ using System.Windows.Media;
 
 namespace Ame.App.Wpf.UI.Docks.LayerListDock
 {
-    public class LayerListEntryViewModel : ILayerListEntryViewModel
+    public class LayerListNodeViewModel : ILayerListNodeViewModel
     {
         #region fields
 
@@ -35,7 +35,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         #region constructor
 
-        public LayerListEntryViewModel(IEventAggregator eventAggregator, IAmeSession session, Layer layer)
+        public LayerListNodeViewModel(IEventAggregator eventAggregator, IAmeSession session, Layer layer)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
             this.session = session ?? throw new ArgumentNullException("session is null");
@@ -136,7 +136,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         public void DuplicateLayer()
         {
-            ILayer copiedLayer = Utils.DeepClone<ILayer>(this.session.CurrentLayer.Value);
+            ILayer copiedLayer = Utils.DeepClone<ILayer>(this.session.CurrentMap.Value.CurrentLayer.Value);
             this.Layer.AddToMe(copiedLayer);
         }
 

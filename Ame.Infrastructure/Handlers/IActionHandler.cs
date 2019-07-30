@@ -72,11 +72,15 @@ namespace Ame.Infrastructure.Handlers
 
         void GuillotineMap();
 
-        void NewGroup();
+        void NewLayerGroup();
 
         void DuplicateLayer();
 
         void MergeLayerDown();
+
+        void MoveLayerDown();
+
+        void MoveLayerUp();
 
         void MergeLayerUp();
 
@@ -92,9 +96,11 @@ namespace Ame.Infrastructure.Handlers
 
         void AddGroup();
 
+        void LayerToMapSize();
+
         void EditItemProperties();
 
-        void EditItemCollisions();
+        void EditCollisions();
 
         void CollisionsView();
 

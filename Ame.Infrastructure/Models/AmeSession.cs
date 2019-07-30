@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace Ame.Infrastructure.Models
 {
+    // TODO remove reference to current layer
     public class AmeSession : IAmeSession
     {
         #region fields
@@ -49,7 +50,6 @@ namespace Ame.Infrastructure.Models
             this.Version.Value = version;
 
             this.CurrentMap.PropertyChanged += CurrentMapChanged;
-            this.CurrentLayer.PropertyChanged += CurrentLayerChanged;
         }
 
         #endregion constructor
@@ -77,9 +77,7 @@ namespace Ame.Infrastructure.Models
         public BindableProperty<Project> CurrentProject { get; set; } = BindableProperty.Prepare<Project>();
 
         public BindableProperty<Map> CurrentMap { get; set; } = BindableProperty.Prepare<Map>();
-
-        public BindableProperty<ILayer> CurrentLayer { get; set; } = BindableProperty.Prepare<ILayer>();
-
+        
         public BindableProperty<TilesetModel> CurrentTileset { get; set; } = BindableProperty.Prepare<TilesetModel>();
 
         public BindableProperty<string> Version { get; set; } = BindableProperty.Prepare<string>("");
@@ -124,14 +122,6 @@ namespace Ame.Infrastructure.Models
             }
         }
 
-        public int CurrentLayerIndex
-        {
-            get
-            {
-                return this.CurrentLayers.Value.IndexOf(this.CurrentLayer.Value);
-            }
-        }
-
         public int CurrentTilesetIndex
         {
             get
@@ -169,18 +159,8 @@ namespace Ame.Infrastructure.Models
 
         private void CurrentMapChanged(object sender, PropertyChangedEventArgs e)
         {
-            this.CurrentLayer.Value = this.CurrentMap.Value.CurrentLayer.Value;
             this.currentLayers.Value = this.CurrentMap.Value.Layers;
             this.CurrentTilesets.Value = this.CurrentMap.Value.Tilesets;
-        }
-
-        private void CurrentLayerChanged(object sender, PropertyChangedEventArgs e)
-        {
-            int currentLayerIndex = this.CurrentMap.Value.Layers.IndexOf(this.CurrentLayer.Value);
-            if (currentLayerIndex != -1)
-            {
-                this.CurrentMap.Value.SelectedLayerIndex.Value = currentLayerIndex;
-            }
         }
 
         #endregion methods

@@ -1,4 +1,5 @@
 ﻿using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Handlers;
 using Ame.Infrastructure.Models;
 using Prism.Events;
 using System;
@@ -14,15 +15,17 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         #region fields
 
         private IEventAggregator eventAggregator;
+        private IActionHandler actionHandler;
 
         #endregion fields
 
 
         #region constructors
 
-        public LayerListCreator(IEventAggregator eventAggregator, IAmeSession session)
+        public LayerListCreator(IEventAggregator eventAggregator, IAmeSession session, IActionHandler actionHandler)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
+            this.actionHandler = actionHandler ?? throw new ArgumentNullException("handler is null");
             this.Session = session ?? throw new ArgumentNullException("session is null");
         }
 
@@ -40,7 +43,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         public override DockViewModelTemplate CreateDock()
         {
-            return new LayerListViewModel(this.eventAggregator, Session);
+            return new LayerListViewModel(this.eventAggregator, this.Session, this.actionHandler);
         }
 
         public override bool AppliesTo(Type type)

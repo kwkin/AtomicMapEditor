@@ -90,7 +90,7 @@ namespace Ame.App.Wpf.UI
                 new ClipboardCreator(this.eventAggregator),
                 new ItemEditorCreator(this.eventAggregator, constants, this.session),
                 new ItemListCreator(this.eventAggregator, this.session),
-                new LayerListCreator(this.eventAggregator, this.session),
+                new LayerListCreator(this.eventAggregator, this.session, this.actionHandler),
                 new MinimapCreator(this.eventAggregator, this.session),
                 new SelectedBrushCreator(this.eventAggregator, constants),
                 new ProjectExplorerCreator(this.eventAggregator, this.session),

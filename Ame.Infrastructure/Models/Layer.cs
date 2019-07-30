@@ -213,9 +213,6 @@ namespace Ame.Infrastructure.Models
             layer.Parent.Layers.Remove(layer);
             layer.Parent = this.Parent;
             this.Parent.Layers.Insert(thisIndex, layer);
-
-            int newIndex = this.Parent.Layers.IndexOf(this);
-            this.Map.Value.SelectedLayerIndex.Value = newIndex;
         }
 
         private void LayerSizeChanged(object sender, PropertyChangedEventArgs e)

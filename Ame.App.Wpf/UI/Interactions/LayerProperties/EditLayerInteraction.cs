@@ -57,7 +57,7 @@ namespace Ame.App.Wpf.UI.Interactions.LayerProperties
 
         public void UpdateMissingContent(IAmeSession session)
         {
-            this.Layer = this.Layer ?? session.CurrentLayer.Value;
+            this.Layer = this.Layer ?? session.CurrentMap.Value.CurrentLayer.Value;
             this.Title = this.Title ?? string.Format("Edit Layer - {0}", this.Layer.Name);
         }
 

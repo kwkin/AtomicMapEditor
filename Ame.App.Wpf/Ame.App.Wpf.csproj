@@ -117,20 +117,20 @@
       <DependentUpon>ItemListGroup.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Docks\ItemListDock\ItemListViewModel.cs" />
-    <Compile Include="UI\Docks\LayerListDock\ILayerListEntryViewModel.cs" />
+    <Compile Include="UI\Docks\LayerListDock\ILayerListNodeViewModel.cs" />
     <Compile Include="UI\Docks\LayerListDock\LayerList.xaml.cs">
       <DependentUpon>LayerList.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Docks\LayerListDock\LayerListCreator.cs" />
-    <Compile Include="UI\Docks\LayerListDock\LayerListEntry.xaml.cs">
-      <DependentUpon>LayerListEntry.xaml</DependentUpon>
+    <Compile Include="UI\Docks\LayerListDock\LayerListNode.xaml.cs">
+      <DependentUpon>LayerListNode.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Docks\LayerListDock\LayerListGroup.xaml.cs">
       <DependentUpon>LayerListGroup.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Docks\LayerListDock\LayerListGroupViewModel.cs" />
     <Compile Include="UI\Docks\LayerListDock\LayerListViewModel.cs" />
-    <Compile Include="UI\Docks\LayerListDock\LayerListEntryViewModel.cs" />
+    <Compile Include="UI\Docks\LayerListDock\LayerListNodeViewModel.cs" />
     <Compile Include="UI\Docks\MinimapDock\Minimap.xaml.cs">
       <DependentUpon>Minimap.xaml</DependentUpon>
     </Compile>
@@ -412,7 +412,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Docks\LayerListDock\LayerListEntry.xaml">
+    <Page Include="UI\Docks\LayerListDock\LayerListNode.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

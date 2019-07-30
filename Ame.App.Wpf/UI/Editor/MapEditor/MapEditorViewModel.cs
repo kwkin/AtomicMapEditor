@@ -103,11 +103,11 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             this.updatePositionLabelStopWatch = Stopwatch.StartNew();
 
             AddMapLayers(map);
-            ChangeCurrentLayer(this.session.CurrentLayer.Value);
+            ChangeCurrentLayer(this.session.CurrentMap.Value.CurrentLayer.Value);
             RedrawBackground();
             UpdateMapRecentlySaved();
 
-            this.session.CurrentLayer.PropertyChanged += CurrentLayerChanged;
+            this.session.CurrentMap.Value.CurrentLayer.PropertyChanged += CurrentLayerChanged;
             this.Map.Value.Name.PropertyChanged += MapNameChanged;
             this.Map.Value.Layers.CollectionChanged += LayersChanged;
             this.Map.Value.IsRecentlySaved.PropertyChanged += MapRecentlySavedChanged;
@@ -288,7 +288,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
                 return;
             }
 
-            LayerBoundariesRenderable renderer = new LayerBoundariesRenderable(this.session.CurrentLayer.Value);
+            LayerBoundariesRenderable renderer = new LayerBoundariesRenderable(this.session.CurrentMap.Value.CurrentLayer.Value);
 
             double thickness = 4 / this.ScrollModel.ZoomLevels[this.ScrollModel.ZoomIndex].zoom;
             thickness = thickness < this.maxGridThickness ? thickness : this.maxGridThickness;
@@ -330,7 +330,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
 
         private void CurrentLayerChanged(object sender, PropertyChangedEventArgs e)
         {
-            ChangeCurrentLayer(this.session.CurrentLayer.Value);
+            ChangeCurrentLayer(this.session.CurrentMap.Value.CurrentLayer.Value);
         }
 
         private void BackgroundChanged(object sender, PropertyChangedEventArgs e)
@@ -472,7 +472,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
 
         private void LayerBoundariesChanged(object sender, PropertyChangedEventArgs e)
         {
-            DrawLayerBoundaries(this.session.CurrentLayer.Value);
+            DrawLayerBoundaries(this.session.CurrentMap.Value.CurrentLayer.Value);
         }
 
         private void MapNameChanged(object sender, PropertyChangedEventArgs e)

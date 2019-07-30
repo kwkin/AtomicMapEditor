@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace Ame.App.Wpf.UI.Docks.LayerListDock
 {
-    public static class LayerListEntryGenerator
+    public static class LayerListNodeGenerator
     {
-        public static ILayerListEntryViewModel Generate(IEventAggregator eventAggregator, IAmeSession session, ILayer layer)
+        public static ILayerListNodeViewModel Generate(IEventAggregator eventAggregator, IAmeSession session, ILayer layer)
         {
-            ILayerListEntryViewModel entry = null;
+            ILayerListNodeViewModel entry = null;
             if (typeof(Layer).IsInstanceOfType(layer))
             {
-                entry = new LayerListEntryViewModel(eventAggregator, session, layer as Layer);
+                entry = new LayerListNodeViewModel(eventAggregator, session, layer as Layer);
             }
             else if (typeof(LayerGroup).IsInstanceOfType(layer))
             {
@@ -24,7 +24,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                 LayerListGroupViewModel groupEntry = new LayerListGroupViewModel(eventAggregator, session, layerGroup);
                 foreach(ILayer childLayer in layerGroup.Layers)
                 {
-                    ILayerListEntryViewModel childEntry = Generate(eventAggregator, session, childLayer);
+                    ILayerListNodeViewModel childEntry = Generate(eventAggregator, session, childLayer);
                     groupEntry.Layers.Add(childEntry);
                 }
                 entry = groupEntry;
@@ -33,7 +33,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         }
     }
 
-    public interface ILayerListEntryViewModel
+    public interface ILayerListNodeViewModel
     {
         #region fields
 

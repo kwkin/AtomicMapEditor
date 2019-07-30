@@ -85,10 +85,11 @@
 
         <Separator Grid.Row="1" />
 
-        <!-- Change layer list entry and group context menu bindings -->
+        <!-- TODO Change layer list entry and group context menu bindings -->
+        <!-- TODO move context menu to the nodes -->
         <ScrollViewer Grid.Row="2">
             <extcomp:StretchingTreeView x:Name="layerTree"
-                                        ItemsSource="{Binding Layers}"
+                                        ItemsSource="{Binding LayerNodes}"
                                         HorizontalContentAlignment="Stretch"
                                         BorderThickness="0"
                                         AllowDrop="True" >
@@ -212,9 +213,9 @@
                         <local:LayerListGroup />
                     </HierarchicalDataTemplate>
 
-                    <DataTemplate DataType="{x:Type local:LayerListEntryViewModel}">
-                        <local:LayerListEntry>
-                            <local:LayerListEntry.ContextMenu>
+                    <DataTemplate DataType="{x:Type local:LayerListNodeViewModel}">
+                        <local:LayerListNode>
+                            <local:LayerListNode.ContextMenu>
                                 <ContextMenu>
                                     <ContextMenu.ItemsSource>
                                         <CompositeCollection>
@@ -224,8 +225,8 @@
                                         </CompositeCollection>
                                     </ContextMenu.ItemsSource>
                                 </ContextMenu>
-                            </local:LayerListEntry.ContextMenu>
-                        </local:LayerListEntry>
+                            </local:LayerListNode.ContextMenu>
+                        </local:LayerListNode>
                     </DataTemplate>
 
                     <Style TargetType="extcomp:StretchingTreeViewItem">

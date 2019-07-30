@@ -185,7 +185,8 @@ namespace Ame.Infrastructure.Handlers
             Console.WriteLine("Fit Map To Window");
         }
 
-        public void NewGroup()
+        // TODO decide if these should be passed using messages or called directly
+        public void NewLayerGroup()
         {
             NotificationMessage<LayerNotification> newLayerGroupMessage = new NotificationMessage<LayerNotification>(LayerNotification.NewLayerGroup, "LayerGroup");
             this.eventAggregator.GetEvent<NotificationEvent<LayerNotification>>().Publish(newLayerGroupMessage);
@@ -195,6 +196,30 @@ namespace Ame.Infrastructure.Handlers
         {
             NotificationMessage<LayerNotification> message = new NotificationMessage<LayerNotification>(LayerNotification.DuplicateCurrentLayer);
             this.eventAggregator.GetEvent<NotificationEvent<LayerNotification>>().Publish(message);
+        }
+
+        public void MoveLayerDown()
+        {
+            Map map = this.session.CurrentMap.Value;
+            ILayer layer = map.CurrentLayer.Value;
+
+            int currentLayerIndex = map.Layers.IndexOf(layer);
+            if (currentLayerIndex < map.Layers.Count - 1 && currentLayerIndex >= 0)
+            {
+                map.Layers.Move(currentLayerIndex, currentLayerIndex + 1);
+            }
+        }
+
+        public void MoveLayerUp()
+        {
+            Map map = this.session.CurrentMap.Value;
+            ILayer layer = map.CurrentLayer.Value;
+
+            int currentLayerIndex = map.Layers.IndexOf(layer);
+            if (currentLayerIndex > 0)
+            {
+                map.Layers.Move(currentLayerIndex, currentLayerIndex - 1);
+            }
         }
 
         public void MergeLayerDown()
@@ -241,14 +266,19 @@ namespace Ame.Infrastructure.Handlers
             Console.WriteLine("Add Group");
         }
 
+        public void LayerToMapSize()
+        {
+            Console.WriteLine("Add Group");
+        }
+
         public void EditItemProperties()
         {
             Console.WriteLine("Edit Item Properties...");
         }
 
-        public void EditItemCollisions()
+        public void EditCollisions()
         {
-            Console.WriteLine("Edit Item Collisions");
+            Console.WriteLine("Edit Collisions");
         }
 
         public void CollisionsView()

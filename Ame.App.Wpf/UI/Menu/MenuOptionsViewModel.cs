@@ -87,7 +87,7 @@ namespace Ame.App.Wpf.UI.Menu
 
             // Layer bindings
             this.NewLayerCommand = new DelegateCommand(() => NewLayer());
-            this.NewGroupCommand = new DelegateCommand(() => this.actionHandler.NewGroup());
+            this.NewGroupCommand = new DelegateCommand(() => this.actionHandler.NewLayerGroup());
             this.DuplicateLayerCommand = new DelegateCommand(() => this.actionHandler.DuplicateLayer());
             this.MergeLayerDownCommand = new DelegateCommand(() => this.actionHandler.MergeLayerDown());
             this.MergeLayerUpCommand = new DelegateCommand(() => this.actionHandler.MergeLayerUp());
@@ -101,7 +101,7 @@ namespace Ame.App.Wpf.UI.Menu
             this.AddImageCommand = new DelegateCommand(() => this.actionHandler.AddImage());
             this.AddGroupCommand = new DelegateCommand(() => this.actionHandler.AddGroup());
             this.EditItemPropertiesCommand = new DelegateCommand(() => this.actionHandler.EditItemProperties());
-            this.EditItemCollisionsCommand = new DelegateCommand(() => this.actionHandler.EditItemCollisions());
+            this.EditItemCollisionsCommand = new DelegateCommand(() => this.actionHandler.EditCollisions());
 
             // View bindings
             this.SampleViewCommand = new DelegateCommand(() => this.actionHandler.SampleView());

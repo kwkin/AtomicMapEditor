@@ -1,6 +1,5 @@
 ﻿using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.DrawingTools;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -30,8 +29,6 @@ namespace Ame.Infrastructure.Models
 
         BindableProperty<Map> CurrentMap { get; set; }
 
-        BindableProperty<ILayer> CurrentLayer { get; set; } 
-
         BindableProperty<TilesetModel> CurrentTileset { get; set; }
 
         BindableProperty<string> Version { get; set; }
@@ -46,11 +43,9 @@ namespace Ame.Infrastructure.Models
 
         int CurrentMapIndex { get; }
 
-        int CurrentLayerIndex { get; }
-
         int CurrentTilesetIndex { get; }
 
-        BindableProperty<IDrawingTool> DrawingTool { get; set; } 
+        BindableProperty<IDrawingTool> DrawingTool { get; set; }
 
         BindableProperty<string> DefaultWorkspaceDirectory { get; set; }
 

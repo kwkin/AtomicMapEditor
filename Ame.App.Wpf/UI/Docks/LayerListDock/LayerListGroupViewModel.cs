@@ -16,7 +16,7 @@ using System.Windows.Media;
 
 namespace Ame.App.Wpf.UI.Docks.LayerListDock
 {
-    public class LayerListGroupViewModel : ILayerListEntryViewModel
+    public class LayerListGroupViewModel : ILayerListNodeViewModel
     {
         #region fields
 
@@ -37,7 +37,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             this.session = session ?? throw new ArgumentNullException("session is null");
             this.layer = layer ?? throw new ArgumentNullException("layer");
 
-            this.Layers = new ObservableCollection<ILayerListEntryViewModel>();
+            this.Layers = new ObservableCollection<ILayerListNodeViewModel>();
             this.isDragging = false;
 
             DrawingGroup drawingGroup = new DrawingGroup();
@@ -96,7 +96,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             }
         }
 
-        public ObservableCollection<ILayerListEntryViewModel> Layers { get; private set; }
+        public ObservableCollection<ILayerListNodeViewModel> Layers { get; private set; }
         public BindableProperty<bool> IsEditingName { get; set; } = BindableProperty<bool>.Prepare(false);
         public BindableProperty<bool> IsSelected { get; set; } = BindableProperty<bool>.Prepare(false);
 
@@ -153,7 +153,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                 case NotifyCollectionChangedAction.Add:
                     foreach (ILayer layer in e.NewItems)
                     {
-                        ILayerListEntryViewModel entry = LayerListEntryGenerator.Generate(this.eventAggregator, this.session, layer);
+                        ILayerListNodeViewModel entry = LayerListNodeGenerator.Generate(this.eventAggregator, this.session, layer);
                         int insertIndex = e.NewStartingIndex;
                         if (insertIndex < this.Layers.Count)
                         {
@@ -168,8 +168,8 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                 case NotifyCollectionChangedAction.Remove:
                     foreach (ILayer layer in e.OldItems)
                     {
-                        IEnumerable<ILayerListEntryViewModel> toRemove = new ObservableCollection<ILayerListEntryViewModel>(this.Layers.Where(entry => entry.Layer == layer));
-                        foreach (ILayerListEntryViewModel entry in toRemove)
+                        IEnumerable<ILayerListNodeViewModel> toRemove = new ObservableCollection<ILayerListNodeViewModel>(this.Layers.Where(entry => entry.Layer == layer));
+                        foreach (ILayerListNodeViewModel entry in toRemove)
                         {
                             this.Layers.Remove(entry);
                         }
@@ -180,7 +180,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                     int newIndex = e.NewStartingIndex;
                     if (oldIndex != -1 && newIndex != -1)
                     {
-                        ILayerListEntryViewModel entry = this.Layers[oldIndex];
+                        ILayerListNodeViewModel entry = this.Layers[oldIndex];
                         this.Layers[oldIndex] = this.Layers[newIndex];
                         this.Layers[newIndex] = entry;
                     }
