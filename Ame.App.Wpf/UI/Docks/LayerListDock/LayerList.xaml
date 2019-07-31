@@ -85,8 +85,6 @@
 
         <Separator Grid.Row="1" />
 
-        <!-- TODO Change layer list entry and group context menu bindings -->
-        <!-- TODO move context menu to the nodes -->
         <ScrollViewer Grid.Row="2">
             <extcomp:StretchingTreeView x:Name="layerTree"
                                         ItemsSource="{Binding LayerNodes}"

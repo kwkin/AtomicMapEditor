@@ -141,6 +141,11 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             return selected;
         }
 
+        private void LayerSizeChanged(object sender, PropertyChangedEventArgs e)
+        {
+            RefreshPreview();
+        }
+
         private void HandleLeftClickDown(MouseEventArgs e)
         {
             this.startDragPoint = e.GetPosition(null);
@@ -174,18 +179,11 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         {
             this.isDragging = true;
 
-            // TODO make a standard text for drag and drop data types
             DataObject data = new DataObject(typeof(ILayer).ToString(), this.Layer);
             DependencyObject dragSource = e.Source as DependencyObject;
-
-            DragDropEffects de = DragDrop.DoDragDrop(dragSource, data, DragDropEffects.Move);
+            DragDrop.DoDragDrop(dragSource, data, DragDropEffects.Move);
 
             this.isDragging = false;
-        }
-
-        private void LayerSizeChanged(object sender, PropertyChangedEventArgs e)
-        {
-            RefreshPreview();
         }
 
         private void EditTextbox()

@@ -2,6 +2,7 @@
 using Ame.App.Wpf.UI.Interactions.MapProperties;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
+using Ame.Infrastructure.Handlers;
 using Ame.Infrastructure.Models;
 using Prism.Commands;
 using Prism.Events;
@@ -21,22 +22,21 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
         #region fields
 
         private IEventAggregator eventAggregator;
+        private IActionHandler actionHandler;
 
         #endregion fields
 
 
         #region constructor
 
-        public MapNodeViewModel(IEventAggregator eventAggregator, Map map)
+        public MapNodeViewModel(IEventAggregator eventAggregator, IActionHandler actionHandler, Map map)
         {
-            this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
-            this.Map = map ?? throw new ArgumentNullException("layer");
+            this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
+            this.Map = map ?? throw new ArgumentNullException("layer is null");
+            this.actionHandler = actionHandler ?? throw new ArgumentNullException("actionHandler is null");
 
             this.LayerNodes = new ObservableCollection<LayerNodeViewModel>();
-            foreach (ILayer layer in map.Layers)
-            {
-                this.LayerNodes.Add(new LayerNodeViewModel(this.eventAggregator, layer));
-            }
+            map.Layers.ToList().ForEach(layer => AddLayer(layer));
 
             this.Map.Layers.CollectionChanged += LayersChanged;
 
@@ -66,26 +66,37 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
         #region methods
 
+        public void AddLayer(ILayer layer)
+        {
+            LayerNodeViewModel node = new LayerNodeViewModel(this.eventAggregator, this.actionHandler, layer);
+            this.LayerNodes.Add(node);
+        }
+
+        // TODO implement tree structure traversing
+        public void RemoveLayer(ILayer layer)
+        {
+            IEnumerable<LayerNodeViewModel> toRemove = this.LayerNodes.Where(entry => entry.Layer == layer);
+            foreach (LayerNodeViewModel node in toRemove)
+            {
+                this.LayerNodes.Remove(node);
+            }
+        }
+
         private void LayersChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    foreach (Layer layer in e.NewItems)
+                    foreach (ILayer layer in e.NewItems)
                     {
-                        LayerNodeViewModel node = new LayerNodeViewModel(this.eventAggregator, layer);
-                        this.LayerNodes.Add(node);
+                        AddLayer(layer);
                     }
                     break;
 
                 case NotifyCollectionChangedAction.Remove:
-                    foreach (Map map in e.OldItems)
+                    foreach (ILayer layer in e.OldItems)
                     {
-                        IEnumerable<LayerNodeViewModel> toRemove = this.LayerNodes.Where(entry => entry.Layer == map);
-                        foreach (LayerNodeViewModel node in toRemove)
-                        {
-                            this.LayerNodes.Remove(node);
-                        }
+                        RemoveLayer(layer);
                     }
                     break;
 
@@ -109,13 +120,13 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
         private void NewLayer()
         {
             NewLayerInteraction interaction = new NewLayerInteraction(this.Map);
-            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
+            this.actionHandler.OpenWindow(interaction);
         }
 
         private void EditMapProperties()
         {
             EditMapInteraction interaction = new EditMapInteraction(this.Map);
-            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
+            this.actionHandler.OpenWindow(interaction);
         }
 
         private void EditTextbox()

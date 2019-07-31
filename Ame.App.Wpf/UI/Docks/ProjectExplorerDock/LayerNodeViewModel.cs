@@ -1,6 +1,7 @@
 ﻿using Ame.App.Wpf.UI.Interactions.LayerProperties;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
+using Ame.Infrastructure.Handlers;
 using Ame.Infrastructure.Models;
 using Prism.Commands;
 using Prism.Events;
@@ -13,23 +14,24 @@ using System.Windows.Input;
 
 namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 {
-    // TODO restrict access to some of these classes
     // TODO add a layer group node
     public class LayerNodeViewModel
     {
         #region fields
 
         private IEventAggregator eventAggregator;
+        private IActionHandler actionHandler;
 
         #endregion fields
 
 
         #region constructor
 
-        public LayerNodeViewModel(IEventAggregator eventAggregator, ILayer layer)
+        public LayerNodeViewModel(IEventAggregator eventAggregator, IActionHandler actionHandler, ILayer layer)
         {
-            this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
-            this.Layer = layer ?? throw new ArgumentNullException("layer");
+            this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
+            this.Layer = layer ?? throw new ArgumentNullException("layer is null");
+            this.actionHandler = actionHandler ?? throw new ArgumentNullException("actionHandler is null");
 
             this.NewLayerCommand = new DelegateCommand(() => NewLayer());
             this.EditLayerPropertiesCommand = new DelegateCommand(() => EditLayerProperties());
@@ -57,13 +59,13 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
         private void NewLayer()
         {
             NewLayerInteraction interaction = new NewLayerInteraction(this.Layer.Map.Value);
-            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
+            this.actionHandler.OpenWindow(interaction);
         }
 
         private void EditLayerProperties()
         {
             EditLayerInteraction interaction = new EditLayerInteraction(this.Layer);
-            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
+            this.actionHandler.OpenWindow(interaction);
         }
 
         private void EditTextbox()

@@ -93,7 +93,7 @@ namespace Ame.App.Wpf.UI
                 new LayerListCreator(this.eventAggregator, this.session, this.actionHandler),
                 new MinimapCreator(this.eventAggregator, this.session),
                 new SelectedBrushCreator(this.eventAggregator, constants),
-                new ProjectExplorerCreator(this.eventAggregator, this.session),
+                new ProjectExplorerCreator(this.eventAggregator, this.actionHandler, this.session),
                 new SessionViewerCreator(this.eventAggregator, this.session),
                 new ToolboxCreator(this.eventAggregator, this.session),
                 new MapEditorCreator(this.eventAggregator, constants, this.session)

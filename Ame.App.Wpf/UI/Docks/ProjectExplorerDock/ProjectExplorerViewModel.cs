@@ -28,6 +28,7 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
         #region fields
 
         private IEventAggregator eventAggregator;
+        private IActionHandler actionHandler;
         private IAmeSession session;
 
         #endregion fields
@@ -35,10 +36,11 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
         #region constructor
 
-        public ProjectExplorerViewModel(IEventAggregator eventAggregator, IAmeSession session)
+        public ProjectExplorerViewModel(IEventAggregator eventAggregator, IActionHandler actionHandler, IAmeSession session)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
             this.session = session ?? throw new ArgumentNullException("session is null");
+            this.actionHandler = actionHandler ?? throw new ArgumentNullException("actionHandler is null");
 
             this.Title.Value = "Project Explorer";
 
@@ -70,10 +72,10 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
             map3a.Layers.Add(new Layer(map3a, "layer3ai"));
             Map map4a = new Map("map4a");
 
-            this.ExplorerNodes.Add(new ProjectNodeViewModel(eventAggregator, project1));
-            this.ExplorerNodes.Add(new ProjectNodeViewModel(eventAggregator, project2));
-            this.ExplorerNodes.Add(new MapNodeViewModel(eventAggregator, map3a));
-            this.ExplorerNodes.Add(new MapNodeViewModel(eventAggregator, map4a));
+            this.ExplorerNodes.Add(new ProjectNodeViewModel(eventAggregator, actionHandler, project1));
+            this.ExplorerNodes.Add(new ProjectNodeViewModel(eventAggregator, actionHandler, project2));
+            this.ExplorerNodes.Add(new MapNodeViewModel(eventAggregator, actionHandler, map3a));
+            this.ExplorerNodes.Add(new MapNodeViewModel(eventAggregator, actionHandler, map4a));
 
             this.NewProjectCommand = new DelegateCommand(() => NewProject());
             this.OpenProjectCommand = new DelegateCommand(() => OpenProject());
@@ -160,7 +162,7 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
                 case NotifyCollectionChangedAction.Add:
                     foreach (Project project in e.NewItems)
                     {
-                        ProjectNodeViewModel node = new ProjectNodeViewModel(this.eventAggregator, project);
+                        ProjectNodeViewModel node = new ProjectNodeViewModel(this.eventAggregator, actionHandler, project);
                         this.ExplorerNodes.Add(node);
                     }
                     break;
@@ -198,7 +200,7 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
             this.ExplorerNodes.Clear();
             foreach (Project project in this.session.Projects)
             {
-                ProjectNodeViewModel node = new ProjectNodeViewModel(this.eventAggregator, project);
+                ProjectNodeViewModel node = new ProjectNodeViewModel(this.eventAggregator, actionHandler, project);
                 this.ExplorerNodes.Add(node);
             }
         }

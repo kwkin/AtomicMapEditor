@@ -3,7 +3,6 @@ using Ame.Infrastructure.Handlers;
 using Ame.Infrastructure.Models;
 using Prism.Commands;
 using Prism.Events;
-using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -67,6 +66,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
 
         #region properties
+
         public ICommand EditTextboxCommand { get; private set; }
         public ICommand StopEditingTextboxCommand { get; private set; }
         public ICommand MouseLeftButtonDownCommand { get; private set; }
@@ -125,7 +125,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         private void LayersChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            switch(e.Action)
+            switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
                     foreach (ILayer layer in e.NewItems)
@@ -142,6 +142,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                         }
                     }
                     break;
+
                 case NotifyCollectionChangedAction.Remove:
                     foreach (ILayer layer in e.OldItems)
                     {
@@ -152,6 +153,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                         }
                     }
                     break;
+
                 case NotifyCollectionChangedAction.Move:
                     int oldIndex = e.OldStartingIndex;
                     int newIndex = e.NewStartingIndex;
@@ -162,6 +164,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                         this.LayerNodes[newIndex] = entry;
                     }
                     break;
+
                 default:
                     break;
             }
@@ -191,8 +194,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
             DataObject data = new DataObject(typeof(ILayer).ToString(), this.Layer);
             DependencyObject dragSource = e.Source as DependencyObject;
-
-            DragDropEffects de = DragDrop.DoDragDrop(dragSource, data, DragDropEffects.Move);
+            DragDrop.DoDragDrop(dragSource, data, DragDropEffects.Move);
 
             this.isDragging = false;
         }

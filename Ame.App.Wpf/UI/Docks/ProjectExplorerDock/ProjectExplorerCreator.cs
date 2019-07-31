@@ -1,4 +1,5 @@
 ﻿using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Handlers;
 using Ame.Infrastructure.Models;
 using Prism.Events;
 using System;
@@ -14,16 +15,18 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
         #region fields
 
         public IEventAggregator eventAggregator;
+        public IActionHandler actionHandler;
 
         #endregion fields
 
 
         #region constructors
 
-        public ProjectExplorerCreator(IEventAggregator eventAggregator, IAmeSession session)
+        public ProjectExplorerCreator(IEventAggregator eventAggregator, IActionHandler handler, IAmeSession session)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
             this.Session = session ?? throw new ArgumentNullException("session is null");
+            this.actionHandler = handler ?? throw new ArgumentNullException("session is null");
         }
 
         #endregion constructors
@@ -40,7 +43,7 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
         public override DockViewModelTemplate CreateDock()
         {
-            return new ProjectExplorerViewModel(this.eventAggregator, this.Session);
+            return new ProjectExplorerViewModel(this.eventAggregator, actionHandler, this.Session);
         }
 
         public override bool AppliesTo(Type type)

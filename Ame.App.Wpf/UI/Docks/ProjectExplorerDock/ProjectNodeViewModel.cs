@@ -2,6 +2,7 @@
 using Ame.App.Wpf.UI.Interactions.ProjectProperties;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
+using Ame.Infrastructure.Handlers;
 using Ame.Infrastructure.Models;
 using Prism.Commands;
 using Prism.Events;
@@ -21,22 +22,22 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
         #region fields
 
         private IEventAggregator eventAggregator;
+        private IActionHandler actionHandler;
 
         #endregion fields
 
 
         #region constructor
 
-        public ProjectNodeViewModel(IEventAggregator eventAggregator, Project project)
+        public ProjectNodeViewModel(IEventAggregator eventAggregator, IActionHandler actionHandler, Project project)
         {
-            this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
-            this.Project = project ?? throw new ArgumentNullException("layer");
+            this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
+            this.Project = project ?? throw new ArgumentNullException("layer is null");
+            this.actionHandler = actionHandler ?? throw new ArgumentNullException("actionHandler is null");
 
             this.MapNodes = new ObservableCollection<MapNodeViewModel>();
-            foreach (Map map in project.Maps)
-            {
-                this.MapNodes.Add(new MapNodeViewModel(this.eventAggregator, map));
-            }
+            project.Maps.ToList().ForEach(map => AddMap(map));
+
             this.Project.Maps.CollectionChanged += MapsChanged;
 
             this.NewMapCommand = new DelegateCommand(() => NewMap());
@@ -65,6 +66,21 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
         #region methods
 
+        public void AddMap(Map map)
+        {
+            MapNodeViewModel node = new MapNodeViewModel(this.eventAggregator, this.actionHandler, map);
+            this.MapNodes.Add(node);
+        }
+
+        public void RemoveMap(Map map)
+        {
+            IEnumerable<MapNodeViewModel> toRemove = this.MapNodes.Where(entry => entry.Map == map);
+            foreach (MapNodeViewModel node in toRemove)
+            {
+                this.MapNodes.Remove(node);
+            }
+        }
+
         private void MapsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)
@@ -72,19 +88,14 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
                 case NotifyCollectionChangedAction.Add:
                     foreach (Map map in e.NewItems)
                     {
-                        MapNodeViewModel node = new MapNodeViewModel(this.eventAggregator, map);
-                        this.MapNodes.Add(node);
+                        AddMap(map);
                     }
                     break;
 
                 case NotifyCollectionChangedAction.Remove:
                     foreach (Map map in e.OldItems)
                     {
-                        IEnumerable<MapNodeViewModel> toRemove = this.MapNodes.Where(entry => entry.Map == map);
-                        foreach (MapNodeViewModel node in toRemove)
-                        {
-                            this.MapNodes.Remove(node);
-                        }
+                        RemoveMap(map);
                     }
                     break;
 
