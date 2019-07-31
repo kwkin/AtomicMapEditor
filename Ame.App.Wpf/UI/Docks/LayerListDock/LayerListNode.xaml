@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:Ame.App.Wpf.UI.Docks.LayerListDock"
              xmlns:actions="clr-namespace:Ame.App.Wpf.UILogic.Actions"
              xmlns:conv="clr-namespace:Ame.App.Wpf.UILogic.Converters"
@@ -23,7 +22,7 @@
             <conv:MouseEventToPointConverter x:Key="MouseEventToPointConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
-
+    
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
             <actions:EventToCommand Command="{Binding MouseLeftButtonDownCommand, Mode=OneWay}"
@@ -37,7 +36,6 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <!-- TODO see if the context menu can be added in this file -->
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />

@@ -1,4 +1,5 @@
 ﻿using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Handlers;
 using Ame.Infrastructure.Models;
 using Prism.Commands;
 using Prism.Events;
@@ -21,6 +22,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         #region fields
 
         private IEventAggregator eventAggregator;
+        private IActionHandler actionHandler;
         private IAmeSession session;
 
         private bool isDragging;
@@ -31,11 +33,12 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         #region constructor
 
-        public LayerListGroupViewModel(IEventAggregator eventAggregator, IAmeSession session, LayerGroup layer)
+        public LayerListGroupViewModel(IEventAggregator eventAggregator, IAmeSession session, IActionHandler handler, LayerGroup layer)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
             this.session = session ?? throw new ArgumentNullException("session is null");
             this.layer = layer ?? throw new ArgumentNullException("layer");
+            this.actionHandler = actionHandler ?? throw new ArgumentNullException("handler is null");
 
             this.LayerNodes = new ObservableCollection<ILayerListNodeViewModel>();
             this.isDragging = false;
@@ -127,7 +130,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                 case NotifyCollectionChangedAction.Add:
                     foreach (ILayer layer in e.NewItems)
                     {
-                        ILayerListNodeViewModel entry = LayerListNodeGenerator.Generate(this.eventAggregator, this.session, layer);
+                        ILayerListNodeViewModel entry = LayerListNodeGenerator.Generate(this.eventAggregator, this.session, this.actionHandler, layer);
                         int insertIndex = e.NewStartingIndex;
                         if (insertIndex < this.LayerNodes.Count)
                         {

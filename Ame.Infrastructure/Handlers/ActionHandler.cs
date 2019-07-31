@@ -3,6 +3,7 @@ using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Events.Messages;
 using Ame.Infrastructure.Models;
 using Ame.Infrastructure.UILogic;
+using Ame.Infrastructure.Utils;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -194,14 +195,23 @@ namespace Ame.Infrastructure.Handlers
 
         public void DuplicateLayer()
         {
-            NotificationMessage<LayerNotification> message = new NotificationMessage<LayerNotification>(LayerNotification.DuplicateCurrentLayer);
-            this.eventAggregator.GetEvent<NotificationEvent<LayerNotification>>().Publish(message);
+            DuplicateLayer(this.session.CurrentMap.Value.CurrentLayer.Value);
+        }
+
+        public void DuplicateLayer(ILayer layer)
+        {
+            ILayer copiedLayer = DataUtils.DeepClone<ILayer>(layer);
+            layer.AddToMe(copiedLayer);
         }
 
         public void MoveLayerDown()
         {
+            MoveLayerUp(this.session.CurrentMap.Value.CurrentLayer.Value);
+        }
+
+        public void MoveLayerDown(ILayer layer)
+        {
             Map map = this.session.CurrentMap.Value;
-            ILayer layer = map.CurrentLayer.Value;
 
             int currentLayerIndex = map.Layers.IndexOf(layer);
             if (currentLayerIndex < map.Layers.Count - 1 && currentLayerIndex >= 0)
@@ -212,8 +222,12 @@ namespace Ame.Infrastructure.Handlers
 
         public void MoveLayerUp()
         {
+            MoveLayerUp(this.session.CurrentMap.Value.CurrentLayer.Value);
+        }
+
+        public void MoveLayerUp(ILayer layer)
+        {
             Map map = this.session.CurrentMap.Value;
-            ILayer layer = map.CurrentLayer.Value;
 
             int currentLayerIndex = map.Layers.IndexOf(layer);
             if (currentLayerIndex > 0)
@@ -242,8 +256,12 @@ namespace Ame.Infrastructure.Handlers
 
         public void DeleteLayer()
         {
-            NotificationMessage<LayerNotification> message = new NotificationMessage<LayerNotification>(LayerNotification.DeleteCurrentLayer);
-            this.eventAggregator.GetEvent<NotificationEvent<LayerNotification>>().Publish(message);
+            DeleteLayer(this.session.CurrentMap.Value.CurrentLayer.Value);
+        }
+
+        public void DeleteLayer(ILayer layer)
+        {
+            this.session.CurrentMap.Value.Layers.Remove(layer);
         }
 
         public void LayerToMap()

@@ -1,4 +1,5 @@
 ﻿using Ame.Infrastructure.BaseTypes;
+using Ame.Infrastructure.Handlers;
 using Ame.Infrastructure.Models;
 using Prism.Events;
 using System;
@@ -11,20 +12,20 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 {
     public static class LayerListNodeGenerator
     {
-        public static ILayerListNodeViewModel Generate(IEventAggregator eventAggregator, IAmeSession session, ILayer layer)
+        public static ILayerListNodeViewModel Generate(IEventAggregator eventAggregator, IAmeSession session, IActionHandler handler, ILayer layer)
         {
             ILayerListNodeViewModel entry = null;
             if (typeof(Layer).IsInstanceOfType(layer))
             {
-                entry = new LayerListNodeViewModel(eventAggregator, session, layer as Layer);
+                entry = new LayerListNodeViewModel(eventAggregator, session, handler, layer as Layer);
             }
             else if (typeof(LayerGroup).IsInstanceOfType(layer))
             {
                 LayerGroup layerGroup = layer as LayerGroup;
-                LayerListGroupViewModel groupEntry = new LayerListGroupViewModel(eventAggregator, session, layerGroup);
+                LayerListGroupViewModel groupEntry = new LayerListGroupViewModel(eventAggregator, session, handler, layerGroup);
                 foreach(ILayer childLayer in layerGroup.Layers)
                 {
-                    ILayerListNodeViewModel childEntry = Generate(eventAggregator, session, childLayer);
+                    ILayerListNodeViewModel childEntry = Generate(eventAggregator, session, handler, childLayer);
                     groupEntry.LayerNodes.Add(childEntry);
                 }
                 entry = groupEntry;

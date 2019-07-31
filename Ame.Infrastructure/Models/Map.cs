@@ -215,7 +215,7 @@ namespace Ame.Infrastructure.Models
 
         public void DuplicateCurrentLayer()
         {
-            ILayer copiedLayer = Utils.Utils.DeepClone<ILayer>(this.CurrentLayer.Value);
+            ILayer copiedLayer = Utils.DataUtils.DeepClone<ILayer>(this.CurrentLayer.Value);
             this.CurrentLayer.Value.AddToMe(copiedLayer);
         }
 

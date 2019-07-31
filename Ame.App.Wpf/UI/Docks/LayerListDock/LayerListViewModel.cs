@@ -4,7 +4,6 @@ using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Events.Messages;
 using Ame.Infrastructure.Handlers;
 using Ame.Infrastructure.Models;
-using Ame.Infrastructure.Utils;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -33,12 +32,12 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         #region constructor
 
-        public LayerListViewModel(IEventAggregator eventAggregator, IAmeSession session, IActionHandler handler)
+        public LayerListViewModel(IEventAggregator eventAggregator, IAmeSession session, IActionHandler actionHandler)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
             this.Session = session ?? throw new ArgumentNullException("session is null");
             this.CurrentMap.Value = session.CurrentMap.Value ?? throw new ArgumentNullException("current map is null");
-            this.actionHandler = handler ?? throw new ArgumentNullException("handler is null");
+            this.actionHandler = actionHandler ?? throw new ArgumentNullException("handler is null");
 
             this.Title.Value = "Layer List";
             this.LayerNodes = new ObservableCollection<ILayerListNodeViewModel>();
@@ -125,7 +124,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
             foreach (ILayer layer in this.CurrentMap.Value.Layers)
             {
-                ILayerListNodeViewModel node = LayerListNodeGenerator.Generate(this.eventAggregator, this.Session, layer);
+                ILayerListNodeViewModel node = LayerListNodeGenerator.Generate(this.eventAggregator, this.Session, this.actionHandler, layer);
                 this.LayerNodes.Add(node);
             }
 
@@ -154,7 +153,6 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             this.CurrentLayer.Value = layerEntry.Layer;
         }
 
-        // TODO make this work for the tree structure
         private void CurrentLayerChanged(object sender, PropertyChangedEventArgs e)
         {
             ILayer currentLayer = this.CurrentMap.Value.CurrentLayer.Value;
@@ -186,7 +184,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                 case NotifyCollectionChangedAction.Add:
                     foreach (ILayer layer in e.NewItems)
                     {
-                        ILayerListNodeViewModel entry = LayerListNodeGenerator.Generate(this.eventAggregator, this.Session, layer);
+                        ILayerListNodeViewModel entry = LayerListNodeGenerator.Generate(this.eventAggregator, this.Session, this.actionHandler, layer);
                         int insertIndex = e.NewStartingIndex;
                         if (insertIndex < this.LayerNodes.Count)
                         {

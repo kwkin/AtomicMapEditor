@@ -92,7 +92,7 @@
                                         ItemsSource="{Binding LayerNodes}"
                                         HorizontalContentAlignment="Stretch"
                                         BorderThickness="0"
-                                        AllowDrop="True" >
+                                        AllowDrop="True">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectedItemChanged">
                         <i:InvokeCommandAction Command="{Binding CurrentLayerChangedCommand}"
@@ -186,7 +186,7 @@
                              x:Shared="false">
                         <MenuItem Header="New Layer..."
                                   Command="{Binding NewLayerCommand, Mode=OneWay}"
-                             DataContext="{Binding DataContext, Source={actions:RootObjectSource}}">
+                                  DataContext="{Binding DataContext, Source={actions:RootObjectSource}}">
                             <MenuItem.Icon>
                                 <Viewbox>
                                     <ContentControl Content="{StaticResource ic_AddBox}"
@@ -197,7 +197,7 @@
                         </MenuItem>
                         <MenuItem Header="New Group"
                                   Command="{Binding NewLayerGroupCommand, Mode=OneWay}"
-                             DataContext="{Binding DataContext, Source={actions:RootObjectSource}}">
+                                  DataContext="{Binding DataContext, Source={actions:RootObjectSource}}">
                             <MenuItem.Icon>
                                 <Viewbox>
                                     <ContentControl Content="{StaticResource ic_AddFolder}"
@@ -234,7 +234,7 @@
                                 Value="{Binding IsSelected.Value, Mode=TwoWay}" />
                     </Style>
                 </TreeView.Resources>
-                
+
                 <extcomp:StretchingTreeView.ContextMenu>
                     <ContextMenu>
                         <ContextMenu.ItemsSource>

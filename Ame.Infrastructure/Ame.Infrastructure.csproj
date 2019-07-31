@@ -172,7 +172,7 @@
     <Compile Include="Utils\GeometryUtils.cs" />
     <Compile Include="Utils\ImageUtils.cs" />
     <Compile Include="Utils\StopWatchExtension.cs" />
-    <Compile Include="Utils\Utils.cs" />
+    <Compile Include="Utils\DataUtils.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

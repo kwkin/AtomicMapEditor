@@ -175,8 +175,8 @@ namespace Ame.Infrastructure.DrawingTools
                     Tile tile;
                     if (!this.IsErasing)
                     {
-                        int hTile = Utils.Utils.Mod((int)(hIndex + tileOffset.X), this.Brush.Columns.Value);
-                        int vTile = Utils.Utils.Mod((int)(vIndex + tileOffset.Y), this.Brush.Rows.Value);
+                        int hTile = Utils.DataUtils.Mod((int)(hIndex + tileOffset.X), this.Brush.Columns.Value);
+                        int vTile = Utils.DataUtils.Mod((int)(vIndex + tileOffset.Y), this.Brush.Rows.Value);
                         int tileIndex = vTile * this.Brush.Columns.Value + hTile;
                         tile = this.Brush.Tiles[tileIndex];
                         ImageDrawing adjustedDrawing = new ImageDrawing();

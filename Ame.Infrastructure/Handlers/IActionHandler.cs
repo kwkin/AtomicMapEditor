@@ -73,21 +73,17 @@ namespace Ame.Infrastructure.Handlers
         void GuillotineMap();
 
         void NewLayerGroup();
-
         void DuplicateLayer();
-
+        void DuplicateLayer(ILayer layer);
         void MergeLayerDown();
-
-        void MoveLayerDown();
-
-        void MoveLayerUp();
-
         void MergeLayerUp();
-
+        void MoveLayerDown();
+        void MoveLayerDown(ILayer layer);
+        void MoveLayerUp();
+        void MoveLayerUp(ILayer layer);
         void MergeVisible();
-
         void DeleteLayer();
-
+        void DeleteLayer(ILayer layer);
         void LayerToMap();
 
         void AddTileset();

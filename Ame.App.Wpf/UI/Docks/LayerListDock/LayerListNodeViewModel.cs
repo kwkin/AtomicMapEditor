@@ -1,8 +1,7 @@
 ﻿using Ame.App.Wpf.UI.Interactions.LayerProperties;
 using Ame.Infrastructure.BaseTypes;
-using Ame.Infrastructure.Events;
+using Ame.Infrastructure.Handlers;
 using Ame.Infrastructure.Models;
-using Ame.Infrastructure.Utils;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -22,10 +21,11 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         #region fields
 
         private IEventAggregator eventAggregator;
+        private IActionHandler actionHandler;
         private IAmeSession session;
 
-        private DrawingGroup drawingGroup = new DrawingGroup();
-        private DrawingGroup filled = new DrawingGroup();
+        private DrawingGroup drawingGroup;
+        private DrawingGroup filled;
 
         private bool isDragging;
         private Point startDragPoint;
@@ -35,32 +35,32 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         #region constructor
 
-        public LayerListNodeViewModel(IEventAggregator eventAggregator, IAmeSession session, Layer layer)
+        public LayerListNodeViewModel(IEventAggregator eventAggregator, IAmeSession session, IActionHandler actionHandler, Layer layer)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
             this.session = session ?? throw new ArgumentNullException("session is null");
             this.Layer = layer ?? throw new ArgumentNullException("layer");
+            this.actionHandler = actionHandler ?? throw new ArgumentNullException("handler is null");
 
-            drawingGroup = new DrawingGroup();
-            filled = new DrawingGroup();
-
-            drawingGroup.Children.Add(filled);
-            drawingGroup.Children.Add(layer.Group);
+            this.drawingGroup = new DrawingGroup();
+            this.filled = new DrawingGroup();
+            this.drawingGroup.Children.Add(filled);
+            this.drawingGroup.Children.Add(layer.Group);
             this.layerPreview = new DrawingImage(drawingGroup);
+            this.isDragging = false;
 
             RefreshPreview();
-            this.isDragging = false;
 
             layer.PixelHeight.PropertyChanged += LayerSizeChanged;
             layer.PixelWidth.PropertyChanged += LayerSizeChanged;
 
             this.EditPropertiesCommand = new DelegateCommand(() => EditProperties());
-            this.EditCollisionsCommand = new DelegateCommand(() => EditCollisions());
-            this.MoveLayerDownCommand = new DelegateCommand(() => MoveLayerDown());
-            this.MoveLayerUpCommand = new DelegateCommand(() => MoveLayerUp());
-            this.LayerToMapSizeCommand = new DelegateCommand(() => LayerToMapSize());
-            this.DuplicateLayerCommand = new DelegateCommand(() => DuplicateLayer());
-            this.RemoveLayerCommand = new DelegateCommand(() => RemoveLayer());
+            this.EditCollisionsCommand = new DelegateCommand(() => this.actionHandler.EditCollisions());
+            this.MoveLayerDownCommand = new DelegateCommand(() => this.actionHandler.MoveLayerDown(this.Layer));
+            this.MoveLayerUpCommand = new DelegateCommand(() => this.actionHandler.MoveLayerUp(this.Layer));
+            this.LayerToMapSizeCommand = new DelegateCommand(() => this.actionHandler.LayerToMapSize());
+            this.DuplicateLayerCommand = new DelegateCommand(() => this.actionHandler.DuplicateLayer(this.Layer));
+            this.RemoveLayerCommand = new DelegateCommand(() => this.actionHandler.DeleteLayer(this.Layer));
             this.EditTextboxCommand = new DelegateCommand(() => EditTextbox());
             this.StopEditingTextboxCommand = new DelegateCommand(() => StopEditingTextbox());
             this.MouseLeftButtonDownCommand = new DelegateCommand<object>((point) => HandleLeftClickDown((MouseEventArgs)point));
@@ -116,49 +116,10 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         #region methods
 
-        public void MoveLayerDown()
-        {
-            int currentLayerIndex = this.session.CurrentLayers.Value.IndexOf(this.Layer);
-            if (currentLayerIndex < this.session.CurrentLayers.Value.Count - 1 && currentLayerIndex >= 0)
-            {
-                this.session.CurrentLayers.Value.Move(currentLayerIndex, currentLayerIndex + 1);
-            }
-        }
-
-        public void MoveLayerUp()
-        {
-            int currentLayerIndex = this.session.CurrentLayers.Value.IndexOf(this.layer);
-            if (currentLayerIndex > 0)
-            {
-                this.session.CurrentLayers.Value.Move(currentLayerIndex, currentLayerIndex - 1);
-            }
-        }
-
-        public void DuplicateLayer()
-        {
-            ILayer copiedLayer = Utils.DeepClone<ILayer>(this.session.CurrentMap.Value.CurrentLayer.Value);
-            this.Layer.AddToMe(copiedLayer);
-        }
-
-        public void RemoveLayer()
-        {
-            this.session.CurrentLayers.Value.Remove(this.Layer);
-        }
-
         public void EditProperties()
         {
             EditLayerInteraction interaction = new EditLayerInteraction(this.Layer);
-            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
-        }
-
-        public void EditCollisions()
-        {
-            Console.WriteLine("Edit Collisions");
-        }
-
-        public void LayerToMapSize()
-        {
-            Console.WriteLine("Layer To Map Size");
+            this.actionHandler.OpenWindow(interaction);
         }
 
         public void RefreshPreview()
@@ -170,12 +131,22 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             }
         }
 
-        public void HandleLeftClickDown(MouseEventArgs e)
+        public IEnumerable<ILayerListNodeViewModel> GetNodeFromLayer(ILayer layer)
+        {
+            List<ILayerListNodeViewModel> selected = new List<ILayerListNodeViewModel>();
+            if (this.layer == layer)
+            {
+                selected.Add(this);
+            }
+            return selected;
+        }
+
+        private void HandleLeftClickDown(MouseEventArgs e)
         {
             this.startDragPoint = e.GetPosition(null);
         }
 
-        public void HandleMouseMove(MouseEventArgs e)
+        private void HandleMouseMove(MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed && !this.isDragging)
             {
@@ -186,15 +157,6 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                     StartDrag(e);
                 }
             }
-        }
-        public IEnumerable<ILayerListNodeViewModel> GetNodeFromLayer(ILayer layer)
-        {
-            List<ILayerListNodeViewModel> selected = new List<ILayerListNodeViewModel>();
-            if (this.layer == layer)
-            {
-                selected.Add(this);
-            }
-            return selected;
         }
 
         private void HandleDropCommand(DragEventArgs e)

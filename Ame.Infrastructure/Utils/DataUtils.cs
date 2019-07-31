@@ -8,7 +8,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Ame.Infrastructure.Utils
 {
-    public static class Utils
+    public static class DataUtils
     {
         #region methods
 
