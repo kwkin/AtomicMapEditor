@@ -226,7 +226,7 @@
                             </local:LayerListNode.ContextMenu>
                         </local:LayerListNode>
                     </DataTemplate>
-
+                    
                     <Style TargetType="extcomp:StretchingTreeViewItem">
                         <Setter Property="IsSelected"
                                 Value="{Binding IsSelected.Value, Mode=TwoWay}" />

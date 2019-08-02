@@ -116,7 +116,6 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
             }
         }
 
-        // TODO change to action handler class
         private void NewLayer()
         {
             NewLayerInteraction interaction = new NewLayerInteraction(this.Map);

@@ -63,9 +63,12 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             this.RemoveLayerCommand = new DelegateCommand(() => this.actionHandler.DeleteLayer(this.Layer));
             this.EditTextboxCommand = new DelegateCommand(() => EditTextbox());
             this.StopEditingTextboxCommand = new DelegateCommand(() => StopEditingTextbox());
-            this.MouseLeftButtonDownCommand = new DelegateCommand<object>((point) => HandleLeftClickDown((MouseEventArgs)point));
-            this.MouseMoveCommand = new DelegateCommand<object>((point) => HandleMouseMove((MouseEventArgs)point));
-            this.DropCommand = new DelegateCommand<object>((point) => HandleDropCommand((DragEventArgs)point));
+            this.MouseLeftButtonDownCommand = new DelegateCommand<object>((args) => HandleLeftClickDown((MouseEventArgs)args));
+            this.MouseMoveCommand = new DelegateCommand<object>((args) => HandleMouseMove((MouseEventArgs)args));
+            this.DropCommand = new DelegateCommand<object>((args) => HandleDropCommand((DragEventArgs)args));
+            this.DragOverCommand = new DelegateCommand<object>((args) => HandleDragOverCommand((DragEventArgs)args));
+            this.DragEnterCommand = new DelegateCommand<object>((args) => HandleDragEnterCommand((DragEventArgs)args));
+            this.DragLeaveCommand = new DelegateCommand<object>((args) => HandleDragLeaveCommand((DragEventArgs)args));
         }
 
         #endregion constructor
@@ -85,6 +88,9 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         public ICommand MouseLeftButtonDownCommand { get; private set; }
         public ICommand MouseMoveCommand { get; private set; }
         public ICommand DropCommand { get; private set; }
+        public ICommand DragOverCommand { get; private set; }
+        public ICommand DragEnterCommand { get; private set; }
+        public ICommand DragLeaveCommand { get; private set; }
 
         public ILayer layer;
         public ILayer Layer
@@ -110,6 +116,8 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         public BindableProperty<bool> IsEditingName { get; set; } = BindableProperty<bool>.Prepare(false);
         public BindableProperty<bool> IsSelected { get; set; } = BindableProperty<bool>.Prepare(false);
+        public BindableProperty<bool> IsDragAbove { get; set; } = BindableProperty<bool>.Prepare(false);
+        public BindableProperty<bool> IsDragBelow { get; set; } = BindableProperty<bool>.Prepare(false);
 
         #endregion properties
 
@@ -173,6 +181,43 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                 this.layer.AddToMe(draggedLayer);
             }
             e.Handled = true;
+            this.IsDragAbove.Value = false;
+            this.IsDragBelow.Value = false;
+        }
+
+        private void HandleDragOverCommand(DragEventArgs e)
+        {
+            DrawSeparator(e);
+        }
+
+        private void HandleDragEnterCommand(DragEventArgs e)
+        {
+            DrawSeparator(e);
+        }
+
+        private void DrawSeparator(DragEventArgs e)
+        {
+            IDataObject data = e.Data;
+            if (data.GetDataPresent(typeof(ILayer).ToString()))
+            {
+                ILayer draggedLayer = data.GetData(typeof(ILayer).ToString()) as ILayer;
+                if (draggedLayer == this.layer)
+                {
+                    return;
+                }
+            }
+            UIElement dragSource = e.Source as UIElement;
+            double heightMiddle = dragSource.RenderSize.Height / 2;
+
+            bool isBelow = e.GetPosition(dragSource).Y - heightMiddle > 0;
+            this.IsDragAbove.Value = !isBelow;
+            this.IsDragBelow.Value = isBelow;
+        }
+
+        private void HandleDragLeaveCommand(DragEventArgs args)
+        {
+            this.IsDragAbove.Value = false;
+            this.IsDragBelow.Value = false;
         }
 
         private void StartDrag(MouseEventArgs e)

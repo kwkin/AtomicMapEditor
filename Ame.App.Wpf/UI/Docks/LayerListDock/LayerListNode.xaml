@@ -34,6 +34,15 @@
         <i:EventTrigger EventName="Drop">
             <actions:EventToCommand Command="{Binding DropCommand, Mode=OneWay}" />
         </i:EventTrigger>
+        <i:EventTrigger EventName="DragOver">
+            <actions:EventToCommand Command="{Binding DragOverCommand, Mode=OneWay}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="DragEnter">
+            <actions:EventToCommand Command="{Binding DragEnterCommand, Mode=OneWay}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="DragLeave">
+            <actions:EventToCommand Command="{Binding DragLeaveCommand, Mode=OneWay}" />
+        </i:EventTrigger>
     </i:Interaction.Triggers>
 
     <Grid>
@@ -42,60 +51,76 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
         <Rectangle x:Name="selectionHitBox"
                    Fill="Transparent"
                    Stretch="Fill"
-                   Grid.ColumnSpan="3">
+                   Grid.ColumnSpan="3"
+                   Grid.RowSpan="3">
         </Rectangle>
+        
+        <Separator Grid.Row="0"
+                   Grid.ColumnSpan="3"
+                   Padding="0"
+                   Margin="-1"
+                   Visibility="{Binding IsDragAbove.Value, Converter={StaticResource BoolToVisConverter}}">
+        </Separator>
 
-        <StackPanel Orientation="Horizontal"
+        <DockPanel Grid.Row="1"
+              Grid.ColumnSpan="3">
+
+            <StackPanel Orientation="Horizontal"
                     Grid.Column="0">
-            <ToggleButton x:Name="showLayerToggleButton"
+                <ToggleButton x:Name="showLayerToggleButton"
                           Style="{DynamicResource PrimaryMidIconToggleButtonStyle}"
                           IsChecked="{Binding Layer.IsVisible.Value}"
                           ToolTip="Show: Toggles the layer display">
-                <Grid>
-                    <ContentControl Content="{StaticResource ic_VisibilityOff}"
+                    <Grid>
+                        <ContentControl Content="{StaticResource ic_VisibilityOff}"
                                     Width="{StaticResource MidIconSize}"
                                     Height="{StaticResource MidIconSize}"
                                     Visibility="{Binding IsChecked, ElementName=showLayerToggleButton, Converter={StaticResource BoolToVisConverterInverse}}" />
-                    <ContentControl Content="{StaticResource ic_VisibilityOn}"
+                        <ContentControl Content="{StaticResource ic_VisibilityOn}"
                                     Width="{StaticResource MidIconSize}"
                                     Height="{StaticResource MidIconSize}"
                                     Visibility="{Binding IsChecked, ElementName=showLayerToggleButton, Converter={StaticResource BoolToVisConverter}}" />
-                </Grid>
-            </ToggleButton>
+                    </Grid>
+                </ToggleButton>
 
 
 
-            <ToggleButton x:Name="lockLayerToggleButton"
+                <ToggleButton x:Name="lockLayerToggleButton"
                           Style="{DynamicResource PrimaryMidIconToggleButtonStyle}"
                           IsChecked="{Binding Layer.IsImmutable.Value}"
                           ToolTip="Lock: Prevents the layer from being moved and edited">
-                <Grid>
-                    <ContentControl Content="{StaticResource ic_LockOpen}"
+                    <Grid>
+                        <ContentControl Content="{StaticResource ic_LockOpen}"
                                     Width="{StaticResource MidIconSize}"
                                     Height="{StaticResource MidIconSize}"
                                     Visibility="{Binding IsChecked, ElementName=lockLayerToggleButton, Converter={StaticResource BoolToVisConverterInverse}}" />
-                    <ContentControl Content="{StaticResource ic_Lock}"
+                        <ContentControl Content="{StaticResource ic_Lock}"
                                     Width="{StaticResource MidIconSize}"
                                     Height="{StaticResource MidIconSize}"
                                     Visibility="{Binding IsChecked, ElementName=lockLayerToggleButton, Converter={StaticResource BoolToVisConverter}}" />
-                </Grid>
-            </ToggleButton>
+                    </Grid>
+                </ToggleButton>
 
-            <Image x:Name="tilesetImage"
+                <Image x:Name="tilesetImage"
                    Source="{Binding LayerPreview, Mode=OneWay}"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
                    Width="32"
                    Height="32"
                    Stretch="UniformToFill">
-            </Image>
-        </StackPanel>
+                </Image>
+            </StackPanel>
 
-        <TextBox x:Name="layerNameLabel"
+            <TextBox x:Name="layerNameLabel"
                  Text="{Binding Layer.Name.Value}"
                  HorizontalAlignment="Left"
                  VerticalAlignment="Center"
@@ -103,21 +128,29 @@
                  IsReadOnly="{Binding IsEditingName.Value, Converter={StaticResource InverseBoolConverter}}"
                  BorderThickness="0"
                  Background="Transparent">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseDoubleClick">
-                    <actions:EventToCommand Command="{Binding EditTextboxCommand, Mode=OneWay}" />
-                </i:EventTrigger>
-                <i:EventTrigger EventName="LostFocus">
-                    <actions:EventToCommand Command="{Binding StopEditingTextboxCommand, Mode=OneWay}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-        </TextBox>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <actions:EventToCommand Command="{Binding EditTextboxCommand, Mode=OneWay}" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="LostFocus">
+                        <actions:EventToCommand Command="{Binding StopEditingTextboxCommand, Mode=OneWay}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </TextBox>
 
-        <Label x:Name="layerPositionLabel"
+            <Label x:Name="layerPositionLabel"
                Content="{Binding Layer.Position.Value, Mode=OneWay}"
                HorizontalAlignment="Right"
                VerticalAlignment="Center"
                Grid.Column="2">
-        </Label>
+            </Label>
+        </DockPanel>
+
+        <Separator Grid.Row="2"
+                   Grid.ColumnSpan="3"
+                   Padding="0"
+                   Margin="-1"
+                   Visibility="{Binding IsDragBelow.Value, Converter={StaticResource BoolToVisConverter}}">
+        </Separator>
     </Grid>
 </UserControl>
