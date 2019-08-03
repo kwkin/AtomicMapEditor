@@ -37,7 +37,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator");
             this.session = session ?? throw new ArgumentNullException("session is null");
             this.layer = layer ?? throw new ArgumentNullException("layer");
-            this.actionHandler = actionHandler ?? throw new ArgumentNullException("handler is null");
+            this.actionHandler = handler ?? throw new ArgumentNullException("handler is null");
 
             this.LayerNodes = new ObservableCollection<ILayerListNodeViewModel>();
             this.isDragging = false;
@@ -60,6 +60,9 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             this.MouseLeftButtonDownCommand = new DelegateCommand<object>((point) => HandleLeftClickDown((MouseEventArgs)point));
             this.MouseMoveCommand = new DelegateCommand<object>((point) => HandleMouseMove((MouseEventArgs)point));
             this.DropCommand = new DelegateCommand<object>((point) => HandleDrop((DragEventArgs)point));
+            this.DragOverCommand = new DelegateCommand<object>((args) => HandleDragOverCommand((DragEventArgs)args));
+            this.DragEnterCommand = new DelegateCommand<object>((args) => HandleDragEnterCommand((DragEventArgs)args));
+            this.DragLeaveCommand = new DelegateCommand<object>((args) => HandleDragLeaveCommand((DragEventArgs)args));
         }
 
         #endregion constructor
@@ -72,6 +75,9 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         public ICommand MouseLeftButtonDownCommand { get; private set; }
         public ICommand MouseMoveCommand { get; private set; }
         public ICommand DropCommand { get; private set; }
+        public ICommand DragOverCommand { get; private set; }
+        public ICommand DragEnterCommand { get; private set; }
+        public ICommand DragLeaveCommand { get; private set; }
 
 
         public LayerGroup layer;
@@ -102,6 +108,9 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         public ObservableCollection<ILayerListNodeViewModel> LayerNodes { get; private set; }
         public BindableProperty<bool> IsEditingName { get; set; } = BindableProperty<bool>.Prepare(false);
         public BindableProperty<bool> IsSelected { get; set; } = BindableProperty<bool>.Prepare(false);
+        public BindableProperty<bool> IsDragAbove { get; set; } = BindableProperty<bool>.Prepare(false);
+        public BindableProperty<bool> IsDragOnto { get; set; } = BindableProperty<bool>.Prepare(false);
+        public BindableProperty<bool> IsDragBelow { get; set; } = BindableProperty<bool>.Prepare(false);
 
         #endregion properties
 
@@ -208,6 +217,60 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                 this.layer.AddToMe(draggedLayer);
             }
             e.Handled = true;
+            this.IsDragAbove.Value = false;
+            this.IsDragOnto.Value = false;
+            this.IsDragBelow.Value = false;
+        }
+
+        private void HandleDragOverCommand(DragEventArgs e)
+        {
+            DrawSeparator(e);
+        }
+
+        private void HandleDragEnterCommand(DragEventArgs e)
+        {
+            DrawSeparator(e);
+        }
+
+        private void DrawSeparator(DragEventArgs e)
+        {
+            IDataObject data = e.Data;
+            if (data.GetDataPresent(typeof(ILayer).ToString()))
+            {
+                ILayer draggedLayer = data.GetData(typeof(ILayer).ToString()) as ILayer;
+                if (draggedLayer == this.layer)
+                {
+                    return;
+                }
+            }
+            UIElement dragSource = e.Source as UIElement;
+            double aboveHeight = 1 * dragSource.RenderSize.Height / 3;
+            double belowHeight = 2 * dragSource.RenderSize.Height / 3;
+            if (aboveHeight - e.GetPosition(dragSource).Y > 0)
+            {
+                this.IsDragAbove.Value = true;
+                this.IsDragOnto.Value = false;
+                this.IsDragBelow.Value = false;
+            }
+            else if (belowHeight - e.GetPosition(dragSource).Y > 0 || this.LayerNodes.Count != 0)
+            {
+                this.IsDragAbove.Value = false;
+                this.IsDragOnto.Value = true;
+                this.IsDragBelow.Value = false;
+            }
+            else
+            {
+                this.IsDragAbove.Value = false;
+                this.IsDragOnto.Value = false;
+                this.IsDragBelow.Value = true;
+            }
+        }
+
+        private void HandleDragLeaveCommand(DragEventArgs args)
+        {
+            this.IsDragAbove.Value = false;
+            this.IsDragBelow.Value = false;
+            this.IsDragOnto.Value = false;
         }
 
         private void EditTextbox()
