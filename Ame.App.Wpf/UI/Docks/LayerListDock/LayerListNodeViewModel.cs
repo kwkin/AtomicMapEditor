@@ -149,55 +149,75 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             return selected;
         }
 
-        private void LayerSizeChanged(object sender, PropertyChangedEventArgs e)
+        private void LayerSizeChanged(object sender, PropertyChangedEventArgs args)
         {
             RefreshPreview();
         }
 
-        private void HandleLeftClickDown(MouseEventArgs e)
+        private void HandleLeftClickDown(MouseEventArgs args)
         {
-            this.startDragPoint = e.GetPosition(null);
+            this.startDragPoint = args.GetPosition(null);
         }
 
-        private void HandleMouseMove(MouseEventArgs e)
+        private void HandleMouseMove(MouseEventArgs args)
         {
-            if (e.LeftButton == MouseButtonState.Pressed && !this.isDragging)
+            if (args.LeftButton == MouseButtonState.Pressed && !this.isDragging)
             {
-                Point position = e.GetPosition(null);
+                Point position = args.GetPosition(null);
                 if (Math.Abs(position.X - this.startDragPoint.X) > SystemParameters.MinimumHorizontalDragDistance
                         || Math.Abs(position.Y - this.startDragPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
                 {
-                    StartDrag(e);
+                    StartDrag(args);
                 }
             }
         }
 
-        private void HandleDropCommand(DragEventArgs e)
+        private void HandleDropCommand(DragEventArgs args)
         {
-            IDataObject data = e.Data;
+            IDataObject data = args.Data;
             if (data.GetDataPresent(typeof(ILayer).ToString()))
             {
                 ILayer draggedLayer = data.GetData(typeof(ILayer).ToString()) as ILayer;
                 this.layer.AddToMe(draggedLayer);
             }
-            e.Handled = true;
             this.IsDragAbove.Value = false;
             this.IsDragBelow.Value = false;
+            args.Handled = true;
         }
 
-        private void HandleDragOverCommand(DragEventArgs e)
+        private void HandleDragOverCommand(DragEventArgs args)
         {
-            DrawSeparator(e);
+            DrawSeparator(args);
+            args.Handled = true;
         }
 
-        private void HandleDragEnterCommand(DragEventArgs e)
+        private void HandleDragEnterCommand(DragEventArgs args)
         {
-            DrawSeparator(e);
+            DrawSeparator(args);
+            args.Handled = true;
         }
 
-        private void DrawSeparator(DragEventArgs e)
+        private void HandleDragLeaveCommand(DragEventArgs args)
         {
-            IDataObject data = e.Data;
+            this.IsDragAbove.Value = false;
+            this.IsDragBelow.Value = false;
+            args.Handled = true;
+        }
+
+        private void StartDrag(MouseEventArgs args)
+        {
+            this.isDragging = true;
+
+            DataObject data = new DataObject(typeof(ILayer).ToString(), this.Layer);
+            DependencyObject dragSource = args.Source as DependencyObject;
+            DragDrop.DoDragDrop(dragSource, data, DragDropEffects.Move);
+
+            this.isDragging = false;
+        }
+
+        private void DrawSeparator(DragEventArgs args)
+        {
+            IDataObject data = args.Data;
             if (data.GetDataPresent(typeof(ILayer).ToString()))
             {
                 ILayer draggedLayer = data.GetData(typeof(ILayer).ToString()) as ILayer;
@@ -206,29 +226,12 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                     return;
                 }
             }
-            UIElement dragSource = e.Source as UIElement;
+            UIElement dragSource = args.Source as UIElement;
             double heightMiddle = dragSource.RenderSize.Height / 2;
 
-            bool isBelow = e.GetPosition(dragSource).Y - heightMiddle > 0;
+            bool isBelow = args.GetPosition(dragSource).Y - heightMiddle > 0;
             this.IsDragAbove.Value = !isBelow;
             this.IsDragBelow.Value = isBelow;
-        }
-
-        private void HandleDragLeaveCommand(DragEventArgs args)
-        {
-            this.IsDragAbove.Value = false;
-            this.IsDragBelow.Value = false;
-        }
-
-        private void StartDrag(MouseEventArgs e)
-        {
-            this.isDragging = true;
-
-            DataObject data = new DataObject(typeof(ILayer).ToString(), this.Layer);
-            DependencyObject dragSource = e.Source as DependencyObject;
-            DragDrop.DoDragDrop(dragSource, data, DragDropEffects.Move);
-
-            this.isDragging = false;
         }
 
         private void EditTextbox()

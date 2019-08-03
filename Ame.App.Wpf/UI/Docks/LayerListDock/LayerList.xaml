@@ -102,6 +102,9 @@
                     <i:EventTrigger EventName="DragEnter">
                         <actions:EventToCommand Command="{Binding DragEnterCommand, Mode=OneWay}" />
                     </i:EventTrigger>
+                    <i:EventTrigger EventName="DragLeave">
+                        <actions:EventToCommand Command="{Binding DragLeaveCommand, Mode=OneWay}" />
+                    </i:EventTrigger>
                 </i:Interaction.Triggers>
 
                 <TreeView.Resources>

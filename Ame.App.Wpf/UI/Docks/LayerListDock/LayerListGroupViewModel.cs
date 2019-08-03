@@ -132,15 +132,15 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             return selected;
         }
 
-        private void LayersChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void LayersChanged(object sender, NotifyCollectionChangedEventArgs args)
         {
-            switch (e.Action)
+            switch (args.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    foreach (ILayer layer in e.NewItems)
+                    foreach (ILayer layer in args.NewItems)
                     {
                         ILayerListNodeViewModel entry = LayerListNodeGenerator.Generate(this.eventAggregator, this.session, this.actionHandler, layer);
-                        int insertIndex = e.NewStartingIndex;
+                        int insertIndex = args.NewStartingIndex;
                         if (insertIndex < this.LayerNodes.Count)
                         {
                             this.LayerNodes.Insert(insertIndex++, entry);
@@ -153,7 +153,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                     break;
 
                 case NotifyCollectionChangedAction.Remove:
-                    foreach (ILayer layer in e.OldItems)
+                    foreach (ILayer layer in args.OldItems)
                     {
                         IEnumerable<ILayerListNodeViewModel> toRemove = new ObservableCollection<ILayerListNodeViewModel>(this.LayerNodes.Where(entry => entry.Layer == layer));
                         foreach (ILayerListNodeViewModel entry in toRemove)
@@ -164,8 +164,8 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                     break;
 
                 case NotifyCollectionChangedAction.Move:
-                    int oldIndex = e.OldStartingIndex;
-                    int newIndex = e.NewStartingIndex;
+                    int oldIndex = args.OldStartingIndex;
+                    int newIndex = args.NewStartingIndex;
                     if (oldIndex != -1 && newIndex != -1)
                     {
                         ILayerListNodeViewModel entry = this.LayerNodes[oldIndex];
@@ -179,62 +179,72 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             }
         }
 
-        private void HandleLeftClickDown(MouseEventArgs e)
+        private void HandleLeftClickDown(MouseEventArgs args)
         {
-            this.startDragPoint = e.GetPosition(null);
+            this.startDragPoint = args.GetPosition(null);
         }
 
-        private void HandleMouseMove(MouseEventArgs e)
+        private void HandleMouseMove(MouseEventArgs args)
         {
-            if (e.LeftButton == MouseButtonState.Pressed && !this.isDragging)
+            if (args.LeftButton == MouseButtonState.Pressed && !this.isDragging)
             {
-                Point position = e.GetPosition(null);
+                Point position = args.GetPosition(null);
                 if (Math.Abs(position.X - this.startDragPoint.X) > SystemParameters.MinimumHorizontalDragDistance
                         || Math.Abs(position.Y - this.startDragPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
                 {
-                    HandleStartDrag(e);
+                    HandleStartDrag(args);
                 }
             }
         }
 
-        private void HandleStartDrag(MouseEventArgs e)
+        private void HandleStartDrag(MouseEventArgs args)
         {
             this.isDragging = true;
 
             DataObject data = new DataObject(typeof(ILayer).ToString(), this.Layer);
-            DependencyObject dragSource = e.Source as DependencyObject;
+            DependencyObject dragSource = args.Source as DependencyObject;
             DragDrop.DoDragDrop(dragSource, data, DragDropEffects.Move);
 
             this.isDragging = false;
         }
 
-        private void HandleDrop(DragEventArgs e)
+        private void HandleDrop(DragEventArgs args)
         {
-            IDataObject data = e.Data;
+            IDataObject data = args.Data;
             if (data.GetDataPresent(typeof(ILayer).ToString()))
             {
                 ILayer draggedLayer = data.GetData(typeof(ILayer).ToString()) as ILayer;
                 this.layer.AddToMe(draggedLayer);
             }
-            e.Handled = true;
             this.IsDragAbove.Value = false;
             this.IsDragOnto.Value = false;
             this.IsDragBelow.Value = false;
+            args.Handled = true;
         }
 
-        private void HandleDragOverCommand(DragEventArgs e)
+        private void HandleDragOverCommand(DragEventArgs args)
         {
-            DrawSeparator(e);
+            DrawSeparator(args);
+            args.Handled = true;
         }
 
-        private void HandleDragEnterCommand(DragEventArgs e)
+        private void HandleDragEnterCommand(DragEventArgs args)
         {
-            DrawSeparator(e);
+            DrawSeparator(args);
+            args.Handled = true;
         }
 
-        private void DrawSeparator(DragEventArgs e)
+        private void HandleDragLeaveCommand(DragEventArgs args)
         {
-            IDataObject data = e.Data;
+            this.IsDragAbove.Value = false;
+            this.IsDragBelow.Value = false;
+            this.IsDragOnto.Value = false;
+            args.Handled = true;
+        }
+
+        private void DrawSeparator(DragEventArgs args)
+        {
+            IDataObject data = args.Data;
             if (data.GetDataPresent(typeof(ILayer).ToString()))
             {
                 ILayer draggedLayer = data.GetData(typeof(ILayer).ToString()) as ILayer;
@@ -243,16 +253,16 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                     return;
                 }
             }
-            UIElement dragSource = e.Source as UIElement;
+            UIElement dragSource = args.Source as UIElement;
             double aboveHeight = 1 * dragSource.RenderSize.Height / 3;
             double belowHeight = 2 * dragSource.RenderSize.Height / 3;
-            if (aboveHeight - e.GetPosition(dragSource).Y > 0)
+            if (aboveHeight - args.GetPosition(dragSource).Y > 0)
             {
                 this.IsDragAbove.Value = true;
                 this.IsDragOnto.Value = false;
                 this.IsDragBelow.Value = false;
             }
-            else if (belowHeight - e.GetPosition(dragSource).Y > 0 || this.LayerNodes.Count != 0)
+            else if (belowHeight - args.GetPosition(dragSource).Y > 0 || this.LayerNodes.Count != 0)
             {
                 this.IsDragAbove.Value = false;
                 this.IsDragOnto.Value = true;
@@ -264,13 +274,6 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                 this.IsDragOnto.Value = false;
                 this.IsDragBelow.Value = true;
             }
-        }
-
-        private void HandleDragLeaveCommand(DragEventArgs args)
-        {
-            this.IsDragAbove.Value = false;
-            this.IsDragBelow.Value = false;
-            this.IsDragOnto.Value = false;
         }
 
         private void EditTextbox()

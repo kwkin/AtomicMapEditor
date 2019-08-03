@@ -59,7 +59,9 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             this.EditCollisionsCommand = new DelegateCommand(() => this.actionHandler.EditCollisions());
             this.LayerToMapSizeCommand = new DelegateCommand(() => this.actionHandler.LayerToMapSize());
             this.CurrentLayerChangedCommand = new DelegateCommand<object>((entry) => ChangeCurrentLayer(entry as ILayerListNodeViewModel));
-            this.DropCommand = new DelegateCommand<object>((dragEventArgs) => HandleDropCommand((DragEventArgs)dragEventArgs));
+            this.DropCommand = new DelegateCommand<object>((args) => HandleDropCommand((DragEventArgs)args));
+            this.DragEnterCommand = new DelegateCommand<object>((args) => HandleDragEnterCommand((DragEventArgs)args));
+            this.DragLeaveCommand = new DelegateCommand<object>((args) => HandleDragLeaveCommand((DragEventArgs)args));
         }
 
         #endregion constructor
@@ -79,6 +81,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         public ICommand CurrentLayerChangedCommand { get; private set; }
         public ICommand DropCommand { get; private set; }
         public ICommand DragEnterCommand { get; private set; }
+        public ICommand DragLeaveCommand { get; private set; }
 
         public ObservableCollection<ILayerListNodeViewModel> LayerNodes { get; private set; }
         public BindableProperty<ILayer> CurrentLayer { get; set; } = BindableProperty.Prepare<ILayer>();
@@ -225,10 +228,9 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             }
         }
 
-        private void HandleDropCommand(DragEventArgs e)
+        private void HandleDropCommand(DragEventArgs args)
         {
-            Console.WriteLine("Dropped on");
-            IDataObject data = e.Data;
+            IDataObject data = args.Data;
             if (data.GetDataPresent(typeof(ILayer).ToString()))
             {
                 ILayer draggedLayer = data.GetData(typeof(ILayer).ToString()) as ILayer;
@@ -237,7 +239,22 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                 draggedLayer.Parent = this.Session.CurrentMap.Value;
                 this.CurrentMap.Value.Layers.Add(draggedLayer);
             }
-            e.Handled = true;
+            args.Handled = true;
+
+            ILayerListNodeViewModel lastLayertNode = this.LayerNodes.Last<ILayerListNodeViewModel>();
+            lastLayertNode.IsDragBelow.Value = false;
+        }
+
+        private void HandleDragEnterCommand(DragEventArgs args)
+        {
+            ILayerListNodeViewModel lastLayertNode = this.LayerNodes.Last<ILayerListNodeViewModel>();
+            lastLayertNode.IsDragBelow.Value = true;
+        }
+
+        private void HandleDragLeaveCommand(DragEventArgs args)
+        {
+            ILayerListNodeViewModel lastLayertNode = this.LayerNodes.Last<ILayerListNodeViewModel>();
+            lastLayertNode.IsDragBelow.Value = false;
         }
 
         #endregion methods

@@ -50,6 +50,8 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         ILayer Layer { get; set; }
         BindableProperty<bool> IsSelected { get; set; }
+        BindableProperty<bool> IsDragAbove { get; set; }
+        BindableProperty<bool> IsDragBelow { get; set; }
 
         #endregion properties
 
