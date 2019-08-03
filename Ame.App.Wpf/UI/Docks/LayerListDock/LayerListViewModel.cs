@@ -78,6 +78,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         public ICommand LayerToMapSizeCommand { get; private set; }
         public ICommand CurrentLayerChangedCommand { get; private set; }
         public ICommand DropCommand { get; private set; }
+        public ICommand DragEnterCommand { get; private set; }
 
         public ObservableCollection<ILayerListNodeViewModel> LayerNodes { get; private set; }
         public BindableProperty<ILayer> CurrentLayer { get; set; } = BindableProperty.Prepare<ILayer>();
@@ -226,6 +227,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         private void HandleDropCommand(DragEventArgs e)
         {
+            Console.WriteLine("Dropped on");
             IDataObject data = e.Data;
             if (data.GetDataPresent(typeof(ILayer).ToString()))
             {

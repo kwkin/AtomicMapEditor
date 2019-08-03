@@ -30,9 +30,6 @@
         <i:EventTrigger EventName="PreviewMouseMove">
             <actions:EventToCommand Command="{Binding MouseMoveCommand, Mode=OneWay}" />
         </i:EventTrigger>
-        <i:EventTrigger EventName="Drop">
-            <actions:EventToCommand Command="{Binding DropCommand, Mode=OneWay}" />
-        </i:EventTrigger>
     </i:Interaction.Triggers>
 
     <Grid>

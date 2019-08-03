@@ -99,6 +99,9 @@
                     <i:EventTrigger EventName="Drop">
                         <actions:EventToCommand Command="{Binding DropCommand, Mode=OneWay}" />
                     </i:EventTrigger>
+                    <i:EventTrigger EventName="DragEnter">
+                        <actions:EventToCommand Command="{Binding DragEnterCommand, Mode=OneWay}" />
+                    </i:EventTrigger>
                 </i:Interaction.Triggers>
 
                 <TreeView.Resources>
