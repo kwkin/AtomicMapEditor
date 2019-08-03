@@ -136,11 +136,37 @@ namespace Ame.Infrastructure.Models
             return pixelHeight;
         }
 
-        public void AddToMe(ILayer layer)
+        public void AddLayerAbove(ILayer layer)
+        {
+            layer.Parent.Layers.Remove(layer);
+            layer.Parent = this.Parent;
+
+            int thisIndex = this.Parent.Layers.IndexOf(this);
+            this.Parent.Layers.Insert(thisIndex, layer);
+        }
+
+        public void AddLayerOnto(ILayer layer)
         {
             layer.Parent.Layers.Remove(layer);
             layer.Parent = this;
             this.Layers.Insert(0, layer);
+        }
+
+        public void AddLayerBelow(ILayer layer)
+        {
+            layer.Parent.Layers.Remove(layer);
+            layer.Parent = this.Parent;
+
+            int thisIndex = this.Parent.Layers.IndexOf(this);
+            int insertIndex = thisIndex + 1;
+            if (insertIndex > this.Parent.Layers.Count - 1)
+            {
+                this.Parent.Layers.Add(layer);
+            }
+            else
+            {
+                this.Parent.Layers.Insert(insertIndex, layer);
+            }
         }
 
         public int GetLayerCount()

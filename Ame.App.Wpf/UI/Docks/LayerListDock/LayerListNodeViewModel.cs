@@ -178,7 +178,14 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             if (data.GetDataPresent(typeof(ILayer).ToString()))
             {
                 ILayer draggedLayer = data.GetData(typeof(ILayer).ToString()) as ILayer;
-                this.layer.AddToMe(draggedLayer);
+                if (this.IsDragAbove.Value)
+                {
+                    this.layer.AddLayerAbove(draggedLayer);
+                }
+                else if (this.IsDragBelow.Value)
+                {
+                    this.layer.AddLayerBelow(draggedLayer);
+                }
             }
             this.IsDragAbove.Value = false;
             this.IsDragBelow.Value = false;

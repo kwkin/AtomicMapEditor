@@ -207,12 +207,35 @@ namespace Ame.Infrastructure.Models
             return new Point(pointX, pointY);
         }
 
-        public void AddToMe(ILayer layer)
+        public void AddLayerAbove(ILayer layer)
         {
-            int thisIndex = this.Parent.Layers.IndexOf(this);
             layer.Parent.Layers.Remove(layer);
             layer.Parent = this.Parent;
+
+            int thisIndex = this.Parent.Layers.IndexOf(this);
             this.Parent.Layers.Insert(thisIndex, layer);
+        }
+
+        public void AddLayerOnto(ILayer layer)
+        {
+            AddLayerAbove(layer);
+        }
+
+        public void AddLayerBelow(ILayer layer)
+        {
+            layer.Parent.Layers.Remove(layer);
+            layer.Parent = this.Parent;
+
+            int thisIndex = this.Parent.Layers.IndexOf(this);
+            int insertIndex = thisIndex + 1;
+            if (insertIndex > this.Parent.Layers.Count - 1)
+            {
+                this.Parent.Layers.Add(layer);
+            }
+            else
+            {
+                this.Parent.Layers.Insert(insertIndex, layer);
+            }
         }
 
         private void LayerSizeChanged(object sender, PropertyChangedEventArgs e)
