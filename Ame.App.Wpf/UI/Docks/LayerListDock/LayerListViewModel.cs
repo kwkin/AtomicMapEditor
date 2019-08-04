@@ -128,7 +128,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
             foreach (ILayer layer in this.CurrentMap.Value.Layers)
             {
-                ILayerListNodeViewModel node = LayerListNodeGenerator.Generate(this.eventAggregator, this.Session, this.actionHandler, layer);
+                ILayerListNodeViewModel node = LayerListMethods.Generate(this.eventAggregator, this.Session, this.actionHandler, layer);
                 this.LayerNodes.Add(node);
             }
 
@@ -188,7 +188,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                 case NotifyCollectionChangedAction.Add:
                     foreach (ILayer layer in e.NewItems)
                     {
-                        ILayerListNodeViewModel entry = LayerListNodeGenerator.Generate(this.eventAggregator, this.Session, this.actionHandler, layer);
+                        ILayerListNodeViewModel entry = LayerListMethods.Generate(this.eventAggregator, this.Session, this.actionHandler, layer);
                         int insertIndex = e.NewStartingIndex;
                         if (insertIndex < this.LayerNodes.Count)
                         {
@@ -231,9 +231,9 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         private void HandleDropCommand(DragEventArgs args)
         {
             IDataObject data = args.Data;
-            if (data.GetDataPresent(typeof(ILayer).ToString()))
+            if (data.GetDataPresent(LayerListMethods.DragDataName))
             {
-                ILayer draggedLayer = data.GetData(typeof(ILayer).ToString()) as ILayer;
+                ILayer draggedLayer = data.GetData(LayerListMethods.DragDataName) as ILayer;
 
                 draggedLayer.Parent.Layers.Remove(draggedLayer);
                 draggedLayer.Parent = this.Session.CurrentMap.Value;

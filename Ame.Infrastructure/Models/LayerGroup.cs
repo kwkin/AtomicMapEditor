@@ -47,13 +47,9 @@ namespace Ame.Infrastructure.Models
         #region properties
 
         public BindableProperty<Map> Map { get; set; } = BindableProperty.Prepare<Map>();
-
         public BindableProperty<string> Name { get; set; } = BindableProperty.Prepare<string>(string.Empty);
-
         public BindableProperty<bool> IsImmutable { get; set; } = BindableProperty.Prepare<bool>();
-
         public BindableProperty<bool> IsVisible { get; set; } = BindableProperty.Prepare<bool>();
-
         public ObservableCollection<ILayer> Layers { get; set; }
 
         private DrawingGroup group;
@@ -76,11 +72,8 @@ namespace Ame.Infrastructure.Models
         public ILayerParent Parent { get; set; }
 
         public BindableProperty<int> Columns { get; set; } = BindableProperty.Prepare<int>();
-
         public BindableProperty<int> Rows { get; set; } = BindableProperty.Prepare<int>();
-
         public BindableProperty<int> OffsetX { get; set; } = BindableProperty.Prepare<int>();
-
         public BindableProperty<int> OffsetY { get; set; } = BindableProperty.Prepare<int>();
 
         private BindableProperty<int> pixelWidth = BindableProperty.Prepare<int>();

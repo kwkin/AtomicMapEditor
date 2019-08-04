@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Ame.App.Wpf.UI.Docks.LayerListDock
 {
-    public static class LayerListNodeGenerator
+    public static class LayerListMethods
     {
         public static ILayerListNodeViewModel Generate(IEventAggregator eventAggregator, IAmeSession session, IActionHandler handler, ILayer layer)
         {
@@ -31,6 +31,14 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                 entry = groupEntry;
             }
             return entry;
+        }
+
+        public static string DragDataName
+        {
+            get
+            {
+                return "LayerListNode";
+            }
         }
     }
 

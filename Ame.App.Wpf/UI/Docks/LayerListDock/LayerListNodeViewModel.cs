@@ -92,6 +92,11 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         public ICommand DragEnterCommand { get; private set; }
         public ICommand DragLeaveCommand { get; private set; }
 
+        public BindableProperty<bool> IsEditingName { get; set; } = BindableProperty<bool>.Prepare(false);
+        public BindableProperty<bool> IsSelected { get; set; } = BindableProperty<bool>.Prepare(false);
+        public BindableProperty<bool> IsDragAbove { get; set; } = BindableProperty<bool>.Prepare(false);
+        public BindableProperty<bool> IsDragBelow { get; set; } = BindableProperty<bool>.Prepare(false);
+
         public ILayer layer;
         public ILayer Layer
         {
@@ -113,11 +118,6 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                 return this.layerPreview;
             }
         }
-
-        public BindableProperty<bool> IsEditingName { get; set; } = BindableProperty<bool>.Prepare(false);
-        public BindableProperty<bool> IsSelected { get; set; } = BindableProperty<bool>.Prepare(false);
-        public BindableProperty<bool> IsDragAbove { get; set; } = BindableProperty<bool>.Prepare(false);
-        public BindableProperty<bool> IsDragBelow { get; set; } = BindableProperty<bool>.Prepare(false);
 
         #endregion properties
 
@@ -175,9 +175,9 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         private void HandleDropCommand(DragEventArgs args)
         {
             IDataObject data = args.Data;
-            if (data.GetDataPresent(typeof(ILayer).ToString()))
+            if (data.GetDataPresent(LayerListMethods.DragDataName))
             {
-                ILayer draggedLayer = data.GetData(typeof(ILayer).ToString()) as ILayer;
+                ILayer draggedLayer = data.GetData(LayerListMethods.DragDataName) as ILayer;
                 if (this.IsDragAbove.Value)
                 {
                     this.layer.AddLayerAbove(draggedLayer);
@@ -215,7 +215,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         {
             this.isDragging = true;
 
-            DataObject data = new DataObject(typeof(ILayer).ToString(), this.Layer);
+            DataObject data = new DataObject(LayerListMethods.DragDataName, this.Layer);
             DependencyObject dragSource = args.Source as DependencyObject;
             DragDrop.DoDragDrop(dragSource, data, DragDropEffects.Move);
 
@@ -225,13 +225,14 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         private void DrawSeparator(DragEventArgs args)
         {
             IDataObject data = args.Data;
-            if (data.GetDataPresent(typeof(ILayer).ToString()))
+            if (!data.GetDataPresent(LayerListMethods.DragDataName))
             {
-                ILayer draggedLayer = data.GetData(typeof(ILayer).ToString()) as ILayer;
-                if (draggedLayer == this.layer)
-                {
-                    return;
-                }
+                return;
+            }
+            ILayer draggedLayer = data.GetData(LayerListMethods.DragDataName) as ILayer;
+            if (draggedLayer == this.layer)
+            {
+                return;
             }
             UIElement dragSource = args.Source as UIElement;
             double heightMiddle = dragSource.RenderSize.Height / 2;

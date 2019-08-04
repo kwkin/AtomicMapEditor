@@ -79,6 +79,13 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         public ICommand DragEnterCommand { get; private set; }
         public ICommand DragLeaveCommand { get; private set; }
 
+        public BindableProperty<bool> IsEditingName { get; set; } = BindableProperty<bool>.Prepare(false);
+        public BindableProperty<bool> IsSelected { get; set; } = BindableProperty<bool>.Prepare(false);
+        public BindableProperty<bool> IsDragAbove { get; set; } = BindableProperty<bool>.Prepare(false);
+        public BindableProperty<bool> IsDragOnto { get; set; } = BindableProperty<bool>.Prepare(false);
+        public BindableProperty<bool> IsDragBelow { get; set; } = BindableProperty<bool>.Prepare(false);
+        public ObservableCollection<ILayerListNodeViewModel> LayerNodes { get; private set; }
+
 
         public LayerGroup layer;
         public ILayer Layer
@@ -104,13 +111,6 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                 return this.layerPreview;
             }
         }
-
-        public ObservableCollection<ILayerListNodeViewModel> LayerNodes { get; private set; }
-        public BindableProperty<bool> IsEditingName { get; set; } = BindableProperty<bool>.Prepare(false);
-        public BindableProperty<bool> IsSelected { get; set; } = BindableProperty<bool>.Prepare(false);
-        public BindableProperty<bool> IsDragAbove { get; set; } = BindableProperty<bool>.Prepare(false);
-        public BindableProperty<bool> IsDragOnto { get; set; } = BindableProperty<bool>.Prepare(false);
-        public BindableProperty<bool> IsDragBelow { get; set; } = BindableProperty<bool>.Prepare(false);
 
         #endregion properties
 
@@ -139,7 +139,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                 case NotifyCollectionChangedAction.Add:
                     foreach (ILayer layer in args.NewItems)
                     {
-                        ILayerListNodeViewModel entry = LayerListNodeGenerator.Generate(this.eventAggregator, this.session, this.actionHandler, layer);
+                        ILayerListNodeViewModel entry = LayerListMethods.Generate(this.eventAggregator, this.session, this.actionHandler, layer);
                         int insertIndex = args.NewStartingIndex;
                         if (insertIndex < this.LayerNodes.Count)
                         {
@@ -201,7 +201,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         {
             this.isDragging = true;
 
-            DataObject data = new DataObject(typeof(ILayer).ToString(), this.Layer);
+            DataObject data = new DataObject(LayerListMethods.DragDataName, this.Layer);
             DependencyObject dragSource = args.Source as DependencyObject;
             DragDrop.DoDragDrop(dragSource, data, DragDropEffects.Move);
 
@@ -211,20 +211,23 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         private void HandleDrop(DragEventArgs args)
         {
             IDataObject data = args.Data;
-            if (data.GetDataPresent(typeof(ILayer).ToString()))
+            if (data.GetDataPresent(LayerListMethods.DragDataName))
             {
-                ILayer draggedLayer = data.GetData(typeof(ILayer).ToString()) as ILayer;
-                if (this.IsDragAbove.Value)
+                ILayer draggedLayer = data.GetData(LayerListMethods.DragDataName) as ILayer;
+                if (draggedLayer != null)
                 {
-                    this.layer.AddLayerAbove(draggedLayer);
-                }
-                else if (this.IsDragOnto.Value)
-                {
-                    this.layer.AddLayerOnto(draggedLayer);
-                }
-                else if (this.IsDragBelow.Value)
-                {
-                    this.layer.AddLayerBelow(draggedLayer);
+                    if (this.IsDragAbove.Value)
+                    {
+                        this.layer.AddLayerAbove(draggedLayer);
+                    }
+                    else if (this.IsDragOnto.Value)
+                    {
+                        this.layer.AddLayerOnto(draggedLayer);
+                    }
+                    else if (this.IsDragBelow.Value)
+                    {
+                        this.layer.AddLayerBelow(draggedLayer);
+                    }
                 }
             }
             this.IsDragAbove.Value = false;
@@ -256,14 +259,16 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         private void DrawSeparator(DragEventArgs args)
         {
             IDataObject data = args.Data;
-            if (data.GetDataPresent(typeof(ILayer).ToString()))
+            if (!data.GetDataPresent(LayerListMethods.DragDataName))
             {
-                ILayer draggedLayer = data.GetData(typeof(ILayer).ToString()) as ILayer;
-                if (draggedLayer == this.layer)
-                {
-                    return;
-                }
+                return;
             }
+            ILayer draggedLayer = data.GetData(LayerListMethods.DragDataName) as ILayer;
+            if (draggedLayer == this.layer)
+            {
+                return;
+            }
+
             UIElement dragSource = args.Source as UIElement;
             double aboveHeight = 1 * dragSource.RenderSize.Height / 3;
             double belowHeight = 2 * dragSource.RenderSize.Height / 3;
