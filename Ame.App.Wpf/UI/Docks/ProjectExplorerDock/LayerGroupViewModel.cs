@@ -1,8 +1,6 @@
-﻿using Ame.App.Wpf.UI.Interactions.MapProperties;
-using Ame.App.Wpf.UI.Interactions.ProjectProperties;
+﻿using Ame.App.Wpf.UI.Interactions.LayerProperties;
 using Ame.Infrastructure.Attributes;
 using Ame.Infrastructure.BaseTypes;
-using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Handlers;
 using Ame.Infrastructure.Models;
 using Prism.Commands;
@@ -19,7 +17,7 @@ using System.Windows.Input;
 
 namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 {
-    public class ProjectNodeViewModel : IProjectExplorerNodeViewModel
+    public class LayerGroupViewModel
     {
         #region fields
 
@@ -34,24 +32,21 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
         #region constructor
 
-        public ProjectNodeViewModel(IEventAggregator eventAggregator, IActionHandler actionHandler, Project project)
+        public LayerGroupViewModel(IEventAggregator eventAggregator, IActionHandler actionHandler, LayerGroup group)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
-            this.Project = project ?? throw new ArgumentNullException("layer is null");
+            this.Layer = group ?? throw new ArgumentNullException("layer is null");
             this.actionHandler = actionHandler ?? throw new ArgumentNullException("actionHandler is null");
 
-            this.MapNodes = new ObservableCollection<MapNodeViewModel>();
-            project.Maps.ToList().ForEach(map => AddMap(map));
+            this.LayerNodes = new ObservableCollection<IProjectExplorerNodeViewModel>();
 
-            this.Project.Maps.CollectionChanged += MapsChanged;
-
-            this.NewMapCommand = new DelegateCommand(() => NewMap());
-            this.EditProjectPropertiesCommand = new DelegateCommand(() => EditProjectProperties());
+            this.NewLayerCommand = new DelegateCommand(() => NewLayer());
+            this.EditLayerPropertiesCommand = new DelegateCommand(() => EditLayerProperties());
             this.EditTextboxCommand = new DelegateCommand(() => EditTextbox());
             this.StopEditingTextboxCommand = new DelegateCommand(() => StopEditingTextbox());
-            this.MouseLeftButtonDownCommand = new DelegateCommand<object>((point) => HandleLeftClickDown((MouseEventArgs)point));
-            this.MouseMoveCommand = new DelegateCommand<object>((point) => HandleMouseMove((MouseEventArgs)point));
-            this.DropCommand = new DelegateCommand<object>((point) => HandleDropCommand((DragEventArgs)point));
+            this.MouseLeftButtonDownCommand = new DelegateCommand<object>((args) => HandleLeftClickDown((MouseEventArgs)args));
+            this.MouseMoveCommand = new DelegateCommand<object>((args) => HandleMouseMove((MouseEventArgs)args));
+            this.DropCommand = new DelegateCommand<object>((args) => HandleDropCommand((DragEventArgs)args));
             this.DragOverCommand = new DelegateCommand<object>((args) => HandleDragOverCommand((DragEventArgs)args));
             this.DragEnterCommand = new DelegateCommand<object>((args) => HandleDragEnterCommand((DragEventArgs)args));
             this.DragLeaveCommand = new DelegateCommand<object>((args) => HandleDragLeaveCommand((DragEventArgs)args));
@@ -62,8 +57,8 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
         #region properties
 
-        public ICommand NewMapCommand { get; private set; }
-        public ICommand EditProjectPropertiesCommand { get; private set; }
+        public ICommand NewLayerCommand { get; private set; }
+        public ICommand EditLayerPropertiesCommand { get; private set; }
         public ICommand EditTextboxCommand { get; private set; }
         public ICommand StopEditingTextboxCommand { get; private set; }
         public ICommand MouseLeftButtonDownCommand { get; private set; }
@@ -73,67 +68,19 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
         public ICommand DragEnterCommand { get; private set; }
         public ICommand DragLeaveCommand { get; private set; }
 
-        public Project Project { get; set; }
-
-        public ObservableCollection<MapNodeViewModel> MapNodes { get; private set; }
         public BindableProperty<bool> IsEditingName { get; set; } = BindableProperty<bool>.Prepare(false);
+        public BindableProperty<bool> IsSelected { get; set; } = BindableProperty<bool>.Prepare(false);
         public BindableProperty<bool> IsDragAbove { get; set; } = BindableProperty<bool>.Prepare(false);
         public BindableProperty<bool> IsDragOnto { get; set; } = BindableProperty<bool>.Prepare(false);
         public BindableProperty<bool> IsDragBelow { get; set; } = BindableProperty<bool>.Prepare(false);
+
+        public LayerGroup Layer { get; set; }
+        public ObservableCollection<IProjectExplorerNodeViewModel> LayerNodes { get; private set; }
 
         #endregion properties
 
 
         #region methods
-
-        public void AddMap(Map map)
-        {
-            MapNodeViewModel node = new MapNodeViewModel(this.eventAggregator, this.actionHandler, map);
-            this.MapNodes.Add(node);
-        }
-
-        public void RemoveMap(Map map)
-        {
-            IEnumerable<MapNodeViewModel> toRemove = this.MapNodes.Where(entry => entry.Map == map);
-            foreach (MapNodeViewModel node in toRemove)
-            {
-                this.MapNodes.Remove(node);
-            }
-        }
-
-        private void MapsChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            switch (e.Action)
-            {
-                case NotifyCollectionChangedAction.Add:
-                    foreach (Map map in e.NewItems)
-                    {
-                        AddMap(map);
-                    }
-                    break;
-
-                case NotifyCollectionChangedAction.Remove:
-                    foreach (Map map in e.OldItems)
-                    {
-                        RemoveMap(map);
-                    }
-                    break;
-
-                case NotifyCollectionChangedAction.Move:
-                    int oldIndex = e.OldStartingIndex;
-                    int newIndex = e.NewStartingIndex;
-                    if (oldIndex != -1 && newIndex != -1)
-                    {
-                        MapNodeViewModel entry = this.MapNodes[oldIndex];
-                        this.MapNodes[oldIndex] = this.MapNodes[newIndex];
-                        this.MapNodes[newIndex] = entry;
-                    }
-                    break;
-
-                default:
-                    break;
-            }
-        }
 
         private void HandleLeftClickDown(MouseEventArgs args)
         {
@@ -148,7 +95,7 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
                 if (Math.Abs(position.X - this.startDragPoint.X) > SystemParameters.MinimumHorizontalDragDistance
                         || Math.Abs(position.Y - this.startDragPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
                 {
-                    HandleStartDrag(args);
+                    StartDrag(args);
                 }
             }
         }
@@ -156,14 +103,24 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
         private void HandleDropCommand(DragEventArgs args)
         {
             IDataObject data = args.Data;
-            if (data.GetDataPresent(SerializableNameUtils.GetName(DragDataType.ExplorerMapNode)))
+            if (data.GetDataPresent(SerializableNameUtils.GetName(DragDataType.ExplorerLayerNode)))
             {
-                Map draggedMap = data.GetData(SerializableNameUtils.GetName(DragDataType.ExplorerMapNode)) as Map;
-                this.Project.Maps.Insert(0, draggedMap);
-            }
-            else if (data.GetDataPresent(SerializableNameUtils.GetName(DragDataType.ExplorerProjectNode)))
-            {
-                Project draggedProject = data.GetData(SerializableNameUtils.GetName(DragDataType.ExplorerMapNode)) as Project;
+                ILayer draggedLayer = data.GetData(SerializableNameUtils.GetName(DragDataType.ExplorerLayerNode)) as ILayer;
+                if (draggedLayer != null)
+                {
+                    if (this.IsDragAbove.Value)
+                    {
+                        this.Layer.AddLayerAbove(draggedLayer);
+                    }
+                    else if (this.IsDragOnto.Value)
+                    {
+                        this.Layer.AddLayerOnto(draggedLayer);
+                    }
+                    else if (this.IsDragBelow.Value)
+                    {
+                        this.Layer.AddLayerBelow(draggedLayer);
+                    }
+                }
             }
             this.IsDragAbove.Value = false;
             this.IsDragOnto.Value = false;
@@ -173,12 +130,32 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
         private void HandleDragOverCommand(DragEventArgs args)
         {
+            IDataObject data = args.Data;
+            if (!data.GetDataPresent(SerializableNameUtils.GetName(DragDataType.LayerListNode)))
+            {
+                return;
+            }
+            ILayer draggedLayer = data.GetData(SerializableNameUtils.GetName(DragDataType.LayerListNode)) as ILayer;
+            if (draggedLayer == this.Layer)
+            {
+                return;
+            }
             DrawSeparator(args);
             args.Handled = true;
         }
 
         private void HandleDragEnterCommand(DragEventArgs args)
         {
+            IDataObject data = args.Data;
+            if (!data.GetDataPresent(SerializableNameUtils.GetName(DragDataType.LayerListNode)))
+            {
+                return;
+            }
+            ILayer draggedLayer = data.GetData(SerializableNameUtils.GetName(DragDataType.LayerListNode)) as ILayer;
+            if (draggedLayer == this.Layer)
+            {
+                return;
+            }
             DrawSeparator(args);
             args.Handled = true;
         }
@@ -187,27 +164,12 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
         {
             this.IsDragAbove.Value = false;
             this.IsDragBelow.Value = false;
+            this.IsDragOnto.Value = false;
             args.Handled = true;
-        }
-
-        private void HandleStartDrag(MouseEventArgs args)
-        {
-            this.isDragging = true;
-
-            DataObject data = new DataObject(typeof(Map).ToString(), this.Project);
-            DependencyObject dragSource = args.Source as DependencyObject;
-            DragDrop.DoDragDrop(dragSource, data, DragDropEffects.Move);
-
-            this.isDragging = false;
         }
 
         private void DrawSeparator(DragEventArgs args)
         {
-            IDataObject data = args.Data;
-            if (data.GetDataPresent(typeof(ILayer).ToString()))
-            {
-                ILayer draggedLayer = data.GetData(typeof(ILayer).ToString()) as ILayer;
-            }
             UIElement dragSource = args.Source as UIElement;
             double aboveHeight = 1 * dragSource.RenderSize.Height / 3;
             double belowHeight = 2 * dragSource.RenderSize.Height / 3;
@@ -217,7 +179,7 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
                 this.IsDragOnto.Value = false;
                 this.IsDragBelow.Value = false;
             }
-            else if (belowHeight - args.GetPosition(dragSource).Y > 0 || this.MapNodes.Count != 0)
+            else if (belowHeight - args.GetPosition(dragSource).Y > 0 || this.LayerNodes.Count != 0)
             {
                 this.IsDragAbove.Value = false;
                 this.IsDragOnto.Value = true;
@@ -231,16 +193,27 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
             }
         }
 
-        private void NewMap()
+        private void StartDrag(MouseEventArgs args)
         {
-            NewMapInteraction interaction = new NewMapInteraction(this.Project);
-            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
+            this.isDragging = true;
+
+            DataObject data = new DataObject(SerializableNameUtils.GetName(DragDataType.LayerListNode), this.Layer);
+            DependencyObject dragSource = args.Source as DependencyObject;
+            DragDrop.DoDragDrop(dragSource, data, DragDropEffects.Move);
+
+            this.isDragging = false;
         }
 
-        public void EditProjectProperties()
+        private void NewLayer()
         {
-            EditProjectInteraction interaction = new EditProjectInteraction(this.Project);
-            this.eventAggregator.GetEvent<OpenWindowEvent>().Publish(interaction);
+            NewLayerInteraction interaction = new NewLayerInteraction(this.Layer.Map.Value);
+            this.actionHandler.OpenWindow(interaction);
+        }
+
+        private void EditLayerProperties()
+        {
+            EditLayerInteraction interaction = new EditLayerInteraction(this.Layer);
+            this.actionHandler.OpenWindow(interaction);
         }
 
         private void EditTextbox()

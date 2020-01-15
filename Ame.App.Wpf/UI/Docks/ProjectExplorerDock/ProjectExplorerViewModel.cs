@@ -51,25 +51,45 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
             RefreshProjects();
 
             Map map1a = new Map("map1a");
-            Map map1b = new Map("map1b");
-            map1b.Layers.Add(new Layer(map1a, "layer1bi"));
-            Map map1c = new Map("map1c");
-            map1c.Layers.Add(new Layer(map1c, "layer1ci"));
-            map1c.Layers.Add(new Layer(map1c, "layer1cii"));
-            Project project1 = new Project("project1", "1");
-            project1.Maps.Add(map1a);
-            project1.Maps.Add(map1b);
-            project1.Maps.Add(map1c);
 
-            Map map2a = new Map("map2a");
-            map2a.Layers.Add(new Layer(map2a, "layer2ai"));
-            map2a.Layers.Add(new Layer(map2a, "layer2aii"));
-            map2a.Layers.Add(new Layer(map2a, "layer2aiii"));
-            Project project2 = new Project("project2", "2");
-            project2.Maps.Add(map2a);
+            List<ILayer> map1bLayers = new List<ILayer>();
+            map1bLayers.Add(new Layer("layer1bi"));
+            Map map1b = new Map("map1b", 32, 32, map1bLayers, new List<TilesetModel>());
 
-            Map map3a = new Map("map3a");
-            map3a.Layers.Add(new Layer(map3a, "layer3ai"));
+            List<ILayer> map1cLayers = new List<ILayer>();
+            map1cLayers.Add(new Layer("layer1ci"));
+            map1cLayers.Add(new Layer("layer1cii"));
+
+            List<ILayer> map1cGroup1Layers = new List<ILayer>();
+            map1cGroup1Layers.Add(new Layer("layer1cGroup1i"));
+            map1cGroup1Layers.Add(new Layer("layer1cGroup1ii"));
+            LayerGroup group1c = new LayerGroup(null, "layer1cGroup1", map1cGroup1Layers);
+            map1cLayers.Add(group1c);
+
+            Map map1c = new Map("map1c", 32, 32, map1cLayers, new List<TilesetModel>());
+
+            List<Map> project1Maps = new List<Map>();
+            project1Maps.Add(map1a);
+            project1Maps.Add(map1b);
+            project1Maps.Add(map1c);
+            Project project1 = new Project("project1", "1", project1Maps);
+
+
+            List<ILayer> map2aLayers = new List<ILayer>();
+            map2aLayers.Add(new Layer("layer2ai"));
+            map2aLayers.Add(new Layer("layer2aii"));
+            map2aLayers.Add(new Layer("layer2aiii"));
+            map2aLayers.Add(new LayerGroup("layer2aGroup1"));
+            Map map2a = new Map("map2a", 32, 32, map2aLayers, new List<TilesetModel>());
+
+            List<Map> project2Maps = new List<Map>();
+            project2Maps.Add(map2a);
+            Project project2 = new Project("project2", "2", project2Maps);
+
+            List<ILayer> map3aLayers = new List<ILayer>();
+            map3aLayers.Add(new Layer("layer3ai"));
+            Map map3a = new Map("map3a", 32, 32, map3aLayers, new List<TilesetModel>());
+
             Map map4a = new Map("map4a");
 
             this.ExplorerNodes.Add(new ProjectNodeViewModel(eventAggregator, actionHandler, project1));

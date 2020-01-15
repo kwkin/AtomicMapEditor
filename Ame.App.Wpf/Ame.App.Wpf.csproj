@@ -137,6 +137,10 @@
     <Compile Include="UI\Docks\MinimapDock\MinimapCreator.cs" />
     <Compile Include="UI\Docks\MinimapDock\MinimapViewModel.cs" />
     <Compile Include="UI\Docks\ProjectExplorerDock\IProjectExplorerNodeViewModel.cs" />
+    <Compile Include="UI\Docks\ProjectExplorerDock\LayerGroupNode.xaml.cs">
+      <DependentUpon>LayerGroupNode.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Docks\ProjectExplorerDock\LayerGroupViewModel.cs" />
     <Compile Include="UI\Docks\ProjectExplorerDock\LayerNode.xaml.cs">
       <DependentUpon>LayerNode.xaml</DependentUpon>
     </Compile>
@@ -425,6 +429,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Docks\MinimapDock\MinimapContextMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Docks\ProjectExplorerDock\LayerGroupNode.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

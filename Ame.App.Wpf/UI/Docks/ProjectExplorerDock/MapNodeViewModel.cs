@@ -1,5 +1,6 @@
 ﻿using Ame.App.Wpf.UI.Interactions.LayerProperties;
 using Ame.App.Wpf.UI.Interactions.MapProperties;
+using Ame.Infrastructure.Attributes;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Handlers;
 using Ame.Infrastructure.Models;
@@ -49,7 +50,7 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
             this.StopEditingTextboxCommand = new DelegateCommand(() => StopEditingTextbox());
             this.MouseLeftButtonDownCommand = new DelegateCommand<object>((point) => HandleLeftClickDown((MouseEventArgs)point));
             this.MouseMoveCommand = new DelegateCommand<object>((point) => HandleMouseMove((MouseEventArgs)point));
-            this.DropCommand = new DelegateCommand<object>((point) => HandleDrop((DragEventArgs)point));
+            this.DropCommand = new DelegateCommand<object>((point) => HandleDropCommand((DragEventArgs)point));
             this.DragOverCommand = new DelegateCommand<object>((args) => HandleDragOverCommand((DragEventArgs)args));
             this.DragEnterCommand = new DelegateCommand<object>((args) => HandleDragEnterCommand((DragEventArgs)args));
             this.DragLeaveCommand = new DelegateCommand<object>((args) => HandleDragLeaveCommand((DragEventArgs)args));
@@ -152,24 +153,21 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
             }
         }
 
-        private void HandleStartDrag(MouseEventArgs args)
-        {
-            this.isDragging = true;
-
-            DataObject data = new DataObject(typeof(Map).ToString(), this.Map);
-            DependencyObject dragSource = args.Source as DependencyObject;
-            DragDrop.DoDragDrop(dragSource, data, DragDropEffects.Move);
-
-            this.isDragging = false;
-        }
-
-        private void HandleDrop(DragEventArgs args)
+        private void HandleDropCommand(DragEventArgs args)
         {
             IDataObject data = args.Data;
-            if (data.GetDataPresent(typeof(ILayer).ToString()))
+            if (data.GetDataPresent(SerializableNameUtils.GetName(DragDataType.ExplorerLayerNode)))
             {
-                ILayer draggedLayer = data.GetData(typeof(ILayer).ToString()) as ILayer;
+                ILayer draggedLayer = data.GetData(SerializableNameUtils.GetName(DragDataType.ExplorerLayerNode)) as ILayer;
                 this.Map.Layers.Insert(0, draggedLayer);
+            }
+            else if (data.GetDataPresent(SerializableNameUtils.GetName(DragDataType.ExplorerMapNode)))
+            {
+                Map draggedMap = data.GetData(SerializableNameUtils.GetName(DragDataType.ExplorerMapNode)) as Map;
+            }
+            else if (data.GetDataPresent(SerializableNameUtils.GetName(DragDataType.ExplorerProjectNode)))
+            {
+                Project draggedProject = data.GetData(SerializableNameUtils.GetName(DragDataType.ExplorerMapNode)) as Project;
             }
             this.IsDragAbove.Value = false;
             this.IsDragOnto.Value = false;
@@ -195,6 +193,17 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
             this.IsDragBelow.Value = false;
             this.IsDragOnto.Value = false;
             args.Handled = true;
+        }
+
+        private void HandleStartDrag(MouseEventArgs args)
+        {
+            this.isDragging = true;
+
+            DataObject data = new DataObject(typeof(Map).ToString(), this.Map);
+            DependencyObject dragSource = args.Source as DependencyObject;
+            DragDrop.DoDragDrop(dragSource, data, DragDropEffects.Move);
+
+            this.isDragging = false;
         }
 
         private void DrawSeparator(DragEventArgs args)

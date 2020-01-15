@@ -221,6 +221,11 @@
                             </local:LayerNode.ContextMenu>
                         </local:LayerNode>
                     </DataTemplate>
+
+                    <DataTemplate DataType="{x:Type local:LayerGroupViewModel}">
+                        <local:LayerGroupNode>
+                        </local:LayerGroupNode>
+                    </DataTemplate>
                 </TreeView.Resources>
 
                 <extcomp:StretchingTreeView.ContextMenu>

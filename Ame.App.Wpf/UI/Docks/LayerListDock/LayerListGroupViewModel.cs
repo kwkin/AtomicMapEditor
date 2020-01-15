@@ -1,4 +1,5 @@
-﻿using Ame.Infrastructure.BaseTypes;
+﻿using Ame.Infrastructure.Attributes;
+using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Handlers;
 using Ame.Infrastructure.Models;
 using Prism.Commands;
@@ -59,7 +60,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             this.StopEditingTextboxCommand = new DelegateCommand(() => StopEditingTextbox());
             this.MouseLeftButtonDownCommand = new DelegateCommand<object>((point) => HandleLeftClickDown((MouseEventArgs)point));
             this.MouseMoveCommand = new DelegateCommand<object>((point) => HandleMouseMove((MouseEventArgs)point));
-            this.DropCommand = new DelegateCommand<object>((point) => HandleDrop((DragEventArgs)point));
+            this.DropCommand = new DelegateCommand<object>((point) => HandleDropCommand((DragEventArgs)point));
             this.DragOverCommand = new DelegateCommand<object>((args) => HandleDragOverCommand((DragEventArgs)args));
             this.DragEnterCommand = new DelegateCommand<object>((args) => HandleDragEnterCommand((DragEventArgs)args));
             this.DragLeaveCommand = new DelegateCommand<object>((args) => HandleDragLeaveCommand((DragEventArgs)args));
@@ -84,8 +85,6 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         public BindableProperty<bool> IsDragAbove { get; set; } = BindableProperty<bool>.Prepare(false);
         public BindableProperty<bool> IsDragOnto { get; set; } = BindableProperty<bool>.Prepare(false);
         public BindableProperty<bool> IsDragBelow { get; set; } = BindableProperty<bool>.Prepare(false);
-        public ObservableCollection<ILayerListNodeViewModel> LayerNodes { get; private set; }
-
 
         public LayerGroup layer;
         public ILayer Layer
@@ -102,6 +101,8 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                 }
             }
         }
+
+        public ObservableCollection<ILayerListNodeViewModel> LayerNodes { get; private set; }
 
         private DrawingImage layerPreview;
         public DrawingImage LayerPreview
@@ -197,23 +198,12 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             }
         }
 
-        private void HandleStartDrag(MouseEventArgs args)
-        {
-            this.isDragging = true;
-
-            DataObject data = new DataObject(LayerListMethods.DragDataName, this.Layer);
-            DependencyObject dragSource = args.Source as DependencyObject;
-            DragDrop.DoDragDrop(dragSource, data, DragDropEffects.Move);
-
-            this.isDragging = false;
-        }
-
-        private void HandleDrop(DragEventArgs args)
+        private void HandleDropCommand(DragEventArgs args)
         {
             IDataObject data = args.Data;
-            if (data.GetDataPresent(LayerListMethods.DragDataName))
+            if (data.GetDataPresent(SerializableNameUtils.GetName(DragDataType.LayerListNode)))
             {
-                ILayer draggedLayer = data.GetData(LayerListMethods.DragDataName) as ILayer;
+                ILayer draggedLayer = data.GetData(SerializableNameUtils.GetName(DragDataType.LayerListNode)) as ILayer;
                 if (draggedLayer != null)
                 {
                     if (this.IsDragAbove.Value)
@@ -238,12 +228,32 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         private void HandleDragOverCommand(DragEventArgs args)
         {
+            IDataObject data = args.Data;
+            if (!data.GetDataPresent(SerializableNameUtils.GetName(DragDataType.LayerListNode)))
+            {
+                return;
+            }
+            ILayer draggedLayer = data.GetData(SerializableNameUtils.GetName(DragDataType.LayerListNode)) as ILayer;
+            if (draggedLayer == this.layer)
+            {
+                return;
+            }
             DrawSeparator(args);
             args.Handled = true;
         }
 
         private void HandleDragEnterCommand(DragEventArgs args)
         {
+            IDataObject data = args.Data;
+            if (!data.GetDataPresent(SerializableNameUtils.GetName(DragDataType.LayerListNode)))
+            {
+                return;
+            }
+            ILayer draggedLayer = data.GetData(SerializableNameUtils.GetName(DragDataType.LayerListNode)) as ILayer;
+            if (draggedLayer == this.layer)
+            {
+                return;
+            }
             DrawSeparator(args);
             args.Handled = true;
         }
@@ -256,19 +266,19 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             args.Handled = true;
         }
 
+        private void HandleStartDrag(MouseEventArgs args)
+        {
+            this.isDragging = true;
+
+            DataObject data = new DataObject(SerializableNameUtils.GetName(DragDataType.LayerListNode), this.Layer);
+            DependencyObject dragSource = args.Source as DependencyObject;
+            DragDrop.DoDragDrop(dragSource, data, DragDropEffects.Move);
+
+            this.isDragging = false;
+        }
+
         private void DrawSeparator(DragEventArgs args)
         {
-            IDataObject data = args.Data;
-            if (!data.GetDataPresent(LayerListMethods.DragDataName))
-            {
-                return;
-            }
-            ILayer draggedLayer = data.GetData(LayerListMethods.DragDataName) as ILayer;
-            if (draggedLayer == this.layer)
-            {
-                return;
-            }
-
             UIElement dragSource = args.Source as UIElement;
             double aboveHeight = 1 * dragSource.RenderSize.Height / 3;
             double belowHeight = 2 * dragSource.RenderSize.Height / 3;

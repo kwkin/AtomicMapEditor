@@ -1,4 +1,5 @@
 ﻿using Ame.App.Wpf.UI.Interactions.LayerProperties;
+using Ame.Infrastructure.Attributes;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Events.Messages;
@@ -231,9 +232,9 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         private void HandleDropCommand(DragEventArgs args)
         {
             IDataObject data = args.Data;
-            if (data.GetDataPresent(LayerListMethods.DragDataName))
+            if (data.GetDataPresent(SerializableNameUtils.GetName(DragDataType.LayerListNode)))
             {
-                ILayer draggedLayer = data.GetData(LayerListMethods.DragDataName) as ILayer;
+                ILayer draggedLayer = data.GetData(SerializableNameUtils.GetName(DragDataType.LayerListNode)) as ILayer;
 
                 draggedLayer.Parent.Layers.Remove(draggedLayer);
                 draggedLayer.Parent = this.Session.CurrentMap.Value;

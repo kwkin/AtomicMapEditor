@@ -51,11 +51,13 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\SerializableNameAttribute.cs" />
     <Compile Include="Attributes\FileExtensionAttribute.cs" />
     <Compile Include="Attributes\IgnoreNodeBuilderAttribute.cs" />
     <Compile Include="Attributes\MetadataProperty.cs" />
     <Compile Include="Attributes\MetadataPropertyAttribute.cs" />
     <Compile Include="Attributes\MetadataPropertyUtils.cs" />
+    <Compile Include="Attributes\SerializableNameUtils.cs" />
     <Compile Include="BaseTypes\BindableProperty.cs" />
     <Compile Include="BaseTypes\DockCreatorTemplate.cs" />
     <Compile Include="BaseTypes\DockToolViewModelTemplate.cs" />
@@ -111,6 +113,7 @@
     <Compile Include="Events\Messages\SaveMessage.cs" />
     <Compile Include="Models\AmeSession.cs" />
     <Compile Include="Models\BrushModel.cs" />
+    <Compile Include="Models\DragDataType.cs" />
     <Compile Include="Models\GridModel.cs" />
     <Compile Include="Models\IAmeSession.cs" />
     <Compile Include="Models\IItem.cs" />

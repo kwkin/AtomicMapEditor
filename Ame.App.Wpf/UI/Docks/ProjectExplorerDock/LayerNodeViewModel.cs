@@ -1,4 +1,5 @@
 ﻿using Ame.App.Wpf.UI.Interactions.LayerProperties;
+using Ame.Infrastructure.Attributes;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Events;
 using Ame.Infrastructure.Handlers;
@@ -72,14 +73,6 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
         public ILayer Layer { get; set; }
 
-        public static string DragDataName
-        {
-            get
-            {
-                return "ExplorerLayerNode";
-            }
-        }
-
         #endregion properties
 
 
@@ -106,9 +99,9 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
         private void HandleDropCommand(DragEventArgs args)
         {
             IDataObject data = args.Data;
-            if (data.GetDataPresent(LayerNodeViewModel.DragDataName))
+            if (data.GetDataPresent(SerializableNameUtils.GetName(DragDataType.ExplorerLayerNode)))
             {
-                ILayer draggedLayer = data.GetData(LayerNodeViewModel.DragDataName) as ILayer;
+                ILayer draggedLayer = data.GetData(SerializableNameUtils.GetName(DragDataType.ExplorerLayerNode)) as ILayer;
                 if (this.IsDragAbove.Value)
                 {
                     this.Layer.AddLayerAbove(draggedLayer);
@@ -126,11 +119,11 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
         private void HandleDragOverCommand(DragEventArgs args)
         {
             IDataObject data = args.Data;
-            if (!data.GetDataPresent(LayerNodeViewModel.DragDataName))
+            if (!data.GetDataPresent(SerializableNameUtils.GetName(DragDataType.LayerListNode)))
             {
                 return;
             }
-            ILayer draggedLayer = data.GetData(LayerNodeViewModel.DragDataName) as ILayer;
+            ILayer draggedLayer = data.GetData(SerializableNameUtils.GetName(DragDataType.LayerListNode)) as ILayer;
             if (draggedLayer == this.Layer)
             {
                 return;
@@ -142,11 +135,11 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
         private void HandleDragEnterCommand(DragEventArgs args)
         {
             IDataObject data = args.Data;
-            if (!data.GetDataPresent(LayerNodeViewModel.DragDataName))
+            if (!data.GetDataPresent(SerializableNameUtils.GetName(DragDataType.LayerListNode)))
             {
                 return;
             }
-            ILayer draggedLayer = data.GetData(LayerNodeViewModel.DragDataName) as ILayer;
+            ILayer draggedLayer = data.GetData(SerializableNameUtils.GetName(DragDataType.LayerListNode)) as ILayer;
             if (draggedLayer == this.Layer)
             {
                 return;
@@ -176,7 +169,7 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
         {
             this.isDragging = true;
 
-            DataObject data = new DataObject(LayerNodeViewModel.DragDataName, this.Layer);
+            DataObject data = new DataObject(SerializableNameUtils.GetName(DragDataType.LayerListNode), this.Layer);
             DependencyObject dragSource = args.Source as DependencyObject;
             DragDrop.DoDragDrop(dragSource, data, DragDropEffects.Move);
 

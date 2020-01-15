@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 {
+
     public interface IProjectExplorerNodeViewModel
     {
         #region fields

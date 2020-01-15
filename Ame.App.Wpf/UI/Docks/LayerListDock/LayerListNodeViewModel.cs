@@ -1,4 +1,5 @@
 ﻿using Ame.App.Wpf.UI.Interactions.LayerProperties;
+using Ame.Infrastructure.Attributes;
 using Ame.Infrastructure.BaseTypes;
 using Ame.Infrastructure.Handlers;
 using Ame.Infrastructure.Models;
@@ -175,9 +176,9 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         private void HandleDropCommand(DragEventArgs args)
         {
             IDataObject data = args.Data;
-            if (data.GetDataPresent(LayerListMethods.DragDataName))
+            if (data.GetDataPresent(SerializableNameUtils.GetName(DragDataType.LayerListNode)))
             {
-                ILayer draggedLayer = data.GetData(LayerListMethods.DragDataName) as ILayer;
+                ILayer draggedLayer = data.GetData(SerializableNameUtils.GetName(DragDataType.LayerListNode)) as ILayer;
                 if (this.IsDragAbove.Value)
                 {
                     this.layer.AddLayerAbove(draggedLayer);
@@ -215,7 +216,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         {
             this.isDragging = true;
 
-            DataObject data = new DataObject(LayerListMethods.DragDataName, this.Layer);
+            DataObject data = new DataObject(SerializableNameUtils.GetName(DragDataType.LayerListNode), this.Layer);
             DependencyObject dragSource = args.Source as DependencyObject;
             DragDrop.DoDragDrop(dragSource, data, DragDropEffects.Move);
 
@@ -225,11 +226,11 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         private void DrawSeparator(DragEventArgs args)
         {
             IDataObject data = args.Data;
-            if (!data.GetDataPresent(LayerListMethods.DragDataName))
+            if (!data.GetDataPresent(SerializableNameUtils.GetName(DragDataType.LayerListNode)))
             {
                 return;
             }
-            ILayer draggedLayer = data.GetData(LayerListMethods.DragDataName) as ILayer;
+            ILayer draggedLayer = data.GetData(SerializableNameUtils.GetName(DragDataType.LayerListNode)) as ILayer;
             if (draggedLayer == this.layer)
             {
                 return;

@@ -26,6 +26,11 @@ namespace Ame.Infrastructure.Models
         {
         }
 
+        public Layer(string name)
+            : this(null, name, 32, 32, 32, 32)
+        {
+        }
+
         public Layer(Map map, string name)
             : this(map, name, 32, 32, 32, 32)
         {

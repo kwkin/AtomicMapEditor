@@ -80,7 +80,9 @@
               Grid.ColumnSpan="3">
             <ContentControl Content="{StaticResource ic_Map}"
                         Width="{StaticResource MidIconSize}"
-                        Height="{StaticResource MidIconSize}" />
+                        Height="{StaticResource MidIconSize}" 
+                        Grid.Column="0">
+            </ContentControl>
 
             <TextBox x:Name="layerNameLabel"
                  Text="{Binding Map.Name.Value}"

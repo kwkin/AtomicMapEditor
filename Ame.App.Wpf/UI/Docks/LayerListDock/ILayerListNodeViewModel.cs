@@ -12,6 +12,12 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 {
     public static class LayerListMethods
     {
+        #region properties
+
+        #endregion properties
+
+
+        #region methods
         public static ILayerListNodeViewModel Generate(IEventAggregator eventAggregator, IAmeSession session, IActionHandler handler, ILayer layer)
         {
             ILayerListNodeViewModel entry = null;
@@ -23,7 +29,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             {
                 LayerGroup layerGroup = layer as LayerGroup;
                 LayerListGroupViewModel groupEntry = new LayerListGroupViewModel(eventAggregator, session, handler, layerGroup);
-                foreach(ILayer childLayer in layerGroup.Layers)
+                foreach (ILayer childLayer in layerGroup.Layers)
                 {
                     ILayerListNodeViewModel childEntry = Generate(eventAggregator, session, handler, childLayer);
                     groupEntry.LayerNodes.Add(childEntry);
@@ -33,13 +39,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             return entry;
         }
 
-        public static string DragDataName
-        {
-            get
-            {
-                return "LayerListNode";
-            }
-        }
+        #endregion methods
     }
 
     public interface ILayerListNodeViewModel

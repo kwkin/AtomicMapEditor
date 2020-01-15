@@ -20,15 +20,20 @@ namespace Ame.Infrastructure.Models
 
         #region constructor
 
-        public LayerGroup(Map map, string layerGroupName)
-            : this(map, layerGroupName, new ObservableCollection<ILayer>())
+        public LayerGroup(string layerGroupName)
+            : this(null, layerGroupName, new List<ILayer>())
         {
         }
 
-        public LayerGroup(Map map, string layerGroupName, ObservableCollection<ILayer> layers)
+        public LayerGroup(Map map, string layerGroupName)
+            : this(map, layerGroupName, new List<ILayer>())
+        {
+        }
+
+        public LayerGroup(Map map, string layerGroupName, List<ILayer> layers)
         {
             this.Name.Value = layerGroupName;
-            this.Layers = layers;
+            this.Layers = new ObservableCollection<ILayer>(layers);
 
             this.Map.Value = map;
             this.Parent = map;
