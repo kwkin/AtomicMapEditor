@@ -32,7 +32,6 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
         private IEventAggregator eventAggregator;
         private IAmeSession session;
 
-        private ILayer currentLayer;
         private PaddedBrushModel brush;
         private LayerOrderRenderer orderer;
         private CoordinateTransform imageTransform;
@@ -102,8 +101,8 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             this.updatePositionLabelMsDelay = constants.DefaultUpdatePositionLabelMsDelay;
             this.updatePositionLabelStopWatch = Stopwatch.StartNew();
 
-            AddMapLayers(map);
-            ChangeCurrentLayer(this.session.CurrentMap.Value.CurrentLayer.Value);
+            SetMapLayers(map);
+            ChangeCurrentLayer(this.Map.Value.CurrentLayer.Value);
             RedrawBackground();
             UpdateMapRecentlySaved();
 
@@ -116,6 +115,8 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             this.BackgroundPen.PropertyChanged += BackgroundChanged;
             this.HoverSampleOpacity.PropertyChanged += HoverSampleOpacityChanged;
 
+            this.HandleLeftClickDownCommand = new DelegateCommand<object>((point) => HandleLeftClickDown((Point)point));
+            this.HandleLeftClickUpCommand = new DelegateCommand<object>((point) => HandleLeftClickUp((Point)point));
             this.ShowGridCommand = new DelegateCommand(() => DrawGrid(this.IsGridOn.Value));
             this.HandleMouseMoveCommand = new DelegateCommand<object>((point) => HandleMouseMove((Point)point));
             this.UndoCommand = new DelegateCommand(() => this.Undo());
@@ -123,8 +124,6 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             this.ZoomInCommand = new DelegateCommand(() => this.ScrollModel.ZoomIn());
             this.ZoomOutCommand = new DelegateCommand(() => this.ScrollModel.ZoomOut());
             this.SetZoomCommand = new DelegateCommand<ZoomLevel>((zoomLevel) => this.ScrollModel.SetZoom(zoomLevel));
-            this.HandleLeftClickDownCommand = new DelegateCommand<object>((point) => HandleLeftClickDown((Point)point));
-            this.HandleLeftClickUpCommand = new DelegateCommand<object>((point) => HandleLeftClickUp((Point)point));
 
             this.eventAggregator.GetEvent<NewPaddedBrushEvent>().Subscribe((brushEvent) =>
             {
@@ -148,6 +147,8 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
         public ICommand RedoCommand { get; private set; }
 
         public BindableProperty<Map> Map { get; set; } = BindableProperty<Map>.Prepare();
+
+        public BindableProperty<ILayer> CurrentLayer { get; set; } = BindableProperty<ILayer>.Prepare();
 
         public BindableProperty<bool> IsGridOn { get; set; } = BindableProperty<bool>.Prepare();
 
@@ -304,22 +305,22 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             {
                 return;
             }
-            if (layer == this.currentLayer)
+            if (layer == this.CurrentLayer.Value)
             {
                 return;
             }
-            if (this.currentLayer != null)
+            if (this.CurrentLayer.Value != null)
             {
-                this.currentLayer.Columns.PropertyChanged -= LayerBoundariesChanged;
-                this.currentLayer.Rows.PropertyChanged -= LayerBoundariesChanged;
-                this.currentLayer.OffsetY.PropertyChanged -= LayerBoundariesChanged;
-                this.currentLayer.OffsetX.PropertyChanged -= LayerBoundariesChanged;
+                this.CurrentLayer.Value.Columns.PropertyChanged -= LayerBoundariesChanged;
+                this.CurrentLayer.Value.Rows.PropertyChanged -= LayerBoundariesChanged;
+                this.CurrentLayer.Value.OffsetY.PropertyChanged -= LayerBoundariesChanged;
+                this.CurrentLayer.Value.OffsetX.PropertyChanged -= LayerBoundariesChanged;
             }
             layer.Columns.PropertyChanged += LayerBoundariesChanged;
             layer.Rows.PropertyChanged += LayerBoundariesChanged;
             layer.OffsetY.PropertyChanged += LayerBoundariesChanged;
             layer.OffsetX.PropertyChanged += LayerBoundariesChanged;
-            this.currentLayer = layer;
+            this.CurrentLayer.Value = layer;
             DrawLayerBoundaries(layer);
         }
 
@@ -457,7 +458,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             }
         }
 
-        private void AddMapLayers(Map map)
+        private void SetMapLayers(Map map)
         {
             this.layerItems.Children.Clear();
             foreach (ILayer layer in map.Layers)

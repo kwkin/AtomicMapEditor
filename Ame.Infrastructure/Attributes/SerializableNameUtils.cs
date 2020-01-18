@@ -14,16 +14,10 @@ namespace Ame.Infrastructure.Attributes
 
         public static string GetName(DragDataType dataType)
         {
-            PropertyInfo[] propertyInfoList = dataType.GetType().GetProperties();
-            string metadataName = string.Empty;
-            foreach (PropertyInfo propertyInfo in propertyInfoList)
-            {
-                SerializableNameAttribute attribute = propertyInfo.GetCustomAttribute<SerializableNameAttribute>();
-                if (attribute != null)
-                {
-                    metadataName = propertyInfo.Name;
-                }
-            }
+            var memberInfo = dataType.GetType().GetMember(dataType.ToString());
+            var enumValueMemberInfo = memberInfo.FirstOrDefault(m => m.DeclaringType == dataType.GetType());
+            var valueAttributes = enumValueMemberInfo.GetCustomAttributes(typeof(SerializableNameAttribute), false);
+            string metadataName = ((SerializableNameAttribute)valueAttributes[0]).Name;
             return metadataName;
         }
 
