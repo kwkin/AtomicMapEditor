@@ -206,7 +206,7 @@ namespace Ame.Infrastructure.Handlers
 
         public void MoveLayerDown()
         {
-            MoveLayerUp(this.session.CurrentMap.Value.CurrentLayer.Value);
+            MoveLayerDown(this.session.CurrentMap.Value.CurrentLayer.Value);
         }
 
         public void MoveLayerDown(ILayer layer)
