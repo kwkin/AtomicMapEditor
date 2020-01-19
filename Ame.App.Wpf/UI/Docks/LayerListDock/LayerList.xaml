@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="Ame.App.Wpf.UI.Docks.LayerListDock.LayerList"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
@@ -123,9 +124,8 @@
                 </i:Interaction.Triggers>
 
                 <TreeView.Resources>
-                    <x:Array Type="{x:Type sys:Object}"
-                             x:Key="LayerContextMenu"
-                             x:Shared="false">
+                    <collections:ArrayList x:Key="LayerContextMenu"
+                                           x:Shared="False">
                         <MenuItem Header="Edit Properties..."
                                   Command="{Binding EditPropertiesCommand, Mode=OneWay}">
                             <MenuItem.Icon>
@@ -198,11 +198,10 @@
                                 </Viewbox>
                             </MenuItem.Icon>
                         </MenuItem>
-                    </x:Array>
+                    </collections:ArrayList>
 
-                    <x:Array Type="{x:Type sys:Object}"
-                             x:Key="LayerListContextMenu"
-                             x:Shared="false">
+                    <collections:ArrayList x:Key="LayerListContextMenu"
+                                           x:Shared="False">
                         <MenuItem Header="New Layer..."
                                   Command="{Binding NewLayerCommand, Mode=OneWay}"
                                   DataContext="{Binding DataContext, Source={actions:RootObjectSource}}">
@@ -225,11 +224,21 @@
                                 </Viewbox>
                             </MenuItem.Icon>
                         </MenuItem>
-                    </x:Array>
+                    </collections:ArrayList>
 
                     <HierarchicalDataTemplate DataType="{x:Type local:LayerListGroupViewModel}"
                                               ItemsSource="{Binding Path=LayerNodes}">
-                        <local:LayerListGroup />
+                        <local:LayerListGroup>
+                            <local:LayerListGroup.ContextMenu>
+                                <ContextMenu>
+                                    <ContextMenu.ItemsSource>
+                                        <CompositeCollection>
+                                            <CollectionContainer Collection="{StaticResource LayerListContextMenu}" />
+                                        </CompositeCollection>
+                                    </ContextMenu.ItemsSource>
+                                </ContextMenu>
+                            </local:LayerListGroup.ContextMenu>
+                        </local:LayerListGroup>
                     </HierarchicalDataTemplate>
 
                     <DataTemplate DataType="{x:Type local:LayerListNodeViewModel}">
@@ -240,7 +249,7 @@
                                         <CompositeCollection>
                                             <CollectionContainer Collection="{StaticResource LayerContextMenu}" />
                                             <Separator />
-                                            <CollectionContainer Collection="{StaticResource LayerListContextMenu}" />
+                                            <CollectionContainer Collection="{StaticResource LayerListContextMenu}"/>
                                         </CompositeCollection>
                                     </ContextMenu.ItemsSource>
                                 </ContextMenu>
