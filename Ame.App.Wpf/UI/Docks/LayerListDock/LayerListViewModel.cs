@@ -46,6 +46,8 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             this.Title.Value = DefaultTitle;
             this.LayerNodes = new ObservableCollection<ILayerListNodeViewModel>();
 
+            LoadLayers(this.Session.CurrentLayers.Value);
+
             this.Session.CurrentMap.PropertyChanged += CurrentMapChanged;
             this.Session.CurrentLayers.PropertyChanged += CurrentLayersChanged;
             this.Session.CurrentLayer.PropertyChanged += CurrentLayerChanged;
@@ -123,13 +125,23 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             this.currentLayers = layers;
             this.currentLayers.CollectionChanged += UpdateLayers;
 
+            LoadLayers(this.currentLayers);
+        }
+
+        private void LoadLayers(ObservableCollection<ILayer> layers)
+        {
             this.LayerNodes.Clear();
-            foreach (ILayer layer in this.currentLayers)
+            if (layers == null)
+            {
+                return;
+            }
+
+            foreach (ILayer layer in layers)
             {
                 ILayerListNodeViewModel node = LayerListMethods.Generate(this.eventAggregator, this.Session, this.actionHandler, layer);
                 this.LayerNodes.Add(node);
 
-                if(this.Session.CurrentLayer.Value == layer)
+                if (this.Session.CurrentLayer.Value == layer)
                 {
                     node.IsSelected.Value = true;
                     this.selectedNode = node;
@@ -171,6 +183,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         private void CurrentLayerChanged(object sender, PropertyChangedEventArgs e)
         {
             this.CurrentLayer.Value = GetNewValue(sender, e) as ILayer;
+
             ILayerListNodeViewModel layerEntry = this.LayerNodes.FirstOrDefault(entry => entry.Layer == this.CurrentLayer.Value);
             ChangeCurrentLayer(layerEntry);
         }

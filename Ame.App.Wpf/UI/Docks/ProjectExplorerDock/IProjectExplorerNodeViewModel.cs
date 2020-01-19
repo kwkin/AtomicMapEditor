@@ -1,4 +1,5 @@
-﻿using Prism.Events;
+﻿using Ame.Infrastructure.BaseTypes;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,8 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
 
         #region properties
+
+        BindableProperty<bool> IsSelected { get; set; }
 
         #endregion properties
 

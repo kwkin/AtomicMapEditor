@@ -116,7 +116,9 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
                 {
                     session.CurrentTileset.Value = session.CurrentMap.Value.Tilesets[0];
                 }
+                session.CurrentProject = session.CurrentMap.Value.Project;
             }
+
             return session;
         }
     }

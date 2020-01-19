@@ -42,7 +42,7 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
             this.LayerNodes = new ObservableCollection<LayerNodeViewModel>();
             map.Layers.ToList().ForEach(layer => AddLayer(layer));
 
-            //this.Map.Layers.CollectionChanged += LayersChanged;
+            this.Map.Layers.CollectionChanged += LayersChanged;
 
             this.NewLayerCommand = new DelegateCommand(() => NewLayer());
             this.EditMapPropertiesCommand = new DelegateCommand(() => EditMapProperties());
@@ -74,6 +74,7 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
         public ObservableCollection<LayerNodeViewModel> LayerNodes { get; set; }
         public BindableProperty<bool> IsEditingName { get; set; } = BindableProperty<bool>.Prepare(false);
+        public BindableProperty<bool> IsSelected { get; set; } = BindableProperty<bool>.Prepare(false);
         public BindableProperty<bool> IsDragAbove { get; set; } = BindableProperty<bool>.Prepare(false);
         public BindableProperty<bool> IsDragOnto { get; set; } = BindableProperty<bool>.Prepare(false);
         public BindableProperty<bool> IsDragBelow { get; set; } = BindableProperty<bool>.Prepare(false);

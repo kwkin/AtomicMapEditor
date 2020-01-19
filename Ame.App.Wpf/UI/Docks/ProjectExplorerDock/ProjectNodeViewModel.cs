@@ -43,6 +43,8 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
             this.MapNodes = new ObservableCollection<MapNodeViewModel>();
             project.Maps.ToList().ForEach(map => AddMap(map));
 
+
+
             this.Project.Maps.CollectionChanged += MapsChanged;
 
             this.NewMapCommand = new DelegateCommand(() => NewMap());
@@ -77,6 +79,7 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
         public ObservableCollection<MapNodeViewModel> MapNodes { get; private set; }
         public BindableProperty<bool> IsEditingName { get; set; } = BindableProperty<bool>.Prepare(false);
+        public BindableProperty<bool> IsSelected { get; set; } = BindableProperty<bool>.Prepare(false);
         public BindableProperty<bool> IsDragAbove { get; set; } = BindableProperty<bool>.Prepare(false);
         public BindableProperty<bool> IsDragOnto { get; set; } = BindableProperty<bool>.Prepare(false);
         public BindableProperty<bool> IsDragBelow { get; set; } = BindableProperty<bool>.Prepare(false);
