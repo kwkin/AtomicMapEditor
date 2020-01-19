@@ -94,7 +94,7 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
         public void RemoveLayer(ILayer layer)
         {
-            IEnumerable<LayerNodeViewModel> toRemove = this.LayerNodes.Where(entry => entry.Layer == layer);
+            IEnumerable<LayerNodeViewModel> toRemove = new ObservableCollection<LayerNodeViewModel>(this.LayerNodes.Where(entry => entry.Layer == layer));
             foreach (LayerNodeViewModel node in toRemove)
             {
                 this.LayerNodes.Remove(node);
