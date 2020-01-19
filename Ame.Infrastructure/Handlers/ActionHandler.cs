@@ -262,6 +262,10 @@ namespace Ame.Infrastructure.Handlers
         public void DeleteLayer(ILayer layer)
         {
             this.session.CurrentMap.Value.Layers.Remove(layer);
+            if (layer == this.session.CurrentLayer.Value)
+            {
+                this.session.CurrentLayer.Value = null;
+            }
         }
 
         public void LayerToMap()

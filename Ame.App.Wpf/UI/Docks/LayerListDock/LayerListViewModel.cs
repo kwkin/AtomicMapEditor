@@ -56,9 +56,10 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             this.MoveLayerDownCommand = new DelegateCommand(() => this.actionHandler.MoveLayerDown());
             this.MoveLayerUpCommand = new DelegateCommand(() => this.actionHandler.MoveLayerUp());
             this.DuplicateLayerCommand = new DelegateCommand(() => this.actionHandler.DuplicateLayer());
-            this.RemoveLayerCommand = new DelegateCommand(() => this.actionHandler.DeleteLayer());
+            this.RemoveLayerCommand = new DelegateCommand(() => this.actionHandler.DeleteLayer(this.CurrentLayer.Value));
             this.EditCollisionsCommand = new DelegateCommand(() => this.actionHandler.EditCollisions());
             this.LayerToMapSizeCommand = new DelegateCommand(() => this.actionHandler.LayerToMapSize());
+
             this.CurrentLayerChangedCommand = new DelegateCommand<object>((entry) => ChangeCurrentLayer(entry as ILayerListNodeViewModel));
             this.DropCommand = new DelegateCommand<object>((args) => HandleDropCommand((DragEventArgs)args));
             this.DragEnterCommand = new DelegateCommand<object>((args) => HandleDragEnterCommand((DragEventArgs)args));
@@ -170,8 +171,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         private void CurrentLayerChanged(object sender, PropertyChangedEventArgs e)
         {
             this.CurrentLayer.Value = GetNewValue(sender, e) as ILayer;
-
-            ILayerListNodeViewModel layerEntry = this.LayerNodes.First(entry => entry.Layer == this.CurrentLayer.Value);
+            ILayerListNodeViewModel layerEntry = this.LayerNodes.FirstOrDefault(entry => entry.Layer == this.CurrentLayer.Value);
             ChangeCurrentLayer(layerEntry);
         }
 
@@ -198,7 +198,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                 case NotifyCollectionChangedAction.Remove:
                     foreach (ILayer layer in e.OldItems)
                     {
-                        ILayerListNodeViewModel toRemove = this.LayerNodes.First(entry => entry.Layer == layer);
+                        ILayerListNodeViewModel toRemove = this.LayerNodes.FirstOrDefault(entry => entry.Layer == layer);
                         this.LayerNodes.Remove(toRemove);
                     }
                     break;
