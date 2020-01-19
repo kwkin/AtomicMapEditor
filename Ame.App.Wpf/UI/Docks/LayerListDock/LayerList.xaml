@@ -106,7 +106,8 @@
                                         ItemsSource="{Binding LayerNodes}"
                                         HorizontalContentAlignment="Stretch"
                                         BorderThickness="0"
-                                        AllowDrop="True">
+                                        AllowDrop="True"
+                                        ContextMenuService.IsEnabled="{Binding Session.CurrentMap.Value, Converter={StaticResource NullToBooleanConverter}}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectedItemChanged">
                         <i:InvokeCommandAction Command="{Binding CurrentLayerChangedCommand}"
