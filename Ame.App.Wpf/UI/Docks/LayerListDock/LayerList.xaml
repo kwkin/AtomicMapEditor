@@ -7,10 +7,18 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:Ame.App.Wpf.UI.Docks.LayerListDock"
              xmlns:actions="clr-namespace:Ame.App.Wpf.UILogic.Actions"
+             xmlns:conv="clr-namespace:Ame.App.Wpf.UILogic.Converters"
              xmlns:extcomp="clr-namespace:Ame.Components.Extended;assembly=Ame.Components"
              xmlns:models="clr-namespace:Ame.Infrastructure.Models;assembly=Ame.Infrastructure"
              mc:Ignorable="d">
 
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <conv:NullToBooleanConverter x:Key="NullToBooleanConverter"
+                                         IsInversed="True" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -22,7 +30,8 @@
             <Button x:Name="NewLayerButton"
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     ToolTip="New Layer: Adds a new tileset layer"
-                    Command="{Binding NewLayerCommand, Mode=OneWay}">
+                    Command="{Binding NewLayerCommand, Mode=OneWay}"
+                    IsEnabled="{Binding Session.CurrentMap.Value, Converter={StaticResource NullToBooleanConverter}}">
                 <ContentControl Content="{StaticResource ic_AddBox}"
                                     Width="{StaticResource MidIconSize}"
                                     Height="{StaticResource MidIconSize}" />
@@ -31,7 +40,8 @@
             <Button x:Name="AddLayerGroupButton"
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     ToolTip="Add Group: Adds a new layer group"
-                    Command="{Binding NewLayerGroupCommand, Mode=OneWay}">
+                    Command="{Binding NewLayerGroupCommand, Mode=OneWay}"
+                    IsEnabled="{Binding Session.CurrentMap.Value, Converter={StaticResource NullToBooleanConverter}}">
                 <ContentControl Content="{StaticResource ic_AddFolder}"
                                     Width="{StaticResource MidIconSize}"
                                     Height="{StaticResource MidIconSize}" />
@@ -40,7 +50,8 @@
             <Button x:Name="MoveLayerDownButton"
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     ToolTip="Move Down: Moves the layer up on the layers order"
-                    Command="{Binding MoveLayerDownCommand, Mode=OneWay}">
+                    Command="{Binding MoveLayerDownCommand, Mode=OneWay}"
+                    IsEnabled="{Binding CurrentLayer.Value, Converter={StaticResource NullToBooleanConverter}}">
                 <ContentControl Content="{StaticResource ic_ArrowDown}"
                                 Width="{StaticResource MidIconSize}"
                                 Height="{StaticResource MidIconSize}" />
@@ -49,7 +60,8 @@
             <Button x:Name="MoveLayerUpButton"
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     ToolTip="Move Up: Moves the layer up on the layers order"
-                    Command="{Binding MoveLayerUpCommand, Mode=OneWay}">
+                    Command="{Binding MoveLayerUpCommand, Mode=OneWay}"
+                    IsEnabled="{Binding CurrentLayer.Value, Converter={StaticResource NullToBooleanConverter}}">
                 <ContentControl Content="{StaticResource ic_ArrowUp}"
                                 Width="{StaticResource MidIconSize}"
                                 Height="{StaticResource MidIconSize}" />
@@ -58,7 +70,8 @@
             <Button x:Name="EditLayerButton"
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     ToolTip="Edit: Edit the current layer's properties"
-                    Command="{Binding EditPropertiesCommand, Mode=OneWay}">
+                    Command="{Binding EditPropertiesCommand, Mode=OneWay}"
+                    IsEnabled="{Binding CurrentLayer.Value, Converter={StaticResource NullToBooleanConverter}}">
                 <ContentControl Content="{StaticResource ic_AddBox}"
                                     Width="{StaticResource MidIconSize}"
                                     Height="{StaticResource MidIconSize}" />
@@ -67,7 +80,8 @@
             <Button x:Name="DuplicateLayerButton"
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     ToolTip="Duplicate: Duplicates the current layer"
-                    Command="{Binding DuplicateLayerCommand, Mode=OneWay}">
+                    Command="{Binding DuplicateLayerCommand, Mode=OneWay}"
+                    IsEnabled="{Binding CurrentLayer.Value, Converter={StaticResource NullToBooleanConverter}}">
                 <ContentControl Content="{StaticResource ic_ContentCopy}"
                                 Width="{StaticResource MidIconSize}"
                                 Height="{StaticResource MidIconSize}" />
@@ -76,7 +90,8 @@
             <Button x:Name="RemoveLayerButton"
                     Style="{DynamicResource PrimaryIconButtonStyle}"
                     ToolTip="Remove: Removes the layer"
-                    Command="{Binding RemoveLayerCommand, Mode=OneWay}">
+                    Command="{Binding RemoveLayerCommand, Mode=OneWay}"
+                    IsEnabled="{Binding CurrentLayer.Value, Converter={StaticResource NullToBooleanConverter}}">
                 <ContentControl Content="{StaticResource ic_Delete}"
                                 Width="{StaticResource MidIconSize}"
                                 Height="{StaticResource MidIconSize}" />

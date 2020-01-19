@@ -45,6 +45,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             this.LayerNodes = new ObservableCollection<ILayerListNodeViewModel>();
 
             this.Session.CurrentLayers.PropertyChanged += CurrentLayersChanged;
+            this.Session.CurrentLayer.PropertyChanged += CurrentLayerChanged;
 
             this.NewLayerCommand = new DelegateCommand(() => NewLayer());
             this.EditPropertiesCommand = new DelegateCommand(() => EditProperties());
@@ -149,6 +150,11 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             this.selectedNode.IsSelected.Value = true;
 
             this.Session.CurrentLayer.Value = this.selectedNode.Layer;
+        }
+
+        private void CurrentLayerChanged(object sender, PropertyChangedEventArgs e)
+        {
+            this.CurrentLayer.Value = GetNewValue(sender, e) as ILayer;
         }
 
         private void CurrentLayersChanged(object sender, PropertyChangedEventArgs e)

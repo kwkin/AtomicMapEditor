@@ -347,8 +347,15 @@ namespace Ame.App.Wpf.UI
         private void OpenWindow(IWindowInteraction interaction)
         {
             interaction.EventAggregator = this.eventAggregator;
-            interaction.UpdateMissingContent(this.session);
-            interaction.RaiseNotification(this.WindowManager);
+            try
+            {
+                interaction.UpdateMissingContent(this.session);
+                interaction.RaiseNotification(this.WindowManager);
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show("Error. No Map is Loaded.", "Error");
+            }
         }
 
         private void MapsChanged(object sender, NotifyCollectionChangedEventArgs e)
