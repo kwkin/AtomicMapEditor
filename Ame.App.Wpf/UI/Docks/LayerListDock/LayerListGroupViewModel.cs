@@ -280,8 +280,8 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         private void DrawSeparator(DragEventArgs args)
         {
             UIElement dragSource = args.Source as UIElement;
-            double aboveHeight = 1 * dragSource.RenderSize.Height / 3;
-            double belowHeight = 2 * dragSource.RenderSize.Height / 3;
+            double aboveHeight = 1 * dragSource.RenderSize.Height / 4;
+            double belowHeight = 2 * dragSource.RenderSize.Height / 4;
             if (aboveHeight - args.GetPosition(dragSource).Y > 0)
             {
                 this.IsDragAbove.Value = true;
