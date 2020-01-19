@@ -113,11 +113,14 @@ namespace Ame.App.Wpf.UI.Interactions.MapProperties
             if (confirmation.Confirmed)
             {
                 Map newMap = confirmation.Content as Map;
-                this.session.Maps.Add(newMap);
                 if (this.Project != null)
                 {
                     newMap.Project.Value = this.Project;
                     this.Project.Maps.Add(newMap);
+                }
+                else
+                {
+                    this.session.Maps.Add(newMap);
                 }
             }
         }
