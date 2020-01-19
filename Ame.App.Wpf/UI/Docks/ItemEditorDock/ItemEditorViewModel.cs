@@ -78,7 +78,6 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
             this.Session = session ?? throw new ArgumentNullException("session is null");
             this.ScrollModel = scrollModel ?? throw new ArgumentNullException("scrollModel is null");
-            this.TilesetModel.Value = tilesetModel ?? throw new ArgumentNullException("tilesetModel is null");
 
             this.Title.Value = "Item";
 
@@ -107,7 +106,10 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
             {
                 this.TilesetModels.Add(model);
             }
-            RefreshItemModel();
+            if (tilesetModel != null)
+            {
+                ChangeItemModel(tilesetModel);
+            }
 
             this.updatePositionLabelMsDelay = constants.DefaultUpdatePositionLabelMsDelay;
             this.updateSelectLineMsDelay = constants.DefaultUpdatePositionLabelMsDelay;
@@ -119,7 +121,6 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
 
             this.TilesetModel.PropertyChanged += TilesetModelChanged;
             this.ItemImage.PropertyChanged += ItemImageChanged;
-            this.TilesetModel.Value.IsTransparent.PropertyChanged += IsTransparentChanged;
             this.ScrollModel.PropertyChanged += ScrollModelPropertyChanged;
             this.GridPen.PropertyChanged += GridPenChanged;
             this.BackgroundBrush.PropertyChanged += BackgroundChanged;
@@ -334,6 +335,8 @@ namespace Ame.App.Wpf.UI.Docks.ItemEditorDock
             this.itemTransform = new CoordinateTransform();
             this.itemTransform.SetPixelToTile(this.TilesetModel.Value.TileWidth.Value, this.TilesetModel.Value.TileHeight.Value);
             this.itemTransform.SetSelectionToPixel(this.TilesetModel.Value.TileWidth.Value / 2, this.TilesetModel.Value.TileHeight.Value / 2);
+
+            this.TilesetModel.Value.IsTransparent.PropertyChanged += IsTransparentChanged;
 
             Mat drawingMat = this.ItemImage.Value;
             if (this.TilesetModel.Value.IsTransparent.Value)

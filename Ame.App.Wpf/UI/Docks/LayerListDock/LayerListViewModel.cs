@@ -28,6 +28,8 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         private IActionHandler actionHandler;
         private ILayerListNodeViewModel selectedNode;
 
+        private ObservableCollection<ILayer> currentLayers;
+
         #endregion fields
 
 
@@ -37,18 +39,12 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
             this.Session = session ?? throw new ArgumentNullException("session is null");
-            this.CurrentMap.Value = session.CurrentMap.Value ?? throw new ArgumentNullException("current map is null");
             this.actionHandler = actionHandler ?? throw new ArgumentNullException("handler is null");
 
             this.Title.Value = "Layer List";
             this.LayerNodes = new ObservableCollection<ILayerListNodeViewModel>();
 
-            if (this.CurrentMap.Value != null)
-            {
-                ChangeMap(this.CurrentMap.Value);
-            }
-
-            this.CurrentMap.PropertyChanged += CurrentMapChanged;
+            this.Session.CurrentLayers.PropertyChanged += CurrentLayersChanged;
 
             this.NewLayerCommand = new DelegateCommand(() => NewLayer());
             this.EditPropertiesCommand = new DelegateCommand(() => EditProperties());
@@ -86,7 +82,6 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
         public ObservableCollection<ILayerListNodeViewModel> LayerNodes { get; private set; }
         public BindableProperty<ILayer> CurrentLayer { get; set; } = BindableProperty.Prepare<ILayer>();
-        public BindableProperty<Map> CurrentMap { get; set; } = BindableProperty.Prepare<Map>();
 
         public IAmeSession Session { get; set; }
 
@@ -113,31 +108,26 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             this.actionHandler.OpenWindow(interaction);
         }
 
-        public void ChangeMap(Map map)
+        public void ChangeLayers(ObservableCollection<ILayer> layers)
         {
-            this.LayerNodes.Clear();
-            if (this.CurrentMap != null)
+            if (this.currentLayers != null)
             {
-                this.CurrentMap.Value.Layers.CollectionChanged -= UpdateLayerList;
-                this.CurrentMap.Value.CurrentLayer.PropertyChanged -= CurrentLayerChanged;
+                this.currentLayers.CollectionChanged -= UpdateLayers;
             }
-            this.CurrentMap.Value = map;
-            this.CurrentLayer.Value = map.CurrentLayer.Value;
+            this.currentLayers = layers;
+            this.currentLayers.CollectionChanged += UpdateLayers;
 
-            map.Layers.CollectionChanged += UpdateLayerList;
-            map.CurrentLayer.PropertyChanged += CurrentLayerChanged;
-
-            foreach (ILayer layer in this.CurrentMap.Value.Layers)
+            this.LayerNodes.Clear();
+            foreach (ILayer layer in this.currentLayers)
             {
                 ILayerListNodeViewModel node = LayerListMethods.Generate(this.eventAggregator, this.Session, this.actionHandler, layer);
                 this.LayerNodes.Add(node);
-            }
 
-            IEnumerable<ILayerListNodeViewModel> selectedNodes = this.LayerNodes.Where(entry => entry.Layer == map.CurrentLayer.Value);
-            foreach (ILayerListNodeViewModel node in selectedNodes)
-            {
-                node.IsSelected.Value = true;
-                this.selectedNode = node;
+                if(this.Session.CurrentLayer.Value == layer)
+                {
+                    node.IsSelected.Value = true;
+                    this.selectedNode = node;
+                }
             }
         }
 
@@ -151,38 +141,22 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             {
                 return;
             }
-            this.selectedNode.IsSelected.Value = false;
-            layerEntry.IsSelected.Value = true;
+            if (this.selectedNode != null)
+            {
+                this.selectedNode.IsSelected.Value = false;
+            }
             this.selectedNode = layerEntry;
-            this.CurrentMap.Value.CurrentLayer.Value = layerEntry.Layer;
-            this.CurrentLayer.Value = layerEntry.Layer;
-        }
-
-        private void CurrentLayerChanged(object sender, PropertyChangedEventArgs e)
-        {
-            ILayer currentLayer = this.CurrentMap.Value.CurrentLayer.Value;
-            this.selectedNode.IsSelected.Value = false;
-
-            List<ILayerListNodeViewModel> selected = new List<ILayerListNodeViewModel>();
-            foreach (ILayerListNodeViewModel layerNode in this.LayerNodes)
-            {
-                selected.AddRange(layerNode.GetNodeFromLayer(currentLayer));
-            }
-
-            foreach (ILayerListNodeViewModel entry in selected)
-            {
-                this.selectedNode = entry;
-                this.CurrentLayer.Value = currentLayer;
-            }
             this.selectedNode.IsSelected.Value = true;
+
+            this.Session.CurrentLayer.Value = this.selectedNode.Layer;
         }
 
-        private void CurrentMapChanged(object d, PropertyChangedEventArgs e)
+        private void CurrentLayersChanged(object sender, PropertyChangedEventArgs e)
         {
-            ChangeMap(this.Session.CurrentMap.Value);
+            ChangeLayers(GetNewValue(sender, e) as ObservableCollection<ILayer>);
         }
 
-        private void UpdateLayerList(object sender, NotifyCollectionChangedEventArgs e)
+        private void UpdateLayers(object sender, NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)
             {
@@ -238,7 +212,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
 
                 draggedLayer.Parent.Layers.Remove(draggedLayer);
                 draggedLayer.Parent = this.Session.CurrentMap.Value;
-                this.CurrentMap.Value.Layers.Add(draggedLayer);
+                this.Session.CurrentMap.Value.Layers.Add(draggedLayer);
             }
             args.Handled = true;
 

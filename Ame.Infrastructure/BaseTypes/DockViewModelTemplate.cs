@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -58,6 +59,12 @@ namespace Ame.Infrastructure.BaseTypes
         #region methods
 
         public abstract void CloseDock();
+
+        public object GetNewValue(object sender, PropertyChangedEventArgs e)
+        {
+            var property = sender.GetType().GetProperty(e.PropertyName);
+            return property.GetValue(sender, null);
+        }
 
         #endregion methods
     }

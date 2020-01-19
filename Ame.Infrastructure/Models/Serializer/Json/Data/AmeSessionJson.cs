@@ -109,10 +109,13 @@ namespace Ame.Infrastructure.Models.Serializer.Json.Data
             // TODO Bug: the current map index is incorrect when a map editor is closed.
             // TODO store the current tileset
             AmeSession session = new AmeSession(maps, projects, this.WorkspaceDirectory, this.LastTilesetDirectory, this.LastMapDirectory, this.Version);
-            session.CurrentMap.Value = maps[this.CurrentMapIndex];
-            if (session.CurrentMap.Value.Tilesets.Count > 0)
+            if (session.MapCount > 0)
             {
-                session.CurrentTileset.Value = session.CurrentMap.Value.Tilesets[0];
+                session.CurrentMap.Value = maps[this.CurrentMapIndex];
+                if (session.CurrentMap.Value.Tilesets.Count > 0)
+                {
+                    session.CurrentTileset.Value = session.CurrentMap.Value.Tilesets[0];
+                }
             }
             return session;
         }

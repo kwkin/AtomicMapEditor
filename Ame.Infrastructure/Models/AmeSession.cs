@@ -50,6 +50,7 @@ namespace Ame.Infrastructure.Models
             this.Version.Value = version;
 
             this.CurrentMap.PropertyChanged += CurrentMapChanged;
+            this.CurrentLayer.PropertyChanged += CurrentLayerChanged;
         }
 
         #endregion constructor
@@ -77,7 +78,9 @@ namespace Ame.Infrastructure.Models
         public BindableProperty<Project> CurrentProject { get; set; } = BindableProperty.Prepare<Project>();
 
         public BindableProperty<Map> CurrentMap { get; set; } = BindableProperty.Prepare<Map>();
-        
+
+        public BindableProperty<ILayer> CurrentLayer { get; set; } = BindableProperty.Prepare<ILayer>();
+
         public BindableProperty<TilesetModel> CurrentTileset { get; set; } = BindableProperty.Prepare<TilesetModel>();
 
         public BindableProperty<string> Version { get; set; } = BindableProperty.Prepare<string>("");
@@ -161,6 +164,12 @@ namespace Ame.Infrastructure.Models
         {
             this.currentLayers.Value = this.CurrentMap.Value.Layers;
             this.CurrentTilesets.Value = this.CurrentMap.Value.Tilesets;
+            this.CurrentLayer.Value = this.CurrentMap.Value.CurrentLayer.Value;
+        }
+
+        private void CurrentLayerChanged(object sender, PropertyChangedEventArgs e)
+        {
+            this.CurrentMap.Value.CurrentLayer.Value = this.CurrentLayer.Value;
         }
 
         #endregion methods

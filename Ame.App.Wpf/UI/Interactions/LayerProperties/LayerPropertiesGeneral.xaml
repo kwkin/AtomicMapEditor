@@ -165,7 +165,7 @@
                             VerticalAlignment="Center"
                             Increment="1"
                             Maximum="2048"
-                            Minimum="1"
+                            Minimum="0"
                             Margin="0 0 0 10" />
         <Label x:Name="offsetYLabel"
                Style="{StaticResource MainSmallLabelStyle}"
@@ -182,7 +182,7 @@
                             VerticalAlignment="Center"
                             Increment="1"
                             Maximum="2048"
-                            Minimum="1"
+                            Minimum="0"
                             Margin="0 0 0 10" />
 
         <Label x:Name="positionLabel"

@@ -19,6 +19,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Ame.App.Wpf.UI.Interactions.FileChooser;
+using System.ComponentModel;
 
 namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 {
@@ -50,52 +51,56 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
             this.session.Projects.CollectionChanged += ProjectsChanged;
             RefreshProjects();
 
-            Map map1a = new Map("map1a");
+            //Map map1a = new Map("map1a");
 
-            List<ILayer> map1bLayers = new List<ILayer>();
-            map1bLayers.Add(new Layer("layer1bi"));
-            Map map1b = new Map("map1b", 32, 32, map1bLayers, new List<TilesetModel>());
+            //List<ILayer> map1bLayers = new List<ILayer>();
+            //map1bLayers.Add(new Layer("layer1bi"));
+            //Map map1b = new Map("map1b", 32, 32, map1bLayers, new List<TilesetModel>());
 
-            List<ILayer> map1cLayers = new List<ILayer>();
-            map1cLayers.Add(new Layer("layer1ci"));
-            map1cLayers.Add(new Layer("layer1cii"));
+            //List<ILayer> map1cLayers = new List<ILayer>();
+            //map1cLayers.Add(new Layer("layer1ci"));
+            //map1cLayers.Add(new Layer("layer1cii"));
 
-            List<ILayer> map1cGroup1Layers = new List<ILayer>();
-            map1cGroup1Layers.Add(new Layer("layer1cGroup1i"));
-            map1cGroup1Layers.Add(new Layer("layer1cGroup1ii"));
-            LayerGroup group1c = new LayerGroup(null, "layer1cGroup1", map1cGroup1Layers);
-            map1cLayers.Add(group1c);
+            //List<ILayer> map1cGroup1Layers = new List<ILayer>();
+            //map1cGroup1Layers.Add(new Layer("layer1cGroup1i"));
+            //map1cGroup1Layers.Add(new Layer("layer1cGroup1ii"));
+            //LayerGroup group1c = new LayerGroup(null, "layer1cGroup1", map1cGroup1Layers);
+            //map1cLayers.Add(group1c);
 
-            Map map1c = new Map("map1c", 32, 32, map1cLayers, new List<TilesetModel>());
+            //Map map1c = new Map("map1c", 32, 32, map1cLayers, new List<TilesetModel>());
 
-            List<Map> project1Maps = new List<Map>();
-            project1Maps.Add(map1a);
-            project1Maps.Add(map1b);
-            project1Maps.Add(map1c);
-            Project project1 = new Project("project1", "1", project1Maps);
+            //List<Map> project1Maps = new List<Map>();
+            //project1Maps.Add(map1a);
+            //project1Maps.Add(map1b);
+            //project1Maps.Add(map1c);
+            //Project project1 = new Project("project1", "1", project1Maps);
 
 
-            List<ILayer> map2aLayers = new List<ILayer>();
-            map2aLayers.Add(new Layer("layer2ai"));
-            map2aLayers.Add(new Layer("layer2aii"));
-            map2aLayers.Add(new Layer("layer2aiii"));
-            map2aLayers.Add(new LayerGroup("layer2aGroup1"));
-            Map map2a = new Map("map2a", 32, 32, map2aLayers, new List<TilesetModel>());
+            //List<ILayer> map2aLayers = new List<ILayer>();
+            //map2aLayers.Add(new Layer("layer2ai"));
+            //map2aLayers.Add(new Layer("layer2aii"));
+            //map2aLayers.Add(new Layer("layer2aiii"));
+            //map2aLayers.Add(new LayerGroup("layer2aGroup1"));
+            //Map map2a = new Map("map2a", 32, 32, map2aLayers, new List<TilesetModel>());
 
-            List<Map> project2Maps = new List<Map>();
-            project2Maps.Add(map2a);
-            Project project2 = new Project("project2", "2", project2Maps);
+            //List<Map> project2Maps = new List<Map>();
+            //project2Maps.Add(map2a);
+            //Project project2 = new Project("project2", "2", project2Maps);
 
-            List<ILayer> map3aLayers = new List<ILayer>();
-            map3aLayers.Add(new Layer("layer3ai"));
-            Map map3a = new Map("map3a", 32, 32, map3aLayers, new List<TilesetModel>());
+            //List<ILayer> map3aLayers = new List<ILayer>();
+            //map3aLayers.Add(new Layer("layer3ai"));
+            //Map map3a = new Map("map3a", 32, 32, map3aLayers, new List<TilesetModel>());
 
-            Map map4a = new Map("map4a");
+            //Map map4a = new Map("map4a");
 
-            this.ExplorerNodes.Add(new ProjectNodeViewModel(eventAggregator, actionHandler, project1));
-            this.ExplorerNodes.Add(new ProjectNodeViewModel(eventAggregator, actionHandler, project2));
-            this.ExplorerNodes.Add(new MapNodeViewModel(eventAggregator, actionHandler, map3a));
-            this.ExplorerNodes.Add(new MapNodeViewModel(eventAggregator, actionHandler, map4a));
+            //this.ExplorerNodes.Add(new ProjectNodeViewModel(eventAggregator, actionHandler, project1));
+            //this.ExplorerNodes.Add(new ProjectNodeViewModel(eventAggregator, actionHandler, project2));
+            //this.ExplorerNodes.Add(new MapNodeViewModel(eventAggregator, actionHandler, map3a));
+            //this.ExplorerNodes.Add(new MapNodeViewModel(eventAggregator, actionHandler, map4a));
+
+
+            this.session.CurrentProject.PropertyChanged += ProjectChanged;
+            this.session.CurrentMap.PropertyChanged += MapChanged;
 
             this.NewProjectCommand = new DelegateCommand(() => NewProject());
             this.OpenProjectCommand = new DelegateCommand(() => OpenProject());
@@ -148,20 +153,27 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
             Console.WriteLine("Refresh Tree");
         }
 
+        private void ProjectChanged(object sender, PropertyChangedEventArgs e)
+        {
+            this.CurrentProject.Value = GetNewValue(sender, e) as Project;
+        }
+
+        private void MapChanged(object sender, PropertyChangedEventArgs e)
+        {
+            this.CurrentMap.Value = GetNewValue(sender, e) as Map;
+        }
+
         private void SelectedItemChanged(object item)
         {
             if (typeof(ProjectNodeViewModel).IsAssignableFrom(item.GetType()))
             {
                 ProjectNodeViewModel projectViewModel = item as ProjectNodeViewModel;
-                this.CurrentProject.Value = projectViewModel.Project;
-                this.session.CurrentProject.Value = this.CurrentProject.Value;
+                this.session.CurrentProject.Value = projectViewModel.Project;
             }
             else if (typeof(MapNodeViewModel).IsAssignableFrom(item.GetType()))
             {
                 MapNodeViewModel mapViewModel = item as MapNodeViewModel;
-                this.CurrentMap.Value = mapViewModel.Map;
-                this.CurrentProject.Value = mapViewModel.Map.Project.Value ?? this.CurrentProject.Value;
-                this.session.CurrentProject.Value = this.CurrentProject.Value ?? this.session.CurrentProject.Value;
+                this.session.CurrentMap.Value = mapViewModel.Map;
             }
         }
 

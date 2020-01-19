@@ -29,6 +29,8 @@ namespace Ame.Infrastructure.Models
 
         BindableProperty<Map> CurrentMap { get; set; }
 
+        BindableProperty<ILayer> CurrentLayer { get; set; }
+
         BindableProperty<TilesetModel> CurrentTileset { get; set; }
 
         BindableProperty<string> Version { get; set; }

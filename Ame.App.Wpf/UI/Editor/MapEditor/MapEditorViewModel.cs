@@ -106,7 +106,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
             RedrawBackground();
             UpdateMapRecentlySaved();
 
-            this.session.CurrentMap.Value.CurrentLayer.PropertyChanged += CurrentLayerChanged;
+            this.Map.Value.CurrentLayer.PropertyChanged += CurrentLayerChanged;
             this.Map.Value.Name.PropertyChanged += MapNameChanged;
             this.Map.Value.Layers.CollectionChanged += LayersChanged;
             this.Map.Value.IsRecentlySaved.PropertyChanged += MapRecentlySavedChanged;
@@ -289,7 +289,7 @@ namespace Ame.App.Wpf.UI.Editor.MapEditor
                 return;
             }
 
-            LayerBoundariesRenderable renderer = new LayerBoundariesRenderable(this.session.CurrentMap.Value.CurrentLayer.Value);
+            LayerBoundariesRenderable renderer = new LayerBoundariesRenderable(this.Map.Value.CurrentLayer.Value);
 
             double thickness = 4 / this.ScrollModel.ZoomLevels[this.ScrollModel.ZoomIndex].zoom;
             thickness = thickness < this.maxGridThickness ? thickness : this.maxGridThickness;

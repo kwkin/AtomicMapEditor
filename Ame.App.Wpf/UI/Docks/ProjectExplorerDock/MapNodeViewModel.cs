@@ -42,7 +42,7 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
             this.LayerNodes = new ObservableCollection<LayerNodeViewModel>();
             map.Layers.ToList().ForEach(layer => AddLayer(layer));
 
-            this.Map.Layers.CollectionChanged += LayersChanged;
+            //this.Map.Layers.CollectionChanged += LayersChanged;
 
             this.NewLayerCommand = new DelegateCommand(() => NewLayer());
             this.EditMapPropertiesCommand = new DelegateCommand(() => EditMapProperties());
@@ -91,7 +91,6 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
             this.LayerNodes.Add(node);
         }
 
-        // TODO implement tree structure traversing
         public void RemoveLayer(ILayer layer)
         {
             IEnumerable<LayerNodeViewModel> toRemove = this.LayerNodes.Where(entry => entry.Layer == layer);
