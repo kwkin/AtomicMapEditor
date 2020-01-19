@@ -201,7 +201,7 @@ namespace Ame.Infrastructure.Handlers
         public void DuplicateLayer(ILayer layer)
         {
             ILayer copiedLayer = DataUtils.DeepClone<ILayer>(layer);
-            layer.AddLayerOnto(copiedLayer);
+            layer.AddLayer(copiedLayer);
         }
 
         public void MoveLayerDown()

@@ -210,13 +210,23 @@ namespace Ame.Infrastructure.Models
             int layerGroupCount = GetLayerGroupCount();
             string newLayerGroupName = string.Format("Layer Group #{0}", layerGroupCount);
             ILayer newLayerGroup = new LayerGroup(this, newLayerGroupName);
-            this.CurrentLayer.Value.AddLayerOnto(newLayerGroup);
+            this.CurrentLayer.Value.AddLayer(newLayerGroup);
+        }
+
+        public void AddLayer(ILayer layer)
+        {
+            if (layer.Parent != null)
+            {
+                layer.Parent.Layers.Remove(layer);
+            }
+            layer.Parent = this;
+            this.Layers.Add(layer);
         }
 
         public void DuplicateCurrentLayer()
         {
             ILayer copiedLayer = Utils.DataUtils.DeepClone<ILayer>(this.CurrentLayer.Value);
-            this.CurrentLayer.Value.AddLayerOnto(copiedLayer);
+            this.CurrentLayer.Value.AddLayer(copiedLayer);
         }
 
         public void Draw(DrawAction action)

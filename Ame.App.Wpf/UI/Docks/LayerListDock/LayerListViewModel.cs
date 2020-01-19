@@ -209,10 +209,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             if (data.GetDataPresent(SerializableNameUtils.GetName(DragDataType.LayerListNode)))
             {
                 ILayer draggedLayer = data.GetData(SerializableNameUtils.GetName(DragDataType.LayerListNode)) as ILayer;
-
-                draggedLayer.Parent.Layers.Remove(draggedLayer);
-                draggedLayer.Parent = this.Session.CurrentMap.Value;
-                this.Session.CurrentMap.Value.Layers.Add(draggedLayer);
+                this.Session.CurrentMap.Value.AddLayer(draggedLayer);
             }
             args.Handled = true;
 

@@ -143,7 +143,7 @@ namespace Ame.Infrastructure.Models
             this.Parent.Layers.Insert(thisIndex, layer);
         }
 
-        public void AddLayerOnto(ILayer layer)
+        public void AddLayer(ILayer layer)
         {
             layer.Parent.Layers.Remove(layer);
             layer.Parent = this;

@@ -114,7 +114,7 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
                     }
                     else if (this.IsDragOnto.Value)
                     {
-                        this.Layer.AddLayerOnto(draggedLayer);
+                        this.Layer.AddLayer(draggedLayer);
                     }
                     else if (this.IsDragBelow.Value)
                     {

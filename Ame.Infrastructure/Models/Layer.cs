@@ -221,7 +221,7 @@ namespace Ame.Infrastructure.Models
             this.Parent.Layers.Insert(thisIndex, layer);
         }
 
-        public void AddLayerOnto(ILayer layer)
+        public void AddLayer(ILayer layer)
         {
             AddLayerAbove(layer);
         }

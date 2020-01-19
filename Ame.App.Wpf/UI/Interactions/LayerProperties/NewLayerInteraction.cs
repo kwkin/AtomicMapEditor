@@ -115,7 +115,7 @@ namespace Ame.App.Wpf.UI.Interactions.LayerProperties
             if (confirmation.Confirmed)
             {
                 Layer layer = confirmation.Content as Layer;
-                this.Map.CurrentLayer.Value.AddLayerOnto(layer);
+                this.Map.CurrentLayer.Value.AddLayer(layer);
 
                 this.Map.CurrentLayer.Value = layer;
             }

@@ -23,6 +23,8 @@ namespace Ame.Infrastructure.Models
 
         #region methods
 
+        void AddLayer(ILayer layer);
+
         #endregion methods
     }
 }

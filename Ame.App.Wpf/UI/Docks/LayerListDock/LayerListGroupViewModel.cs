@@ -212,7 +212,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                     }
                     else if (this.IsDragOnto.Value)
                     {
-                        this.layer.AddLayerOnto(draggedLayer);
+                        this.layer.AddLayer(draggedLayer);
                     }
                     else if (this.IsDragBelow.Value)
                     {

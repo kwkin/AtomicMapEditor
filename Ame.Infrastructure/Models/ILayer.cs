@@ -37,7 +37,7 @@ namespace Ame.Infrastructure.Models
         #region methods
 
         void AddLayerAbove(ILayer layer);
-        void AddLayerOnto(ILayer layer);
+        void AddLayer(ILayer layer);
         void AddLayerBelow(ILayer layer);
 
         #endregion methods
