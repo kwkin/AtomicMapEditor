@@ -24,6 +24,8 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
     {
         #region fields
 
+        private const string DefaultTitle = "Layer List";
+
         private IEventAggregator eventAggregator;
         private IActionHandler actionHandler;
         private ILayerListNodeViewModel selectedNode;
@@ -41,9 +43,10 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             this.Session = session ?? throw new ArgumentNullException("session is null");
             this.actionHandler = actionHandler ?? throw new ArgumentNullException("handler is null");
 
-            this.Title.Value = "Layer List";
+            this.Title.Value = DefaultTitle;
             this.LayerNodes = new ObservableCollection<ILayerListNodeViewModel>();
 
+            this.Session.CurrentMap.PropertyChanged += CurrentMapChanged;
             this.Session.CurrentLayers.PropertyChanged += CurrentLayersChanged;
             this.Session.CurrentLayer.PropertyChanged += CurrentLayerChanged;
 
@@ -81,6 +84,7 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         public ICommand DragEnterCommand { get; private set; }
         public ICommand DragLeaveCommand { get; private set; }
 
+        public BindableProperty<Map> CurrentMap { get; set; } = BindableProperty.Prepare<Map>();
         public ObservableCollection<ILayerListNodeViewModel> LayerNodes { get; private set; }
         public BindableProperty<ILayer> CurrentLayer { get; set; } = BindableProperty.Prepare<ILayer>();
 
@@ -152,14 +156,20 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
             this.Session.CurrentLayer.Value = this.selectedNode.Layer;
         }
 
-        private void CurrentLayerChanged(object sender, PropertyChangedEventArgs e)
+        private void CurrentMapChanged(object sender, PropertyChangedEventArgs e)
         {
-            this.CurrentLayer.Value = GetNewValue(sender, e) as ILayer;
+            this.CurrentMap.Value = GetNewValue(sender, e) as Map;
+            this.Title.Value = DefaultTitle + " - " + this.CurrentMap.Value.Name.Value;
         }
 
         private void CurrentLayersChanged(object sender, PropertyChangedEventArgs e)
         {
             ChangeLayers(GetNewValue(sender, e) as ObservableCollection<ILayer>);
+        }
+
+        private void CurrentLayerChanged(object sender, PropertyChangedEventArgs e)
+        {
+            this.CurrentLayer.Value = GetNewValue(sender, e) as ILayer;
         }
 
         private void UpdateLayers(object sender, NotifyCollectionChangedEventArgs e)
