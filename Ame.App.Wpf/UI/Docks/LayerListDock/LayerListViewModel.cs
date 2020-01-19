@@ -170,6 +170,9 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
         private void CurrentLayerChanged(object sender, PropertyChangedEventArgs e)
         {
             this.CurrentLayer.Value = GetNewValue(sender, e) as ILayer;
+
+            ILayerListNodeViewModel layerEntry = this.LayerNodes.First(entry => entry.Layer == this.CurrentLayer.Value);
+            ChangeCurrentLayer(layerEntry);
         }
 
         private void UpdateLayers(object sender, NotifyCollectionChangedEventArgs e)
@@ -195,11 +198,8 @@ namespace Ame.App.Wpf.UI.Docks.LayerListDock
                 case NotifyCollectionChangedAction.Remove:
                     foreach (ILayer layer in e.OldItems)
                     {
-                        IEnumerable<ILayerListNodeViewModel> toRemove = new ObservableCollection<ILayerListNodeViewModel>(this.LayerNodes.Where(entry => entry.Layer == layer));
-                        foreach (ILayerListNodeViewModel entry in toRemove)
-                        {
-                            this.LayerNodes.Remove(entry);
-                        }
+                        ILayerListNodeViewModel toRemove = this.LayerNodes.First(entry => entry.Layer == layer);
+                        this.LayerNodes.Remove(toRemove);
                     }
                     break;
 
