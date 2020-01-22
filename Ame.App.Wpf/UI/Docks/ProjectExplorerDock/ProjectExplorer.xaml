@@ -206,6 +206,23 @@
                         </local:MapNode>
                     </HierarchicalDataTemplate>
 
+                    <HierarchicalDataTemplate DataType="{x:Type local:LayerGroupViewModel}"
+                                              ItemsSource="{Binding Path=LayerNodes}">
+                        <local:LayerGroupNode>
+                            <local:LayerGroupNode.ContextMenu>
+                                <ContextMenu>
+                                    <ContextMenu.ItemsSource>
+                                        <CompositeCollection>
+                                            <CollectionContainer Collection="{StaticResource LayerNodeContextMenu}" />
+                                            <Separator />
+                                            <CollectionContainer Collection="{StaticResource ProjectExplorerContextMenu}" />
+                                        </CompositeCollection>
+                                    </ContextMenu.ItemsSource>
+                                </ContextMenu>
+                            </local:LayerGroupNode.ContextMenu>
+                        </local:LayerGroupNode>
+                    </HierarchicalDataTemplate>
+
                     <DataTemplate DataType="{x:Type local:LayerNodeViewModel}">
                         <local:LayerNode>
                             <local:LayerNode.ContextMenu>
@@ -220,11 +237,6 @@
                                 </ContextMenu>
                             </local:LayerNode.ContextMenu>
                         </local:LayerNode>
-                    </DataTemplate>
-
-                    <DataTemplate DataType="{x:Type local:LayerGroupViewModel}">
-                        <local:LayerGroupNode>
-                        </local:LayerGroupNode>
                     </DataTemplate>
                 </TreeView.Resources>
 

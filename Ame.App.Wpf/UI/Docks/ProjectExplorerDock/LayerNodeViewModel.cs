@@ -17,7 +17,7 @@ using System.Windows.Input;
 namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 {
     // TODO add a layer group node
-    public class LayerNodeViewModel
+    public class LayerNodeViewModel : IProjectExplorerNodeViewModel
     {
         #region fields
 
@@ -32,7 +32,7 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
         #region constructor
 
-        public LayerNodeViewModel(IEventAggregator eventAggregator, IActionHandler actionHandler, ILayer layer)
+        public LayerNodeViewModel(IEventAggregator eventAggregator, IActionHandler actionHandler, Layer layer)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
             this.Layer = layer ?? throw new ArgumentNullException("layer is null");

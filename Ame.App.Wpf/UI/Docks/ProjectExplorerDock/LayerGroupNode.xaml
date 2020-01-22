@@ -83,7 +83,7 @@
             </ContentControl>
             
             <TextBox x:Name="layerNameLabel"
-                     Text="{Binding Layer.Name.Value}"
+                     Text="{Binding Group.Name.Value}"
                      HorizontalAlignment="Left"
                      VerticalAlignment="Center"
                      Grid.Column="1"

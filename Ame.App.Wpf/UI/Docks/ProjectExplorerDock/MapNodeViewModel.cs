@@ -36,13 +36,10 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
         public MapNodeViewModel(IEventAggregator eventAggregator, IActionHandler actionHandler, Map map)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
-            this.Map = map ?? throw new ArgumentNullException("layer is null");
             this.actionHandler = actionHandler ?? throw new ArgumentNullException("actionHandler is null");
 
-            this.LayerNodes = new ObservableCollection<LayerNodeViewModel>();
-            map.Layers.ToList().ForEach(layer => AddLayer(layer));
-
-            this.Map.Layers.CollectionChanged += LayersChanged;
+            this.LayerNodes = new ObservableCollection<IProjectExplorerNodeViewModel>();
+            this.Map = map;
 
             this.NewLayerCommand = new DelegateCommand(() => NewLayer());
             this.EditMapPropertiesCommand = new DelegateCommand(() => EditMapProperties());
@@ -58,7 +55,6 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
         #endregion constructor
 
-
         #region properties
 
         public ICommand NewLayerCommand { get; private set; }
@@ -72,14 +68,25 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
         public ICommand DragEnterCommand { get; private set; }
         public ICommand DragLeaveCommand { get; private set; }
 
-        public ObservableCollection<LayerNodeViewModel> LayerNodes { get; set; }
+        private Map map;
+        public Map Map
+        {
+            get
+            {
+                return this.map;
+            }
+            set
+            {
+                LoadMap(value);
+            }
+        }
+
+        public ObservableCollection<IProjectExplorerNodeViewModel> LayerNodes { get; set; }
         public BindableProperty<bool> IsEditingName { get; set; } = BindableProperty<bool>.Prepare(false);
         public BindableProperty<bool> IsSelected { get; set; } = BindableProperty<bool>.Prepare(false);
         public BindableProperty<bool> IsDragAbove { get; set; } = BindableProperty<bool>.Prepare(false);
         public BindableProperty<bool> IsDragOnto { get; set; } = BindableProperty<bool>.Prepare(false);
         public BindableProperty<bool> IsDragBelow { get; set; } = BindableProperty<bool>.Prepare(false);
-
-        public Map Map { get; set; }
 
         #endregion properties
 
@@ -88,17 +95,35 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
         public void AddLayer(ILayer layer)
         {
-            LayerNodeViewModel node = new LayerNodeViewModel(this.eventAggregator, this.actionHandler, layer);
+            IProjectExplorerNodeViewModel node = ProjectExplorerMethods.GenerateLayer(this.eventAggregator, this.actionHandler, layer);
             this.LayerNodes.Add(node);
         }
 
         public void RemoveLayer(ILayer layer)
         {
-            IEnumerable<LayerNodeViewModel> toRemove = new ObservableCollection<LayerNodeViewModel>(this.LayerNodes.Where(entry => entry.Layer == layer));
-            foreach (LayerNodeViewModel node in toRemove)
+            IEnumerable<IProjectExplorerNodeViewModel> toRemoveLayers = new ObservableCollection<IProjectExplorerNodeViewModel>(this.LayerNodes.OfType<LayerNodeViewModel>().Where(entry => entry.Layer == layer));
+            foreach (IProjectExplorerNodeViewModel node in toRemoveLayers)
             {
                 this.LayerNodes.Remove(node);
             }
+            toRemoveLayers = new ObservableCollection<IProjectExplorerNodeViewModel>(this.LayerNodes.OfType<LayerGroupViewModel>().Where(entry => entry.Group == layer));
+            foreach (IProjectExplorerNodeViewModel node in toRemoveLayers)
+            {
+                this.LayerNodes.Remove(node);
+            }
+        }
+
+        private void LoadMap(Map map)
+        {
+            if (this.map != null)
+            {
+                this.Map.Layers.CollectionChanged -= LayersChanged;
+            }
+            this.map = map;
+
+            this.LayerNodes.Clear();
+            this.map.Layers.ToList().ForEach(layer => AddLayer(layer));
+            this.Map.Layers.CollectionChanged += LayersChanged;
         }
 
         private void LayersChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -124,7 +149,7 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
                     int newIndex = e.NewStartingIndex;
                     if (oldIndex != -1 && newIndex != -1)
                     {
-                        LayerNodeViewModel entry = this.LayerNodes[oldIndex];
+                        IProjectExplorerNodeViewModel entry = this.LayerNodes[oldIndex];
                         this.LayerNodes[oldIndex] = this.LayerNodes[newIndex];
                         this.LayerNodes[newIndex] = entry;
                     }

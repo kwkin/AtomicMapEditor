@@ -17,7 +17,7 @@ using System.Windows.Input;
 
 namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 {
-    public class LayerGroupViewModel
+    public class LayerGroupViewModel : IProjectExplorerNodeViewModel
     {
         #region fields
 
@@ -35,10 +35,10 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
         public LayerGroupViewModel(IEventAggregator eventAggregator, IActionHandler actionHandler, LayerGroup group)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
-            this.Layer = group ?? throw new ArgumentNullException("layer is null");
             this.actionHandler = actionHandler ?? throw new ArgumentNullException("actionHandler is null");
 
             this.LayerNodes = new ObservableCollection<IProjectExplorerNodeViewModel>();
+            this.Group = group;
 
             this.NewLayerCommand = new DelegateCommand(() => NewLayer());
             this.EditLayerPropertiesCommand = new DelegateCommand(() => EditLayerProperties());
@@ -68,23 +68,102 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
         public ICommand DragEnterCommand { get; private set; }
         public ICommand DragLeaveCommand { get; private set; }
 
+        private LayerGroup group;
+        public LayerGroup Group
+        {
+            get
+            {
+                return this.group;
+            }
+            set
+            {
+                LoadLayerGroup(value);
+            }
+        }
+
+        public ObservableCollection<IProjectExplorerNodeViewModel> LayerNodes { get; private set; }
+
         public BindableProperty<bool> IsEditingName { get; set; } = BindableProperty<bool>.Prepare(false);
         public BindableProperty<bool> IsSelected { get; set; } = BindableProperty<bool>.Prepare(false);
         public BindableProperty<bool> IsDragAbove { get; set; } = BindableProperty<bool>.Prepare(false);
         public BindableProperty<bool> IsDragOnto { get; set; } = BindableProperty<bool>.Prepare(false);
         public BindableProperty<bool> IsDragBelow { get; set; } = BindableProperty<bool>.Prepare(false);
 
-        public LayerGroup Layer { get; set; }
-        public ObservableCollection<IProjectExplorerNodeViewModel> LayerNodes { get; private set; }
-
         #endregion properties
 
 
         #region methods
 
+        public void AddLayer(ILayer layer)
+        {
+            IProjectExplorerNodeViewModel node = ProjectExplorerMethods.GenerateLayer(this.eventAggregator, this.actionHandler, layer);
+            this.LayerNodes.Add(node);
+        }
+
+        public void RemoveLayer(ILayer layer)
+        {
+            IEnumerable<IProjectExplorerNodeViewModel> toRemoveLayers = new ObservableCollection<IProjectExplorerNodeViewModel>(this.LayerNodes.OfType<LayerNodeViewModel>().Where(entry => entry.Layer == layer));
+            foreach (IProjectExplorerNodeViewModel node in toRemoveLayers)
+            {
+                this.LayerNodes.Remove(node);
+            }
+            toRemoveLayers = new ObservableCollection<IProjectExplorerNodeViewModel>(this.LayerNodes.OfType<LayerGroupViewModel>().Where(entry => entry.Group == layer));
+            foreach (IProjectExplorerNodeViewModel node in toRemoveLayers)
+            {
+                this.LayerNodes.Remove(node);
+            }
+        }
+
+        private void LoadLayerGroup(LayerGroup group)
+        {
+            if (this.group != null)
+            {
+                this.group.Layers.CollectionChanged -= LayersChanged;
+            }
+            this.group = group;
+
+            this.LayerNodes.Clear();
+            this.group.Layers.ToList().ForEach(layer => AddLayer(layer));
+            this.group.Layers.CollectionChanged += LayersChanged;
+        }
+
         private void HandleLeftClickDown(MouseEventArgs args)
         {
             this.startDragPoint = args.GetPosition(null);
+        }
+
+        private void LayersChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    foreach (ILayer layer in e.NewItems)
+                    {
+                        AddLayer(layer);
+                    }
+                    break;
+
+                case NotifyCollectionChangedAction.Remove:
+                    foreach (ILayer layer in e.OldItems)
+                    {
+                        RemoveLayer(layer);
+                    }
+                    break;
+
+                case NotifyCollectionChangedAction.Move:
+                    int oldIndex = e.OldStartingIndex;
+                    int newIndex = e.NewStartingIndex;
+                    if (oldIndex != -1 && newIndex != -1)
+                    {
+                        IProjectExplorerNodeViewModel entry = this.LayerNodes[oldIndex];
+                        this.LayerNodes[oldIndex] = this.LayerNodes[newIndex];
+                        this.LayerNodes[newIndex] = entry;
+                    }
+                    break;
+
+                default:
+                    break;
+            }
         }
 
         private void HandleMouseMove(MouseEventArgs args)
@@ -110,15 +189,15 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
                 {
                     if (this.IsDragAbove.Value)
                     {
-                        this.Layer.AddLayerAbove(draggedLayer);
+                        this.Group.AddLayerAbove(draggedLayer);
                     }
                     else if (this.IsDragOnto.Value)
                     {
-                        this.Layer.AddLayer(draggedLayer);
+                        this.Group.AddLayer(draggedLayer);
                     }
                     else if (this.IsDragBelow.Value)
                     {
-                        this.Layer.AddLayerBelow(draggedLayer);
+                        this.Group.AddLayerBelow(draggedLayer);
                     }
                 }
             }
@@ -136,7 +215,7 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
                 return;
             }
             ILayer draggedLayer = data.GetData(SerializableNameUtils.GetName(DragDataType.LayerListNode)) as ILayer;
-            if (draggedLayer == this.Layer)
+            if (draggedLayer == this.Group)
             {
                 return;
             }
@@ -152,7 +231,7 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
                 return;
             }
             ILayer draggedLayer = data.GetData(SerializableNameUtils.GetName(DragDataType.LayerListNode)) as ILayer;
-            if (draggedLayer == this.Layer)
+            if (draggedLayer == this.Group)
             {
                 return;
             }
@@ -197,7 +276,7 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
         {
             this.isDragging = true;
 
-            DataObject data = new DataObject(SerializableNameUtils.GetName(DragDataType.LayerListNode), this.Layer);
+            DataObject data = new DataObject(SerializableNameUtils.GetName(DragDataType.LayerListNode), this.Group);
             DependencyObject dragSource = args.Source as DependencyObject;
             DragDrop.DoDragDrop(dragSource, data, DragDropEffects.Move);
 
@@ -206,13 +285,13 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
         private void NewLayer()
         {
-            NewLayerInteraction interaction = new NewLayerInteraction(this.Layer.Map.Value);
+            NewLayerInteraction interaction = new NewLayerInteraction(this.Group.Map.Value);
             this.actionHandler.OpenWindow(interaction);
         }
 
         private void EditLayerProperties()
         {
-            EditLayerInteraction interaction = new EditLayerInteraction(this.Layer);
+            EditLayerInteraction interaction = new EditLayerInteraction(this.Group);
             this.actionHandler.OpenWindow(interaction);
         }
 

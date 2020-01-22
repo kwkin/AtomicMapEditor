@@ -37,15 +37,11 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
         public ProjectNodeViewModel(IEventAggregator eventAggregator, IActionHandler actionHandler, Project project)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException("eventAggregator is null");
-            this.Project = project ?? throw new ArgumentNullException("layer is null");
+            this.project = project ?? throw new ArgumentNullException("layer is null");
             this.actionHandler = actionHandler ?? throw new ArgumentNullException("actionHandler is null");
 
             this.MapNodes = new ObservableCollection<MapNodeViewModel>();
-            project.Maps.ToList().ForEach(map => AddMap(map));
-
-
-
-            this.Project.Maps.CollectionChanged += MapsChanged;
+            this.Project = project;
 
             this.NewMapCommand = new DelegateCommand(() => NewMap());
             this.EditProjectPropertiesCommand = new DelegateCommand(() => EditProjectProperties());
@@ -75,11 +71,21 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
         public ICommand DragEnterCommand { get; private set; }
         public ICommand DragLeaveCommand { get; private set; }
 
-        public Project Project { get; set; }
+        private Project project;
+        public Project Project
+        {
+            get
+            {
+                return this.project;
+            }
+            set
+            {
+                LoadProject(value);
+            }
+        }
 
         public ObservableCollection<MapNodeViewModel> MapNodes { get; private set; }
         public BindableProperty<bool> IsEditingName { get; set; } = BindableProperty<bool>.Prepare(false);
-        public BindableProperty<bool> IsSelected { get; set; } = BindableProperty<bool>.Prepare(false);
         public BindableProperty<bool> IsDragAbove { get; set; } = BindableProperty<bool>.Prepare(false);
         public BindableProperty<bool> IsDragOnto { get; set; } = BindableProperty<bool>.Prepare(false);
         public BindableProperty<bool> IsDragBelow { get; set; } = BindableProperty<bool>.Prepare(false);
@@ -97,11 +103,21 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
 
         public void RemoveMap(Map map)
         {
-            IEnumerable<MapNodeViewModel> toRemove = this.MapNodes.Where(entry => entry.Map == map);
-            foreach (MapNodeViewModel node in toRemove)
+            MapNodeViewModel toRemove = this.MapNodes.FirstOrDefault(entry => entry.Map == map);
+            this.MapNodes.Remove(toRemove);
+        }
+
+        private void LoadProject(Project project)
+        {
+            if (this.project != null)
             {
-                this.MapNodes.Remove(node);
+                this.Project.Maps.CollectionChanged -= MapsChanged;
             }
+            this.project = project;
+
+            this.MapNodes.Clear();
+            this.Project.Maps.ToList().ForEach(map => AddMap(map));
+            this.Project.Maps.CollectionChanged += MapsChanged;
         }
 
         private void MapsChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -163,10 +179,6 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
             {
                 Map draggedMap = data.GetData(SerializableNameUtils.GetName(DragDataType.ExplorerMapNode)) as Map;
                 this.Project.Maps.Insert(0, draggedMap);
-            }
-            else if (data.GetDataPresent(SerializableNameUtils.GetName(DragDataType.ExplorerProjectNode)))
-            {
-                Project draggedProject = data.GetData(SerializableNameUtils.GetName(DragDataType.ExplorerMapNode)) as Project;
             }
             this.IsDragAbove.Value = false;
             this.IsDragOnto.Value = false;

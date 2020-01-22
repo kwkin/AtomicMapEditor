@@ -44,10 +44,9 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
             this.actionHandler = actionHandler ?? throw new ArgumentNullException("actionHandler is null");
 
             this.Title.Value = "Project Explorer";
-
             this.ExplorerNodes = new ObservableCollection<IProjectExplorerNodeViewModel>();
 
-            LoadProjects(this.Session.Projects);
+            LoadProjectsAndMaps(this.Session.Projects, this.Session.Maps);
 
             this.Session.Projects.CollectionChanged += CurrentProjectsChanged;
             this.Session.Maps.CollectionChanged += CurrentMapsChanged;
@@ -137,6 +136,18 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
             this.eventAggregator.GetEvent<CloseDockEvent>().Publish(closeMessage);
         }
 
+        public void AddProject(Project project)
+        {
+            ProjectNodeViewModel node = new ProjectNodeViewModel(this.eventAggregator, this.actionHandler, project);
+            this.ExplorerNodes.Add(node);
+        }
+
+        public void AddMap(Map map)
+        {
+            MapNodeViewModel node = new MapNodeViewModel(this.eventAggregator, this.actionHandler, map);
+            this.ExplorerNodes.Add(node);
+        }
+
         public void NewProject()
         {
             NewProjectInteraction interaction = new NewProjectInteraction();
@@ -164,13 +175,7 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
             {
                 return;
             }
-            if (this.selectedNode != null)
-            {
-                this.selectedNode.IsSelected.Value = false;
-            }
             this.selectedNode = projectEntry;
-            this.selectedNode.IsSelected.Value = true;
-
             this.Session.CurrentProject.Value = projectEntry.Project;
         }
 
@@ -286,19 +291,19 @@ namespace Ame.App.Wpf.UI.Docks.ProjectExplorerDock
             }
         }
 
-        private void LoadProjects(ObservableCollection<Project> projects)
+        private void LoadProjectsAndMaps(ObservableCollection<Project> projects, ObservableCollection<Map> maps)
         {
             this.ExplorerNodes.Clear();
+
             foreach (Project project in projects)
             {
                 ProjectNodeViewModel node = new ProjectNodeViewModel(this.eventAggregator, actionHandler, project);
                 this.ExplorerNodes.Add(node);
-
-                if (this.Session.CurrentProject.Value == project)
-                {
-                    node.IsSelected.Value = true;
-                    this.selectedNode = node;
-                }
+            }
+            foreach (Map map in maps)
+            {
+                MapNodeViewModel node = new MapNodeViewModel(this.eventAggregator, actionHandler, map);
+                this.ExplorerNodes.Add(node);
             }
         }
 
